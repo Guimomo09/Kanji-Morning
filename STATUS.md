@@ -1,7 +1,82 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 30 Avril 2026 — Services inventory + Mobile en cours
+> Dernière mise à jour: 1 Mai 2026
 > **À mettre à jour à chaque changement majeur**
+
+---
+
+## 🌐 Infrastructure — ÉTAT ACTUEL
+
+| Composant | État | Détail |
+|-----------|------|--------|
+| **VPS** | ✅ Actif | Hetzner CX22 · Ubuntu 24.04 · `95.216.168.28` |
+| **Caddy** | ✅ Actif | Reverse proxy + SSL auto sur le VPS |
+| **Domaine** | ✅ Actif | `guimo-prod.com` via Cloudflare |
+| **DNS** | ✅ Configuré | A record `kanji` → `95.216.168.28` · proxy orange ☁️ |
+| **URL prod** | ✅ Live | https://kanji.guimo-prod.com |
+| **Deploy** | ✅ Auto | GitHub Actions → SCP `dist/` → `/var/www/kanji/` |
+| **HTTPS** | ✅ Actif | Caddy gère le certificat automatiquement |
+
+### Caddyfile (`/etc/caddy/Caddyfile`)
+```
+kanji.guimo-prod.com {
+    root * /var/www/kanji
+    file_server
+    encode gzip
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+}
+```
+
+---
+
+## 🔥 Kanji Morning — État actuel
+
+**URL prod**: https://kanji.guimo-prod.com  
+**Stack**: Vite 8 · 20 modules ES · Firebase Auth + Firestore · kanjiapi.dev  
+**Deploy**: push sur `main` → GitHub Actions → dist/ → VPS
+
+### ✅ Fonctionnel
+- [x] Génération vocabulaire par niveau JLPT (N4/N3/N2/N1)
+- [x] Filtre niveau kanji (pills N1-N4)
+- [x] Sauvegarde kanji (★ button) → My List
+- [x] My List — 2 sections : 漢字 chips + 語彙 table
+- [x] Mode "From Kanji" — vocab depuis kanjis sauvegardés
+- [x] Quiz daily + Bi-Weekly + SRS (SM-2 ou Simple)
+- [x] Firebase Auth (login Google) + Cloud sync Firestore
+- [x] PWA — manifest + service worker + icônes (installable mobile)
+- [x] Cartes taille uniforme (grid stretch + flex column)
+- [x] Cache API préservé lors du Save for Quiz
+
+### 🟡 À faire
+- [ ] Domaine Firebase Auth — ajouter `kanji.guimo-prod.com` aux domaines autorisés
+- [ ] Notifications / rappel quotidien
+- [ ] CMS stack (Directus ?)
+
+---
+
+## 💰 Services & Abonnements
+
+| Service | Usage | Prix |
+|---------|-------|------|
+| **Firebase** | Auth + Firestore | Gratuit |
+| **kanjiapi.dev** | API kanji/vocab | Gratuit |
+| **Cloudflare** | DNS + CDN | Gratuit |
+| **Hetzner CX22** | VPS | ~4€/mois |
+| **Domaine guimo-prod.com** | — | ~10€/an |
+
+---
+
+## 🤖 Agents VS Code
+
+| Agent | Rôle |
+|-------|------|
+| **Feedback Coach** | Retours critiques UX/décisions |
+| **Beta Client (Léa)** | Simule un vrai utilisateur |
 
 ---
 
