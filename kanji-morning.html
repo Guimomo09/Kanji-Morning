@@ -945,14 +945,24 @@ function bestExamples(words, targetChar, max = 3) {
     // FILTER: Skip archaic/uncommon words
     if (ARCHAIC_WORDS.has(variant.written)) continue;
     
-    const gloss = entry.meanings?.[0]?.glosses?.[0];
+    // Pick best gloss: prefer non-era entry, fallback to era if nothing else
+    const ERA_RE = /\b(era|period|epoch)\b.*\(\d{3,4}/i;
+    let gloss = null;
+    for (const meaning of (entry.meanings ?? [])) {
+      for (const g of (meaning.glosses ?? [])) {
+        if (!ERA_RE.test(g)) { gloss = g; break; }
+      }
+      if (gloss) break;
+    }
+    // fallback: use first gloss even if it's an era
+    if (!gloss) gloss = entry.meanings?.[0]?.glosses?.[0];
     if (!gloss) continue;
-    
+
     // FILTER: Skip duplicate meanings (keep only first variant of a concept)
     const normGloss = normalizeMeaning(gloss);
     if (seenMeanings.has(normGloss)) continue;
     seenMeanings.add(normGloss);
-    
+
     // FILTER: Skip overly long or meaningless definitions
     if (gloss.length < 5) continue;
     
@@ -1467,11 +1477,18 @@ async function buildVocabItems(picks) {
 
       seenWords.add(wordKey);
 
-      const meaning       = entry.meanings?.[0]?.glosses?.slice(0, 4).join(', ') || '?';
-      const pos           = entry.meanings?.[0]?.part_of_speech?.slice(0, 2).join(', ') || '';
+      const ERA_RE_V = /\b(era|period|epoch)\b.*\(\d{3,4}/i;
+      const bestMeaningEntry = entry.meanings?.find(m => !ERA_RE_V.test(m.glosses?.[0] || ''))
+                            ?? entry.meanings?.[0];
+      const eraEntry = entry.meanings?.find(m => ERA_RE_V.test(m.glosses?.[0] || ''));
+
+      const meaning       = bestMeaningEntry?.glosses?.slice(0, 4).join(', ') || '?';
+      const pos           = bestMeaningEntry?.part_of_speech?.slice(0, 2).join(', ') || '';
       const extraMeanings = (entry.meanings?.slice(1, 3) || [])
+        .filter(m => m !== bestMeaningEntry && !ERA_RE_V.test(m.glosses?.[0] || ''))
         .map(m => m.glosses?.slice(0, 2).join(', ')).filter(Boolean);
-      const posCat = posCategory(entry.meanings?.[0]?.part_of_speech);
+      if (eraEntry) extraMeanings.push(`<span style="font-size:11px;opacity:.6">also: ${eraEntry.glosses?.[0]}</span>`);
+      const posCat = posCategory(bestMeaningEntry?.part_of_speech);
 
       candidates.push({
         score, posCat,
