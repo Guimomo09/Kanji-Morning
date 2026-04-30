@@ -423,19 +423,27 @@ export async function renderVocab(forceNew = false) {
   const today = todayStr();
 
   // ── From Kanji mode ───────────────────────────────────────────────────
-  if (state.vocabFromKanjiMode && state.currentKanjiCards.length > 0) {
+  // Use kanjis currently loaded in Kanji tab, or fall back to saved kanjis
+  if (state.vocabFromKanjiMode) {
+    const kanjiSource = state.currentKanjiCards.length > 0
+      ? state.currentKanjiCards
+      : getAllSavedKanjis();
+    if (!kanjiSource.length) {
+      setStatus('error', 'No saved kanjis — go to the Kanji tab and save some first (☆).');
+      return;
+    }
     showSkeletons(VOCAB_COUNT);
     setStatus('loading', '読み込み中…');
     document.getElementById('countLabel').textContent = VOCAB_COUNT;
     try {
-      const items = await buildVocabFromKanjis(state.currentKanjiCards);
+      const items = await buildVocabFromKanjis(kanjiSource);
       if (state.currentTab !== 'vocab') return;
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
       items.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
       state.currentVocabItems = items;
       document.getElementById('countLabel').textContent = items.length;
-      setStatus('ok', `Vocab from ${state.currentKanjiCards.length} kanji \u2014 ${items.length} words`);
+      setStatus('ok', `Vocab from ${kanjiSource.length} kanji \u2014 ${items.length} words`);
       const sb = document.getElementById('btnSave');
       if (sb) { sb.textContent = '💾 Save for Quiz'; sb.classList.remove('saved'); sb.disabled = false; }
     } catch (err) {
@@ -455,7 +463,7 @@ export async function renderVocab(forceNew = false) {
     if (savedToday && savedToday.length > 0) {
       setStatus('ok', "Today's words — already saved for quiz ✓");
       const sb = document.getElementById('btnSave');
-      if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = true; }
+      if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = false; }
     } else {
       setStatus('ok', 'Words loaded — tap 💾 Save for Quiz to add to the bi-weekly quiz');
       const sb = document.getElementById('btnSave');
@@ -473,7 +481,7 @@ export async function renderVocab(forceNew = false) {
     document.getElementById('countLabel').textContent = cached.length;
     setStatus('ok', "Today's words — already saved for quiz ✓");
     const sb = document.getElementById('btnSave');
-    if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = true; }
+    if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = false; }
     return;
   }
 

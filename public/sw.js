@@ -1,5 +1,5 @@
 // ── Cache name — bump this string to force a hard refresh on all clients ──
-const CACHE = 'kanji-morning-v1';
+const CACHE = 'kanji-morning-v2';
 
 // ── Install: pre-cache the app shell root so offline load works ───────────
 self.addEventListener('install', e => {
@@ -42,14 +42,13 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Cache-first for same-origin assets (hashed JS/CSS, icons, manifest)
+  // Network-first for same-origin assets (hashed filenames from Vite ensure fresh content)
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(r => {
+    fetch(e.request)
+      .then(r => {
         if (r.ok) caches.open(CACHE).then(c => c.put(e.request, r.clone()));
         return r;
-      }).catch(() => caches.match('/'));  // offline fallback → app shell
-    })
+      })
+      .catch(() => caches.match(e.request).then(c => c || caches.match('/')))  // offline fallback
   );
 });
