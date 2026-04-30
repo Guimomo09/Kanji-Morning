@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (soir)
+> Dernière mise à jour: 1 Mai 2026 (nuit)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -53,6 +53,12 @@ kanji.guimo-prod.com {
 - [x] Cache API préservé lors du Save for Quiz
 - [x] Cloud sync fix — mots supprimés ne reviennent plus après re-login
 - [x] Batch multi-select delete dans My List — sélection par clic sur chip/ligne, barre flottante "Supprimer"
+- [x] Boutons "☑ All / ☐ None" par section (Kanji + Mots séparément)
+- [x] Shift+clic + drag-select dans My List
+- [x] Bouton "📖 From Kanji" toujours visible — charge les kanjis du jour à la demande
+- [x] Vocab tab génère toujours de nouveaux mots (fini le "already saved" au démarrage)
+- [x] Filtre de niveau vocab ne persiste plus (repart à "All" à chaque ouverture)
+- [x] Service worker v2 — network-first pour ne plus servir de version périmée
 
 ### 🟡 À faire
 - [ ] Domaine Firebase Auth — ajouter `kanji.guimo-prod.com` aux domaines autorisés
