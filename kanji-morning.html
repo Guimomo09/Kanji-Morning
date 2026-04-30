@@ -2352,23 +2352,39 @@ async function _cloudPull() {
     if (!doc.exists) return;
     const data = doc.data();
 
-    // Pull vocab_daily_* for the last 30 days only (keeps localStorage lean)
+    // Pull vocab_daily_* for the last 30 days — merge with any local data
     if (data.dailyWords) {
       const cutoff = new Date();
       cutoff.setDate(cutoff.getDate() - 30);
       let pulled = 0;
-      Object.entries(data.dailyWords).forEach(([date, items]) => {
-        if (!Array.isArray(items)) return;
+      Object.entries(data.dailyWords).forEach(([date, cloudItems]) => {
+        if (!Array.isArray(cloudItems)) return;
         const d = new Date(date + 'T12:00:00');
-        if (d < cutoff) return; // skip older than 30 days
+        if (d < cutoff) return;
         try {
-          localStorage.setItem(`vocab_daily_${date}`, JSON.stringify(items));
+          // Merge cloud words with any existing local words for that date
+          const local = JSON.parse(localStorage.getItem(`vocab_daily_${date}`) || '[]');
+          const localWords = new Set(local.map(i => i.word));
+          const merged = [...local, ...cloudItems.filter(i => !localWords.has(i.word))];
+          localStorage.setItem(`vocab_daily_${date}`, JSON.stringify(merged));
           pulled++;
-        } catch(e) {
-          // localStorage full — cloud still has all data, it's fine
-        }
+        } catch(e) {}
       });
       console.log(`[_cloudPull] Pulled ${pulled} days of vocab from cloud.`);
+    }
+
+    // Pull quiz history — merge cloud + local, keep best score per day
+    if (data.quizHistory && Array.isArray(data.quizHistory)) {
+      const local = loadQuizHistory();
+      const merged = [...local];
+      data.quizHistory.forEach(cloudEntry => {
+        const idx = merged.findIndex(h => h.date === cloudEntry.date && (h.type || 'daily') === (cloudEntry.type || 'daily'));
+        if (idx === -1) merged.push(cloudEntry);
+        else if (cloudEntry.pct > merged[idx].pct) merged[idx] = cloudEntry;
+      });
+      merged.sort((a, b) => b.date.localeCompare(a.date));
+      while (merged.length > 50) merged.pop();
+      try { localStorage.setItem('quiz_history', JSON.stringify(merged)); } catch {}
     }
 
     // Restore level preference
@@ -2378,6 +2394,8 @@ async function _cloudPull() {
     }
   } catch(e) {
     console.warn('[_cloudPull] Failed to pull from cloud:', e);
+  }
+}
   }
 }
 
