@@ -39,12 +39,36 @@ Object.assign(window, {
   },
 
   // My List multi-select
-  toggleKanjiSelect(chip) {
-    chip.classList.toggle('selected');
+  toggleKanjiSelect(chip, event) {
+    const chips = [...document.querySelectorAll('.kanji-saved-chip')];
+    const idx   = parseInt(chip.dataset.index, 10);
+    if (event && event.shiftKey && _lastKanjiIdx >= 0) {
+      const lo  = Math.min(_lastKanjiIdx, idx);
+      const hi  = Math.max(_lastKanjiIdx, idx);
+      const act = chip.classList.contains('selected') ? 'remove' : 'add';
+      chips.slice(lo, hi + 1).forEach(c => c.classList[act]('selected'));
+    } else {
+      chip.classList.toggle('selected');
+      _lastKanjiIdx = idx;
+    }
     _updateDeleteBar();
   },
-  toggleWordSelect(row) {
-    row.classList.toggle('selected');
+  toggleWordSelect(row, event) {
+    const rows = [...document.querySelectorAll('#mylistBody tr:not([style*="display: none"])')];
+    const idx  = rows.indexOf(row);
+    if (event && event.shiftKey && _lastWordIdx >= 0) {
+      const lo  = Math.min(_lastWordIdx, idx);
+      const hi  = Math.max(_lastWordIdx, idx);
+      const act = row.classList.contains('selected') ? 'remove' : 'add';
+      rows.slice(lo, hi + 1).forEach(r => r.classList[act]('selected'));
+    } else {
+      row.classList.toggle('selected');
+      _lastWordIdx = idx;
+    }
+    _updateDeleteBar();
+  },
+  selectAllItems() {
+    document.querySelectorAll('.kanji-saved-chip, #mylistBody tr').forEach(el => el.classList.add('selected'));
     _updateDeleteBar();
   },
   deleteSelected() {
@@ -81,10 +105,21 @@ Object.assign(window, {
   resetAndStats() { state.quizState = null; switchTab('stats'); },
 });
 
-// ── Delete-bar helper ─────────────────────────────────────────────────────
+// ── My List selection state ────────────────────────────────────────────────
+let _lastKanjiIdx = -1;
+let _lastWordIdx  = -1;
+let _dragging     = false;
+let _dragAction   = 'select';
+let _didDrag      = false;
+
+function _applyDragTo(el) {
+  if (_dragAction === 'select') el.classList.add('selected');
+  else el.classList.remove('selected');
+}
+
 function _updateDeleteBar() {
-  const bar    = document.getElementById('mlDeleteBar');
-  const count  = document.getElementById('mlDeleteCount');
+  const bar   = document.getElementById('mlDeleteBar');
+  const count = document.getElementById('mlDeleteCount');
   if (!bar) return;
   const n = document.querySelectorAll('.kanji-saved-chip.selected, #mylistBody tr.selected').length;
   if (n > 0) {
@@ -95,9 +130,43 @@ function _updateDeleteBar() {
   }
 }
 
+// Attach drag-select listeners once on the persistent #mylistSection element
+function _setupMyListDrag() {
+  const section = document.getElementById('mylistSection');
+  if (!section) return;
+
+  section.addEventListener('mousedown', e => {
+    const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+    if (!el || e.shiftKey || e.button !== 0) return;
+    _dragging   = true;
+    _didDrag    = true;          // suppress the click that fires after mouseup
+    _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
+    _applyDragTo(el);
+    e.preventDefault();          // prevent text selection while dragging
+  });
+
+  section.addEventListener('mouseover', e => {
+    if (!_dragging) return;
+    const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+    if (!el) return;
+    _applyDragTo(el);
+    _updateDeleteBar();
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (_dragging) { _dragging = false; _updateDeleteBar(); }
+  });
+
+  // Capture-phase click suppressor — fires before the onclick attribute
+  section.addEventListener('click', e => {
+    if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
+  }, true);
+}
+
 // ── App initialisation ────────────────────────────────────────────────────
 setHeader();
 cleanupOldData();
+_setupMyListDrag();
 
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {

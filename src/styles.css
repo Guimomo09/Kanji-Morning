@@ -616,6 +616,11 @@
       background: var(--red); border-color: var(--red); color: #fff;
     }
 
+    /* ── Select-all toolbar ───────────────────────────────────────────────── */
+    .ml-select-toolbar {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+
     /* ── Delete bar ─────────────────────────────────────────────────────── */
     .ml-delete-bar {
       position: sticky; bottom: 16px;

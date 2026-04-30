@@ -120,7 +120,7 @@ export function switchTab(tab) {
   document.getElementById('btnSave').textContent            = '💾 Save for Quiz';
   document.getElementById('btnSave').disabled               = false;
   applyLevelFilterUI();
-  document.getElementById('btnFromKanji').style.display = getAllSavedKanjis().length > 0 ? '' : 'none';
+  document.getElementById('btnFromKanji').style.display = '';
   document.getElementById('btnFromKanji').classList.toggle('active', state.vocabFromKanjiMode);
   updateBiWeeklyBtn();
   renderVocab();

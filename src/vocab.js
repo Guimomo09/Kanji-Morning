@@ -275,14 +275,24 @@ export function renderMyList() {
 
   let html = '';
 
+  // ── Select-all toolbar ───────────────────────────────────────────────────
+  const totalItems = kanjis.length + words.length;
+  if (totalItems > 0) {
+    html += `
+      <div class="ml-select-toolbar">
+        <button class="btn btn-ghost" style="font-size:13px;padding:5px 14px" onclick="selectAllItems()">☑ Select All</button>
+        <button class="btn btn-ghost" style="font-size:13px;padding:5px 14px" onclick="clearSelection()">☐ Deselect All</button>
+      </div>`;
+  }
+
   // ── Kanji section ────────────────────────────────────────────────────────
   html += `<div class="mylist-section-title">漢字 · Saved Kanji <span class="mylist-section-count">${kanjis.length}</span></div>`;
   if (!kanjis.length) {
     html += `<div class="mylist-empty-small">No saved kanji yet. Browse <strong>Kanji</strong> and tap ☆ on a card.</div>`;
   } else {
     html += `<div class="kanji-saved-grid">${
-      kanjis.map(k => `
-        <div class="kanji-saved-chip${''}" data-kanji="${k.kanji}" onclick="toggleKanjiSelect(this)">
+      kanjis.map((k, idx) => `
+        <div class="kanji-saved-chip" data-kanji="${k.kanji}" data-index="${idx}" onclick="toggleKanjiSelect(this,event)">
           <span class="kanji-saved-char">${k.kanji}</span>
           <span class="badge badge-${k.level}">${k.level}</span>
           <div class="kanji-saved-meaning">${k.meaning}</div>
@@ -296,8 +306,8 @@ export function renderMyList() {
   if (!words.length) {
     html += `<div class="mylist-empty-small">No saved words yet. Browse <strong>Vocabulary</strong> and tap 💾 Save for Quiz.</div>`;
   } else {
-    const rows = words.map(it => `
-      <tr id="mlrow_${CSS.escape(it.word)}" data-word="${it.word.replace(/"/g, '&quot;')}" onclick="toggleWordSelect(this)">
+    const rows = words.map((it, idx) => `
+      <tr id="mlrow_${CSS.escape(it.word)}" data-word="${it.word.replace(/"/g, '&quot;')}" data-index="${idx}" onclick="toggleWordSelect(this,event)">
         <td style="width:28px;text-align:center">
           <span class="ml-check-icon">✓</span>
         </td>
