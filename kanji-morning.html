@@ -421,6 +421,74 @@
     .stat-notif-title { font-size: 15px; font-weight: 800; color: #e65100; margin-bottom: 6px; }
     .stat-notif-sub   { font-size: 13px; color: #bf360c; line-height: 1.5; margin-bottom: 12px; }
 
+    /* ── Home dashboard ─────────────────────────────────────────────────── */
+    .home-section {
+      max-width: 900px;
+      margin: 24px auto 48px;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .home-greeting {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .home-greeting span { color: var(--red); }
+    .home-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .home-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .home-action-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: box-shadow .15s, transform .15s;
+      text-align: center;
+    }
+    .home-action-card:hover {
+      box-shadow: 0 4px 18px rgba(0,0,0,.1);
+      transform: translateY(-2px);
+    }
+    .home-action-icon { font-size: 32px; margin-bottom: 8px; }
+    .home-action-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+    .home-action-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .home-action-card.disabled { opacity: .45; cursor: default; pointer-events: none; }
+    .home-today {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+    }
+    .home-today-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 12px;
+    }
+    .home-today-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .home-today-row:last-child { border-bottom: none; }
+    .home-today-val { font-weight: 700; color: var(--red); }
+    .home-today-val.good { color: #2e7d32; }
+
     /* ── My List tab ─────────────────────────────────────────────────── */
     .mylist-section {
       max-width: 1120px;
@@ -2191,7 +2259,7 @@ function renderHome() {
   const todayQuiz  = lastQuiz && lastQuiz.date === todayStr() ? lastQuiz : null;
 
   const hour = new Date().getHours();
-  const greetWord = hour < 12 ? 'Bon matin' : hour < 18 ? 'Bon après-midi' : 'Bonne soirée';
+  const greetWord = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
 
   const dailyAvailable = todayWords.length > 0 && !todayQuiz;
   const biweeklyAvailable = isBiWeeklyMonday() && !isBiWeeklyDone(todayStr());
@@ -2200,66 +2268,66 @@ function renderHome() {
   document.getElementById('homeSection').innerHTML = `
     <div>
       <div class="home-greeting">${greetWord} <span>👋</span></div>
-      <div class="home-sub">${new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' })}</div>
+      <div class="home-sub">${new Date().toLocaleDateString('en-US', { weekday:'long', day:'numeric', month:'long' })}</div>
     </div>
 
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-num">${streak}</div>
-        <div class="kpi-lbl">🔥 Streak</div>
+        <div class="kpi-lbl">🔥 Day Streak</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-num">${best}</div>
-        <div class="kpi-lbl">🏆 Meilleur</div>
+        <div class="kpi-lbl">🏆 Best Streak</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-num">${total}</div>
-        <div class="kpi-lbl">📖 Mots appris</div>
+        <div class="kpi-lbl">📖 Words Learned</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div>
-        <div class="kpi-lbl">🎯 Score moyen</div>
+        <div class="kpi-lbl">🎯 Avg Score</div>
       </div>
     </div>
 
     <div class="home-today">
-      <div class="home-today-title">Aujourd'hui</div>
+      <div class="home-today-title">Today</div>
       <div class="home-today-row">
-        <span>Mots sauvegardés</span>
-        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? todayWords.length + ' mots ✓' : '—'}</span>
+        <span>Words saved</span>
+        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? todayWords.length + ' words ✓' : '—'}</span>
       </div>
       <div class="home-today-row">
-        <span>Quiz du jour</span>
+        <span>Daily Quiz</span>
         <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✓' : '—'}</span>
       </div>
       <div class="home-today-row">
         <span>Bi-Weekly Quiz</span>
-        <span class="home-today-val ${biweeklyAvailable ? '' : 'good'}">${biweeklyAvailable ? '⏰ Disponible' : missedBiweekly ? '⚠️ Manqué' : '—'}</span>
+        <span class="home-today-val ${biweeklyAvailable ? '' : 'good'}">${biweeklyAvailable ? '⏰ Available' : missedBiweekly ? '⚠️ Missed' : '—'}</span>
       </div>
     </div>
 
     <div>
-      <div class="home-today-title" style="margin-bottom:14px">Actions rapides</div>
+      <div class="home-today-title" style="margin-bottom:14px">Quick actions</div>
       <div class="home-actions">
         <div class="home-action-card" onclick="switchTab('kanji')">
           <div class="home-action-icon">漢</div>
           <div class="home-action-title">Kanji</div>
-          <div class="home-action-sub">Étude du matin</div>
+          <div class="home-action-sub">Morning study</div>
         </div>
         <div class="home-action-card" onclick="switchTab('vocab')">
           <div class="home-action-icon">語</div>
-          <div class="home-action-title">Vocabulaire</div>
-          <div class="home-action-sub">Sauvegarder des mots</div>
+          <div class="home-action-title">Vocabulary</div>
+          <div class="home-action-sub">Save new words</div>
         </div>
         <div class="home-action-card ${dailyAvailable ? '' : 'disabled'}" onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)">
           <div class="home-action-icon">🎯</div>
-          <div class="home-action-title">Quiz du jour</div>
-          <div class="home-action-sub">${todayWords.length} mot${todayWords.length !== 1 ? 's' : ''} en attente</div>
+          <div class="home-action-title">Daily Quiz</div>
+          <div class="home-action-sub">${todayWords.length} word${todayWords.length !== 1 ? 's' : ''} ready</div>
         </div>
         <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
           <div class="home-action-icon">📅</div>
           <div class="home-action-title">Bi-Weekly Quiz</div>
-          <div class="home-action-sub">${biweeklyAvailable ? 'Disponible aujourd\'hui' : missedBiweekly ? 'Quiz manqué !' : 'Prochain : ' + dateStr(nextBiWeeklyMonday())}</div>
+          <div class="home-action-sub">${biweeklyAvailable ? 'Available today' : missedBiweekly ? 'Missed quiz!' : 'Next: ' + dateStr(nextBiWeeklyMonday())}</div>
         </div>
       </div>
     </div>
