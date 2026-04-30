@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026
+> Dernière mise à jour: 1 Mai 2026 (soir)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -51,6 +51,8 @@ kanji.guimo-prod.com {
 - [x] PWA — manifest + service worker + icônes (installable mobile)
 - [x] Cartes taille uniforme (grid stretch + flex column)
 - [x] Cache API préservé lors du Save for Quiz
+- [x] Cloud sync fix — mots supprimés ne reviennent plus après re-login
+- [x] Batch multi-select delete dans My List — sélection par clic sur chip/ligne, barre flottante "Supprimer"
 
 ### 🟡 À faire
 - [ ] Domaine Firebase Auth — ajouter `kanji.guimo-prod.com` aux domaines autorisés
