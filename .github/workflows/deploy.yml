@@ -1,0 +1,31 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'kanji-morning.html'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 95.216.168.28
+          username: root
+          key: ${{ secrets.VPS_DEPLOY_KEY }}
+          source: kanji-morning.html
+          target: /var/www/kanji/
+          strip_components: 0
+
+      - name: Rename to index.html
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 95.216.168.28
+          username: root
+          key: ${{ secrets.VPS_DEPLOY_KEY }}
+          script: mv /var/www/kanji/kanji-morning.html /var/www/kanji/index.html
