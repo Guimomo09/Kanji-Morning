@@ -71,6 +71,22 @@ Object.assign(window, {
     document.querySelectorAll('.kanji-saved-chip, #mylistBody tr').forEach(el => el.classList.add('selected'));
     _updateDeleteBar();
   },
+  selectAllKanjis() {
+    document.querySelectorAll('.kanji-saved-chip').forEach(el => el.classList.add('selected'));
+    _updateDeleteBar();
+  },
+  selectAllWords() {
+    document.querySelectorAll('#mylistBody tr:not([style*="display: none"])').forEach(el => el.classList.add('selected'));
+    _updateDeleteBar();
+  },
+  clearKanjiSelection() {
+    document.querySelectorAll('.kanji-saved-chip.selected').forEach(el => el.classList.remove('selected'));
+    _updateDeleteBar();
+  },
+  clearWordSelection() {
+    document.querySelectorAll('#mylistBody tr.selected').forEach(el => el.classList.remove('selected'));
+    _updateDeleteBar();
+  },
   deleteSelected() {
     const kanjis = [...document.querySelectorAll('.kanji-saved-chip.selected')]
       .map(el => el.dataset.kanji).filter(Boolean);
