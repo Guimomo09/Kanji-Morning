@@ -1,5 +1,5 @@
 import { LEVEL_LABEL, CLOUD_ENABLED } from './config.js';
-import { normalizeMeaning, setStatus } from './utils.js';
+import { normalizeMeaning, setStatus, sortGlosses } from './utils.js';
 import { state } from './state.js';
 import { getKanjiDetail, getWords, buildPool, pickChars } from './api.js';
 import { cloudUpdate } from './cloud.js';
@@ -206,7 +206,7 @@ export async function ensureKanjiCards() {
         level:   LEVEL_LABEL[jlptNum],
         on:      detail.on_readings  ?? [],
         kun:     detail.kun_readings ?? [],
-        meaning: (detail.meanings ?? ['?']).slice(0, 4).join(', '),
+        meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
         ex:      bestExamples(words, char, 3),
       };
     })
@@ -247,7 +247,7 @@ export async function loadAndRender(n, forceNew = false) {
           level:   LEVEL_LABEL[jlptNum],
           on:      detail.on_readings  ?? [],
           kun:     detail.kun_readings ?? [],
-          meaning: (detail.meanings ?? ['?']).slice(0, 4).join(', '),
+          meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
           ex:      bestExamples(words, char, 3),
         };
       })

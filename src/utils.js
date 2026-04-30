@@ -36,3 +36,30 @@ export function setStatus(type, msg) {
   el.textContent = msg;
   el.className   = 'status-' + type;
 }
+
+// ── Sort meanings: common first, specialized/archaic last ─────────────────
+// Used for both kanji card meanings and vocab card glosses.
+const RARE_RE = /\b(archaism|archaic|obsolete|rare|dated|poetic|vulgar|derogatory|slang|colloquial|euphemism|honorific|humble|polite|familiar|childish|female|male|baseball|cards|mahjong|shogi|go\b|sumo|chess|cricket|poker|trump|fishing|card game|nautical|heraldry|anatomy|botany|zoology|chemistry|physics|mathematics|geometry|algebra|computing|programming|law|legal|judicial|military|ecclesiastical|biblical|mythology|astrology|dialectal|regional)/i;
+
+export function sortGlosses(glosses) {
+  if (!glosses || glosses.length <= 1) return glosses || [];
+  return [...glosses].sort((a, b) => {
+    const aRare = RARE_RE.test(a);
+    const bRare = RARE_RE.test(b);
+    if (aRare && !bRare) return 1;
+    if (!aRare && bRare) return -1;
+    return 0;
+  });
+}
+
+// Sort an array of meaning objects (each with .glosses) — same logic
+export function sortMeanings(meanings) {
+  if (!meanings || meanings.length <= 1) return meanings || [];
+  return [...meanings].sort((a, b) => {
+    const aRare = RARE_RE.test((a.glosses || []).join(' '));
+    const bRare = RARE_RE.test((b.glosses || []).join(' '));
+    if (aRare && !bRare) return 1;
+    if (!aRare && bRare) return -1;
+    return 0;
+  });
+}

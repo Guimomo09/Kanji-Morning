@@ -1,5 +1,5 @@
 import { VOCAB_COUNT, LEVEL_LABEL } from './config.js';
-import { normMeaning, setStatus, todayStr } from './utils.js';
+import { normMeaning, setStatus, todayStr, sortMeanings } from './utils.js';
 import { state } from './state.js';
 import { getWords, buildPool, pickVocabChars } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
@@ -98,9 +98,10 @@ export async function buildVocabItems(picks) {
       seenWords.add(wordKey);
 
       const ERA_RE_V = /\b(era|period|epoch)\b.*\(\d{3,4}/i;
-      const bestMeaningEntry = entry.meanings?.find(m => !ERA_RE_V.test(m.glosses?.[0] || ''))
-                            ?? entry.meanings?.[0];
-      const eraEntry = entry.meanings?.find(m => ERA_RE_V.test(m.glosses?.[0] || ''));
+      const sortedMeanings = sortMeanings(entry.meanings || []);
+      const bestMeaningEntry = sortedMeanings.find(m => !ERA_RE_V.test(m.glosses?.[0] || ''))
+                            ?? sortedMeanings[0];
+      const eraEntry = sortedMeanings.find(m => ERA_RE_V.test(m.glosses?.[0] || ''));
 
       const meaning       = bestMeaningEntry?.glosses?.slice(0, 4).join(', ') || '?';
       const pos           = bestMeaningEntry?.part_of_speech?.slice(0, 2).join(', ') || '';
@@ -173,7 +174,7 @@ export async function buildVocabFromKanjis(kanjiCards) {
       if (kanjiCount(variant.written) > maxKanjiForLevel(jlptNum)) continue;
       seenWords.add(variant.written);
 
-      const bestM = entry.meanings?.find(m => !ERA_RE.test(m.glosses?.[0] || '')) ?? entry.meanings?.[0];
+      const bestM = sortMeanings(entry.meanings || []).find(m => !ERA_RE.test(m.glosses?.[0] || '')) ?? entry.meanings?.[0];
       if (!bestM?.glosses?.length) continue;
 
       group.push({
