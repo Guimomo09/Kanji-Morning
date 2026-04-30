@@ -84,6 +84,13 @@ export function removeKanjiFromSaved(char) {
   persistKanjiMap(map);
 }
 
+export function removeSelectedKanjis(chars) {
+  if (!chars.length) return;
+  const map = getSavedKanjiMap();
+  chars.forEach(c => map.delete(c));
+  persistKanjiMap(map);
+}
+
 // ── Kanji level filter ────────────────────────────────────────────────────
 export function applyKanjiLevelFilterUI() {
   document.querySelectorAll('.pill').forEach(p => {

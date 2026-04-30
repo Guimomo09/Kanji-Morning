@@ -571,7 +571,20 @@
       border-radius: 14px; padding: 14px 12px 12px;
       display: flex; flex-direction: column; align-items: center;
       gap: 6px; text-align: center; position: relative;
+      cursor: pointer; user-select: none;
+      transition: border-color .15s, box-shadow .15s;
     }
+    .kanji-saved-chip:hover  { border-color: var(--red); }
+    .kanji-saved-chip.selected {
+      border-color: var(--red); box-shadow: 0 0 0 2px rgba(220,53,69,.25);
+      background: #fff5f5;
+    }
+    .kanji-chip-check {
+      position: absolute; top: 7px; right: 9px;
+      font-size: 13px; color: var(--red);
+      opacity: 0; transition: opacity .15s;
+    }
+    .kanji-saved-chip.selected .kanji-chip-check { opacity: 1; }
     .kanji-saved-char    { font-size: 52px; font-weight: 900; line-height: 1; color: #111; }
     .kanji-saved-meaning { font-size: 11px; color: var(--sub); line-height: 1.4; }
     .kanji-saved-remove {
@@ -580,6 +593,30 @@
       color: var(--muted); cursor: pointer; padding: 2px; line-height: 1;
     }
     .kanji-saved-remove:hover { color: var(--red); }
+
+    /* ── My List word row selection ────────────────────────────────────── */
+    #mylistBody tr { cursor: pointer; transition: background .12s; }
+    #mylistBody tr:hover { background: var(--bg); }
+    #mylistBody tr.selected { background: #fff5f5; }
+    #mylistBody tr.selected .ml-check-icon { color: var(--red); opacity: 1; }
+    .ml-check-icon { color: transparent; font-size: 14px; font-weight: 700; transition: opacity .12s; }
+
+    /* ── Delete bar ─────────────────────────────────────────────────────── */
+    .ml-delete-bar {
+      position: sticky; bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+      background: #fff; border: 1.5px solid var(--red);
+      border-radius: 16px; padding: 10px 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.15);
+      margin-top: 24px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity .2s, transform .2s;
+    }
+    .ml-delete-bar.visible {
+      opacity: 1; pointer-events: auto; transform: translateY(0);
+    }
+    .ml-delete-bar span { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
 
     /* ── SRS rating buttons ─────────────────────────────────────────────── */
     .srs-rating-wrap {

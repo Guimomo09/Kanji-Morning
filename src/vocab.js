@@ -3,6 +3,7 @@ import { normMeaning, setStatus, todayStr } from './utils.js';
 import { state } from './state.js';
 import { getWords, buildPool, pickVocabChars } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
+import { CLOUD_ENABLED } from './config.js';
 import { cloudUpdate } from './cloud.js';
 import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
@@ -281,11 +282,11 @@ export function renderMyList() {
   } else {
     html += `<div class="kanji-saved-grid">${
       kanjis.map(k => `
-        <div class="kanji-saved-chip">
-          <button class="kanji-saved-remove" onclick="removeSavedKanji('${k.kanji}')">✕</button>
+        <div class="kanji-saved-chip${''}" data-kanji="${k.kanji}" onclick="toggleKanjiSelect(this)">
           <span class="kanji-saved-char">${k.kanji}</span>
           <span class="badge badge-${k.level}">${k.level}</span>
           <div class="kanji-saved-meaning">${k.meaning}</div>
+          <div class="kanji-chip-check">✓</div>
         </div>`).join('')
     }</div>`;
   }
@@ -296,7 +297,10 @@ export function renderMyList() {
     html += `<div class="mylist-empty-small">No saved words yet. Browse <strong>Vocabulary</strong> and tap 💾 Save for Quiz.</div>`;
   } else {
     const rows = words.map(it => `
-      <tr id="mlrow_${CSS.escape(it.word)}">
+      <tr id="mlrow_${CSS.escape(it.word)}" data-word="${it.word.replace(/"/g, '&quot;')}" onclick="toggleWordSelect(this)">
+        <td style="width:28px;text-align:center">
+          <span class="ml-check-icon">✓</span>
+        </td>
         <td>
           <span class="mylist-word">${it.word}</span>
           ${it.reading ? `<span class="mylist-kana">${it.reading}</span>` : ''}
@@ -304,10 +308,6 @@ export function renderMyList() {
         <td>${it.meaning}</td>
         <td><span class="badge badge-${it.level}">${it.level}</span></td>
         <td class="mylist-date">${it.savedDate}</td>
-        <td>
-          <button class="btn btn-danger" style="padding:4px 10px;font-size:11px"
-            onclick="removeFromMyList('${it.word.replace(/'/g, "\\'")}')">✕ Remove</button>
-        </td>
       </tr>`).join('');
 
     html += `
@@ -318,11 +318,20 @@ export function renderMyList() {
       </div>
       <table class="mylist-table" id="mylistTable">
         <thead><tr>
-          <th>Word</th><th>Meaning</th><th>Level</th><th>Saved</th><th></th>
+          <th style="width:28px"></th>
+          <th>Word</th><th>Meaning</th><th>Level</th><th>Saved</th>
         </tr></thead>
         <tbody id="mylistBody">${rows}</tbody>
       </table>`;
   }
+
+  // ── Floating delete bar ──────────────────────────────────────────────────
+  html += `
+    <div class="ml-delete-bar" id="mlDeleteBar">
+      <span id="mlDeleteCount">0 selected</span>
+      <button class="btn btn-danger" style="padding:6px 16px;font-size:13px" onclick="deleteSelected()">🗑 Delete selected</button>
+      <button class="btn btn-ghost"  style="padding:6px 14px;font-size:13px" onclick="clearSelection()">Cancel</button>
+    </div>`;
 
   section.innerHTML = html;
 }
@@ -348,17 +357,57 @@ export function removeFromMyList(word) {
     delete cards[word];
     srsSave(cards);
   }
+  // Remove from all vocab_daily_* and collect updated lists for cloud sync
+  const cloudPatch = {};
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
     if (!k || !k.startsWith('vocab_daily_')) continue;
     try {
       let items = JSON.parse(localStorage.getItem(k));
       if (!Array.isArray(items)) continue;
-      items = items.filter(it => it.word !== word);
-      localStorage.setItem(k, JSON.stringify(items));
+      const filtered = items.filter(it => it.word !== word);
+      if (filtered.length !== items.length) {
+        localStorage.setItem(k, JSON.stringify(filtered));
+        cloudPatch[k.slice(12)] = filtered; // date → items
+      }
     } catch {}
   }
+  // Push deletions to cloud so they don't come back after re-login
+  if (CLOUD_ENABLED && state._fbUser && Object.keys(cloudPatch).length) {
+    cloudUpdate({ dailyWords: cloudPatch });
+  }
   renderMyList();
+}
+
+// ── Batch delete helpers ─────────────────────────────────────────────────
+export function removeSelectedWords(words) {
+  if (!words.length) return;
+  // Evict from memory + SRS for all words first
+  const cards = srsLoad();
+  words.forEach(word => {
+    forgetWord(word);
+    if (cards[word]) delete cards[word];
+  });
+  srsSave(cards);
+  // Remove from all vocab_daily_* with a single pass, collecting cloud patch
+  const wordSet = new Set(words);
+  const cloudPatch = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith('vocab_daily_')) continue;
+    try {
+      let items = JSON.parse(localStorage.getItem(k));
+      if (!Array.isArray(items)) continue;
+      const filtered = items.filter(it => !wordSet.has(it.word));
+      if (filtered.length !== items.length) {
+        localStorage.setItem(k, JSON.stringify(filtered));
+        cloudPatch[k.slice(12)] = filtered;
+      }
+    } catch {}
+  }
+  if (CLOUD_ENABLED && state._fbUser && Object.keys(cloudPatch).length) {
+    cloudUpdate({ dailyWords: cloudPatch });
+  }
 }
 
 export function toggleFromKanji() {
