@@ -1198,23 +1198,26 @@ function dateStr(d) {
 function todayStr() { return dateStr(new Date()); }
 
 function saveDailyVocab(date, items) {
-  // 1. Cloud is the source of truth — push first, regardless of localStorage
+  // Merge with any existing words for this date (accumulate, don't overwrite)
+  const existing = loadDailyVocab(date) || [];
+  const existingWords = new Set(existing.map(i => i.word));
+  const merged = [...existing, ...items.filter(i => !existingWords.has(i.word))];
+
+  // 1. Cloud is the source of truth — push merged list
   if (CLOUD_ENABLED && _fbUser) {
-    cloudUpdate({ dailyWords: { [date]: items } });
+    cloudUpdate({ dailyWords: { [date]: merged } });
   }
 
   // 2. localStorage is just a local cache — best effort, non-blocking
   try {
-    // Clear API cache entries to free space before writing
     const keysToDelete = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
       if (k && (k.startsWith('kanji_') || k.startsWith('words_'))) keysToDelete.push(k);
     }
     keysToDelete.forEach(k => localStorage.removeItem(k));
-    localStorage.setItem(`vocab_daily_${date}`, JSON.stringify(items));
+    localStorage.setItem(`vocab_daily_${date}`, JSON.stringify(merged));
   } catch (e) {
-    // localStorage full — no problem, cloud has the data
     console.warn('[saveDailyVocab] localStorage full, saved to cloud only.');
   }
 
