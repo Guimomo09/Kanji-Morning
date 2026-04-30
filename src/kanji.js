@@ -1,0 +1,243 @@
+import { LEVEL_LABEL, CLOUD_ENABLED } from './config.js';
+import { normalizeMeaning, setStatus } from './utils.js';
+import { state } from './state.js';
+import { getKanjiDetail, getWords, buildPool, pickChars } from './api.js';
+import { cloudUpdate } from './cloud.js';
+
+// ── Blacklist: full written forms that are archaic / redundant ────────────
+// Only add complete word forms, never bare kanji (they won't match variant.written).
+const ARCHAIC_WORDS = new Set([
+  '報え', '申せ', '掛かれ', '著わす', '斎く', '映ず', '告ぐ', '知らす',
+  '示す',     // prefer 見せる in daily contexts
+  '請け取る', // prefer 受け取る
+  '云う',     // prefer 言う
+]);
+
+// ── Extract best example words from API response ─────────────────────────
+export function bestExamples(words, targetChar, max = 3) {
+  const out          = [];
+  const seenMeanings = new Set();
+  const ERA_RE       = /\b(era|period|epoch)\b.*\(\d{3,4}/i;
+
+  for (const entry of words) {
+    if (out.length >= max) break;
+
+    const variant = (entry.variants ?? [])
+      .find(v => v.written && v.written.includes(targetChar));
+    if (!variant) continue;
+    if (ARCHAIC_WORDS.has(variant.written)) continue;
+
+    let gloss = null;
+    for (const meaning of (entry.meanings ?? [])) {
+      for (const g of (meaning.glosses ?? [])) {
+        if (!ERA_RE.test(g)) { gloss = g; break; }
+      }
+      if (gloss) break;
+    }
+    if (!gloss) gloss = entry.meanings?.[0]?.glosses?.[0];
+    if (!gloss) continue;
+
+    const normGloss = normalizeMeaning(gloss);
+    if (seenMeanings.has(normGloss)) continue;
+    seenMeanings.add(normGloss);
+    if (gloss.length < 5) continue;
+
+    out.push({
+      w: variant.written,
+      r: variant.pronounced ?? variant.written,
+      m: gloss.length > 42 ? gloss.slice(0, 40) + '…' : gloss,
+    });
+  }
+  return out;
+}
+
+// ── Kanji save / unsave ─────────────────────────────────────────────────────
+function getSavedKanjiMap() {
+  try { return new Map(JSON.parse(localStorage.getItem('saved_kanjis') || '[]')); }
+  catch { return new Map(); }
+}
+export function getAllSavedKanjis() {
+  return [...getSavedKanjiMap().values()]
+    .sort((a, b) => b.savedDate.localeCompare(a.savedDate));
+}
+export function isKanjiSaved(char) {
+  return getSavedKanjiMap().has(char);
+}
+function persistKanjiMap(map) {
+  localStorage.setItem('saved_kanjis', JSON.stringify([...map.entries()]));
+}
+export function toggleSaveKanji(k) {
+  const map = getSavedKanjiMap();
+  if (map.has(k.kanji)) {
+    map.delete(k.kanji);
+  } else {
+    map.set(k.kanji, {
+      kanji: k.kanji, level: k.level, meaning: k.meaning,
+      savedDate: new Date().toISOString().slice(0, 10),
+    });
+  }
+  persistKanjiMap(map);
+}
+export function removeKanjiFromSaved(char) {
+  const map = getSavedKanjiMap();
+  map.delete(char);
+  persistKanjiMap(map);
+}
+
+// ── Kanji level filter ────────────────────────────────────────────────────
+export function applyKanjiLevelFilterUI() {
+  document.querySelectorAll('.pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.level === state.kanjiLevelFilter);
+  });
+}
+export function setKanjiLevel(level) {
+  if (state.kanjiLevelFilter === level) return;
+  state.kanjiLevelFilter = level;
+  localStorage.setItem('kanjiLevelFilter', level);
+  if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ kanjiLevel: level });
+  applyKanjiLevelFilterUI();
+  state.currentKanjiCards = [];
+  loadAndRender(state.count, true);
+}
+
+// ── Skeleton loaders ──────────────────────────────────────────────────────
+export function showSkeletons(n) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('div');
+    s.className = 'card skeleton';
+    s.style.animationDelay = `${i * 60}ms`;
+    s.innerHTML = `
+      <div class="skel-big"></div>
+      <div style="flex:1">
+        <div class="skel-line" style="width:50%"></div>
+        <div class="skel-line" style="width:80%"></div>
+        <div class="skel-line" style="width:65%"></div>
+      </div>`;
+    grid.appendChild(s);
+  }
+}
+
+// ── Card renderer ─────────────────────────────────────────────────────────
+export function renderCard(k, delay) {
+  const on     = k.on.length  ? k.on.join('　')  : '—';
+  const kun    = k.kun.length ? k.kun.join('　') : '—';
+  const exHtml = k.ex.length
+    ? k.ex.map(e => `
+        <div class="example">
+          <div class="ex-top">
+            <span class="ex-word">${e.w}</span>
+            <span class="ex-reading">【${e.r}】</span>
+          </div>
+          <div class="ex-meaning">${e.m}</div>
+        </div>`).join('')
+    : '<div class="example"><div class="ex-meaning">No examples available.</div></div>';
+
+  const saved     = isKanjiSaved(k.kanji);
+  const card      = document.createElement('div');
+  card.className  = 'card' + (state.quizMode ? ' quiz-card' : '');
+  card.style.animationDelay = `${delay}ms`;
+
+  // Build save button as a proper DOM element so the listener is 100% reliable
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'kanji-save-btn' + (saved ? ' saved' : '');
+  saveBtn.title     = saved ? 'Saved to My List' : 'Save to My List';
+  saveBtn.textContent = saved ? '★' : '☆';
+  saveBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleSaveKanji(k);
+    const nowSaved = isKanjiSaved(k.kanji);
+    saveBtn.textContent = nowSaved ? '★' : '☆';
+    saveBtn.classList.toggle('saved', nowSaved);
+    saveBtn.title = nowSaved ? 'Saved to My List' : 'Save to My List';
+  });
+  card.appendChild(saveBtn);
+
+  const coverHtml = state.quizMode ? `
+    <div class="card-cover" onclick="revealCard(this)">
+      <span class="card-cover-text">TAP TO REVEAL</span>
+    </div>` : '';
+
+  card.insertAdjacentHTML('beforeend', `
+    ${coverHtml}
+    <div class="card-body">
+      <div class="card-top">
+        <div class="kanji-char">${k.kanji}</div>
+        <div class="card-info">
+          <span class="badge badge-${k.level}">${k.level}</span>
+          <div class="card-meaning">${k.meaning}</div>
+        </div>
+      </div>
+      <div class="readings">
+        <div class="reading-group">
+          <span class="reading-label">音読み (On)</span>
+          <span class="reading-kana">${on}</span>
+        </div>
+        <div class="reading-group">
+          <span class="reading-label">訓読み (Kun)</span>
+          <span class="reading-kana">${kun}</span>
+        </div>
+      </div>
+      <div class="examples-label">Examples</div>
+      ${exHtml}
+    </div>`);
+
+  return card;
+}
+
+// ── Main kanji loader ─────────────────────────────────────────────────────
+// forceNew = true  →  pick a fresh random set (ignores cache)
+export async function loadAndRender(n, forceNew = false) {
+  // Serve from cache on simple tab switch
+  if (!forceNew && state.currentKanjiCards.length > 0) {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    state.currentKanjiCards.forEach((k, i) => grid.appendChild(renderCard(k, i * 80)));
+    document.getElementById('countLabel').textContent = state.currentKanjiCards.length;
+    const unique = new Set(state.POOL.map(p => p.char)).size;
+    setStatus('ok', `${unique.toLocaleString()} kanji in database · N3 & N2 favoured`);
+    return;
+  }
+
+  showSkeletons(n);
+  setStatus('loading', '読み込み中…');
+  document.getElementById('countLabel').textContent = n;
+
+  try {
+    if (!state.POOL.length) await buildPool();
+    if (state.currentTab !== 'kanji') return; // tab changed while loading
+
+    const picks   = pickChars(n);
+    const results = await Promise.allSettled(
+      picks.map(async ({ char, jlptNum }) => {
+        const [detail, words] = await Promise.all([getKanjiDetail(char), getWords(char)]);
+        return {
+          kanji:   char,
+          level:   LEVEL_LABEL[jlptNum],
+          on:      detail.on_readings  ?? [],
+          kun:     detail.kun_readings ?? [],
+          meaning: (detail.meanings ?? ['?']).slice(0, 4).join(', '),
+          ex:      bestExamples(words, char, 3),
+        };
+      })
+    );
+
+    if (state.currentTab !== 'kanji') return; // tab changed while loading
+
+    const cards = results.filter(r => r.status === 'fulfilled').map(r => r.value);
+    state.currentKanjiCards = cards;
+    const grid  = document.getElementById('grid');
+    grid.innerHTML = '';
+    cards.forEach((k, i) => grid.appendChild(renderCard(k, i * 80)));
+    document.getElementById('countLabel').textContent = cards.length;
+
+    const unique = new Set(state.POOL.map(p => p.char)).size;
+    setStatus('ok', `${unique.toLocaleString()} kanji in database · N3 & N2 favoured`);
+
+  } catch (err) {
+    setStatus('error', 'Failed to load — check your internet connection.');
+    document.getElementById('grid').innerHTML =
+      `<div style="grid-column:1/-1;color:var(--red);padding:24px;font-weight:600">${err.message}</div>`;
+  }
+}

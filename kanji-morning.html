@@ -535,6 +535,51 @@
     .btn-danger { background: #fce4e4; color: #b71c1c; border: 1.5px solid #ef9a9a; }
     .btn-danger:hover { background: #ffcdd2; }
 
+    /* ── SRS rating buttons ─────────────────────────────────────────────── */
+    .srs-rating-wrap {
+      display: flex; gap: 10px; justify-content: center;
+      flex-wrap: wrap; margin-top: 14px;
+    }
+    .srs-btn {
+      padding: 10px 18px; border: none; border-radius: 10px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: transform .1s, opacity .15s;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    .srs-btn:active { transform: scale(.96); }
+    .srs-btn-again { background: #fce4e4; color: #b71c1c; }
+    .srs-btn-hard  { background: #fff3e0; color: #e65100; }
+    .srs-btn-good  { background: #e8f5e9; color: #2e7d32; }
+    .srs-btn-easy  { background: #e3f2fd; color: #0d47a1; }
+    .srs-interval  { font-size: 10px; font-weight: 400; opacity: .75; }
+    .srs-modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,.45);
+      z-index: 500; display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .srs-modal {
+      background: #fff; border-radius: 20px; padding: 28px 24px;
+      max-width: 400px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,.2);
+      text-align: center;
+    }
+    .srs-modal h2 { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+    .srs-modal p  { font-size: 14px; color: var(--sub); line-height: 1.6; margin-bottom: 20px; }
+    .srs-modal-btns { display: flex; flex-direction: column; gap: 10px; }
+    .srs-modal-btn  {
+      padding: 14px 20px; border: 2px solid var(--border); border-radius: 12px;
+      background: #fff; cursor: pointer; font-size: 14px; font-weight: 700;
+      font-family: inherit; text-align: left; transition: background .15s, border-color .15s;
+    }
+    .srs-modal-btn:hover { background: var(--bg); border-color: var(--red); }
+    .srs-modal-btn span  { display: block; font-size: 12px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+    .btn-review { background: #f3e5f5; color: #4a148c; border: 1.5px solid #ce93d8; }
+    .btn-review:hover { background: #e1bee7; }
+    .btn-review .review-count {
+      display: inline-block; background: #4a148c; color: #fff;
+      font-size: 10px; font-weight: 800; border-radius: 10px;
+      padding: 1px 6px; margin-left: 6px; vertical-align: middle;
+    }
+
     /* ── Cloud sync / Auth ──────────────────────────────────────────────── */
     .auth-wrap   { display: flex; align-items: center; margin-left: 14px; }
     .auth-btn    {
@@ -717,6 +762,7 @@
   <button class="btn btn-quiz"    id="quizBtn"        onclick="toggleQuiz()"        >🎯 Quiz Mode</button>
   <button class="btn btn-quiz"    id="btnDailyQuiz"   onclick="launchDailyQuiz()"   style="display:none">🎯 Daily Quiz</button>
   <button class="btn btn-quiz"    id="btnBiweeklyQuiz" onclick="launchBiWeeklyQuiz()" style="display:none">📅 Bi-Weekly Quiz</button>
+  <button class="btn btn-review"  id="btnReview"      onclick="launchSrsReview()"   style="display:none">⏱ Review<span class="review-count" id="reviewCount">0</span></button>
 </div>
 <div class="level-filter" id="levelFilter" style="display:none">
   <span class="level-filter-label">Level:</span>
@@ -885,12 +931,22 @@ function pickVocabChars(n) {
     ? VOCAB_POOL
     : VOCAB_POOL.filter(x => x.jlptNum === Number(vocabLevelFilter));
   const source = filteredPool.length ? filteredPool : VOCAB_POOL;
+  // Unique chars available in pool — cap n to avoid infinite loop
+  const uniqueChars = [...new Set(source.map(x => x.char))];
+  const pickN = Math.min(n, uniqueChars.length);
   const chosen = [], seen = new Set();
   let tries = 0;
-  while (chosen.length < n && tries < 100000) {
+  while (chosen.length < pickN && tries < source.length * 4) {
     const item = source[Math.floor(Math.random() * source.length)];
     if (!seen.has(item.char)) { seen.add(item.char); chosen.push(item); }
     tries++;
+  }
+  // Fallback: pad from uniqueChars if random pass didn't yield enough
+  if (chosen.length < pickN) {
+    for (const char of uniqueChars) {
+      if (chosen.length >= pickN) break;
+      if (!seen.has(char)) { seen.add(char); chosen.push(source.find(x => x.char === char)); }
+    }
   }
   return chosen;
 }
@@ -899,23 +955,39 @@ function pickVocabChars(n) {
 
 // ���� Pick N weighted-random kanji chars, no repeats ������������������������������������������������������
 function pickChars(n) {
+  // Cap n to unique characters available to avoid infinite loop
+  const uniqueChars = [...new Set(POOL.map(x => x.char))];
+  const pickN = Math.min(n, uniqueChars.length);
   const chosen = [], seen = new Set();
   let tries = 0;
-  while (chosen.length < n && tries < 100000) {
+  while (chosen.length < pickN && tries < POOL.length * 4) {
     const item = POOL[Math.floor(Math.random() * POOL.length)];
     if (!seen.has(item.char)) { seen.add(item.char); chosen.push(item); }
     tries++;
   }
+  // Fallback: pad from uniqueChars if random pass didn't yield enough
+  if (chosen.length < pickN) {
+    for (const char of uniqueChars) {
+      if (chosen.length >= pickN) break;
+      if (!seen.has(char)) { seen.add(char); chosen.push(POOL.find(x => x.char === char)); }
+    }
+  }
   return chosen;
 }
 
-// ���� Blacklist: archaic/uncommon/formal words NOT used in modern daily contexts ������
+// ── Blacklist: full written forms (as returned by the API) that are archaic,
+// overly formal, or redundant with a more common modern variant.
+// Rule: only add complete word forms (e.g. '申し上げる'), never bare kanji (e.g. '球').
+// Bare kanji won't match `variant.written` so they silently do nothing.
 const ARCHAIC_WORDS = new Set([
-  '報え', '申せ', '掛かれ', '著わす', '斎く', '示す', '映ず',
-  // Words with overlapping/redundant meanings - keep only the more common variant
-  '球', // keep only 玉 for "ball (sports)"
-  '賞', // keep only 褒める for "praise" 
-  '告ぐ', '知らす', // prefer modern 知らせる
+  // Archaic / literary verb forms
+  '報え', '申せ', '掛かれ', '著わす', '斎く', '映ず', '告ぐ', '知らす',
+  // Overly formal / bureaucratic
+  '示す',        // prefer 見せる in daily contexts
+  // Redundant variants — canonical form is preferred by priorityScore already;
+  // these are rare alternate spellings that slip through
+  '請け取る',    // prefer 受け取る
+  '云う',        // prefer 言う
 ]);
 
 // ���� Meaning dedup: track seen meanings to avoid duplicate concepts ���
@@ -1186,6 +1258,7 @@ function switchTab(tab) {
   document.getElementById('btnSave').disabled = false;
   applyLevelFilterUI();
   updateBiWeeklyBtn();
+  srsUpdateReviewCount();
   renderVocab();
 }
 
@@ -1210,6 +1283,12 @@ function saveToday() {
   btn.textContent = _fbUser ? '☁️ Saved!' : '✓ Saved!';
   btn.classList.add('saved');
   btn.disabled = true;
+  // Add saved words to SRS review deck
+  const added = srsAddWords(itemsToSave);
+  if (added > 0) {
+    console.log(`[SRS] ${added} new card${added !== 1 ? 's' : ''} added to review deck.`);
+    srsUpdateReviewCount();
+  }
   setTimeout(() => {
     btn.textContent = '💾 Save for Quiz';
     btn.classList.remove('saved');
@@ -2033,10 +2112,26 @@ function handleQuizAnswer(btn, isCorrect) {
   if (!isCorrect) btn.classList.add('wrong');
   else quizState.score++;
 
-  setTimeout(() => {
-    quizState.current++;
-    renderQuizQuestion();
-  }, 1100);
+  if (quizState && quizState.type === 'srs') {
+    // Show SRS rating buttons instead of auto-advance
+    const item = quizState.questions[quizState.current].item;
+    const cards = srsLoad();
+    const card = cards[item.word] || {
+      word: item.word, reading: item.reading || '', meaning: item.meaning,
+      pos: item.pos || '', level: item.level, interval: 1, ef: 2.5, nextReview: todayStr(), reps: 0
+    };
+    const labels = [0,1,2,3].map(g => srsIntervalLabel(card, g, _srsAlgo));
+    const ratingWrap = document.createElement('div');
+    ratingWrap.className = 'srs-rating-wrap';
+    ratingWrap.innerHTML = `
+      <button class="srs-btn srs-btn-again" onclick="rateSrsCard('${item.word}', 0)">Again<span class="srs-interval">${labels[0]}</span></button>
+      <button class="srs-btn srs-btn-hard"  onclick="rateSrsCard('${item.word}', 1)">Hard<span class="srs-interval">${labels[1]}</span></button>
+      <button class="srs-btn srs-btn-good"  onclick="rateSrsCard('${item.word}', 2)">Good<span class="srs-interval">${labels[2]}</span></button>
+      <button class="srs-btn srs-btn-easy"  onclick="rateSrsCard('${item.word}', 3)">Easy<span class="srs-interval">${labels[3]}</span></button>`;
+    document.querySelector('.quiz-options')?.after(ratingWrap);
+  } else {
+    setTimeout(() => { quizState.current++; renderQuizQuestion(); }, 1100);
+  }
 }
 
 function renderQuizResults() {
@@ -2592,6 +2687,9 @@ async function _cloudPull() {
       vocabLevelFilter = data.vocabLevel;
       localStorage.setItem('vocabLevelFilter', data.vocabLevel);
     }
+
+    // Pull SRS cards
+    await _cloudPullSrs(data);
   } catch(e) {
     console.warn('[_cloudPull] Failed to pull from cloud:', e);
   }
@@ -2635,6 +2733,171 @@ async function cloudUpdate(partial) {
     console.warn('Firebase init failed:', e);
   }
 })();
+
+// ══════════════════════════════════════════════════════════════════════════
+// SPACED REPETITION SYSTEM (SRS)
+//
+// Storage key: 'srs_cards'  →  { [word]: SrsCard }
+// SrsCard = { word, reading, meaning, pos, level,
+//             interval,   // days until next review (float)
+//             ef,         // easiness factor ≥ 1.3  (SM-2 only)
+//             nextReview, // ISO date string 'YYYY-MM-DD'
+//             reps        // total reviews
+//           }
+//
+// Two algorithms selectable at quiz launch:
+//   'simple' — fixed intervals: Again=0  Hard=1  Good=3  Easy=7  (×2 each step)
+//   'sm2'    — SuperMemo-2:     grade 0..3 → ef adjusted, interval rescaled
+// ══════════════════════════════════════════════════════════════════════════
+
+function srsLoad() {
+  try { const r = localStorage.getItem('srs_cards'); return r ? JSON.parse(r) : {}; } catch { return {}; }
+}
+function srsSave(cards) {
+  try { localStorage.setItem('srs_cards', JSON.stringify(cards)); } catch {}
+  // Sync to cloud if signed in
+  if (CLOUD_ENABLED && _fbUser) cloudUpdate({ srsCards: cards });
+}
+
+// Add words to SRS deck (called when user taps "Save for Quiz")
+function srsAddWords(items) {
+  const cards = srsLoad();
+  const today = todayStr();
+  let added = 0;
+  items.forEach(it => {
+    if (!cards[it.word]) {
+      cards[it.word] = {
+        word: it.word, reading: it.reading || '', meaning: it.meaning,
+        pos: it.pos || '', level: it.level,
+        interval: 1, ef: 2.5, nextReview: today, reps: 0
+      };
+      added++;
+    }
+  });
+  if (added > 0) srsSave(cards);
+  return added;
+}
+
+// Returns cards due today or overdue, sorted oldest-due first
+function srsDueCards() {
+  const cards = srsLoad();
+  const today = todayStr();
+  return Object.values(cards)
+    .filter(c => c.nextReview <= today)
+    .sort((a, b) => a.nextReview.localeCompare(b.nextReview));
+}
+
+function srsUpdateReviewCount() {
+  const btn = document.getElementById('btnReview');
+  const cnt = document.getElementById('reviewCount');
+  if (!btn) return;
+  const due = srsDueCards().length;
+  if (cnt) cnt.textContent = due;
+  btn.style.display = due > 0 ? '' : 'none';
+}
+
+// Compute next review date given algo, old card state, and grade (0=Again 1=Hard 2=Good 3=Easy)
+function srsNextState(card, grade, algo) {
+  let { interval, ef, reps } = card;
+  reps++;
+  if (algo === 'sm2') {
+    // SM-2: grade must be 0-5; map our 4-point scale → 0,2,4,5
+    const q = [0, 2, 4, 5][grade];
+    if (q < 3) {
+      // Failed — reset
+      interval = 1; reps = 0;
+    } else {
+      if (reps === 1)      interval = 1;
+      else if (reps === 2) interval = 6;
+      else                 interval = Math.round(interval * ef);
+      ef = Math.max(1.3, ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+    }
+  } else {
+    // Simple fixed intervals
+    const INTERVALS = [0, 1, 3, 7]; // Again / Hard / Good / Easy (days)
+    const MULTIPLIERS = [1, 1.2, 2, 3];
+    if (grade === 0) {
+      interval = 1; reps = 0;
+    } else {
+      interval = Math.max(INTERVALS[grade], Math.round(interval * MULTIPLIERS[grade]));
+    }
+  }
+  const next = new Date();
+  next.setDate(next.getDate() + Math.round(interval));
+  return { interval, ef, reps, nextReview: dateStr(next) };
+}
+
+// Label for next review interval shown on buttons
+function srsIntervalLabel(card, grade, algo) {
+  const { interval } = srsNextState(card, grade, algo);
+  if (interval === 0) return 'now';
+  if (interval === 1) return '1d';
+  return interval + 'd';
+}
+
+let _srsAlgo = null; // set when review session starts
+
+function launchSrsReview() {
+  const due = srsDueCards();
+  if (!due.length) { setStatus('ok', 'No cards due — come back later!'); return; }
+  // Show algo picker modal
+  const backdrop = document.createElement('div');
+  backdrop.className = 'srs-modal-backdrop';
+  backdrop.innerHTML = `
+    <div class="srs-modal">
+      <h2>⏱ Spaced Repetition</h2>
+      <p>${due.length} card${due.length !== 1 ? 's' : ''} to review today.<br>Choose your review algorithm:</p>
+      <div class="srs-modal-btns">
+        <button class="srs-modal-btn" onclick="_startSrsSession('simple')">
+          Simple intervals
+          <span>Again · Hard (1d) · Good (3d) · Easy (7d) — best for beginners</span>
+        </button>
+        <button class="srs-modal-btn" onclick="_startSrsSession('sm2')">
+          SM-2 (Anki algorithm)
+          <span>Adaptive intervals based on your performance — recommended</span>
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(backdrop);
+  window._srsBackdrop = backdrop;
+}
+
+function _startSrsSession(algo) {
+  if (window._srsBackdrop) { window._srsBackdrop.remove(); window._srsBackdrop = null; }
+  _srsAlgo = algo;
+  const due = srsDueCards();
+  setStatus('ok', `SRS Review · ${due.length} card${due.length !== 1 ? 's' : ''} due · ${algo === 'sm2' ? 'SM-2' : 'Simple'}`);
+  // Re-use vocab quiz engine with SRS items, tagged with srs mode
+  startVocabQuiz(due, `${due.length} due`, 'srs');
+}
+
+
+function rateSrsCard(word, grade) {
+  const cards = srsLoad();
+  if (cards[word]) {
+    Object.assign(cards[word], srsNextState(cards[word], grade, _srsAlgo));
+    srsSave(cards);
+  }
+  quizState.current++;
+  renderQuizQuestion();
+}
+
+// Pull SRS cards from cloud on login
+async function _cloudPullSrs(data) {
+  if (!data.srsCards) return;
+  const local = srsLoad();
+  let merged = false;
+  Object.entries(data.srsCards).forEach(([word, cloudCard]) => {
+    if (!local[word] || cloudCard.nextReview > local[word].nextReview) {
+      local[word] = cloudCard; merged = true;
+    }
+  });
+  if (merged) try { localStorage.setItem('srs_cards', JSON.stringify(local)); } catch {}
+}
+
+
+// Update review count on page load
+srsUpdateReviewCount();
 
 switchTab('home');
 </script>
