@@ -7,7 +7,7 @@ import { CLOUD_ENABLED } from './config.js';
 import { cloudUpdate } from './cloud.js';
 import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
-import { showSkeletons, getAllSavedKanjis } from './kanji.js';
+import { showSkeletons, getAllSavedKanjis, ensureKanjiCards } from './kanji.js';
 
 // ── Vocab quality filters ─────────────────────────────────────────────────
 function isAllKatakana(str) {
@@ -433,27 +433,22 @@ export async function renderVocab(forceNew = false) {
   const today = todayStr();
 
   // ── From Kanji mode ───────────────────────────────────────────────────
-  // Use kanjis currently loaded in Kanji tab, or fall back to saved kanjis
+  // Use the kanjis currently displayed in the Kanji tab (loads them if not yet visited)
   if (state.vocabFromKanjiMode) {
-    const kanjiSource = state.currentKanjiCards.length > 0
-      ? state.currentKanjiCards
-      : getAllSavedKanjis();
-    if (!kanjiSource.length) {
-      setStatus('error', 'No saved kanjis — go to the Kanji tab and save some first (☆).');
-      return;
-    }
     showSkeletons(VOCAB_COUNT);
     setStatus('loading', '読み込み中…');
     document.getElementById('countLabel').textContent = VOCAB_COUNT;
     try {
-      const items = await buildVocabFromKanjis(kanjiSource);
+      const kanjiCards = await ensureKanjiCards();
+      if (state.currentTab !== 'vocab') return;
+      const items = await buildVocabFromKanjis(kanjiCards);
       if (state.currentTab !== 'vocab') return;
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
       items.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
       state.currentVocabItems = items;
       document.getElementById('countLabel').textContent = items.length;
-      setStatus('ok', `Vocab from ${kanjiSource.length} kanji \u2014 ${items.length} words`);
+      setStatus('ok', `Vocab from ${kanjiCards.length} kanji \u2014 ${items.length} words`);
       const sb = document.getElementById('btnSave');
       if (sb) { sb.textContent = '💾 Save for Quiz'; sb.classList.remove('saved'); sb.disabled = false; }
     } catch (err) {

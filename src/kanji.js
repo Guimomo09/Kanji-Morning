@@ -193,6 +193,29 @@ export function renderCard(k, delay) {
   return card;
 }
 
+// ── Load kanji data without touching the DOM (used by From Kanji mode) ──
+export async function ensureKanjiCards() {
+  if (state.currentKanjiCards.length > 0) return state.currentKanjiCards;
+  if (!state.POOL.length) await buildPool();
+  const picks   = pickChars(state.count);
+  const results = await Promise.allSettled(
+    picks.map(async ({ char, jlptNum }) => {
+      const [detail, words] = await Promise.all([getKanjiDetail(char), getWords(char)]);
+      return {
+        kanji:   char,
+        level:   LEVEL_LABEL[jlptNum],
+        on:      detail.on_readings  ?? [],
+        kun:     detail.kun_readings ?? [],
+        meaning: (detail.meanings ?? ['?']).slice(0, 4).join(', '),
+        ex:      bestExamples(words, char, 3),
+      };
+    })
+  );
+  const cards = results.filter(r => r.status === 'fulfilled').map(r => r.value);
+  state.currentKanjiCards = cards;
+  return cards;
+}
+
 // ── Main kanji loader ─────────────────────────────────────────────────────
 // forceNew = true  →  pick a fresh random set (ignores cache)
 export async function loadAndRender(n, forceNew = false) {
