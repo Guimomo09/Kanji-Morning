@@ -58,7 +58,7 @@ kanji.guimo-prod.com {
 - [x] Bouton "📖 From Kanji" toujours visible — charge les kanjis du jour à la demande
 - [x] Vocab tab génère toujours de nouveaux mots (fini le "already saved" au démarrage)
 - [x] Filtre de niveau vocab ne persiste plus (repart à "All" à chaque ouverture)
-- [x] Service worker v2 — network-first pour ne plus servir de version périmée
+- [x] Filtre de complexité des mots par niveau JLPT — N4: max 2 kanji par mot, N3: max 3, N2/N1: illimité (fini 議事録/検事正 en N4)
 
 ### 🟡 À faire
 - [ ] Domaine Firebase Auth — ajouter `kanji.guimo-prod.com` aux domaines autorisés

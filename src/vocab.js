@@ -16,6 +16,16 @@ function isAllKatakana(str) {
 function hasNoKanji(str) {
   return str && !/[\u4E00-\u9FFF\u3400-\u4DBF]/.test(str);
 }
+// Count kanji characters in a string
+function kanjiCount(str) {
+  return [...(str || '')].filter(c => (c >= '\u4E00' && c <= '\u9FFF') || (c >= '\u3400' && c <= '\u4DBF')).length;
+}
+// Max kanji allowed in a word for a given JLPT level (lower level = simpler words)
+function maxKanjiForLevel(jlptNum) {
+  if (jlptNum >= 4) return 2; // N4/N5: 1-2 kanji compounds (店員, 代る, etc.)
+  if (jlptNum === 3) return 3; // N3: up to 3 kanji
+  return 99;                   // N2/N1: no restriction
+}
 function priorityScore(priorities) {
   if (!priorities || !priorities.length) return 0;
   let score = 0;
@@ -69,6 +79,7 @@ export async function buildVocabItems(picks) {
       if (!canonical) continue;
       if (!canonical.written.includes(char)) continue;
       if (hasNoKanji(canonical.written)) continue;
+      if (kanjiCount(canonical.written) > maxKanjiForLevel(jlptNum)) continue;
 
       const varPriorities = canonical.priorities || [];
       if (!varPriorities.some(p => TOP_TAGS.includes(p))) continue;
@@ -156,6 +167,10 @@ export async function buildVocabFromKanjis(kanjiCards) {
       );
       if (!variant) continue;
       if (seenWords.has(variant.written)) continue;
+      if (hasNoKanji(variant.written)) continue;
+      // Infer jlptNum from level label for complexity filtering
+      const jlptNum = { N4: 4, N3: 3, N2: 2, N1: 1 }[k.level] ?? 2;
+      if (kanjiCount(variant.written) > maxKanjiForLevel(jlptNum)) continue;
       seenWords.add(variant.written);
 
       const bestM = entry.meanings?.find(m => !ERA_RE.test(m.glosses?.[0] || '')) ?? entry.meanings?.[0];
