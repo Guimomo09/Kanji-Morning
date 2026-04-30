@@ -520,7 +520,7 @@
         padding: 0;
         gap: 0;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         background: #fff;
         border-top: 1px solid var(--border);
         box-shadow: 0 -2px 12px rgba(0,0,0,.1);
@@ -540,7 +540,9 @@
       }
 
       /* Push content above bottom nav */
-      .grid, .stats-section, .mylist-section { margin-bottom: 72px; }
+      .grid, .stats-section, .mylist-section, .home-section { margin-bottom: 72px; }
+      .home-actions { grid-template-columns: 1fr 1fr; }
+      .home-action-card { padding: 16px 10px; }
       footer { padding-bottom: 80px; }
 
       /* ── Toolbar ── */
@@ -632,8 +634,9 @@
 </header>
 
 <div class="tabbar">
+  <button class="tab active" id="tabHome"   onclick="switchTab('home')">🏠<br><span style="font-size:9px;opacity:.7">Home</span></button>
   <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢字<br><span style="font-size:9px;opacity:.7">Kanji</span></button>
-  <button class="tab active" id="tabVocab"  onclick="switchTab('vocab')">語彙<br><span style="font-size:9px;opacity:.7">Vocab</span></button>
+  <button class="tab"        id="tabVocab"  onclick="switchTab('vocab')">語彙<br><span style="font-size:9px;opacity:.7">Vocab</span></button>
   <button class="tab"        id="tabMyList" onclick="switchTab('mylist')">📋<br><span style="font-size:9px;opacity:.7">My List</span></button>
   <button class="tab"        id="tabStats"  onclick="switchTab('stats')">📊<br><span style="font-size:9px;opacity:.7">Stats</span></button>
 </div>
@@ -665,7 +668,8 @@
   <div class="legend-item"><span class="legend-dot" style="background:var(--n1)"></span>N1</div>
 </div>
 
-<div class="grid" id="grid"></div>
+<div class="home-section"   id="homeSection"></div>
+<div class="grid" id="grid" style="display:none"></div>
 <div class="stats-section"  id="statsSection"  style="display:none"></div>
 <div class="mylist-section" id="mylistSection" style="display:none"></div>
 
@@ -1026,19 +1030,29 @@ let vocabLevelFilter = localStorage.getItem('vocabLevelFilter') || 'all';
 
 function switchTab(tab) {
   currentTab = tab;
+  document.getElementById('tabHome')  .classList.toggle('active', tab === 'home');
   document.getElementById('tabKanji') .classList.toggle('active', tab === 'kanji');
   document.getElementById('tabVocab') .classList.toggle('active', tab === 'vocab');
   document.getElementById('tabMyList').classList.toggle('active', tab === 'mylist');
   document.getElementById('tabStats') .classList.toggle('active', tab === 'stats');
 
+  const isHome   = tab === 'home';
   const isStats  = tab === 'stats';
   const isMyList = tab === 'mylist';
-  const isHidden = isStats || isMyList;
+  const isHidden = isStats || isMyList || isHome;
+  document.getElementById('homeSection').style.display    = isHome   ? 'flex'  : 'none';
   document.getElementById('grid').style.display           = isHidden ? 'none' : '';
   document.getElementById('statsSection').style.display   = isStats  ? 'block' : 'none';
   document.getElementById('mylistSection').style.display  = isMyList ? 'block' : 'none';
   document.getElementById('toolbarDiv').style.display     = isHidden ? 'none' : '';
   document.getElementById('legendDiv').style.display      = isHidden ? 'none' : '';
+
+  if (isHome) {
+    document.getElementById('hTitle').textContent = '朝の漢字';
+    document.getElementById('hSub').textContent   = 'Morning Kanji · Daily Study';
+    renderHome();
+    return;
+  }
 
   if (isStats) {
     document.getElementById('hTitle').textContent = '進歩';
@@ -2164,6 +2178,94 @@ function drawBarChart(canvas, values, labels) {
 }
 
 // ── Stats panel ───────────────────────────────────────────────────────────
+function renderHome() {
+  const streak   = computeStreak();
+  const best     = computeBestStreak();
+  const total    = computeTotalWords();
+  const history  = loadQuizHistory();
+  const avgScore = history.length
+    ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length)
+    : null;
+  const todayWords = loadDailyVocab(todayStr()) || [];
+  const lastQuiz   = history.length ? history[history.length - 1] : null;
+  const todayQuiz  = lastQuiz && lastQuiz.date === todayStr() ? lastQuiz : null;
+
+  const hour = new Date().getHours();
+  const greetWord = hour < 12 ? 'Bon matin' : hour < 18 ? 'Bon après-midi' : 'Bonne soirée';
+
+  const dailyAvailable = todayWords.length > 0 && !todayQuiz;
+  const biweeklyAvailable = isBiWeeklyMonday() && !isBiWeeklyDone(todayStr());
+  const missedBiweekly = getMissedBiWeeklyMonday();
+
+  document.getElementById('homeSection').innerHTML = `
+    <div>
+      <div class="home-greeting">${greetWord} <span>👋</span></div>
+      <div class="home-sub">${new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' })}</div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-num">${streak}</div>
+        <div class="kpi-lbl">🔥 Streak</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">${best}</div>
+        <div class="kpi-lbl">🏆 Meilleur</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">${total}</div>
+        <div class="kpi-lbl">📖 Mots appris</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div>
+        <div class="kpi-lbl">🎯 Score moyen</div>
+      </div>
+    </div>
+
+    <div class="home-today">
+      <div class="home-today-title">Aujourd'hui</div>
+      <div class="home-today-row">
+        <span>Mots sauvegardés</span>
+        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? todayWords.length + ' mots ✓' : '—'}</span>
+      </div>
+      <div class="home-today-row">
+        <span>Quiz du jour</span>
+        <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✓' : '—'}</span>
+      </div>
+      <div class="home-today-row">
+        <span>Bi-Weekly Quiz</span>
+        <span class="home-today-val ${biweeklyAvailable ? '' : 'good'}">${biweeklyAvailable ? '⏰ Disponible' : missedBiweekly ? '⚠️ Manqué' : '—'}</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="home-today-title" style="margin-bottom:14px">Actions rapides</div>
+      <div class="home-actions">
+        <div class="home-action-card" onclick="switchTab('kanji')">
+          <div class="home-action-icon">漢</div>
+          <div class="home-action-title">Kanji</div>
+          <div class="home-action-sub">Étude du matin</div>
+        </div>
+        <div class="home-action-card" onclick="switchTab('vocab')">
+          <div class="home-action-icon">語</div>
+          <div class="home-action-title">Vocabulaire</div>
+          <div class="home-action-sub">Sauvegarder des mots</div>
+        </div>
+        <div class="home-action-card ${dailyAvailable ? '' : 'disabled'}" onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)">
+          <div class="home-action-icon">🎯</div>
+          <div class="home-action-title">Quiz du jour</div>
+          <div class="home-action-sub">${todayWords.length} mot${todayWords.length !== 1 ? 's' : ''} en attente</div>
+        </div>
+        <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
+          <div class="home-action-icon">📅</div>
+          <div class="home-action-title">Bi-Weekly Quiz</div>
+          <div class="home-action-sub">${biweeklyAvailable ? 'Disponible aujourd\'hui' : missedBiweekly ? 'Quiz manqué !' : 'Prochain : ' + dateStr(nextBiWeeklyMonday())}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderStats() {
   const history  = loadQuizHistory();
   const streak   = computeStreak();
@@ -2449,7 +2551,7 @@ async function cloudUpdate(partial) {
   }
 })();
 
-switchTab('vocab');
+switchTab('home');
 </script>
 </body>
 </html>
