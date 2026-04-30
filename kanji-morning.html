@@ -1,0 +1,2423 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>朝の漢字 · Morning Kanji</title>
+  <!--
+    Data source: kanjiapi.dev (free, open API, no auth required)
+    /v1/kanji/jlpt-{4|3|2|1} �� full list of kanji chars per JLPT level
+    /v1/kanji/{char}          �� meanings, on_readings, kun_readings
+    /v1/words/{char}          �� example words with readings and glosses
+    All responses are cached in localStorage (24-hour TTL) for instant offline reloads.
+    Total pool: ~170 N4 + ~370 N3 + ~374 N2 + ~1136 N1 = ~2050 kanji
+  -->
+  <style>
+    :root {
+      --red:     #b71c1c;
+      --red-dark:#7f0000;
+      --bg:      #faf7f2;
+      --card:    #ffffff;
+      --border:  #ede3d8;
+      --text:    #1a1a1a;
+      --sub:     #555;
+      --muted:   #999;
+      --n4:      #1b5e20;  --n4-bg: #e8f5e9;
+      --n3:      #0d47a1;  --n3-bg: #e3f2fd;
+      --n2:      #4a148c;  --n2-bg: #f3e5f5;
+      --n1:      #b71c1c;  --n1-bg: #fce4e4;
+      --skel:    #e8e0d5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ���� Header ���������������������������������������������������������������������� */
+    header {
+      background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+      color: #fff;
+      padding: 22px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 3px 14px rgba(0,0,0,.22);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .h-title { font-size: 26px; font-weight: 800; letter-spacing: 3px; }
+    .h-sub   { font-size: 13px; opacity: .8; margin-top: 3px; letter-spacing: 1px; }
+    .h-right { text-align: right; }
+    .h-date  { font-size: 14px; opacity: .85; }
+    .h-greet { font-size: 13px; opacity: .65; margin-top: 3px; }
+
+    /* ���� Toolbar ���������������������������������������������������������������������� */
+    .toolbar {
+      max-width: 1120px;
+      margin: 22px auto 0;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 9px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .18s, transform .12s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-primary:hover { background: #c62828; }
+    .btn-ghost { background: #fff; color: var(--sub); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { background: #f5f0ea; }
+
+    .toolbar-info { font-size: 13px; color: var(--muted); margin-left: 4px; }
+    .toolbar-info strong { color: var(--sub); }
+
+    /* ���� Status bar ���������������������������������������������������������������� */
+    #statusMsg {
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-left: auto;
+    }
+    .status-loading { background: #fff8e1; color: #f57f17; }
+    .status-ok      { background: #e8f5e9; color: #2e7d32; }
+    .status-error   { background: #fce4e4; color: #b71c1c; }
+
+    /* ���� Legend ���������������������������������������������������������������������� */
+    .legend {
+      max-width: 1120px;
+      margin: 14px auto 0;
+      padding: 0 24px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
+    .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ���� Grid ���������������������������������������������������������������������� */
+    .grid {
+      max-width: 1120px;
+      margin: 20px auto 48px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      gap: 20px;
+    }
+
+    /* ���� Card ���������������������������������������������������������������������� */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 26px 24px 22px;
+      box-shadow: 0 2px 14px rgba(0,0,0,.05);
+      transition: transform .18s, box-shadow .18s;
+      opacity: 0;
+      animation: rise .38s ease forwards;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,.1); }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    /* ���� Skeleton card ���������������������������������������������������������� */
+    .skeleton {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      opacity: 0;
+      animation: rise .38s ease forwards;
+    }
+    .skel-big  { width: 82px; height: 82px; border-radius: 10px; background: var(--skel); flex-shrink: 0; animation: pulse 1.4s ease-in-out infinite; }
+    .skel-line { height: 14px; border-radius: 6px; background: var(--skel); animation: pulse 1.4s ease-in-out infinite; margin-bottom: 8px; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+    .card-top  { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 18px; overflow: hidden; }
+    .kanji-char {
+      font-size: 72px; line-height: 1; font-weight: 900; color: #111;
+      width: 82px; min-width: 82px; text-align: center; user-select: none; flex-shrink: 0;
+    }
+    .card-info { flex: 1; padding-top: 4px; min-width: 0; overflow: hidden; }
+
+    .badge {
+      display: inline-block; padding: 2px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px;
+    }
+    .badge-N4 { background: var(--n4-bg); color: var(--n4); }
+    .badge-N3 { background: var(--n3-bg); color: var(--n3); }
+    .badge-N2 { background: var(--n2-bg); color: var(--n2); }
+    .badge-N1 { background: var(--n1-bg); color: var(--n1); }
+
+    .card-meaning {
+      font-size: 16px; font-weight: 700; line-height: 1.4; color: #1a1a1a;
+      word-break: break-word; overflow-wrap: break-word;
+    }
+
+    /* ���� Readings �������������������������������������������������������������� */
+    .readings { display: flex; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 14px; margin-bottom: 16px; }
+    .reading-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); display: block; margin-bottom: 4px; }
+    .reading-kana  { font-size: 14px; font-weight: 700; color: var(--red); letter-spacing: 1px; word-break: break-all; }
+
+    /* ���� Examples �������������������������������������������������������������� */
+    .examples-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    .example {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 8px 10px;
+      background: var(--bg);
+      border-radius: 8px;
+      border-left: 3px solid var(--border);
+      margin-bottom: 6px;
+      overflow: hidden;
+    }
+    .example:last-child { margin-bottom: 0; }
+    .ex-top     { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+    .ex-word    { font-size: 15px; font-weight: 800; color: #111; }
+    .ex-reading { font-size: 11px; color: var(--muted); }
+    .ex-meaning { font-size: 12px; color: var(--sub); word-break: break-word; overflow-wrap: break-word; }
+
+    /* ���� Quiz mode ������������������������������������������������������������ */
+    .btn-quiz         { background: #fff3e0; color: #e65100; border: 1.5px solid #ffcc80; }
+    .btn-quiz:hover   { background: #ffe0b2; }
+    .btn-quiz.active  { background: #e65100; color: #fff; border-color: #e65100; }
+
+    .btn-save          { background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; }
+    .btn-save:hover    { background: #c8e6c9; }
+    .btn-save.saved    { background: #2e7d32; color: #fff; border-color: #2e7d32; cursor: default; }
+
+    /* Level filter pills */
+    .level-filter       { display:flex; gap:6px; align-items:center; flex-wrap:wrap; padding:0 16px 10px; }
+    .level-filter-label { font-size:12px; color:var(--muted); font-weight:600; margin-right:2px; }
+    .pill               { font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px; border:1.5px solid var(--border); background:#fff; color:var(--sub); cursor:pointer; transition:all .15s; }
+    .pill:hover         { background:#f5f0ea; }
+    .pill.active        { color:#fff; border-color:transparent; }
+    .pill[data-level="all"].active { background:#666; }
+    .pill[data-level="4"].active  { background:var(--n4); }
+    .pill[data-level="3"].active  { background:var(--n3); }
+    .pill[data-level="2"].active  { background:var(--n2); }
+    .pill[data-level="1"].active  { background:var(--n1); }
+
+    .quiz-card               { position: relative; }
+    .quiz-card .card-cover    {
+      position: absolute; inset: 0;
+      background: var(--card);
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: opacity .3s;
+      z-index: 2;
+      border: 2px dashed var(--border);
+    }
+    .quiz-card .card-cover-text {
+      font-size: 13px; font-weight: 700; color: var(--muted);
+      letter-spacing: 1px; user-select: none;
+    }
+    .quiz-card .card-cover.revealed { opacity: 0; pointer-events: none; }
+    .quiz-card { cursor: pointer; }
+    .quiz-hint {
+      font-size: 11px; color: var(--muted); text-align: center;
+      margin-top: 10px; letter-spacing: 1px;
+    }
+
+    /* ���� Vocab interactive quiz ���������������������������������������� */
+    .quiz-screen {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 16px 48px;
+      max-width: 640px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .quiz-progress-wrap {
+      width: 100%; height: 7px;
+      background: var(--border); border-radius: 4px;
+      margin-bottom: 12px; overflow: hidden;
+    }
+    .quiz-progress-bar {
+      height: 100%; background: var(--red); border-radius: 4px;
+      transition: width .45s ease;
+    }
+    .quiz-meta {
+      font-size: 13px; color: var(--muted);
+      margin-bottom: 18px; letter-spacing: 1px;
+    }
+    .quiz-question-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 30px 28px 22px;
+      width: 100%; text-align: center;
+      box-shadow: 0 2px 14px rgba(0,0,0,.06);
+      margin-bottom: 18px;
+    }
+    .quiz-direction-label {
+      font-size: 11px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--muted); margin-bottom: 16px;
+    }
+    .quiz-prompt-word {
+      font-size: 72px; font-weight: 900; line-height: 1;
+      color: #111; margin-bottom: 8px;
+    }
+    .quiz-prompt-meaning {
+      font-size: 20px; font-weight: 700; color: #1a1a1a;
+      line-height: 1.4; margin-bottom: 8px;
+    }
+    .quiz-prompt-reading {
+      font-size: 14px; color: var(--red); font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px; width: 100%;
+    }
+    .quiz-option {
+      background: #fff; border: 2px solid var(--border);
+      border-radius: 12px; padding: 16px 12px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      text-align: center; line-height: 1.4; color: var(--text);
+      font-family: inherit;
+      transition: background .14s, border-color .14s, transform .1s;
+    }
+    .quiz-option:hover:not(:disabled) {
+      background: var(--bg); border-color: var(--red);
+      transform: translateY(-2px);
+    }
+    .quiz-option.correct { background: #e8f5e9; border-color: #2e7d32; color: #1b5e20; }
+    .quiz-option.wrong   { background: #fce4e4; border-color: #b71c1c; color: #b71c1c; }
+    .quiz-option:disabled { cursor: default; transform: none; }
+    /* Results screen */
+    .quiz-results     { text-align: center; padding-top: 40px; }
+    .quiz-result-emoji { font-size: 56px; margin-bottom: 12px; }
+    .quiz-result-score { font-size: 52px; font-weight: 900; color: var(--red); line-height: 1; }
+    .quiz-result-pct   { font-size: 20px; color: var(--muted); margin: 4px 0 10px; }
+    .quiz-result-msg   { font-size: 18px; font-weight: 700; color: var(--sub); }
+
+    /* ���� Tabs �������������������������������������������������������������������������� */
+    .tabbar {
+      max-width: 1120px;
+      margin: 18px auto 0;
+      padding: 0 24px;
+      display: flex;
+      gap: 6px;
+    }
+    .tab {
+      padding: 9px 22px;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #ede3d8;
+      color: var(--sub);
+      transition: background .18s, color .18s;
+      letter-spacing: .5px;
+    }
+    .tab:hover  { background: #e0d5c8; }
+    .tab.active { background: var(--red); color: #fff; }
+
+    /* ���� Vocab card extras �������������������������������������������������� */
+    .vocab-word {
+      font-size: 48px; line-height: 1.1; font-weight: 900; color: #111;
+      min-width: 60px; text-align: center;
+      user-select: none; flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .vocab-reading {
+      font-size: 15px; font-weight: 700; color: var(--red);
+      letter-spacing: 1px; margin-bottom: 4px;
+    }
+    .vocab-pos {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      color: var(--muted); background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 1px 7px; border-radius: 10px;
+    }
+
+    /* ���� Footer ���������������������������������������������������������������������� */
+    footer { text-align: center; padding: 16px; font-size: 13px; color: var(--muted); }
+
+    /* ── Stats / Progression ─────────────────────────────────────────────── */
+    .stats-section {
+      max-width: 1120px;
+      margin: 20px auto 48px;
+      padding: 0 24px;
+    }
+    .stats-container { display: flex; flex-direction: column; gap: 24px; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px 18px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+    .kpi-num { font-size: 48px; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 8px; }
+    .kpi-lbl { font-size: 13px; font-weight: 700; color: var(--sub); letter-spacing: .3px; }
+    .chart-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 20px 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+    .chart-title { font-size: 14px; font-weight: 800; color: var(--sub); letter-spacing: .3px; margin-bottom: 14px; }
+    .chart-canvas { display: block; }
+    .qh-list { display: flex; flex-direction: column; }
+    .qh-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .qh-row:last-child { border-bottom: none; }
+    .qh-date  { font-size: 12px; color: var(--muted); min-width: 84px; font-weight: 600; }
+    .qh-bar-wrap { flex: 1; height: 10px; background: var(--bg); border-radius: 5px; overflow: hidden; }
+    .qh-bar  { height: 100%; background: var(--red); border-radius: 5px; }
+    .qh-score { font-size: 13px; font-weight: 700; color: var(--sub); min-width: 90px; text-align: right; }
+    .qh-pct  { color: var(--muted); font-weight: 400; }
+    .qh-type { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; margin-left: 4px; }
+    .qh-type-daily    { background: #e3f2fd; color: #0d47a1; }
+    .qh-type-biweekly { background: #fce4e4; color: #b71c1c; }
+    /* Locked button */
+    .btn-locked {
+      background: #f0f0f0 !important; color: #bbb !important;
+      border: 1.5px solid #ddd !important; cursor: not-allowed !important;
+    }
+    .btn-locked:hover { opacity: 1; transform: none !important; }
+    /* Stats notification */
+    .stat-notif {
+      background: #fff3e0; border: 1.5px solid #ffcc80;
+      border-radius: 14px; padding: 18px 20px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .stat-notif-icon { font-size: 28px; flex-shrink: 0; line-height: 1; }
+    .stat-notif-body { flex: 1; }
+    .stat-notif-title { font-size: 15px; font-weight: 800; color: #e65100; margin-bottom: 6px; }
+    .stat-notif-sub   { font-size: 13px; color: #bf360c; line-height: 1.5; margin-bottom: 12px; }
+
+    /* ── My List tab ─────────────────────────────────────────────────── */
+    .mylist-section {
+      max-width: 1120px;
+      margin: 20px auto 48px;
+      padding: 0 24px;
+    }
+    .mylist-toolbar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .mylist-search {
+      flex: 1; min-width: 180px; max-width: 320px;
+      padding: 8px 14px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 13px; font-family: inherit;
+      background: #fff; color: var(--text);
+    }
+    .mylist-search:focus { outline: none; border-color: var(--red); }
+    .mylist-count { font-size: 13px; color: var(--muted); margin-left: auto; }
+    .mylist-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--card); border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 14px rgba(0,0,0,.05);
+    }
+    .mylist-table th {
+      text-align: left; padding: 12px 16px;
+      font-size: 11px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--muted);
+      background: var(--bg); border-bottom: 1px solid var(--border);
+    }
+    .mylist-table td {
+      padding: 11px 16px; border-bottom: 1px solid var(--border);
+      font-size: 14px; color: var(--text); vertical-align: middle;
+    }
+    .mylist-table tr:last-child td { border-bottom: none; }
+    .mylist-table tr:hover td { background: #faf5ef; }
+    .mylist-word  { font-size: 20px; font-weight: 900; }
+    .mylist-kana  { font-size: 12px; color: var(--red); font-weight: 700; display: block; }
+    .mylist-date  { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .mylist-empty {
+      text-align: center; padding: 64px 20px; color: var(--muted);
+      font-size: 15px;
+    }
+    .mylist-empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .btn-danger { background: #fce4e4; color: #b71c1c; border: 1.5px solid #ef9a9a; }
+    .btn-danger:hover { background: #ffcdd2; }
+
+    /* ── Cloud sync / Auth ──────────────────────────────────────────────── */
+    .auth-wrap   { display: flex; align-items: center; margin-left: 14px; }
+    .auth-btn    {
+      padding: 7px 16px; border: none; border-radius: 8px;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: background .18s;
+      white-space: nowrap;
+    }
+    .auth-btn-in  { background: rgba(255,255,255,.18); color: #fff; }
+    .auth-btn-in:hover { background: rgba(255,255,255,.3); }
+    .auth-btn-out { background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); font-size: 11px; padding: 4px 10px; }
+    .auth-btn-out:hover { background: rgba(255,255,255,.2); }
+    .auth-user   { display: flex; align-items: center; gap: 8px; }
+    .auth-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.5); object-fit: cover;
+      flex-shrink: 0;
+    }
+    .auth-avatar-fallback {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,.25); font-size: 13px; font-weight: 800; color: #fff;
+    }
+    .auth-name   { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.9); }
+    .auth-syncing { font-size: 11px; color: rgba(255,255,255,.6); margin-left: 4px; }
+
+    /* ════════════════════════════════════════════════════════════════
+       📱 MOBILE — max-width: 640px
+       ════════════════════════════════════════════════════════════════ */
+    @media (max-width: 640px) {
+
+      /* ── Header ── */
+      header {
+        padding: 12px 14px;
+        gap: 8px;
+        flex-wrap: nowrap;
+      }
+      .h-title { font-size: 19px; letter-spacing: 2px; }
+      .h-sub   { font-size: 10px; margin-top: 2px; }
+      .h-greet { display: none; }
+      .h-date  { font-size: 11px; }
+      .auth-name { display: none; }
+      .auth-btn-in { padding: 6px 12px; font-size: 11px; }
+      .auth-wrap { margin-left: 6px; }
+
+      /* ── Bottom tab bar (fixed) ── */
+      .tabbar {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        margin: 0;
+        padding: 0;
+        gap: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: #fff;
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -2px 12px rgba(0,0,0,.1);
+        z-index: 200;
+      }
+      .tab {
+        border-radius: 0;
+        padding: 10px 2px 8px;
+        font-size: 10px;
+        letter-spacing: 0;
+        line-height: 1.3;
+      }
+      .tab.active {
+        border-top: 3px solid var(--red);
+        background: #fff;
+        color: var(--red);
+      }
+
+      /* Push content above bottom nav */
+      .grid, .stats-section, .mylist-section { margin-bottom: 72px; }
+      footer { padding-bottom: 80px; }
+
+      /* ── Toolbar ── */
+      .toolbar {
+        margin-top: 12px;
+        padding: 0 12px;
+        gap: 8px;
+      }
+      .btn {
+        padding: 11px 14px;
+        font-size: 12px;
+        min-height: 44px;
+      }
+      #statusMsg { margin-left: 0; width: 100%; text-align: center; }
+
+      /* ── Level filter ── */
+      .level-filter { padding: 4px 12px 8px; gap: 6px; }
+      .toolbar-info { display: none; }
+      .legend { padding: 0 12px; gap: 8px; }
+
+      /* ── Grid ── */
+      .grid {
+        padding: 0 12px;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      /* ── Cards ── */
+      .card {
+        padding: 16px 14px 14px;
+        border-radius: 14px;
+      }
+      .vocab-word { font-size: 38px; min-width: 48px; }
+      .card-meaning { font-size: 15px; }
+      .kanji-char { font-size: 58px; width: 66px; min-width: 66px; }
+
+      /* ── Quiz interactive ── */
+      .quiz-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .quiz-option {
+        padding: 16px 14px;
+        font-size: 14px;
+        min-height: 52px;
+      }
+      .quiz-prompt-word { font-size: 54px; }
+      .quiz-question-card { padding: 20px 14px 16px; border-radius: 14px; }
+      .quiz-screen { padding: 6px 0 48px; }
+
+      /* ── My List ── */
+      .mylist-section { padding: 0 12px; }
+      .mylist-table { font-size: 13px; }
+      .mylist-table th,
+      .mylist-table td { padding: 9px 10px; }
+      /* Hide "Saved" date column on mobile — saves space */
+      .mylist-table th:nth-child(4),
+      .mylist-table td:nth-child(4) { display: none; }
+      .mylist-word  { font-size: 17px; }
+      .mylist-kana  { font-size: 11px; }
+      .btn-danger   { padding: 5px 8px !important; font-size: 10px !important; }
+      .mylist-search { max-width: 100%; min-width: 0; flex: 1; }
+
+      /* ── Stats ── */
+      .stats-section { padding: 0 12px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .kpi-num  { font-size: 38px; }
+      .kpi-card { padding: 16px 10px 12px; border-radius: 12px; }
+      .kpi-lbl  { font-size: 12px; }
+      .chart-block { padding: 14px 12px 10px; }
+      .qh-date { min-width: 70px; font-size: 11px; }
+      .qh-score { min-width: 70px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="h-title" id="hTitle">朝の漢字</div>
+    <div class="h-sub"   id="hSub">Morning Kanji · Daily Study</div>
+  </div>
+  <div id="authWrap" class="auth-wrap"></div>
+  <div class="h-right">
+    <div class="h-date"  id="hDate">?</div>
+    <div class="h-greet" id="hGreet">?</div>
+  </div>
+</header>
+
+<div class="tabbar">
+  <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢字<br><span style="font-size:9px;opacity:.7">Kanji</span></button>
+  <button class="tab active" id="tabVocab"  onclick="switchTab('vocab')">語彙<br><span style="font-size:9px;opacity:.7">Vocab</span></button>
+  <button class="tab"        id="tabMyList" onclick="switchTab('mylist')">📋<br><span style="font-size:9px;opacity:.7">My List</span></button>
+  <button class="tab"        id="tabStats"  onclick="switchTab('stats')">📊<br><span style="font-size:9px;opacity:.7">Stats</span></button>
+</div>
+
+<div class="toolbar" id="toolbarDiv">
+  <button class="btn btn-primary" onclick="refresh()">↺ New Selection</button>
+  <button class="btn btn-ghost" id="btnMore" onclick="changeCount(1)">＋ More</button>
+  <button class="btn btn-ghost" id="btnLess" onclick="changeCount(-1)">－ Less</button>
+  <button class="btn btn-save" id="btnSave" onclick="saveToday()" style="display:none">💾 Save for Quiz</button>
+  <button class="btn btn-quiz"    id="quizBtn"        onclick="toggleQuiz()"        >🎯 Quiz Mode</button>
+  <button class="btn btn-quiz"    id="btnDailyQuiz"   onclick="launchDailyQuiz()"   style="display:none">🎯 Daily Quiz</button>
+  <button class="btn btn-quiz"    id="btnBiweeklyQuiz" onclick="launchBiWeeklyQuiz()" style="display:none">📅 Bi-Weekly Quiz</button>
+</div>
+<div class="level-filter" id="levelFilter" style="display:none">
+  <span class="level-filter-label">Level:</span>
+  <button class="pill active" data-level="all" onclick="setVocabLevel('all')">All</button>
+  <button class="pill" data-level="4"   onclick="setVocabLevel('4')">N4</button>
+  <button class="pill" data-level="3"   onclick="setVocabLevel('3')">N3</button>
+  <button class="pill" data-level="2"   onclick="setVocabLevel('2')">N2</button>
+  <button class="pill" data-level="1"   onclick="setVocabLevel('1')">N1</button>
+  <span class="toolbar-info">Showing <strong id="countLabel">10</strong> <span id="tabLabel">vocabulary</span></span>
+  <span id="statusMsg" class="status-loading">読み込み中…</span>
+</div>
+
+<div class="legend" id="legendDiv">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n4)"></span>N4</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n3)"></span>N3 (frequent)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n2)"></span>N2 (frequent)</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n1)"></span>N1</div>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="stats-section"  id="statsSection"  style="display:none"></div>
+<div class="mylist-section" id="mylistSection" style="display:none"></div>
+
+<footer>頑張って！Keep showing up — every morning counts.</footer>
+
+<!-- Firebase SDKs (compat). Safe to remove these 3 lines if you don't want cloud sync. -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+// ����������������������������������������������������������������������������������������������������������������������������������������������������������
+// kanjiapi.dev  ?  free, open, no key required
+//   GET /v1/kanji/jlpt-{4|3|2|1}  ��  string[] of kanji chars for that JLPT level
+//   GET /v1/kanji/{char}           ��  { meanings, on_readings, kun_readings, jlpt, �c }
+//   GET /v1/words/{char}           ��  [ { meanings:[{glosses}], variants:[{written,pronounced}] } ]
+//
+// Lists are cached in localStorage with a 24-h TTL for fast offline reloads.
+// ����������������������������������������������������������������������������������������������������������������������������������������������������������
+
+const API       = 'https://kanjiapi.dev/v1';
+const CACHE_TTL = 24 * 60 * 60 * 1000;             // 24 hours
+
+// Weight: N4�~1  N3�~4  N2�~4  N1�~2  (N3+N2 most frequent, as requested)
+const LEVEL_WEIGHT = { 4: 10, 3: 40, 2: 40, 1: 20 };
+const LEVEL_LABEL  = { 4:'N4', 3:'N3', 2:'N2', 1:'N1' };
+
+// Vocab-specific weights: N4?N2 dominant, very few N1
+const VOCAB_LEVEL_WEIGHT = { 4: 25, 3: 40, 2: 30, 1: 5 };
+const VOCAB_COUNT = 10;   // fixed daily word count
+
+let POOL       = [];   // { char, jlptNum } for kanji tab
+let VOCAB_POOL = [];   // { char, jlptNum } for vocab tab
+let count = 7;
+let quizState  = null; // active interactive quiz state
+let currentVocabItems = [];
+
+// ─── Learned-words registry ───────────────────────────────────────────────────────
+// A word is "learned" once it has been saved for the quiz at least once.
+// We track it by written form AND by a normalised meaning fingerprint so that
+// variants like 受け取り / 請け取り (same meaning) are both suppressed.
+function loadLearnedWords() {
+  try {
+    const raw = localStorage.getItem('learned_words');
+    // Returns { byWord: Set<string>, byMeaning: Set<string> }
+    if (!raw) return { byWord: new Set(), byMeaning: new Set() };
+    const obj = JSON.parse(raw);
+    return {
+      byWord:    new Set(obj.byWord    || []),
+      byMeaning: new Set(obj.byMeaning || [])
+    };
+  } catch { return { byWord: new Set(), byMeaning: new Set() }; }
+}
+function saveLearnedWords(learned) {
+  try {
+    localStorage.setItem('learned_words', JSON.stringify({
+      byWord:    [...learned.byWord],
+      byMeaning: [...learned.byMeaning]
+    }));
+  } catch {}
+}
+// Normalise a meaning string for dedup: lowercase, strip punctuation/spaces
+function normMeaning(m) {
+  return (m || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 40);
+}
+function markWordsLearned(items) {
+  const learned = loadLearnedWords();
+  items.forEach(it => {
+    learned.byWord.add(it.word);
+    learned.byMeaning.add(normMeaning(it.meaning));
+  });
+  saveLearnedWords(learned);
+  cloudUpdate({ learnedWords: { byWord: [...learned.byWord], byMeaning: [...learned.byMeaning] } });
+}
+function isLearned(item, learned) {
+  if (learned.byWord.has(item.word)) return true;
+  if (learned.byMeaning.has(normMeaning(item.meaning))) return true;
+  return false;
+}
+function forgetWord(word) {
+  const learned = loadLearnedWords();
+  learned.byWord.delete(word);
+  saveLearnedWords(learned);
+  cloudUpdate({ learnedWords: { byWord: [...learned.byWord], byMeaning: [...learned.byMeaning] } });
+}
+// ���� localStorage helpers ������������������������������������������������������������������������������������������������������������
+function cacheGet(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL) { localStorage.removeItem(key); return null; }
+    return data;
+  } catch { return null; }
+}
+function cacheSet(key, data) {
+  try { localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); } catch {}
+}
+
+// ���� Fetch helpers ��������������������������������������������������������������������������������������������������������������������������
+async function apiFetch(path) {
+  const res = await fetch(API + path);
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
+  return res.json();
+}
+
+async function getJLPTList(num) {
+  const key = `jlpt_list_${num}`;
+  let list  = cacheGet(key);
+  if (!list) { list = await apiFetch(`/kanji/jlpt-${num}`); cacheSet(key, list); }
+  return list;   // string[]
+}
+
+async function getKanjiDetail(char) {
+  const key = `kanji_${char}`;
+  let d = cacheGet(key);
+  if (!d) { d = await apiFetch(`/kanji/${encodeURIComponent(char)}`); cacheSet(key, d); }
+  return d;
+}
+
+async function getWords(char) {
+  const key = `words_${char}`;
+  let w = cacheGet(key);
+  if (!w) {
+    try { w = await apiFetch(`/words/${encodeURIComponent(char)}`); cacheSet(key, w); }
+    catch { w = []; }
+  }
+  return w;
+}
+
+// ���� Build weighted pools from all 4 JLPT levels ����������������������������������������������������������
+async function buildPool() {
+  const lists = await Promise.all([4, 3, 2, 1].map(n => getJLPTList(n)));
+  POOL = []; VOCAB_POOL = [];
+  [4, 3, 2, 1].forEach((jlptNum, idx) => {
+    lists[idx].forEach(char => {
+      for (let i = 0; i < LEVEL_WEIGHT[jlptNum]; i++)       POOL.push({ char, jlptNum });
+      for (let i = 0; i < VOCAB_LEVEL_WEIGHT[jlptNum]; i++) VOCAB_POOL.push({ char, jlptNum });
+    });
+  });
+}
+
+function pickVocabChars(n) {
+  const filteredPool = vocabLevelFilter === 'all'
+    ? VOCAB_POOL
+    : VOCAB_POOL.filter(x => x.jlptNum === Number(vocabLevelFilter));
+  const source = filteredPool.length ? filteredPool : VOCAB_POOL;
+  const chosen = [], seen = new Set();
+  let tries = 0;
+  while (chosen.length < n && tries < 100000) {
+    const item = source[Math.floor(Math.random() * source.length)];
+    if (!seen.has(item.char)) { seen.add(item.char); chosen.push(item); }
+    tries++;
+  }
+  return chosen;
+}
+
+
+
+// ���� Pick N weighted-random kanji chars, no repeats ������������������������������������������������������
+function pickChars(n) {
+  const chosen = [], seen = new Set();
+  let tries = 0;
+  while (chosen.length < n && tries < 100000) {
+    const item = POOL[Math.floor(Math.random() * POOL.length)];
+    if (!seen.has(item.char)) { seen.add(item.char); chosen.push(item); }
+    tries++;
+  }
+  return chosen;
+}
+
+// ���� Blacklist: archaic/uncommon/formal words NOT used in modern daily contexts ������
+const ARCHAIC_WORDS = new Set([
+  '報え', '申せ', '掛かれ', '著わす', '斎く', '示す', '映ず',
+  // Words with overlapping/redundant meanings - keep only the more common variant
+  '球', // keep only 玉 for "ball (sports)"
+  '賞', // keep only 褒める for "praise" 
+  '告ぐ', '知らす', // prefer modern 知らせる
+]);
+
+// ���� Meaning dedup: track seen meanings to avoid duplicate concepts ���
+function normalizeMeaning(gloss) {
+  // Normalize for comparison (remove parentheses, extra spaces, case)
+  return gloss.toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 30);
+}
+
+// ���� Extract best example words from API response ������
+// Filters for: (1) modern daily-use words, (2) no duplicates, (3) relevant definitions
+function bestExamples(words, targetChar, max = 3) {
+  const out = [];
+  const seenMeanings = new Set();  // Track meanings to avoid duplicates
+  
+  for (const entry of words) {
+    if (out.length >= max) break;
+    
+    // Prefer variants whose written form contains the target kanji
+    const variant = (entry.variants ?? [])
+      .find(v => v.written && v.written.includes(targetChar));
+    if (!variant) continue;
+    
+    // FILTER: Skip archaic/uncommon words
+    if (ARCHAIC_WORDS.has(variant.written)) continue;
+    
+    const gloss = entry.meanings?.[0]?.glosses?.[0];
+    if (!gloss) continue;
+    
+    // FILTER: Skip duplicate meanings (keep only first variant of a concept)
+    const normGloss = normalizeMeaning(gloss);
+    if (seenMeanings.has(normGloss)) continue;
+    seenMeanings.add(normGloss);
+    
+    // FILTER: Skip overly long or meaningless definitions
+    if (gloss.length < 5) continue;
+    
+    out.push({
+      w: variant.written,
+      r: variant.pronounced ?? variant.written,
+      m: gloss.length > 42 ? gloss.slice(0, 40) + '…' : gloss
+    });
+  }
+  return out;
+}
+
+// ���� Skeleton loaders ��������������������������������������������������������������������������������������������������������������������
+function showSkeletons(n) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('div');
+    s.className = 'card skeleton';
+    s.style.animationDelay = `${i * 60}ms`;
+    s.innerHTML = `
+      <div class="skel-big"></div>
+      <div style="flex:1">
+        <div class="skel-line" style="width:50%"></div>
+        <div class="skel-line" style="width:80%"></div>
+        <div class="skel-line" style="width:65%"></div>
+      </div>`;
+    grid.appendChild(s);
+  }
+}
+
+// ���� Render one card ����������������������������������������������������������������������������������������������������������������������
+let quizMode = false;
+
+function renderCard(k, delay) {
+  const on  = k.on.length  ? k.on.join('　')  : '—';
+  const kun = k.kun.length ? k.kun.join('　') : '—';
+  const exHtml = k.ex.length
+    ? k.ex.map(e => `
+        <div class="example">
+          <div class="ex-top">
+            <span class="ex-word">${e.w}</span>
+            <span class="ex-reading">【${e.r}】</span>
+          </div>
+          <div class="ex-meaning">${e.m}</div>
+        </div>`).join('')
+    : '<div class="example"><div class="ex-meaning">No examples available.</div></div>';
+
+  const card = document.createElement('div');
+  card.className = 'card' + (quizMode ? ' quiz-card' : '');
+  card.style.animationDelay = `${delay}ms`;
+
+  const coverHtml = quizMode ? `
+    <div class="card-cover" onclick="revealCard(this)">
+      <span class="card-cover-text">TAP TO REVEAL</span>
+    </div>` : '';
+
+  card.innerHTML = `
+    ${coverHtml}
+    <div class="card-body">
+      <div class="card-top">
+        <div class="kanji-char">${k.kanji}</div>
+        <div class="card-info">
+          <span class="badge badge-${k.level}">${k.level}</span>
+          <div class="card-meaning">${k.meaning}</div>
+        </div>
+      </div>
+      <div class="readings">
+        <div class="reading-group">
+          <span class="reading-label">音読み (On)</span>
+          <span class="reading-kana">${on}</span>
+        </div>
+        <div class="reading-group">
+          <span class="reading-label">訓読み (Kun)</span>
+          <span class="reading-kana">${kun}</span>
+        </div>
+      </div>
+      <div class="examples-label">Examples</div>
+      ${exHtml}
+    </div>`;
+  return card;
+}
+
+// ���� Status helper ��������������������������������������������������������������������������������������������������������������������������
+function setStatus(type, msg) {
+  const el = document.getElementById('statusMsg');
+  el.textContent   = msg;
+  el.className     = 'status-' + type;
+}
+
+// ���� Main: load & render N kanji ����������������������������������������������������������������������������������������������
+async function loadAndRender(n) {
+  showSkeletons(n);
+  setStatus('loading', '読み込み中…');
+  document.getElementById('countLabel').textContent = n;
+
+  try {
+    if (!POOL.length) await buildPool();
+
+    const picks = pickChars(n);
+
+    // Fetch kanji details + words in parallel
+    const results = await Promise.allSettled(
+      picks.map(async ({ char, jlptNum }) => {
+        const [detail, words] = await Promise.all([
+          getKanjiDetail(char),
+          getWords(char)
+        ]);
+        return {
+          kanji:   char,
+          level:   LEVEL_LABEL[jlptNum],
+          on:      detail.on_readings  ?? [],
+          kun:     detail.kun_readings ?? [],
+          meaning: (detail.meanings ?? ['?']).slice(0, 4).join(', '),
+          ex:      bestExamples(words, char, 3)
+        };
+      })
+    );
+
+    const cards = results
+      .filter(r => r.status === 'fulfilled')
+      .map(r => r.value);
+
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    cards.forEach((k, i) => grid.appendChild(renderCard(k, i * 80)));
+    document.getElementById('countLabel').textContent = cards.length;
+
+    // Count unique kanji in pool (total database size)
+    const unique = new Set(POOL.map(p => p.char)).size;
+    setStatus('ok', `${unique.toLocaleString()} kanji in database · N3 &amp; N2 favoured`);
+
+  } catch (err) {
+    setStatus('error', 'Failed to load ? check your internet connection.');
+    document.getElementById('grid').innerHTML =
+      `<div style="grid-column:1/-1;color:var(--red);padding:24px;font-weight:600">${err.message}</div>`;
+  }
+}
+
+// ���� Controls ������������������������������������������������������������������������������������������������������������������������������������
+let currentTab = 'vocab';   // 'kanji' | 'vocab'
+let vocabLevelFilter = localStorage.getItem('vocabLevelFilter') || 'all';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tabKanji') .classList.toggle('active', tab === 'kanji');
+  document.getElementById('tabVocab') .classList.toggle('active', tab === 'vocab');
+  document.getElementById('tabMyList').classList.toggle('active', tab === 'mylist');
+  document.getElementById('tabStats') .classList.toggle('active', tab === 'stats');
+
+  const isStats  = tab === 'stats';
+  const isMyList = tab === 'mylist';
+  const isHidden = isStats || isMyList;
+  document.getElementById('grid').style.display           = isHidden ? 'none' : '';
+  document.getElementById('statsSection').style.display   = isStats  ? 'block' : 'none';
+  document.getElementById('mylistSection').style.display  = isMyList ? 'block' : 'none';
+  document.getElementById('toolbarDiv').style.display     = isHidden ? 'none' : '';
+  document.getElementById('legendDiv').style.display      = isHidden ? 'none' : '';
+
+  if (isStats) {
+    document.getElementById('hTitle').textContent = '進歩';
+    document.getElementById('hSub').textContent   = 'Progression · Score Tracking';
+    renderStats();
+    return;
+  }
+
+  if (isMyList) {
+    document.getElementById('hTitle').textContent = '単語リスト';
+    document.getElementById('hSub').textContent   = 'My Word List · All Saved Vocabulary';
+    renderMyList();
+    return;
+  }
+
+  document.getElementById('hTitle').textContent = tab === 'kanji' ? '朝の漢字' : '朝の語彙';
+  document.getElementById('hSub').textContent   = tab === 'kanji'
+    ? 'Morning Kanji · Daily Study' : 'Morning Vocabulary · Daily Study';
+  document.getElementById('tabLabel').textContent = tab === 'kanji' ? 'kanji' : 'vocabulary';
+
+  // Reset quiz state
+  quizMode = false;
+  quizState = null;
+  const hint = document.getElementById('quizHint');
+  if (hint) hint.style.display = 'none';
+
+  if (tab === 'kanji') {
+    // Kanji tab buttons
+    document.getElementById('btnSave').style.display        = 'none';
+    document.getElementById('levelFilter').style.display    = 'none';
+    document.getElementById('quizBtn').style.display        = '';
+    document.getElementById('btnDailyQuiz').style.display   = 'none';
+    document.getElementById('btnBiweeklyQuiz').style.display= 'none';
+    document.getElementById('btnMore').style.display        = '';
+    document.getElementById('btnLess').style.display        = '';
+    const qb = document.getElementById('quizBtn');
+    qb.classList.remove('active');
+    qb.textContent = '🎯 Quiz Mode';
+    loadAndRender(count);
+    return;
+  }
+
+  // Vocab tab buttons
+  document.getElementById('btnMore').style.display         = 'none';
+  document.getElementById('btnLess').style.display         = 'none';
+  document.getElementById('quizBtn').style.display         = 'none';
+  document.getElementById('btnSave').style.display         = '';
+  document.getElementById('levelFilter').style.display     = '';
+  document.getElementById('btnDailyQuiz').style.display    = '';
+  document.getElementById('btnBiweeklyQuiz').style.display = '';
+  document.getElementById('btnSave').classList.remove('saved');
+  document.getElementById('btnSave').textContent = '💾 Save for Quiz';
+  document.getElementById('btnSave').disabled = false;
+  applyLevelFilterUI();
+  updateBiWeeklyBtn();
+  renderVocab();
+}
+
+function saveToday() {
+  if (!currentVocabItems.length) return;
+
+  // Nudge to sign in — data is safer in the cloud
+  if (CLOUD_ENABLED && !_fbUser) {
+    const go = confirm('⚠️ You are not signed in.\n\nYour words will be saved locally but could be lost if you clear your browser cache.\n\nSign in to keep your words safe on any device.\n\nClick OK to sign in first, or Cancel to save locally.');
+    if (go) { cloudSignIn(); return; }
+  }
+
+  const btn = document.getElementById('btnSave');
+  const itemsToSave = currentVocabItems.map(item => ({
+    word: item.word,
+    reading: item.reading,
+    meaning: item.meaning,
+    pos: item.pos,
+    level: item.level
+  }));
+  saveDailyVocab(todayStr(), itemsToSave);
+  btn.textContent = _fbUser ? '☁️ Saved!' : '✓ Saved!';
+  btn.classList.add('saved');
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '💾 Save for Quiz';
+    btn.classList.remove('saved');
+    btn.disabled = false;
+  }, 2000);
+}
+
+function refresh() {
+  if (currentTab === 'kanji') { loadAndRender(count); return; }
+  // Vocab: overwrite today's words with a fresh set
+  renderVocab(true);
+}
+
+function changeCount(delta) {
+  if (currentTab === 'vocab') return;  // vocab is always 10
+  count = Math.max(5, Math.min(10, count + delta));
+  loadAndRender(count);
+}
+
+function toggleQuiz() {
+  // Only used for the Kanji tab (card-flip mode)
+  quizMode = !quizMode;
+  const btn = document.getElementById('quizBtn');
+  btn.classList.toggle('active', quizMode);
+  btn.textContent = quizMode ? '📖 Study Mode' : '🎯 Quiz Mode';
+  const existingCards = document.querySelectorAll('#grid .card');
+  existingCards.forEach(card => {
+    const hasCover = card.querySelector('.card-cover');
+    if (quizMode && !hasCover) {
+      const cover = document.createElement('div');
+      cover.className = 'card-cover';
+      cover.innerHTML = '<span class="card-cover-text">TAP TO REVEAL</span>';
+      cover.addEventListener('click', () => revealCard(cover));
+      card.classList.add('quiz-card');
+      card.prepend(cover);
+    } else if (!quizMode && hasCover) {
+      hasCover.remove();
+      card.classList.remove('quiz-card');
+    }
+  });
+  if (quizMode) {
+    let hint = document.getElementById('quizHint');
+    if (!hint) {
+      hint = document.createElement('p');
+      hint.id = 'quizHint';
+      hint.className = 'quiz-hint';
+      hint.textContent = 'Tap a card to reveal readings & examples';
+      document.getElementById('grid').after(hint);
+    }
+    hint.style.display = '';
+  } else {
+    const hint = document.getElementById('quizHint');
+    if (hint) hint.style.display = 'none';
+  }
+}
+
+function revealCard(coverEl) {
+  coverEl.classList.add('revealed');
+}
+
+// ���� Date & greeting ����������������������������������������������������������������������������������������������������������������������
+(function setHeader() {
+  const now  = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const mons = ['January','February','March','April','May','June',
+                'July','August','September','October','November','December'];
+  document.getElementById('hDate').textContent =
+    `${days[now.getDay()]}, ${mons[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+  const h = now.getHours();
+  document.getElementById('hGreet').textContent =
+    h < 12 ? 'おはようございます！Good morning!'
+  : h < 18 ? 'こんにちは！Good afternoon!'
+  :           'こんばんは！Good evening!';
+})();
+
+// ����������������������������������������������������������������������������������������������������������������������������������������������������������
+// VOCABULARY ? 10 words/day, persisted by date in localStorage.
+// Weekly quiz accumulates Mon?Fri words; Monday also includes previous Friday.
+// ����������������������������������������������������������������������������������������������������������������������������������������������������������
+
+// ���� Daily persistence helpers ��������������������������������������������������������������������������������������������������
+// Use LOCAL date components ? toISOString() is UTC and shifts the date in UTC+X timezones
+function dateStr(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function todayStr() { return dateStr(new Date()); }
+
+function saveDailyVocab(date, items) {
+  // 1. Cloud is the source of truth — push first, regardless of localStorage
+  if (CLOUD_ENABLED && _fbUser) {
+    cloudUpdate({ dailyWords: { [date]: items } });
+  }
+
+  // 2. localStorage is just a local cache — best effort, non-blocking
+  try {
+    // Clear API cache entries to free space before writing
+    const keysToDelete = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && (k.startsWith('kanji_') || k.startsWith('words_'))) keysToDelete.push(k);
+    }
+    keysToDelete.forEach(k => localStorage.removeItem(k));
+    localStorage.setItem(`vocab_daily_${date}`, JSON.stringify(items));
+  } catch (e) {
+    // localStorage full — no problem, cloud has the data
+    console.warn('[saveDailyVocab] localStorage full, saved to cloud only.');
+  }
+
+  markWordsLearned(items);
+}
+function loadDailyVocab(date) {
+  try {
+    const raw = localStorage.getItem(`vocab_daily_${date}`);
+    console.log(`[loadDailyVocab] Loaded vocab_daily_${date}:`, raw ? `${raw.length} bytes` : 'null');
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { 
+    console.error(`[loadDailyVocab] Failed to parse:`, e);
+    return null; 
+  }
+}
+
+// ──── Cleanup old data to prevent localStorage quota issues ────────────────
+function cleanupOldData() {
+  const today = new Date();
+  const thirtyDaysAgo = new Date(today);
+  thirtyDaysAgo.setDate(today.getDate() - 30);
+  
+  const keysToDelete = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k) continue;
+    
+    // Delete biweekly done markers older than 30 days
+    if (k.startsWith('biweekly_done_')) {
+      const dateStr = k.slice(14);
+      const itemDate = new Date(dateStr + 'T12:00:00');
+      if (itemDate < thirtyDaysAgo) keysToDelete.push(k);
+    }
+  }
+  
+  keysToDelete.forEach(k => {
+    console.log(`[cleanup] Removing old key: ${k}`);
+    localStorage.removeItem(k);
+  });
+}
+
+cleanupOldData();
+
+// ���� Quiz date window ��������������������������������������������������������������������������������������������������������������������
+// Returns date strings for the last 14 days (rolling bi-weekly window).
+function getQuizDates() {
+  const today = new Date();
+  const dates = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    dates.push(dateStr(d));
+  }
+  return dates;
+}
+
+// ─── Vocab quality helpers ──────────────────────────────────────────────
+// True when a word is written entirely in katakana (foreign loanword — not
+// useful for kanji learners)
+function isAllKatakana(str) {
+  return str && /^[\u30A0-\u30FF\uFF65-\uFF9F\u30FC\u30FE\u30FF\u309B\u309C]+$/.test(str);
+}
+// True when a word has no kanji at all (all-kana, usually not worth showing
+// in a kanji study app)
+function hasNoKanji(str) {
+  return str && !/[\u4E00-\u9FFF\u3400-\u4DBF]/.test(str);
+}
+// Score how common a word is based on JMdict priority tags.
+// Higher = more common. Negative = loanword penalty.
+function priorityScore(priorities) {
+  if (!priorities || !priorities.length) return 0;
+  let score = 0;
+  for (const p of priorities) {
+    if      (p === 'news1' || p === 'ichi1' || p === 'spec1') score += 100;
+    else if (p === 'news2' || p === 'ichi2' || p === 'spec2') score += 50;
+    else if (/^nf0[1-9]$/.test(p))  score += 90;   // very high newspaper freq
+    else if (/^nf[12]\d$/.test(p))  score += 40;   // moderate newspaper freq
+    else if (/^gai/.test(p))        score -= 60;   // gairaigo (loanword)
+    else                            score += 5;
+  }
+  return score;
+}
+
+// ───────────────────────────────────────────────────────────────────────────
+// Returns true if a JMdict word entry is a place/proper noun/company name
+function isProperNoun(entry) {
+  // 1. POS tag check
+  const properTags = /place|proper.?noun|city|country|region|district|prefecture|island|ocean|river|mountain|surname|given.?name|person.?name|organization|company|brand/i;
+  if ((entry.meanings || []).some(m =>
+    (m.part_of_speech || []).some(p => properTags.test(p))
+  )) return true;
+  // 2. Heuristic: if EVERY gloss across ALL meanings starts with a capital letter
+  //    it is almost certainly a proper noun (Tokyo, British Airways, Japan, etc.)
+  const allGlosses = (entry.meanings || []).flatMap(m => m.glosses || []);
+  if (allGlosses.length > 0 && allGlosses.every(g => /^[A-Z]/.test(g.trim()))) return true;
+  return false;
+}
+
+// ─── Part-of-speech category helper ──────────────────────────────────────
+function posCategory(posArr) {
+  if (!posArr || !posArr.length) return 'other';
+  const s = posArr.join(' ').toLowerCase();
+  if (/verb/.test(s))                            return 'verb';
+  if (/adjective|keiyoushi|keiyodoshi/.test(s))  return 'adj';
+  if (/noun/.test(s))                            return 'noun';
+  return 'other';
+}
+
+async function buildVocabItems(picks) {
+  const TOP_TAGS = ['news1','ichi1','spec1','nf01','nf02','nf03','nf04','nf05','nf06'];
+
+  const wordLists = await Promise.allSettled(picks.map(({ char }) => getWords(char)));
+  const candidates = [];
+  const seenWords  = new Set();
+
+  for (let i = 0; i < picks.length; i++) {
+    if (wordLists[i].status !== 'fulfilled') continue;
+    const { char, jlptNum } = picks[i];
+    const words = wordLists[i].value;
+
+    // Collect ALL valid entries for this kanji (not just the best one).
+    // This allows us to find a verb AND a noun AND an adjective per kanji
+    // so the final balanced selection has real variety to draw from.
+    for (const entry of words) {
+      if (isProperNoun(entry)) continue;
+
+      // Find the canonical (most standard) written form:
+      // prefer variants that carry their own top-tier priority tags.
+      const canonical =
+        (entry.variants || []).find(v =>
+          v.written && !isAllKatakana(v.written) &&
+          (v.priorities || []).some(p => TOP_TAGS.includes(p))
+        ) ||
+        (entry.variants || []).find(v => v.written && !isAllKatakana(v.written));
+
+      if (!canonical) continue;
+
+      // Only keep this word if the CANONICAL form uses the target kanji
+      // (prevents rare spellings like 詠う from appearing instead of 歌う).
+      if (!canonical.written.includes(char)) continue;
+      if (hasNoKanji(canonical.written)) continue;
+
+      // The canonical variant itself must carry top-tier priority tags.
+      const varPriorities = canonical.priorities || [];
+      if (!varPriorities.some(p => TOP_TAGS.includes(p))) continue;
+
+      const score = priorityScore(varPriorities);
+      if (score <= 0) continue;
+
+      const wordKey = canonical.written;
+      if (seenWords.has(wordKey)) continue;
+
+      const mainGloss = (entry.meanings?.[0]?.glosses?.[0] || '').toLowerCase();
+      if (mainGloss.includes('love') && !/恋|愛/.test(canonical.written)) continue;
+      if (mainGloss.includes('emperor') && !/天皇/.test(canonical.written)) continue;
+      if (mainGloss.includes('imperial palace') && !/内/.test(canonical.written)) continue;
+
+      seenWords.add(wordKey);
+
+      const meaning       = entry.meanings?.[0]?.glosses?.slice(0, 4).join(', ') || '?';
+      const pos           = entry.meanings?.[0]?.part_of_speech?.slice(0, 2).join(', ') || '';
+      const extraMeanings = (entry.meanings?.slice(1, 3) || [])
+        .map(m => m.glosses?.slice(0, 2).join(', ')).filter(Boolean);
+      const posCat = posCategory(entry.meanings?.[0]?.part_of_speech);
+
+      candidates.push({
+        score, posCat,
+        item: {
+          word:    wordKey,
+          reading: (canonical.pronounced && canonical.pronounced !== canonical.written)
+                     ? canonical.pronounced : '',
+          meaning, pos, extraMeanings, level: LEVEL_LABEL[jlptNum]
+        }
+      });
+    }
+  }
+
+  // Remove already-learned words
+  const learned = loadLearnedWords();
+  const fresh   = candidates.filter(c => !isLearned(c.item, learned));
+  const pool    = fresh.length >= VOCAB_COUNT ? fresh : candidates;
+
+  // Simple random selection: shuffle and take the first N
+  shuffleArr(pool);
+  const selected = pool.slice(0, VOCAB_COUNT);
+
+  // For each selected item, find related variants (same concept, different POS)
+  for (const sel of selected) {
+    const conceptKey = normMeaning(sel.item.meaning);
+    const related = [];
+    const seenRelated = new Set([sel.item.word]);
+    
+    for (const cand of pool) {
+      if (normMeaning(cand.item.meaning) === conceptKey && cand.item.word !== sel.item.word) {
+        if (!seenRelated.has(cand.item.word)) {
+          related.push({ word: cand.item.word, pos: cand.item.pos });
+          seenRelated.add(cand.item.word);
+        }
+      }
+    }
+    
+    if (related.length > 0) {
+      sel.item.related = related;
+    }
+  }
+
+  return selected.map(c => c.item);
+}
+
+// ���� Vocab card renderer (kanjiapi.dev format) ����������������������������������������������������������������
+function renderVocabCard(item, delay) {
+  const { word, reading, meaning, pos, extraMeanings, level, related } = item;
+  const extraDefs = extraMeanings
+    .map(d => `<div class="ex-meaning" style="margin-top:2px">${d}</div>`)
+    .join('');
+
+  const relatedHtml = (related && related.length > 0)
+    ? `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)">
+        <div style="font-weight:600;margin-bottom:4px">Also:</div>
+        ${related.map(r => `<div>• <span style="font-weight:700">${r.word}</span> ${r.pos ? `<span style="font-size:10px">(${r.pos})</span>` : ''}</div>`).join('')}
+      </div>`
+    : '';
+
+  const coverHtml = quizMode ? `
+    <div class="card-cover" onclick="revealCard(this)">
+      <span class="card-cover-text">TAP TO REVEAL</span>
+    </div>` : '';
+
+  const card = document.createElement('div');
+  card.className = 'card' + (quizMode ? ' quiz-card' : '');
+  card.style.animationDelay = `${delay}ms`;
+  card.innerHTML = `
+    ${coverHtml}
+    <div class="card-body">
+      <div class="card-top">
+        <div class="vocab-word">${word}</div>
+        <div class="card-info">
+          <span class="badge badge-${level}">${level}</span>
+          ${reading ? `<div class="vocab-reading">${reading}</div>` : ''}
+          ${pos     ? `<span class="vocab-pos">${pos}</span>` : ''}
+        </div>
+      </div>
+      <div class="card-meaning" style="border-top:1px solid var(--border);padding-top:14px;margin-bottom:${extraDefs || relatedHtml ? '8px' : '0'}">
+        ${meaning}
+      </div>
+      ${extraDefs ? `<div style="margin-bottom:0">${extraDefs}</div>` : ''}
+      ${relatedHtml}
+    </div>`;
+  return card;
+}
+
+function applyLevelFilterUI() {
+  document.querySelectorAll('.pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.level === vocabLevelFilter);
+  });
+}
+
+function setVocabLevel(level) {
+  if (vocabLevelFilter === level) return;
+  vocabLevelFilter = level;
+  localStorage.setItem('vocabLevelFilter', level);
+  cloudUpdate({ vocabLevel: level });
+  applyLevelFilterUI();
+  renderVocab(true);
+}
+
+// ─── My List tab ─────────────────────────────────────────────────────────
+function getAllSavedWords() {
+  const seen = new Set();
+  const all  = [];
+  console.log(`[getAllSavedWords] Scanning localStorage for saved vocab...`);
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith('vocab_daily_')) continue;
+    const date = k.slice(12);
+    try {
+      const raw = localStorage.getItem(k);
+      console.log(`[getAllSavedWords] Found ${k}:`, raw);
+      const items = JSON.parse(raw);
+      if (!Array.isArray(items)) { console.warn(`[getAllSavedWords] ${k} is not an array`); continue; }
+      items.forEach(it => {
+        if (!seen.has(it.word)) { seen.add(it.word); all.push({ ...it, savedDate: date }); }
+      });
+    } catch (e) {
+      console.error(`[getAllSavedWords] Failed to parse ${k}:`, e);
+    }
+  }
+  console.log(`[getAllSavedWords] Total unique words found: ${all.length}`, all);
+  // Sort newest first
+  all.sort((a, b) => b.savedDate.localeCompare(a.savedDate));
+  return all;
+}
+
+function renderMyList() {
+  const section = document.getElementById('mylistSection');
+  const words   = getAllSavedWords();
+
+  if (!words.length) {
+    section.innerHTML = `
+      <div class="mylist-empty">
+        <div class="mylist-empty-icon">📝</div>
+        <div>No saved words yet.</div>
+        <div style="font-size:13px;margin-top:8px">Browse <strong>Vocabulary</strong> and tap 💾 Save for Quiz to build your list.</div>
+      </div>`;
+    return;
+  }
+
+  const rows = words.map(it => `
+    <tr id="mlrow_${CSS.escape(it.word)}">
+      <td>
+        <span class="mylist-word">${it.word}</span>
+        ${it.reading ? `<span class="mylist-kana">${it.reading}</span>` : ''}
+      </td>
+      <td>${it.meaning}</td>
+      <td><span class="badge badge-${it.level}">${it.level}</span></td>
+      <td class="mylist-date">${it.savedDate}</td>
+      <td>
+        <button class="btn btn-danger" style="padding:4px 10px;font-size:11px"
+          onclick="removeFromMyList('${it.word.replace(/'/g, "\\'")}')">✕ Remove</button>
+      </td>
+    </tr>`).join('');
+
+  section.innerHTML = `
+    <div class="mylist-toolbar">
+      <input class="mylist-search" type="text" placeholder="Search word or meaning…"
+        oninput="filterMyList(this.value)">
+      <span class="mylist-count" id="mylistCount">${words.length} word${words.length !== 1 ? 's' : ''}</span>
+    </div>
+    <table class="mylist-table" id="mylistTable">
+      <thead><tr>
+        <th>Word</th><th>Meaning</th><th>Level</th><th>Saved</th><th></th>
+      </tr></thead>
+      <tbody id="mylistBody">${rows}</tbody>
+    </table>`;
+}
+
+function filterMyList(q) {
+  const term = q.trim().toLowerCase();
+  const rows = document.querySelectorAll('#mylistBody tr');
+  let visible = 0;
+  rows.forEach(tr => {
+    const text = tr.textContent.toLowerCase();
+    const show = !term || text.includes(term);
+    tr.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const cnt = document.getElementById('mylistCount');
+  if (cnt) cnt.textContent = `${visible} word${visible !== 1 ? 's' : ''}`;
+}
+
+function removeFromMyList(word) {
+  forgetWord(word);
+  // Also remove from all daily vocab saves so it can reappear
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith('vocab_daily_')) continue;
+    try {
+      let items = JSON.parse(localStorage.getItem(k));
+      if (!Array.isArray(items)) continue;
+      items = items.filter(it => it.word !== word);
+      localStorage.setItem(k, JSON.stringify(items));
+    } catch {}
+  }
+  renderMyList();
+}
+// ���� Vocab render entry-point ����������������������������������������������������������������������������������������������������
+// forceNew = true  ->  regenerate fresh words for today (New Selection button)
+async function renderVocab(forceNew = false) {
+  const today  = todayStr();
+  
+  // If we already have words in memory and not forcing a new selection, display those
+  if (!forceNew && currentVocabItems.length > 0) {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    currentVocabItems.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
+    document.getElementById('countLabel').textContent = currentVocabItems.length;
+    // Check if these words were saved to localStorage
+    const savedToday = loadDailyVocab(today);
+    if (savedToday && savedToday.length > 0) {
+      setStatus('ok', 'Today\'s words - already saved for quiz ✓');
+      const sb = document.getElementById('btnSave');
+      if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = true; }
+    } else {
+      setStatus('ok', 'Words loaded — tap 💾 Save for Quiz to add to the bi-weekly quiz');
+      const sb = document.getElementById('btnSave');
+      if (sb) { sb.textContent = '💾 Save for Quiz'; sb.classList.remove('saved'); sb.disabled = false; }
+    }
+    return;
+  }
+
+  const cached = forceNew ? null : loadDailyVocab(today);
+  if (cached && cached.length > 0) {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    cached.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
+    currentVocabItems = cached;
+    document.getElementById('countLabel').textContent = cached.length;
+    setStatus('ok', 'Today\'s words - already saved for quiz ✓');
+    const sb = document.getElementById('btnSave');
+    if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = true; }
+    return;
+  }
+
+  // Generate new words
+  showSkeletons(VOCAB_COUNT);
+  setStatus('loading', '読み込み中…');
+  document.getElementById('countLabel').textContent = VOCAB_COUNT;
+
+  try {
+    if (!VOCAB_POOL.length) await buildPool();
+    // Pick 5× more candidates so stricter filtering still yields enough words
+    const picks = pickVocabChars(VOCAB_COUNT * 5);
+    const items = (await buildVocabItems(picks)).slice(0, VOCAB_COUNT);
+
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    items.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
+    currentVocabItems = items;
+    document.getElementById('countLabel').textContent = items.length;
+    setStatus('ok', 'Words loaded — tap 💾 Save for Quiz to add to the bi-weekly quiz');
+    const saveBtn = document.getElementById('btnSave');
+    if (saveBtn) { saveBtn.textContent = String.fromCodePoint(0x1F4BE) + ' Save for Quiz'; saveBtn.classList.remove('saved'); saveBtn.disabled = false; }
+
+  } catch (err) {
+    setStatus('error', 'Failed to load - check your internet connection.');
+    document.getElementById('grid').innerHTML =
+      '<div style="grid-column:1/-1;color:var(--red);padding:24px;font-weight:600">' + err.message + '</div>';
+  }
+}
+function shuffleArr(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ── Bi-weekly schedule helpers ────────────────────────────────────────────
+// Epoch: April 27, 2026 (a Monday). Bi-weekly Mondays every 14 days from there.
+const BIWEEKLY_EPOCH = new Date(2026, 3, 27); // month is 0-indexed
+
+function _biWeeklyMonday(periodOffset) {
+  const d = new Date(BIWEEKLY_EPOCH);
+  d.setDate(d.getDate() + periodOffset * 14);
+  return d;
+}
+function _currentPeriod() {
+  const today = new Date();
+  const ms = new Date(today.getFullYear(), today.getMonth(), today.getDate()) - BIWEEKLY_EPOCH;
+  return Math.max(0, Math.floor(ms / (14 * 86400000)));
+}
+function isBiWeeklyMonday() {
+  const today = new Date();
+  if (today.getDay() !== 1) return false;
+  const ms = new Date(today.getFullYear(), today.getMonth(), today.getDate()) - BIWEEKLY_EPOCH;
+  return ms >= 0 && ms % (14 * 86400000) === 0;
+}
+function getLastBiWeeklyMonday() { return _biWeeklyMonday(_currentPeriod()); }
+function nextBiWeeklyMonday()    { return _biWeeklyMonday(_currentPeriod() + 1); }
+
+function saveBiWeeklyDone(ds) {
+  try { localStorage.setItem(`biweekly_done_${ds}`, '1'); } catch {}
+  cloudUpdate({ biweeklyDone: { [ds]: true } });
+}
+function isBiWeeklyDone(ds) {
+  return !!localStorage.getItem(`biweekly_done_${ds}`);
+}
+// Returns the last bi-weekly Monday that was MISSED (not done and already past)
+function getMissedBiWeeklyMonday() {
+  const today     = new Date();
+  const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const lastMon   = getLastBiWeeklyMonday();
+  if (lastMon.getTime() === todayDate.getTime()) return null; // today IS the day
+  const ds = dateStr(lastMon);
+  return isBiWeeklyDone(ds) ? null : lastMon;
+}
+// Update the bi-weekly button lock state
+function updateBiWeeklyBtn() {
+  const btn       = document.getElementById('btnBiweeklyQuiz');
+  if (!btn) return;
+  const available = isBiWeeklyMonday() && !isBiWeeklyDone(todayStr());
+  btn.disabled    = !available;
+  btn.classList.toggle('btn-locked', !available);
+  if (available) {
+    btn.title = '';
+  } else {
+    const next = nextBiWeeklyMonday();
+    btn.title = `Next bi-weekly quiz: ${dateStr(next)}`;
+  }
+}
+
+// ── Quiz launchers ────────────────────────────────────────────────────────
+async function launchDailyQuiz() {
+  const today = todayStr();
+  let items   = loadDailyVocab(today);
+  if (!items || items.length < 2) {
+    // Fall back to the last few days if today not saved yet
+    items = [];
+    for (let i = 0; i < 7 && items.length < 2; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const s = loadDailyVocab(dateStr(d));
+      if (s) items.push(...s);
+    }
+    const seen = new Set(); items = items.filter(it => seen.has(it.word) ? false : seen.add(it.word));
+  }
+  if (items.length < 2) {
+    setStatus('error', 'No saved words — browse Vocabulary and tap 💾 Save for Quiz first.');
+    return;
+  }
+  setStatus('ok', `Daily quiz · ${items.length} words from ${today}`);
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  startVocabQuiz(items, 'today', 'daily');
+}
+
+async function launchBiWeeklyQuiz() {
+  // Allow launch even from stats notification (bypass day check)
+  const dates    = getQuizDates();
+  const allItems = [];
+  for (const date of dates) {
+    const saved = loadDailyVocab(date);
+    if (saved && saved.length > 0) allItems.push(...saved);
+  }
+  if (allItems.length < 4) {
+    setStatus('error', 'No saved words yet — browse words and tap 💾 Save for Quiz first.');
+    return;
+  }
+  const seen   = new Set();
+  const unique = allItems.filter(item => seen.has(item.word) ? false : seen.add(item.word));
+  const daysWithData = dates.filter(d => { const s = loadDailyVocab(d); return s && s.length > 0; }).length;
+  const dayLabel = `${daysWithData} day${daysWithData !== 1 ? 's' : ''}`;
+  setStatus('ok', `Bi-Weekly quiz · ${unique.length} words from ${dayLabel}`);
+  // Switch to vocab tab view if needed
+  if (currentTab === 'stats') {
+    document.getElementById('statsSection').style.display = 'none';
+    document.getElementById('grid').style.display = '';
+    document.getElementById('toolbarDiv').style.display = '';
+    document.getElementById('legendDiv').style.display = '';
+    document.getElementById('tabStats').classList.remove('active');
+    document.getElementById('tabVocab').classList.add('active');
+    currentTab = 'vocab';
+  }
+  startVocabQuiz(unique, dayLabel, 'biweekly');
+}
+
+// ���� Interactive quiz engine ������������������������������������������������������������������������������������������������������
+// Question types:
+//   A  kanji/word  �� pick meaning
+//   B  meaning     �� pick kanji/word
+//   C  kanji/word  �� pick reading (kana)   [only when item has a reading]
+//   D  reading     �� pick kanji/word       [only when item has a reading]
+//   E  reading     �� pick meaning          [only when item has a reading]
+//
+// Total questions = Math.round(wordCount * 1.5)
+// Every word gets exactly 1 question; ~half get a 2nd question with a DIFFERENT type.
+// No (word, type) pair ever repeats.
+
+function validTypesFor(item) {
+  const base = ['A', 'B'];
+  if (item.reading) base.push('C', 'D', 'E');
+  return base;
+}
+
+function buildQuestionList(pool) {
+  const targetTotal = Math.round(pool.length * 1.5);
+  const extraCount  = targetTotal - pool.length;   // ? half of pool
+
+  // 1st pass: one question per word, type picked from its valid set
+  const firstTypes = new Map();   // word �� type used
+  const questions  = pool.map(item => {
+    const types = shuffleArr([...validTypesFor(item)]);
+    const type  = types[0];
+    firstTypes.set(item.word, type);
+    return { item, type };
+  });
+
+  // 2nd pass: pick `extraCount` words at random, assign a DIFFERENT valid type
+  const extras = shuffleArr([...pool]).slice(0, extraCount);
+  for (const item of extras) {
+    const used  = firstTypes.get(item.word);
+    const remaining = validTypesFor(item).filter(t => t !== used);
+    if (!remaining.length) continue;
+    const type = remaining[Math.floor(Math.random() * remaining.length)];
+    questions.push({ item, type });
+  }
+
+  return shuffleArr(questions);
+}
+
+function startVocabQuiz(items, dayLabel, quizType) {
+  const questions = buildQuestionList(items);
+  quizState = {
+    questions,
+    pool:     items,
+    current:  0,
+    score:    0,
+    dayLabel: dayLabel || '',
+    type:     quizType || 'daily'
+  };
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const { questions, pool, current, score } = quizState;
+  const total = questions.length;
+
+  if (current >= total) { renderQuizResults(); return; }
+
+  const { item, type } = questions[current];
+  const others = shuffleArr(pool.filter(p => p.word !== item.word));
+  const wrong3  = others.slice(0, 3);
+
+  let questionLabel, promptHtml, correctText, wrongTexts;
+
+  switch (type) {
+    case 'A':
+      questionLabel = '💬 What is the meaning?';
+      promptHtml = `
+        <div class="quiz-prompt-word">${item.word}</div>
+        ${item.reading ? `<div class="quiz-prompt-reading">${item.reading}</div>` : ''}
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+      correctText = item.meaning;
+      wrongTexts  = wrong3.map(w => w.meaning);
+      break;
+
+    case 'B':
+      questionLabel = '🔤 Which word matches?';
+      promptHtml = `
+        <div class="quiz-prompt-meaning">${item.meaning}</div>
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+      correctText = item.word;
+      wrongTexts  = wrong3.map(w => w.word);
+      break;
+
+    case 'C':
+      questionLabel = '🔊 What is the reading?';
+      promptHtml = `
+        <div class="quiz-prompt-word">${item.word}</div>
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+      correctText = item.reading;
+      wrongTexts  = wrong3.filter(w => w.reading).map(w => w.reading);
+      // fallback distractors if not enough readings
+      while (wrongTexts.length < 3) wrongTexts.push(others[wrongTexts.length]?.reading || others[wrongTexts.length]?.word || '???');
+      break;
+
+    case 'D':
+      questionLabel = '🔤 Which kanji matches this reading?';
+      promptHtml = `
+        <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+      correctText = item.word;
+      wrongTexts  = wrong3.map(w => w.word);
+      break;
+
+    case 'E':
+      questionLabel = '💬 What does this reading mean?';
+      promptHtml = `
+        <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
+        <div class="quiz-prompt-reading">${item.word}</div>
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+      correctText = item.meaning;
+      wrongTexts  = wrong3.map(w => w.meaning);
+      break;
+  }
+
+  const options = shuffleArr([
+    { text: correctText, correct: true },
+    ...wrongTexts.slice(0,3).map(t => ({ text: t, correct: false }))
+  ]);
+
+  const pct = Math.round((current / total) * 100);
+
+  const optionsHtml = options.map(opt =>
+    `<button class="quiz-option" onclick="handleQuizAnswer(this, ${opt.correct})"
+       data-correct="${opt.correct}">${opt.text}</button>`
+  ).join('');
+
+  document.getElementById('grid').innerHTML = `
+    <div class="quiz-screen">
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-bar" style="width:${pct}%"></div>
+      </div>
+      <div class="quiz-meta">${current + 1}&nbsp;/&nbsp;${total} &nbsp;·&nbsp; ⭐ ${score}</div>
+      <div class="quiz-question-card">
+        <div class="quiz-direction-label">${questionLabel}</div>
+        ${promptHtml}
+      </div>
+      <div class="quiz-options">${optionsHtml}</div>
+    </div>`;
+
+  document.getElementById('countLabel').textContent = total;
+  const hint = document.getElementById('quizHint');
+  if (hint) hint.style.display = 'none';
+}
+
+function handleQuizAnswer(btn, isCorrect) {
+  document.querySelectorAll('.quiz-option').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.correct === 'true') b.classList.add('correct');
+  });
+  if (!isCorrect) btn.classList.add('wrong');
+  else quizState.score++;
+
+  setTimeout(() => {
+    quizState.current++;
+    renderQuizQuestion();
+  }, 1100);
+}
+
+function renderQuizResults() {
+  const { score, questions, type } = quizState;
+  const total    = questions.length;
+  const pct      = Math.round((score / total) * 100);
+  const isBiW    = type === 'biweekly';
+
+  // Persist score (best per day per type)
+  saveQuizResult(score, total, type);
+  // Mark bi-weekly period as completed
+  if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
+
+  let emoji, msg;
+  if (pct >= 90)      { emoji = '🏆'; msg = '素晴らしい！Excellent!'; }
+  else if (pct >= 70) { emoji = '👍'; msg = 'よくできました！Good job!'; }
+  else if (pct >= 50) { emoji = '📚'; msg = 'まあまあ。Keep practicing!'; }
+  else                { emoji = '💪'; msg = '頑張って！Keep at it!'; }
+
+  const typeBadge = isBiW
+    ? '<span class="qh-type qh-type-biweekly">Bi-Weekly</span>'
+    : '<span class="qh-type qh-type-daily">Daily</span>';
+
+  document.getElementById('grid').innerHTML = `
+    <div class="quiz-screen quiz-results">
+      <div class="quiz-result-emoji">${emoji}</div>
+      <div style="margin-bottom:6px">${typeBadge}</div>
+      <div class="quiz-result-score">${score}&nbsp;/&nbsp;${total}</div>
+      <div class="quiz-result-pct">${pct}%</div>
+      <div class="quiz-result-msg">${msg}</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+        <button class="btn btn-primary" onclick="${isBiW ? 'launchBiWeeklyQuiz()' : 'launchDailyQuiz()'}">↺ Retry</button>
+        <button class="btn btn-ghost" onclick="quizState=null; renderVocab();">📖 Back to Words</button>
+        <button class="btn btn-ghost" onclick="quizState=null; switchTab('stats');">📊 See Stats</button>
+      </div>
+    </div>`;
+
+  quizState = null;
+  setStatus('ok', `Quiz done · ${score}/${total} correct (${pct}%)`);
+  // Refresh bi-weekly button lock if on vocab tab
+  if (currentTab === 'vocab') updateBiWeeklyBtn();
+}
+
+// ── Quiz history persistence ──────────────────────────────────────────────
+// Only keeps the best result per day (per quiz type).
+function saveQuizResult(score, total, type) {
+  const history = loadQuizHistory();
+  const today   = todayStr();
+  const newPct  = Math.round((score / total) * 100);
+  const qtype   = type || 'daily';
+  // Look for an existing entry with same date + type
+  const idx = history.findIndex(h => h.date === today && (h.type || 'daily') === qtype);
+  if (idx !== -1) {
+    if (newPct > history[idx].pct)
+      history[idx] = { date: today, score, total, pct: newPct, type: qtype };
+    // else keep the better existing result
+  } else {
+    history.push({ date: today, score, total, pct: newPct, type: qtype });
+  }
+  while (history.length > 50) history.shift();
+  try { localStorage.setItem('quiz_history', JSON.stringify(history)); } catch {}
+  if (CLOUD_ENABLED && _fbUser) {
+    cloudUpdate({ quizHistory: history });
+  }
+}
+function loadQuizHistory() {
+  try { const r = localStorage.getItem('quiz_history'); return r ? JSON.parse(r) : []; }
+  catch { return []; }
+}
+
+// ── Streak & totals ───────────────────────────────────────────────────────
+function computeStreak() {
+  const today = new Date();
+  const hasTodayData = !!localStorage.getItem(`vocab_daily_${dateStr(today)}`);
+  let streak = 0;
+  for (let i = hasTodayData ? 0 : 1; i < 366; i++) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    if (localStorage.getItem(`vocab_daily_${dateStr(d)}`)) streak++;
+    else break;
+  }
+  return streak;
+}
+function computeBestStreak() {
+  const dates = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith('vocab_daily_')) dates.push(k.slice(12));
+  }
+  if (!dates.length) return 0;
+  dates.sort();
+  let best = 1, cur = 1;
+  for (let i = 1; i < dates.length; i++) {
+    const diff = Math.round(
+      (new Date(dates[i] + 'T12:00:00') - new Date(dates[i - 1] + 'T12:00:00')) / 86400000
+    );
+    if (diff === 1) { cur++; if (cur > best) best = cur; } else cur = 1;
+  }
+  return best;
+}
+function computeTotalWords() {
+  const seen = new Set();
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith('vocab_daily_')) continue;
+    try {
+      const items = JSON.parse(localStorage.getItem(k));
+      if (Array.isArray(items)) items.forEach(it => seen.add(it.word));
+    } catch {}
+  }
+  return seen.size;
+}
+
+// ── Canvas helpers ────────────────────────────────────────────────────────
+function setupCanvas(canvas) {
+  const dpr    = window.devicePixelRatio || 1;
+  const parent = canvas.parentElement;
+  const style  = getComputedStyle(parent);
+  const padH   = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+  const w      = Math.max(300, (parent.offsetWidth || 500) - padH);
+  const h      = 200;
+  canvas.width  = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+  canvas.style.width  = w + 'px';
+  canvas.style.height = h + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return { ctx, W: w, H: h };
+}
+
+function drawLineChart(canvas, values, labels) {
+  const { ctx, W, H } = setupCanvas(canvas);
+  const P = { t: 24, r: 20, b: 36, l: 44 };
+  const cW = W - P.l - P.r, cH = H - P.t - P.b;
+  ctx.clearRect(0, 0, W, H);
+  if (!values.length) {
+    ctx.fillStyle = '#aaa';
+    ctx.font = '14px Segoe UI, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('No quiz data yet', W / 2, H / 2);
+    return;
+  }
+  // Y grid at 0 / 25 / 50 / 75 / 100
+  [0, 25, 50, 75, 100].forEach(v => {
+    const y = P.t + cH - (v / 100) * cH;
+    ctx.strokeStyle = '#ede3d8'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(P.l, y); ctx.lineTo(P.l + cW, y); ctx.stroke();
+    ctx.fillStyle = '#aaa'; ctx.font = '10px Segoe UI, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(v + '%', P.l - 6, y + 3.5);
+  });
+  const n   = values.length;
+  const xOf = i => P.l + (n > 1 ? (i / (n - 1)) * cW : cW / 2);
+  const yOf = v => P.t + cH - (v / 100) * cH;
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0, P.t, 0, P.t + cH);
+  grad.addColorStop(0, 'rgba(183,28,28,0.22)');
+  grad.addColorStop(1, 'rgba(183,28,28,0)');
+  ctx.beginPath();
+  values.forEach((v, i) => i === 0 ? ctx.moveTo(xOf(i), yOf(v)) : ctx.lineTo(xOf(i), yOf(v)));
+  ctx.lineTo(xOf(n - 1), P.t + cH);
+  ctx.lineTo(xOf(0), P.t + cH);
+  ctx.closePath();
+  ctx.fillStyle = grad; ctx.fill();
+  // Line
+  ctx.beginPath();
+  ctx.strokeStyle = '#b71c1c'; ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  values.forEach((v, i) => i === 0 ? ctx.moveTo(xOf(i), yOf(v)) : ctx.lineTo(xOf(i), yOf(v)));
+  ctx.stroke();
+  // Dots
+  values.forEach((v, i) => {
+    ctx.beginPath(); ctx.arc(xOf(i), yOf(v), 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#b71c1c'; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+  });
+  // X labels (skip some if dense)
+  ctx.fillStyle = '#aaa'; ctx.font = '10px Segoe UI, sans-serif'; ctx.textAlign = 'center';
+  const step = n > 10 ? Math.ceil(n / 8) : 1;
+  labels.forEach((lbl, i) => {
+    if (i % step === 0 || i === n - 1) ctx.fillText(lbl, xOf(i), H - 6);
+  });
+}
+
+function drawBarChart(canvas, values, labels) {
+  const { ctx, W, H } = setupCanvas(canvas);
+  const P = { t: 20, r: 16, b: 36, l: 36 };
+  const cW = W - P.l - P.r, cH = H - P.t - P.b;
+  ctx.clearRect(0, 0, W, H);
+  const maxV = Math.max(...values, 1);
+  const n    = values.length;
+  const slot = cW / n;
+  const barW = slot * 0.65;
+  const offX = slot * 0.175;
+  // Horizontal grid
+  for (let i = 0; i <= 4; i++) {
+    const y = P.t + cH - (i / 4) * cH;
+    ctx.strokeStyle = '#ede3d8'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(P.l, y); ctx.lineTo(P.l + cW, y); ctx.stroke();
+  }
+  values.forEach((v, i) => {
+    const x  = P.l + i * slot + offX;
+    const bH = Math.max(v > 0 ? 4 : 2, (v / maxV) * cH);
+    const y  = P.t + cH - bH;
+    const r  = Math.min(4, barW / 2, bH);
+    ctx.fillStyle = v > 0 ? '#b71c1c' : '#ede3d8';
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + barW - r, y);
+    ctx.quadraticCurveTo(x + barW, y, x + barW, y + r);
+    ctx.lineTo(x + barW, P.t + cH);
+    ctx.lineTo(x, P.t + cH);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
+    if (v > 0) {
+      ctx.fillStyle = '#444'; ctx.font = 'bold 9px Segoe UI, sans-serif';
+      ctx.textAlign = 'center'; ctx.fillText(v, x + barW / 2, y - 3);
+    }
+    ctx.fillStyle = '#aaa'; ctx.font = '9px Segoe UI, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(labels[i], x + barW / 2, H - 6);
+  });
+}
+
+// ── Stats panel ───────────────────────────────────────────────────────────
+function renderStats() {
+  const history  = loadQuizHistory();
+  const streak   = computeStreak();
+  const best     = computeBestStreak();
+  const total    = computeTotalWords();
+  const avgScore = history.length
+    ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length)
+    : null;
+
+  // Missed bi-weekly quiz notification
+  const missedMon = getMissedBiWeeklyMonday();
+  const missedHtml = missedMon ? `
+    <div class="stat-notif">
+      <div class="stat-notif-icon">⏰</div>
+      <div class="stat-notif-body">
+        <div class="stat-notif-title">Bi-Weekly Quiz missed!</div>
+        <div class="stat-notif-sub">
+          Your bi-weekly review for <strong>${dateStr(missedMon)}</strong> has not been completed yet.<br>
+          The next scheduled date is <strong>${dateStr(nextBiWeeklyMonday())}</strong>.
+        </div>
+        <button class="btn btn-quiz" onclick="launchBiWeeklyQuiz()" style="font-size:13px;padding:8px 18px">
+          📅 Take Missed Quiz Now
+        </button>
+      </div>
+    </div>` : '';
+
+  // Study activity last 14 days
+  const studyVals = [], studyLbls = [], today = new Date();
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    const saved = loadDailyVocab(dateStr(d));
+    studyVals.push(saved ? saved.length : 0);
+    studyLbls.push(`${d.getMonth() + 1}/${d.getDate()}`);
+  }
+  const recent    = history.slice(-20);
+  const scoreVals = recent.map(h => h.pct);
+  const scoreLbls = recent.map(h => {
+    const d = new Date(h.date + 'T12:00:00');
+    return `${d.getMonth() + 1}/${d.getDate()}`;
+  });
+
+  // Next bi-weekly info
+  const nextMon = nextBiWeeklyMonday();
+  const nextMonStr = dateStr(nextMon);
+  const todayIsBiW  = isBiWeeklyMonday();
+  const todayDone   = isBiWeeklyDone(todayStr());
+  const biweeklyInfoHtml = todayIsBiW && !todayDone
+    ? `<div style="font-size:13px;color:#2e7d32;font-weight:700;padding:10px 0 0">
+        📅 Bi-Weekly Quiz is available <strong>today</strong>! Go to Vocabulary tab.
+       </div>`
+    : `<div style="font-size:12px;color:var(--muted);padding:10px 0 0">
+        Next Bi-Weekly Quiz: <strong>${nextMonStr}</strong>
+       </div>`;
+
+  document.getElementById('statsSection').innerHTML = `
+    <div class="stats-container">
+      ${missedHtml}
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-num">${streak}</div>
+          <div class="kpi-lbl">🔥 Day Streak</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">${best}</div>
+          <div class="kpi-lbl">🏆 Best Streak</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">${total}</div>
+          <div class="kpi-lbl">📖 Words Learned</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div>
+          <div class="kpi-lbl">🎯 Avg Score</div>
+        </div>
+      </div>
+
+      ${history.length ? `
+      <div class="chart-block">
+        <div class="chart-title">Quiz Score Progression (last 20 quizzes)</div>
+        <canvas id="scoreCanvas" class="chart-canvas"></canvas>
+      </div>` : ''}
+
+      <div class="chart-block">
+        <div class="chart-title">Study Activity — Last 14 Days</div>
+        <canvas id="studyCanvas" class="chart-canvas"></canvas>
+        ${biweeklyInfoHtml}
+      </div>
+
+      ${history.length ? `
+      <div class="chart-block">
+        <div class="chart-title">Recent Quizzes</div>
+        <div class="qh-list">
+          ${[...history].reverse().slice(0, 15).map(h => {
+            const qtype = h.type || 'daily';
+            const badge = qtype === 'biweekly'
+              ? '<span class="qh-type qh-type-biweekly">Bi-Weekly</span>'
+              : '<span class="qh-type qh-type-daily">Daily</span>';
+            return `
+            <div class="qh-row">
+              <span class="qh-date">${h.date}${badge}</span>
+              <div class="qh-bar-wrap"><div class="qh-bar" style="width:${h.pct}%"></div></div>
+              <span class="qh-score">${h.score}/${h.total} <span class="qh-pct">(${h.pct}%)</span></span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>` : `
+      <div class="chart-block" style="text-align:center;padding:48px 20px;color:var(--muted)">
+        <div style="font-size:48px;margin-bottom:14px">📊</div>
+        <div style="font-size:16px;font-weight:700;color:var(--sub)">No quiz history yet</div>
+        <div style="font-size:13px;margin-top:8px;line-height:1.6">
+          Complete a <strong>Daily</strong> or <strong>Bi-Weekly Quiz</strong> to track your score progression here.
+        </div>
+      </div>`}
+    </div>`;
+
+  requestAnimationFrame(() => {
+    const sc = document.getElementById('scoreCanvas');
+    const st = document.getElementById('studyCanvas');
+    if (sc) drawLineChart(sc, scoreVals, scoreLbls);
+    if (st) drawBarChart(st, studyVals, studyLbls);
+  });
+}
+
+// ── Cloud Sync (Firebase) ─────────────────────────────────────────────────
+//
+// SETUP (one-time, ~5 minutes):
+//
+//  1. Go to https://console.firebase.google.com
+//  2. Click "Add project" → give it any name → Continue
+//  3. In the project: click the "</>" Web icon → register app → copy config below
+//  4. Left sidebar → Build → Authentication → Get started
+//       → Sign-in method → Google → Enable → Save
+//  5. Left sidebar → Build → Firestore Database → Create database
+//       → Start in "test mode" → pick any region → Done
+//  6. (Recommended) Firestore → Rules → replace with:
+//       rules_version = '2';
+//       service cloud.firestore {
+//         match /databases/{database}/documents {
+//           match /users/{uid} {
+//             allow read, write: if request.auth != null && request.auth.uid == uid;
+//           }
+//         }
+//       }
+//
+// Then fill in your config values below and reload the page.
+
+const FIREBASE_CONFIG = {
+  apiKey:            'AIzaSyD1cLVhMTIe9l-UQ4l9t4BGVBoCv-mV8jg',
+  authDomain:        'kanji-morning.firebaseapp.com',
+  projectId:         'kanji-morning',
+  storageBucket:     'kanji-morning.firebasestorage.app',
+  messagingSenderId: '661061743660',
+  appId:             '1:661061743660:web:a4a12c45a19804fb720d89'
+};
+
+// ─── internals ───────────────────────────────────────────────────────────
+const CLOUD_ENABLED = FIREBASE_CONFIG.apiKey !== 'REPLACE_WITH_YOUR_API_KEY';
+let _fbAuth = null, _fbDb = null, _fbUser = null;
+
+function _renderAuthUI(user) {
+  const wrap = document.getElementById('authWrap');
+  if (!wrap) return;
+  if (!CLOUD_ENABLED) { wrap.innerHTML = ''; return; }
+  if (user) {
+    const name  = (user.displayName || 'User').split(' ')[0];
+    const photo = user.photoURL
+      ? `<img src="${user.photoURL}" class="auth-avatar" referrerpolicy="no-referrer" alt="">`
+      : `<span class="auth-avatar auth-avatar-fallback">${name[0].toUpperCase()}</span>`;
+    wrap.innerHTML = `
+      <div class="auth-user">
+        ${photo}
+        <span class="auth-name">${name}</span>
+        <button class="auth-btn auth-btn-out" onclick="cloudSignOut()">Sign out</button>
+      </div>`;
+  } else {
+    wrap.innerHTML = `<button class="auth-btn auth-btn-in" onclick="cloudSignIn()">☁ Sign in</button>`;
+  }
+}
+
+async function cloudSignIn() {
+  if (!_fbAuth) return;
+  try {
+    await _fbAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  } catch (e) {
+    alert('Sign-in failed: ' + e.message);
+  }
+}
+
+function cloudSignOut() {
+  if (!_fbAuth) return;
+  _fbAuth.signOut();
+}
+
+// Pull cloud data into localStorage on login (last 30 days only)
+async function _cloudPull() {
+  if (!_fbDb || !_fbUser) return;
+  try {
+    const doc = await _fbDb.collection('users').doc(_fbUser.uid).get();
+    if (!doc.exists) return;
+    const data = doc.data();
+
+    // Pull vocab_daily_* for the last 30 days only (keeps localStorage lean)
+    if (data.dailyWords) {
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - 30);
+      let pulled = 0;
+      Object.entries(data.dailyWords).forEach(([date, items]) => {
+        if (!Array.isArray(items)) return;
+        const d = new Date(date + 'T12:00:00');
+        if (d < cutoff) return; // skip older than 30 days
+        try {
+          localStorage.setItem(`vocab_daily_${date}`, JSON.stringify(items));
+          pulled++;
+        } catch(e) {
+          // localStorage full — cloud still has all data, it's fine
+        }
+      });
+      console.log(`[_cloudPull] Pulled ${pulled} days of vocab from cloud.`);
+    }
+
+    // Restore level preference
+    if (data.vocabLevel) {
+      vocabLevelFilter = data.vocabLevel;
+      localStorage.setItem('vocabLevelFilter', data.vocabLevel);
+    }
+  } catch(e) {
+    console.warn('[_cloudPull] Failed to pull from cloud:', e);
+  }
+}
+
+// Merge a partial object into the user's Firestore document
+async function cloudUpdate(partial) {
+  if (!_fbDb || !_fbUser) return;
+  try {
+    await _fbDb.collection('users').doc(_fbUser.uid).set(partial, { merge: true });
+  } catch (e) {
+    if (e.code === 'resource-exhausted') {
+      console.warn('Cloud storage quota exceeded, skipping sync');
+    } else {
+      console.warn('Cloud update failed:', e);
+    }
+  }
+}
+
+// Initialise Firebase and watch auth state
+(function initCloud() {
+  if (!CLOUD_ENABLED) { _renderAuthUI(null); return; }
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    _fbAuth = firebase.auth();
+    _fbDb   = firebase.firestore();
+    _renderAuthUI(null); // show Sign in button immediately
+
+    _fbAuth.onAuthStateChanged(async user => {
+      _fbUser = user;
+      _renderAuthUI(user);
+      if (user) {
+        await _cloudPull();
+        // Re-render so the current tab shows cloud data
+        if      (currentTab === 'vocab')  renderVocab();
+        else if (currentTab === 'mylist') renderMyList();
+        else if (currentTab === 'stats')  renderStats();
+      }
+    });
+  } catch (e) {
+    console.warn('Firebase init failed:', e);
+  }
+})();
+
+switchTab('vocab');
+</script>
+</body>
+</html>
