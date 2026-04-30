@@ -17,7 +17,7 @@ export const state = {
   // Vocab tab
   currentVocabItems: [],
   currentTab:        'vocab',
-  vocabLevelFilter:  localStorage.getItem('vocabLevelFilter') || 'all',
+  vocabLevelFilter:  'all',  // always start fresh — not persisted across sessions
   kanjiLevelFilter:  localStorage.getItem('kanjiLevelFilter') || 'all',
   vocabFromKanjiMode: false,
 

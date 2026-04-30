@@ -243,7 +243,7 @@ export function applyLevelFilterUI() {
 export function setVocabLevel(level) {
   if (state.vocabLevelFilter === level) return;
   state.vocabLevelFilter = level;
-  localStorage.setItem('vocabLevelFilter', level);
+  // (not persisted to localStorage — always starts fresh)
   cloudUpdate({ vocabLevel: level });
   applyLevelFilterUI();
   renderVocab(true);
@@ -478,17 +478,9 @@ export async function renderVocab(forceNew = false) {
   }
 
   const cached = forceNew ? null : loadDailyVocab(today);
-  if (cached && cached.length > 0) {
-    const grid = document.getElementById('grid');
-    grid.innerHTML = '';
-    cached.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
-    state.currentVocabItems = cached;
-    document.getElementById('countLabel').textContent = cached.length;
-    setStatus('ok', "Today's words — already saved for quiz ✓");
-    const sb = document.getElementById('btnSave');
-    if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = false; }
-    return;
-  }
+  // Don't auto-load cached daily words as main display — always generate fresh words.
+  // (Saved words live in My List. Vocab tab = discovery.)
+  // We only use `cached` below to set the button state after generation.
 
   showSkeletons(VOCAB_COUNT);
   setStatus('loading', '読み込み中…');
