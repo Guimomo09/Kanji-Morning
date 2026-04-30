@@ -1,0 +1,23 @@
+{
+  "name": "朝の漢字 · Morning Kanji",
+  "short_name": "朝の漢字",
+  "description": "Daily Japanese kanji and vocabulary study with spaced repetition",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#b71c1c",
+  "background_color": "#faf7f2",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

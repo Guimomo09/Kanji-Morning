@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#b71c1c"/>
+  <text x="256" y="390"
+        font-family="'Hiragino Kaku Gothic ProN','Yu Gothic',serif"
+        font-size="320" font-weight="900"
+        text-anchor="middle" fill="#ffffff">漢</text>
+</svg>

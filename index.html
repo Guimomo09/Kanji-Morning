@@ -12,6 +12,17 @@
     All responses are cached in localStorage (24-hour TTL).
     Total pool: ~170 N4 + ~370 N3 + ~374 N2 + ~1136 N1 = ~2050 kanji
   -->
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#b71c1c" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <!-- iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="朝の漢字" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
+
   <link rel="stylesheet" href="/src/styles.css" />
 
   <!-- Firebase SDKs (compat). Safe to remove these 3 lines if you don't want cloud sync. -->
