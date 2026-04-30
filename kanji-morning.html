@@ -105,6 +105,7 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      align-items: center;
     }
     .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
     .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
@@ -203,7 +204,7 @@
     .btn-save.saved    { background: #2e7d32; color: #fff; border-color: #2e7d32; cursor: default; }
 
     /* Level filter pills */
-    .level-filter       { display:flex; gap:6px; align-items:center; flex-wrap:wrap; padding:0 16px 10px; }
+    .level-filter       { display:flex; gap:6px; align-items:center; flex-wrap:wrap; padding:0 24px 10px; max-width:1120px; margin:0 auto; }
     .level-filter-label { font-size:12px; color:var(--muted); font-weight:600; margin-right:2px; }
     .pill               { font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px; border:1.5px solid var(--border); background:#fff; color:var(--sub); cursor:pointer; transition:all .15s; }
     .pill:hover         { background:#f5f0ea; }
@@ -314,10 +315,15 @@
     /* ���� Tabs �������������������������������������������������������������������������� */
     .tabbar {
       max-width: 1120px;
-      margin: 18px auto 0;
-      padding: 0 24px;
+      margin: 0 auto;
+      padding: 10px 24px 0;
       display: flex;
       gap: 6px;
+      position: sticky;
+      top: 0;
+      z-index: 9;
+      background: var(--bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
     }
     .tab {
       padding: 9px 22px;
@@ -508,6 +514,7 @@
       .tabbar {
         position: fixed;
         bottom: 0; left: 0; right: 0;
+        top: unset;
         margin: 0;
         padding: 0;
         gap: 0;
@@ -1615,10 +1622,15 @@ async function renderVocab(forceNew = false) {
     cached.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
     currentVocabItems = cached;
     document.getElementById('countLabel').textContent = cached.length;
-    setStatus('ok', 'Today\'s words - already saved for quiz ✓');
+    setStatus('ok', 'Today\'s words — already saved for quiz ✓');
     const sb = document.getElementById('btnSave');
     if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = true; }
     return;
+  }
+
+  // No saved words yet — auto-load a fresh selection immediately (saveable right away)
+  if (!forceNew && !currentVocabItems.length) {
+    // Fall through to generate new words below
   }
 
   // Generate new words
