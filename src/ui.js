@@ -97,14 +97,13 @@ export function switchTab(tab) {
     document.getElementById('btnDailyQuiz').style.display    = 'none';
     document.getElementById('btnBiweeklyQuiz').style.display = 'none';
     document.getElementById('btnFromKanji').style.display    = 'none';
-    document.getElementById('btnReview').style.display       = 'none';
     document.getElementById('btnExam').style.display         = 'none';
     document.getElementById('btnMore').style.display         = '';
     document.getElementById('btnLess').style.display         = '';
     applyKanjiLevelFilterUI();
     const qb = document.getElementById('quizBtn');
     qb.classList.remove('active');
-    qb.textContent = '🎯 Quiz Mode';
+    qb.textContent = '試 Quiz Mode';
     loadAndRender(state.count);
     return;
   }
@@ -119,7 +118,6 @@ export function switchTab(tab) {
   document.getElementById('btnDailyQuiz').style.display     = '';
   document.getElementById('btnExam').style.display          = 'none';
   document.getElementById('btnBiweeklyQuiz').style.display  = 'none';
-  document.getElementById('btnReview').style.display        = 'none';
   document.getElementById('btnSave').classList.remove('saved');
   document.getElementById('btnSave').textContent            = '💾 Save for Quiz';
   document.getElementById('btnSave').disabled               = false;
