@@ -343,9 +343,8 @@ export function renderStats() {
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
       ${missedHtml}
-      <div class="kpi-grid">
+      <div class="kpi-grid kpi-grid-2col">
         <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div></div>
-        <div class="kpi-card"><div class="kpi-num">${best}</div><div class="kpi-lbl">🏆 Best Streak</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
         <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
         <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
