@@ -1,5 +1,5 @@
 import { LEVEL_LABEL, CLOUD_ENABLED } from './config.js';
-import { normalizeMeaning, setStatus, sortGlosses } from './utils.js';
+import { normalizeMeaning, setStatus, sortGlosses, GLOSS_SKIP_RE, GLOSS_RARE_RE } from './utils.js';
 import { state } from './state.js';
 import { getKanjiDetail, getWords, buildPool, pickChars } from './api.js';
 import { cloudUpdate } from './cloud.js';
@@ -15,9 +15,6 @@ const ARCHAIC_WORDS = new Set([
 
 // ── Extract best example words from API response ─────────────────────────
 // Scoring: prefer short common words, penalize historical/specialized glosses.
-const GLOSS_SKIP_RE = /^\((french|german|english|dutch|portuguese|chinese|korean|approx|abbr|uk|us|lit|fig|also|esp|orig|hist|obs|arch)\)/i;
-const GLOSS_RARE_RE = /\b(monarchy|empire|dynasty|shogunate|anniversary|anniversary|era|feudal|imperial|shogun|archaic|obsolete|rare|dated|poetic|biblical|mythology|ecclesiastical|heraldry|nautical|mahjong|shogi|sumo|cricket|poker|chess)\b/i;
-
 export function bestExamples(words, targetChar, max = 3) {
   const candidates   = [];
   const seenMeanings = new Set();
@@ -36,7 +33,7 @@ export function bestExamples(words, targetChar, max = 3) {
       }
       if (gloss) break;
     }
-    // Fallback: accept any gloss that isn't a language prefix
+    // Fallback: accept rare content but skip language prefixes
     if (!gloss) {
       for (const meaning of (entry.meanings ?? [])) {
         for (const g of (meaning.glosses ?? [])) {
@@ -52,7 +49,6 @@ export function bestExamples(words, targetChar, max = 3) {
     if (seenMeanings.has(normGloss)) continue;
     seenMeanings.add(normGloss);
 
-    // Score: shorter written form = more common. Penalize rare/specialized glosses.
     const wordLen   = variant.written.length;
     const isRare    = GLOSS_RARE_RE.test(gloss);
     const hasPrefix = GLOSS_SKIP_RE.test(gloss);

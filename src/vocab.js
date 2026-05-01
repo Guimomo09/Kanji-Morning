@@ -1,5 +1,5 @@
 import { VOCAB_COUNT, LEVEL_LABEL } from './config.js';
-import { normMeaning, setStatus, todayStr, sortMeanings } from './utils.js';
+import { normMeaning, setStatus, todayStr, sortMeanings, pickBestGloss } from './utils.js';
 import { state } from './state.js';
 import { getWords, buildPool, pickVocabChars } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
@@ -97,18 +97,17 @@ export async function buildVocabItems(picks) {
 
       seenWords.add(wordKey);
 
-      const ERA_RE_V = /\b(era|period|epoch)\b.*\(\d{3,4}/i;
-      const sortedMeanings = sortMeanings(entry.meanings || []);
-      const bestMeaningEntry = sortedMeanings.find(m => !ERA_RE_V.test(m.glosses?.[0] || ''))
-                            ?? sortedMeanings[0];
-      const eraEntry = sortedMeanings.find(m => ERA_RE_V.test(m.glosses?.[0] || ''));
+      const best = pickBestGloss(entry.meanings || []);
+      if (!best) continue;
+      const { gloss: bestGloss, meaning: bestMeaningEntry } = best;
 
+      const sortedMeanings = sortMeanings(entry.meanings || []);
       const meaning       = bestMeaningEntry?.glosses?.slice(0, 4).join(', ') || '?';
       const pos           = bestMeaningEntry?.part_of_speech?.slice(0, 2).join(', ') || '';
-      const extraMeanings = (entry.meanings?.slice(1, 3) || [])
-        .filter(m => m !== bestMeaningEntry && !ERA_RE_V.test(m.glosses?.[0] || ''))
+      const extraMeanings = sortedMeanings
+        .filter(m => m !== bestMeaningEntry)
+        .slice(0, 2)
         .map(m => m.glosses?.slice(0, 2).join(', ')).filter(Boolean);
-      if (eraEntry) extraMeanings.push(`<span style="font-size:11px;opacity:.6">also: ${eraEntry.glosses?.[0]}</span>`);
       posCategory(bestMeaningEntry?.part_of_speech); // (side-effect free — kept for future use)
 
       candidates.push({
@@ -159,7 +158,6 @@ export async function buildVocabFromKanjis(kanjiCards) {
   for (const k of kanjiCards) {
     const words = await getWords(k.kanji);
     const group = [];
-    const ERA_RE = /\b(era|period|epoch)\b.*\(\d{3,4}/i;
 
     for (const entry of words) {
       if (isProperNoun(entry)) continue;
@@ -169,21 +167,20 @@ export async function buildVocabFromKanjis(kanjiCards) {
       if (!variant) continue;
       if (seenWords.has(variant.written)) continue;
       if (hasNoKanji(variant.written)) continue;
-      // Infer jlptNum from level label for complexity filtering
       const jlptNum = { N5: 5, N4: 4, N3: 3, N2: 2, N1: 1 }[k.level] ?? 2;
       if (kanjiCount(variant.written) > maxKanjiForLevel(jlptNum)) continue;
       seenWords.add(variant.written);
 
-      const bestM = sortMeanings(entry.meanings || []).find(m => !ERA_RE.test(m.glosses?.[0] || '')) ?? entry.meanings?.[0];
-      if (!bestM?.glosses?.length) continue;
+      const best = pickBestGloss(entry.meanings || []);
+      if (!best) continue;
 
       group.push({
         score: priorityScore(variant.priorities || []),
         item: {
           word:         variant.written,
           reading:      (variant.pronounced && variant.pronounced !== variant.written) ? variant.pronounced : '',
-          meaning:      bestM.glosses.slice(0, 3).join(', '),
-          pos:          bestM.part_of_speech?.slice(0, 2).join(', ') || '',
+          meaning:      best.meaning.glosses.slice(0, 3).join(', '),
+          pos:          best.meaning.part_of_speech?.slice(0, 2).join(', ') || '',
           extraMeanings: [],
           level:        k.level,
           sourceKanji:  k.kanji,

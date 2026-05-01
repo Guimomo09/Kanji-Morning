@@ -63,3 +63,29 @@ export function sortMeanings(meanings) {
     return 0;
   });
 }
+
+// ── Pick the best display gloss from a meanings array ────────────────────
+// Skips glosses with language/qualifier prefixes like "(French)", "(approx.)"
+// and rare/historical content. Falls back gracefully.
+export const GLOSS_SKIP_RE = /^\((french|german|english|dutch|portuguese|chinese|korean|approx|abbr|uk|us|lit|fig|also|esp|orig|hist|obs|arch)\)/i;
+export const GLOSS_RARE_RE = /\b(monarchy|empire|dynasty|shogunate|anniversary|feudal|imperial|shogun|archaic|obsolete|rare|dated|poetic|biblical|mythology|ecclesiastical|heraldry|nautical|mahjong|shogi|sumo|cricket|poker|chess)\b/i;
+
+export function pickBestGloss(meanings) {
+  if (!meanings?.length) return null;
+  const sorted = sortMeanings(meanings);
+  // Pass 1: find a gloss with no skip prefix AND no rare content
+  for (const m of sorted) {
+    for (const g of (m.glosses || [])) {
+      if (!GLOSS_SKIP_RE.test(g) && !GLOSS_RARE_RE.test(g) && g.length >= 3) return { gloss: g, meaning: m };
+    }
+  }
+  // Pass 2: accept rare content but still skip language prefixes
+  for (const m of sorted) {
+    for (const g of (m.glosses || [])) {
+      if (!GLOSS_SKIP_RE.test(g) && g.length >= 3) return { gloss: g, meaning: m };
+    }
+  }
+  // Fallback: anything
+  const g = sorted[0]?.glosses?.[0];
+  return g ? { gloss: g, meaning: sorted[0] } : null;
+}
