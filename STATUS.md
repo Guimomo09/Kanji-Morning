@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (nuit)
+> Dernière mise à jour: 1 Mai 2026 (après-midi)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -72,6 +72,9 @@ kanji.guimo-prod.com {
 - [x] SAV — Crisp widget intégré + identification auto utilisateur Firebase (email + displayName)
 - [x] **UX round 1** — Hero "10 words every morning", sous-titre "~7 min a day", post-quiz "See you tomorrow" card, empty state My List
 - [x] **UX round 2 (agents)** — Hero "7 minutes." dans headline, timer de session visible pendant quiz, opt-in notif PWA 8am dans quiz results, "why build a list" sur My List vide, jargon "spaced repetition" → "smart daily review"
+- [x] **Settings modal** — ⚙️ dans le header, toggle notif + time picker accessible à tout moment
+- [x] **Header redesign** — layout 3 colonnes (date | titre | login+⚙️), dégradé rouge restauré (premium), icônes tabs monochrome unicode
+- [x] **Action cards** — icônes emoji (🎯📅) remplacées par kanji monochromes (試/週), cohérent avec 漢/語
 - [ ] Monétisation — Stripe freemium (free: N5/N4, premium: tout + SRS + Stats)
 - [ ] Notifications push background (Push API + serveur) — opt-in local déjà en place, push serveur manquant
 
