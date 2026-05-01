@@ -153,6 +153,10 @@ document.addEventListener('keydown', e => {
 Object.assign(window, {
   // Navigation
   switchTab,
+  setJlptGoal(level) {
+    localStorage.setItem('km_jlpt_goal', level);
+    renderHome();
+  },
   // Tutorial
   showTutorial,
   closeTutorial,

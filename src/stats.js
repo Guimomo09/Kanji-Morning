@@ -1,6 +1,7 @@
 import { todayStr, dateStr } from './utils.js';
 import { loadDailyVocab } from './daily.js';
 import { loadQuizHistory } from './quiz.js';
+import { getAllSavedWords } from './vocab.js';
 import {
   getMissedBiWeeklyMonday, nextBiWeeklyMonday, isBiWeeklyMonday,
   isBiWeeklyDone, getLastBiWeeklyMonday,
@@ -194,6 +195,16 @@ export function renderHome() {
   const biweeklyAvailable = isBiWeeklyMonday() && !isBiWeeklyDone(todayStr());
   const missedBiweekly    = getMissedBiWeeklyMonday();
 
+  const jlptGoal = localStorage.getItem('km_jlpt_goal') || 'N3';
+  const LEVELS   = ['N5', 'N4', 'N3', 'N2', 'N1'];
+  const goalIdx  = LEVELS.indexOf(jlptGoal);
+  const allowedLevels = new Set(LEVELS.slice(0, goalIdx + 1));
+  const savedWords  = getAllSavedWords();
+  const levelWords  = savedWords.filter(w => allowedLevels.has(w.level));
+  const jlptPills   = LEVELS.map(l =>
+    `<button class="jlpt-goal-pill${l === jlptGoal ? ' active' : ''}" onclick="setJlptGoal('${l}')">${l}</button>`
+  ).join('');
+
   document.getElementById('homeSection').innerHTML = `
     <div class="home-hero">
       <div class="home-hero-kana">朝の漢字</div>
@@ -208,6 +219,14 @@ export function renderHome() {
     <div>
       <div class="home-greeting">${greetWord} <span>👋</span></div>
       <div class="home-sub">${new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
+    </div>
+
+    <div class="jlpt-goal-card">
+      <div class="jlpt-goal-top">
+        <div class="jlpt-goal-label">JLPT Target</div>
+        <div class="jlpt-goal-count">${levelWords.length} saved word${levelWords.length !== 1 ? 's' : ''} for ${jlptGoal}</div>
+      </div>
+      <div class="jlpt-goal-pills">${jlptPills}</div>
     </div>
 
     <div class="kpi-grid">

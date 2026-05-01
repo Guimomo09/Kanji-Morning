@@ -118,7 +118,6 @@ export function switchTab(tab) {
   document.getElementById('levelFilter').style.display      = '';
   document.getElementById('btnDailyQuiz').style.display     = '';
   document.getElementById('btnExam').style.display          = 'none';
-  document.getElementById('btnExam').style.display          = '';
   document.getElementById('btnBiweeklyQuiz').style.display  = 'none';
   document.getElementById('btnReview').style.display        = 'none';
   document.getElementById('btnSave').classList.remove('saved');

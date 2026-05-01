@@ -246,7 +246,7 @@ export function renderQuizResults() {
   else                { emoji = '💪'; msg = '頑張って！Keep at it!'; }
 
   const typeBadge = isExam
-    ? '<span class="qh-type qh-type-exam">試験 · Exam</span>'
+    ? `<span class="qh-type qh-type-exam">試験 · ${localStorage.getItem('km_jlpt_goal') || 'Exam'}</span>`
     : isBiW
     ? '<span class="qh-type qh-type-biweekly">Bi-Weekly</span>'
     : isSrs
@@ -370,12 +370,19 @@ export async function launchBiWeeklyQuiz() {
 
 // ── Exam Mode ─────────────────────────────────────────────────────────────
 export function launchExamMode() {
-  const allWords = getAllSavedWords();
-  if (allWords.length < 4) {
-    setStatus('error', 'Need at least 4 saved words to launch Exam Mode. Save words from Vocabulary first.');
+  const jlptGoal = localStorage.getItem('km_jlpt_goal') || 'N3';
+  const LEVELS   = ['N5', 'N4', 'N3', 'N2', 'N1'];
+  const goalIdx  = LEVELS.indexOf(jlptGoal);
+  const allowed  = new Set(LEVELS.slice(0, goalIdx + 1)); // cumulative: N3 = N5+N4+N3
+
+  const allWords   = getAllSavedWords();
+  const filtered   = allWords.filter(w => allowed.has(w.level));
+
+  if (filtered.length < 4) {
+    setStatus('error', `Not enough ${jlptGoal} words saved (need ≥ 4). Save more from Vocabulary, or change your JLPT target on Home.`);
     return;
   }
-  const pool = shuffleArr([...allWords]).slice(0, EXAM_QUESTIONS);
+  const pool = shuffleArr([...filtered]).slice(0, EXAM_QUESTIONS);
   _examTimeLeft = EXAM_DURATION;
   _quizStartTime = Date.now();
   clearInterval(_quizTimerInterval); _quizTimerInterval = null;
