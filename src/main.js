@@ -490,18 +490,11 @@ initCloud();
 srsUpdateReviewCount();
 switchTab('home');
 
-// iOS Safari: touchend for mobile hamburger
-const _mBtn = document.getElementById('mobileMenuBtn');
-if (_mBtn) {
-  _mBtn.addEventListener('touchend', function(e) { e.preventDefault(); openMobileMenu(); });
-}
-// Wire mobile menu items — touch-action:manipulation in CSS removes 300ms delay on iOS
+// Wire mobile menu items — touch-action:manipulation removes 300ms delay; no backdrop so no ghost-click risk
 function _wireMenuBtn(id, action) {
   var btn = document.getElementById(id);
   if (!btn) return;
-  // touchend + preventDefault suppresses iOS ghost click that would hit the modal backdrop
-  btn.addEventListener('touchend', function(e) { e.preventDefault(); closeMobileMenu(); action(); });
-  btn.addEventListener('click',    function()  { closeMobileMenu(); action(); });
+  btn.addEventListener('click', function() { closeMobileMenu(); action(); });
 }
 _wireMenuBtn('mobileMenuSettings', openSettings);
 _wireMenuBtn('mobileMenuChat',     function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
