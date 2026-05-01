@@ -334,6 +334,13 @@ _setupMyListDrag();
 
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
+  // Identify logged-in user in Crisp
+  if (state._fbUser && window.$crisp) {
+    window.$crisp.push(['set', 'user:email', [state._fbUser.email]]);
+    if (state._fbUser.displayName) {
+      window.$crisp.push(['set', 'user:nickname', [state._fbUser.displayName]]);
+    }
+  }
   if      (state.currentTab === 'vocab')  renderVocab();
   else if (state.currentTab === 'mylist') renderMyList();
   else if (state.currentTab === 'stats')  renderStats();

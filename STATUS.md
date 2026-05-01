@@ -69,7 +69,7 @@ kanji.guimo-prod.com {
 
 ### 🟡 À faire
 - [x] Domaine Firebase Auth — `kanji.guimo-prod.com` ajouté aux domaines autorisés ✅
-- [ ] SAV — Crisp widget + identification utilisateur connecté
+- [x] SAV — Crisp widget intégré + identification auto utilisateur Firebase (email + displayName)
 - [ ] Monétisation — Stripe freemium (free: N5/N4, premium: tout + SRS + Stats)
 - [ ] Notifications / rappel quotidien
 - [ ] CMS stack (Directus ?)
@@ -81,6 +81,7 @@ kanji.guimo-prod.com {
 | Service | Usage | Prix | Compte |
 |---------|-------|------|--------|
 | **Firebase** | Auth + Firestore (Kanji Morning) | Gratuit | guimoprod.dev@gmail.com |
+| **Crisp** | Live chat SAV (Kanji Morning) | Gratuit | guimoprod.dev@gmail.com |
 | **kanjiapi.dev** | API kanji/vocab | Gratuit | — |
 | **Cloudflare** | DNS + CDN + Email Routing | Gratuit | guimoprod.dev@gmail.com |
 | **Hetzner CX22** | VPS `95.216.168.28` | ~4€/mois | — |
