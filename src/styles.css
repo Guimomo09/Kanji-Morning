@@ -643,6 +643,7 @@
     .kpi-jlpt:hover { border-color: var(--red); }
     .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
     .kpi-jlpt-pct { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
+    .kpi-jlpt-hint { font-size: 11px; color: var(--muted); margin-top: 6px; letter-spacing: .3px; }
     /* word of the day */
     .kpi-wotd { padding: 0 !important; overflow: hidden; display: flex !important; flex-direction: column; }
     .kpi-wotd-banner {

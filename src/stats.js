@@ -237,26 +237,27 @@ export function renderHome() {
         </div>
       </div>
       <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
-      <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()" title="Tap to change level">
+      <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
         <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
         <div class="kpi-jlpt-pct">${jlptPct}%</div>
         <div class="kpi-lbl">🎌 JLPT Target</div>
+        <div class="kpi-jlpt-hint">tap to change ↻</div>
       </div>
     </div>
 
     <div class="home-today">
       <div class="home-today-title">Today</div>
       <div class="home-today-row">
-        <span>Words saved</span>
-        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? todayWords.length + ' words ✓' : '—'}</span>
+        <span>Words loaded <span style="color:var(--muted);font-weight:400;font-size:12px">(today's set)</span></span>
+        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? todayWords.length + ' words ✓' : 'Not loaded yet'}</span>
       </div>
       <div class="home-today-row">
         <span>Daily Quiz</span>
-        <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✓' : '—'}</span>
+        <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✓' : 'Not done yet'}</span>
       </div>
       <div class="home-today-row">
-        <span>Bi-Weekly Quiz</span>
-        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${biweeklyAvailable ? '⏰ Available' : missedBiweekly ? '⚠️ Missed' : '—'}</span>
+        <span>Weekly Challenge <span style="color:var(--muted);font-weight:400;font-size:12px">(every Monday)</span></span>
+        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${isBiWeeklyDone(todayStr()) ? 'Done ✓' : biweeklyAvailable ? '⏰ Available today!' : missedBiweekly ? '⚠️ Missed' : '—'}</span>
       </div>
     </div>
 
