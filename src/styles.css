@@ -307,6 +307,7 @@
     .quiz-result-pct   { font-size: 20px; color: var(--muted); margin: 4px 0 10px; }
     .quiz-result-msg   { font-size: 18px; font-weight: 700; color: var(--sub); }
     .quiz-result-time  { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .quiz-elapsed-wrap { opacity: 0.35; font-size: 12px; }
     .quiz-elapsed      { font-variant-numeric: tabular-nums; }
 
     .quiz-tomorrow {

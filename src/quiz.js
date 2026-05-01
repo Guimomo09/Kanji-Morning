@@ -146,7 +146,7 @@ export function renderQuizQuestion() {
       <div class="quiz-progress-wrap">
         <div class="quiz-progress-bar" style="width:${pct}%"></div>
       </div>
-      <div class="quiz-meta">${current + 1}&nbsp;/&nbsp;${total} &nbsp;·&nbsp; ⭐ ${score} &nbsp;·&nbsp; ⏱ <span id="quizElapsed" class="quiz-elapsed">0:00</span></div>
+      <div class="quiz-meta">${current + 1}&nbsp;/&nbsp;${total} &nbsp;·&nbsp; ⭐ ${score} &nbsp;·&nbsp; <span class="quiz-elapsed-wrap">⏱ <span id="quizElapsed" class="quiz-elapsed">0:00</span></span></div>
       <div class="quiz-question-card">
         <div class="quiz-direction-label">${questionLabel}</div>
         ${promptHtml}

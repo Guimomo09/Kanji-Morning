@@ -312,7 +312,7 @@ export function renderMyList() {
       <div class="mylist-full-empty">
         <div class="mylist-full-empty-icon">📋</div>
         <div class="mylist-full-empty-title">Your list is empty</div>
-        <div class="mylist-full-empty-body">Save kanji and words to build your personal review deck.<br>The app will quiz you on them using smart spaced repetition — so you remember what you learn.</div>
+        <div class="mylist-full-empty-body">Save kanji and words to build your personal review deck.<br>The app will quiz you on them using smart daily review — so you remember what you learn.</div>
         <div class="mylist-full-empty-actions">
           <button class="btn btn-primary" onclick="switchTab('kanji')">漢 Browse Kanji →</button>
           <button class="btn btn-ghost" onclick="switchTab('vocab')">語 Browse Vocabulary →</button>
