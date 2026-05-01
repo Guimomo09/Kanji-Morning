@@ -611,7 +611,7 @@
     .kpi-grid-2col { grid-template-columns: 1fr 1fr !important; }
     .kpi-grid-2col .kpi-jlpt { grid-column: unset; }
     /* word of the day */
-    .kpi-wotd { padding: 0 !important; overflow: hidden; display: flex !important; flex-direction: column; }
+    .kpi-wotd { padding: 0 !important; overflow: hidden; display: flex !important; flex-direction: column !important; align-items: stretch !important; justify-content: flex-start !important; }
     .kpi-wotd-banner {
       background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
       color: #fff; text-align: center;
