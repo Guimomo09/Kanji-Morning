@@ -480,9 +480,11 @@
     .stats-container { display: flex; flex-direction: column; gap: 24px; }
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
       gap: 16px;
     }
+    .kpi-wotd { grid-column: 3; grid-row: 1 / span 2; display: flex; flex-direction: column; justify-content: center; }
     .kpi-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -642,9 +644,9 @@
     .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
     .kpi-jlpt-pct { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
     /* word of the day */
-    .kpi-wotd-kanji { font-size: 2rem; font-weight: 800; color: var(--red); line-height: 1; margin-bottom: 2px; }
-    .kpi-wotd-reading { font-size: 12px; color: var(--sub); margin-bottom: 2px; }
-    .kpi-wotd-meaning { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 4px; }
+    .kpi-wotd-kanji { font-size: 3rem; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 6px; }
+    .kpi-wotd-reading { font-size: 14px; color: var(--sub); margin-bottom: 4px; }
+    .kpi-wotd-meaning { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 8px; }
     .home-today-row {
       display: flex;
       justify-content: space-between;
@@ -984,7 +986,8 @@
 
       /* ── Stats ── */
       .stats-section { padding: 0 12px; }
-      .kpi-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+      .kpi-wotd { grid-column: 3; grid-row: 1 / span 2; }
       .kpi-num  { font-size: 38px; }
       .kpi-card { padding: 16px 10px 12px; border-radius: 12px; }
       .kpi-lbl  { font-size: 12px; }

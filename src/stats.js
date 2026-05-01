@@ -224,15 +224,14 @@ export function renderHome() {
 
     <div class="kpi-grid">
       <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div></div>
-      <div class="kpi-card"><div class="kpi-num">${best}</div><div class="kpi-lbl">🏆 Best Streak</div></div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
-      <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-kanji">${wotd.word}</div>
         <div class="kpi-wotd-reading">${wotd.reading}</div>
         <div class="kpi-wotd-meaning">${wotd.meaning}</div>
         <div class="kpi-lbl">${wotd.emoji} 今日の一語</div>
       </div>
+      <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
       <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()" title="Tap to change level">
         <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
         <div class="kpi-jlpt-pct">${jlptPct}%</div>
