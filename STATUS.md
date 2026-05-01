@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (nuit)
+> Dernière mise à jour: 1 Mai 2026 (après-midi)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -41,8 +41,8 @@ kanji.guimo-prod.com {
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS
 
 ### ✅ Fonctionnel
-- [x] Génération vocabulaire par niveau JLPT (N4/N3/N2/N1)
-- [x] Filtre niveau kanji (pills N1-N4)
+- [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
+- [x] Filtre niveau kanji (pills N5-N1)
 - [x] Sauvegarde kanji (★ button) → My List
 - [x] My List — 2 sections : 漢字 chips + 語彙 table
 - [x] Mode "From Kanji" — vocab depuis kanjis sauvegardés
@@ -58,11 +58,19 @@ kanji.guimo-prod.com {
 - [x] Bouton "📖 From Kanji" toujours visible — charge les kanjis du jour à la demande
 - [x] Vocab tab génère toujours de nouveaux mots (fini le "already saved" au démarrage)
 - [x] Filtre de niveau vocab ne persiste plus (repart à "All" à chaque ouverture)
-- [x] Filtre de complexité des mots par niveau JLPT — N4: max 2 kanji par mot, N3: max 3, N2/N1: illimité (fini 議事録/検事正 en N4)
-- [x] Tri des définitions : sens courants en premier, sens spécialisés (cards, mahjong, archaic, legal...) repoussés en fin
+- [x] Filtre de complexité des mots par niveau JLPT — N4/N5: max 2 kanji par mot, N3: max 3, N2/N1: illimité
+- [x] Tri des définitions : sens courants en premier, sens spécialisés repoussés en fin
+- [x] **N5 level** — pool `/kanji/jlpt-5` (~103 kanji), badge teal, pill de filtre, légende (~2153 kanji total)
+- [x] **Visual polish** — lectures kana en brun chaud (#6d4c41), border-radius normalisé (12px/8px), safe area inset iPhone 14+
+- [x] **Home hero CTA** — bannière rouge avec titre, tagline, boutons "Start Today's Kanji" + "How it works"
+- [x] **Tutorial onboarding** — overlay 5 étapes au 1er visit, accessible à tout moment, fermable via ✕ ou Escape
+- [x] **Popup kanji depuis My List** — clic sur chip → fond sombre + blur + détails live (kanji, sens, lectures, exemples)
+- [x] **Hiérarchie des cartes** — badge JLPT passe sous le sens (order CSS), flux kanji → sens → badge → lectures → exemples
 
 ### 🟡 À faire
 - [ ] Domaine Firebase Auth — ajouter `kanji.guimo-prod.com` aux domaines autorisés
+- [ ] Monétisation — Stripe freemium (free: N5/N4 + 10 cartes, premium: tout + SRS + Stats)
+- [ ] SAV — Crisp widget + page /support FAQ
 - [ ] Notifications / rappel quotidien
 - [ ] CMS stack (Directus ?)
 
