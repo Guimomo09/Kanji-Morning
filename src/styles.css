@@ -853,6 +853,26 @@
       .auth-btn-in { padding: 6px 12px; font-size: 11px; }
       .auth-wrap { margin-left: 0; }
 
+      /* ── Settings full-page (mobile only) ── */
+      #settingsPage {
+        position: fixed; inset: 0; z-index: 1000;
+        background: var(--bg); overflow-y: auto;
+        padding-bottom: calc(72px + env(safe-area-inset-bottom));
+      }
+      .settings-page-header {
+        background: var(--red); color: #fff;
+        display: flex; align-items: center; gap: 14px;
+        padding: 14px 16px;
+        position: sticky; top: 0; z-index: 1;
+      }
+      .settings-back-btn {
+        background: rgba(255,255,255,.15); border: none; color: #fff;
+        font-size: 15px; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+        touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0);
+      }
+      .settings-page-title { font-size: 17px; font-weight: 700; }
+      .settings-page-body  { padding: 20px 16px; }
+
       /* ── Bottom tab bar (fixed) ── */
       .tabbar {
         position: fixed;
