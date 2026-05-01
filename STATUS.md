@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `(en cours)`
+**Dernier commit**: `865c82f`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
