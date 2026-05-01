@@ -14,41 +14,62 @@ const ARCHAIC_WORDS = new Set([
 ]);
 
 // ── Extract best example words from API response ─────────────────────────
+// Scoring: prefer short common words, penalize historical/specialized glosses.
+const GLOSS_SKIP_RE = /^\((french|german|english|dutch|portuguese|chinese|korean|approx|abbr|uk|us|lit|fig|also|esp|orig|hist|obs|arch)\)/i;
+const GLOSS_RARE_RE = /\b(monarchy|empire|dynasty|shogunate|anniversary|anniversary|era|feudal|imperial|shogun|archaic|obsolete|rare|dated|poetic|biblical|mythology|ecclesiastical|heraldry|nautical|mahjong|shogi|sumo|cricket|poker|chess)\b/i;
+
 export function bestExamples(words, targetChar, max = 3) {
-  const out          = [];
+  const candidates   = [];
   const seenMeanings = new Set();
-  const ERA_RE       = /\b(era|period|epoch)\b.*\(\d{3,4}/i;
 
   for (const entry of words) {
-    if (out.length >= max) break;
-
     const variant = (entry.variants ?? [])
       .find(v => v.written && v.written.includes(targetChar));
     if (!variant) continue;
     if (ARCHAIC_WORDS.has(variant.written)) continue;
 
+    // Find best gloss: skip glosses that start with a language/qualifier prefix
     let gloss = null;
     for (const meaning of (entry.meanings ?? [])) {
       for (const g of (meaning.glosses ?? [])) {
-        if (!ERA_RE.test(g)) { gloss = g; break; }
+        if (!GLOSS_SKIP_RE.test(g) && !GLOSS_RARE_RE.test(g)) { gloss = g; break; }
       }
       if (gloss) break;
     }
+    // Fallback: accept any gloss that isn't a language prefix
+    if (!gloss) {
+      for (const meaning of (entry.meanings ?? [])) {
+        for (const g of (meaning.glosses ?? [])) {
+          if (!GLOSS_SKIP_RE.test(g)) { gloss = g; break; }
+        }
+        if (gloss) break;
+      }
+    }
     if (!gloss) gloss = entry.meanings?.[0]?.glosses?.[0];
-    if (!gloss) continue;
+    if (!gloss || gloss.length < 5) continue;
 
     const normGloss = normalizeMeaning(gloss);
     if (seenMeanings.has(normGloss)) continue;
     seenMeanings.add(normGloss);
-    if (gloss.length < 5) continue;
 
-    out.push({
+    // Score: shorter written form = more common. Penalize rare/specialized glosses.
+    const wordLen   = variant.written.length;
+    const isRare    = GLOSS_RARE_RE.test(gloss);
+    const hasPrefix = GLOSS_SKIP_RE.test(gloss);
+    const score     = wordLen + (isRare ? 10 : 0) + (hasPrefix ? 5 : 0);
+
+    candidates.push({
       w: variant.written,
       r: variant.pronounced ?? variant.written,
       m: gloss.length > 42 ? gloss.slice(0, 40) + '…' : gloss,
+      score,
     });
   }
-  return out;
+
+  return candidates
+    .sort((a, b) => a.score - b.score)
+    .slice(0, max)
+    .map(({ w, r, m }) => ({ w, r, m }));
 }
 
 // ── Kanji save / unsave ─────────────────────────────────────────────────────
