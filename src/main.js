@@ -505,9 +505,7 @@ if (_mBtn) {
 document.querySelectorAll('.mobile-menu-item').forEach(function(btn) {
   btn.addEventListener('touchend', function(e) {
     e.preventDefault();
-    // read onclick attr and execute
-    var fn = btn.getAttribute('onclick');
-    if (fn) { try { eval(fn); } catch(err) { console.warn(err); } }
+    btn.click();
   });
 });
 // Close mobile menu when tapping outside
