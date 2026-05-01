@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (soir — SRS modal supprimé)
+> Dernière mise à jour: 1 Mai 2026 (soir — SRS intégré dans quiz daily)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -54,7 +54,7 @@ kanji.guimo-prod.com {
 - [x] Sauvegarde kanji (★ button) → My List
 - [x] My List — 2 sections : 漢字 chips + 語彙 table
 - [x] Mode "From Kanji" — vocab depuis kanjis sauvegardés
-- [x] Quiz daily + Weekly Challenge + SRS (SM-2)
+- [x] Quiz daily + Weekly Challenge + SRS (SM-2 — injected silently in daily quiz, bouton Review supprimé)
 - [x] Firebase Auth (login Google) + Cloud sync Firestore
 - [x] PWA — manifest + service worker v3 + icônes (installable mobile)
 - [x] Cache API 24h TTL (localStorage)

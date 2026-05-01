@@ -4,7 +4,7 @@ import { CLOUD_ENABLED } from './config.js';
 import { loadDailyVocab, getQuizDates } from './daily.js';
 import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './biweekly.js';
 import { cloudUpdate } from './cloud.js';
-import { srsLoad, srsIntervalLabel } from './srs.js';
+import { srsLoad, srsIntervalLabel, srsDueCards } from './srs.js';
 import { getAllSavedWords } from './vocab.js';
 
 // ── Question type helpers ─────────────────────────────────────────────────
@@ -187,7 +187,7 @@ export function handleQuizAnswer(btn, isCorrect) {
   if (!isCorrect) btn.classList.add('wrong');
   else state.quizState.score++;
 
-  if (state.quizState && state.quizState.type === 'srs') {
+  if (state.quizState && (state.quizState.type === 'srs' || item._isSrs)) {
     const item  = state.quizState.questions[state.quizState.current].item;
     const cards = srsLoad();
     const card  = cards[item.word] || {
@@ -251,7 +251,7 @@ export function renderQuizResults() {
     ? '<span class="qh-type qh-type-srs">SRS</span>'
     : '<span class="qh-type qh-type-daily">Daily</span>';
 
-  const retryFn = isExam ? 'launchExamMode()' : isBiW ? 'launchBiWeeklyQuiz()' : isSrs ? 'launchSrsReview()' : 'launchDailyQuiz()';
+  const retryFn = isExam ? 'launchExamMode()' : isBiW ? 'launchBiWeeklyQuiz()' : 'launchDailyQuiz()';
 
   document.getElementById('grid').innerHTML = `
     <div class="quiz-screen quiz-results">
@@ -324,10 +324,19 @@ export async function launchDailyQuiz() {
     setStatus('error', 'No saved words — browse Vocabulary and tap 💾 Save for Quiz first.');
     return;
   }
-  setStatus('ok', `Daily quiz · ${items.length} words from ${today}`);
+
+  // Silently inject SRS due cards (max 5, no duplicates)
+  const existingWords = new Set(items.map(it => it.word));
+  const dueCards = srsDueCards()
+    .filter(c => !existingWords.has(c.word))
+    .slice(0, 5)
+    .map(c => ({ ...c, _isSrs: true }));
+  const allItems = [...items, ...dueCards];
+
+  setStatus('ok', `Daily quiz · ${items.length} word${items.length !== 1 ? 's' : ''}${dueCards.length ? ` + ${dueCards.length} review` : ''}`);
   document.getElementById('grid').innerHTML = '';
   document.getElementById('levelFilter').style.display = 'none';
-  startVocabQuiz(items, 'today', 'daily');
+  startVocabQuiz(allItems, 'today', 'daily');
 }
 
 export async function launchBiWeeklyQuiz() {

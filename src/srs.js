@@ -42,16 +42,7 @@ export function srsDueCards() {
     .sort((a, b) => a.nextReview.localeCompare(b.nextReview));
 }
 
-export function srsUpdateReviewCount() {
-  const btn = document.getElementById('btnReview');
-  const cnt = document.getElementById('reviewCount');
-  if (!btn) return;
-  const due = srsDueCards().length;
-  if (cnt) cnt.textContent = due;
-  // Only control visibility on tabs where the button should appear
-  const onAllowedTab = ['home', 'stats', 'mylist'].includes(state.currentTab);
-  if (onAllowedTab) btn.style.display = due > 0 ? '' : 'none';
-}
+export function srsUpdateReviewCount() {} // no-op — SRS is now embedded in daily quiz
 
 // ── SM-2 / Simple algorithm ───────────────────────────────────────────────
 // grade: 0=Again  1=Hard  2=Good  3=Easy
@@ -92,38 +83,8 @@ export function srsIntervalLabel(card, grade, algo) {
   return interval + 'd';
 }
 
-// ── Session launcher ──────────────────────────────────────────────────────
-export function launchSrsReview() {
-  const due = srsDueCards();
-  if (!due.length) { setStatus('ok', 'No cards due — come back later!'); return; }
-  _startSrsSession('sm2');
-}
-
-export function _startSrsSession(algo) {
-  state._srsAlgo  = algo;
-  state.currentTab = 'vocab';
-
-  // Switch the view to show the grid (avoid circular import by doing minimal inline DOM work)
-  ['homeSection', 'statsSection', 'mylistSection'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-  const grid = document.getElementById('grid');
-  if (grid) grid.style.display = '';
-  ['tabHome','tabKanji','tabMyList','tabStats'].forEach(id =>
-    document.getElementById(id)?.classList.remove('active')
-  );
-  document.getElementById('tabVocab')?.classList.add('active');
-  document.getElementById('levelFilter').style.display = 'none';
-  document.getElementById('legendDiv').style.display   = 'none';
-
-  const btnReview = document.getElementById('btnReview');
-  if (btnReview) btnReview.style.display = 'none';
-
-  const due = srsDueCards();
-  setStatus('ok', `SRS · ${due.length} card${due.length !== 1 ? 's' : ''} to review`);;
-  startVocabQuiz(due, `${due.length} due`, 'srs');
-}
+// ── Session launcher ─────────────────────────────────────────────────────
+// SRS cards are now silently injected into the daily quiz — no separate launcher needed.
 
 export function rateSrsCard(word, grade) {
   const cards = srsLoad();

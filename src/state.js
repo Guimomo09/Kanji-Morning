@@ -21,8 +21,8 @@ export const state = {
   kanjiLevelFilter:  localStorage.getItem('kanjiLevelFilter') || 'all',
   vocabFromKanjiMode: false,
 
-  // SRS
-  _srsAlgo: null,
+  // SRS — always SM-2, no user choice needed
+  _srsAlgo: 'sm2',
 
   // Firebase (set by cloud.js during initCloud)
   _fbAuth: null,
