@@ -54,6 +54,7 @@ export function switchTab(tab) {
     document.getElementById('quizBtn').style.display         = 'none';
     document.getElementById('btnDailyQuiz').style.display    = 'none';
     document.getElementById('btnFromKanji').style.display    = 'none';
+    document.getElementById('btnExam').style.display         = 'none';
     updateBiWeeklyBtn();
     srsUpdateReviewCount();
   }
@@ -96,6 +97,7 @@ export function switchTab(tab) {
     document.getElementById('btnBiweeklyQuiz').style.display = 'none';
     document.getElementById('btnFromKanji').style.display    = 'none';
     document.getElementById('btnReview').style.display       = 'none';
+    document.getElementById('btnExam').style.display         = 'none';
     document.getElementById('btnMore').style.display         = '';
     document.getElementById('btnLess').style.display         = '';
     applyKanjiLevelFilterUI();
@@ -114,6 +116,8 @@ export function switchTab(tab) {
   document.getElementById('btnSave').style.display          = '';
   document.getElementById('levelFilter').style.display      = '';
   document.getElementById('btnDailyQuiz').style.display     = '';
+  document.getElementById('btnExam').style.display          = '';
+  document.getElementById('btnExam').style.display          = '';
   document.getElementById('btnBiweeklyQuiz').style.display  = 'none';
   document.getElementById('btnReview').style.display        = 'none';
   document.getElementById('btnSave').classList.remove('saved');

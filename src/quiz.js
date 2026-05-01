@@ -5,6 +5,8 @@ import { loadDailyVocab, getQuizDates } from './daily.js';
 import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './biweekly.js';
 import { cloudUpdate } from './cloud.js';
 import { srsLoad, srsIntervalLabel } from './srs.js';
+import { getAllSavedWords } from './vocab.js';
+import { fetchExampleSentences } from './api.js';
 
 // ── Question type helpers ─────────────────────────────────────────────────
 // Types: A = word→meaning, B = meaning→word, C = word→reading,
@@ -49,6 +51,25 @@ function _formatElapsed(ms) {
 function _tickQuizTimer() {
   const el = document.getElementById('quizElapsed');
   if (el && _quizStartTime) el.textContent = _formatElapsed(Date.now() - _quizStartTime);
+}
+
+// ── Exam mode state ────────────────────────────────────────────────
+let _examTimeLeft = 0;
+let _examCountdown = null;
+const EXAM_DURATION  = 15 * 60; // 15 minutes
+const EXAM_QUESTIONS = 20;
+const EXAM_PASS_PCT  = 60;
+
+function _tickExamCountdown() {
+  _examTimeLeft = Math.max(0, _examTimeLeft - 1);
+  const el = document.getElementById('examCountdown');
+  if (el) {
+    const m = Math.floor(_examTimeLeft / 60);
+    const s = _examTimeLeft % 60;
+    el.textContent = `${m}:${String(s).padStart(2, '0')}`;
+    el.className = `exam-countdown${_examTimeLeft <= 60 ? ' urgent' : _examTimeLeft <= 120 ? ' warning' : ''}`;
+  }
+  if (_examTimeLeft <= 0) { clearInterval(_examCountdown); _examCountdown = null; renderQuizResults(); }
 }
 
 // ── Quiz engine ───────────────────────────────────────────────────────────
@@ -146,12 +167,13 @@ export function renderQuizQuestion() {
       <div class="quiz-progress-wrap">
         <div class="quiz-progress-bar" style="width:${pct}%"></div>
       </div>
-      <div class="quiz-meta">${current + 1}&nbsp;/&nbsp;${total} &nbsp;·&nbsp; ⭐ ${score} &nbsp;·&nbsp; <span class="quiz-elapsed-wrap">⏱ <span id="quizElapsed" class="quiz-elapsed">0:00</span></span></div>
+      <div class="quiz-meta">${current + 1}&nbsp;/&nbsp;${total} &nbsp;·&nbsp; ⭐ ${score} &nbsp;·&nbsp; ${state.quizState.type === 'exam' ? `<span class="exam-countdown${_examTimeLeft <= 60 ? ' urgent' : _examTimeLeft <= 120 ? ' warning' : ''}" id="examCountdown">${Math.floor(_examTimeLeft/60)}:${String(_examTimeLeft%60).padStart(2,'0')}</span>` : `<span class="quiz-elapsed-wrap">⏱ <span id="quizElapsed" class="quiz-elapsed">0:00</span></span>`}</div>
       <div class="quiz-question-card">
         <div class="quiz-direction-label">${questionLabel}</div>
         ${promptHtml}
       </div>
       <div class="quiz-options">${optionsHtml}</div>
+      ${!['B','D'].includes(type) ? `<div class="quiz-hint-wrap"><button class="btn-hint" data-word="${item.word.replace(/"/g,'&quot;')}" onclick="showQuizHint(this.dataset.word, this)">💡 Example</button><div class="quiz-hint-area" id="quizHintArea"></div></div>` : ''}
     </div>`;
 
   document.getElementById('countLabel').textContent = total;
@@ -206,30 +228,38 @@ export function renderQuizResults() {
   const pct     = Math.round((score / total) * 100);
   const isBiW   = type === 'biweekly';
   const isSrs   = type === 'srs';
+  const isExam  = type === 'exam';
   const elapsed = _quizStartTime ? _formatElapsed(Date.now() - _quizStartTime) : null;
   clearInterval(_quizTimerInterval); _quizTimerInterval = null; _quizStartTime = 0;
+  clearInterval(_examCountdown); _examCountdown = null; _examTimeLeft = 0;
 
   saveQuizResult(score, total, type);
   if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
 
   let emoji, msg;
-  if (pct >= 90)      { emoji = '🏆'; msg = '素晴らしい！Excellent!'; }
+  if (isExam) {
+    if (pct >= EXAM_PASS_PCT) { emoji = '🎓'; msg = '合格！ You passed!'; }
+    else                      { emoji = '📚'; msg = '不合格。Keep studying!'; }
+  } else if (pct >= 90)      { emoji = '🏆'; msg = '素晴らしい！Excellent!'; }
   else if (pct >= 70) { emoji = '👍'; msg = 'よくできました！Good job!'; }
   else if (pct >= 50) { emoji = '📚'; msg = 'まあまあ。Keep practicing!'; }
   else                { emoji = '💪'; msg = '頑張って！Keep at it!'; }
 
-  const typeBadge = isBiW
+  const typeBadge = isExam
+    ? '<span class="qh-type qh-type-exam">試験 · Exam</span>'
+    : isBiW
     ? '<span class="qh-type qh-type-biweekly">Bi-Weekly</span>'
     : isSrs
     ? '<span class="qh-type qh-type-srs">SRS</span>'
     : '<span class="qh-type qh-type-daily">Daily</span>';
 
-  const retryFn = isBiW ? 'launchBiWeeklyQuiz()' : isSrs ? 'launchSrsReview()' : 'launchDailyQuiz()';
+  const retryFn = isExam ? 'launchExamMode()' : isBiW ? 'launchBiWeeklyQuiz()' : isSrs ? 'launchSrsReview()' : 'launchDailyQuiz()';
 
   document.getElementById('grid').innerHTML = `
     <div class="quiz-screen quiz-results">
       <div class="quiz-result-emoji">${emoji}</div>
       <div style="margin-bottom:6px">${typeBadge}</div>
+      ${isExam ? `<div class="exam-result-banner ${pct >= EXAM_PASS_PCT ? 'exam-pass' : 'exam-fail'}">${pct >= EXAM_PASS_PCT ? '✓ PASS' : '✗ FAIL'}</div>` : ''}
       <div class="quiz-result-score">${score}&nbsp;/&nbsp;${total}</div>
       <div class="quiz-result-pct">${pct}%</div>
       <div class="quiz-result-msg">${msg}</div>
@@ -239,7 +269,7 @@ export function renderQuizResults() {
         <button class="btn btn-ghost" onclick="resetAndBack()">📖 Back to Words</button>
         <button class="btn btn-ghost" onclick="resetAndStats()">📊 See Stats</button>
       </div>
-      ${!isSrs ? `
+      ${!isSrs && !isExam ? `
       <div class="quiz-tomorrow">
         <div class="quiz-tomorrow-icon">🌅</div>
         <div class="quiz-tomorrow-title">See you tomorrow!</div>
@@ -336,4 +366,52 @@ export async function launchBiWeeklyQuiz() {
   document.getElementById('levelFilter').style.display = 'none';
   document.getElementById('legendDiv').style.display   = 'none';
   startVocabQuiz(unique, dayLabel, 'biweekly');
+}
+
+// ── Exam Mode ─────────────────────────────────────────────────────────────
+export function launchExamMode() {
+  const allWords = getAllSavedWords();
+  if (allWords.length < 4) {
+    setStatus('error', 'Need at least 4 saved words to launch Exam Mode. Save words from Vocabulary first.');
+    return;
+  }
+  const pool = shuffleArr([...allWords]).slice(0, EXAM_QUESTIONS);
+  _examTimeLeft = EXAM_DURATION;
+  _quizStartTime = Date.now();
+  clearInterval(_quizTimerInterval); _quizTimerInterval = null;
+  clearInterval(_examCountdown);
+  _examCountdown = setInterval(_tickExamCountdown, 1000);
+
+  state.quizState = {
+    questions: buildQuestionList(pool),
+    pool,
+    current: 0,
+    score: 0,
+    dayLabel: `${pool.length} words`,
+    type: 'exam',
+  };
+
+  const sectionMap = { stats: 'statsSection', home: 'homeSection', mylist: 'mylistSection' };
+  if (sectionMap[state.currentTab]) {
+    document.getElementById(sectionMap[state.currentTab]).style.display = 'none';
+    document.getElementById('grid').style.display = '';
+  }
+  document.getElementById('levelFilter').style.display = 'none';
+  renderQuizQuestion();
+}
+
+// ── Quiz hint (example sentence) ──────────────────────────────────────────
+export async function showQuizHint(word, btn) {
+  const area = document.getElementById('quizHintArea');
+  if (!area) return;
+  btn.disabled = true;
+  btn.textContent = '…';
+  const sentences = await fetchExampleSentences(word);
+  btn.style.display = 'none';
+  if (!sentences.length) {
+    area.innerHTML = '<div class="sentences-empty" style="text-align:center;margin-top:6px">No example found.</div>';
+    return;
+  }
+  const s = sentences[0];
+  area.innerHTML = `<div class="sentence-item sentence-hint"><div class="sentence-jp">${s.jp}</div><div class="sentence-en">${s.en}</div></div>`;
 }

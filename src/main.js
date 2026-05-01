@@ -3,9 +3,9 @@ import { cleanupOldData }                                       from './daily.js
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut } from './cloud.js';
 import { srsUpdateReviewCount, launchSrsReview, _startSrsSession, rateSrsCard } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, toggleQuiz, revealCard, setHeader } from './ui.js';
-import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji } from './vocab.js';
+import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, showWordExamples } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
-import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer } from './quiz.js';
+import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode, showQuizHint } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
 
@@ -171,6 +171,7 @@ Object.assign(window, {
 
   // Vocab
   setVocabLevel,
+  showWordExamples,
   filterMyList,
   removeFromMyList,
   toggleFromKanji,
@@ -255,6 +256,8 @@ Object.assign(window, {
   launchDailyQuiz,
   launchBiWeeklyQuiz,
   handleQuizAnswer,
+  launchExamMode,
+  showQuizHint,
 
   // SRS
   launchSrsReview,

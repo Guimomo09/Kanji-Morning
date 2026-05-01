@@ -2,7 +2,7 @@ import { VOCAB_COUNT, LEVEL_LABEL } from './config.js';
 import { normMeaning, setStatus, todayStr, sortMeanings, pickBestGloss } from './utils.js';
 import { FREQ } from './freq.js';
 import { state } from './state.js';
-import { getWords, buildPool, pickVocabChars } from './api.js';
+import { getWords, buildPool, pickVocabChars, fetchExampleSentences } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
 import { CLOUD_ENABLED } from './config.js';
 import { cloudUpdate } from './cloud.js';
@@ -263,6 +263,7 @@ export function renderVocabCard(item, delay) {
       </div>
       ${extraDefs ? `<div>${extraDefs}</div>` : ''}
       ${relatedHtml}
+      ${!state.quizMode ? `<div class="vocab-sentences" id="vsent_${word}"><button class="btn-sentences" data-word="${word.replace(/"/g,'&quot;')}" onclick="showWordExamples(this.dataset.word, this)">💡 Example sentences</button></div>` : ''}
     </div>`;
   return card;
 }
@@ -554,4 +555,22 @@ export async function renderVocab(forceNew = false) {
     document.getElementById('grid').innerHTML =
       `<div style="grid-column:1/-1;color:var(--red);padding:24px;font-weight:600">${err.message}</div>`;
   }
+}
+
+// ── Example sentence loader ───────────────────────────────────────────────
+export async function showWordExamples(word, btn) {
+  const container = document.getElementById(`vsent_${word}`);
+  if (!container) return;
+  btn.disabled = true;
+  btn.textContent = '読み込み中…';
+  const sentences = await fetchExampleSentences(word);
+  if (!sentences.length) {
+    container.innerHTML = '<div class="sentences-empty">No examples found.</div>';
+    return;
+  }
+  container.innerHTML = sentences.map(s => `
+    <div class="sentence-item">
+      <div class="sentence-jp">${s.jp}</div>
+      <div class="sentence-en">${s.en}</div>
+    </div>`).join('');
 }
