@@ -522,38 +522,6 @@
     .qh-type-srs      { background: #f3e5f5; color: #4a148c; }
     .qh-type-exam     { background: #1a237e; color: #fff; }
 
-    /* ── Example sentences ──────────────────────────────────────────────── */
-    .vocab-sentences { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px; }
-    .btn-sentences {
-      background: none; border: 1px solid var(--border); border-radius: 8px;
-      color: var(--sub); font-size: 12px; padding: 5px 12px;
-      cursor: pointer; font-family: inherit; width: 100%;
-      transition: background .15s, border-color .15s;
-    }
-    .btn-sentences:hover { background: var(--bg); border-color: var(--red); }
-    .btn-sentences:disabled { opacity: .5; cursor: default; }
-    .sentence-item {
-      margin-top: 8px; padding: 8px 10px;
-      background: var(--bg); border-radius: 8px;
-      border-left: 3px solid var(--red);
-    }
-    .sentence-jp { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 3px; }
-    .sentence-en { font-size: 12px; color: var(--sub); line-height: 1.4; }
-    .sentences-empty { font-size: 12px; color: var(--muted); font-style: italic; }
-
-    /* ── Quiz hint button ───────────────────────────────────────────────── */
-    .quiz-hint-wrap { text-align: center; margin-top: 10px; }
-    .btn-hint {
-      background: none; border: 1px dashed var(--border); border-radius: 8px;
-      color: var(--muted); font-size: 12px; padding: 5px 14px;
-      cursor: pointer; font-family: inherit;
-      transition: color .15s, border-color .15s;
-    }
-    .btn-hint:hover { color: var(--sub); border-color: var(--sub); }
-    .btn-hint:disabled { opacity: .5; cursor: default; }
-    .quiz-hint-area { margin-top: 8px; }
-    .sentence-hint  { max-width: 420px; margin: 0 auto; }
-
     /* ── Exam mode ──────────────────────────────────────────────────────── */
     .exam-countdown          { font-size: 15px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
     .exam-countdown.warning  { color: #e65100; }

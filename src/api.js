@@ -33,27 +33,6 @@ export async function getWords(char) {
   return w;
 }
 
-// ── Example sentences (Tatoeba CC-BY) ────────────────────────────────────
-export async function fetchExampleSentences(word) {
-  const key = `ex_${word}`;
-  const cached = cacheGet(key);
-  if (cached !== null && cached.length > 0) return cached;
-  try {
-    const url = `/api/tatoeba?from=jpn&to=eng&query=${encodeURIComponent(word)}&limit=5`;
-    const res = await fetch(url);
-    if (!res.ok) { return []; }
-    const data = await res.json();
-    const sentences = (data.results || [])
-      .filter(r => r.text && r.translations?.[0]?.[0]?.text)
-      .slice(0, 3)
-      .map(r => ({ jp: r.text, en: r.translations[0][0].text }));
-    if (sentences.length > 0) cacheSet(key, sentences);
-    return sentences;
-  } catch {
-    return [];
-  }
-}
-
 // ── Pool builder ──────────────────────────────────────────────────────────
 // Builds weighted random pools for kanji and vocab tabs. Cached in state.
 export async function buildPool() {

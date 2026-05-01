@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (soir — fix proxy Tatoeba)
+> Dernière mise à jour: 1 Mai 2026 (soir — retrait Tatoeba)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -71,8 +71,7 @@ kanji.guimo-prod.com {
 - [x] **Weekly Challenge** — (ex Bi-Weekly Quiz) tous les lundis
 - [x] **Stats tab** — grille 2×2 (Streak / Words Learned / Avg Score / JLPT Target)
 - [x] **Bannière "missed"** — ton encourageant "💪 Keep going — one more to catch up!"
-- [x] **Phrases d'exemple** — Tatoeba CC-BY via proxy Caddy (fix CORS), cache uniquement si résultats non-vides
-- [x] **Proxy Tatoeba** — deploy.yml force-update (remove+re-add, `{http.request.uri.query}` explicite) + proxy Vite dev
+- [x] **Phrases d'exemple** — ~~Tatoeba~~ retiré (proxy non fonctionnel, feature supprimée proprement)
 - [x] **Tutorial onboarding** — overlay 5 étapes au 1er visit
 - [x] **Settings modal** — ⚙️ dans le header (touchend pour iOS), toggle notif + time picker
 - [x] **Crisp** — widget SAV, au-dessus de la tab bar mobile (MutationObserver), identification auto Firebase

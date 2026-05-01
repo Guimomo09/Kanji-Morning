@@ -6,7 +6,6 @@ import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './bi
 import { cloudUpdate } from './cloud.js';
 import { srsLoad, srsIntervalLabel } from './srs.js';
 import { getAllSavedWords } from './vocab.js';
-import { fetchExampleSentences } from './api.js';
 
 // ── Question type helpers ─────────────────────────────────────────────────
 // Types: A = word→meaning, B = meaning→word, C = word→reading,
@@ -173,7 +172,6 @@ export function renderQuizQuestion() {
         ${promptHtml}
       </div>
       <div class="quiz-options">${optionsHtml}</div>
-      ${!['B','D'].includes(type) ? `<div class="quiz-hint-wrap"><button class="btn-hint" data-word="${item.word.replace(/"/g,'&quot;')}" onclick="showQuizHint(this.dataset.word, this)">💡 Example</button><div class="quiz-hint-area" id="quizHintArea"></div></div>` : ''}
     </div>`;
 
   document.getElementById('countLabel').textContent = total;
@@ -407,18 +405,4 @@ export function launchExamMode() {
   renderQuizQuestion();
 }
 
-// ── Quiz hint (example sentence) ──────────────────────────────────────────
-export async function showQuizHint(word, btn) {
-  const area = document.getElementById('quizHintArea');
-  if (!area) return;
-  btn.disabled = true;
-  btn.textContent = '…';
-  const sentences = await fetchExampleSentences(word);
-  btn.style.display = 'none';
-  if (!sentences.length) {
-    area.innerHTML = '<div class="sentences-empty" style="text-align:center;margin-top:6px">No example found.</div>';
-    return;
-  }
-  const s = sentences[0];
-  area.innerHTML = `<div class="sentence-item sentence-hint"><div class="sentence-jp">${s.jp}</div><div class="sentence-en">${s.en}</div></div>`;
-}
+

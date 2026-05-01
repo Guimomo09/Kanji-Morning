@@ -32,36 +32,25 @@ jobs:
           target: /var/www/kanji/
           strip_components: 1
 
-      - name: Ensure Tatoeba CORS proxy in Caddy (always up-to-date)
+      - name: Clean up Tatoeba proxy from Caddy if present
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: 95.216.168.28
           username: root
           key: ${{ secrets.VPS_DEPLOY_KEY }}
           script: |
-            python3 - << 'PYEOF'
+            if grep -q "TATOEBA-PROXY" /etc/caddy/Caddyfile; then
+              python3 - << 'PYEOF'
             import re
             content = open('/etc/caddy/Caddyfile').read()
-            # Remove any existing proxy block (handles one level of nested braces inside it)
             content = re.sub(
               r'\s*# TATOEBA-PROXY[^\n]*\n\s*handle /api/tatoeba[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}',
               '',
               content
             )
-            proxy = """
-                # TATOEBA-PROXY
-                handle /api/tatoeba* {
-                    rewrite * /api_v0/search?{http.request.uri.query}
-                    reverse_proxy https://tatoeba.org {
-                        header_up Host tatoeba.org
-                    }
-                    header Access-Control-Allow-Origin *
-                    header Cache-Control "public, max-age=3600"
-                }"""
-            # Insert at the very start of the kanji.guimo-prod.com site block
-            content = re.sub(r'(kanji\.guimo-prod\.com[^{]*\{)', r'\1' + proxy, content, count=1)
             open('/etc/caddy/Caddyfile', 'w').write(content)
-            print("Caddyfile updated OK")
+            print("Tatoeba proxy removed from Caddyfile")
             PYEOF
-            caddy validate --config /etc/caddy/Caddyfile && caddy reload --config /etc/caddy/Caddyfile
-            echo "Caddy proxy updated and reloaded"
+              caddy validate --config /etc/caddy/Caddyfile && caddy reload --config /etc/caddy/Caddyfile
+              echo "Caddy reloaded without Tatoeba proxy"
+            fi
