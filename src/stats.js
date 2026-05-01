@@ -2,6 +2,7 @@ import { todayStr, dateStr } from './utils.js';
 import { loadDailyVocab } from './daily.js';
 import { loadQuizHistory } from './quiz.js';
 import { getAllSavedWords } from './vocab.js';
+import { getWordOfDay } from './wotd.js';
 import {
   getMissedBiWeeklyMonday, nextBiWeeklyMonday, isBiWeeklyMonday,
   isBiWeeklyDone, getLastBiWeeklyMonday,
@@ -203,6 +204,7 @@ export function renderHome() {
   const levelWords  = savedWords.filter(w => allowedLevels.has(w.level));
   const JLPT_TOTALS = { N5: 800, N4: 1500, N3: 3750, N2: 6000, N1: 10000 };
   const jlptPct    = Math.min(100, Math.round(levelWords.length / JLPT_TOTALS[jlptGoal] * 100));
+  const wotd       = getWordOfDay();
 
   document.getElementById('homeSection').innerHTML = `
     <div class="home-hero">
@@ -225,13 +227,13 @@ export function renderHome() {
       <div class="kpi-card"><div class="kpi-num">${best}</div><div class="kpi-lbl">🏆 Best Streak</div></div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
       <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
-      ${todayWords.length > 0 ? `
-      <div class="kpi-card kpi-wotd" onclick="switchTab('vocab')">
-        <div class="kpi-wotd-kanji">${todayWords[0].word}</div>
-        ${todayWords[0].reading ? `<div class="kpi-wotd-reading">${todayWords[0].reading}</div>` : ''}
-        <div class="kpi-lbl">今日の一語</div>
-      </div>` : ''}
-      <div class="kpi-card kpi-jlpt${todayWords.length === 0 ? ' kpi-span2' : ''}" onclick="cycleJlptGoal()" title="Tap to change level">
+      <div class="kpi-card kpi-wotd">
+        <div class="kpi-wotd-kanji">${wotd.word}</div>
+        <div class="kpi-wotd-reading">${wotd.reading}</div>
+        <div class="kpi-wotd-meaning">${wotd.meaning}</div>
+        <div class="kpi-lbl">${wotd.emoji} 今日の一語</div>
+      </div>
+      <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()" title="Tap to change level">
         <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
         <div class="kpi-jlpt-pct">${jlptPct}%</div>
         <div class="kpi-lbl">🎌 JLPT Target</div>
