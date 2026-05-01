@@ -2,7 +2,7 @@ import { state }                                               from './state.js'
 import { cleanupOldData }                                       from './daily.js';
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard } from './srs.js';
-import { switchTab, saveToday, refresh, changeCount, toggleQuiz, revealCard, setHeader } from './ui.js';
+import { switchTab, saveToday, refresh, changeCount, setHeader } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode } from './quiz.js';

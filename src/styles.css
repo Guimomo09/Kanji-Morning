@@ -266,28 +266,6 @@
     .pill[data-level="2"].active  { background:var(--n2); }
     .pill[data-level="1"].active  { background:var(--n1); }
 
-    .quiz-card               { position: relative; }
-    .quiz-card .card-cover    {
-      position: absolute; inset: 0;
-      background: var(--card);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: opacity .3s;
-      z-index: 2;
-      border: 2px dashed var(--border);
-    }
-    .quiz-card .card-cover-text {
-      font-size: 13px; font-weight: 700; color: var(--muted);
-      letter-spacing: 1px; user-select: none;
-    }
-    .quiz-card .card-cover.revealed { opacity: 0; pointer-events: none; }
-    .quiz-card { cursor: pointer; }
-    .quiz-hint {
-      font-size: 11px; color: var(--muted); text-align: center;
-      margin-top: 10px; letter-spacing: 1px;
-    }
-
     /* ���� Vocab interactive quiz ���������������������������������������� */
     .quiz-screen {
       grid-column: 1 / -1;

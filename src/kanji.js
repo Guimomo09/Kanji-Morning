@@ -164,7 +164,7 @@ export function renderCard(k, delay) {
 
   const saved     = isKanjiSaved(k.kanji);
   const card      = document.createElement('div');
-  card.className  = 'card' + (state.quizMode ? ' quiz-card' : '');
+  card.className  = 'card';
   card.style.animationDelay = `${delay}ms`;
 
   // Build save button as a proper DOM element so the listener is 100% reliable
@@ -182,13 +182,7 @@ export function renderCard(k, delay) {
   });
   card.appendChild(saveBtn);
 
-  const coverHtml = state.quizMode ? `
-    <div class="card-cover" onclick="revealCard(this)">
-      <span class="card-cover-text">TAP TO REVEAL</span>
-    </div>` : '';
-
   card.insertAdjacentHTML('beforeend', `
-    ${coverHtml}
     <div class="card-body">
       <div class="card-top">
         <div class="kanji-char">${k.kanji}</div>

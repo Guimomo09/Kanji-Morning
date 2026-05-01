@@ -51,7 +51,6 @@ export function switchTab(tab) {
     document.getElementById('btnMore').style.display         = 'none';
     document.getElementById('btnLess').style.display         = 'none';
     document.getElementById('btnSave').style.display         = 'none';
-    document.getElementById('quizBtn').style.display         = 'none';
     document.getElementById('btnDailyQuiz').style.display    = 'none';
     document.getElementById('btnFromKanji').style.display    = 'none';
     document.getElementById('btnExam').style.display         = 'none';
@@ -85,15 +84,11 @@ export function switchTab(tab) {
   document.getElementById('tabLabel').textContent = tab === 'kanji' ? 'kanji' : 'vocabulary';
 
   // Reset quiz state
-  state.quizMode  = false;
   state.quizState = null;
-  const hint = document.getElementById('quizHint');
-  if (hint) hint.style.display = 'none';
 
   if (tab === 'kanji') {
     document.getElementById('btnRefresh').style.display      = '';
     document.getElementById('btnSave').style.display         = 'none';
-    document.getElementById('quizBtn').style.display         = '';
     document.getElementById('btnDailyQuiz').style.display    = 'none';
     document.getElementById('btnBiweeklyQuiz').style.display = 'none';
     document.getElementById('btnFromKanji').style.display    = 'none';
@@ -101,9 +96,6 @@ export function switchTab(tab) {
     document.getElementById('btnMore').style.display         = '';
     document.getElementById('btnLess').style.display         = '';
     applyKanjiLevelFilterUI();
-    const qb = document.getElementById('quizBtn');
-    qb.classList.remove('active');
-    qb.textContent = '試 Quiz Mode';
     loadAndRender(state.count);
     return;
   }
@@ -112,7 +104,6 @@ export function switchTab(tab) {
   document.getElementById('btnRefresh').style.display       = '';
   document.getElementById('btnMore').style.display          = 'none';
   document.getElementById('btnLess').style.display          = 'none';
-  document.getElementById('quizBtn').style.display          = 'none';
   document.getElementById('btnSave').style.display          = '';
   document.getElementById('levelFilter').style.display      = '';
   document.getElementById('btnDailyQuiz').style.display     = '';
@@ -176,45 +167,4 @@ export function changeCount(delta) {
   loadAndRender(state.count, true);
 }
 
-// ── Quiz mode toggle (kanji tab) ──────────────────────────────────────────
-export function toggleQuiz() {
-  state.quizMode = !state.quizMode;
-  const btn = document.getElementById('quizBtn');
-  btn.classList.toggle('active', state.quizMode);
-  btn.textContent = state.quizMode ? '📖 Study Mode' : '🎯 Quiz Mode';
-
-  const existingCards = document.querySelectorAll('#grid .card');
-  existingCards.forEach(card => {
-    const hasCover = card.querySelector('.card-cover');
-    if (state.quizMode && !hasCover) {
-      const cover = document.createElement('div');
-      cover.className = 'card-cover';
-      cover.innerHTML = '<span class="card-cover-text">TAP TO REVEAL</span>';
-      cover.addEventListener('click', () => revealCard(cover));
-      card.classList.add('quiz-card');
-      card.prepend(cover);
-    } else if (!state.quizMode && hasCover) {
-      hasCover.remove();
-      card.classList.remove('quiz-card');
-    }
-  });
-
-  if (state.quizMode) {
-    let hint = document.getElementById('quizHint');
-    if (!hint) {
-      hint = document.createElement('p');
-      hint.id        = 'quizHint';
-      hint.className = 'quiz-hint';
-      hint.textContent = 'Tap a card to reveal readings & examples';
-      document.getElementById('grid').after(hint);
-    }
-    hint.style.display = '';
-  } else {
-    const hint = document.getElementById('quizHint');
-    if (hint) hint.style.display = 'none';
-  }
-}
-
-export function revealCard(coverEl) {
-  coverEl.classList.add('revealed');
-}
+// ── Quiz mode toggle (kanji tab) — removed, kanji tab is browse-only now

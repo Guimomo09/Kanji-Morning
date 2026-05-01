@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (soir — fix crash btnReview)
+> Dernière mise à jour: 1 Mai 2026 (soir — suppression Quiz Mode kanji)
 > **À mettre à jour à chaque changement majeur**
 
 ---
