@@ -491,18 +491,8 @@ initCloud();
 srsUpdateReviewCount();
 switchTab('home');
 
-// Wire mobile menu items — touch-action:manipulation removes 300ms delay; no backdrop so no ghost-click risk
-  var btn = document.getElementById(id);
-  if (!btn) {
-    console.warn('[wireMenuBtn] not found:', id);
-    return;
-  }
-  console.log('[wireMenuBtn] wiring', id);
-  btn.addEventListener('click', function() {
-    closeMobileMenu();
-    setTimeout(action, 0); // ensure menu closes before action
-  });
-}
+
+
 
 // Sign out confirmation
 function confirmSignOut() {
