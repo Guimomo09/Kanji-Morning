@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 2 Mai 2026 (fix iOS Safari Notification ReferenceError, settings drawer OK)
+> Dernière mise à jour: 2 Mai 2026 (UX fixes — My List mobile, KPI tiles, debug cleanup)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `f92a61f`
+**Dernier commit**: `a5ec85e`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -55,6 +55,11 @@ kanji.guimo-prod.com {
 - [x] Cache API 24h TTL (localStorage)
 - [x] Cloud sync fix — mots supprimés ne reviennent plus après re-login
 - [x] Batch multi-select delete dans My List (shift+clic, barre flottante)
+- [x] **My List mobile** — tap individuel ✅ + drag-to-select au doigt (style iOS Photos) ✅ + barre flottante au-dessus de la navbar ✅ + chip ✓ grande zone tactile ✅
+- [x] **JLPT Target tile** — description du niveau actif seulement (ex: "Beginner"), taille de tile stable
+- [x] **KPI tiles** — centrées verticalement (flex) ; JLPT align-top, WOTD layout préservé
+- [x] **Streak nudge** — "☁️ Sign in to sync" si non connecté (--sub, tappable)
+- [x] **Debug code supprimé** — `window.onerror` alert popup + `console.log('[openSettings]')` retirés
 - [x] Filtre de complexité des mots par niveau JLPT
 - [x] Tri des définitions : sens courants en premier
 - [x] **Noto Sans JP** — police chargée depuis Google Fonts (poids 700+900)
