@@ -24,7 +24,7 @@ function _renderAuthUI(user) {
       <div class="auth-user">
         ${photo}
         <span class="auth-name">${name}</span>
-        <button class="auth-btn auth-btn-out" onclick="cloudSignOut()">Sign out</button>
+        <button class="auth-btn auth-btn-out" onclick="confirmSignOut()">Sign out</button>
       </div>`;
   } else {
     wrap.innerHTML = `<button class="auth-btn auth-btn-in" onclick="cloudSignIn()">☁ Sign in</button>`;

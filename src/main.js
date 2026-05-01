@@ -357,6 +357,7 @@ function _setupMyListDrag() {
 
 // ── Settings ──────────────────────────────────────────────────────────────
 function openSettings() {
+  console.log('[openSettings] called');
   const toggle  = document.getElementById('settingsNotifToggleMobile');
   const timeIn  = document.getElementById('settingsTimeInputMobile');
   const timeRow = document.getElementById('settingsTimeRowMobile');
@@ -491,11 +492,26 @@ srsUpdateReviewCount();
 switchTab('home');
 
 // Wire mobile menu items — touch-action:manipulation removes 300ms delay; no backdrop so no ghost-click risk
-function _wireMenuBtn(id, action) {
   var btn = document.getElementById(id);
-  if (!btn) return;
-  btn.addEventListener('click', function() { closeMobileMenu(); action(); });
+  if (!btn) {
+    console.warn('[wireMenuBtn] not found:', id);
+    return;
+  }
+  console.log('[wireMenuBtn] wiring', id);
+  btn.addEventListener('click', function() {
+    closeMobileMenu();
+    setTimeout(action, 0); // ensure menu closes before action
+  });
 }
+
+// Sign out confirmation
+function confirmSignOut() {
+  if (window.confirm('Sign out? You will need to log in again to sync your data.')) {
+    cloudSignOut();
+  }
+}
+
+window.confirmSignOut = confirmSignOut;
 _wireMenuBtn('mobileMenuSettings', openSettings);
 _wireMenuBtn('mobileMenuChat',     function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
 // Close mobile menu when tapping outside
