@@ -368,7 +368,6 @@ function _setupMyListDrag() {
 
 // ── Settings ──────────────────────────────────────────────────────────────
 function openSettings() {
-  alert('openSettings called');
   console.log('[openSettings] called');
   const toggle  = document.getElementById('settingsNotifToggleMobile');
   const timeIn  = document.getElementById('settingsTimeInputMobile');
