@@ -16,7 +16,7 @@ const TUTORIAL_STEPS = [
   {
     icon: '🌅',
     title: 'Bienvenue sur<br>朝の漢字',
-    body: 'Your daily Japanese study companion.<br>5–10 minutes every morning → 2050 kanji, vocabulary in context, spaced repetition.',
+    body: 'Your daily Japanese study companion.<br>10 words every morning, 7 minutes — kanji, vocabulary, and a smart review system that makes it stick.',
   },
   {
     icon: '漢',
@@ -31,7 +31,7 @@ const TUTORIAL_STEPS = [
   {
     icon: '🎯',
     title: 'Quiz & SRS',
-    body: '<strong>Daily Quiz</strong> — test yourself on today\'s saved words.<br><br><strong>SRS Review</strong> — spaced repetition reschedules words based on how well you know them.',
+    body: '<strong>Daily Quiz</strong> — test yourself on today\'s saved words.<br><br><strong>Smart Review</strong> — the app tracks what you know and reschedules words so you review them at the perfect time.',
   },
   {
     icon: '📊',
@@ -267,6 +267,9 @@ Object.assign(window, {
   // Quiz result screen wrappers
   resetAndBack()  { state.quizState = null; switchTab('vocab'); },
   resetAndStats() { state.quizState = null; switchTab('stats'); },
+
+  // PWA notification opt-in (called from quiz result screen)
+  requestQuizNotification: _requestQuizNotification,
 });
 
 // ── My List selection state ────────────────────────────────────────────────
@@ -327,9 +330,50 @@ function _setupMyListDrag() {
   }, true);
 }
 
+// ── PWA morning notification opt-in ──────────────────────────────────────
+function _checkPendingNotification() {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const raw = localStorage.getItem('km_notif_scheduled');
+  if (!raw) return;
+  const scheduled = new Date(raw);
+  if (Date.now() < scheduled.getTime()) return;
+  // Due — remove and reschedule for next day automatically
+  localStorage.removeItem('km_notif_scheduled');
+  const next = new Date(); next.setDate(next.getDate() + 1); next.setHours(8, 0, 0, 0);
+  localStorage.setItem('km_notif_scheduled', next.toISOString());
+  navigator.serviceWorker.ready
+    .then(reg => reg.showNotification('朝の漢字 · Morning Kanji', {
+      body: 'Your daily kanji are waiting. 7 minutes is all it takes! がんばって！',
+      icon: '/icons/icon-192.svg',
+      badge: '/icons/icon-192.svg',
+    }))
+    .catch(() => {
+      try { new Notification('朝の漢字 · Morning Kanji', { body: 'Your daily kanji are waiting! がんばって！' }); } catch {}
+    });
+}
+
+function _requestQuizNotification() {
+  if (!('Notification' in window)) {
+    alert('Notifications are not supported by your browser.');
+    return;
+  }
+  const btn = document.getElementById('notifOptBtn');
+  Notification.requestPermission().then(perm => {
+    if (perm === 'granted') {
+      const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(8, 0, 0, 0);
+      localStorage.setItem('km_notif_scheduled', d.toISOString());
+      if (btn) { btn.textContent = '✓ Reminder set for 8am tomorrow'; btn.disabled = true; btn.classList.add('notif-opted'); }
+    } else if (btn) {
+      btn.textContent = '🔕 Notifications blocked in browser settings';
+      btn.disabled = true;
+    }
+  });
+}
+
 // ── App initialisation ────────────────────────────────────────────────────
 setHeader();
 cleanupOldData();
+_checkPendingNotification();
 _setupMyListDrag();
 
 // Re-render current tab after cloud login so pulled data is reflected

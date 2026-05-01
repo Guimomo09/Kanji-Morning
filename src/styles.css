@@ -306,6 +306,8 @@
     .quiz-result-score { font-size: 52px; font-weight: 900; color: var(--red); line-height: 1; }
     .quiz-result-pct   { font-size: 20px; color: var(--muted); margin: 4px 0 10px; }
     .quiz-result-msg   { font-size: 18px; font-weight: 700; color: var(--sub); }
+    .quiz-result-time  { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .quiz-elapsed      { font-variant-numeric: tabular-nums; }
 
     .quiz-tomorrow {
       margin: 32px auto 0; max-width: 380px;
@@ -316,6 +318,14 @@
     .quiz-tomorrow-icon  { font-size: 32px; margin-bottom: 6px; }
     .quiz-tomorrow-title { font-size: 17px; font-weight: 800; color: var(--red); margin-bottom: 6px; }
     .quiz-tomorrow-body  { font-size: 14px; color: var(--sub); line-height: 1.6; }
+    .btn-notif-opt {
+      margin-top: 16px; padding: 9px 18px; border-radius: 20px;
+      border: 1.5px solid var(--red); background: transparent;
+      color: var(--red); font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background .15s, color .15s;
+    }
+    .btn-notif-opt:hover:not(:disabled) { background: var(--red); color: #fff; }
+    .btn-notif-opt.notif-opted, .btn-notif-opt:disabled { opacity: .65; cursor: default; }
 
     /* ── My List full empty state ──────────────────────────────────────── */
     .mylist-full-empty {

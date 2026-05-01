@@ -197,8 +197,8 @@ export function renderHome() {
   document.getElementById('homeSection').innerHTML = `
     <div class="home-hero">
       <div class="home-hero-kana">朝の漢字</div>
-      <div class="home-hero-title">10 words every morning.<br>That's all it takes.</div>
-      <div class="home-hero-sub">⏱ ~7 min a day · kanji · vocabulary · spaced repetition · offline</div>
+      <div class="home-hero-title">10 words every morning.<br><strong style="font-size:1.15em">7 minutes.</strong> That's all it takes.</div>
+      <div class="home-hero-sub">kanji · vocabulary · smart daily review · offline</div>
       <div class="home-hero-actions">
         <button class="btn-white" onclick="switchTab('kanji')">Start Today's Kanji →</button>
         <button class="btn-outline" onclick="showTutorial()">How it works</button>

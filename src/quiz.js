@@ -38,8 +38,24 @@ export function buildQuestionList(pool) {
   return shuffleArr(questions);
 }
 
+// ── Quiz session timer ───────────────────────────────────────────────────
+let _quizStartTime = 0;
+let _quizTimerInterval = null;
+
+function _formatElapsed(ms) {
+  const s = Math.floor(ms / 1000);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+function _tickQuizTimer() {
+  const el = document.getElementById('quizElapsed');
+  if (el && _quizStartTime) el.textContent = _formatElapsed(Date.now() - _quizStartTime);
+}
+
 // ── Quiz engine ───────────────────────────────────────────────────────────
 export function startVocabQuiz(items, dayLabel, quizType) {
+  _quizStartTime = Date.now();
+  clearInterval(_quizTimerInterval);
+  _quizTimerInterval = setInterval(_tickQuizTimer, 1000);
   state.quizState = {
     questions: buildQuestionList(items),
     pool:      items,
@@ -130,7 +146,7 @@ export function renderQuizQuestion() {
       <div class="quiz-progress-wrap">
         <div class="quiz-progress-bar" style="width:${pct}%"></div>
       </div>
-      <div class="quiz-meta">${current + 1}&nbsp;/&nbsp;${total} &nbsp;·&nbsp; ⭐ ${score}</div>
+      <div class="quiz-meta">${current + 1}&nbsp;/&nbsp;${total} &nbsp;·&nbsp; ⭐ ${score} &nbsp;·&nbsp; ⏱ <span id="quizElapsed" class="quiz-elapsed">0:00</span></div>
       <div class="quiz-question-card">
         <div class="quiz-direction-label">${questionLabel}</div>
         ${promptHtml}
@@ -186,10 +202,12 @@ export function handleQuizAnswer(btn, isCorrect) {
 
 export function renderQuizResults() {
   const { score, questions, type } = state.quizState;
-  const total = questions.length;
-  const pct   = Math.round((score / total) * 100);
-  const isBiW = type === 'biweekly';
-  const isSrs  = type === 'srs';
+  const total   = questions.length;
+  const pct     = Math.round((score / total) * 100);
+  const isBiW   = type === 'biweekly';
+  const isSrs   = type === 'srs';
+  const elapsed = _quizStartTime ? _formatElapsed(Date.now() - _quizStartTime) : null;
+  clearInterval(_quizTimerInterval); _quizTimerInterval = null; _quizStartTime = 0;
 
   saveQuizResult(score, total, type);
   if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
@@ -215,6 +233,7 @@ export function renderQuizResults() {
       <div class="quiz-result-score">${score}&nbsp;/&nbsp;${total}</div>
       <div class="quiz-result-pct">${pct}%</div>
       <div class="quiz-result-msg">${msg}</div>
+      ${elapsed ? `<div class="quiz-result-time">⏱ Session: ${elapsed}</div>` : ''}
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
         <button class="btn btn-primary" onclick="${retryFn}">↺ Retry</button>
         <button class="btn btn-ghost" onclick="resetAndBack()">📖 Back to Words</button>
@@ -225,6 +244,7 @@ export function renderQuizResults() {
         <div class="quiz-tomorrow-icon">🌅</div>
         <div class="quiz-tomorrow-title">See you tomorrow!</div>
         <div class="quiz-tomorrow-body">New kanji and vocabulary will be waiting.<br>Consistency beats intensity — がんばって！</div>
+        <button class="btn-notif-opt" id="notifOptBtn" onclick="requestQuizNotification()">🔔 Remind me tomorrow at 8am</button>
       </div>` : ''}
     </div>`;
 
