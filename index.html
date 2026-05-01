@@ -43,7 +43,7 @@
       if (window.innerWidth > 640) return;
       var el = document.getElementById('crisp-chatbox');
       if (el) {
-        el.style.setProperty('bottom', '70px', 'important');
+        el.style.setProperty('bottom', 'calc(72px + env(safe-area-inset-bottom))', 'important');
         el.style.setProperty('margin-bottom', '0', 'important');
       }
     }
