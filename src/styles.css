@@ -20,7 +20,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -43,7 +43,7 @@
     .h-left   { text-align: left; }
     .h-center { text-align: center; }
     .h-right  { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-    .h-title { font-size: 26px; font-weight: 800; letter-spacing: 3px; }
+    .h-title { font-size: 26px; font-weight: 900; letter-spacing: 3px; font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif; }
     .h-sub   { font-size: 12px; opacity: .55; margin-top: 3px; letter-spacing: 1px; }
     .h-date  { font-size: 13px; opacity: .75; }
     .h-greet { font-size: 12px; opacity: .45; margin-top: 3px; }
@@ -418,7 +418,8 @@
       border: none;
       border-radius: 8px 8px 0 0;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 900;
+      font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif;
       cursor: pointer;
       background: #ede3d8;
       color: var(--sub);
