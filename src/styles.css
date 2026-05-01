@@ -803,26 +803,6 @@
     .srs-btn-good  { background: #e8f5e9; color: #2e7d32; }
     .srs-btn-easy  { background: #e3f2fd; color: #0d47a1; }
     .srs-interval  { font-size: 10px; font-weight: 400; opacity: .75; }
-    .srs-modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,.45);
-      z-index: 500; display: flex; align-items: center; justify-content: center;
-      padding: 24px;
-    }
-    .srs-modal {
-      background: #fff; border-radius: 12px; padding: 28px 24px;
-      max-width: 400px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,.2);
-      text-align: center;
-    }
-    .srs-modal h2 { font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
-    .srs-modal p  { font-size: 14px; color: var(--sub); line-height: 1.6; margin-bottom: 20px; }
-    .srs-modal-btns { display: flex; flex-direction: column; gap: 10px; }
-    .srs-modal-btn  {
-      padding: 14px 20px; border: 2px solid var(--border); border-radius: 12px;
-      background: #fff; cursor: pointer; font-size: 14px; font-weight: 700;
-      font-family: inherit; text-align: left; transition: background .15s, border-color .15s;
-    }
-    .srs-modal-btn:hover { background: var(--bg); border-color: var(--red); }
-    .srs-modal-btn span  { display: block; font-size: 12px; font-weight: 400; color: var(--muted); margin-top: 2px; }
     .btn-review { background: #f3e5f5; color: #4a148c; border: 1.5px solid #ce93d8; }
     .btn-review:hover { background: #e1bee7; }
     .btn-review .review-count {

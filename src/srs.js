@@ -96,30 +96,10 @@ export function srsIntervalLabel(card, grade, algo) {
 export function launchSrsReview() {
   const due = srsDueCards();
   if (!due.length) { setStatus('ok', 'No cards due — come back later!'); return; }
-
-  const backdrop = document.createElement('div');
-  backdrop.className = 'srs-modal-backdrop';
-  backdrop.innerHTML = `
-    <div class="srs-modal">
-      <h2>⏱ Spaced Repetition</h2>
-      <p>${due.length} card${due.length !== 1 ? 's' : ''} to review today.<br>Choose your review algorithm:</p>
-      <div class="srs-modal-btns">
-        <button class="srs-modal-btn" onclick="_startSrsSession('simple')">
-          Simple intervals
-          <span>Again · Hard (1d) · Good (3d) · Easy (7d) — best for beginners</span>
-        </button>
-        <button class="srs-modal-btn" onclick="_startSrsSession('sm2')">
-          SM-2 (Anki algorithm)
-          <span>Adaptive intervals based on your performance — recommended</span>
-        </button>
-      </div>
-    </div>`;
-  document.body.appendChild(backdrop);
-  window._srsBackdrop = backdrop;
+  _startSrsSession('sm2');
 }
 
 export function _startSrsSession(algo) {
-  if (window._srsBackdrop) { window._srsBackdrop.remove(); window._srsBackdrop = null; }
   state._srsAlgo  = algo;
   state.currentTab = 'vocab';
 
@@ -141,7 +121,7 @@ export function _startSrsSession(algo) {
   if (btnReview) btnReview.style.display = 'none';
 
   const due = srsDueCards();
-  setStatus('ok', `SRS Review · ${due.length} card${due.length !== 1 ? 's' : ''} due · ${algo === 'sm2' ? 'SM-2' : 'Simple'}`);
+  setStatus('ok', `SRS · ${due.length} card${due.length !== 1 ? 's' : ''} to review`);;
   startVocabQuiz(due, `${due.length} due`, 'srs');
 }
 

@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (soir — retrait Tatoeba)
+> Dernière mise à jour: 1 Mai 2026 (soir — SRS modal supprimé)
 > **À mettre à jour à chaque changement majeur**
 
 ---
