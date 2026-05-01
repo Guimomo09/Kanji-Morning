@@ -56,7 +56,7 @@ function _tickQuizTimer() {
 // ── Exam mode state ────────────────────────────────────────────────
 let _examTimeLeft = 0;
 let _examCountdown = null;
-const EXAM_DURATION  = 15 * 60; // 15 minutes
+const EXAM_DURATION  = 7 * 60; // 7 minutes
 const EXAM_QUESTIONS = 20;
 const EXAM_PASS_PCT  = 60;
 
