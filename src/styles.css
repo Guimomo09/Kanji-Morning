@@ -62,29 +62,31 @@
     /* hamburger wrap hidden on desktop */
     .h-hamburger-wrap { display: none; }
 
-    /* ── Settings modal ───────────────────────────────────────────────── */
-    .settings-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.5); backdrop-filter: blur(3px);
-      z-index: 1000; display: flex; align-items: center; justify-content: center;
-      padding: 24px;
+    /* ── Settings drawer (slide-in from right) ────────────────────────── */
+    #settingsPage {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 360px; z-index: 1000;
+      background: #fff;
+      box-shadow: -4px 0 30px rgba(0,0,0,.18);
+      transform: translateX(100%);
+      transition: transform .28s cubic-bezier(.4,0,.2,1);
+      display: flex; flex-direction: column;
+      overflow: hidden;
     }
-    .settings-modal {
-      background: #fff; border-radius: 18px; padding: 28px 28px 24px;
-      width: 100%; max-width: 360px;
-      box-shadow: 0 16px 60px rgba(0,0,0,.25);
-      animation: rise .25s ease;
+    #settingsPage.open { transform: translateX(0); }
+    .settings-page-header {
+      background: var(--red); color: #fff;
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px; flex-shrink: 0;
     }
-    .settings-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 22px;
+    .settings-back-btn {
+      background: rgba(255,255,255,.15); border: none; color: #fff;
+      font-size: 15px; padding: 8px 14px; border-radius: 8px; cursor: pointer;
+      touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0);
+      flex-shrink: 0;
     }
-    .settings-title  { font-size: 17px; font-weight: 800; color: var(--sub); }
-    .settings-close  {
-      background: none; border: none; font-size: 18px; cursor: pointer;
-      color: var(--muted); padding: 2px 6px; border-radius: 6px;
-    }
-    .settings-close:hover { background: var(--bg); }
+    .settings-page-title { font-size: 17px; font-weight: 700; }
+    .settings-page-body  { padding: 20px 24px 28px; overflow-y: auto; flex: 1; }
     .settings-section-title {
       font-size: 12px; font-weight: 700; text-transform: uppercase;
       letter-spacing: .08em; color: var(--muted);
@@ -103,6 +105,10 @@
       margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border);
     }
     .settings-save-msg { font-size: 13px; color: #388e3c; font-weight: 600; }
+    /* Mobile: full width */
+    @media (max-width: 640px) {
+      #settingsPage { width: 100%; }
+    }
 
     /* ���� Toolbar ���������������������������������������������������������������������� */
     .toolbar {

@@ -372,12 +372,12 @@ function openSettings() {
     if (timeIn) timeIn.disabled = !on;
     if (timeRow) timeRow.style.opacity = on ? '1' : '.45';
   }, { once: true });
-  document.getElementById('settingsPage').style.display = 'flex';
+  document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeSettings() {
-  document.getElementById('settingsPage').style.display = 'none';
+  document.getElementById('settingsPage').classList.remove('open');
   document.body.style.overflow = '';
 }
 

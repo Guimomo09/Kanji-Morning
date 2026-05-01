@@ -143,8 +143,8 @@
   </div>
 </div>
 
-<!-- Settings page (mobile only — full screen, no backdrop ghost click issue) -->
-<div id="settingsPage" style="display:none">
+<!-- Settings drawer (slides in from right) -->
+<div id="settingsPage">
   <div class="settings-page-header">
     <button class="settings-back-btn" onclick="closeSettings()">← Back</button>
     <span class="settings-page-title">⚙️ Settings</span>
@@ -162,29 +162,6 @@
     <div class="settings-save-row">
       <button class="btn btn-primary" onclick="saveSettings()">Save</button>
       <span class="settings-save-msg" id="settingsSaveMsgMobile"></span>
-    </div>
-  </div>
-</div>
-
-<!-- Settings modal (desktop only) -->
-<div class="settings-backdrop" id="settingsBackdrop" style="display:none" onclick="closeSettings()">
-  <div class="settings-modal" onclick="event.stopPropagation()">
-    <div class="settings-header">
-      <span class="settings-title">⚙️ Settings</span>
-      <button class="settings-close" onclick="closeSettings()">✕</button>
-    </div>
-    <div class="settings-section-title">🔔 Morning Reminder</div>
-    <div class="settings-row">
-      <label class="settings-label" for="settingsNotifToggle">Enable daily reminder</label>
-      <input type="checkbox" id="settingsNotifToggle" class="settings-toggle">
-    </div>
-    <div class="settings-row" id="settingsTimeRow">
-      <label class="settings-label" for="settingsTimeInput">Reminder time</label>
-      <input type="time" id="settingsTimeInput" class="notif-time-input" value="08:00">
-    </div>
-    <div class="settings-save-row">
-      <button class="btn btn-primary" onclick="saveSettings()">Save</button>
-      <span class="settings-save-msg" id="settingsSaveMsg"></span>
     </div>
   </div>
 </div>
