@@ -473,6 +473,69 @@ cleanupOldData();
 _checkPendingNotification();
 _setupMyListDrag();
 
+// ── DEBUG AGENT ──────────────────────────────────────────────────────────
+window.debugAgent = {
+  rerunAll: function() {
+    console.log('[debugAgent] DOMContentLoaded: re-init app');
+    setHeader();
+    cleanupOldData();
+    _checkPendingNotification();
+    _setupMyListDrag();
+    setPostAuthCallback(() => {
+      if (state._fbUser && window.$crisp) {
+        window.$crisp.push(['set', 'user:email', [state._fbUser.email]]);
+        if (state._fbUser.displayName) {
+          window.$crisp.push(['set', 'user:nickname', [state._fbUser.displayName]]);
+        }
+      }
+      if      (state.currentTab === 'vocab')  renderVocab();
+      else if (state.currentTab === 'mylist') renderMyList();
+      else if (state.currentTab === 'stats')  renderStats();
+      else if (state.currentTab === 'home')   renderHome();
+    });
+    initCloud();
+    srsUpdateReviewCount();
+    switchTab('home');
+    _wireMenuBtn('mobileMenuSettings', openSettings);
+    _wireMenuBtn('mobileMenuChat', function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
+    document.addEventListener('click', function(e) {
+      const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
+      if (wrap && !wrap.contains(e.target)) closeMobileMenu();
+    });
+    if (!localStorage.getItem('km_onboarding_done')) {
+      setTimeout(showTutorial, 600);
+    }
+    console.log('[debugAgent] All wiring and init done.');
+  },
+  openSettings,
+  showTutorial,
+  test: () => alert('debugAgent is loaded!'),
+};
+
+// Log global errors
+window.onerror = function(msg, url, line, col, error) {
+  console.error('[debugAgent] JS ERROR:', msg, url, line, col, error);
+  alert('JS ERROR: ' + msg + '\n' + url + ':' + line);
+};
+window.onunhandledrejection = function(e) {
+  console.error('[debugAgent] Unhandled promise rejection:', e.reason);
+  alert('Promise ERROR: ' + e.reason);
+};
+
+// DOMContentLoaded = wiring safe
+window.addEventListener('DOMContentLoaded', function() {
+  console.log('[debugAgent] DOMContentLoaded');
+  window.debugAgent.rerunAll();
+});
+
+// ── PWA service worker ────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .catch(err => console.warn('[SW] Registration failed:', err));
+  });
+}
+
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
   // Identify logged-in user in Crisp
