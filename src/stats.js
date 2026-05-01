@@ -224,7 +224,7 @@ export function renderHome() {
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div>${!state._fbUser ? '<div class="kpi-streak-nudge">☁️ <span onclick="cloudSignIn()" style="cursor:pointer;text-decoration:underline">Sign in</span> to save your streak</div>' : ''}</div>
+      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div>${!state._fbUser ? '<div class="kpi-streak-nudge">☁️ <span onclick="cloudSignIn()">Sign in</span> to sync</div>' : ''}</div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">
@@ -243,7 +243,7 @@ export function renderHome() {
         <div class="kpi-jlpt-pct">${jlptPct > 0 ? jlptPct + '%' : 'Start saving words!'}</div>
         <div class="kpi-lbl">🎌 JLPT Target</div>
         <div class="kpi-jlpt-hint">tap to change ↻</div>
-        <div class="kpi-jlpt-sub">N5 Beginner · N4 Elementary · N3 Intermediate · N2 Upper · N1 Advanced</div>
+        <div class="kpi-jlpt-sub">${{ N5: 'Beginner', N4: 'Elementary', N3: 'Intermediate', N2: 'Upper Intermediate', N1: 'Advanced' }[jlptGoal]}</div>
       </div>
     </div>
 

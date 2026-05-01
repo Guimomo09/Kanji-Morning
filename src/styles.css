@@ -604,7 +604,8 @@
     .kpi-jlpt-hint { font-size: 11px; color: var(--muted); margin-top: 6px; letter-spacing: .3px; }
     .kpi-jlpt-sub { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
     .kpi-jlpt .kpi-jlpt-pct { font-size: 12px; }
-    .kpi-streak-nudge { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+    .kpi-streak-nudge { font-size: 11px; color: var(--sub); margin-top: 6px; line-height: 1.4; }
+    .kpi-streak-nudge span { cursor: pointer; text-decoration: underline; }
     .kpi-grid-2col { grid-template-columns: 1fr 1fr !important; }
     .kpi-grid-2col .kpi-jlpt { grid-column: unset; }
     /* word of the day */

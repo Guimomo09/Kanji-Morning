@@ -338,11 +338,12 @@ function _setupMyListDrag() {
   const section = document.getElementById('mylistSection');
   if (!section) return;
 
+  // ── Mouse drag-select (desktop) ─────────────────────────────────────
   section.addEventListener('mousedown', e => {
     const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
     if (!el || e.shiftKey || e.button !== 0) return;
     _dragging   = true;
-    _didDrag    = true;          // suppress the click that fires after mouseup
+    // NOTE: _didDrag stays false until actual movement → lets plain clicks through
     _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
     _applyDragTo(el);
     e.preventDefault();          // prevent text selection while dragging
@@ -352,6 +353,7 @@ function _setupMyListDrag() {
     if (!_dragging) return;
     const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
     if (!el) return;
+    _didDrag = true;             // real drag detected → suppress synthetic click
     _applyDragTo(el);
     _updateDeleteBar();
   });
@@ -360,10 +362,46 @@ function _setupMyListDrag() {
     if (_dragging) { _dragging = false; _updateDeleteBar(); }
   });
 
-  // Capture-phase click suppressor — fires before the onclick attribute
+  // Suppress synthetic click only after a real drag (not after plain tap)
   section.addEventListener('click', e => {
     if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
   }, true);
+
+  // ── Touch drag-select (mobile — swipe to multi-select) ───────────────
+  let _touchStartEl = null;
+  let _touchDragActive = false;
+
+  section.addEventListener('touchstart', e => {
+    const t  = e.touches[0];
+    const el = document.elementFromPoint(t.clientX, t.clientY)
+                 ?.closest?.('.kanji-saved-chip, #mylistBody tr');
+    _touchStartEl    = el || null;
+    _touchDragActive = false;
+  }, { passive: true });
+
+  section.addEventListener('touchmove', e => {
+    const t  = e.touches[0];
+    const el = document.elementFromPoint(t.clientX, t.clientY)
+                 ?.closest?.('.kanji-saved-chip, #mylistBody tr');
+    if (!el) return;
+    if (!_touchDragActive) {
+      // Only activate if finger moved to a DIFFERENT item (not just trembling in place)
+      if (el === _touchStartEl) return;
+      _touchDragActive = true;
+      _dragging   = true;
+      _didDrag    = true;        // suppress the tap-click that fires after touchend
+      _dragAction = (_touchStartEl || el).classList.contains('selected') ? 'deselect' : 'select';
+      if (_touchStartEl) _applyDragTo(_touchStartEl);
+    }
+    _applyDragTo(el);
+    _updateDeleteBar();
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    if (_dragging) { _dragging = false; _updateDeleteBar(); }
+    _touchDragActive = false;
+    _touchStartEl    = null;
+  });
 }
 
 // ── Settings ──────────────────────────────────────────────────────────────
