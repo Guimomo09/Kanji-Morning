@@ -348,6 +348,12 @@ export function renderStats() {
         <div class="kpi-card"><div class="kpi-num">${best}</div><div class="kpi-lbl">🏆 Best Streak</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
         <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
+        <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
+          <div class="kpi-num kpi-jlpt-level">${localStorage.getItem('km_jlpt_goal') || 'N3'}</div>
+          <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const t={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); return Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/t[g]*100)); })()}%</div>
+          <div class="kpi-lbl">🎌 JLPT Target</div>
+          <div class="kpi-jlpt-hint">tap to change ↻</div>
+        </div>
       </div>
 
       ${history.length ? `
