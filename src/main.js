@@ -506,7 +506,7 @@ function _wireMenuBtn(id, action) {
   btn.addEventListener('touchend', function(e) { e.preventDefault(); closeMobileMenu(); action(); });
   btn.addEventListener('click',    function()  { closeMobileMenu(); action(); });
 }
-_wireMenuBtn('mobileMenuSettings', function() { setTimeout(openSettings, 350); });
+_wireMenuBtn('mobileMenuSettings', openSettings);
 _wireMenuBtn('mobileMenuChat',     function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
 // Close mobile menu when tapping outside
 document.addEventListener('click', function(e) {
