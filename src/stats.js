@@ -228,7 +228,7 @@ export function renderHome() {
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">
           <div class="kpi-wotd-banner-emoji">${wotd.emoji}</div>
-          <div class="kpi-wotd-banner-title">今日の一語</div>
+          <div class="kpi-wotd-banner-title">Word of the Day</div>
         </div>
         <div class="kpi-wotd-body">
           <div class="kpi-wotd-kanji">${wotd.word}</div>
