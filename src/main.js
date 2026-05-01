@@ -177,8 +177,6 @@ Object.assign(window, {
   refresh,
   changeCount,
   saveToday,
-  toggleQuiz,
-  revealCard,
 
   // Vocab
   setVocabLevel,
