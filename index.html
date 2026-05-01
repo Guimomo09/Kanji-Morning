@@ -39,21 +39,10 @@
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = "508d392e-da32-4d8c-a22f-21e5f7b81b6f";
     window.$crisp.push(['config', 'locale', 'en']);
-    function _fixCrispPos() {
-      if (window.innerWidth > 640) return;
-      var el = document.getElementById('crisp-chatbox');
-      if (el) {
-        el.style.setProperty('bottom', 'calc(72px + env(safe-area-inset-bottom))', 'important');
-        el.style.setProperty('margin-bottom', '0', 'important');
-      }
+    // On mobile, push bubble above the 72px bottom nav bar
+    if (window.innerWidth <= 640) {
+      window.$crisp.push(['config', 'position:bottom:offset', [80]]);
     }
-    window.CRISP_READY_TRIGGER = function() {
-      _fixCrispPos();
-      // Keep watching — Crisp resets styles when chat opens/closes
-      var obs = new MutationObserver(_fixCrispPos);
-      var el = document.getElementById('crisp-chatbox');
-      if (el) obs.observe(el, { attributes: true, attributeFilter: ['style'] });
-    };
     (function () {
       var d = document, s = d.createElement("script");
       s.src = "https://client.crisp.chat/l.js";
