@@ -39,7 +39,7 @@ export async function fetchExampleSentences(word) {
   const cached = cacheGet(key);
   if (cached !== null && cached.length > 0) return cached;
   try {
-    const url = `https://tatoeba.org/api_v0/search?from=jpn&to=eng&query=${encodeURIComponent(word)}&limit=5`;
+    const url = `/api/tatoeba?from=jpn&to=eng&query=${encodeURIComponent(word)}&limit=5`;
     const res = await fetch(url);
     if (!res.ok) { return []; }
     const data = await res.json();

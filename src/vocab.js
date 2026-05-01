@@ -518,7 +518,7 @@ export async function renderVocab(forceNew = false) {
       const sb = document.getElementById('btnSave');
       if (sb) { sb.textContent = '✓ Saved for Quiz'; sb.classList.add('saved'); sb.disabled = false; }
     } else {
-      setStatus('ok', 'Words loaded — tap 💾 Save for Quiz to add to the bi-weekly quiz');
+      setStatus('ok', 'Words loaded — tap 💾 Save for Quiz to add to the Weekly Challenge');
       const sb = document.getElementById('btnSave');
       if (sb) { sb.textContent = '💾 Save for Quiz'; sb.classList.remove('saved'); sb.disabled = false; }
     }
@@ -546,7 +546,7 @@ export async function renderVocab(forceNew = false) {
     items.forEach((item, i) => grid.appendChild(renderVocabCard(item, i * 80)));
     state.currentVocabItems = items;
     document.getElementById('countLabel').textContent = items.length;
-    setStatus('ok', 'Words loaded — tap 💾 Save for Quiz to add to the bi-weekly quiz');
+    setStatus('ok', 'Words loaded — tap 💾 Save for Quiz to add to the Weekly Challenge');
     const saveBtn = document.getElementById('btnSave');
     if (saveBtn) { saveBtn.textContent = '💾 Save for Quiz'; saveBtn.classList.remove('saved'); saveBtn.disabled = false; }
 

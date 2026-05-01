@@ -31,3 +31,34 @@ jobs:
           source: dist/
           target: /var/www/kanji/
           strip_components: 1
+
+      - name: Add Tatoeba CORS proxy to Caddy (idempotent)
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: 95.216.168.28
+          username: root
+          key: ${{ secrets.VPS_DEPLOY_KEY }}
+          script: |
+            if ! grep -q "TATOEBA-PROXY" /etc/caddy/Caddyfile; then
+              python3 - << 'PYEOF'
+            import re
+            content = open('/etc/caddy/Caddyfile').read()
+            proxy = """
+                # TATOEBA-PROXY
+                handle /api/tatoeba* {
+                    rewrite * /api_v0/search?{query}
+                    reverse_proxy https://tatoeba.org {
+                        header_up Host tatoeba.org
+                    }
+                    header Access-Control-Allow-Origin *
+                    header Cache-Control "public, max-age=3600"
+                }"""
+            # Insert at the very start of the kanji.guimo-prod.com site block
+            content = re.sub(r'(kanji\.guimo-prod\.com[^{]*\{)', r'\1' + proxy, content, count=1)
+            open('/etc/caddy/Caddyfile', 'w').write(content)
+            PYEOF
+              caddy validate --config /etc/caddy/Caddyfile && caddy reload --config /etc/caddy/Caddyfile
+              echo "Caddy proxy added and reloaded"
+            else
+              echo "Caddy proxy already present, skipping"
+            fi
