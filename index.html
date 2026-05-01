@@ -39,12 +39,10 @@
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = "508d392e-da32-4d8c-a22f-21e5f7b81b6f";
     window.$crisp.push(['config', 'locale', 'en']);
-    window.$crisp.push(['config', 'position:reverse', true]);
-    window.$crisp.push(['config', 'container:index', 99]);
     // Push bubble above tab bar on mobile
     document.addEventListener('DOMContentLoaded', () => {
       const style = document.createElement('style');
-      style.textContent = '@media (max-width:600px){#crisp-chatbox{bottom:70px!important;}}'
+      style.textContent = '@media (max-width:600px){.crisp-client{bottom:70px!important;} #crisp-chatbox > div{bottom:70px!important;}}'
       document.head.appendChild(style);
     });
     (function () {

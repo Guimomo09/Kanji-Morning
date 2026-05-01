@@ -53,6 +53,10 @@
       font-size: 15px; cursor: pointer; line-height: 1;
       transition: background .15s;
       flex-shrink: 0;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      position: relative;
+      z-index: 5;
     }
     .h-settings-btn:hover { background: rgba(255,255,255,.2); }
 
