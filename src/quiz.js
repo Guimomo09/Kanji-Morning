@@ -220,6 +220,12 @@ export function renderQuizResults() {
         <button class="btn btn-ghost" onclick="resetAndBack()">📖 Back to Words</button>
         <button class="btn btn-ghost" onclick="resetAndStats()">📊 See Stats</button>
       </div>
+      ${!isSrs ? `
+      <div class="quiz-tomorrow">
+        <div class="quiz-tomorrow-icon">🌅</div>
+        <div class="quiz-tomorrow-title">See you tomorrow!</div>
+        <div class="quiz-tomorrow-body">New kanji and vocabulary will be waiting.<br>Consistency beats intensity — がんばって！</div>
+      </div>` : ''}
     </div>`;
 
   state.quizState = null;

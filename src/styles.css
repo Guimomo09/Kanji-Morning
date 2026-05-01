@@ -307,6 +307,25 @@
     .quiz-result-pct   { font-size: 20px; color: var(--muted); margin: 4px 0 10px; }
     .quiz-result-msg   { font-size: 18px; font-weight: 700; color: var(--sub); }
 
+    .quiz-tomorrow {
+      margin: 32px auto 0; max-width: 380px;
+      background: #fff8f2; border: 1.5px solid #f5d9c4;
+      border-radius: 14px; padding: 20px 24px;
+      text-align: center;
+    }
+    .quiz-tomorrow-icon  { font-size: 32px; margin-bottom: 6px; }
+    .quiz-tomorrow-title { font-size: 17px; font-weight: 800; color: var(--red); margin-bottom: 6px; }
+    .quiz-tomorrow-body  { font-size: 14px; color: var(--sub); line-height: 1.6; }
+
+    /* ── My List full empty state ──────────────────────────────────────── */
+    .mylist-full-empty {
+      text-align: center; padding: 72px 24px 48px;
+    }
+    .mylist-full-empty-icon  { font-size: 56px; margin-bottom: 16px; }
+    .mylist-full-empty-title { font-size: 22px; font-weight: 800; color: var(--sub); margin-bottom: 10px; }
+    .mylist-full-empty-body  { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 28px; }
+    .mylist-full-empty-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
     /* ���� Tabs �������������������������������������������������������������������������� */
     .tabbar {
       max-width: 1120px;

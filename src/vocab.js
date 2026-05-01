@@ -306,6 +306,21 @@ export function renderMyList() {
   const words   = getAllSavedWords();
   const kanjis  = getAllSavedKanjis();
 
+  // ── Full empty state (first visit) ────────────────────────────────────
+  if (!kanjis.length && !words.length) {
+    section.innerHTML = `
+      <div class="mylist-full-empty">
+        <div class="mylist-full-empty-icon">📋</div>
+        <div class="mylist-full-empty-title">Your list is empty</div>
+        <div class="mylist-full-empty-body">Start by exploring today's kanji and vocabulary.<br>Save what you want to review, then quiz yourself!</div>
+        <div class="mylist-full-empty-actions">
+          <button class="btn btn-primary" onclick="switchTab('kanji')">漢 Browse Kanji →</button>
+          <button class="btn btn-ghost" onclick="switchTab('vocab')">語 Browse Vocabulary →</button>
+        </div>
+      </div>`;
+    return;
+  }
+
   let html = '';
 
   // ── Kanji section ────────────────────────────────────────────────────────
