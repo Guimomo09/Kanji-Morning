@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 2 Mai 2026 (fix _wireMenuBtn global, debugAgent, sign out confirmation)
+> Dernière mise à jour: 2 Mai 2026 (fix iOS Safari Notification ReferenceError, settings drawer OK)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `2c7786b`
+**Dernier commit**: `f92a61f`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -70,7 +70,7 @@ kanji.guimo-prod.com {
 - [x] **Tutorial onboarding** — overlay 5 étapes au 1er visit
 - [x] **Settings** — **drawer slide-in depuis la droite** (360px desktop, full-width mobile), sans backdrop — uniquement fermable via ← Retour ou Save (fix définitif ghost click iOS)
 - [x] **Sign out** — demande une confirmation avant de déconnecter (évite les misclicks)
-- [x] **debugAgent** — agent JS global exposé sur `window.debugAgent` pour re-wirer les menus, tester openSettings/showTutorial, logger les erreurs globales
+- [x] **iOS Safari compat** — `window.Notification?.permission` au lieu de `Notification?.permission` (ReferenceError si API absente sur iOS)
 - [x] **Crisp** — widget SAV, bulle **cachée sur mobile** (chat:hide API), accessible via hamburger menu
 - [x] **Hamburger menu mobile** — remplace ⚙️ sur mobile → dropdown avec Settings + Chat (iOS ghost click fix)
 
