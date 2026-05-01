@@ -46,24 +46,26 @@
 <body>
 
 <header>
-  <div>
-    <div class="h-title" id="hTitle">朝の漢字</div>
-    <div class="h-sub"   id="hSub">Morning Kanji · Daily Study</div>
-  </div>
-  <div id="authWrap" class="auth-wrap"></div>
-  <div class="h-right">
+  <div class="h-left">
     <div class="h-date"  id="hDate">?</div>
     <div class="h-greet" id="hGreet">?</div>
   </div>
-  <button class="h-settings-btn" id="settingsBtn" onclick="openSettings()" title="Settings">⚙️</button>
+  <div class="h-center">
+    <div class="h-title" id="hTitle">朝の漢字</div>
+    <div class="h-sub"   id="hSub">Morning Kanji · Daily Study</div>
+  </div>
+  <div class="h-right">
+    <div id="authWrap" class="auth-wrap"></div>
+    <button class="h-settings-btn" id="settingsBtn" onclick="openSettings()" title="Settings">⚙️</button>
+  </div>
 </header>
 
 <div class="tabbar">
-  <button class="tab active" id="tabHome"   onclick="switchTab('home')">🏠<br><span style="font-size:9px;opacity:.7">Home</span></button>
-  <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢字<br><span style="font-size:9px;opacity:.7">Kanji</span></button>
-  <button class="tab"        id="tabVocab"  onclick="switchTab('vocab')">語彙<br><span style="font-size:9px;opacity:.7">Vocab</span></button>
-  <button class="tab"        id="tabMyList" onclick="switchTab('mylist')">📋<br><span style="font-size:9px;opacity:.7">My List</span></button>
-  <button class="tab"        id="tabStats"  onclick="switchTab('stats')">📊<br><span style="font-size:9px;opacity:.7">Stats</span></button>
+  <button class="tab active" id="tabHome"   onclick="switchTab('home')">⌂<br><span style="font-size:9px;opacity:.7">Home</span></button>
+  <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢<br><span style="font-size:9px;opacity:.7">Kanji</span></button>
+  <button class="tab"        id="tabVocab"  onclick="switchTab('vocab')">語<br><span style="font-size:9px;opacity:.7">Vocab</span></button>
+  <button class="tab"        id="tabMyList" onclick="switchTab('mylist')">☰<br><span style="font-size:9px;opacity:.7">My List</span></button>
+  <button class="tab"        id="tabStats"  onclick="switchTab('stats')">◎<br><span style="font-size:9px;opacity:.7">Stats</span></button>
 </div>
 
 <div class="toolbar" id="toolbarDiv">
