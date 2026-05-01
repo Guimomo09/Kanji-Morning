@@ -4,7 +4,7 @@ import { CLOUD_ENABLED } from './config.js';
 import { loadDailyVocab, getQuizDates } from './daily.js';
 import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './biweekly.js';
 import { cloudUpdate } from './cloud.js';
-import { srsLoad, srsIntervalLabel, srsDueCards } from './srs.js';
+import { srsLoad, srsIntervalLabel } from './srs.js';
 import { getAllSavedWords } from './vocab.js';
 
 // ── Question type helpers ─────────────────────────────────────────────────
@@ -37,6 +37,37 @@ export function buildQuestionList(pool) {
     questions.push({ item, type });
   }
   return shuffleArr(questions);
+}
+
+// Builds exactly `target` questions from pool, cycling through question types for variety
+export function buildExactQuestionList(pool, target) {
+  const questions = [];
+  const usedTypes = new Map(); // word -> Set of used types
+
+  // First pass: one question per item
+  const shuffled = shuffleArr([...pool]);
+  for (const item of shuffled) {
+    const types = shuffleArr([...validTypesFor(item)]);
+    const type  = types[0];
+    usedTypes.set(item.word, new Set([type]));
+    questions.push({ item, type });
+  }
+
+  // Fill up to target by reusing items with a different type
+  const candidates = shuffleArr([...pool]);
+  let ci = 0;
+  while (questions.length < target && ci < candidates.length * 3) {
+    const item      = candidates[ci % candidates.length];
+    const available = validTypesFor(item).filter(t => !(usedTypes.get(item.word) || new Set()).has(t));
+    if (available.length) {
+      const type = available[Math.floor(Math.random() * available.length)];
+      usedTypes.get(item.word).add(type);
+      questions.push({ item, type });
+    }
+    ci++;
+  }
+
+  return shuffleArr(questions.slice(0, target));
 }
 
 // ── Quiz session timer ───────────────────────────────────────────────────
@@ -72,12 +103,12 @@ function _tickExamCountdown() {
 }
 
 // ── Quiz engine ───────────────────────────────────────────────────────────
-export function startVocabQuiz(items, dayLabel, quizType) {
+export function startVocabQuiz(items, dayLabel, quizType, exactQuestions) {
   _quizStartTime = Date.now();
   clearInterval(_quizTimerInterval);
   _quizTimerInterval = setInterval(_tickQuizTimer, 1000);
   state.quizState = {
-    questions: buildQuestionList(items),
+    questions: exactQuestions || buildQuestionList(items),
     pool:      items,
     current:   0,
     score:     0,
@@ -308,35 +339,60 @@ export function loadQuizHistory() {
 
 // ── Quiz launchers ────────────────────────────────────────────────────────
 export async function launchDailyQuiz() {
-  const today = todayStr();
-  let items   = loadDailyVocab(today);
-  if (!items || items.length < 2) {
-    items = [];
-    for (let i = 0; i < 7 && items.length < 2; i++) {
+  const today   = todayStr();
+  const TODAY_Q = 15;
+  const PREV_Q  = 5;
+  const TOTAL_Q = TODAY_Q + PREV_Q;
+
+  // ── Today's words (up to 15) ────────────────────────────────────────
+  let todayItems = loadDailyVocab(today) || [];
+
+  // Fallback: if nothing saved today, pull from last 7 days
+  if (todayItems.length < 2) {
+    const all = [];
+    for (let i = 1; i <= 7; i++) {
       const d = new Date(); d.setDate(d.getDate() - i);
       const s = loadDailyVocab(dateStr(d));
-      if (s) items.push(...s);
+      if (s) all.push(...s);
     }
     const seen = new Set();
-    items = items.filter(it => seen.has(it.word) ? false : seen.add(it.word));
+    todayItems = all.filter(it => seen.has(it.word) ? false : seen.add(it.word));
   }
-  if (items.length < 2) {
+
+  if (todayItems.length < 2) {
     setStatus('error', 'No saved words — browse Vocabulary and tap 💾 Save for Quiz first.');
     return;
   }
 
-  // Silently inject SRS due cards (max 5, no duplicates)
-  const existingWords = new Set(items.map(it => it.word));
-  const dueCards = srsDueCards()
-    .filter(c => !existingWords.has(c.word))
-    .slice(0, 5)
-    .map(c => ({ ...c, _isSrs: true }));
-  const allItems = [...items, ...dueCards];
+  // ── Previous days' words (up to 5, no duplicates with today) ──────────
+  const todayWords = new Set(todayItems.map(it => it.word));
+  const prevItems  = [];
+  for (let i = 1; i <= 14 && prevItems.length < PREV_Q; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const saved = loadDailyVocab(dateStr(d));
+    if (!saved) continue;
+    for (const it of saved) {
+      if (!todayWords.has(it.word) && !prevItems.find(p => p.word === it.word)) {
+        prevItems.push({ ...it, _isSrs: true });
+        if (prevItems.length >= PREV_Q) break;
+      }
+    }
+  }
 
-  setStatus('ok', `Daily quiz · ${items.length} word${items.length !== 1 ? 's' : ''}${dueCards.length ? ` + ${dueCards.length} review` : ''}`);
+  // ── Build exactly TOTAL_Q questions ────────────────────────────────
+  const todayPool = shuffleArr([...todayItems]).slice(0, TODAY_Q);
+  const allPool   = [...todayPool, ...prevItems];
+  const todayQs   = buildExactQuestionList(todayPool, TODAY_Q);
+  const prevQs    = buildExactQuestionList(prevItems, prevItems.length); // 1 per prev word
+  const questions = shuffleArr([...todayQs, ...prevQs]).slice(0, TOTAL_Q);
+
+  const label = prevItems.length
+    ? `${todayPool.length} new · ${prevItems.length} review`
+    : `${todayPool.length} words`;
+  setStatus('ok', `Daily quiz · ${label}`);
   document.getElementById('grid').innerHTML = '';
   document.getElementById('levelFilter').style.display = 'none';
-  startVocabQuiz(allItems, 'today', 'daily');
+  startVocabQuiz(allPool, 'today', 'daily', questions);
 }
 
 export async function launchBiWeeklyQuiz() {

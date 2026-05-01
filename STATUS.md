@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (soir — SRS intégré dans quiz daily)
+> Dernière mise à jour: 1 Mai 2026 (soir — quiz daily 15+5)
 > **À mettre à jour à chaque changement majeur**
 
 ---
