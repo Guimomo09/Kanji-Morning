@@ -349,7 +349,7 @@ export async function launchBiWeeklyQuiz() {
     const s = loadDailyVocab(d); return s && s.length > 0;
   }).length;
   const dayLabel = `${daysWithData} day${daysWithData !== 1 ? 's' : ''}`;
-  setStatus('ok', `Bi-Weekly quiz · ${unique.length} words from ${dayLabel}`);
+  setStatus('ok', `Weekly Challenge · ${unique.length} words from ${dayLabel}`);
 
   // Switch tab display if coming from a hidden-grid tab (avoid full re-render)
   const _sectionMap = { stats: 'statsSection', home: 'homeSection', mylist: 'mylistSection' };

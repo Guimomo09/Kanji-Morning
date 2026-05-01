@@ -281,8 +281,8 @@ export function renderHome() {
         </div>
         <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
           <div class="home-action-icon">週</div>
-          <div class="home-action-title">Bi-Weekly Quiz</div>
-          <div class="home-action-sub">${biweeklyAvailable ? 'Available today' : missedBiweekly ? 'Missed quiz!' : 'Next: ' + dateStr(nextBiWeeklyMonday())}</div>
+          <div class="home-action-title">Weekly Challenge</div>
+          <div class="home-action-sub">${biweeklyAvailable ? 'Available today!' : missedBiweekly ? 'Missed — catch up!' : 'Next: ' + dateStr(nextBiWeeklyMonday())}</div>
         </div>
       </div>
     </div>`;
@@ -302,13 +302,13 @@ export function renderStats() {
     <div class="stat-notif">
       <div class="stat-notif-icon">⏰</div>
       <div class="stat-notif-body">
-        <div class="stat-notif-title">Bi-Weekly Quiz missed!</div>
+        <div class="stat-notif-title">Weekly Challenge missed!</div>
         <div class="stat-notif-sub">
-          Your bi-weekly review for <strong>${dateStr(missedMon)}</strong> has not been completed yet.<br>
+          Your weekly review for <strong>${dateStr(missedMon)}</strong> has not been completed yet.<br>
           The next scheduled date is <strong>${dateStr(nextBiWeeklyMonday())}</strong>.
         </div>
         <button class="btn btn-quiz" onclick="launchBiWeeklyQuiz()" style="font-size:13px;padding:8px 18px">
-          Take Missed Quiz Now
+          Catch Up Now
         </button>
       </div>
     </div>` : '';
@@ -334,10 +334,10 @@ export function renderStats() {
   const todayDone     = isBiWeeklyDone(todayStr());
   const biweeklyInfoHtml = todayIsBiW && !todayDone
     ? `<div style="font-size:13px;color:#2e7d32;font-weight:700;padding:10px 0 0">
-        📅 Bi-Weekly Quiz is available <strong>today</strong>! Go to Vocabulary tab.
+        📅 Weekly Challenge is available <strong>today</strong>! Go to Vocabulary tab.
        </div>`
     : `<div style="font-size:12px;color:var(--muted);padding:10px 0 0">
-        Next Bi-Weekly Quiz: <strong>${dateStr(nextMon)}</strong>
+        Next Weekly Challenge: <strong>${dateStr(nextMon)}</strong>
        </div>`;
 
   document.getElementById('statsSection').innerHTML = `
@@ -386,7 +386,7 @@ export function renderStats() {
         <div style="font-size:48px;margin-bottom:14px">📊</div>
         <div style="font-size:16px;font-weight:700;color:var(--sub)">No quiz history yet</div>
         <div style="font-size:13px;margin-top:8px;line-height:1.6">
-          Complete a <strong>Daily</strong> or <strong>Bi-Weekly Quiz</strong> to track your score progression here.
+          Complete a <strong>Daily Quiz</strong> or <strong>Weekly Challenge</strong> to track your score progression here.
         </div>
       </div>`}
     </div>`;
