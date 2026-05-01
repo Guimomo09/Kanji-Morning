@@ -28,7 +28,7 @@
 
     /* ���� Header ���������������������������������������������������������������������� */
     header {
-      background: linear-gradient(160deg, #1c1917 0%, #0f0d0c 100%);
+      background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
       color: #fff;
       padding: 16px 32px;
       display: grid;

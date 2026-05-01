@@ -247,12 +247,12 @@ export function renderHome() {
           <div class="home-action-sub">Save new words</div>
         </div>
         <div class="home-action-card ${dailyAvailable ? '' : 'disabled'}" onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)">
-          <div class="home-action-icon">🎯</div>
+          <div class="home-action-icon">試</div>
           <div class="home-action-title">Daily Quiz</div>
           <div class="home-action-sub">${todayWords.length} word${todayWords.length !== 1 ? 's' : ''} ready</div>
         </div>
         <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
-          <div class="home-action-icon">📅</div>
+          <div class="home-action-icon">週</div>
           <div class="home-action-title">Bi-Weekly Quiz</div>
           <div class="home-action-sub">${biweeklyAvailable ? 'Available today' : missedBiweekly ? 'Missed quiz!' : 'Next: ' + dateStr(nextBiWeeklyMonday())}</div>
         </div>
@@ -280,7 +280,7 @@ export function renderStats() {
           The next scheduled date is <strong>${dateStr(nextBiWeeklyMonday())}</strong>.
         </div>
         <button class="btn btn-quiz" onclick="launchBiWeeklyQuiz()" style="font-size:13px;padding:8px 18px">
-          📅 Take Missed Quiz Now
+          Take Missed Quiz Now
         </button>
       </div>
     </div>` : '';
