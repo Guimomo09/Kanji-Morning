@@ -55,6 +55,11 @@ function posCategory(posArr) {
   return 'other';
 }
 
+// ── Frequency cutoff per JLPT level ──────────────────────────────────────
+// Words not common enough for a given level are excluded entirely.
+// Based on subtitle-corpus ranks: N5/N4 = daily spoken vocab only.
+const FREQ_CUTOFF = { 5: 2500, 4: 4500, 3: 9000, 2: 99999, 1: 99999 };
+
 // ── Build vocab items from API picks ─────────────────────────────────────
 export async function buildVocabItems(picks) {
   const TOP_TAGS   = ['news1','ichi1','spec1','nf01','nf02','nf03','nf04','nf05','nf06'];
@@ -112,6 +117,10 @@ export async function buildVocabItems(picks) {
 
       // Frequency boost: subtitle-corpus rank boosts score (lower rank = more common = higher boost)
       const freqRank  = FREQ[wordKey] ?? 99999;
+
+      // Hard cutoff: for N5/N4/N3, skip words not common enough
+      if (freqRank > FREQ_CUTOFF[jlptNum]) continue;
+
       const freqBonus = Math.max(0, 600 - freqRank);
       const score     = priorityScore(varPriorities) + freqBonus;
       posCategory(bestMeaningEntry?.part_of_speech); // (side-effect free — kept for future use)
@@ -175,6 +184,11 @@ export async function buildVocabFromKanjis(kanjiCards) {
       if (hasNoKanji(variant.written)) continue;
       const jlptNum = { N5: 5, N4: 4, N3: 3, N2: 2, N1: 1 }[k.level] ?? 2;
       if (kanjiCount(variant.written) > maxKanjiForLevel(jlptNum)) continue;
+
+      // Hard cutoff: skip words not frequent enough for this level
+      const freqRank = FREQ[variant.written] ?? 99999;
+      if (freqRank > FREQ_CUTOFF[jlptNum]) continue;
+
       seenWords.add(variant.written);
 
       const best = pickBestGloss(entry.meanings || []);

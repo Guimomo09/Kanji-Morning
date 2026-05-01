@@ -45,7 +45,7 @@ const RARE_RE = /\b(archaism|archaic|obsolete|rare|dated|poetic|vulgar|derogator
 const COUNTER_RE = /^counter for\b/i;
 const POS_DEPRIORITIZE_RE = /counter|numeric.?classifier|suffix|prefix|particle|auxiliary/i;
 // Subjects that appear in glosses but aren't daily-life concepts
-const NONDAILY_RE = /\b(buddha|goddess?|deity|shrine|temple|nobleman|noble|aristocrat|feudal|imperial|shogun|emperor|empress|consort|prince|princess|monk|priest|nun|clan|warlord|samurai|vassal|regent|dynasty|epoch|era\b|period\b|reign|manor|castle|artifact|relic|scripture|sutra|incense|ritual|ceremony|divinity|divination|oracle|omen|ancestral|pilgrimage)\b/i;
+const NONDAILY_RE = /\b(buddha|goddess?|deity|shrine|temple|nobleman|noble|aristocrat|feudal|imperial|shogun|emperor|empress|consort|prince|princess|monk|priest|nun|clan|warlord|samurai|vassal|regent|dynasty|epoch|era\b|period\b|reign|manor|castle|artifact|relic|scripture|sutra|incense|ritual|ceremony|divinity|divination|oracle|omen|ancestral|pilgrimage|cerebrum|cerebellum|cortex|neuron|artery|vein|tendon|ligament|vertebra|pelvis|thorax|femur|tibia|fibula|humerus|radius|ulna|clavicle|scapula|cranium|mandible|phalanx|battalion|regiment|platoon|squadron|garrison|artillery|infantry|cavalry|grenade|torpedo|mortar|barracks|ordnance|munition|troop|brigade|company\b.*soldier|battery\b.*military|messrs|addressee|salutation|preamble|foreword|preface|postscript|appendix|errata|treatise|dissertation|monograph|on base|times on base|batting|fielding|pitcher|catcher|inning|strikeout|homerun|shortstop|outfield|infield|distribution of electricity|electric.?power.?distribution|high.?voltage|low.?voltage|transformer\b|substation|switchboard)\b/i;
 
 function meaningScore(m) {
   const text = (m.glosses || []).join(' ');
