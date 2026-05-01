@@ -55,6 +55,7 @@
     <div class="h-date"  id="hDate">?</div>
     <div class="h-greet" id="hGreet">?</div>
   </div>
+  <button class="h-settings-btn" id="settingsBtn" onclick="openSettings()" title="Settings">⚙️</button>
 </header>
 
 <div class="tabbar">
@@ -114,6 +115,29 @@
     <div class="tutorial-nav">
       <button class="btn btn-ghost" id="tutPrevBtn" onclick="tutorialPrev()" style="display:none">← Back</button>
       <button class="btn btn-primary" id="tutNextBtn" onclick="tutorialNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="settings-backdrop" id="settingsBackdrop" style="display:none" onclick="closeSettings()">
+  <div class="settings-modal" onclick="event.stopPropagation()">
+    <div class="settings-header">
+      <span class="settings-title">⚙️ Settings</span>
+      <button class="settings-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="settings-section-title">🔔 Morning Reminder</div>
+    <div class="settings-row">
+      <label class="settings-label" for="settingsNotifToggle">Enable daily reminder</label>
+      <input type="checkbox" id="settingsNotifToggle" class="settings-toggle">
+    </div>
+    <div class="settings-row" id="settingsTimeRow">
+      <label class="settings-label" for="settingsTimeInput">Reminder time</label>
+      <input type="time" id="settingsTimeInput" class="notif-time-input" value="08:00">
+    </div>
+    <div class="settings-save-row">
+      <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+      <span class="settings-save-msg" id="settingsSaveMsg"></span>
     </div>
   </div>
 </div>

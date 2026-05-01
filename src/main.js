@@ -145,6 +145,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeKanjiDetail();
     closeTutorial();
+    closeSettings();
   }
 });
 
@@ -270,6 +271,11 @@ Object.assign(window, {
 
   // PWA notification opt-in (called from quiz result screen)
   requestQuizNotification: _requestQuizNotification,
+
+  // Settings modal
+  openSettings,
+  closeSettings,
+  saveSettings,
 });
 
 // ── My List selection state ────────────────────────────────────────────────
@@ -328,6 +334,70 @@ function _setupMyListDrag() {
   section.addEventListener('click', e => {
     if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
   }, true);
+}
+
+// ── Settings modal ────────────────────────────────────────────────────────
+function openSettings() {
+  const toggle = document.getElementById('settingsNotifToggle');
+  const timeIn = document.getElementById('settingsTimeInput');
+  const timeRow = document.getElementById('settingsTimeRow');
+  const msg    = document.getElementById('settingsSaveMsg');
+  if (msg) msg.textContent = '';
+
+  const savedTime    = localStorage.getItem('km_notif_time') || '08:00';
+  const notifEnabled = Notification?.permission === 'granted' && !!localStorage.getItem('km_notif_scheduled');
+  if (toggle) { toggle.checked = notifEnabled; }
+  if (timeIn) { timeIn.value = savedTime; timeIn.disabled = !notifEnabled; }
+  if (timeRow) timeRow.style.opacity = notifEnabled ? '1' : '.45';
+
+  toggle?.addEventListener('change', () => {
+    const on = toggle.checked;
+    if (timeIn) timeIn.disabled = !on;
+    if (timeRow) timeRow.style.opacity = on ? '1' : '.45';
+  }, { once: true });
+
+  document.getElementById('settingsBackdrop').style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSettings() {
+  document.getElementById('settingsBackdrop').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function saveSettings() {
+  const toggle = document.getElementById('settingsNotifToggle');
+  const timeIn = document.getElementById('settingsTimeInput');
+  const msg    = document.getElementById('settingsSaveMsg');
+  const enabled = toggle?.checked ?? false;
+  const timeVal = (timeIn && timeIn.value) ? timeIn.value : '08:00';
+
+  if (!enabled) {
+    localStorage.removeItem('km_notif_scheduled');
+    if (msg) { msg.textContent = '✓ Reminder disabled'; }
+    setTimeout(closeSettings, 1200);
+    return;
+  }
+
+  if (!('Notification' in window)) {
+    if (msg) msg.textContent = 'Notifications not supported.';
+    return;
+  }
+
+  Notification.requestPermission().then(perm => {
+    if (perm !== 'granted') {
+      if (msg) msg.textContent = '🔕 Blocked in browser settings';
+      if (toggle) toggle.checked = false;
+      return;
+    }
+    const [h, m] = timeVal.split(':').map(Number);
+    localStorage.setItem('km_notif_time', timeVal);
+    const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(h, m, 0, 0);
+    localStorage.setItem('km_notif_scheduled', d.toISOString());
+    const label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+    if (msg) { msg.textContent = `✓ Set for ${label} daily`; }
+    setTimeout(closeSettings, 1200);
+  });
 }
 
 // ── PWA morning notification opt-in ──────────────────────────────────────
