@@ -1,7 +1,112 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (après-midi)
+> Dernière mise à jour: 1 Mai 2026 (soir)
 > **À mettre à jour à chaque changement majeur**
+
+---
+
+## 🌐 Infrastructure — ÉTAT ACTUEL
+
+| Composant | État | Détail |
+|-----------|------|--------|
+| **VPS** | ✅ Actif | Hetzner CX22 · Ubuntu 24.04 · `95.216.168.28` |
+| **Caddy** | ✅ Actif | Reverse proxy + SSL auto sur le VPS |
+| **Domaine** | ✅ Actif | `guimo-prod.com` via Cloudflare |
+| **DNS** | ✅ Configuré | A record `kanji` → `95.216.168.28` · proxy orange ☁️ |
+| **URL prod** | ✅ Live | https://kanji.guimo-prod.com |
+| **Deploy** | ✅ Auto | GitHub Actions → SCP `dist/` → `/var/www/kanji/` |
+| **HTTPS** | ✅ Actif | Caddy gère le certificat automatiquement |
+| **Proxy Tatoeba** | ✅ Actif | `/api/tatoeba` → reverse proxy `tatoeba.org` (fix CORS) |
+
+### Caddyfile (`/etc/caddy/Caddyfile`)
+```
+kanji.guimo-prod.com {
+    root * /var/www/kanji
+    file_server
+    encode gzip
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+    # TATOEBA-PROXY
+    handle /api/tatoeba* {
+        rewrite * /api_v0/search?{query}
+        reverse_proxy https://tatoeba.org { header_up Host tatoeba.org }
+        header Access-Control-Allow-Origin *
+    }
+}
+```
+
+---
+
+## 🔥 Kanji Morning — État actuel
+
+**URL prod**: https://kanji.guimo-prod.com  
+**Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
+**Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
+**Dernier commit**: `131ac74`
+
+### ✅ Fonctionnel
+- [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
+- [x] Filtre niveau kanji (pills N5-N1)
+- [x] Sauvegarde kanji (★ button) → My List
+- [x] My List — 2 sections : 漢字 chips + 語彙 table
+- [x] Mode "From Kanji" — vocab depuis kanjis sauvegardés
+- [x] Quiz daily + Weekly Challenge + SRS (SM-2)
+- [x] Firebase Auth (login Google) + Cloud sync Firestore
+- [x] PWA — manifest + service worker v3 + icônes (installable mobile)
+- [x] Cache API 24h TTL (localStorage)
+- [x] Cloud sync fix — mots supprimés ne reviennent plus après re-login
+- [x] Batch multi-select delete dans My List (shift+clic, barre flottante)
+- [x] Filtre de complexité des mots par niveau JLPT
+- [x] Tri des définitions : sens courants en premier
+- [x] **Noto Sans JP** — police chargée depuis Google Fonts (poids 700+900)
+- [x] **Header redesign** — layout 3 colonnes (date | 朝の漢字 | login+⚙️), dégradé rouge
+- [x] **Home grid** — Streak / Words / Today's Word (WOTD saisonnier) / JLPT Target (tap to cycle)
+- [x] **Word of the Day** — saisonnier, déterministe par jour du mois (wotd.js)
+- [x] **JLPT Goal** — tap KPI card → cycle N5→N4→N3→N2→N1, progress %, "Start saving words!" si 0%
+- [x] **Exam Mode** — 7 min, 20 questions, pass/fail 60%, filtré par niveau JLPT cumulatif, onglet My List uniquement
+- [x] **Weekly Challenge** — (ex Bi-Weekly Quiz) tous les lundis
+- [x] **Stats tab** — grille 2×2 (Streak / Words Learned / Avg Score / JLPT Target)
+- [x] **Bannière "missed"** — ton encourageant "💪 Keep going — one more to catch up!"
+- [x] **Phrases d'exemple** — Tatoeba CC-BY via proxy Caddy (fix CORS), cache uniquement si résultats non-vides
+- [x] **Tutorial onboarding** — overlay 5 étapes au 1er visit
+- [x] **Settings modal** — ⚙️ dans le header (touchend pour iOS), toggle notif + time picker
+- [x] **Crisp** — widget SAV, au-dessus de la tab bar mobile (MutationObserver), identification auto Firebase
+
+### 🟡 À faire / en cours
+- [ ] **Stripe** — €7.99 one-time. Free: 30 mots max + quiz daily + Weekly Challenge. Premium: My List illimité + Exam Mode + stats complètes + SRS
+- [ ] Notifications push background (Push API + serveur) — opt-in local ✅, push serveur manquant
+
+---
+
+## 💰 Services & Abonnements
+
+| Service | Usage | Prix | Compte |
+|---------|-------|------|--------|
+| **Firebase** | Auth + Firestore (Kanji Morning) | Gratuit | guimoprod.dev@gmail.com |
+| **Crisp** | Live chat SAV (Kanji Morning) | Gratuit | guimoprod.dev@gmail.com |
+| **kanjiapi.dev** | API kanji/vocab | Gratuit | — |
+| **Cloudflare** | DNS + CDN + Email Routing | Gratuit | guimoprod.dev@gmail.com |
+| **Hetzner CX22** | VPS `95.216.168.28` | ~4€/mois | — |
+| **Domaine guimo-prod.com** | — | ~10€/an | — |
+
+### 📧 Emails (Cloudflare Routing → guimoprod.dev@gmail.com)
+| Adresse | Usage |
+|---------|-------|
+| `support@guimo-prod.com` | SAV utilisateurs / Crisp |
+| `billing@guimo-prod.com` | Stripe / facturation |
+
+---
+
+## 🤖 Agents VS Code
+
+| Agent | Rôle |
+|-------|------|
+| **Feedback Coach** | Retours critiques UX/décisions |
+| **Beta Client (Léa)** | Simule un vrai utilisateur |
 
 ---
 
