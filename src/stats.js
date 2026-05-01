@@ -226,10 +226,12 @@ export function renderHome() {
       <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div></div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
       <div class="kpi-card kpi-wotd">
-        <div class="kpi-wotd-kanji">${wotd.word}</div>
-        <div class="kpi-wotd-reading">${wotd.reading}</div>
-        <div class="kpi-wotd-meaning">${wotd.meaning}</div>
-        <div class="kpi-lbl">${wotd.emoji} 今日の一語</div>
+        <div class="kpi-wotd-banner">${wotd.emoji} 今日の一語</div>
+        <div class="kpi-wotd-body">
+          <div class="kpi-wotd-kanji">${wotd.word}</div>
+          <div class="kpi-wotd-reading">${wotd.reading}</div>
+          <div class="kpi-wotd-meaning">${wotd.meaning}</div>
+        </div>
       </div>
       <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
       <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()" title="Tap to change level">
