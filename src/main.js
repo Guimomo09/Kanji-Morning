@@ -375,7 +375,7 @@ function openSettings() {
   const msg     = document.getElementById('settingsSaveMsgMobile');
   if (msg) msg.textContent = '';
   const savedTime    = localStorage.getItem('km_notif_time') || '08:00';
-  const notifEnabled = Notification?.permission === 'granted' && !!localStorage.getItem('km_notif_scheduled');
+  const notifEnabled = window.Notification?.permission === 'granted' && !!localStorage.getItem('km_notif_scheduled');
   if (toggle) { toggle.checked = notifEnabled; }
   if (timeIn) { timeIn.value = savedTime; timeIn.disabled = !notifEnabled; }
   if (timeRow) timeRow.style.opacity = notifEnabled ? '1' : '.45';
