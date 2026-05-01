@@ -355,14 +355,12 @@ function _setupMyListDrag() {
   }, true);
 }
 
-// ── Settings modal ────────────────────────────────────────────────────────
-const _isMobile = () => window.innerWidth <= 640;
-
-function _populateSettings(toggleId, timeInId, timeRowId, msgId) {
-  const toggle  = document.getElementById(toggleId);
-  const timeIn  = document.getElementById(timeInId);
-  const timeRow = document.getElementById(timeRowId);
-  const msg     = document.getElementById(msgId);
+// ── Settings ──────────────────────────────────────────────────────────────
+function openSettings() {
+  const toggle  = document.getElementById('settingsNotifToggleMobile');
+  const timeIn  = document.getElementById('settingsTimeInputMobile');
+  const timeRow = document.getElementById('settingsTimeRowMobile');
+  const msg     = document.getElementById('settingsSaveMsgMobile');
   if (msg) msg.textContent = '';
   const savedTime    = localStorage.getItem('km_notif_time') || '08:00';
   const notifEnabled = Notification?.permission === 'granted' && !!localStorage.getItem('km_notif_scheduled');
@@ -374,31 +372,19 @@ function _populateSettings(toggleId, timeInId, timeRowId, msgId) {
     if (timeIn) timeIn.disabled = !on;
     if (timeRow) timeRow.style.opacity = on ? '1' : '.45';
   }, { once: true });
-}
-
-function openSettings() {
-  if (_isMobile()) {
-    _populateSettings('settingsNotifToggleMobile', 'settingsTimeInputMobile', 'settingsTimeRowMobile', 'settingsSaveMsgMobile');
-    document.getElementById('settingsPage').style.display = '';
-    document.body.style.overflow = 'hidden';
-  } else {
-    _populateSettings('settingsNotifToggle', 'settingsTimeInput', 'settingsTimeRow', 'settingsSaveMsg');
-    document.getElementById('settingsBackdrop').style.display = '';
-    document.body.style.overflow = 'hidden';
-  }
+  document.getElementById('settingsPage').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
 }
 
 function closeSettings() {
-  document.getElementById('settingsPage').style.display     = 'none';
-  document.getElementById('settingsBackdrop').style.display = 'none';
+  document.getElementById('settingsPage').style.display = 'none';
   document.body.style.overflow = '';
 }
 
 function saveSettings() {
-  const mobile  = _isMobile();
-  const toggle  = document.getElementById(mobile ? 'settingsNotifToggleMobile' : 'settingsNotifToggle');
-  const timeIn  = document.getElementById(mobile ? 'settingsTimeInputMobile'   : 'settingsTimeInput');
-  const msg     = document.getElementById(mobile ? 'settingsSaveMsgMobile'     : 'settingsSaveMsg');
+  const toggle  = document.getElementById('settingsNotifToggleMobile');
+  const timeIn  = document.getElementById('settingsTimeInputMobile');
+  const msg     = document.getElementById('settingsSaveMsgMobile');
   const enabled = toggle?.checked ?? false;
   const timeVal = (timeIn && timeIn.value) ? timeIn.value : '08:00';
 
