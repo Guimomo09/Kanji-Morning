@@ -366,42 +366,6 @@ function _setupMyListDrag() {
   section.addEventListener('click', e => {
     if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
   }, true);
-
-  // ── Touch drag-select (mobile — swipe to multi-select) ───────────────
-  let _touchStartEl = null;
-  let _touchDragActive = false;
-
-  section.addEventListener('touchstart', e => {
-    const t  = e.touches[0];
-    const el = document.elementFromPoint(t.clientX, t.clientY)
-                 ?.closest?.('.kanji-saved-chip, #mylistBody tr');
-    _touchStartEl    = el || null;
-    _touchDragActive = false;
-  }, { passive: true });
-
-  section.addEventListener('touchmove', e => {
-    const t  = e.touches[0];
-    const el = document.elementFromPoint(t.clientX, t.clientY)
-                 ?.closest?.('.kanji-saved-chip, #mylistBody tr');
-    if (!el) return;
-    if (!_touchDragActive) {
-      // Only activate if finger moved to a DIFFERENT item (not just trembling in place)
-      if (el === _touchStartEl) return;
-      _touchDragActive = true;
-      _dragging   = true;
-      _didDrag    = true;        // suppress the tap-click that fires after touchend
-      _dragAction = (_touchStartEl || el).classList.contains('selected') ? 'deselect' : 'select';
-      if (_touchStartEl) _applyDragTo(_touchStartEl);
-    }
-    _applyDragTo(el);
-    _updateDeleteBar();
-  }, { passive: true });
-
-  document.addEventListener('touchend', () => {
-    if (_dragging) { _dragging = false; _updateDeleteBar(); }
-    _touchDragActive = false;
-    _touchStartEl    = null;
-  });
 }
 
 // ── Settings ──────────────────────────────────────────────────────────────
