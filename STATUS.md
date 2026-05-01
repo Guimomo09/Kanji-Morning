@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (après-midi)
+> Dernière mise à jour: 1 Mai 2026 (soir)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -68,9 +68,9 @@ kanji.guimo-prod.com {
 - [x] **Hiérarchie des cartes** — badge JLPT passe sous le sens (order CSS), flux kanji → sens → badge → lectures → exemples
 
 ### 🟡 À faire
-- [ ] Domaine Firebase Auth — ajouter `kanji.guimo-prod.com` aux domaines autorisés
-- [ ] Monétisation — Stripe freemium (free: N5/N4 + 10 cartes, premium: tout + SRS + Stats)
-- [ ] SAV — Crisp widget + page /support FAQ
+- [x] Domaine Firebase Auth — `kanji.guimo-prod.com` ajouté aux domaines autorisés ✅
+- [ ] SAV — Crisp widget + identification utilisateur connecté
+- [ ] Monétisation — Stripe freemium (free: N5/N4, premium: tout + SRS + Stats)
 - [ ] Notifications / rappel quotidien
 - [ ] CMS stack (Directus ?)
 
@@ -78,13 +78,19 @@ kanji.guimo-prod.com {
 
 ## 💰 Services & Abonnements
 
-| Service | Usage | Prix |
-|---------|-------|------|
-| **Firebase** | Auth + Firestore | Gratuit |
-| **kanjiapi.dev** | API kanji/vocab | Gratuit |
-| **Cloudflare** | DNS + CDN | Gratuit |
-| **Hetzner CX22** | VPS | ~4€/mois |
-| **Domaine guimo-prod.com** | — | ~10€/an |
+| Service | Usage | Prix | Compte |
+|---------|-------|------|--------|
+| **Firebase** | Auth + Firestore (Kanji Morning) | Gratuit | guimoprod.dev@gmail.com |
+| **kanjiapi.dev** | API kanji/vocab | Gratuit | — |
+| **Cloudflare** | DNS + CDN + Email Routing | Gratuit | guimoprod.dev@gmail.com |
+| **Hetzner CX22** | VPS `95.216.168.28` | ~4€/mois | — |
+| **Domaine guimo-prod.com** | — | ~10€/an | — |
+
+### 📧 Emails (Cloudflare Routing → guimoprod.dev@gmail.com)
+| Adresse | Usage |
+|---------|-------|
+| `support@guimo-prod.com` | SAV utilisateurs / Crisp |
+| `billing@guimo-prod.com` | Stripe / facturation |
 
 ---
 
