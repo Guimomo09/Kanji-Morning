@@ -39,11 +39,21 @@
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = "508d392e-da32-4d8c-a22f-21e5f7b81b6f";
     window.$crisp.push(['config', 'locale', 'en']);
-    // Push bubble above tab bar on mobile
-    document.addEventListener('DOMContentLoaded', () => {
-      const style = document.createElement('style');
-      style.textContent = '@media (max-width:600px){.crisp-client{bottom:70px!important;} #crisp-chatbox > div{bottom:70px!important;}}'
-      document.head.appendChild(style);
+    // Move bubble above bottom tab bar on mobile
+    function _fixCrispPos() {
+      if (window.innerWidth > 640) return;
+      var el = document.getElementById('crisp-chatbox');
+      if (el) { el.style.setProperty('bottom', '70px', 'important'); el.style.setProperty('margin-bottom', '0', 'important'); }
+    }
+    window.CRISP_READY_TRIGGER = _fixCrispPos;
+    document.addEventListener('DOMContentLoaded', function() {
+      // CSS fallback — covers all Crisp internal elements
+      var s = document.createElement('style');
+      s.textContent = '@media (max-width:640px){#crisp-chatbox{bottom:70px!important;margin-bottom:0!important;} .crisp-client{bottom:70px!important;} .crisp-client .cc-kxkl{bottom:0!important;} .crisp-client .cc-nsge{bottom:0!important;}}';
+      document.head.appendChild(s);
+      // JS fallback — retry a few seconds after load in case CRISP_READY_TRIGGER already fired
+      setTimeout(_fixCrispPos, 3000);
+      setTimeout(_fixCrispPos, 6000);
     });
     (function () {
       var d = document, s = d.createElement("script");

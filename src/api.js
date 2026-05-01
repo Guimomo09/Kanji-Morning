@@ -37,7 +37,7 @@ export async function getWords(char) {
 export async function fetchExampleSentences(word) {
   const key = `ex_${word}`;
   const cached = cacheGet(key);
-  if (cached !== null) return cached;
+  if (cached !== null && cached.length > 0) return cached;
   try {
     const url = `https://tatoeba.org/api_v0/search?from=jpn&to=eng&query=${encodeURIComponent(word)}&limit=5`;
     const res = await fetch(url);

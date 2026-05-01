@@ -488,6 +488,12 @@ initCloud();
 srsUpdateReviewCount();
 switchTab('home');
 
+// iOS Safari: position:sticky headers don't reliably fire click — use touchend
+const _sBtn = document.getElementById('settingsBtn');
+if (_sBtn) {
+  _sBtn.addEventListener('touchend', function(e) { e.preventDefault(); openSettings(); });
+}
+
 // Show tutorial on first ever visit
 if (!localStorage.getItem('km_onboarding_done')) {
   setTimeout(showTutorial, 600);
