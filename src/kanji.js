@@ -1,5 +1,6 @@
 import { LEVEL_LABEL, CLOUD_ENABLED } from './config.js';
 import { normalizeMeaning, setStatus, sortGlosses, GLOSS_SKIP_RE, GLOSS_RARE_RE } from './utils.js';
+import { FREQ } from './freq.js';
 import { state } from './state.js';
 import { getKanjiDetail, getWords, buildPool, pickChars } from './api.js';
 import { cloudUpdate } from './cloud.js';
@@ -49,10 +50,13 @@ export function bestExamples(words, targetChar, max = 3) {
     if (seenMeanings.has(normGloss)) continue;
     seenMeanings.add(normGloss);
 
-    const wordLen   = variant.written.length;
-    const isRare    = GLOSS_RARE_RE.test(gloss);
-    const hasPrefix = GLOSS_SKIP_RE.test(gloss);
-    const score     = wordLen + (isRare ? 10 : 0) + (hasPrefix ? 5 : 0);
+    const wordLen    = variant.written.length;
+    const isRare     = GLOSS_RARE_RE.test(gloss);
+    const hasPrefix  = GLOSS_SKIP_RE.test(gloss);
+    // Frequency rank: lower = more common. Unknown words get rank 99999.
+    const freqRank   = FREQ[variant.written] ?? 99999;
+    // Score: low frequency rank = low score = appears first
+    const score      = (freqRank / 100) + (isRare ? 20 : 0) + (hasPrefix ? 10 : 0) + (wordLen > 4 ? wordLen : 0);
 
     candidates.push({
       w: variant.written,

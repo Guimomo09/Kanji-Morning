@@ -1,5 +1,6 @@
 import { VOCAB_COUNT, LEVEL_LABEL } from './config.js';
 import { normMeaning, setStatus, todayStr, sortMeanings, pickBestGloss } from './utils.js';
+import { FREQ } from './freq.js';
 import { state } from './state.js';
 import { getWords, buildPool, pickVocabChars } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
@@ -84,8 +85,8 @@ export async function buildVocabItems(picks) {
       const varPriorities = canonical.priorities || [];
       if (!varPriorities.some(p => TOP_TAGS.includes(p))) continue;
 
-      const score = priorityScore(varPriorities);
-      if (score <= 0) continue;
+      const baseScore = priorityScore(varPriorities);
+      if (baseScore <= 0) continue;
 
       const wordKey = canonical.written;
       if (seenWords.has(wordKey)) continue;
@@ -108,6 +109,11 @@ export async function buildVocabItems(picks) {
         .filter(m => m !== bestMeaningEntry)
         .slice(0, 2)
         .map(m => m.glosses?.slice(0, 2).join(', ')).filter(Boolean);
+
+      // Frequency boost: subtitle-corpus rank boosts score (lower rank = more common = higher boost)
+      const freqRank  = FREQ[wordKey] ?? 99999;
+      const freqBonus = Math.max(0, 600 - freqRank);
+      const score     = priorityScore(varPriorities) + freqBonus;
       posCategory(bestMeaningEntry?.part_of_speech); // (side-effect free — kept for future use)
 
       candidates.push({
