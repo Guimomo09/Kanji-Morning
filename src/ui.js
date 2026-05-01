@@ -72,6 +72,7 @@ export function switchTab(tab) {
     return;
   }
   if (isMyList) {
+    document.getElementById('btnExam').style.display         = '';
     document.getElementById('hTitle').textContent = '単語リスト';
     document.getElementById('hSub').textContent   = 'My Word List · All Saved Vocabulary';
     renderMyList();
@@ -116,7 +117,7 @@ export function switchTab(tab) {
   document.getElementById('btnSave').style.display          = '';
   document.getElementById('levelFilter').style.display      = '';
   document.getElementById('btnDailyQuiz').style.display     = '';
-  document.getElementById('btnExam').style.display          = '';
+  document.getElementById('btnExam').style.display          = 'none';
   document.getElementById('btnExam').style.display          = '';
   document.getElementById('btnBiweeklyQuiz').style.display  = 'none';
   document.getElementById('btnReview').style.display        = 'none';
