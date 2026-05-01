@@ -110,7 +110,7 @@ kanji.guimo-prod.com {
 
 ## �🔥 Kanji Morning — État actuel
 
-**URL**: https://kanji-morning.netlify.app  
+**URL prod**: https://kanji.guimo-prod.com/kanji-morning.html ✅  
 **Fichier**: `kanji-morning.html` (single-file app)  
 **Stack**: HTML/CSS/JS + Firebase Auth + Firestore + kanjiapi.dev
 
@@ -150,20 +150,20 @@ Hetzner CX22 · Ubuntu 24.04
   ├── cms.[domaine].com    → App CMS (stack à décider)
   └── Backups snapshots Hetzner
 ```
-**Domaine**: À acheter (Cloudflare Registrar recommandé)  
+**Domaine**: `guimo-prod.com` ✅ acheté  
 **CMS Stack**: À décider (Directus recommandé)  
 **Architecture finale**: Hetzner CX22 + Cloudflare CDN (mondial)  
 **Statut**: ⏳ En attente commande VPS
 
-### Étapes à faire (dans l'ordre)
-- [ ] 1. Créer compte Cloudflare → cloudflare.com
-- [ ] 2. Acheter domaine via Cloudflare Registrar (~10€/an)
-- [ ] 3. Commander Hetzner CX22 → hetzner.com (Ubuntu 24.04, Helsinki)
-- [ ] 4. Setup VPS : SSH + Docker + Caddy
-- [ ] 5. Pointer domaine DNS vers IP Hetzner via Cloudflare
-- [ ] 6. Déployer Kanji Morning sur le VPS
-- [ ] 7. Mettre à jour domaines autorisés Firebase Auth
-- [ ] 8. Décider et installer CMS (Directus recommandé)
+- [x] 1. Créer compte Cloudflare → cloudflare.com ✅
+- [x] 2. Acheter domaine `guimo-prod.com` via Cloudflare ✅
+- [x] 3. DNS CNAME `kanji.guimo-prod.com` → GitHub Pages ✅
+- [x] 4. Enforce HTTPS sur GitHub Pages ✅
+- [x] 5. Ajouter `kanji.guimo-prod.com` dans Firebase Auth ✅
+- [ ] 6. Commander Hetzner CX22 → hetzner.com (Ubuntu 24.04, Helsinki)
+- [ ] 7. Setup VPS : SSH + Docker + Caddy
+- [ ] 8. Migrer `kanji.guimo-prod.com` → Hetzner (remplace GitHub Pages)
+- [ ] 9. Décider et installer CMS (Directus recommandé)
 
 ---
 

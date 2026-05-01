@@ -10,7 +10,7 @@
     /v1/kanji/{char}          → meanings, on_readings, kun_readings
     /v1/words/{char}          → example words with readings and glosses
     All responses are cached in localStorage (24-hour TTL).
-    Total pool: ~170 N4 + ~370 N3 + ~374 N2 + ~1136 N1 = ~2050 kanji
+    Total pool: ~103 N5 + ~170 N4 + ~370 N3 + ~374 N2 + ~1136 N1 = ~2153 kanji
   -->
 
   <!-- PWA -->
@@ -66,6 +66,7 @@
 <div class="level-filter" id="levelFilter" style="display:none">
   <span class="level-filter-label">Level:</span>
   <button class="pill active" data-level="all" onclick="setLevel('all')">All</button>
+  <button class="pill"        data-level="5"   onclick="setLevel('5')">N5</button>
   <button class="pill"        data-level="4"   onclick="setLevel('4')">N4</button>
   <button class="pill"        data-level="3"   onclick="setLevel('3')">N3</button>
   <button class="pill"        data-level="2"   onclick="setLevel('2')">N2</button>
@@ -75,6 +76,7 @@
 </div>
 
 <div class="legend" id="legendDiv">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n5)"></span>N5 (beginner)</div>
   <div class="legend-item"><span class="legend-dot" style="background:var(--n4)"></span>N4</div>
   <div class="legend-item"><span class="legend-dot" style="background:var(--n3)"></span>N3 (frequent)</div>
   <div class="legend-item"><span class="legend-dot" style="background:var(--n2)"></span>N2 (frequent)</div>
@@ -87,6 +89,29 @@
 <div class="mylist-section" id="mylistSection" style="display:none"></div>
 
 <footer>頑張って！Keep showing up — every morning counts.</footer>
+
+<!-- Tutorial overlay (shown on first visit) -->
+<div class="tutorial-overlay" id="tutorialOverlay" style="display:none">
+  <div class="tutorial-card">
+    <button class="tutorial-close" onclick="closeTutorial()">✕</button>
+    <div class="tutorial-icon" id="tutIcon"></div>
+    <div class="tutorial-title" id="tutTitle"></div>
+    <div class="tutorial-body" id="tutBody"></div>
+    <div class="tutorial-dots" id="tutDots"></div>
+    <div class="tutorial-nav">
+      <button class="btn btn-ghost" id="tutPrevBtn" onclick="tutorialPrev()" style="display:none">← Back</button>
+      <button class="btn btn-primary" id="tutNextBtn" onclick="tutorialNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kanji detail popup -->
+<div class="kanji-detail-backdrop" id="kanjiDetailBackdrop" style="display:none" onclick="closeKanjiDetail()">
+  <div class="kanji-detail-modal" onclick="event.stopPropagation()">
+    <button class="kanji-detail-close" onclick="closeKanjiDetail()">✕</button>
+    <div id="kanjiDetailContent"><div class="kanji-detail-loading">Loading…</div></div>
+  </div>
+</div>
 
 <script type="module" src="/src/main.js"></script>
 </body>

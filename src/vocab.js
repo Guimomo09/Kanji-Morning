@@ -170,7 +170,7 @@ export async function buildVocabFromKanjis(kanjiCards) {
       if (seenWords.has(variant.written)) continue;
       if (hasNoKanji(variant.written)) continue;
       // Infer jlptNum from level label for complexity filtering
-      const jlptNum = { N4: 4, N3: 3, N2: 2, N1: 1 }[k.level] ?? 2;
+      const jlptNum = { N5: 5, N4: 4, N3: 3, N2: 2, N1: 1 }[k.level] ?? 2;
       if (kanjiCount(variant.written) > maxKanjiForLevel(jlptNum)) continue;
       seenWords.add(variant.written);
 
@@ -303,11 +303,11 @@ export function renderMyList() {
       </div>`;
     html += `<div class="kanji-saved-grid">${
       kanjis.map((k, idx) => `
-        <div class="kanji-saved-chip" data-kanji="${k.kanji}" data-index="${idx}" onclick="toggleKanjiSelect(this,event)">
+        <div class="kanji-saved-chip" data-kanji="${k.kanji}" data-index="${idx}" onclick="openKanjiDetail('${k.kanji}')">
           <span class="kanji-saved-char">${k.kanji}</span>
           <span class="badge badge-${k.level}">${k.level}</span>
           <div class="kanji-saved-meaning">${k.meaning}</div>
-          <div class="kanji-chip-check">✓</div>
+          <div class="kanji-chip-check" onclick="event.stopPropagation(); toggleKanjiSelect(this.closest('.kanji-saved-chip'), event)">✓</div>
         </div>`).join('')
     }</div>`;
   }

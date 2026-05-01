@@ -6,12 +6,160 @@ import { switchTab, saveToday, refresh, changeCount, toggleQuiz, revealCard, set
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer } from './quiz.js';
-import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis } from './kanji.js';
+import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
+import { getKanjiDetail, getWords }                             from './api.js';
+
+// ════════════════════════════════════════════════════════════════════════════
+// TUTORIAL
+// ════════════════════════════════════════════════════════════════════════════
+const TUTORIAL_STEPS = [
+  {
+    icon: '🌅',
+    title: 'Bienvenue sur<br>朝の漢字',
+    body: 'Your daily Japanese study companion.<br>5–10 minutes every morning → 2050 kanji, vocabulary in context, spaced repetition.',
+  },
+  {
+    icon: '漢',
+    title: 'Kanji Tab',
+    body: 'Explore 10 kanji every day. See their meanings, on/kun readings, and real example words.<br><br>Tap <strong>☆</strong> to save a kanji to your list.',
+  },
+  {
+    icon: '語',
+    title: 'Vocabulary Tab',
+    body: 'Get JLPT-ranked vocabulary built from those kanji. Every word is authentic Japanese.<br><br>Tap <strong>💾 Save for Quiz</strong> to add words to your deck.',
+  },
+  {
+    icon: '🎯',
+    title: 'Quiz & SRS',
+    body: '<strong>Daily Quiz</strong> — test yourself on today\'s saved words.<br><br><strong>SRS Review</strong> — spaced repetition reschedules words based on how well you know them.',
+  },
+  {
+    icon: '📊',
+    title: 'Track Your Progress',
+    body: 'The <strong>Stats tab</strong> tracks your streak, score history, and word count.<br><br>Come back every morning — consistency beats intensity.<br><strong>がんばって！</strong>',
+  },
+];
+let _tutStep = 0;
+
+function _renderTutorialStep() {
+  const step    = TUTORIAL_STEPS[_tutStep];
+  const total   = TUTORIAL_STEPS.length;
+  const isLast  = _tutStep === total - 1;
+
+  document.getElementById('tutIcon').innerHTML  = step.icon;
+  document.getElementById('tutTitle').innerHTML = step.title;
+  document.getElementById('tutBody').innerHTML  = step.body;
+  document.getElementById('tutPrevBtn').style.display = _tutStep > 0 ? '' : 'none';
+  document.getElementById('tutNextBtn').textContent   = isLast ? "Let's go! →" : 'Next →';
+
+  const dots = document.getElementById('tutDots');
+  dots.innerHTML = TUTORIAL_STEPS.map((_, i) =>
+    `<span class="tutorial-dot${i === _tutStep ? ' active' : ''}"></span>`
+  ).join('');
+}
+
+function showTutorial() {
+  _tutStep = 0;
+  _renderTutorialStep();
+  document.getElementById('tutorialOverlay').style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTutorial() {
+  document.getElementById('tutorialOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+  localStorage.setItem('km_onboarding_done', '1');
+}
+
+function tutorialNext() {
+  if (_tutStep < TUTORIAL_STEPS.length - 1) {
+    _tutStep++;
+    _renderTutorialStep();
+  } else {
+    closeTutorial();
+  }
+}
+
+function tutorialPrev() {
+  if (_tutStep > 0) { _tutStep--; _renderTutorialStep(); }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// KANJI DETAIL POPUP
+// ════════════════════════════════════════════════════════════════════════════
+async function openKanjiDetail(char) {
+  const backdrop = document.getElementById('kanjiDetailBackdrop');
+  const content  = document.getElementById('kanjiDetailContent');
+  content.innerHTML = '<div class="kanji-detail-loading">読み込み中…</div>';
+  backdrop.style.display = '';
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const [detail, words] = await Promise.all([getKanjiDetail(char), getWords(char)]);
+    const on  = (detail.on_readings  || []).join('　') || '—';
+    const kun = (detail.kun_readings || []).join('　') || '—';
+    const meanings = (detail.meanings || []).slice(0, 4).join(', ') || '?';
+    const ex = bestExamples(words, char, 3);
+    const exHtml = ex.length
+      ? ex.map(e => `
+          <div class="example">
+            <div class="ex-top">
+              <span class="ex-word">${e.w}</span>
+              <span class="ex-reading">【${e.r}】</span>
+            </div>
+            <div class="ex-meaning">${e.m}</div>
+          </div>`).join('')
+      : '<div class="example"><div class="ex-meaning">No examples available.</div></div>';
+
+    content.innerHTML = `
+      <div class="card-top" style="margin-bottom:18px">
+        <div class="kanji-char">${char}</div>
+        <div class="card-info">
+          <div class="card-meaning" style="font-size:18px">${meanings}</div>
+        </div>
+      </div>
+      <div class="readings" style="margin-bottom:16px">
+        <div class="reading-group">
+          <span class="reading-label">音読み (On)</span>
+          <span class="reading-kana">${on}</span>
+        </div>
+        <div class="reading-group">
+          <span class="reading-label">訓読み (Kun)</span>
+          <span class="reading-kana">${kun}</span>
+        </div>
+      </div>
+      <div class="examples-label">Examples</div>
+      ${exHtml}`;
+  } catch {
+    content.innerHTML = '<div class="kanji-detail-loading">Could not load data.</div>';
+  }
+}
+
+function closeKanjiDetail() {
+  document.getElementById('kanjiDetailBackdrop').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// close popup on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeKanjiDetail();
+    closeTutorial();
+  }
+});
 
 // ── Expose all functions called by inline onclick handlers ────────────────
 Object.assign(window, {
   // Navigation
   switchTab,
+  // Tutorial
+  showTutorial,
+  closeTutorial,
+  tutorialNext,
+  tutorialPrev,
+  // Kanji detail popup
+  openKanjiDetail,
+  closeKanjiDetail,
 
   // Toolbar controls
   refresh,
@@ -195,6 +343,11 @@ setPostAuthCallback(() => {
 initCloud();
 srsUpdateReviewCount();
 switchTab('home');
+
+// Show tutorial on first ever visit
+if (!localStorage.getItem('km_onboarding_done')) {
+  setTimeout(showTutorial, 600);
+}
 
 // ── PWA service worker ────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {

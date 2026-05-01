@@ -36,9 +36,9 @@ export async function getWords(char) {
 // ── Pool builder ──────────────────────────────────────────────────────────
 // Builds weighted random pools for kanji and vocab tabs. Cached in state.
 export async function buildPool() {
-  const lists = await Promise.all([4, 3, 2, 1].map(n => getJLPTList(n)));
+  const lists = await Promise.all([5, 4, 3, 2, 1].map(n => getJLPTList(n)));
   state.POOL = []; state.VOCAB_POOL = [];
-  [4, 3, 2, 1].forEach((jlptNum, idx) => {
+  [5, 4, 3, 2, 1].forEach((jlptNum, idx) => {
     lists[idx].forEach(char => {
       for (let i = 0; i < LEVEL_WEIGHT[jlptNum]; i++)
         state.POOL.push({ char, jlptNum });
