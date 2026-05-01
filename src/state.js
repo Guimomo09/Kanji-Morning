@@ -7,7 +7,7 @@ export const state = {
   VOCAB_POOL: [],  // { char, jlptNum }[] for vocab tab
 
   // Kanji tab
-  count: 7,
+  count: 10,
   quizMode: false,
   currentKanjiCards: [],
 
