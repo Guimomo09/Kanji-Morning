@@ -157,6 +157,13 @@ Object.assign(window, {
     localStorage.setItem('km_jlpt_goal', level);
     renderHome();
   },
+  cycleJlptGoal() {
+    const LEVELS = ['N5', 'N4', 'N3', 'N2', 'N1'];
+    const cur = localStorage.getItem('km_jlpt_goal') || 'N3';
+    const next = LEVELS[(LEVELS.indexOf(cur) + 1) % LEVELS.length];
+    localStorage.setItem('km_jlpt_goal', next);
+    renderHome();
+  },
   // Tutorial
   showTutorial,
   closeTutorial,

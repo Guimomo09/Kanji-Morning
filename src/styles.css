@@ -635,22 +635,11 @@
       margin-bottom: 12px;
     }
 
-    /* ── JLPT Goal card ──────────────────────────────────────────────────── */
-    .jlpt-goal-card {
-      background: var(--card); border: 1.5px solid var(--border);
-      border-radius: 14px; padding: 16px 20px;
-    }
-    .jlpt-goal-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
-    .jlpt-goal-label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
-    .jlpt-goal-count { font-size: 12px; color: var(--sub); }
-    .jlpt-goal-pills { display: flex; gap: 8px; }
-    .jlpt-goal-pill {
-      flex: 1; padding: 7px 4px; border: 1.5px solid var(--border); border-radius: 8px;
-      background: var(--bg); color: var(--sub); font-size: 13px; font-weight: 700;
-      cursor: pointer; font-family: inherit; transition: all .15s;
-    }
-    .jlpt-goal-pill:hover  { border-color: var(--red); color: var(--red); }
-    .jlpt-goal-pill.active { background: var(--red); border-color: var(--red); color: #fff; }
+    /* ── JLPT kpi card ────────────────────────────────────────────────────── */
+    .kpi-jlpt { cursor: pointer; user-select: none; position: relative; }
+    .kpi-jlpt:hover { border-color: var(--red); }
+    .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
+    .kpi-jlpt-pct { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
     .home-today-row {
       display: flex;
       justify-content: space-between;

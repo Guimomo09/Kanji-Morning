@@ -201,9 +201,8 @@ export function renderHome() {
   const allowedLevels = new Set(LEVELS.slice(0, goalIdx + 1));
   const savedWords  = getAllSavedWords();
   const levelWords  = savedWords.filter(w => allowedLevels.has(w.level));
-  const jlptPills   = LEVELS.map(l =>
-    `<button class="jlpt-goal-pill${l === jlptGoal ? ' active' : ''}" onclick="setJlptGoal('${l}')">${l}</button>`
-  ).join('');
+  const JLPT_TOTALS = { N5: 800, N4: 1500, N3: 3750, N2: 6000, N1: 10000 };
+  const jlptPct    = Math.min(100, Math.round(levelWords.length / JLPT_TOTALS[jlptGoal] * 100));
 
   document.getElementById('homeSection').innerHTML = `
     <div class="home-hero">
@@ -221,19 +220,16 @@ export function renderHome() {
       <div class="home-sub">${new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
     </div>
 
-    <div class="jlpt-goal-card">
-      <div class="jlpt-goal-top">
-        <div class="jlpt-goal-label">JLPT Target</div>
-        <div class="jlpt-goal-count">${levelWords.length} saved word${levelWords.length !== 1 ? 's' : ''} for ${jlptGoal}</div>
-      </div>
-      <div class="jlpt-goal-pills">${jlptPills}</div>
-    </div>
-
     <div class="kpi-grid">
       <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div></div>
       <div class="kpi-card"><div class="kpi-num">${best}</div><div class="kpi-lbl">🏆 Best Streak</div></div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
       <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
+      <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()" title="Tap to change level">
+        <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
+        <div class="kpi-jlpt-pct">${jlptPct}%</div>
+        <div class="kpi-lbl">🎌 JLPT Target</div>
+      </div>
     </div>
 
     <div class="home-today">
