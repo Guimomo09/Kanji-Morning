@@ -9,6 +9,17 @@ import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode }
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
 
+// ── Wire mobile menu items helper (defined first for global access) ────────
+function _wireMenuBtn(id, action) {
+  var btn = document.getElementById(id);
+  if (!btn) { console.warn('[wireMenuBtn] not found:', id); return; }
+  console.log('[wireMenuBtn] wiring', id);
+  btn.addEventListener('click', function() {
+    closeMobileMenu();
+    setTimeout(action, 0);
+  });
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // TUTORIAL
 // ════════════════════════════════════════════════════════════════════════════
