@@ -282,17 +282,20 @@ Object.assign(window, {
 
   // Settings modal
   openSettings,
-  openMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    if (menu) menu.style.display = menu.style.display === 'none' ? '' : 'none';
-  },
-  closeMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    if (menu) menu.style.display = 'none';
-  },
+  openMobileMenu,
+  closeMobileMenu,
   closeSettings,
   saveSettings,
 });
+
+function openMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.style.display = menu.style.display === 'none' ? '' : 'none';
+}
+function closeMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.style.display = 'none';
+}
 
 // ── My List selection state ────────────────────────────────────────────────
 let _lastKanjiIdx = -1;
