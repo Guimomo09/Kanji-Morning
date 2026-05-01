@@ -239,7 +239,7 @@ export function renderHome() {
       <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
       <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
         <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
-        <div class="kpi-jlpt-pct">${jlptPct}%</div>
+        <div class="kpi-jlpt-pct">${jlptPct > 0 ? jlptPct + '%' : 'Start saving words!'}</div>
         <div class="kpi-lbl">🎌 JLPT Target</div>
         <div class="kpi-jlpt-hint">tap to change ↻</div>
       </div>
@@ -300,15 +300,15 @@ export function renderStats() {
   const missedMon  = getMissedBiWeeklyMonday();
   const missedHtml = missedMon ? `
     <div class="stat-notif">
-      <div class="stat-notif-icon">⏰</div>
+      <div class="stat-notif-icon">💪</div>
       <div class="stat-notif-body">
-        <div class="stat-notif-title">Weekly Challenge missed!</div>
+        <div class="stat-notif-title">Keep going — one more to catch up!</div>
         <div class="stat-notif-sub">
-          Your weekly review for <strong>${dateStr(missedMon)}</strong> has not been completed yet.<br>
-          The next scheduled date is <strong>${dateStr(nextBiWeeklyMonday())}</strong>.
+          You have a Weekly Challenge from <strong>${dateStr(missedMon)}</strong> waiting.<br>
+          It only takes 7 minutes — you've got this.
         </div>
         <button class="btn btn-quiz" onclick="launchBiWeeklyQuiz()" style="font-size:13px;padding:8px 18px">
-          Catch Up Now
+          Start Now →
         </button>
       </div>
     </div>` : '';
@@ -349,7 +349,7 @@ export function renderStats() {
         <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
         <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
           <div class="kpi-num kpi-jlpt-level">${localStorage.getItem('km_jlpt_goal') || 'N3'}</div>
-          <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const t={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); return Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/t[g]*100)); })()}%</div>
+          <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const t={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); const pct=Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/t[g]*100)); return pct > 0 ? pct + '%' : 'Start saving words!'; })()}</div>
           <div class="kpi-lbl">🎌 JLPT Target</div>
           <div class="kpi-jlpt-hint">tap to change ↻</div>
         </div>
