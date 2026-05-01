@@ -368,7 +368,6 @@ function _setupMyListDrag() {
 
 // ── Settings ──────────────────────────────────────────────────────────────
 function openSettings() {
-  console.log('[openSettings] called');
   const toggle  = document.getElementById('settingsNotifToggleMobile');
   const timeIn  = document.getElementById('settingsTimeInputMobile');
   const timeRow = document.getElementById('settingsTimeRowMobile');
@@ -520,16 +519,6 @@ window.debugAgent = {
   openSettings,
   showTutorial,
   test: () => alert('debugAgent is loaded!'),
-};
-
-// Log global errors
-window.onerror = function(msg, url, line, col, error) {
-  console.error('[debugAgent] JS ERROR:', msg, url, line, col, error);
-  alert('JS ERROR: ' + msg + '\n' + url + ':' + line);
-};
-window.onunhandledrejection = function(e) {
-  console.error('[debugAgent] Unhandled promise rejection:', e.reason);
-  alert('Promise ERROR: ' + e.reason);
 };
 
 // DOMContentLoaded = wiring safe

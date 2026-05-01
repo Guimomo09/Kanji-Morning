@@ -602,7 +602,9 @@
     .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
     .kpi-jlpt-pct { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
     .kpi-jlpt-hint { font-size: 11px; color: var(--muted); margin-top: 6px; letter-spacing: .3px; }
+    .kpi-jlpt-sub { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
     .kpi-jlpt .kpi-jlpt-pct { font-size: 12px; }
+    .kpi-streak-nudge { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
     .kpi-grid-2col { grid-template-columns: 1fr 1fr !important; }
     .kpi-grid-2col .kpi-jlpt { grid-column: unset; }
     /* word of the day */
@@ -956,6 +958,16 @@
       .mylist-kana  { font-size: 11px; }
       .btn-danger   { padding: 5px 8px !important; font-size: 10px !important; }
       .mylist-search { max-width: 100%; min-width: 0; flex: 1; }
+      /* Larger tap target for kanji chip select ✓ on touch screens */
+      .kanji-chip-check {
+        width: 36px; height: 36px;
+        top: 0; right: 0;
+        border-radius: 0 12px 0 12px;
+        padding: 10px;
+        font-size: 13px;
+      }
+      /* Delete bar: clear the fixed bottom tabbar */
+      .ml-delete-bar { bottom: calc(72px + env(safe-area-inset-bottom)); }
 
       /* ── Stats ── */
       .stats-section { padding: 0 12px; }
