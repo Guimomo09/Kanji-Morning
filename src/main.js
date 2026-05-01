@@ -337,9 +337,11 @@ function _checkPendingNotification() {
   if (!raw) return;
   const scheduled = new Date(raw);
   if (Date.now() < scheduled.getTime()) return;
-  // Due — remove and reschedule for next day automatically
+  // Due — fire and reschedule for same time next day
+  const savedTime = localStorage.getItem('km_notif_time') || '08:00';
+  const [h, m]    = savedTime.split(':').map(Number);
   localStorage.removeItem('km_notif_scheduled');
-  const next = new Date(); next.setDate(next.getDate() + 1); next.setHours(8, 0, 0, 0);
+  const next = new Date(); next.setDate(next.getDate() + 1); next.setHours(h, m, 0, 0);
   localStorage.setItem('km_notif_scheduled', next.toISOString());
   navigator.serviceWorker.ready
     .then(reg => reg.showNotification('朝の漢字 · Morning Kanji', {
@@ -357,12 +359,19 @@ function _requestQuizNotification() {
     alert('Notifications are not supported by your browser.');
     return;
   }
-  const btn = document.getElementById('notifOptBtn');
+  const timeInput = document.getElementById('notifTimeInput');
+  const timeVal   = (timeInput && timeInput.value) ? timeInput.value : '08:00';
+  const [h, m]    = timeVal.split(':').map(Number);
+  const btn       = document.getElementById('notifOptBtn');
+
   Notification.requestPermission().then(perm => {
     if (perm === 'granted') {
-      const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(8, 0, 0, 0);
+      localStorage.setItem('km_notif_time', timeVal);
+      const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(h, m, 0, 0);
       localStorage.setItem('km_notif_scheduled', d.toISOString());
-      if (btn) { btn.textContent = '✓ Reminder set for 8am tomorrow'; btn.disabled = true; btn.classList.add('notif-opted'); }
+      const label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+      if (btn)       { btn.textContent = `✓ Reminder set for ${label} tomorrow`; btn.disabled = true; btn.classList.add('notif-opted'); }
+      if (timeInput) timeInput.disabled = true;
     } else if (btn) {
       btn.textContent = '🔕 Notifications blocked in browser settings';
       btn.disabled = true;

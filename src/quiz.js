@@ -244,7 +244,10 @@ export function renderQuizResults() {
         <div class="quiz-tomorrow-icon">🌅</div>
         <div class="quiz-tomorrow-title">See you tomorrow!</div>
         <div class="quiz-tomorrow-body">New kanji and vocabulary will be waiting.<br>Consistency beats intensity — がんばって！</div>
-        <button class="btn-notif-opt" id="notifOptBtn" onclick="requestQuizNotification()">🔔 Remind me tomorrow at 8am</button>
+        <div class="notif-time-row">
+          <input type="time" id="notifTimeInput" class="notif-time-input" value="${localStorage.getItem('km_notif_time') || '08:00'}">
+          <button class="btn-notif-opt" id="notifOptBtn" onclick="requestQuizNotification()">🔔 Remind me tomorrow</button>
+        </div>
       </div>` : ''}
     </div>`;
 

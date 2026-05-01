@@ -327,6 +327,17 @@
     }
     .btn-notif-opt:hover:not(:disabled) { background: var(--red); color: #fff; }
     .btn-notif-opt.notif-opted, .btn-notif-opt:disabled { opacity: .65; cursor: default; }
+    .notif-time-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .notif-time-input {
+      padding: 7px 10px; border-radius: 8px;
+      border: 1.5px solid var(--border); background: #fff;
+      font-size: 14px; font-family: inherit; color: var(--sub);
+      cursor: pointer;
+    }
+    .notif-time-input:disabled { opacity: .65; cursor: default; }
 
     /* ── My List full empty state ──────────────────────────────────────── */
     .mylist-full-empty {
