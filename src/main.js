@@ -502,7 +502,9 @@ if (_mBtn) {
 function _wireMenuBtn(id, action) {
   var btn = document.getElementById(id);
   if (!btn) return;
-  btn.addEventListener('click', function() { closeMobileMenu(); action(); });
+  // touchend + preventDefault suppresses iOS ghost click that would hit the modal backdrop
+  btn.addEventListener('touchend', function(e) { e.preventDefault(); closeMobileMenu(); action(); });
+  btn.addEventListener('click',    function()  { closeMobileMenu(); action(); });
 }
 _wireMenuBtn('mobileMenuSettings', openSettings);
 _wireMenuBtn('mobileMenuChat',     function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
