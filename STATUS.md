@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 2 Mai 2026 (Settings = page full-screen sur mobile, modal sur desktop)
+> Dernière mise à jour: 2 Mai 2026 (Settings = drawer slide-in depuis la droite, sans backdrop)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `865c82f`
+**Dernier commit**: `e44cfd7`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -68,7 +68,7 @@ kanji.guimo-prod.com {
 - [x] **Bannière "missed"** — ton encourageant "💪 Keep going — one more to catch up!"
 - [x] **Phrases d'exemple** — ~~Tatoeba~~ retiré (proxy non fonctionnel, feature supprimée proprement)
 - [x] **Tutorial onboarding** — overlay 5 étapes au 1er visit
-- [x] **Settings** — modal sur desktop, **page full-screen sur mobile** (pas de backdrop = pas de ghost click iOS)
+- [x] **Settings** — **drawer slide-in depuis la droite** (360px desktop, full-width mobile), sans backdrop — uniquement fermable via ← Retour ou Save (fix définitif ghost click iOS)
 - [x] **Crisp** — widget SAV, bulle **cachée sur mobile** (chat:hide API), accessible via hamburger menu
 - [x] **Hamburger menu mobile** — remplace ⚙️ sur mobile → dropdown avec Settings + Chat (iOS ghost click fix)
 
