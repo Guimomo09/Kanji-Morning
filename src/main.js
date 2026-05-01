@@ -501,6 +501,15 @@ const _mBtn = document.getElementById('mobileMenuBtn');
 if (_mBtn) {
   _mBtn.addEventListener('touchend', function(e) { e.preventDefault(); openMobileMenu(); });
 }
+// iOS Safari: touchend for mobile menu items
+document.querySelectorAll('.mobile-menu-item').forEach(function(btn) {
+  btn.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    // read onclick attr and execute
+    var fn = btn.getAttribute('onclick');
+    if (fn) { try { eval(fn); } catch(err) { console.warn(err); } }
+  });
+});
 // Close mobile menu when tapping outside
 document.addEventListener('click', function(e) {
   const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');

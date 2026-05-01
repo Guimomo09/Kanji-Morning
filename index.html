@@ -43,6 +43,10 @@
       // On mobile, hide the floating bubble — chat is accessible via the hamburger menu
       if (window.innerWidth <= 640) {
         window.$crisp.push(['do', 'chat:hide']);
+        // Re-hide after user closes the chat window
+        window.$crisp.push(['on', 'chat:closed', function() {
+          window.$crisp.push(['do', 'chat:hide']);
+        }]);
       }
     };
     (function () {
