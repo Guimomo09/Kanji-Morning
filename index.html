@@ -40,24 +40,10 @@
     window.CRISP_WEBSITE_ID = "508d392e-da32-4d8c-a22f-21e5f7b81b6f";
     window.$crisp.push(['config', 'locale', 'en']);
     window.CRISP_READY_TRIGGER = function() {
-      if (window.innerWidth > 640) return;
-      var BOTTOM = '80px';
-      function fix() {
-        var chatbox = document.getElementById('crisp-chatbox');
-        if (!chatbox) return;
-        // Find every div inside crisp that is position:fixed with a small bottom value
-        chatbox.querySelectorAll('div').forEach(function(el) {
-          var b = parseFloat(getComputedStyle(el).bottom);
-          if (getComputedStyle(el).position === 'fixed' && !isNaN(b) && b < 72) {
-            el.style.setProperty('bottom', BOTTOM, 'important');
-          }
-        });
+      // On mobile, hide the floating bubble — chat is accessible via the hamburger menu
+      if (window.innerWidth <= 640) {
+        window.$crisp.push(['do', 'chat:hide']);
       }
-      fix();
-      // Reapply whenever Crisp re-renders its widget
-      new MutationObserver(fix).observe(document.getElementById('crisp-chatbox'), {
-        childList: true, subtree: true, attributes: true, attributeFilter: ['style']
-      });
     };
     (function () {
       var d = document, s = d.createElement("script");
@@ -80,7 +66,16 @@
   </div>
   <div class="h-right">
     <div id="authWrap" class="auth-wrap"></div>
+    <!-- Desktop: gear icon -->
     <button class="h-settings-btn" id="settingsBtn" onclick="openSettings()" title="Settings">⚙️</button>
+    <!-- Mobile: hamburger menu -->
+    <div class="h-hamburger-wrap">
+      <button class="h-settings-btn" id="mobileMenuBtn" onclick="openMobileMenu()" title="Menu">☰</button>
+      <div id="mobileMenu" class="mobile-menu" style="display:none">
+        <button class="mobile-menu-item" onclick="closeMobileMenu(); openSettings()">⚙️ Settings</button>
+        <button class="mobile-menu-item" onclick="closeMobileMenu(); openChat()">💬 Chat</button>
+      </div>
+    </div>
   </div>
 </header>
 

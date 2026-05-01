@@ -282,6 +282,20 @@ Object.assign(window, {
 
   // Settings modal
   openSettings,
+  openMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (menu) menu.style.display = menu.style.display === 'none' ? '' : 'none';
+  },
+  closeMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (menu) menu.style.display = 'none';
+  },
+  openChat() {
+    if (window.$crisp) {
+      window.$crisp.push(['do', 'chat:show']);
+      window.$crisp.push(['do', 'chat:open']);
+    }
+  },
   closeSettings,
   saveSettings,
 });
@@ -482,11 +496,16 @@ initCloud();
 srsUpdateReviewCount();
 switchTab('home');
 
-// iOS Safari: position:sticky headers don't reliably fire click — use touchend
-const _sBtn = document.getElementById('settingsBtn');
-if (_sBtn) {
-  _sBtn.addEventListener('touchend', function(e) { e.preventDefault(); openSettings(); });
+// iOS Safari: touchend for mobile hamburger
+const _mBtn = document.getElementById('mobileMenuBtn');
+if (_mBtn) {
+  _mBtn.addEventListener('touchend', function(e) { e.preventDefault(); openMobileMenu(); });
 }
+// Close mobile menu when tapping outside
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
+  if (wrap && !wrap.contains(e.target)) closeMobileMenu();
+});
 
 // Show tutorial on first ever visit
 if (!localStorage.getItem('km_onboarding_done')) {
