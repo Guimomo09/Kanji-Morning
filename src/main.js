@@ -290,12 +290,6 @@ Object.assign(window, {
     const menu = document.getElementById('mobileMenu');
     if (menu) menu.style.display = 'none';
   },
-  openChat() {
-    if (window.$crisp) {
-      window.$crisp.push(['do', 'chat:show']);
-      window.$crisp.push(['do', 'chat:open']);
-    }
-  },
   closeSettings,
   saveSettings,
 });
@@ -501,13 +495,15 @@ const _mBtn = document.getElementById('mobileMenuBtn');
 if (_mBtn) {
   _mBtn.addEventListener('touchend', function(e) { e.preventDefault(); openMobileMenu(); });
 }
-// iOS Safari: touchend for mobile menu items
-document.querySelectorAll('.mobile-menu-item').forEach(function(btn) {
-  btn.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    btn.click();
-  });
-});
+// Wire mobile menu items directly (touchend + click fallback for desktop)
+function _wireMenuBtn(id, action) {
+  var btn = document.getElementById(id);
+  if (!btn) return;
+  btn.addEventListener('touchend', function(e) { e.preventDefault(); closeMobileMenu(); action(); });
+  btn.addEventListener('click',    function()  { closeMobileMenu(); action(); });
+}
+_wireMenuBtn('mobileMenuSettings', openSettings);
+_wireMenuBtn('mobileMenuChat',     function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
 // Close mobile menu when tapping outside
 document.addEventListener('click', function(e) {
   const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
