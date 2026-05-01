@@ -862,6 +862,9 @@
 
       /* Push content above bottom nav */
       .grid, .stats-section, .mylist-section, .home-section { margin-bottom: calc(72px + env(safe-area-inset-bottom)); }
+
+      /* Push Crisp bubble above bottom nav — targets the container in our own DOM */
+      #crisp-chatbox { bottom: 72px !important; }
       .home-actions { grid-template-columns: 1fr 1fr; }
       .home-action-card { padding: 16px 10px; }
       footer { padding-bottom: 80px; }

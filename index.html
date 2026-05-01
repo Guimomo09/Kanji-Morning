@@ -39,10 +39,6 @@
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = "508d392e-da32-4d8c-a22f-21e5f7b81b6f";
     window.$crisp.push(['config', 'locale', 'en']);
-    // On mobile, push bubble above the 72px bottom nav bar
-    if (window.innerWidth <= 640) {
-      window.$crisp.push(['config', 'position:bottom:offset', [80]]);
-    }
     (function () {
       var d = document, s = d.createElement("script");
       s.src = "https://client.crisp.chat/l.js";
