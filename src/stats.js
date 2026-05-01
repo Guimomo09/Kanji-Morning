@@ -225,7 +225,13 @@ export function renderHome() {
       <div class="kpi-card"><div class="kpi-num">${best}</div><div class="kpi-lbl">🏆 Best Streak</div></div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
       <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
-      <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()" title="Tap to change level">
+      ${todayWords.length > 0 ? `
+      <div class="kpi-card kpi-wotd" onclick="switchTab('vocab')">
+        <div class="kpi-wotd-kanji">${todayWords[0].word}</div>
+        ${todayWords[0].reading ? `<div class="kpi-wotd-reading">${todayWords[0].reading}</div>` : ''}
+        <div class="kpi-lbl">今日の一語</div>
+      </div>` : ''}
+      <div class="kpi-card kpi-jlpt${todayWords.length === 0 ? ' kpi-span2' : ''}" onclick="cycleJlptGoal()" title="Tap to change level">
         <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
         <div class="kpi-jlpt-pct">${jlptPct}%</div>
         <div class="kpi-lbl">🎌 JLPT Target</div>

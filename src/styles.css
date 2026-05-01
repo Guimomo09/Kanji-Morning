@@ -636,10 +636,16 @@
     }
 
     /* ── JLPT kpi card ────────────────────────────────────────────────────── */
-    .kpi-jlpt { cursor: pointer; user-select: none; position: relative; }
+    .kpi-jlpt { cursor: pointer; user-select: none; }
     .kpi-jlpt:hover { border-color: var(--red); }
     .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
     .kpi-jlpt-pct { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
+    .kpi-span2 { grid-column: span 2; }
+    /* word of the day */
+    .kpi-wotd { cursor: pointer; }
+    .kpi-wotd:hover { border-color: var(--red); }
+    .kpi-wotd-kanji { font-size: 2rem; font-weight: 800; color: var(--red); line-height: 1; margin-bottom: 2px; }
+    .kpi-wotd-reading { font-size: 13px; color: var(--sub); margin-bottom: 4px; }
     .home-today-row {
       display: flex;
       justify-content: space-between;
