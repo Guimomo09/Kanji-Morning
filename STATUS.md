@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 1 Mai 2026 (soir — suppression Quiz Mode kanji)
+> Dernière mise à jour: 2 Mai 2026 (hamburger menu mobile, Crisp masqué, fix ghost click iOS)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -30,12 +30,7 @@ kanji.guimo-prod.com {
         Referrer-Policy "strict-origin-when-cross-origin"
         -Server
     }
-    # TATOEBA-PROXY
-    handle /api/tatoeba* {
-        rewrite * /api_v0/search?{query}
-        reverse_proxy https://tatoeba.org { header_up Host tatoeba.org }
-        header Access-Control-Allow-Origin *
-    }
+    # (Tatoeba proxy removed)
 }
 ```
 
@@ -46,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `131ac74`
+**Dernier commit**: `9007d19`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -74,7 +69,8 @@ kanji.guimo-prod.com {
 - [x] **Phrases d'exemple** — ~~Tatoeba~~ retiré (proxy non fonctionnel, feature supprimée proprement)
 - [x] **Tutorial onboarding** — overlay 5 étapes au 1er visit
 - [x] **Settings modal** — ⚙️ dans le header (touchend pour iOS), toggle notif + time picker
-- [x] **Crisp** — widget SAV, au-dessus de la tab bar mobile (MutationObserver), identification auto Firebase
+- [x] **Crisp** — widget SAV, bulle **cachée sur mobile** (chat:hide API), accessible via hamburger menu
+- [x] **Hamburger menu mobile** — remplace ⚙️ sur mobile → dropdown avec Settings + Chat (iOS ghost click fix)
 
 ### 🟡 À faire / en cours
 - [ ] **Stripe** — €7.99 one-time. Free: 30 mots max + quiz daily + Weekly Challenge. Premium: My List illimité + Exam Mode + stats complètes + SRS
