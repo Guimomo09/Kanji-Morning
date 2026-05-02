@@ -661,8 +661,9 @@ setPostAuthCallback(() => {
 
 initCloud();
 srsUpdateReviewCount();
-history.scrollRestoration = 'manual';   // prevent browser from restoring scroll on refresh
-switchTab('home');
+history.scrollRestoration = 'manual';
+const _savedTab = localStorage.getItem('km_tab') || 'home';
+switchTab(_savedTab);
 requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
 
 
