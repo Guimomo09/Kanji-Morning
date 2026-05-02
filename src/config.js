@@ -24,3 +24,7 @@ export const FIREBASE_CONFIG = {
 };
 
 export const CLOUD_ENABLED = FIREBASE_CONFIG.apiKey !== 'REPLACE_WITH_YOUR_API_KEY';
+
+// ── Stripe ────────────────────────────────────────────────────────────────
+// Test link — replace with live link before going live
+export const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_cNi3cxd4Jg5H2htf1o7N600';

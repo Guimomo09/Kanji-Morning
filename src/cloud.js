@@ -127,9 +127,30 @@ async function _cloudPull() {
     // Pull SRS cards
     await _cloudPullSrs(data);
 
+    // Pull premium status
+    if (data.premium === true) {
+      state.isPremium = true;
+      console.log('[cloud] Premium status: active');
+    }
+
   } catch (e) {
     console.warn('[_cloudPull] Failed to pull from cloud:', e);
   }
+}
+
+// ── Re-check premium (call after ?premium=success redirect) ──────────────
+export async function checkPremiumStatus() {
+  if (!state._fbDb || !state._fbUser) return false;
+  try {
+    const doc = await state._fbDb.collection('users').doc(state._fbUser.uid).get();
+    if (doc.exists && doc.data().premium === true) {
+      state.isPremium = true;
+      return true;
+    }
+  } catch (e) {
+    console.warn('[cloud] checkPremiumStatus failed:', e);
+  }
+  return false;
 }
 
 // ── Push a partial update to Firestore ───────────────────────────────────

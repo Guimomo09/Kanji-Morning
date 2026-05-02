@@ -174,6 +174,28 @@
   </div>
 </div>
 
+<!-- Upgrade modal -->
+<div class="upgrade-modal-backdrop" id="upgradeModal" style="display:none" onclick="closeUpgradeModal()">
+  <div class="upgrade-modal" onclick="event.stopPropagation()">
+    <button class="kanji-detail-close" onclick="closeUpgradeModal()">✕</button>
+    <div class="upgrade-modal-body"></div>
+  </div>
+</div>
+
+<!-- Premium success modal -->
+<div class="upgrade-modal-backdrop" id="premiumSuccessModal" style="display:none" onclick="this.style.display='none';document.body.style.overflow=''">
+  <div class="upgrade-modal" onclick="event.stopPropagation()">
+    <button class="kanji-detail-close" onclick="document.getElementById('premiumSuccessModal').style.display='none';document.body.style.overflow=''">✕</button>
+    <div style="text-align:center;padding:12px 0">
+      <div style="font-size:52px;margin-bottom:12px">🎌</div>
+      <div class="upgrade-modal-title">Welcome to Premium!</div>
+      <div class="psm-status" style="font-size:15px;color:var(--sub);margin:12px 0">🎉 Premium activated!</div>
+      <div style="font-size:14px;color:var(--muted)">Your word list is now unlimited.<br>Exam Mode and full stats are unlocked.</div>
+      <button class="btn btn-primary" style="margin-top:20px" onclick="document.getElementById('premiumSuccessModal').style.display='none';document.body.style.overflow=''">Let's go! →</button>
+    </div>
+  </div>
+</div>
+
 <script type="module" src="/src/main.js"></script>
 </body>
 </html>

@@ -28,4 +28,7 @@ export const state = {
   _fbAuth: null,
   _fbDb:   null,
   _fbUser: null,
+
+  // Premium status (read from Firestore on login)
+  isPremium: false,
 };

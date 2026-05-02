@@ -291,7 +291,18 @@ export function renderHome() {
           <div class="home-action-sub">${biweeklyAvailable ? 'Available today!' : missedBiweekly ? 'Missed — catch up!' : 'Next: ' + dateStr(nextBiWeeklyMonday())}</div>
         </div>
       </div>
-    </div>`;
+    </div>
+
+    ${!state.isPremium ? `
+    <div class="upgrade-card">
+      <div class="upgrade-card-left">
+        <div class="upgrade-card-title">✨ Go Premium</div>
+        <div class="upgrade-card-desc">Unlimited words · Exam Mode · Full stats</div>
+        <div class="upgrade-card-price">€7.99 <span>one-time · no subscription</span></div>
+      </div>
+      <button class="upgrade-card-btn" onclick="openUpgradeModal()">Upgrade →</button>
+    </div>` : ''}
+  `;
 }
 
 // ── Stats panel ───────────────────────────────────────────────────────────

@@ -1,0 +1,14 @@
+{
+  "name": "asa-no-kanji-webhook",
+  "version": "1.0.0",
+  "description": "Stripe webhook receiver — grants Premium in Firestore on payment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "firebase-admin": "^12.0.0",
+    "stripe": "^16.0.0"
+  }
+}

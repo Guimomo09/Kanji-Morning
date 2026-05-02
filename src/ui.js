@@ -4,7 +4,7 @@ import { CLOUD_ENABLED } from './config.js';
 import { cloudSignIn, cloudUpdate } from './cloud.js';
 import { saveDailyVocab } from './daily.js';
 import { srsAddWords, srsUpdateReviewCount } from './srs.js';
-import { renderVocab, applyLevelFilterUI, renderMyList } from './vocab.js';
+import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords } from './vocab.js';
 import { renderHome, renderStats } from './stats.js';
 import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis } from './kanji.js';
 import { updateBiWeeklyBtn } from './biweekly.js';
@@ -125,6 +125,14 @@ export function switchTab(tab) {
 export function saveToday() {
   if (!state.currentVocabItems.length) return;
 
+  // Free tier: 30-word hard limit
+  if (!state.isPremium) {
+    const existing = getAllSavedWords();
+    if (existing.length >= 30) {
+      window.openUpgradeModal('limit');
+      return;
+    }
+  }
   if (CLOUD_ENABLED && !state._fbUser) {
     const go = confirm(
       '⚠️ You are not signed in.\n\nYour words will be saved locally but could be lost if you clear your browser cache.\n\nSign in to keep your words safe on any device.\n\nClick OK to sign in first, or Cancel to save locally.'

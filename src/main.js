@@ -2,14 +2,15 @@ import { state }                                               from './state.js'
 import { cleanupOldData, saveDailyVocab }                       from './daily.js';
 import { getWordOfDay }                                         from './wotd.js';
 import { todayStr }                                            from './utils.js';
-import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut } from './cloud.js';
+import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
-import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode } from './quiz.js';
+import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode as _launchExamMode } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
+import { STRIPE_PAYMENT_LINK }                                  from './config.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -195,12 +196,79 @@ function saveWotd() {
   renderHome(); // re-render to flip button to "✓ Saved"
 }
 
+// ── Upgrade modal ─────────────────────────────────────────────────────────
+function openUpgradeModal(context) {
+  const modal = document.getElementById('upgradeModal');
+  if (!modal) return;
+  const body = modal.querySelector('.upgrade-modal-body');
+
+  const contextMsg = context === 'limit'
+    ? '<div class="upgrade-modal-context">🔒 You\'ve reached the <strong>30-word free limit</strong>.</div>'
+    : context === 'exam'
+    ? '<div class="upgrade-modal-context">🎓 <strong>Exam Mode</strong> is a Premium feature.</div>'
+    : '';
+
+  const upgradeUrl = STRIPE_PAYMENT_LINK +
+    (state._fbUser ? `?client_reference_id=${state._fbUser.uid}` : '');
+
+  body.innerHTML = `
+    ${contextMsg}
+    <div class="upgrade-modal-title">✨ Unlock Premium</div>
+    <ul class="upgrade-modal-features">
+      <li>✅ Unlimited saved words</li>
+      <li>✅ Exam Mode (20 questions, 7 min)</li>
+      <li>✅ Full stats & charts</li>
+      <li>✅ Lifetime access — no subscription</li>
+    </ul>
+    <div class="upgrade-modal-price">€7.99 <span>one-time payment</span></div>
+    ${!state._fbUser
+      ? `<div class="upgrade-modal-signin">Sign in first to activate Premium on your account.<br>
+         <button class="btn btn-primary" style="margin-top:10px" onclick="cloudSignIn()">Sign in with Google</button></div>`
+      : `<a class="btn btn-primary upgrade-modal-cta" href="${upgradeUrl}" target="_blank" rel="noopener">
+           Pay €7.99 — Activate Premium →
+         </a>
+         <div class="upgrade-modal-note">Secure payment via Stripe · Your account is auto-upgraded after payment.</div>`
+    }`;
+
+  modal.style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUpgradeModal() {
+  const modal = document.getElementById('upgradeModal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ── Handle ?premium=success redirect from Stripe ──────────────────────────
+const _urlParams = new URLSearchParams(window.location.search);
+if (_urlParams.get('premium') === 'success') {
+  history.replaceState({}, '', window.location.pathname);
+  // Wait for Firebase auth to be ready, then check premium
+  const _checkAfterAuth = () => {
+    checkPremiumStatus().then(isPremium => {
+      const modal = document.getElementById('premiumSuccessModal');
+      if (modal) {
+        modal.querySelector('.psm-status').textContent = isPremium
+          ? '🎉 Premium activated!'
+          : '⏳ Activating… refresh in a moment if features are not unlocked yet.';
+        modal.style.display = '';
+        document.body.style.overflow = 'hidden';
+      }
+      if (isPremium) renderHome();
+    });
+  };
+  // Defer until after auth state resolves (up to 3s)
+  setTimeout(_checkAfterAuth, 1500);
+}
+
 // close popup on Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeKanjiDetail();
     closeTutorial();
     closeSettings();
+    closeUpgradeModal();
   }
 });
 
@@ -231,6 +299,8 @@ Object.assign(window, {
   handleKanjiChipClick,
   handleWordRowClick,
   saveWotd,
+  openUpgradeModal,
+  closeUpgradeModal,
 
   // Toolbar controls
   refresh,
@@ -336,7 +406,10 @@ Object.assign(window, {
   launchDailyQuiz,
   launchBiWeeklyQuiz,
   handleQuizAnswer,
-  launchExamMode,
+  launchExamMode() {
+    if (!state.isPremium) { openUpgradeModal('exam'); return; }
+    _launchExamMode();
+  },
 
   // SRS
   rateSrsCard,
