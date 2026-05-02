@@ -349,6 +349,23 @@ export function renderMyList() {
   if (!words.length) {
     html += `<div class="mylist-empty-small">No saved words yet. Browse <strong>Vocabulary</strong> and tap 💾 Save for Quiz.</div>`;
   } else {
+    // Soft paywall warning at 24+ words
+    const FREE_LIMIT = 30;
+    if (words.length >= 24) {
+      const remaining = FREE_LIMIT - words.length;
+      const isAtLimit = remaining <= 0;
+      html += `
+        <div class="paywall-hint${isAtLimit ? ' paywall-hint--full' : ''}">
+          ${isAtLimit
+            ? `🔒 You've reached the <strong>${FREE_LIMIT}-word free limit</strong>.<br>Upgrade to Premium to save unlimited words.`
+            : `⚠️ You have <strong>${words.length}/${FREE_LIMIT}</strong> free saved words — only <strong>${remaining}</strong> left.<br>Upgrade to <strong>Premium</strong> to save unlimited words.`
+          }
+          <button class="btn btn-primary" style="margin-top:10px;font-size:13px;padding:6px 16px" onclick="switchTab('stats')">
+            ✨ Upgrade — €7.99 one-time
+          </button>
+        </div>`;
+    }
+
     const rows = words.map((it, idx) => `
       <tr id="mlrow_${CSS.escape(it.word)}" data-word="${it.word.replace(/"/g, '&quot;')}" data-index="${idx}" onclick="handleWordRowClick(this,event)">
         <td style="width:28px;text-align:center">
@@ -367,6 +384,7 @@ export function renderMyList() {
         <div class="ml-select-toolbar" style="margin-bottom:0">
           <button class="btn btn-ghost" id="mlWordSelectBtn" style="font-size:12px;padding:4px 12px" onclick="toggleSelectMode()">Select</button>
           <button class="btn btn-ghost" id="mlWordSelectAll" style="font-size:12px;padding:4px 12px;display:none" onclick="selectAllWords()">☑ All</button>
+          <span class="ml-longpress-hint">💡 Long press to select</span>
         </div>
         <input class="mylist-search" type="text" placeholder="Search word or meaning…"
           oninput="filterMyList(this.value)">

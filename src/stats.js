@@ -235,6 +235,10 @@ export function renderHome() {
           <div class="kpi-wotd-kanji">${wotd.word}</div>
           <div class="kpi-wotd-reading">${wotd.reading}</div>
           <div class="kpi-wotd-meaning">${wotd.meaning}</div>
+          ${savedWords.some(w => w.word === wotd.word)
+            ? `<div class="kpi-wotd-saved">✓ Saved</div>`
+            : `<button class="kpi-wotd-save-btn" onclick="saveWotd()">＋ Save this word</button>`
+          }
         </div>
       </div>
       <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>

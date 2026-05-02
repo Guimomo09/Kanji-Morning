@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Kanji Morning</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #dc3545;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --sub: #555;
+      --muted: #888;
+      --border: #e0e0e0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0f0f0f; --card: #1a1a1a; --text: #f0f0f0; --sub: #aaa; --muted: #666; --border: #2a2a2a; }
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 40px 20px 80px;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--red);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 36px;
+      margin-bottom: 10px;
+      color: var(--red);
+      letter-spacing: .01em;
+    }
+    p { margin-bottom: 12px; color: var(--sub); font-size: 15px; }
+    ul {
+      margin: 8px 0 12px 20px;
+      color: var(--sub);
+      font-size: 15px;
+    }
+    ul li { margin-bottom: 6px; }
+    a { color: var(--red); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 28px;
+      margin-bottom: 8px;
+    }
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+    .toc-title { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+    .toc ol { margin-left: 18px; }
+    .toc ol li { font-size: 14px; margin-bottom: 4px; }
+    .toc a { text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+    .highlight {
+      background: rgba(220,53,69,.06);
+      border-left: 3px solid var(--red);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    footer-pp {
+      display: block;
+      margin-top: 48px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back-link" href="/">← Back to Kanji Morning</a>
+
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">Last updated: May 3, 2026 · Applies to <strong>kanji.guimo-prod.com</strong></p>
+
+    <div class="highlight">
+      Short version: we collect the minimum data needed to make the app work. We do not sell your data. You can delete your account at any time.
+    </div>
+
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#controller">Who we are</a></li>
+        <li><a href="#data">What data we collect</a></li>
+        <li><a href="#why">Why we collect it</a></li>
+        <li><a href="#storage">Where data is stored</a></li>
+        <li><a href="#retention">How long we keep it</a></li>
+        <li><a href="#sharing">Do we share it?</a></li>
+        <li><a href="#rights">Your rights (GDPR)</a></li>
+        <li><a href="#cookies">Cookies &amp; local storage</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </div>
+
+    <div class="card">
+
+      <h2 id="controller">1. Who we are</h2>
+      <p>Kanji Morning is a personal project operated by <strong>Guillaume Morin</strong> (the "Controller"). Contact: <a href="mailto:contact@guimo-prod.com">contact@guimo-prod.com</a></p>
+      <p>For the purpose of EU Regulation 2016/679 (GDPR), Guillaume Morin is the data controller for personal data processed through this application.</p>
+
+      <h2 id="data">2. What data we collect</h2>
+      <p>We collect only what is strictly necessary to provide the service:</p>
+      <ul>
+        <li><strong>Account data</strong> — when you sign in with Google: your email address, display name, and Google user ID (UID). This is provided by Google's OAuth service and stored in Firebase Authentication.</li>
+        <li><strong>Study data</strong> — words you save, quiz scores, SRS (spaced-repetition) card states, your JLPT goal, and streak data. Stored in Firestore under your UID.</li>
+        <li><strong>Payment data</strong> — if you purchase a Premium licence, payment is processed by <strong>Stripe</strong>. We do not store your card number. Stripe provides us with a customer ID and subscription status only. Stripe's Privacy Policy applies: <a href="https://stripe.com/privacy" target="_blank" rel="noopener">stripe.com/privacy</a>.</li>
+        <li><strong>Local data</strong> — study history is also cached in your browser's <code>localStorage</code> for offline access. This never leaves your device unless you are signed in.</li>
+      </ul>
+      <p>We do <strong>not</strong> collect: location, device identifiers, IP addresses (beyond what your browser sends to our VPS for serving the page), or any behavioural analytics.</p>
+
+      <h2 id="why">3. Why we collect it</h2>
+      <ul>
+        <li><strong>Account data</strong> — to identify you and sync your study data across devices (legitimate interest / performance of contract).</li>
+        <li><strong>Study data</strong> — to power the SRS algorithm, streak, and quiz history (performance of contract).</li>
+        <li><strong>Payment data</strong> — to verify your Premium licence (performance of contract).</li>
+      </ul>
+      <p>We do not use your data for advertising or profiling.</p>
+
+      <h2 id="storage">4. Where data is stored</h2>
+      <ul>
+        <li>Firebase Authentication &amp; Firestore: hosted by Google, EU data region (<code>europe-west1</code> — or the default US region if not explicitly set — see <a href="https://firebase.google.com/docs/firestore/locations" target="_blank" rel="noopener">Firebase docs</a>).</li>
+        <li>Web server: VPS hosted in Finland (Hetzner), serving the application files only — no personal data stored on the VPS.</li>
+        <li>Payment: Stripe, USA/EU (Stripe is certified under EU–US Data Privacy Framework).</li>
+      </ul>
+
+      <h2 id="retention">5. How long we keep it</h2>
+      <ul>
+        <li><strong>Account &amp; study data</strong>: retained as long as your account exists. Deleted within 30 days of account deletion.</li>
+        <li><strong>LocalStorage</strong>: stored on your device until you clear it or delete your account.</li>
+        <li><strong>Stripe data</strong>: governed by Stripe's retention policy (typically 7 years for financial records).</li>
+      </ul>
+
+      <h2 id="sharing">6. Do we share your data?</h2>
+      <p>We do <strong>not</strong> sell, rent, or share your personal data with third parties, except:</p>
+      <ul>
+        <li><strong>Google Firebase</strong> — as our hosting and database provider.</li>
+        <li><strong>Stripe</strong> — as our payment processor, if you purchase Premium.</li>
+      </ul>
+      <p>Both are data processors under a DPA (Data Processing Agreement) with GDPR-compliant terms.</p>
+
+      <h2 id="rights">7. Your rights (GDPR)</h2>
+      <p>If you are in the European Economic Area, you have the following rights:</p>
+      <ul>
+        <li><strong>Access</strong> — request a copy of your personal data.</li>
+        <li><strong>Rectification</strong> — ask us to correct inaccurate data.</li>
+        <li><strong>Erasure</strong> — request deletion of your account and all associated data ("right to be forgotten"). You can do this directly in the app via Settings → Delete Account, or by emailing us.</li>
+        <li><strong>Portability</strong> — receive your study data in a machine-readable format (JSON export available in Settings).</li>
+        <li><strong>Objection</strong> — object to processing based on legitimate interest.</li>
+        <li><strong>Lodge a complaint</strong> — with your national supervisory authority (in France: <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a>).</li>
+      </ul>
+      <p>To exercise any right, email <a href="mailto:contact@guimo-prod.com">contact@guimo-prod.com</a>. We will respond within 30 days.</p>
+
+      <h2 id="cookies">8. Cookies &amp; local storage</h2>
+      <p>Kanji Morning does not use advertising cookies. We use:</p>
+      <ul>
+        <li><strong>Firebase Authentication cookie</strong> — a session token stored by Firebase to keep you signed in. Essential for the service.</li>
+        <li><strong>localStorage</strong> — used to cache your study data locally for offline access. No expiry; cleared when you clear browser data or delete your account.</li>
+      </ul>
+      <p>No third-party tracking pixels or analytics scripts are loaded.</p>
+
+      <h2 id="children">9. Children</h2>
+      <p>This service is not directed at children under 13. We do not knowingly collect data from anyone under 13. If you believe a child has provided us data, please contact us for immediate deletion.</p>
+
+      <h2 id="contact">10. Contact &amp; updates</h2>
+      <p>Questions about this policy: <a href="mailto:contact@guimo-prod.com">contact@guimo-prod.com</a></p>
+      <p>We may update this policy. Changes will be reflected by the "Last updated" date above. Continued use of the app after changes constitutes acceptance.</p>
+
+    </div>
+
+    <footer-pp>© 2026 Kanji Morning · <a href="/">Back to app</a></footer-pp>
+  </div>
+</body>
+</html>

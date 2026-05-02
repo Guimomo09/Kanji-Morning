@@ -1,7 +1,9 @@
 import { state }                                               from './state.js';
-import { cleanupOldData }                                       from './daily.js';
+import { cleanupOldData, saveDailyVocab }                       from './daily.js';
+import { getWordOfDay }                                         from './wotd.js';
+import { todayStr }                                            from './utils.js';
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut } from './cloud.js';
-import { srsUpdateReviewCount, rateSrsCard } from './srs.js';
+import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
@@ -183,6 +185,16 @@ function handleWordRowClick(row, event) {
   openWordDetail(row.dataset.word);
 }
 
+// ── Save Word of the Day to My List ──────────────────────────────────────
+function saveWotd() {
+  const wotd = getWordOfDay();
+  const item = { word: wotd.word, reading: wotd.reading, meaning: wotd.meaning, pos: '', level: 'N3' };
+  saveDailyVocab(todayStr(), [item]);
+  const added = srsAddWords([item]);
+  if (added > 0) srsUpdateReviewCount();
+  renderHome(); // re-render to flip button to "✓ Saved"
+}
+
 // close popup on Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
@@ -218,6 +230,7 @@ Object.assign(window, {
   openWordDetail,
   handleKanjiChipClick,
   handleWordRowClick,
+  saveWotd,
 
   // Toolbar controls
   refresh,
