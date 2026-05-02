@@ -776,6 +776,15 @@
       opacity: 1; pointer-events: auto; transform: translateY(0);
     }
     .ml-delete-bar span { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+    /* Long-press hint: faint label on kanji chips and word rows in select mode */
+    @media (pointer: coarse) {
+      .kanji-saved-chip::after {
+        content: 'hold'; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+        font-size: 9px; color: var(--muted); opacity: 0;
+        transition: opacity .2s; pointer-events: none;
+      }
+      .mylist-section:not(:has(.kanji-saved-chip.selected, #mylistBody tr.selected)) .kanji-saved-chip:hover::after { opacity: 1; }
+    }
 
     /* ── SRS rating buttons ─────────────────────────────────────────────── */
     .srs-rating-wrap {

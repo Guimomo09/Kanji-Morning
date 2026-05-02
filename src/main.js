@@ -263,12 +263,11 @@ Object.assign(window, {
       .map(el => el.dataset.word).filter(Boolean);
     if (kanjis.length) { removeSelectedKanjis(kanjis); }
     if (words.length)  { removeSelectedWords(words); }
+    _selectMode = false;
     renderMyList();
   },
   clearSelection() {
-    document.querySelectorAll('.kanji-saved-chip.selected, #mylistBody tr.selected')
-      .forEach(el => el.classList.remove('selected'));
-    _updateDeleteBar();
+    _exitSelectMode();
   },
 
   // Quiz
@@ -314,10 +313,18 @@ let _lastWordIdx  = -1;
 let _dragging     = false;
 let _dragAction   = 'select';
 let _didDrag      = false;
+let _selectMode   = false;   // mobile: long-press activates select mode
 
 function _applyDragTo(el) {
   if (_dragAction === 'select') el.classList.add('selected');
   else el.classList.remove('selected');
+}
+
+function _exitSelectMode() {
+  _selectMode = false;
+  document.querySelectorAll('.kanji-saved-chip.selected, #mylistBody tr.selected')
+    .forEach(el => el.classList.remove('selected'));
+  _updateDeleteBar();
 }
 
 function _updateDeleteBar() {
@@ -327,6 +334,9 @@ function _updateDeleteBar() {
   const n = document.querySelectorAll('.kanji-saved-chip.selected, #mylistBody tr.selected').length;
   if (n > 0) {
     count.textContent = `${n} selected`;
+    bar.classList.add('visible');
+  } else if (_selectMode) {
+    count.textContent = 'Tap or swipe to select';
     bar.classList.add('visible');
   } else {
     bar.classList.remove('visible');
@@ -366,6 +376,52 @@ function _setupMyListDrag() {
   section.addEventListener('click', e => {
     if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
   }, true);
+
+  // ── Touch: long-press → select mode → drag-select ────────────────────
+  let _touchStartEl = null;
+  let _touchMoved   = false;
+  let _lpTimer      = null;
+
+  section.addEventListener('touchstart', e => {
+    const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+    _touchMoved   = false;
+    _touchStartEl = el || null;
+    if (!el || _selectMode) return;
+    // Start long-press timer
+    _lpTimer = setTimeout(() => {
+      if (_touchMoved) return;
+      _selectMode = true;
+      _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
+      _applyDragTo(el);
+      _updateDeleteBar();
+      navigator.vibrate?.(40);
+    }, 500);
+  }, { passive: true });
+
+  // passive:false so we can preventDefault (block scroll) in select mode
+  section.addEventListener('touchmove', e => {
+    _touchMoved = true;
+    clearTimeout(_lpTimer);
+    _lpTimer = null;
+    if (!_selectMode) return;  // not in select mode → let browser scroll normally
+    e.preventDefault();        // block scroll when dragging to select
+    const t  = e.touches[0];
+    const el = document.elementFromPoint(t.clientX, t.clientY)
+                 ?.closest?.('.kanji-saved-chip, #mylistBody tr');
+    if (el) { _applyDragTo(el); _updateDeleteBar(); }
+  }, { passive: false });
+
+  section.addEventListener('touchend', e => {
+    clearTimeout(_lpTimer);
+    _lpTimer = null;
+    if (!_selectMode) return;
+    // In select mode: plain tap (no move) toggles the item
+    if (!_touchMoved) {
+      const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+      if (el) { el.classList.toggle('selected'); _updateDeleteBar(); }
+    }
+    _touchMoved = false;
+  }, { passive: true });
 }
 
 // ── Settings ──────────────────────────────────────────────────────────────
