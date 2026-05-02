@@ -749,7 +749,8 @@
     #mylistBody tr { cursor: pointer; transition: background .12s; }
     #mylistBody tr:hover { background: var(--bg); }
     #mylistBody tr.selected td,
-    #mylistBody tr.selected:hover td { background: #fff5f5 !important; }
+    #mylistBody tr.selected:hover td { background: rgba(220,53,69,.08) !important; }
+    #mylistBody tr.selected td:first-child { border-left: 3px solid var(--red); }
     .ml-check-icon {
       display: inline-flex; align-items: center; justify-content: center;
       width: 18px; height: 18px; border-radius: 50%;

@@ -223,6 +223,7 @@ Object.assign(window, {
     _updateDeleteBar();
   },
   toggleWordSelect(row, event) {
+    if (_didDrag) { _didDrag = false; return; }   // click fired after drag — ignore
     const rows = [...document.querySelectorAll('#mylistBody tr:not([style*="display: none"])')];
     const idx  = rows.indexOf(row);
     if (event && event.shiftKey && _lastWordIdx >= 0) {
