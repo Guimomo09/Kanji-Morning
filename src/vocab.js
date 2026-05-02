@@ -354,13 +354,12 @@ export function renderMyList() {
         <td style="width:28px;text-align:center">
           <span class="ml-check-icon">✓</span>
         </td>
-        <td>
+        <td class="ml-col-word">
           <span class="mylist-word">${it.word}</span>
           ${it.reading ? `<span class="mylist-kana">${it.reading}</span>` : ''}
         </td>
-        <td>${it.meaning}</td>
+        <td class="ml-col-meaning">${it.meaning}</td>
         <td><span class="badge badge-${it.level}">${it.level}</span></td>
-        <td class="mylist-date">${it.savedDate}</td>
       </tr>`).join('');
 
     html += `
@@ -376,7 +375,7 @@ export function renderMyList() {
       <table class="mylist-table" id="mylistTable">
         <thead><tr>
           <th style="width:28px"></th>
-          <th>Word</th><th>Meaning</th><th>Level</th><th>Saved</th>
+          <th>Word</th><th>Meaning</th><th style="width:52px">Level</th>
         </tr></thead>
         <tbody id="mylistBody">${rows}</tbody>
       </table>`;

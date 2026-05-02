@@ -158,19 +158,17 @@ function openWordDetail(wordStr) {
   if (!it) return;
   const extras = (it.extraMeanings || []).slice(0, 3);
   content.innerHTML = `
-    <div class="card-top" style="margin-bottom:18px">
-      <div class="kanji-char" style="font-size:52px">${it.word}</div>
-      <div class="card-info">
-        ${it.reading ? `<div class="reading-kana" style="font-size:20px;margin-bottom:4px">${it.reading}</div>` : ''}
-        <div class="card-meaning" style="font-size:18px">${it.meaning}</div>
-        ${extras.length ? `<div style="font-size:13px;color:var(--sub);margin-top:4px">${extras.join(' · ')}</div>` : ''}
-      </div>
+    <div style="margin-bottom:18px">
+      <div style="font-size:clamp(28px,8vw,56px);font-weight:900;line-height:1.1;color:#111;word-break:break-word;margin-bottom:8px">${it.word}</div>
+      ${it.reading ? `<div style="font-size:18px;color:var(--red);font-weight:700;margin-bottom:6px">${it.reading}</div>` : ''}
+      <div style="font-size:16px;color:var(--text);font-weight:600">${it.meaning}</div>
+      ${extras.length ? `<div style="font-size:13px;color:var(--sub);margin-top:4px">${extras.join(' · ')}</div>` : ''}
     </div>
-    <div style="display:flex;gap:8px;align-items:center;margin-bottom:18px">
+    <div style="display:flex;gap:8px;align-items:center">
       <span class="badge badge-${it.level}">${it.level}</span>
       <span style="font-size:12px;color:var(--muted)">Saved ${it.savedDate}</span>
     </div>
-    ${it.sourceKanji ? `<div style="font-size:13px;color:var(--sub)">From kanji: <strong>${it.sourceKanji}</strong></div>` : ''}`;
+    ${it.sourceKanji ? `<div style="font-size:13px;color:var(--sub);margin-top:10px">From kanji: <strong>${it.sourceKanji}</strong></div>` : ''}`;
   backdrop.style.display = '';
   document.body.style.overflow = 'hidden';
 }

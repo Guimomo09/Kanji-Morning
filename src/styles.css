@@ -674,6 +674,8 @@
     .mylist-word  { font-size: 20px; font-weight: 900; }
     .mylist-kana  { font-size: 12px; color: var(--red); font-weight: 700; display: block; }
     .mylist-date  { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .ml-col-word    { width: 160px; min-width: 100px; }
+    .ml-col-meaning { max-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--sub); font-size: 13px; }
     .mylist-empty {
       text-align: center; padding: 64px 20px; color: var(--muted);
       font-size: 15px;
@@ -980,9 +982,6 @@
       .mylist-table { font-size: 13px; }
       .mylist-table th,
       .mylist-table td { padding: 9px 10px; }
-      /* Hide "Saved" date column on mobile — saves space */
-      .mylist-table th:nth-child(4),
-      .mylist-table td:nth-child(4) { display: none; }
       .mylist-word  { font-size: 17px; }
       .mylist-kana  { font-size: 11px; }
       .btn-danger   { padding: 5px 8px !important; font-size: 10px !important; }
