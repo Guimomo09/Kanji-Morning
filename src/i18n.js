@@ -1,0 +1,922 @@
+// ── src/i18n.js ───────────────────────────────────────────────────────────
+// Supported: en · fr · es · de · ru  (JMdict multilingual subset)
+
+const TRANSLATIONS = {
+
+  // ──────────────────────────────────────────────────────────────────────
+  en: {
+    days:   ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+    months: ['January','February','March','April','May','June',
+             'July','August','September','October','November','December'],
+
+    greeting_morning:   'おはようございます！Good morning!',
+    greeting_afternoon: 'こんにちは！Good afternoon!',
+    greeting_evening:   'こんばんは！Good evening!',
+
+    sub_kanji:  'Morning Kanji · Daily Study',
+    sub_vocab:  'Morning Vocabulary · Daily Study',
+    sub_mylist: 'My Word List · All Saved Vocabulary',
+    sub_stats:  'Progression · Score Tracking',
+
+    tab_home:   'Home', tab_kanji: 'Kanji', tab_vocab: 'Vocab',
+    tab_mylist: 'My List', tab_stats: 'Stats',
+
+    btn_new_selection:    '↺ New Selection',
+    btn_from_kanji:       '📖 From Kanji',
+    btn_save_quiz:        '💾 Save for Quiz',
+    btn_daily_quiz:       '試 Daily Quiz',
+    btn_exam_mode:        '試験 Exam Mode',
+    btn_more:             '＋ More',
+    btn_less:             '－ Less',
+    btn_weekly_challenge: '📅 Weekly Challenge',
+    btn_saved_cloud:      '☁️ Saved!',
+    btn_saved_local:      '✓ Saved!',
+    btn_review:           '🔁 Review',
+
+    filter_level:     'Level:',
+    filter_all:       'All',
+    filter_showing:   'Showing',
+    label_vocabulary: 'vocabulary',
+    label_kanji:      'kanji',
+
+    legend_n5: 'N5 (beginner)',
+    legend_n4: 'N4',
+    legend_n3: 'N3 (frequent)',
+    legend_n2: 'N2 (frequent)',
+    legend_n1: 'N1',
+
+    settings_title:           '⚙️ Settings',
+    settings_back:            '← Back',
+    settings_reminder:        '🔔 Morning Reminder',
+    settings_enable_reminder: 'Enable daily reminder',
+    settings_reminder_time:   'Reminder time',
+    settings_save:            'Save',
+    settings_saved:           '✓ Saved',
+    settings_language:        '🌐 Language',
+
+    tutorial_steps: [
+      { icon: '🌅', title: 'Welcome to<br>朝の漢字',
+        body: 'Your daily Japanese study companion.<br>10 words every morning, 7 minutes — kanji, vocabulary, and a smart review system that makes it stick.' },
+      { icon: '漢', title: 'Kanji Tab',
+        body: 'Explore 10 kanji every day. See their meanings, on/kun readings, and real example words.<br><br>Tap <strong>☆</strong> to save a kanji to your list.' },
+      { icon: '語', title: 'Vocabulary Tab',
+        body: 'Get JLPT-ranked vocabulary built from those kanji. Every word is authentic Japanese.<br><br>Tap <strong>💾 Save for Quiz</strong> to add words to your deck.' },
+      { icon: '🎯', title: 'Quiz & SRS',
+        body: '<strong>Daily Quiz</strong> — test yourself on today\'s saved words.<br><br><strong>Smart Review</strong> — the app tracks what you know and reschedules words so you review them at the perfect time.' },
+      { icon: '📊', title: 'Track Your Progress',
+        body: 'The <strong>Stats tab</strong> tracks your streak, score history, and word count.<br><br>Come back every morning — consistency beats intensity.<br><strong>がんばって！</strong>' },
+    ],
+
+    quiz_q_meaning:         '💬 What is the meaning?',
+    quiz_q_word:            '🔤 Which word matches?',
+    quiz_q_reading:         '🔊 What is the reading?',
+    quiz_q_kanji_reading:   '🔤 Which kanji matches this reading?',
+    quiz_q_reading_meaning: '💬 What does this reading mean?',
+
+    srs_again: 'Again', srs_hard: 'Hard', srs_good: 'Good', srs_easy: 'Easy',
+
+    quiz_result_pass:      '合格！ You passed!',
+    quiz_result_fail:      '不合格。Keep studying!',
+    quiz_result_excellent: '素晴らしい！Excellent!',
+    quiz_result_good:      'よくできました！Good job!',
+    quiz_result_ok:        'まあまあ。Keep practicing!',
+    quiz_result_keep:      '頑張って！Keep at it!',
+    quiz_btn_retry:        '↺ Retry',
+    quiz_btn_back:         '📖 Back to Words',
+    quiz_btn_stats:        '📊 See Stats',
+
+    home_tagline:     '10 words every morning.',
+    home_tagline2:    '7 minutes.',
+    home_tagline3:    "That's all it takes.",
+    home_sub:         'kanji · vocabulary · smart daily review · offline',
+    home_start_kanji: "Start Today's Kanji →",
+    home_how_it_works:'How it works',
+
+    kpi_streak:       '🔥 Day Streak',
+    kpi_words:        '📖 Words Learned',
+    kpi_today_word:   "Today's Word",
+    kpi_avg_score:    '🎯 Avg Score',
+    kpi_jlpt_target:  '🎌 JLPT Target',
+    kpi_jlpt_tap:     'tap to change ↻',
+    kpi_signin_sync:  '☁️ <span onclick="cloudSignIn()">Sign in</span> to sync',
+    kpi_start_saving: 'Start saving words!',
+
+    jlpt_n5: 'Beginner', jlpt_n4: 'Elementary', jlpt_n3: 'Intermediate',
+    jlpt_n2: 'Upper Intermediate', jlpt_n1: 'Advanced',
+
+    today_title:         'Today',
+    today_words_loaded:  'Words loaded',
+    today_words_sub:     "(today's set)",
+    today_daily_quiz:    'Daily Quiz',
+    today_weekly:        'Weekly Challenge',
+    today_weekly_sub:    '(every Monday)',
+    today_not_loaded:    'Not loaded yet',
+    today_not_done:      'Not done yet',
+    today_done:          'Done ✓',
+    today_available:     '⏰ Available today!',
+    today_missed:        '⚠️ Missed',
+    today_words_ready:   'word ready',
+    today_words_ready_pl:'words ready',
+
+    actions_title:          'Quick actions',
+    action_kanji_sub:       'Morning study',
+    action_vocab_sub:       'Save new words',
+    action_quiz_title:      'Daily Quiz',
+    action_weekly_title:    'Weekly Challenge',
+    action_weekly_next:     'Next:',
+    action_weekly_available:'Available today!',
+    action_weekly_missed:   'Missed — catch up!',
+
+    upgrade_title:          '✨ Unlock Premium',
+    upgrade_feature1:       '✅ Unlimited saved words',
+    upgrade_feature2:       '✅ Exam Mode (20 questions, 7 min)',
+    upgrade_feature3:       '✅ Full stats & charts',
+    upgrade_feature4:       '✅ Lifetime access — no subscription',
+    upgrade_price:          '€7.99',
+    upgrade_price_sub:      'one-time payment',
+    upgrade_cta:            'Pay €7.99 — Activate Premium →',
+    upgrade_note:           'Secure payment via Stripe · Your account is auto-upgraded after payment.',
+    upgrade_signin_msg:     'Sign in first to activate Premium on your account.',
+    upgrade_signin_btn:     'Sign in with Google',
+    upgrade_card_title:     '✨ Go Premium',
+    upgrade_card_desc:      'Unlimited words · Exam Mode · Full stats',
+    upgrade_card_price:     '€7.99',
+    upgrade_card_price_sub: 'one-time · no subscription',
+    upgrade_card_btn:       'Upgrade →',
+    upgrade_limit_msg:      '🔒 You\'ve reached the <strong>30-word free limit</strong>.',
+    upgrade_exam_msg:       '🎓 <strong>Exam Mode</strong> is a Premium feature.',
+
+    premium_welcome:    'Welcome to Premium!',
+    premium_activated:  '🎉 Premium activated!',
+    premium_msg:        'Your word list is now unlimited.<br>Exam Mode and full stats are unlocked.',
+    premium_activating: '⏳ Activating… refresh in a moment if features are not unlocked yet.',
+    premium_lets_go:    "Let's go! →",
+
+    kanji_loading:     '読み込み中…',
+    kanji_load_error:  'Could not load data.',
+    kanji_on:          '音読み (On)',
+    kanji_kun:         '訓読み (Kun)',
+    kanji_examples:    'Examples',
+    kanji_no_examples: 'No examples available.',
+    kanji_from:        'From kanji:',
+    kanji_saved:       'Saved',
+
+    confirm_signin: '⚠️ You are not signed in.\n\nYour words will be saved locally but could be lost if you clear your browser cache.\n\nSign in to keep your words safe on any device.\n\nClick OK to sign in first, or Cancel to save locally.',
+
+    footer_msg:     '頑張って！Keep showing up — every morning counts.',
+    footer_privacy: 'Privacy Policy',
+
+    stats_missed_title: 'Keep going — one more to catch up!',
+    stats_missed_sub:   'You have a Weekly Challenge from',
+    stats_missed_sub2:  'waiting.',
+    stats_missed_msg:   "It only takes 7 minutes — you've got this.",
+    stats_start_now:    'Start Now →',
+    stats_no_quiz:      'No quiz data yet',
+
+    home_words: n => `${n} word${n !== 1 ? 's' : ''}`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  fr: {
+    days:   ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+    months: ['Janvier','Février','Mars','Avril','Mai','Juin',
+             'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+
+    greeting_morning:   'おはようございます！Bonjour !',
+    greeting_afternoon: 'こんにちは！Bon après-midi !',
+    greeting_evening:   'こんばんは！Bonsoir !',
+
+    sub_kanji:  'Kanji du matin · Étude quotidienne',
+    sub_vocab:  'Vocabulaire du matin · Étude quotidienne',
+    sub_mylist: 'Ma liste · Tout le vocabulaire sauvegardé',
+    sub_stats:  'Progression · Suivi des scores',
+
+    tab_home:   'Accueil', tab_kanji: 'Kanji', tab_vocab: 'Vocab',
+    tab_mylist: 'Ma liste', tab_stats: 'Stats',
+
+    btn_new_selection:    '↺ Nouvelle sélection',
+    btn_from_kanji:       '📖 Depuis Kanji',
+    btn_save_quiz:        '💾 Sauvegarder',
+    btn_daily_quiz:       '試 Quiz du jour',
+    btn_exam_mode:        '試験 Mode examen',
+    btn_more:             '＋ Plus',
+    btn_less:             '－ Moins',
+    btn_weekly_challenge: '📅 Défi hebdo',
+    btn_saved_cloud:      '☁️ Sauvegardé !',
+    btn_saved_local:      '✓ Sauvegardé !',
+    btn_review:           '🔁 Révision',
+
+    filter_level:     'Niveau :',
+    filter_all:       'Tous',
+    filter_showing:   'Affichage',
+    label_vocabulary: 'vocabulaire',
+    label_kanji:      'kanji',
+
+    legend_n5: 'N5 (débutant)',
+    legend_n4: 'N4',
+    legend_n3: 'N3 (fréquent)',
+    legend_n2: 'N2 (fréquent)',
+    legend_n1: 'N1',
+
+    settings_title:           '⚙️ Paramètres',
+    settings_back:            '← Retour',
+    settings_reminder:        '🔔 Rappel du matin',
+    settings_enable_reminder: 'Activer le rappel quotidien',
+    settings_reminder_time:   'Heure du rappel',
+    settings_save:            'Enregistrer',
+    settings_saved:           '✓ Sauvegardé',
+    settings_language:        '🌐 Langue',
+
+    tutorial_steps: [
+      { icon: '🌅', title: 'Bienvenue sur<br>朝の漢字',
+        body: 'Ton compagnon d\'étude quotidien du japonais.<br>10 mots chaque matin, 7 minutes — kanji, vocabulaire, et un système de révision intelligent qui fait que ça reste.' },
+      { icon: '漢', title: 'Onglet Kanji',
+        body: 'Explore 10 kanji par jour. Vois leurs significations, lectures on/kun et des exemples réels.<br><br>Appuie sur <strong>☆</strong> pour sauvegarder un kanji.' },
+      { icon: '語', title: 'Onglet Vocabulaire',
+        body: 'Obtiens du vocabulaire classé JLPT basé sur ces kanji.<br><br>Appuie sur <strong>💾 Sauvegarder</strong> pour ajouter des mots à ton deck.' },
+      { icon: '🎯', title: 'Quiz & SRS',
+        body: '<strong>Quiz quotidien</strong> — teste-toi sur les mots du jour.<br><br><strong>Révision intelligente</strong> — l\'app suit ta progression et reprogramme les mots au bon moment.' },
+      { icon: '📊', title: 'Suis ta progression',
+        body: 'L\'onglet <strong>Stats</strong> suit ta série, l\'historique des scores et le nombre de mots.<br><br>Reviens chaque matin — la régularité bat l\'intensité.<br><strong>がんばって！</strong>' },
+    ],
+
+    quiz_q_meaning:         '💬 Quelle est la signification ?',
+    quiz_q_word:            '🔤 Quel mot correspond ?',
+    quiz_q_reading:         '🔊 Quelle est la lecture ?',
+    quiz_q_kanji_reading:   '🔤 Quel kanji correspond à cette lecture ?',
+    quiz_q_reading_meaning: '💬 Que signifie cette lecture ?',
+
+    srs_again: 'À revoir', srs_hard: 'Difficile', srs_good: 'Bien', srs_easy: 'Facile',
+
+    quiz_result_pass:      '合格！ Reçu !',
+    quiz_result_fail:      '不合格。Continue à étudier !',
+    quiz_result_excellent: '素晴らしい！Excellent !',
+    quiz_result_good:      'よくできました！Bon travail !',
+    quiz_result_ok:        'まあまあ。Continue à pratiquer !',
+    quiz_result_keep:      '頑張って！Persévère !',
+    quiz_btn_retry:        '↺ Réessayer',
+    quiz_btn_back:         '📖 Retour aux mots',
+    quiz_btn_stats:        '📊 Voir les stats',
+
+    home_tagline:     '10 mots chaque matin.',
+    home_tagline2:    '7 minutes.',
+    home_tagline3:    "C'est tout ce qu'il faut.",
+    home_sub:         'kanji · vocabulaire · révision quotidienne intelligente · hors-ligne',
+    home_start_kanji: 'Commencer les kanji →',
+    home_how_it_works:'Comment ça marche',
+
+    kpi_streak:       '🔥 Jours consécutifs',
+    kpi_words:        '📖 Mots appris',
+    kpi_today_word:   'Mot du jour',
+    kpi_avg_score:    '🎯 Score moyen',
+    kpi_jlpt_target:  '🎌 Objectif JLPT',
+    kpi_jlpt_tap:     'appuyer pour changer ↻',
+    kpi_signin_sync:  '☁️ <span onclick="cloudSignIn()">Se connecter</span> pour synchroniser',
+    kpi_start_saving: 'Commence à sauvegarder !',
+
+    jlpt_n5: 'Débutant', jlpt_n4: 'Élémentaire', jlpt_n3: 'Intermédiaire',
+    jlpt_n2: 'Intermédiaire avancé', jlpt_n1: 'Avancé',
+
+    today_title:         "Aujourd'hui",
+    today_words_loaded:  'Mots chargés',
+    today_words_sub:     '(ensemble du jour)',
+    today_daily_quiz:    'Quiz quotidien',
+    today_weekly:        'Défi hebdomadaire',
+    today_weekly_sub:    '(chaque lundi)',
+    today_not_loaded:    'Pas encore chargés',
+    today_not_done:      'Pas encore fait',
+    today_done:          'Fait ✓',
+    today_available:     "⏰ Disponible aujourd'hui !",
+    today_missed:        '⚠️ Manqué',
+    today_words_ready:   'mot prêt',
+    today_words_ready_pl:'mots prêts',
+
+    actions_title:          'Actions rapides',
+    action_kanji_sub:       'Étude du matin',
+    action_vocab_sub:       'Sauvegarder de nouveaux mots',
+    action_quiz_title:      'Quiz quotidien',
+    action_weekly_title:    'Défi hebdomadaire',
+    action_weekly_next:     'Prochain :',
+    action_weekly_available:"Disponible aujourd'hui !",
+    action_weekly_missed:   'Manqué — rattrapage !',
+
+    upgrade_title:          '✨ Passer Premium',
+    upgrade_feature1:       '✅ Mots sauvegardés illimités',
+    upgrade_feature2:       '✅ Mode examen (20 questions, 7 min)',
+    upgrade_feature3:       '✅ Stats complètes & graphiques',
+    upgrade_feature4:       '✅ Accès à vie — sans abonnement',
+    upgrade_price:          '7,99 €',
+    upgrade_price_sub:      'paiement unique',
+    upgrade_cta:            'Payer 7,99 € — Activer Premium →',
+    upgrade_note:           'Paiement sécurisé via Stripe · Ton compte est mis à jour automatiquement.',
+    upgrade_signin_msg:     "Connecte-toi d'abord pour activer Premium sur ton compte.",
+    upgrade_signin_btn:     'Se connecter avec Google',
+    upgrade_card_title:     '✨ Passer Premium',
+    upgrade_card_desc:      'Mots illimités · Mode examen · Stats complètes',
+    upgrade_card_price:     '7,99 €',
+    upgrade_card_price_sub: 'paiement unique · sans abonnement',
+    upgrade_card_btn:       'Mettre à niveau →',
+    upgrade_limit_msg:      '🔒 Tu as atteint la <strong>limite de 30 mots gratuits</strong>.',
+    upgrade_exam_msg:       '🎓 Le <strong>mode examen</strong> est une fonctionnalité Premium.',
+
+    premium_welcome:    'Bienvenue dans Premium !',
+    premium_activated:  '🎉 Premium activé !',
+    premium_msg:        'Ta liste de mots est maintenant illimitée.<br>Le mode examen et les stats complètes sont débloqués.',
+    premium_activating: '⏳ Activation… rafraîchis si les fonctionnalités ne sont pas débloquées.',
+    premium_lets_go:    "C'est parti ! →",
+
+    kanji_loading:     '読み込み中…',
+    kanji_load_error:  'Impossible de charger les données.',
+    kanji_on:          '音読み (On)',
+    kanji_kun:         '訓読み (Kun)',
+    kanji_examples:    'Exemples',
+    kanji_no_examples: 'Aucun exemple disponible.',
+    kanji_from:        'Depuis le kanji :',
+    kanji_saved:       'Sauvegardé le',
+
+    confirm_signin: "⚠️ Tu n'es pas connecté.\n\nTes mots seront sauvegardés localement mais pourraient être perdus si tu effaces le cache.\n\nConnecte-toi pour garder tes mots en sécurité sur tous tes appareils.\n\nCliquer OK pour se connecter d'abord, ou Annuler pour sauvegarder localement.",
+
+    footer_msg:     'がんばって！Reviens chaque matin — la régularité paye.',
+    footer_privacy: 'Politique de confidentialité',
+
+    stats_missed_title: 'Continue — encore un effort !',
+    stats_missed_sub:   'Tu as un défi hebdomadaire du',
+    stats_missed_sub2:  "qui t'attend.",
+    stats_missed_msg:   "Ça ne prend que 7 minutes — tu peux le faire.",
+    stats_start_now:    'Commencer →',
+    stats_no_quiz:      'Pas encore de données',
+
+    home_words: n => `${n} mot${n !== 1 ? 's' : ''}`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  es: {
+    days:   ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+    months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+             'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+
+    greeting_morning:   'おはようございます！¡Buenos días!',
+    greeting_afternoon: 'こんにちは！¡Buenas tardes!',
+    greeting_evening:   'こんばんは！¡Buenas noches!',
+
+    sub_kanji:  'Kanji matutino · Estudio diario',
+    sub_vocab:  'Vocabulario matutino · Estudio diario',
+    sub_mylist: 'Mi lista · Todo el vocabulario guardado',
+    sub_stats:  'Progreso · Seguimiento de puntuaciones',
+
+    tab_home:   'Inicio', tab_kanji: 'Kanji', tab_vocab: 'Vocab',
+    tab_mylist: 'Mi Lista', tab_stats: 'Stats',
+
+    btn_new_selection:    '↺ Nueva selección',
+    btn_from_kanji:       '📖 Desde Kanji',
+    btn_save_quiz:        '💾 Guardar para Quiz',
+    btn_daily_quiz:       '試 Quiz diario',
+    btn_exam_mode:        '試験 Modo examen',
+    btn_more:             '＋ Más',
+    btn_less:             '－ Menos',
+    btn_weekly_challenge: '📅 Desafío semanal',
+    btn_saved_cloud:      '☁️ ¡Guardado!',
+    btn_saved_local:      '✓ ¡Guardado!',
+    btn_review:           '🔁 Repasar',
+
+    filter_level:     'Nivel:',
+    filter_all:       'Todos',
+    filter_showing:   'Mostrando',
+    label_vocabulary: 'vocabulario',
+    label_kanji:      'kanji',
+
+    legend_n5: 'N5 (principiante)',
+    legend_n4: 'N4',
+    legend_n3: 'N3 (frecuente)',
+    legend_n2: 'N2 (frecuente)',
+    legend_n1: 'N1',
+
+    settings_title:           '⚙️ Configuración',
+    settings_back:            '← Volver',
+    settings_reminder:        '🔔 Recordatorio matutino',
+    settings_enable_reminder: 'Activar recordatorio diario',
+    settings_reminder_time:   'Hora del recordatorio',
+    settings_save:            'Guardar',
+    settings_saved:           '✓ Guardado',
+    settings_language:        '🌐 Idioma',
+
+    tutorial_steps: [
+      { icon: '🌅', title: 'Bienvenido a<br>朝の漢字',
+        body: 'Tu compañero diario para aprender japonés.<br>10 palabras cada mañana, 7 minutos — kanji, vocabulario y un sistema de repaso inteligente.' },
+      { icon: '漢', title: 'Pestaña Kanji',
+        body: 'Explora 10 kanji cada día. Significados, lecturas on/kun y ejemplos reales.<br><br>Toca <strong>☆</strong> para guardar un kanji.' },
+      { icon: '語', title: 'Pestaña Vocabulario',
+        body: 'Vocabulario clasificado por JLPT basado en esos kanji.<br><br>Toca <strong>💾 Guardar para Quiz</strong> para añadir palabras.' },
+      { icon: '🎯', title: 'Quiz & SRS',
+        body: '<strong>Quiz diario</strong> — ponte a prueba.<br><br><strong>Repaso inteligente</strong> — la app planifica repeticiones en el momento perfecto.' },
+      { icon: '📊', title: 'Sigue tu progreso',
+        body: 'La pestaña <strong>Stats</strong> registra tu racha y puntuaciones.<br><br>Vuelve cada mañana — la constancia supera la intensidad.<br><strong>がんばって！</strong>' },
+    ],
+
+    quiz_q_meaning:         '💬 ¿Cuál es el significado?',
+    quiz_q_word:            '🔤 ¿Qué palabra corresponde?',
+    quiz_q_reading:         '🔊 ¿Cuál es la lectura?',
+    quiz_q_kanji_reading:   '🔤 ¿Qué kanji corresponde a esta lectura?',
+    quiz_q_reading_meaning: '💬 ¿Qué significa esta lectura?',
+
+    srs_again: 'De nuevo', srs_hard: 'Difícil', srs_good: 'Bien', srs_easy: 'Fácil',
+
+    quiz_result_pass:      '合格！ ¡Aprobado!',
+    quiz_result_fail:      '不合格。¡Sigue estudiando!',
+    quiz_result_excellent: '素晴らしい！¡Excelente!',
+    quiz_result_good:      'よくできました！¡Buen trabajo!',
+    quiz_result_ok:        'まあまあ。¡Sigue practicando!',
+    quiz_result_keep:      '頑張って！¡Sigue así!',
+    quiz_btn_retry:        '↺ Reintentar',
+    quiz_btn_back:         '📖 Volver a palabras',
+    quiz_btn_stats:        '📊 Ver estadísticas',
+
+    home_tagline:     '10 palabras cada mañana.',
+    home_tagline2:    '7 minutos.',
+    home_tagline3:    'Eso es todo lo que necesitas.',
+    home_sub:         'kanji · vocabulario · repaso diario inteligente · sin conexión',
+    home_start_kanji: 'Empezar Kanji de hoy →',
+    home_how_it_works:'Cómo funciona',
+
+    kpi_streak:       '🔥 Días seguidos',
+    kpi_words:        '📖 Palabras aprendidas',
+    kpi_today_word:   'Palabra del día',
+    kpi_avg_score:    '🎯 Punt. media',
+    kpi_jlpt_target:  '🎌 Meta JLPT',
+    kpi_jlpt_tap:     'toca para cambiar ↻',
+    kpi_signin_sync:  '☁️ <span onclick="cloudSignIn()">Inicia sesión</span> para sincronizar',
+    kpi_start_saving: '¡Empieza a guardar palabras!',
+
+    jlpt_n5: 'Principiante', jlpt_n4: 'Elemental', jlpt_n3: 'Intermedio',
+    jlpt_n2: 'Intermedio avanzado', jlpt_n1: 'Avanzado',
+
+    today_title:         'Hoy',
+    today_words_loaded:  'Palabras cargadas',
+    today_words_sub:     '(set de hoy)',
+    today_daily_quiz:    'Quiz diario',
+    today_weekly:        'Desafío semanal',
+    today_weekly_sub:    '(cada lunes)',
+    today_not_loaded:    'Aún no cargadas',
+    today_not_done:      'Aún no completado',
+    today_done:          'Hecho ✓',
+    today_available:     '⏰ ¡Disponible hoy!',
+    today_missed:        '⚠️ Perdido',
+    today_words_ready:   'palabra lista',
+    today_words_ready_pl:'palabras listas',
+
+    actions_title:          'Acciones rápidas',
+    action_kanji_sub:       'Estudio matutino',
+    action_vocab_sub:       'Guardar nuevas palabras',
+    action_quiz_title:      'Quiz diario',
+    action_weekly_title:    'Desafío semanal',
+    action_weekly_next:     'Próximo:',
+    action_weekly_available:'¡Disponible hoy!',
+    action_weekly_missed:   'Perdido — ¡recupera!',
+
+    upgrade_title:          '✨ Desbloquear Premium',
+    upgrade_feature1:       '✅ Palabras guardadas ilimitadas',
+    upgrade_feature2:       '✅ Modo examen (20 preguntas, 7 min)',
+    upgrade_feature3:       '✅ Stats completas y gráficas',
+    upgrade_feature4:       '✅ Acceso de por vida — sin suscripción',
+    upgrade_price:          '7,99 €',
+    upgrade_price_sub:      'pago único',
+    upgrade_cta:            'Pagar 7,99 € — Activar Premium →',
+    upgrade_note:           'Pago seguro vía Stripe · Tu cuenta se actualiza automáticamente.',
+    upgrade_signin_msg:     'Inicia sesión para activar Premium en tu cuenta.',
+    upgrade_signin_btn:     'Iniciar sesión con Google',
+    upgrade_card_title:     '✨ Ir Premium',
+    upgrade_card_desc:      'Palabras ilimitadas · Modo examen · Stats completas',
+    upgrade_card_price:     '7,99 €',
+    upgrade_card_price_sub: 'pago único · sin suscripción',
+    upgrade_card_btn:       'Actualizar →',
+    upgrade_limit_msg:      '🔒 Has alcanzado el <strong>límite de 30 palabras gratuitas</strong>.',
+    upgrade_exam_msg:       '🎓 El <strong>modo examen</strong> es una función Premium.',
+
+    premium_welcome:    '¡Bienvenido a Premium!',
+    premium_activated:  '🎉 ¡Premium activado!',
+    premium_msg:        'Tu lista de palabras ahora es ilimitada.<br>El modo examen y las stats completas están desbloqueados.',
+    premium_activating: '⏳ Activando… actualiza si las funciones no están desbloqueadas.',
+    premium_lets_go:    '¡Vamos! →',
+
+    kanji_loading:     '読み込み中…',
+    kanji_load_error:  'No se pudieron cargar los datos.',
+    kanji_on:          '音読み (On)',
+    kanji_kun:         '訓読み (Kun)',
+    kanji_examples:    'Ejemplos',
+    kanji_no_examples: 'No hay ejemplos disponibles.',
+    kanji_from:        'Del kanji:',
+    kanji_saved:       'Guardado el',
+
+    confirm_signin: '⚠️ No has iniciado sesión.\n\nTus palabras se guardarán localmente pero podrían perderse al limpiar la caché.\n\nInicia sesión para mantener tus palabras seguras en cualquier dispositivo.\n\nOK para iniciar sesión, Cancelar para guardar localmente.',
+
+    footer_msg:     '¡がんばって！Vuelve cada mañana — la constancia lo es todo.',
+    footer_privacy: 'Política de privacidad',
+
+    stats_missed_title: '¡Sigue adelante — un esfuerzo más!',
+    stats_missed_sub:   'Tienes un Desafío semanal del',
+    stats_missed_sub2:  'esperándote.',
+    stats_missed_msg:   'Solo toma 7 minutos — ¡tú puedes!',
+    stats_start_now:    'Empezar ahora →',
+    stats_no_quiz:      'Sin datos de quiz aún',
+
+    home_words: n => `${n} palabra${n !== 1 ? 's' : ''}`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  de: {
+    days:   ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+    months: ['Januar','Februar','März','April','Mai','Juni',
+             'Juli','August','September','Oktober','November','Dezember'],
+
+    greeting_morning:   'おはようございます！Guten Morgen!',
+    greeting_afternoon: 'こんにちは！Guten Tag!',
+    greeting_evening:   'こんばんは！Guten Abend!',
+
+    sub_kanji:  'Morgen-Kanji · Tägliches Lernen',
+    sub_vocab:  'Morgen-Vokabular · Tägliches Lernen',
+    sub_mylist: 'Meine Liste · Gespeichertes Vokabular',
+    sub_stats:  'Fortschritt · Punkteverfolgung',
+
+    tab_home:   'Start', tab_kanji: 'Kanji', tab_vocab: 'Vokabeln',
+    tab_mylist: 'Meine Liste', tab_stats: 'Stats',
+
+    btn_new_selection:    '↺ Neue Auswahl',
+    btn_from_kanji:       '📖 Aus Kanji',
+    btn_save_quiz:        '💾 Für Quiz speichern',
+    btn_daily_quiz:       '試 Tages-Quiz',
+    btn_exam_mode:        '試験 Prüfungsmodus',
+    btn_more:             '＋ Mehr',
+    btn_less:             '－ Weniger',
+    btn_weekly_challenge: '📅 Wochenchallenge',
+    btn_saved_cloud:      '☁️ Gespeichert!',
+    btn_saved_local:      '✓ Gespeichert!',
+    btn_review:           '🔁 Wiederholen',
+
+    filter_level:     'Niveau:',
+    filter_all:       'Alle',
+    filter_showing:   'Zeige',
+    label_vocabulary: 'Vokabeln',
+    label_kanji:      'Kanji',
+
+    legend_n5: 'N5 (Anfänger)',
+    legend_n4: 'N4',
+    legend_n3: 'N3 (häufig)',
+    legend_n2: 'N2 (häufig)',
+    legend_n1: 'N1',
+
+    settings_title:           '⚙️ Einstellungen',
+    settings_back:            '← Zurück',
+    settings_reminder:        '🔔 Morgenerinnerung',
+    settings_enable_reminder: 'Tägliche Erinnerung aktivieren',
+    settings_reminder_time:   'Erinnerungszeit',
+    settings_save:            'Speichern',
+    settings_saved:           '✓ Gespeichert',
+    settings_language:        '🌐 Sprache',
+
+    tutorial_steps: [
+      { icon: '🌅', title: 'Willkommen bei<br>朝の漢字',
+        body: 'Dein täglicher Lernbegleiter für Japanisch.<br>10 Wörter jeden Morgen, 7 Minuten — Kanji, Vokabeln und ein intelligentes Wiederholungssystem.' },
+      { icon: '漢', title: 'Kanji-Tab',
+        body: 'Entdecke täglich 10 Kanji. Bedeutungen, On/Kun-Lesungen und echte Beispiele.<br><br>Tippe auf <strong>☆</strong> zum Speichern.' },
+      { icon: '語', title: 'Vokabeln-Tab',
+        body: 'JLPT-sortiertes Vokabular basierend auf diesen Kanji.<br><br>Tippe auf <strong>💾 Für Quiz speichern</strong>.' },
+      { icon: '🎯', title: 'Quiz & SRS',
+        body: '<strong>Tages-Quiz</strong> — teste dich täglich.<br><br><strong>Smartes Wiederholen</strong> — die App plant Wiederholungen zum perfekten Zeitpunkt.' },
+      { icon: '📊', title: 'Verfolge deinen Fortschritt',
+        body: 'Der <strong>Stats-Tab</strong> zeigt deine Serie und Punktehistorie.<br><br>Komm jeden Morgen zurück — Regelmäßigkeit schlägt Intensität.<br><strong>がんばって！</strong>' },
+    ],
+
+    quiz_q_meaning:         '💬 Was ist die Bedeutung?',
+    quiz_q_word:            '🔤 Welches Wort passt?',
+    quiz_q_reading:         '🔊 Wie lautet die Lesung?',
+    quiz_q_kanji_reading:   '🔤 Welches Kanji entspricht dieser Lesung?',
+    quiz_q_reading_meaning: '💬 Was bedeutet diese Lesung?',
+
+    srs_again: 'Nochmal', srs_hard: 'Schwer', srs_good: 'Gut', srs_easy: 'Einfach',
+
+    quiz_result_pass:      '合格！ Bestanden!',
+    quiz_result_fail:      '不合格。Weiter üben!',
+    quiz_result_excellent: '素晴らしい！Ausgezeichnet!',
+    quiz_result_good:      'よくできました！Gut gemacht!',
+    quiz_result_ok:        'まあまあ。Weiter üben!',
+    quiz_result_keep:      '頑張って！Nicht aufgeben!',
+    quiz_btn_retry:        '↺ Wiederholen',
+    quiz_btn_back:         '📖 Zurück zu Wörtern',
+    quiz_btn_stats:        '📊 Statistiken ansehen',
+
+    home_tagline:     '10 Wörter jeden Morgen.',
+    home_tagline2:    '7 Minuten.',
+    home_tagline3:    'Das ist alles was du brauchst.',
+    home_sub:         'Kanji · Vokabeln · intelligentes Wiederholen · offline',
+    home_start_kanji: 'Heutiges Kanji starten →',
+    home_how_it_works:'Wie es funktioniert',
+
+    kpi_streak:       '🔥 Tage-Serie',
+    kpi_words:        '📖 Gelernte Wörter',
+    kpi_today_word:   'Wort des Tages',
+    kpi_avg_score:    '🎯 Ø Punktzahl',
+    kpi_jlpt_target:  '🎌 JLPT-Ziel',
+    kpi_jlpt_tap:     'tippen zum Ändern ↻',
+    kpi_signin_sync:  '☁️ <span onclick="cloudSignIn()">Anmelden</span> zum Synchronisieren',
+    kpi_start_saving: 'Fang an Wörter zu speichern!',
+
+    jlpt_n5: 'Anfänger', jlpt_n4: 'Grundstufe', jlpt_n3: 'Mittelstufe',
+    jlpt_n2: 'Obere Mittelstufe', jlpt_n1: 'Fortgeschritten',
+
+    today_title:         'Heute',
+    today_words_loaded:  'Wörter geladen',
+    today_words_sub:     '(heutiges Set)',
+    today_daily_quiz:    'Tages-Quiz',
+    today_weekly:        'Wochenchallenge',
+    today_weekly_sub:    '(jeden Montag)',
+    today_not_loaded:    'Noch nicht geladen',
+    today_not_done:      'Noch nicht erledigt',
+    today_done:          'Erledigt ✓',
+    today_available:     '⏰ Heute verfügbar!',
+    today_missed:        '⚠️ Verpasst',
+    today_words_ready:   'Wort bereit',
+    today_words_ready_pl:'Wörter bereit',
+
+    actions_title:          'Schnellaktionen',
+    action_kanji_sub:       'Morgenstudium',
+    action_vocab_sub:       'Neue Wörter speichern',
+    action_quiz_title:      'Tages-Quiz',
+    action_weekly_title:    'Wochenchallenge',
+    action_weekly_next:     'Nächste:',
+    action_weekly_available:'Heute verfügbar!',
+    action_weekly_missed:   'Verpasst — nachholen!',
+
+    upgrade_title:          '✨ Premium freischalten',
+    upgrade_feature1:       '✅ Unbegrenzte gespeicherte Wörter',
+    upgrade_feature2:       '✅ Prüfungsmodus (20 Fragen, 7 Min)',
+    upgrade_feature3:       '✅ Vollständige Stats & Diagramme',
+    upgrade_feature4:       '✅ Lebenslanger Zugang — kein Abo',
+    upgrade_price:          '7,99 €',
+    upgrade_price_sub:      'Einmalzahlung',
+    upgrade_cta:            'Jetzt für 7,99 € Premium aktivieren →',
+    upgrade_note:           'Sichere Zahlung via Stripe · Dein Konto wird automatisch aktualisiert.',
+    upgrade_signin_msg:     'Melde dich zuerst an, um Premium zu aktivieren.',
+    upgrade_signin_btn:     'Mit Google anmelden',
+    upgrade_card_title:     '✨ Premium werden',
+    upgrade_card_desc:      'Unbegrenzte Wörter · Prüfungsmodus · Vollständige Stats',
+    upgrade_card_price:     '7,99 €',
+    upgrade_card_price_sub: 'Einmalzahlung · kein Abo',
+    upgrade_card_btn:       'Upgraden →',
+    upgrade_limit_msg:      '🔒 Du hast das <strong>30-Wörter-Freikontingent</strong> erreicht.',
+    upgrade_exam_msg:       '🎓 Der <strong>Prüfungsmodus</strong> ist eine Premium-Funktion.',
+
+    premium_welcome:    'Willkommen bei Premium!',
+    premium_activated:  '🎉 Premium aktiviert!',
+    premium_msg:        'Deine Wortliste ist jetzt unbegrenzt.<br>Prüfungsmodus und vollständige Stats sind freigeschaltet.',
+    premium_activating: '⏳ Aktivierung läuft… Seite neu laden falls Funktionen nicht verfügbar.',
+    premium_lets_go:    "Los geht's! →",
+
+    kanji_loading:     '読み込み中…',
+    kanji_load_error:  'Daten konnten nicht geladen werden.',
+    kanji_on:          '音読み (On)',
+    kanji_kun:         '訓読み (Kun)',
+    kanji_examples:    'Beispiele',
+    kanji_no_examples: 'Keine Beispiele verfügbar.',
+    kanji_from:        'Aus Kanji:',
+    kanji_saved:       'Gespeichert am',
+
+    confirm_signin: '⚠️ Du bist nicht angemeldet.\n\nDeine Wörter werden lokal gespeichert, könnten aber beim Leeren des Caches verloren gehen.\n\nMelde dich an, um deine Wörter sicher zu halten.\n\nOK zum Anmelden, Abbrechen zum lokalen Speichern.',
+
+    footer_msg:     'がんばって！Komm jeden Morgen zurück — Regelmäßigkeit zahlt sich aus.',
+    footer_privacy: 'Datenschutzrichtlinie',
+
+    stats_missed_title: 'Weiter so — noch ein Schritt!',
+    stats_missed_sub:   'Du hast eine Wochenchallenge vom',
+    stats_missed_sub2:  'die wartet.',
+    stats_missed_msg:   'Es dauert nur 7 Minuten — du schaffst das.',
+    stats_start_now:    'Jetzt starten →',
+    stats_no_quiz:      'Noch keine Quiz-Daten',
+
+    home_words: n => `${n} Wort${n !== 1 ? 'e' : ''}`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────
+  ru: {
+    days:   ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],
+    months: ['Январь','Февраль','Март','Апрель','Май','Июнь',
+             'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+
+    greeting_morning:   'おはようございます！Доброе утро!',
+    greeting_afternoon: 'こんにちは！Добрый день!',
+    greeting_evening:   'こんばんは！Добрый вечер!',
+
+    sub_kanji:  'Утренние кандзи · Ежедневное обучение',
+    sub_vocab:  'Утренний словарь · Ежедневное обучение',
+    sub_mylist: 'Мой список · Весь сохранённый словарь',
+    sub_stats:  'Прогресс · Отслеживание результатов',
+
+    tab_home:   'Главная', tab_kanji: 'Кандзи', tab_vocab: 'Словарь',
+    tab_mylist: 'Мой список', tab_stats: 'Статистика',
+
+    btn_new_selection:    '↺ Новая подборка',
+    btn_from_kanji:       '📖 Из кандзи',
+    btn_save_quiz:        '💾 Сохранить для теста',
+    btn_daily_quiz:       '試 Дневной тест',
+    btn_exam_mode:        '試験 Режим экзамена',
+    btn_more:             '＋ Больше',
+    btn_less:             '－ Меньше',
+    btn_weekly_challenge: '📅 Недельный вызов',
+    btn_saved_cloud:      '☁️ Сохранено!',
+    btn_saved_local:      '✓ Сохранено!',
+    btn_review:           '🔁 Повторить',
+
+    filter_level:     'Уровень:',
+    filter_all:       'Все',
+    filter_showing:   'Показано',
+    label_vocabulary: 'слов',
+    label_kanji:      'кандзи',
+
+    legend_n5: 'N5 (начинающий)',
+    legend_n4: 'N4',
+    legend_n3: 'N3 (частый)',
+    legend_n2: 'N2 (частый)',
+    legend_n1: 'N1',
+
+    settings_title:           '⚙️ Настройки',
+    settings_back:            '← Назад',
+    settings_reminder:        '🔔 Утреннее напоминание',
+    settings_enable_reminder: 'Включить ежедневное напоминание',
+    settings_reminder_time:   'Время напоминания',
+    settings_save:            'Сохранить',
+    settings_saved:           '✓ Сохранено',
+    settings_language:        '🌐 Язык',
+
+    tutorial_steps: [
+      { icon: '🌅', title: 'Добро пожаловать в<br>朝の漢字',
+        body: 'Твой ежедневный помощник по изучению японского.<br>10 слов каждое утро, 7 минут — кандзи, словарь и умная система повторения.' },
+      { icon: '漢', title: 'Вкладка Кандзи',
+        body: 'Изучай 10 кандзи каждый день. Значения, чтения он/кун и примеры слов.<br><br>Нажми <strong>☆</strong> чтобы сохранить кандзи.' },
+      { icon: '語', title: 'Вкладка Словарь',
+        body: 'Словарь по уровням JLPT на основе этих кандзи.<br><br>Нажми <strong>💾 Сохранить для теста</strong> чтобы добавить слова.' },
+      { icon: '🎯', title: 'Тест & SRS',
+        body: '<strong>Дневной тест</strong> — проверяй себя по сохранённым словам.<br><br><strong>Умное повторение</strong> — приложение планирует повторения в нужный момент.' },
+      { icon: '📊', title: 'Отслеживай прогресс',
+        body: 'Вкладка <strong>Статистика</strong> показывает серию, историю результатов и количество слов.<br><br>Возвращайся каждое утро — регулярность важнее интенсивности.<br><strong>がんばって！</strong>' },
+    ],
+
+    quiz_q_meaning:         '💬 Что означает это слово?',
+    quiz_q_word:            '🔤 Какое слово подходит?',
+    quiz_q_reading:         '🔊 Как это читается?',
+    quiz_q_kanji_reading:   '🔤 Какой кандзи соответствует этому чтению?',
+    quiz_q_reading_meaning: '💬 Что означает это чтение?',
+
+    srs_again: 'Ещё раз', srs_hard: 'Сложно', srs_good: 'Хорошо', srs_easy: 'Легко',
+
+    quiz_result_pass:      '合格！ Сдано!',
+    quiz_result_fail:      '不合格。Продолжай учиться!',
+    quiz_result_excellent: '素晴らしい！Отлично!',
+    quiz_result_good:      'よくできました！Молодец!',
+    quiz_result_ok:        'まあまあ。Продолжай практиковаться!',
+    quiz_result_keep:      '頑張って！Не сдавайся!',
+    quiz_btn_retry:        '↺ Повторить',
+    quiz_btn_back:         '📖 Назад к словам',
+    quiz_btn_stats:        '📊 Посмотреть статистику',
+
+    home_tagline:     '10 слов каждое утро.',
+    home_tagline2:    '7 минут.',
+    home_tagline3:    'Вот и всё что нужно.',
+    home_sub:         'кандзи · словарь · умное ежедневное повторение · офлайн',
+    home_start_kanji: 'Начать кандзи сегодня →',
+    home_how_it_works:'Как это работает',
+
+    kpi_streak:       '🔥 Дней подряд',
+    kpi_words:        '📖 Слов изучено',
+    kpi_today_word:   'Слово дня',
+    kpi_avg_score:    '🎯 Средний балл',
+    kpi_jlpt_target:  '🎌 Цель JLPT',
+    kpi_jlpt_tap:     'нажми для смены ↻',
+    kpi_signin_sync:  '☁️ <span onclick="cloudSignIn()">Войдите</span> для синхронизации',
+    kpi_start_saving: 'Начни сохранять слова!',
+
+    jlpt_n5: 'Начинающий', jlpt_n4: 'Элементарный', jlpt_n3: 'Средний',
+    jlpt_n2: 'Выше среднего', jlpt_n1: 'Продвинутый',
+
+    today_title:         'Сегодня',
+    today_words_loaded:  'Слов загружено',
+    today_words_sub:     '(набор на сегодня)',
+    today_daily_quiz:    'Дневной тест',
+    today_weekly:        'Недельный вызов',
+    today_weekly_sub:    '(каждый понедельник)',
+    today_not_loaded:    'Ещё не загружено',
+    today_not_done:      'Ещё не выполнено',
+    today_done:          'Готово ✓',
+    today_available:     '⏰ Доступно сегодня!',
+    today_missed:        '⚠️ Пропущено',
+    today_words_ready:   'слово готово',
+    today_words_ready_pl:'слов готово',
+
+    actions_title:          'Быстрые действия',
+    action_kanji_sub:       'Утреннее обучение',
+    action_vocab_sub:       'Сохранить новые слова',
+    action_quiz_title:      'Дневной тест',
+    action_weekly_title:    'Недельный вызов',
+    action_weekly_next:     'Следующий:',
+    action_weekly_available:'Доступно сегодня!',
+    action_weekly_missed:   'Пропущено — навёрстывай!',
+
+    upgrade_title:          '✨ Разблокировать Premium',
+    upgrade_feature1:       '✅ Неограниченные сохранённые слова',
+    upgrade_feature2:       '✅ Режим экзамена (20 вопросов, 7 мин)',
+    upgrade_feature3:       '✅ Полная статистика и графики',
+    upgrade_feature4:       '✅ Пожизненный доступ — без подписки',
+    upgrade_price:          '€7,99',
+    upgrade_price_sub:      'единоразовый платёж',
+    upgrade_cta:            'Оплатить €7,99 — Активировать Premium →',
+    upgrade_note:           'Безопасная оплата через Stripe · Аккаунт обновляется автоматически.',
+    upgrade_signin_msg:     'Сначала войдите, чтобы активировать Premium.',
+    upgrade_signin_btn:     'Войти через Google',
+    upgrade_card_title:     '✨ Стать Premium',
+    upgrade_card_desc:      'Неограниченные слова · Режим экзамена · Полная статистика',
+    upgrade_card_price:     '€7,99',
+    upgrade_card_price_sub: 'единоразово · без подписки',
+    upgrade_card_btn:       'Обновить →',
+    upgrade_limit_msg:      '🔒 Вы достигли <strong>лимита 30 бесплатных слов</strong>.',
+    upgrade_exam_msg:       '🎓 <strong>Режим экзамена</strong> — Premium функция.',
+
+    premium_welcome:    'Добро пожаловать в Premium!',
+    premium_activated:  '🎉 Premium активирован!',
+    premium_msg:        'Ваш список слов теперь неограничен.<br>Режим экзамена и полная статистика разблокированы.',
+    premium_activating: '⏳ Активация… обновите страницу если функции не разблокированы.',
+    premium_lets_go:    'Начнём! →',
+
+    kanji_loading:     '読み込み中…',
+    kanji_load_error:  'Не удалось загрузить данные.',
+    kanji_on:          '音読み (Он)',
+    kanji_kun:         '訓読み (Кун)',
+    kanji_examples:    'Примеры',
+    kanji_no_examples: 'Примеры недоступны.',
+    kanji_from:        'Из кандзи:',
+    kanji_saved:       'Сохранено',
+
+    confirm_signin: '⚠️ Вы не вошли в систему.\n\nВаши слова будут сохранены локально, но могут быть потеряны при очистке кэша.\n\nВойдите, чтобы хранить слова на всех устройствах.\n\nОК — войти, Отмена — сохранить локально.',
+
+    footer_msg:     'がんばって！Возвращайся каждое утро — регулярность решает.',
+    footer_privacy: 'Политика конфиденциальности',
+
+    stats_missed_title: 'Продолжай — ещё одно усилие!',
+    stats_missed_sub:   'У тебя есть Недельный вызов от',
+    stats_missed_sub2:  'который ждёт.',
+    stats_missed_msg:   'Это займёт всего 7 минут — ты справишься.',
+    stats_start_now:    'Начать сейчас →',
+    stats_no_quiz:      'Пока нет данных о тестах',
+
+    home_words: n => {
+      if (n === 1) return '1 слово';
+      if (n >= 2 && n <= 4) return `${n} слова`;
+      return `${n} слов`;
+    },
+  },
+};
+
+// ── Public API ────────────────────────────────────────────────────────────
+export const SUPPORTED_LANGS = ['en', 'fr', 'es', 'de', 'ru'];
+export const LANG_NAMES = { en: 'English', fr: 'Français', es: 'Español', de: 'Deutsch', ru: 'Русский' };
+
+let _lang = null;
+
+export function detectLang() {
+  if (_lang) return _lang;
+  const stored = localStorage.getItem('km_lang');
+  if (stored && SUPPORTED_LANGS.includes(stored)) { _lang = stored; return _lang; }
+  const bl = (navigator.language || 'en').slice(0, 2).toLowerCase();
+  _lang = SUPPORTED_LANGS.includes(bl) ? bl : 'en';
+  return _lang;
+}
+
+export function setLang(code) {
+  if (!SUPPORTED_LANGS.includes(code)) code = 'en';
+  _lang = code;
+  localStorage.setItem('km_lang', code);
+}
+
+export function getLang() { return detectLang(); }
+
+/** Main translation function – returns string for key in current language */
+export function t(key) {
+  const lang = getLang();
+  const dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  if (key in dict) return dict[key];
+  return TRANSLATIONS.en[key] ?? key;
+}
+
+/** Apply data-i18n / data-i18n-html attributes across the DOM */
+export function applyI18nToDOM() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+  // Sync language selector if present
+  const sel = document.getElementById('langSelect');
+  if (sel) sel.value = getLang();
+}
+
+export function getSupportedLangs() {
+  return SUPPORTED_LANGS.map(code => ({ code, name: LANG_NAMES[code] }));
+}

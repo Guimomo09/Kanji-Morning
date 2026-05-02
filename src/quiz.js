@@ -6,6 +6,7 @@ import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './bi
 import { cloudUpdate } from './cloud.js';
 import { srsLoad, srsIntervalLabel } from './srs.js';
 import { getAllSavedWords } from './vocab.js';
+import { t } from './i18n.js';
 
 // ── Question type helpers ─────────────────────────────────────────────────
 // Types: A = word→meaning, B = meaning→word, C = word→reading,
@@ -132,7 +133,7 @@ export function renderQuizQuestion() {
 
   switch (type) {
     case 'A':
-      questionLabel = '💬 What is the meaning?';
+      questionLabel = t('quiz_q_meaning');
       promptHtml = `
         <div class="quiz-prompt-word">${item.word}</div>
         ${item.reading ? `<div class="quiz-prompt-reading">${item.reading}</div>` : ''}
@@ -142,7 +143,7 @@ export function renderQuizQuestion() {
       break;
 
     case 'B':
-      questionLabel = '🔤 Which word matches?';
+      questionLabel = t('quiz_q_word');
       promptHtml = `
         <div class="quiz-prompt-meaning">${item.meaning}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
@@ -151,7 +152,7 @@ export function renderQuizQuestion() {
       break;
 
     case 'C':
-      questionLabel = '🔊 What is the reading?';
+      questionLabel = t('quiz_q_reading');
       promptHtml = `
         <div class="quiz-prompt-word">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
@@ -163,7 +164,7 @@ export function renderQuizQuestion() {
       break;
 
     case 'D':
-      questionLabel = '🔤 Which kanji matches this reading?';
+      questionLabel = t('quiz_q_kanji_reading');
       promptHtml = `
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
@@ -172,7 +173,7 @@ export function renderQuizQuestion() {
       break;
 
     case 'E':
-      questionLabel = '💬 What does this reading mean?';
+      questionLabel = t('quiz_q_reading_meaning');
       promptHtml = `
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <div class="quiz-prompt-reading">${item.word}</div>
@@ -230,17 +231,17 @@ export function handleQuizAnswer(btn, isCorrect) {
     const ratingWrap = document.createElement('div');
     ratingWrap.className = 'srs-rating-wrap';
     [
-      { cls: 'srs-btn-again', label: 'Again', grade: 0 },
-      { cls: 'srs-btn-hard',  label: 'Hard',  grade: 1 },
-      { cls: 'srs-btn-good',  label: 'Good',  grade: 2 },
-      { cls: 'srs-btn-easy',  label: 'Easy',  grade: 3 },
-    ].forEach(({ cls, label, grade }) => {
+      { cls: 'srs-btn-again', labelKey: 'srs_again', grade: 0 },
+      { cls: 'srs-btn-hard',  labelKey: 'srs_hard',  grade: 1 },
+      { cls: 'srs-btn-good',  labelKey: 'srs_good',  grade: 2 },
+      { cls: 'srs-btn-easy',  labelKey: 'srs_easy',  grade: 3 },
+    ].forEach(({ cls, labelKey, grade }) => {
       const b = document.createElement('button');
       b.className = `srs-btn ${cls}`;
       const span = document.createElement('span');
       span.className = 'srs-interval';
       span.textContent = labels[grade];
-      b.textContent = label;
+      b.textContent = t(labelKey);
       b.appendChild(span);
       b.addEventListener('click', () => rateSrsCard(item.word, grade));
       ratingWrap.appendChild(b);
@@ -267,12 +268,12 @@ export function renderQuizResults() {
 
   let emoji, msg;
   if (isExam) {
-    if (pct >= EXAM_PASS_PCT) { emoji = '🎓'; msg = '合格！ You passed!'; }
-    else                      { emoji = '📚'; msg = '不合格。Keep studying!'; }
-  } else if (pct >= 90)      { emoji = '🏆'; msg = '素晴らしい！Excellent!'; }
-  else if (pct >= 70) { emoji = '👍'; msg = 'よくできました！Good job!'; }
-  else if (pct >= 50) { emoji = '📚'; msg = 'まあまあ。Keep practicing!'; }
-  else                { emoji = '💪'; msg = '頑張って！Keep at it!'; }
+    if (pct >= EXAM_PASS_PCT) { emoji = '🎓'; msg = t('quiz_result_pass'); }
+    else                      { emoji = '📚'; msg = t('quiz_result_fail'); }
+  } else if (pct >= 90)      { emoji = '🏆'; msg = t('quiz_result_excellent'); }
+  else if (pct >= 70) { emoji = '👍'; msg = t('quiz_result_good'); }
+  else if (pct >= 50) { emoji = '📚'; msg = t('quiz_result_ok'); }
+  else                { emoji = '💪'; msg = t('quiz_result_keep'); }
 
   const typeBadge = isExam
     ? `<span class="qh-type qh-type-exam">試験 · ${localStorage.getItem('km_jlpt_goal') || 'Exam'}</span>`
@@ -294,9 +295,9 @@ export function renderQuizResults() {
       <div class="quiz-result-msg">${msg}</div>
       ${elapsed ? `<div class="quiz-result-time">⏱ Session: ${elapsed}</div>` : ''}
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
-        <button class="btn btn-primary" onclick="${retryFn}">↺ Retry</button>
-        <button class="btn btn-ghost" onclick="resetAndBack()">📖 Back to Words</button>
-        <button class="btn btn-ghost" onclick="resetAndStats()">📊 See Stats</button>
+        <button class="btn btn-primary" onclick="${retryFn}">${t('quiz_btn_retry')}</button>
+        <button class="btn btn-ghost" onclick="resetAndBack()">${t('quiz_btn_back')}</button>
+        <button class="btn btn-ghost" onclick="resetAndStats()">${t('quiz_btn_stats')}</button>
       </div>
       ${!isSrs && !isExam ? `
       <div class="quiz-tomorrow">

@@ -8,6 +8,7 @@ import {
   getMissedBiWeeklyMonday, nextBiWeeklyMonday, isBiWeeklyMonday,
   isBiWeeklyDone, getLastBiWeeklyMonday,
 } from './biweekly.js';
+import { t } from './i18n.js';
 
 // ── Streak & totals ───────────────────────────────────────────────────────
 export function computeStreak() {
@@ -191,7 +192,14 @@ export function renderHome() {
   const todayQuiz   = lastQuiz && lastQuiz.date === todayStr() ? lastQuiz : null;
 
   const hour      = new Date().getHours();
-  const greetWord = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const greetWord = hour < 12 ? t('greeting_morning').replace(/^[^ ]+ /, '') : hour < 18 ? t('greeting_afternoon').replace(/^[^ ]+ /, '') : t('greeting_evening').replace(/^[^ ]+ /, '');
+
+  // Use localised date string
+  const localeDate = new Date().toLocaleDateString(
+    { en:'en-US', fr:'fr-FR', es:'es-ES', de:'de-DE', ru:'ru-RU' }[
+      localStorage.getItem('km_lang') || 'en'] || 'en-US',
+    { weekday: 'long', day: 'numeric', month: 'long' }
+  );
 
   const dailyAvailable    = todayWords.length > 0 && !todayQuiz;
   const biweeklyAvailable = isBiWeeklyMonday() && !isBiWeeklyDone(todayStr());
@@ -210,85 +218,85 @@ export function renderHome() {
   document.getElementById('homeSection').innerHTML = `
     <div class="home-hero">
       <div class="home-hero-kana">朝の漢字</div>
-      <div class="home-hero-title">10 words every morning.<br><strong style="font-size:1.15em">7 minutes.</strong> That's all it takes.</div>
-      <div class="home-hero-sub">kanji · vocabulary · smart daily review · offline</div>
+      <div class="home-hero-title">${t('home_tagline')}<br><strong style="font-size:1.15em">${t('home_tagline2')}</strong> ${t('home_tagline3')}</div>
+      <div class="home-hero-sub">${t('home_sub')}</div>
       <div class="home-hero-actions">
-        <button class="btn-white" onclick="switchTab('kanji')">Start Today's Kanji →</button>
-        <button class="btn-outline" onclick="showTutorial()">How it works</button>
+        <button class="btn-white" onclick="switchTab('kanji')">${t('home_start_kanji')}</button>
+        <button class="btn-outline" onclick="showTutorial()">${t('home_how_it_works')}</button>
       </div>
     </div>
 
     <div>
       <div class="home-greeting">${greetWord} <span>👋</span></div>
-      <div class="home-sub">${new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
+      <div class="home-sub">${localeDate}</div>
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div>${!state._fbUser ? '<div class="kpi-streak-nudge">☁️ <span onclick="cloudSignIn()">Sign in</span> to sync</div>' : ''}</div>
-      <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
+      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('kpi_streak')}</div>${!state._fbUser ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
+      <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('kpi_words')}</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">
           <div class="kpi-wotd-banner-emoji">${wotd.emoji}</div>
-          <div class="kpi-wotd-banner-title">Today's Word</div>
+          <div class="kpi-wotd-banner-title">${t('kpi_today_word')}</div>
         </div>
         <div class="kpi-wotd-body">
           <div class="kpi-wotd-kanji">${wotd.word}</div>
           <div class="kpi-wotd-reading">${wotd.reading}</div>
           <div class="kpi-wotd-meaning">${wotd.meaning}</div>
           ${savedWords.some(w => w.word === wotd.word)
-            ? `<div class="kpi-wotd-saved">✓ Saved</div>`
-            : `<button class="kpi-wotd-save-btn" onclick="saveWotd()">＋ Save this word</button>`
+            ? `<div class="kpi-wotd-saved">✓ ${t('today_done').replace(' ✓','')}</div>`
+            : `<button class="kpi-wotd-save-btn" onclick="saveWotd()">＋ ${t('today_done').replace('✓','').trim() || 'Save this word'}</button>`
           }
         </div>
       </div>
-      <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
+      <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('kpi_avg_score')}</div></div>
       <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
         <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
-        <div class="kpi-jlpt-pct">${jlptPct > 0 ? jlptPct + '%' : 'Start saving words!'}</div>
-        <div class="kpi-lbl">🎌 JLPT Target</div>
-        <div class="kpi-jlpt-hint">tap to change ↻</div>
-        <div class="kpi-jlpt-sub">${{ N5: 'Beginner', N4: 'Elementary', N3: 'Intermediate', N2: 'Upper Intermediate', N1: 'Advanced' }[jlptGoal]}</div>
+        <div class="kpi-jlpt-pct">${jlptPct > 0 ? jlptPct + '%' : t('kpi_start_saving')}</div>
+        <div class="kpi-lbl">${t('kpi_jlpt_target')}</div>
+        <div class="kpi-jlpt-hint">${t('kpi_jlpt_tap')}</div>
+        <div class="kpi-jlpt-sub">${{ N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') }[jlptGoal]}</div>
       </div>
     </div>
 
     <div class="home-today">
-      <div class="home-today-title">Today</div>
+      <div class="home-today-title">${t('today_title')}</div>
       <div class="home-today-row">
-        <span>Words loaded <span style="color:var(--muted);font-weight:400;font-size:12px">(today's set)</span></span>
-        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? todayWords.length + ' words ✓' : 'Not loaded yet'}</span>
+        <span>${t('today_words_loaded')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_words_sub')}</span></span>
+        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? t('home_words')(todayWords.length) + ' ✓' : t('today_not_loaded')}</span>
       </div>
       <div class="home-today-row">
-        <span>Daily Quiz</span>
-        <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✓' : 'Not done yet'}</span>
+        <span>${t('today_daily_quiz')}</span>
+        <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✓' : t('today_not_done')}</span>
       </div>
       <div class="home-today-row">
-        <span>Weekly Challenge <span style="color:var(--muted);font-weight:400;font-size:12px">(every Monday)</span></span>
-        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${isBiWeeklyDone(todayStr()) ? 'Done ✓' : biweeklyAvailable ? '⏰ Available today!' : missedBiweekly ? '⚠️ Missed' : '—'}</span>
+        <span>${t('today_weekly')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_weekly_sub')}</span></span>
+        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${isBiWeeklyDone(todayStr()) ? t('today_done') : biweeklyAvailable ? t('today_available') : missedBiweekly ? t('today_missed') : '—'}</span>
       </div>
     </div>
 
     <div>
-      <div class="home-today-title" style="margin-bottom:14px">Quick actions</div>
+      <div class="home-today-title" style="margin-bottom:14px">${t('actions_title')}</div>
       <div class="home-actions">
         <div class="home-action-card" onclick="switchTab('kanji')">
           <div class="home-action-icon">漢</div>
-          <div class="home-action-title">Kanji</div>
-          <div class="home-action-sub">Morning study</div>
+          <div class="home-action-title">${t('tab_kanji')}</div>
+          <div class="home-action-sub">${t('action_kanji_sub')}</div>
         </div>
         <div class="home-action-card" onclick="switchTab('vocab')">
           <div class="home-action-icon">語</div>
-          <div class="home-action-title">Vocabulary</div>
-          <div class="home-action-sub">Save new words</div>
+          <div class="home-action-title">${t('tab_vocab')}</div>
+          <div class="home-action-sub">${t('action_vocab_sub')}</div>
         </div>
         <div class="home-action-card ${dailyAvailable ? '' : 'disabled'}" onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)">
           <div class="home-action-icon">試</div>
-          <div class="home-action-title">Daily Quiz</div>
-          <div class="home-action-sub">${todayWords.length} word${todayWords.length !== 1 ? 's' : ''} ready</div>
+          <div class="home-action-title">${t('action_quiz_title')}</div>
+          <div class="home-action-sub">${t('home_words')(todayWords.length)} ${t('today_words_ready_pl')}</div>
         </div>
         <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
           <div class="home-action-icon">週</div>
-          <div class="home-action-title">Weekly Challenge</div>
-          <div class="home-action-sub">${biweeklyAvailable ? 'Available today!' : missedBiweekly ? 'Missed — catch up!' : 'Next: ' + dateStr(nextBiWeeklyMonday())}</div>
+          <div class="home-action-title">${t('action_weekly_title')}</div>
+          <div class="home-action-sub">${biweeklyAvailable ? t('action_weekly_available') : missedBiweekly ? t('action_weekly_missed') : t('action_weekly_next') + ' ' + dateStr(nextBiWeeklyMonday())}</div>
         </div>
       </div>
     </div>
@@ -296,11 +304,11 @@ export function renderHome() {
     ${!state.isPremium ? `
     <div class="upgrade-card">
       <div class="upgrade-card-left">
-        <div class="upgrade-card-title">✨ Go Premium</div>
-        <div class="upgrade-card-desc">Unlimited words · Exam Mode · Full stats</div>
-        <div class="upgrade-card-price">€7.99 <span>one-time · no subscription</span></div>
+        <div class="upgrade-card-title">${t('upgrade_card_title')}</div>
+        <div class="upgrade-card-desc">${t('upgrade_card_desc')}</div>
+        <div class="upgrade-card-price">${t('upgrade_card_price')} <span>${t('upgrade_card_price_sub')}</span></div>
       </div>
-      <button class="upgrade-card-btn" onclick="openUpgradeModal()">Upgrade →</button>
+      <button class="upgrade-card-btn" onclick="openUpgradeModal()">${t('upgrade_card_btn')}</button>
     </div>` : ''}
   `;
 }
@@ -319,13 +327,13 @@ export function renderStats() {
     <div class="stat-notif">
       <div class="stat-notif-icon">💪</div>
       <div class="stat-notif-body">
-        <div class="stat-notif-title">Keep going — one more to catch up!</div>
+        <div class="stat-notif-title">${t('stats_missed_title')}</div>
         <div class="stat-notif-sub">
-          You have a Weekly Challenge from <strong>${dateStr(missedMon)}</strong> waiting.<br>
-          It only takes 7 minutes — you've got this.
+          ${t('stats_missed_sub')} <strong>${dateStr(missedMon)}</strong> ${t('stats_missed_sub2')}<br>
+          ${t('stats_missed_msg')}
         </div>
         <button class="btn btn-quiz" onclick="launchBiWeeklyQuiz()" style="font-size:13px;padding:8px 18px">
-          Start Now →
+          ${t('stats_start_now')}
         </button>
       </div>
     </div>` : '';

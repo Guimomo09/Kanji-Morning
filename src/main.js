@@ -11,6 +11,7 @@ import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode a
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
 import { STRIPE_PAYMENT_LINK }                                  from './config.js';
+import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -26,48 +27,22 @@ function _wireMenuBtn(id, action) {
 // ════════════════════════════════════════════════════════════════════════════
 // TUTORIAL
 // ════════════════════════════════════════════════════════════════════════════
-const TUTORIAL_STEPS = [
-  {
-    icon: '🌅',
-    title: 'Bienvenue sur<br>朝の漢字',
-    body: 'Your daily Japanese study companion.<br>10 words every morning, 7 minutes — kanji, vocabulary, and a smart review system that makes it stick.',
-  },
-  {
-    icon: '漢',
-    title: 'Kanji Tab',
-    body: 'Explore 10 kanji every day. See their meanings, on/kun readings, and real example words.<br><br>Tap <strong>☆</strong> to save a kanji to your list.',
-  },
-  {
-    icon: '語',
-    title: 'Vocabulary Tab',
-    body: 'Get JLPT-ranked vocabulary built from those kanji. Every word is authentic Japanese.<br><br>Tap <strong>💾 Save for Quiz</strong> to add words to your deck.',
-  },
-  {
-    icon: '🎯',
-    title: 'Quiz & SRS',
-    body: '<strong>Daily Quiz</strong> — test yourself on today\'s saved words.<br><br><strong>Smart Review</strong> — the app tracks what you know and reschedules words so you review them at the perfect time.',
-  },
-  {
-    icon: '📊',
-    title: 'Track Your Progress',
-    body: 'The <strong>Stats tab</strong> tracks your streak, score history, and word count.<br><br>Come back every morning — consistency beats intensity.<br><strong>がんばって！</strong>',
-  },
-];
 let _tutStep = 0;
 
 function _renderTutorialStep() {
-  const step    = TUTORIAL_STEPS[_tutStep];
-  const total   = TUTORIAL_STEPS.length;
+  const steps   = t('tutorial_steps');
+  const step    = steps[_tutStep];
+  const total   = steps.length;
   const isLast  = _tutStep === total - 1;
 
   document.getElementById('tutIcon').innerHTML  = step.icon;
   document.getElementById('tutTitle').innerHTML = step.title;
   document.getElementById('tutBody').innerHTML  = step.body;
   document.getElementById('tutPrevBtn').style.display = _tutStep > 0 ? '' : 'none';
-  document.getElementById('tutNextBtn').textContent   = isLast ? "Let's go! →" : 'Next →';
+  document.getElementById('tutNextBtn').textContent   = isLast ? t('premium_lets_go') : 'Next →';
 
   const dots = document.getElementById('tutDots');
-  dots.innerHTML = TUTORIAL_STEPS.map((_, i) =>
+  dots.innerHTML = steps.map((_, i) =>
     `<span class="tutorial-dot${i === _tutStep ? ' active' : ''}"></span>`
   ).join('');
 }
@@ -86,7 +61,8 @@ function closeTutorial() {
 }
 
 function tutorialNext() {
-  if (_tutStep < TUTORIAL_STEPS.length - 1) {
+  const steps = t('tutorial_steps');
+  if (_tutStep < steps.length - 1) {
     _tutStep++;
     _renderTutorialStep();
   } else {
@@ -104,7 +80,7 @@ function tutorialPrev() {
 async function openKanjiDetail(char) {
   const backdrop = document.getElementById('kanjiDetailBackdrop');
   const content  = document.getElementById('kanjiDetailContent');
-  content.innerHTML = '<div class="kanji-detail-loading">読み込み中…</div>';
+  content.innerHTML = '<div class="kanji-detail-loading">' + t('kanji_loading') + '</div>';
   backdrop.style.display = '';
   document.body.style.overflow = 'hidden';
 
@@ -123,7 +99,7 @@ async function openKanjiDetail(char) {
             </div>
             <div class="ex-meaning">${e.m}</div>
           </div>`).join('')
-      : '<div class="example"><div class="ex-meaning">No examples available.</div></div>';
+      : `<div class="example"><div class="ex-meaning">${t('kanji_no_examples')}</div></div>`;
 
     content.innerHTML = `
       <div class="card-top" style="margin-bottom:18px">
@@ -134,18 +110,18 @@ async function openKanjiDetail(char) {
       </div>
       <div class="readings" style="margin-bottom:16px">
         <div class="reading-group">
-          <span class="reading-label">音読み (On)</span>
+          <span class="reading-label">${t('kanji_on')}</span>
           <span class="reading-kana">${on}</span>
         </div>
         <div class="reading-group">
-          <span class="reading-label">訓読み (Kun)</span>
+          <span class="reading-label">${t('kanji_kun')}</span>
           <span class="reading-kana">${kun}</span>
         </div>
       </div>
-      <div class="examples-label">Examples</div>
+      <div class="examples-label">${t('kanji_examples')}</div>
       ${exHtml}`;
   } catch {
-    content.innerHTML = '<div class="kanji-detail-loading">Could not load data.</div>';
+    content.innerHTML = '<div class="kanji-detail-loading">' + t('kanji_load_error') + '</div>';
   }
 }
 
@@ -169,9 +145,9 @@ function openWordDetail(wordStr) {
     </div>
     <div style="display:flex;gap:8px;align-items:center">
       <span class="badge badge-${it.level}">${it.level}</span>
-      <span style="font-size:12px;color:var(--muted)">Saved ${it.savedDate}</span>
+      <span style="font-size:12px;color:var(--muted)">${t('kanji_saved')} ${it.savedDate}</span>
     </div>
-    ${it.sourceKanji ? `<div style="font-size:13px;color:var(--sub);margin-top:10px">From kanji: <strong>${it.sourceKanji}</strong></div>` : ''}`;
+    ${it.sourceKanji ? `<div style="font-size:13px;color:var(--sub);margin-top:10px">${t('kanji_from')} <strong>${it.sourceKanji}</strong></div>` : ''}`;
   backdrop.style.display = '';
   document.body.style.overflow = 'hidden';
 }
@@ -203,9 +179,9 @@ function openUpgradeModal(context) {
   const body = modal.querySelector('.upgrade-modal-body');
 
   const contextMsg = context === 'limit'
-    ? '<div class="upgrade-modal-context">🔒 You\'ve reached the <strong>30-word free limit</strong>.</div>'
+    ? `<div class="upgrade-modal-context">${t('upgrade_limit_msg')}</div>`
     : context === 'exam'
-    ? '<div class="upgrade-modal-context">🎓 <strong>Exam Mode</strong> is a Premium feature.</div>'
+    ? `<div class="upgrade-modal-context">${t('upgrade_exam_msg')}</div>`
     : '';
 
   const upgradeUrl = STRIPE_PAYMENT_LINK +
@@ -213,21 +189,21 @@ function openUpgradeModal(context) {
 
   body.innerHTML = `
     ${contextMsg}
-    <div class="upgrade-modal-title">✨ Unlock Premium</div>
+    <div class="upgrade-modal-title">${t('upgrade_title')}</div>
     <ul class="upgrade-modal-features">
-      <li>✅ Unlimited saved words</li>
-      <li>✅ Exam Mode (20 questions, 7 min)</li>
-      <li>✅ Full stats & charts</li>
-      <li>✅ Lifetime access — no subscription</li>
+      <li>${t('upgrade_feature1')}</li>
+      <li>${t('upgrade_feature2')}</li>
+      <li>${t('upgrade_feature3')}</li>
+      <li>${t('upgrade_feature4')}</li>
     </ul>
-    <div class="upgrade-modal-price">€7.99 <span>one-time payment</span></div>
+    <div class="upgrade-modal-price">${t('upgrade_price')} <span>${t('upgrade_price_sub')}</span></div>
     ${!state._fbUser
-      ? `<div class="upgrade-modal-signin">Sign in first to activate Premium on your account.<br>
-         <button class="btn btn-primary" style="margin-top:10px" onclick="cloudSignIn()">Sign in with Google</button></div>`
+      ? `<div class="upgrade-modal-signin">${t('upgrade_signin_msg')}<br>
+         <button class="btn btn-primary" style="margin-top:10px" onclick="cloudSignIn()">${t('upgrade_signin_btn')}</button></div>`
       : `<a class="btn btn-primary upgrade-modal-cta" href="${upgradeUrl}" target="_blank" rel="noopener">
-           Pay €7.99 — Activate Premium →
+           ${t('upgrade_cta')}
          </a>
-         <div class="upgrade-modal-note">Secure payment via Stripe · Your account is auto-upgraded after payment.</div>`
+         <div class="upgrade-modal-note">${t('upgrade_note')}</div>`
     }`;
 
   modal.style.display = '';
@@ -250,8 +226,8 @@ if (_urlParams.get('premium') === 'success') {
       const modal = document.getElementById('premiumSuccessModal');
       if (modal) {
         modal.querySelector('.psm-status').textContent = isPremium
-          ? '🎉 Premium activated!'
-          : '⏳ Activating… refresh in a moment if features are not unlocked yet.';
+          ? t('premium_activated')
+          : t('premium_activating');
         modal.style.display = '';
         document.body.style.overflow = 'hidden';
       }
@@ -431,6 +407,15 @@ Object.assign(window, {
   closeMobileMenu,
   closeSettings,
   saveSettings,
+
+  // Language switcher
+  changeLanguage(code) {
+    setLang(code);
+    applyI18nToDOM();
+    setHeader();
+    // Re-render current tab to apply translated strings
+    switchTab(state.currentTab || 'home');
+  },
 });
 
 function openMobileMenu() {
@@ -789,6 +774,11 @@ setPostAuthCallback(() => {
 initCloud();
 srsUpdateReviewCount();
 history.scrollRestoration = 'manual';
+
+// Apply i18n to static DOM elements on startup
+detectLang();
+applyI18nToDOM();
+
 const _savedTab = localStorage.getItem('km_tab') || 'home';
 switchTab(_savedTab);
 requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));

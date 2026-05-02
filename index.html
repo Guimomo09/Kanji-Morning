@@ -95,41 +95,41 @@
 </header>
 
 <div class="tabbar">
-  <button class="tab active" id="tabHome"   onclick="switchTab('home')">⌂<br><span style="font-size:9px;opacity:.7">Home</span></button>
-  <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢<br><span style="font-size:9px;opacity:.7">Kanji</span></button>
-  <button class="tab"        id="tabVocab"  onclick="switchTab('vocab')">語<br><span style="font-size:9px;opacity:.7">Vocab</span></button>
-  <button class="tab"        id="tabMyList" onclick="switchTab('mylist')">☰<br><span style="font-size:9px;opacity:.7">My List</span></button>
-  <button class="tab"        id="tabStats"  onclick="switchTab('stats')">◎<br><span style="font-size:9px;opacity:.7">Stats</span></button>
+  <button class="tab active" id="tabHome"   onclick="switchTab('home')">⌂<br><span style="font-size:9px;opacity:.7" data-i18n="tab_home">Home</span></button>
+  <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢<br><span style="font-size:9px;opacity:.7" data-i18n="tab_kanji">Kanji</span></button>
+  <button class="tab"        id="tabVocab"  onclick="switchTab('vocab')">語<br><span style="font-size:9px;opacity:.7" data-i18n="tab_vocab">Vocab</span></button>
+  <button class="tab"        id="tabMyList" onclick="switchTab('mylist')">☰<br><span style="font-size:9px;opacity:.7" data-i18n="tab_mylist">My List</span></button>
+  <button class="tab"        id="tabStats"  onclick="switchTab('stats')">◎<br><span style="font-size:9px;opacity:.7" data-i18n="tab_stats">Stats</span></button>
 </div>
 
 <div class="toolbar" id="toolbarDiv">
-  <button class="btn btn-primary" id="btnRefresh" onclick="refresh()">↺ New Selection</button>
-  <button class="btn btn-quiz"  id="btnFromKanji"     onclick="toggleFromKanji()"     style="display:none">📖 From Kanji</button>
-  <button class="btn btn-save"  id="btnSave"          onclick="saveToday()"           style="display:none">💾 Save for Quiz</button>
-  <button class="btn btn-quiz"  id="btnDailyQuiz"     onclick="launchDailyQuiz()"     style="display:none">試 Daily Quiz</button>
-  <button class="btn btn-exam"  id="btnExam"          onclick="launchExamMode()"      style="display:none">試験 Exam Mode</button>
-  <button class="btn btn-ghost" id="btnMore"          onclick="changeCount(1)"                            >＋ More</button>
-  <button class="btn btn-ghost" id="btnLess"          onclick="changeCount(-1)"                           >－ Less</button>
-  <button class="btn btn-quiz"  id="btnBiweeklyQuiz"  onclick="launchBiWeeklyQuiz()"  style="display:none">📅 Weekly Challenge</button>
+  <button class="btn btn-primary" id="btnRefresh" onclick="refresh()" data-i18n="btn_new_selection">↺ New Selection</button>
+  <button class="btn btn-quiz"  id="btnFromKanji"     onclick="toggleFromKanji()"     style="display:none" data-i18n="btn_from_kanji">📖 From Kanji</button>
+  <button class="btn btn-save"  id="btnSave"          onclick="saveToday()"           style="display:none" data-i18n="btn_save_quiz">💾 Save for Quiz</button>
+  <button class="btn btn-quiz"  id="btnDailyQuiz"     onclick="launchDailyQuiz()"     style="display:none" data-i18n="btn_daily_quiz">試 Daily Quiz</button>
+  <button class="btn btn-exam"  id="btnExam"          onclick="launchExamMode()"      style="display:none" data-i18n="btn_exam_mode">試験 Exam Mode</button>
+  <button class="btn btn-ghost" id="btnMore"          onclick="changeCount(1)"                             data-i18n="btn_more">＋ More</button>
+  <button class="btn btn-ghost" id="btnLess"          onclick="changeCount(-1)"                            data-i18n="btn_less">－ Less</button>
+  <button class="btn btn-quiz"  id="btnBiweeklyQuiz"  onclick="launchBiWeeklyQuiz()"  style="display:none" data-i18n="btn_weekly_challenge">📅 Weekly Challenge</button>
 </div>
 <div class="level-filter" id="levelFilter" style="display:none">
-  <span class="level-filter-label">Level:</span>
-  <button class="pill active" data-level="all" onclick="setLevel('all')">All</button>
+  <span class="level-filter-label" data-i18n="filter_level">Level:</span>
+  <button class="pill active" data-level="all" onclick="setLevel('all')" data-i18n="filter_all">All</button>
   <button class="pill"        data-level="5"   onclick="setLevel('5')">N5</button>
   <button class="pill"        data-level="4"   onclick="setLevel('4')">N4</button>
   <button class="pill"        data-level="3"   onclick="setLevel('3')">N3</button>
   <button class="pill"        data-level="2"   onclick="setLevel('2')">N2</button>
   <button class="pill"        data-level="1"   onclick="setLevel('1')">N1</button>
-  <span class="toolbar-info">Showing <strong id="countLabel">10</strong> <span id="tabLabel">vocabulary</span></span>
+  <span class="toolbar-info"><span data-i18n="filter_showing">Showing</span> <strong id="countLabel">10</strong> <span id="tabLabel">vocabulary</span></span>
   <span id="statusMsg" class="status-loading">読み込み中…</span>
 </div>
 
 <div class="legend" id="legendDiv">
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n5)"></span>N5 (beginner)</div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n4)"></span>N4</div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n3)"></span>N3 (frequent)</div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n2)"></span>N2 (frequent)</div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n1)"></span>N1</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n5)"></span><span data-i18n="legend_n5">N5 (beginner)</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n4)"></span><span data-i18n="legend_n4">N4</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n3)"></span><span data-i18n="legend_n3">N3 (frequent)</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n2)"></span><span data-i18n="legend_n2">N2 (frequent)</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--n1)"></span><span data-i18n="legend_n1">N1</span></div>
 </div>
 
 <div class="home-section"   id="homeSection"></div>
@@ -137,7 +137,7 @@
 <div class="stats-section"  id="statsSection"  style="display:none"></div>
 <div class="mylist-section" id="mylistSection" style="display:none"></div>
 
-<footer>頑張って！Keep showing up — every morning counts.<br><a href="/privacy.html" style="color:var(--muted);font-size:12px;text-decoration:none;border-bottom:1px solid var(--border)">Privacy Policy</a></footer>
+<footer><span data-i18n="footer_msg">頑張って！Keep showing up — every morning counts.</span><br><a href="/privacy.html" style="color:var(--muted);font-size:12px;text-decoration:none;border-bottom:1px solid var(--border)" data-i18n="footer_privacy">Privacy Policy</a></footer>
 
 <!-- Tutorial overlay (shown on first visit) -->
 <div class="tutorial-overlay" id="tutorialOverlay" style="display:none">
@@ -157,21 +157,31 @@
 <!-- Settings drawer (slides in from right) -->
 <div id="settingsPage">
   <div class="settings-page-header">
-    <button class="settings-back-btn" onclick="closeSettings()">← Back</button>
-    <span class="settings-page-title">⚙️ Settings</span>
+    <button class="settings-back-btn" onclick="closeSettings()" data-i18n="settings_back">← Back</button>
+    <span class="settings-page-title" data-i18n="settings_title">⚙️ Settings</span>
   </div>
   <div class="settings-page-body">
-    <div class="settings-section-title">🔔 Morning Reminder</div>
+    <div class="settings-section-title" data-i18n="settings_reminder">🔔 Morning Reminder</div>
     <div class="settings-row">
-      <label class="settings-label" for="settingsNotifToggleMobile">Enable daily reminder</label>
+      <label class="settings-label" for="settingsNotifToggleMobile" data-i18n="settings_enable_reminder">Enable daily reminder</label>
       <input type="checkbox" id="settingsNotifToggleMobile" class="settings-toggle">
     </div>
     <div class="settings-row" id="settingsTimeRowMobile">
-      <label class="settings-label" for="settingsTimeInputMobile">Reminder time</label>
+      <label class="settings-label" for="settingsTimeInputMobile" data-i18n="settings_reminder_time">Reminder time</label>
       <input type="time" id="settingsTimeInputMobile" class="notif-time-input" value="08:00">
     </div>
+    <div class="settings-section-title" style="margin-top:20px" data-i18n="settings_language">🌐 Language</div>
+    <div class="settings-row">
+      <select id="langSelect" onchange="changeLanguage(this.value)" class="settings-toggle" style="width:auto;padding:4px 8px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="ru">Русский</option>
+      </select>
+    </div>
     <div class="settings-save-row">
-      <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+      <button class="btn btn-primary" onclick="saveSettings()" data-i18n="settings_save">Save</button>
       <span class="settings-save-msg" id="settingsSaveMsgMobile"></span>
     </div>
   </div>
@@ -199,10 +209,10 @@
     <button class="kanji-detail-close" onclick="document.getElementById('premiumSuccessModal').style.display='none';document.body.style.overflow=''">✕</button>
     <div style="text-align:center;padding:12px 0">
       <div style="font-size:52px;margin-bottom:12px">🎌</div>
-      <div class="upgrade-modal-title">Welcome to Premium!</div>
-      <div class="psm-status" style="font-size:15px;color:var(--sub);margin:12px 0">🎉 Premium activated!</div>
-      <div style="font-size:14px;color:var(--muted)">Your word list is now unlimited.<br>Exam Mode and full stats are unlocked.</div>
-      <button class="btn btn-primary" style="margin-top:20px" onclick="document.getElementById('premiumSuccessModal').style.display='none';document.body.style.overflow=''">Let's go! →</button>
+      <div class="upgrade-modal-title" data-i18n="premium_welcome">Welcome to Premium!</div>
+      <div class="psm-status" style="font-size:15px;color:var(--sub);margin:12px 0" data-i18n="premium_activated">🎉 Premium activated!</div>
+      <div style="font-size:14px;color:var(--muted)" data-i18n-html="premium_msg">Your word list is now unlimited.<br>Exam Mode and full stats are unlocked.</div>
+      <button class="btn btn-primary" style="margin-top:20px" onclick="document.getElementById('premiumSuccessModal').style.display='none';document.body.style.overflow=''" data-i18n="premium_lets_go">Let's go! →</button>
     </div>
   </div>
 </div>

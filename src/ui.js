@@ -8,20 +8,20 @@ import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords } from 
 import { renderHome, renderStats } from './stats.js';
 import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis } from './kanji.js';
 import { updateBiWeeklyBtn } from './biweekly.js';
+import { t } from './i18n.js';
 
 // ── Header greeting ───────────────────────────────────────────────────────
 export function setHeader() {
   const now  = new Date();
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const mons = ['January','February','March','April','May','June',
-                'July','August','September','October','November','December'];
+  const days = t('days');
+  const mons = t('months');
   document.getElementById('hDate').textContent =
     `${days[now.getDay()]}, ${mons[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
   const h = now.getHours();
   document.getElementById('hGreet').textContent =
-    h < 12 ? 'おはようございます！Good morning!'
-  : h < 18 ? 'こんにちは！Good afternoon!'
-  :           'こんばんは！Good evening!';
+    h < 12 ? t('greeting_morning')
+  : h < 18 ? t('greeting_afternoon')
+  :           t('greeting_evening');
 }
 
 // ── Tab switcher ──────────────────────────────────────────────────────────
@@ -68,22 +68,22 @@ export function switchTab(tab) {
   }
   if (isStats) {
     document.getElementById('hTitle').textContent = '進歩';
-    document.getElementById('hSub').textContent   = 'Progression · Score Tracking';
+    document.getElementById('hSub').textContent   = t('sub_stats');
     renderStats();
     return;
   }
   if (isMyList) {
     document.getElementById('btnExam').style.display         = '';
     document.getElementById('hTitle').textContent = '単語リスト';
-    document.getElementById('hSub').textContent   = 'My Word List · All Saved Vocabulary';
+    document.getElementById('hSub').textContent   = t('sub_mylist');
     renderMyList();
     return;
   }
 
   document.getElementById('hTitle').textContent = tab === 'kanji' ? '朝の漢字' : '朝の語彙';
   document.getElementById('hSub').textContent   = tab === 'kanji'
-    ? 'Morning Kanji · Daily Study' : 'Morning Vocabulary · Daily Study';
-  document.getElementById('tabLabel').textContent = tab === 'kanji' ? 'kanji' : 'vocabulary';
+    ? t('sub_kanji') : t('sub_vocab');
+  document.getElementById('tabLabel').textContent = tab === 'kanji' ? t('label_kanji') : t('label_vocabulary');
 
   // Reset quiz state
   state.quizState = null;
@@ -112,7 +112,7 @@ export function switchTab(tab) {
   document.getElementById('btnExam').style.display          = 'none';
   document.getElementById('btnBiweeklyQuiz').style.display  = 'none';
   document.getElementById('btnSave').classList.remove('saved');
-  document.getElementById('btnSave').textContent            = '💾 Save for Quiz';
+  document.getElementById('btnSave').textContent            = t('btn_save_quiz');
   document.getElementById('btnSave').disabled               = false;
   applyLevelFilterUI();
   document.getElementById('btnFromKanji').style.display = '';
@@ -134,9 +134,7 @@ export function saveToday() {
     }
   }
   if (CLOUD_ENABLED && !state._fbUser) {
-    const go = confirm(
-      '⚠️ You are not signed in.\n\nYour words will be saved locally but could be lost if you clear your browser cache.\n\nSign in to keep your words safe on any device.\n\nClick OK to sign in first, or Cancel to save locally.'
-    );
+    const go = confirm(t('confirm_signin'));
     if (go) { cloudSignIn(); return; }
   }
 
@@ -147,7 +145,7 @@ export function saveToday() {
   }));
 
   saveDailyVocab(todayStr(), itemsToSave);
-  btn.textContent = state._fbUser ? '☁️ Saved!' : '✓ Saved!';
+  btn.textContent = state._fbUser ? t('btn_saved_cloud') : t('btn_saved_local');
   btn.classList.add('saved');
   btn.disabled = true;
 
@@ -158,7 +156,7 @@ export function saveToday() {
   }
 
   setTimeout(() => {
-    btn.textContent = '💾 Save for Quiz';
+    btn.textContent = t('btn_save_quiz');
     btn.classList.remove('saved');
     btn.disabled = false;
   }, 2000);
