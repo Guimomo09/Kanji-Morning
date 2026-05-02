@@ -419,12 +419,22 @@ function _setupMyListDrag() {
     }, 500);
   }, { passive: true });
 
-  // passive:true — scroll is always allowed; selection via tap only in select mode
+  // passive:false so we CAN call preventDefault — but only when needed.
+  // Key rule (= iOS Photos behaviour):
+  //   • NOT in select mode            → return early, browser scrolls freely
+  //   • in select mode, finger on EMPTY space → return early, browser scrolls freely
+  //   • in select mode, finger started ON an item → preventDefault + drag-select
   section.addEventListener('touchmove', e => {
     _touchMoved = true;
     clearTimeout(_lpTimer);
     _lpTimer = null;
-  }, { passive: true });
+    if (!_selectMode || !_touchStartEl) return; // allow scroll
+    e.preventDefault();                          // block scroll only when drag-selecting
+    const t  = e.touches[0];
+    const el = document.elementFromPoint(t.clientX, t.clientY)
+                 ?.closest?.('.kanji-saved-chip, #mylistBody tr');
+    if (el) { _applyDragTo(el); _updateDeleteBar(); }
+  }, { passive: false });
 
   section.addEventListener('touchend', e => {
     clearTimeout(_lpTimer);
