@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 3 Mai 2026 (My List detail modals, table layout, WOTD random, footer fix)
+> Dernière mise à jour: 3 Mai 2026 (pre-launch UX — privacy policy, paywall warning, long-press hint, WOTD save CTA, Crisp renommé Asa no Kanji)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `4b2d714`
+**Dernier commit**: `a8065c9`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -67,6 +67,11 @@ kanji.guimo-prod.com {
 - [x] **My List table** — 4 colonnes (date masquée, visible dans la fiche) ; sens tronqué avec ellipsis
 - [x] **WOTD** — mot aléatoire quotidien (seed mulberry32 sur date ISO) + font-size fluide
 - [x] **Footer** — padding suffisant sur mobile pour ne pas coller aux tabs de nav (`safe-area-inset-bottom`)
+- [x] **Privacy Policy** — `public/privacy.html` RGPD complet (Firebase, Stripe, droits utilisateur) + lien dans footer
+- [x] **Paywall soft warning** — My List affiche bannière jaune à 24/30 mots, rouge à 30/30 avec CTA "€7.99 one-time"
+- [x] **Long-press hint** — "💡 Long press to select" visible uniquement sur mobile (`pointer: coarse`)
+- [x] **WOTD Save CTA** — bouton "＋ Save this word" sur la tile Home, devient "✓ Saved" si déjà sauvegardé
+- [x] **Crisp** — renommé "Asa no Kanji", opérateur "Support" (nom perso masqué)
 - [x] Filtre de complexité des mots par niveau JLPT
 - [x] Tri des définitions : sens courants en premier
 - [x] **Noto Sans JP** — police chargée depuis Google Fonts (poids 700+900)
