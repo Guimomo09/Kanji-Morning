@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 3 Mai 2026 (Stripe Premium live — webhook VPS, upgrade modal, 30-word gate, exam mode gate, icônes PWA iOS)
+> Dernière mise à jour: 3 Mai 2026 (domaine asanokanji.com live — DNS Cloudflare, Caddy, Firebase Auth, Stripe redirect)
 > **À mettre à jour à chaque changement majeur**
 
 ---
