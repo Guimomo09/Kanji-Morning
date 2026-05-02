@@ -209,7 +209,6 @@ Object.assign(window, {
 
   // My List multi-select
   toggleKanjiSelect(chip, event) {
-    console.log('[select] toggleKanjiSelect, _didDrag=', _didDrag, '_selectMode=', _selectMode);
     if (_didDrag) { _didDrag = false; return; }
     if (!_selectMode) _enterSelectMode();
     const chips = [...document.querySelectorAll('.kanji-saved-chip')];
@@ -226,7 +225,6 @@ Object.assign(window, {
     _updateDeleteBar();
   },
   toggleWordSelect(row, event) {
-    console.log('[select] toggleWordSelect, _didDrag=', _didDrag, '_selectMode=', _selectMode);
     if (_didDrag) { _didDrag = false; return; }
     if (!_selectMode) _enterSelectMode();
     const rows = [...document.querySelectorAll('#mylistBody tr:not([style*="display: none"])')];
@@ -385,31 +383,26 @@ function _setupMyListDrag() {
 
   section.addEventListener('mousedown', e => {
     const onCheck = !!e.target.closest('.kanji-chip-check, .ml-check-icon');
-    console.log('[drag] mousedown onCheck=', onCheck, 'target=', e.target);
     if (!onCheck || e.button !== 0) return;
     const el = e.target.closest('.kanji-saved-chip') ||
                (document.getElementById('mylistBody')?.contains(e.target) ? e.target.closest('tr') : null);
-    console.log('[drag] mousedown el=', el);
     if (!el) return;
     _dragging    = true;
-    _didDrag     = false;   // will be set true only when mouse actually moves
+    _didDrag     = false;
     _dragStartEl = el;
-    _dragAction  = null;    // computed on first movement
-    e.preventDefault();    // prevent text selection while dragging
-    console.log('[drag] mousedown primed, _dragging=true');
+    _dragAction  = null;
+    e.preventDefault();
   });
 
   section.addEventListener('mousemove', e => {
     if (!_dragging) return;
     const el = e.target.closest('.kanji-saved-chip') ||
                (document.getElementById('mylistBody')?.contains(e.target) ? e.target.closest('tr') : null);
-    console.log('[drag] mousemove dragging, el=', el);
     if (!el) return;
     if (!_didDrag) {
       _didDrag    = true;
       if (!_selectMode) _enterSelectMode();
       _dragAction = _dragStartEl.classList.contains('selected') ? 'deselect' : 'select';
-      console.log('[drag] first move, action=', _dragAction, 'startEl=', _dragStartEl);
       _applyDragTo(_dragStartEl);
     }
     _applyDragTo(el);
@@ -422,7 +415,6 @@ function _setupMyListDrag() {
 
   // Suppress click only when a real drag happened (mousemove fired)
   section.addEventListener('click', e => {
-    console.log('[drag] click captured, _didDrag=', _didDrag, 'target=', e.target);
     if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
   }, true);
 
