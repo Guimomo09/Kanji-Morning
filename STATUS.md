@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 2 Mai 2026 (My List desktop select rewrite + scroll fixes)
+> Dernière mise à jour: 3 Mai 2026 (My List detail modals, table layout, WOTD random, footer fix)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `fdb2f9e`
+**Dernier commit**: `4b2d714`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -62,6 +62,11 @@ kanji.guimo-prod.com {
 - [x] **Debug code supprimé** — `window.onerror` alert popup + `console.log('[openSettings]')` retirés
 - [x] **My List desktop select** — click sur ✓ → entre select mode + toggle ; drag depuis ✓ → multi-sélect ; sélection visible (teinte rouge + bordure gauche)
 - [x] **Scroll-to-top** — `switchTab()` scroll toujours en haut + `history.scrollRestoration='manual'` + rAF au startup
+- [x] **Tab persistence** — `localStorage km_tab` → refresh reste sur l'onglet courant
+- [x] **My List — click ouvre détail** — kanji chip → fiche kanji, ligne mot → fiche mot (font fluide)
+- [x] **My List table** — 4 colonnes (date masquée, visible dans la fiche) ; sens tronqué avec ellipsis
+- [x] **WOTD** — mot aléatoire quotidien (seed mulberry32 sur date ISO) + font-size fluide
+- [x] **Footer** — padding suffisant sur mobile pour ne pas coller aux tabs de nav (`safe-area-inset-bottom`)
 - [x] Filtre de complexité des mots par niveau JLPT
 - [x] Tri des définitions : sens courants en premier
 - [x] **Noto Sans JP** — police chargée depuis Google Fonts (poids 700+900)

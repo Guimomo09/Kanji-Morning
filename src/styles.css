@@ -917,7 +917,7 @@
       #crisp-chatbox { bottom: 72px !important; }
       .home-actions { grid-template-columns: 1fr 1fr; }
       .home-action-card { padding: 16px 10px; }
-      footer { padding-bottom: 80px; }
+      footer { padding-bottom: calc(80px + env(safe-area-inset-bottom) + 16px); }
 
       /* ── Toolbar ── */
       .toolbar {
