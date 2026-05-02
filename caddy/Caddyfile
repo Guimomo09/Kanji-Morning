@@ -1,0 +1,16 @@
+asanokanji.com, www.asanokanji.com, kanji.guimo-prod.com {
+    root * /var/www/kanji
+    file_server
+    encode gzip
+
+    # Stripe webhook proxy
+    reverse_proxy /stripe-webhook localhost:3001
+
+    # Security headers
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+}
