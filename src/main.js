@@ -209,6 +209,8 @@ Object.assign(window, {
 
   // My List multi-select
   toggleKanjiSelect(chip, event) {
+    if (_didDrag) { _didDrag = false; return; }
+    if (!_selectMode) _enterSelectMode();
     const chips = [...document.querySelectorAll('.kanji-saved-chip')];
     const idx   = parseInt(chip.dataset.index, 10);
     if (event && event.shiftKey && _lastKanjiIdx >= 0) {
@@ -223,7 +225,8 @@ Object.assign(window, {
     _updateDeleteBar();
   },
   toggleWordSelect(row, event) {
-    if (_didDrag) { _didDrag = false; return; }   // click fired after drag — ignore
+    if (_didDrag) { _didDrag = false; return; }
+    if (!_selectMode) _enterSelectMode();
     const rows = [...document.querySelectorAll('#mylistBody tr:not([style*="display: none"])')];
     const idx  = rows.indexOf(row);
     if (event && event.shiftKey && _lastWordIdx >= 0) {
@@ -373,22 +376,22 @@ function _setupMyListDrag() {
   if (!section) return;
 
   // ── Mouse drag-select (desktop) ─────────────────────────────────────
-  // Drag only starts when mousedown lands on a ✓ check icon — same as touch.
-  // Clicking anywhere else on a row keeps normal click/toggle behaviour.
+  // mousedown ONLY primes drag state — does NOT select anything.
+  // Single-click selection is handled by toggleKanjiSelect / toggleWordSelect.
+  // Multi-select happens in mousemove once the finger/mouse actually moves.
+  let _dragStartEl = null;
+
   section.addEventListener('mousedown', e => {
     const onCheck = !!e.target.closest('.kanji-chip-check, .ml-check-icon');
     if (!onCheck || e.button !== 0) return;
-    // Use two separate closest() calls to avoid compound selector edge cases
     const el = e.target.closest('.kanji-saved-chip') ||
                (document.getElementById('mylistBody')?.contains(e.target) ? e.target.closest('tr') : null);
     if (!el) return;
-    if (!_selectMode) _enterSelectMode();
-    _dragging   = true;
-    _didDrag    = true;  // set immediately so click-suppressor fires even without mousemove
-    _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
-    _applyDragTo(el);
-    _updateDeleteBar();
-    e.preventDefault();          // prevent text selection while dragging
+    _dragging    = true;
+    _didDrag     = false;   // will be set true only when mouse actually moves
+    _dragStartEl = el;
+    _dragAction  = null;    // computed on first movement
+    e.preventDefault();    // prevent text selection while dragging
   });
 
   section.addEventListener('mousemove', e => {
@@ -396,15 +399,22 @@ function _setupMyListDrag() {
     const el = e.target.closest('.kanji-saved-chip') ||
                (document.getElementById('mylistBody')?.contains(e.target) ? e.target.closest('tr') : null);
     if (!el) return;
+    if (!_didDrag) {
+      // First actual movement — enter select mode and apply to start element
+      _didDrag    = true;
+      if (!_selectMode) _enterSelectMode();
+      _dragAction = _dragStartEl.classList.contains('selected') ? 'deselect' : 'select';
+      _applyDragTo(_dragStartEl);
+    }
     _applyDragTo(el);
     _updateDeleteBar();
   });
 
   document.addEventListener('mouseup', () => {
-    if (_dragging) { _dragging = false; _updateDeleteBar(); }
+    if (_dragging) { _dragging = false; _dragStartEl = null; _updateDeleteBar(); }
   });
 
-  // Suppress click after drag (prevents toggleWordSelect from toggling back off)
+  // Suppress click only when a real drag happened (mousemove fired)
   section.addEventListener('click', e => {
     if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
   }, true);
