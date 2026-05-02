@@ -269,6 +269,10 @@ Object.assign(window, {
   clearSelection() {
     _exitSelectMode();
   },
+  toggleSelectMode() {
+    if (_selectMode) _exitSelectMode();
+    else _enterSelectMode();
+  },
 
   // Quiz
   launchDailyQuiz,
@@ -327,6 +331,22 @@ function _exitSelectMode() {
   _updateDeleteBar();
 }
 
+function _enterSelectMode() {
+  _selectMode = true;
+  _updateDeleteBar();
+}
+
+function _syncSelectButtons() {
+  ['mlKanjiSelectBtn', 'mlWordSelectBtn'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.textContent = _selectMode ? '✕ Cancel' : 'Select';
+  });
+  ['mlKanjiSelectAll', 'mlWordSelectAll'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.style.display = _selectMode ? '' : 'none';
+  });
+}
+
 function _updateDeleteBar() {
   const bar   = document.getElementById('mlDeleteBar');
   const count = document.getElementById('mlDeleteCount');
@@ -336,11 +356,12 @@ function _updateDeleteBar() {
     count.textContent = `${n} selected`;
     bar.classList.add('visible');
   } else if (_selectMode) {
-    count.textContent = 'Tap or swipe to select';
+    count.textContent = 'Tap items to select';
     bar.classList.add('visible');
   } else {
     bar.classList.remove('visible');
   }
+  _syncSelectButtons();
 }
 
 // Attach drag-select listeners once on the persistent #mylistSection element
@@ -390,7 +411,7 @@ function _setupMyListDrag() {
     // Start long-press timer
     _lpTimer = setTimeout(() => {
       if (_touchMoved) return;
-      _selectMode = true;
+      _enterSelectMode();
       _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
       _applyDragTo(el);
       _updateDeleteBar();

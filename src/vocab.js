@@ -330,8 +330,8 @@ export function renderMyList() {
   } else {
     html += `
       <div class="ml-select-toolbar">
-        <button class="btn btn-ghost" style="font-size:12px;padding:4px 12px" onclick="selectAllKanjis()">☑ All</button>
-        <button class="btn btn-ghost" style="font-size:12px;padding:4px 12px" onclick="clearKanjiSelection()">☐ None</button>
+        <button class="btn btn-ghost" id="mlKanjiSelectBtn" style="font-size:12px;padding:4px 12px" onclick="toggleSelectMode()">Select</button>
+        <button class="btn btn-ghost" id="mlKanjiSelectAll" style="font-size:12px;padding:4px 12px;display:none" onclick="selectAllKanjis()">☑ All</button>
       </div>`;
     html += `<div class="kanji-saved-grid">${
       kanjis.map((k, idx) => `
@@ -366,8 +366,8 @@ export function renderMyList() {
     html += `
       <div class="mylist-toolbar">
         <div class="ml-select-toolbar" style="margin-bottom:0">
-          <button class="btn btn-ghost" style="font-size:12px;padding:4px 12px" onclick="selectAllWords()">☑ All</button>
-          <button class="btn btn-ghost" style="font-size:12px;padding:4px 12px" onclick="clearWordSelection()">☐ None</button>
+          <button class="btn btn-ghost" id="mlWordSelectBtn" style="font-size:12px;padding:4px 12px" onclick="toggleSelectMode()">Select</button>
+          <button class="btn btn-ghost" id="mlWordSelectAll" style="font-size:12px;padding:4px 12px;display:none" onclick="selectAllWords()">☑ All</button>
         </div>
         <input class="mylist-search" type="text" placeholder="Search word or meaning…"
           oninput="filterMyList(this.value)">
