@@ -730,6 +730,11 @@
     .kanji-saved-chip.selected .kanji-chip-check {
       background: var(--red); border-color: var(--red); color: #fff;
     }
+    /* In select mode: check icons always visible and pulsing slightly */
+    .mylist-section.select-mode .kanji-chip-check,
+    .mylist-section.select-mode .ml-check-icon {
+      border-color: var(--red); color: rgba(220,53,69,.25);
+    }
     .kanji-saved-char    { font-size: 52px; font-weight: 900; line-height: 1; color: #111; }
     .kanji-saved-meaning { font-size: 11px; color: var(--sub); line-height: 1.4; }
     .kanji-saved-remove {

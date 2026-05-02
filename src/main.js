@@ -315,17 +315,18 @@ function closeMobileMenu() {
 let _lastKanjiIdx = -1;
 let _lastWordIdx  = -1;
 let _dragging     = false;
-let _dragAction   = 'select';
+let _dragAction   = null;
 let _didDrag      = false;
 let _selectMode   = false;   // mobile: long-press activates select mode
 
 function _applyDragTo(el) {
-  if (_dragAction === 'select') el.classList.add('selected');
+  if ((_dragAction || 'select') === 'select') el.classList.add('selected');
   else el.classList.remove('selected');
 }
 
 function _exitSelectMode() {
   _selectMode = false;
+  document.getElementById('mylistSection')?.classList.remove('select-mode');
   document.querySelectorAll('.kanji-saved-chip.selected, #mylistBody tr.selected')
     .forEach(el => el.classList.remove('selected'));
   _updateDeleteBar();
@@ -333,6 +334,7 @@ function _exitSelectMode() {
 
 function _enterSelectMode() {
   _selectMode = true;
+  document.getElementById('mylistSection')?.classList.add('select-mode');
   _updateDeleteBar();
 }
 
@@ -404,36 +406,42 @@ function _setupMyListDrag() {
   let _lpTimer      = null;
 
   section.addEventListener('touchstart', e => {
-    const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+    const item    = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+    // Only treat as a potential select-drag if finger lands on the ✓ indicator
+    const onCheck = !!e.target.closest('.kanji-chip-check, .ml-check-icon');
     _touchMoved   = false;
-    _touchStartEl = el || null;
-    if (!el || _selectMode) return;
-    // Start long-press timer
+    _dragAction   = null;
+    _touchStartEl = (_selectMode && item && onCheck) ? item : null;
+    if (!item || _selectMode) return;
+    // Long-press on anything → enter select mode
     _lpTimer = setTimeout(() => {
       if (_touchMoved) return;
       _enterSelectMode();
-      _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
-      _applyDragTo(el);
+      _dragAction = item.classList.contains('selected') ? 'deselect' : 'select';
+      _applyDragTo(item);
       _updateDeleteBar();
       navigator.vibrate?.(40);
     }, 500);
   }, { passive: true });
 
   // passive:false so we CAN call preventDefault — but only when needed.
-  // Key rule (= iOS Photos behaviour):
-  //   • NOT in select mode            → return early, browser scrolls freely
-  //   • in select mode, finger on EMPTY space → return early, browser scrolls freely
-  //   • in select mode, finger started ON an item → preventDefault + drag-select
+  // Key rule: in select mode, drag started on ✓ check → block scroll + drag-select
+  //           drag started elsewhere → scroll freely
   section.addEventListener('touchmove', e => {
     _touchMoved = true;
     clearTimeout(_lpTimer);
     _lpTimer = null;
     if (!_selectMode || !_touchStartEl) return; // allow scroll
-    e.preventDefault();                          // block scroll only when drag-selecting
+    e.preventDefault();                          // block scroll only when drag-selecting via ✓
     const t  = e.touches[0];
     const el = document.elementFromPoint(t.clientX, t.clientY)
                  ?.closest?.('.kanji-saved-chip, #mylistBody tr');
-    if (el) { _applyDragTo(el); _updateDeleteBar(); }
+    if (el) {
+      // Set drag action based on first item touched
+      if (!_dragAction) _dragAction = _touchStartEl.classList.contains('selected') ? 'deselect' : 'select';
+      _applyDragTo(el);
+      _updateDeleteBar();
+    }
   }, { passive: false });
 
   section.addEventListener('touchend', e => {
