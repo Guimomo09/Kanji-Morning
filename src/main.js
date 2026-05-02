@@ -210,7 +210,10 @@ Object.assign(window, {
   // My List multi-select
   toggleKanjiSelect(chip, event) {
     if (_didDrag) { _didDrag = false; return; }
-    if (!_selectMode) _enterSelectMode();
+    if (!_selectMode) {
+      if (!window.matchMedia('(pointer: fine)').matches) return; // touch: long-press only
+      _enterSelectMode();
+    }
     const chips = [...document.querySelectorAll('.kanji-saved-chip')];
     const idx   = parseInt(chip.dataset.index, 10);
     if (event && event.shiftKey && _lastKanjiIdx >= 0) {
@@ -226,7 +229,10 @@ Object.assign(window, {
   },
   toggleWordSelect(row, event) {
     if (_didDrag) { _didDrag = false; return; }
-    if (!_selectMode) _enterSelectMode();
+    if (!_selectMode) {
+      if (!window.matchMedia('(pointer: fine)').matches) return; // touch: long-press only
+      _enterSelectMode();
+    }
     const rows = [...document.querySelectorAll('#mylistBody tr:not([style*="display: none"])')];
     const idx  = rows.indexOf(row);
     if (event && event.shiftKey && _lastWordIdx >= 0) {
