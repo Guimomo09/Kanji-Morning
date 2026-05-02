@@ -4,23 +4,29 @@
  * Asa no Kanji — Stripe Webhook Server
  *
  * Required env vars (set in /etc/asa-no-kanji/.env):
- *   STRIPE_SECRET_KEY          — sk_live_... (or sk_test_... for testing)
- *   STRIPE_WEBHOOK_SECRET      — whsec_... (from Stripe Dashboard → Webhooks)
- *   FIREBASE_SERVICE_ACCOUNT   — JSON string of the Firebase service account key
- *   PORT                       — (optional) defaults to 3001
+ *   STRIPE_SECRET_KEY               — sk_live_... (or sk_test_... for testing)
+ *   STRIPE_WEBHOOK_SECRET           — whsec_... (from Stripe Dashboard → Webhooks)
+ *   FIREBASE_SERVICE_ACCOUNT_PATH   — absolute path to the service account JSON file
+ *   PORT                            — (optional) defaults to 3001
  *
  * On payment, writes { premium: true, premiumSince: ISO date } to
  * Firestore users/{client_reference_id} using merge.
  */
 
 const express = require('express');
+const fs      = require('fs');
 const stripe  = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const admin   = require('firebase-admin');
 
 // ── Firebase Admin init ───────────────────────────────────────────────────
+const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
+if (!serviceAccountPath) {
+  console.error('[startup] FIREBASE_SERVICE_ACCOUNT_PATH is not set');
+  process.exit(1);
+}
 admin.initializeApp({
   credential: admin.credential.cert(
-    JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+    JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'))
   ),
 });
 const db = admin.firestore();
