@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 3 Mai 2026 (pre-launch UX — privacy policy, paywall warning, long-press hint, WOTD save CTA, Crisp renommé Asa no Kanji)
+> Dernière mise à jour: 3 Mai 2026 (Stripe Premium live — webhook VPS, upgrade modal, 30-word gate, exam mode gate, icônes PWA iOS)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -24,13 +24,13 @@ kanji.guimo-prod.com {
     root * /var/www/kanji
     file_server
     encode gzip
+    reverse_proxy /stripe-webhook localhost:3001
     header {
         X-Frame-Options "SAMEORIGIN"
         X-Content-Type-Options "nosniff"
         Referrer-Policy "strict-origin-when-cross-origin"
         -Server
     }
-    # (Tatoeba proxy removed)
 }
 ```
 
@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `a8065c9`
+**Dernier commit**: `87cc5f4`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -90,9 +90,10 @@ kanji.guimo-prod.com {
 - [x] **iOS Safari compat** — `window.Notification?.permission` au lieu de `Notification?.permission` (ReferenceError si API absente sur iOS)
 - [x] **Crisp** — widget SAV, bulle **cachée sur mobile** (chat:hide API), accessible via hamburger menu
 - [x] **Hamburger menu mobile** — remplace ⚙️ sur mobile → dropdown avec Settings + Chat (iOS ghost click fix)
+- [x] **Stripe Premium** — €7.99 one-time · Payment Link TEST `buy.stripe.com/test_cNi3cx...` · webhook Node.js/Express sur VPS (PM2, port 3001) · Caddy proxy `/stripe-webhook` · Firestore `users/{uid}.premium=true` · upgrade modal (contextes: limit/exam/generic) · 30-word hard gate · Exam Mode gate · success modal `?premium=success` · upgrade card Home
 
 ### 🟡 À faire / en cours
-- [ ] **Stripe** — €7.99 one-time. Free: 30 mots max + quiz daily + Weekly Challenge. Premium: My List illimité + Exam Mode + stats complètes + SRS
+- [ ] **Stripe LIVE** — passer en mode production (nouveau Payment Link + sk_live + whsec live + update config.js)
 - [ ] Notifications push background (Push API + serveur) — opt-in local ✅, push serveur manquant
 
 ---
