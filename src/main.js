@@ -419,18 +419,12 @@ function _setupMyListDrag() {
     }, 500);
   }, { passive: true });
 
-  // passive:false so we can preventDefault (block scroll) in select mode
+  // passive:true — scroll is always allowed; selection via tap only in select mode
   section.addEventListener('touchmove', e => {
     _touchMoved = true;
     clearTimeout(_lpTimer);
     _lpTimer = null;
-    if (!_selectMode) return;  // not in select mode → let browser scroll normally
-    e.preventDefault();        // block scroll when dragging to select
-    const t  = e.touches[0];
-    const el = document.elementFromPoint(t.clientX, t.clientY)
-                 ?.closest?.('.kanji-saved-chip, #mylistBody tr');
-    if (el) { _applyDragTo(el); _updateDeleteBar(); }
-  }, { passive: false });
+  }, { passive: true });
 
   section.addEventListener('touchend', e => {
     clearTimeout(_lpTimer);
