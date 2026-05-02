@@ -78,11 +78,16 @@ function getSeason(month) {
 
 export function getWordOfDay(dateStr) {
   const d      = dateStr ? new Date(dateStr) : new Date();
-  const month  = d.getMonth() + 1; // 1–12
-  const day    = d.getDate();      // 1–31
+  const month  = d.getMonth() + 1;
   const season = getSeason(month);
 
   const pool = WORDS.filter(w => w.season === season || w.season === 'all');
-  const word = pool[(day - 1) % pool.length];
+
+  // Deterministic daily shuffle using date as seed (mulberry32)
+  const seed = parseInt(d.toISOString().slice(0, 10).replace(/-/g, ''), 10);
+  let s = seed >>> 0;
+  const rand = () => { s += 0x6d2b79f5; let t = Math.imul(s ^ s >>> 15, 1 | s); t ^= t + Math.imul(t ^ t >>> 7, 61 | t); return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const idx = Math.floor(rand() * pool.length);
+  const word = pool[idx];
   return { ...word, emoji: SEASON_EMOJIS[word.season] };
 }

@@ -459,7 +459,7 @@
     .kanji-save-btn:hover { color: var(--red); transform: scale(1.2); }
     .kanji-save-btn.saved { color: var(--red); }
 
-    footer { text-align: center; padding: 16px; font-size: 13px; color: var(--muted); }
+    footer { text-align: center; padding: 32px 20px; font-size: 13px; color: var(--muted); }
 
     /* ── Stats / Progression ─────────────────────────────────────────────── */
     .stats-section {
@@ -621,7 +621,7 @@
     .kpi-wotd-banner-emoji { font-size: 22px; margin-bottom: 4px; }
     .kpi-wotd-banner-title { font-size: 15px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; opacity: .95; }
     .kpi-wotd-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 14px; }
-    .kpi-wotd-kanji { font-size: 3.2rem; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 8px; }
+    .kpi-wotd-kanji { font-size: clamp(1.6rem, 4.5vw, 3.2rem); font-weight: 900; color: var(--red); line-height: 1.1; margin-bottom: 8px; word-break: break-word; text-align: center; }
     .kpi-wotd-reading { font-size: 14px; font-weight: 700; color: var(--sub); margin-bottom: 5px; }
     .kpi-wotd-meaning { font-size: 12px; color: var(--muted); font-style: italic; }
     .home-today-row {
