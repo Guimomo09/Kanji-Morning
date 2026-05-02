@@ -1,6 +1,6 @@
 # 📊 STATUS — Kanji Morning & Projets
 
-> Dernière mise à jour: 2 Mai 2026 (UX fixes — My List mobile, KPI tiles, debug cleanup)
+> Dernière mise à jour: 2 Mai 2026 (My List desktop select rewrite + scroll fixes)
 > **À mettre à jour à chaque changement majeur**
 
 ---
@@ -41,7 +41,7 @@ kanji.guimo-prod.com {
 **URL prod**: https://kanji.guimo-prod.com  
 **Stack**: Vite 8 · 21 modules ES · Firebase Auth + Firestore · kanjiapi.dev · Tatoeba (via proxy)  
 **Deploy**: push sur `main` → GitHub Actions → dist/ → VPS  
-**Dernier commit**: `a5ec85e`
+**Dernier commit**: `fdb2f9e`
 
 ### ✅ Fonctionnel
 - [x] Génération vocabulaire par niveau JLPT (N5/N4/N3/N2/N1)
@@ -60,6 +60,8 @@ kanji.guimo-prod.com {
 - [x] **KPI tiles** — centrées verticalement (flex) ; JLPT align-top, WOTD layout préservé
 - [x] **Streak nudge** — "☁️ Sign in to sync" si non connecté (--sub, tappable)
 - [x] **Debug code supprimé** — `window.onerror` alert popup + `console.log('[openSettings]')` retirés
+- [x] **My List desktop select** — click sur ✓ → entre select mode + toggle ; drag depuis ✓ → multi-sélect ; sélection visible (teinte rouge + bordure gauche)
+- [x] **Scroll-to-top** — `switchTab()` scroll toujours en haut + `history.scrollRestoration='manual'` + rAF au startup
 - [x] Filtre de complexité des mots par niveau JLPT
 - [x] Tri des définitions : sens courants en premier
 - [x] **Noto Sans JP** — police chargée depuis Google Fonts (poids 700+900)
