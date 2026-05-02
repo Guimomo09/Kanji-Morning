@@ -372,13 +372,18 @@ function _setupMyListDrag() {
   if (!section) return;
 
   // ── Mouse drag-select (desktop) ─────────────────────────────────────
+  // Drag only starts when mousedown lands on a ✓ check icon — same as touch.
+  // Clicking anywhere else on a row keeps normal click/toggle behaviour.
   section.addEventListener('mousedown', e => {
+    const onCheck = !!e.target.closest('.kanji-chip-check, .ml-check-icon');
+    if (!onCheck || e.button !== 0) return;
     const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
-    if (!el || e.shiftKey || e.button !== 0) return;
+    if (!el) return;
+    if (!_selectMode) _enterSelectMode();
     _dragging   = true;
-    // NOTE: _didDrag stays false until actual movement → lets plain clicks through
     _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
     _applyDragTo(el);
+    _updateDeleteBar();
     e.preventDefault();          // prevent text selection while dragging
   });
 

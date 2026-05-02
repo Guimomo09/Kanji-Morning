@@ -734,6 +734,7 @@
     .mylist-section.select-mode .kanji-chip-check,
     .mylist-section.select-mode .ml-check-icon {
       border-color: var(--red); color: rgba(220,53,69,.25);
+      cursor: grab;
     }
     .kanji-saved-char    { font-size: 52px; font-weight: 900; line-height: 1; color: #111; }
     .kanji-saved-meaning { font-size: 11px; color: var(--sub); line-height: 1.4; }
