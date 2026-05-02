@@ -26,6 +26,7 @@ export function setHeader() {
 
 // ── Tab switcher ──────────────────────────────────────────────────────────
 export function switchTab(tab) {
+  window.scrollTo({ top: 0, behavior: 'instant' });
   state.currentTab = tab;
   document.getElementById('tabHome')  .classList.toggle('active', tab === 'home');
   document.getElementById('tabKanji') .classList.toggle('active', tab === 'kanji');

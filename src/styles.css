@@ -748,8 +748,8 @@
     /* ── My List word row selection ────────────────────────────────────── */
     #mylistBody tr { cursor: pointer; transition: background .12s; }
     #mylistBody tr:hover { background: var(--bg); }
-    #mylistBody tr.selected { background: #fff5f5; }
-    #mylistBody tr.selected td { background: #fff5f5; }
+    #mylistBody tr.selected td,
+    #mylistBody tr.selected:hover td { background: #fff5f5 !important; }
     .ml-check-icon {
       display: inline-flex; align-items: center; justify-content: center;
       width: 18px; height: 18px; border-radius: 50%;

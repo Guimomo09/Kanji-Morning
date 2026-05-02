@@ -377,10 +377,13 @@ function _setupMyListDrag() {
   section.addEventListener('mousedown', e => {
     const onCheck = !!e.target.closest('.kanji-chip-check, .ml-check-icon');
     if (!onCheck || e.button !== 0) return;
-    const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+    // Use two separate closest() calls to avoid compound selector edge cases
+    const el = e.target.closest('.kanji-saved-chip') ||
+               (document.getElementById('mylistBody')?.contains(e.target) ? e.target.closest('tr') : null);
     if (!el) return;
     if (!_selectMode) _enterSelectMode();
     _dragging   = true;
+    _didDrag    = true;  // set immediately so click-suppressor fires even without mousemove
     _dragAction = el.classList.contains('selected') ? 'deselect' : 'select';
     _applyDragTo(el);
     _updateDeleteBar();
@@ -389,9 +392,9 @@ function _setupMyListDrag() {
 
   section.addEventListener('mousemove', e => {
     if (!_dragging) return;
-    const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
+    const el = e.target.closest('.kanji-saved-chip') ||
+               (document.getElementById('mylistBody')?.contains(e.target) ? e.target.closest('tr') : null);
     if (!el) return;
-    _didDrag = true;
     _applyDragTo(el);
     _updateDeleteBar();
   });
@@ -400,7 +403,7 @@ function _setupMyListDrag() {
     if (_dragging) { _dragging = false; _updateDeleteBar(); }
   });
 
-  // Suppress synthetic click only after a real drag (not after plain tap)
+  // Suppress click after drag (prevents toggleWordSelect from toggling back off)
   section.addEventListener('click', e => {
     if (_didDrag) { _didDrag = false; e.stopImmediatePropagation(); }
   }, true);
