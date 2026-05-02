@@ -387,11 +387,11 @@ function _setupMyListDrag() {
     e.preventDefault();          // prevent text selection while dragging
   });
 
-  section.addEventListener('mouseover', e => {
+  section.addEventListener('mousemove', e => {
     if (!_dragging) return;
     const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
     if (!el) return;
-    _didDrag = true;             // real drag detected → suppress synthetic click
+    _didDrag = true;
     _applyDragTo(el);
     _updateDeleteBar();
   });
