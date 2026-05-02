@@ -335,7 +335,7 @@ export function renderMyList() {
       </div>`;
     html += `<div class="kanji-saved-grid">${
       kanjis.map((k, idx) => `
-        <div class="kanji-saved-chip" data-kanji="${k.kanji}" data-index="${idx}" onclick="openKanjiDetail('${k.kanji}')">
+        <div class="kanji-saved-chip" data-kanji="${k.kanji}" data-index="${idx}" onclick="handleKanjiChipClick(this,'${k.kanji}',event)">
           <span class="kanji-saved-char">${k.kanji}</span>
           <span class="badge badge-${k.level}">${k.level}</span>
           <div class="kanji-saved-meaning">${k.meaning}</div>
@@ -350,7 +350,7 @@ export function renderMyList() {
     html += `<div class="mylist-empty-small">No saved words yet. Browse <strong>Vocabulary</strong> and tap 💾 Save for Quiz.</div>`;
   } else {
     const rows = words.map((it, idx) => `
-      <tr id="mlrow_${CSS.escape(it.word)}" data-word="${it.word.replace(/"/g, '&quot;')}" data-index="${idx}" onclick="toggleWordSelect(this,event)">
+      <tr id="mlrow_${CSS.escape(it.word)}" data-word="${it.word.replace(/"/g, '&quot;')}" data-index="${idx}" onclick="handleWordRowClick(this,event)">
         <td style="width:28px;text-align:center">
           <span class="ml-check-icon">✓</span>
         </td>

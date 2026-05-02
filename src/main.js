@@ -3,7 +3,7 @@ import { cleanupOldData }                                       from './daily.js
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader } from './ui.js';
-import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji } from './vocab.js';
+import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
@@ -151,6 +151,40 @@ function closeKanjiDetail() {
   document.body.style.overflow = '';
 }
 
+function openWordDetail(wordStr) {
+  const backdrop = document.getElementById('kanjiDetailBackdrop');
+  const content  = document.getElementById('kanjiDetailContent');
+  const it = getAllSavedWords().find(w => w.word === wordStr);
+  if (!it) return;
+  const extras = (it.extraMeanings || []).slice(0, 3);
+  content.innerHTML = `
+    <div class="card-top" style="margin-bottom:18px">
+      <div class="kanji-char" style="font-size:52px">${it.word}</div>
+      <div class="card-info">
+        ${it.reading ? `<div class="reading-kana" style="font-size:20px;margin-bottom:4px">${it.reading}</div>` : ''}
+        <div class="card-meaning" style="font-size:18px">${it.meaning}</div>
+        ${extras.length ? `<div style="font-size:13px;color:var(--sub);margin-top:4px">${extras.join(' · ')}</div>` : ''}
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:18px">
+      <span class="badge badge-${it.level}">${it.level}</span>
+      <span style="font-size:12px;color:var(--muted)">Saved ${it.savedDate}</span>
+    </div>
+    ${it.sourceKanji ? `<div style="font-size:13px;color:var(--sub)">From kanji: <strong>${it.sourceKanji}</strong></div>` : ''}`;
+  backdrop.style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
+function handleKanjiChipClick(chip, kanji, event) {
+  if (_selectMode) { window.toggleKanjiSelect(chip, event); return; }
+  openKanjiDetail(kanji);
+}
+
+function handleWordRowClick(row, event) {
+  if (_selectMode) { window.toggleWordSelect(row, event); return; }
+  openWordDetail(row.dataset.word);
+}
+
 // close popup on Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
@@ -183,6 +217,9 @@ Object.assign(window, {
   // Kanji detail popup
   openKanjiDetail,
   closeKanjiDetail,
+  openWordDetail,
+  handleKanjiChipClick,
+  handleWordRowClick,
 
   // Toolbar controls
   refresh,
