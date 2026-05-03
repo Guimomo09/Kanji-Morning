@@ -23,7 +23,9 @@ jobs:
             git fetch origin
             git checkout dev
             git pull origin dev
-            cp -r index.html public/* /var/www/kanji-staging/
+            cp index.html /var/www/kanji-staging/
+            cp -r src /var/www/kanji-staging/
+            cp -r public/. /var/www/kanji-staging/
             echo "STAGING DEPLOYED $(date)"
 
   deploy-prod:
@@ -42,5 +44,7 @@ jobs:
             git fetch origin
             git checkout main
             git pull origin main
-            cp -r index.html public/* /var/www/kanji/
+            cp index.html /var/www/kanji/
+            cp -r src /var/www/kanji/
+            cp -r public/. /var/www/kanji/
             echo "PROD DEPLOYED $(date)"
