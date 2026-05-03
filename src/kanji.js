@@ -24,9 +24,10 @@ export function bestExamples(words, targetChar, max = 3) {
   const seenMeanings = new Set();
 
   for (const entry of words) {
-    const variant = (entry.variants ?? [])
-      .find(v => v.written && v.written.includes(targetChar));
-    if (!variant) continue;
+    // Pick the best variant: prefer one with non-empty priorities (= standard reading)
+    const variants = (entry.variants ?? []).filter(v => v.written && v.written.includes(targetChar));
+    if (!variants.length) continue;
+    const variant = variants.find(v => v.priorities && v.priorities.length > 0) ?? variants[0];
     if (ARCHAIC_WORDS.has(variant.written)) continue;
 
     // Find best gloss: skip glosses that start with a language/qualifier prefix
@@ -66,7 +67,7 @@ export function bestExamples(words, targetChar, max = 3) {
       r: (() => {
         const raw = variant.pronounced ?? '';
         if (!raw || raw === variant.written) return '';
-        // Convert katakana to hiragana (e.g. マーチョ→まーちょ, ムダ→むだ)
+        // Convert katakana to hiragana (e.g. ムダ→むだ)
         return raw.replace(/[\u30A1-\u30F6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
       })(),
       m: gloss.length > 42 ? gloss.slice(0, 40) + '…' : gloss,
@@ -74,10 +75,12 @@ export function bestExamples(words, targetChar, max = 3) {
     });
   }
 
-  return candidates
-    .sort((a, b) => a.score - b.score)
-    .slice(0, max)
-    .map(({ w, r, m }) => ({ w, r, m }));
+  // Sort by score, then deduplicate by written form (keep best per word)
+  const seen = new Map();
+  candidates.sort((a, b) => a.score - b.score).forEach(c => {
+    if (!seen.has(c.w)) seen.set(c.w, c);
+  });
+  return [...seen.values()].slice(0, max).map(({ w, r, m }) => ({ w, r, m }));
 }
 
 // ── Kanji save / unsave ─────────────────────────────────────────────────────
