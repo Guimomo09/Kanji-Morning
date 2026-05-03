@@ -20,6 +20,11 @@ kanji.guimo-prod.com {
     file_server
     encode gzip
 
+    # Basic auth — staging only
+    basic_auth {
+        GuimoProd $2a$14$Z5AdSS5MAfg1d34QFEKcqeIo7g1nLIefbvKAEYlHh8bxaJTytgUOq
+    }
+
     # Security headers
     header {
         X-Frame-Options "SAMEORIGIN"
