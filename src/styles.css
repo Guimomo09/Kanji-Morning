@@ -421,8 +421,8 @@
     .tab:hover  { background: #e0d5c8; }
     .tab.active { background: var(--red); color: #fff; }
 
-    /* ���� Vocab card extras �������������������������������������������������� */
-    .vocab-header { margin-bottom: 10px; }
+    /* ── Vocab card extras ───────────────────────────────────────────────── */
+    .vocab-header { margin-bottom: 10px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
     .vocab-word {
       font-size: 48px; line-height: 1.15; font-weight: 900; color: #111;
       user-select: none; word-break: break-word;
@@ -463,12 +463,12 @@
     .speak-btn {
       background: none; border: none; cursor: pointer;
       font-size: 18px; line-height: 1; padding: 4px 6px;
-      border-radius: 6px; opacity: 0.45;
+      border-radius: 6px; opacity: 0.7;
       transition: opacity .15s, background .15s, transform .1s;
       vertical-align: middle;
     }
     .speak-btn:hover { opacity: 1; background: var(--border); transform: scale(1.15); }
-    .speak-btn:active { transform: scale(0.95); }
+    .speak-btn:active { transform: scale(0.95); opacity: 1; }
 
     /* Positioned variant for kanji cards (top-left of save btn) */
     .kanji-speak-btn {
@@ -477,11 +477,10 @@
     }
 
     /* Vocab card — inline dans le header */
-    .vocab-header { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
     .vocab-speak-btn { margin-left: auto; flex-shrink: 0; }
 
     /* Quiz speak button */
-    .quiz-speak-btn { display: block; margin: 10px auto 0; font-size: 22px; opacity: 0.5; }
+    .quiz-speak-btn { display: block; margin: 10px auto 0; font-size: 22px; opacity: 0.7; }
     .quiz-speak-btn:hover { opacity: 1; background: none; }
 
     footer { text-align: center; padding: 32px 20px; font-size: 13px; color: var(--muted); }
