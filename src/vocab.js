@@ -10,7 +10,7 @@ import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
 import { showSkeletons, getAllSavedKanjis, ensureKanjiCards } from './kanji.js';
 import { getMeaning } from './trans.js';
-import { getLang } from './i18n.js';
+import { getLang, t } from './i18n.js';
 
 // ── Vocab quality filters ─────────────────────────────────────────────────
 function isAllKatakana(str) {
@@ -313,11 +313,11 @@ export function renderMyList() {
     section.innerHTML = `
       <div class="mylist-full-empty">
         <div class="mylist-full-empty-icon">📋</div>
-        <div class="mylist-full-empty-title">Your list is empty</div>
-        <div class="mylist-full-empty-body">Save kanji and words to build your personal review deck.<br>The app will quiz you on them using smart daily review — so you remember what you learn.</div>
+        <div class="mylist-full-empty-title">${t('ml_empty_title')}</div>
+        <div class="mylist-full-empty-body">${t('ml_empty_body')}</div>
         <div class="mylist-full-empty-actions">
-          <button class="btn btn-primary" onclick="switchTab('kanji')">漢 Browse Kanji →</button>
-          <button class="btn btn-ghost" onclick="switchTab('vocab')">語 Browse Vocabulary →</button>
+          <button class="btn btn-primary" onclick="switchTab('kanji')">${t('ml_browse_kanji')}</button>
+          <button class="btn btn-ghost" onclick="switchTab('vocab')">${t('ml_browse_vocab')}</button>
         </div>
       </div>`;
     return;
@@ -326,9 +326,9 @@ export function renderMyList() {
   let html = '';
 
   // ── Kanji section ────────────────────────────────────────────────────────
-  html += `<div class="mylist-section-title">漢字 · Saved Kanji <span class="mylist-section-count">${kanjis.length}</span></div>`;
+  html += `<div class="mylist-section-title">${t('ml_section_kanji')} <span class="mylist-section-count">${kanjis.length}</span></div>`;
   if (!kanjis.length) {
-    html += `<div class="mylist-empty-small">No saved kanji yet. Browse <strong>Kanji</strong> and tap ☆ on a card.</div>`;
+    html += `<div class="mylist-empty-small">${t('ml_no_kanji')}</div>`;
   } else {
     html += `
       <div class="ml-select-toolbar">
@@ -347,9 +347,9 @@ export function renderMyList() {
   }
 
   // ── Words section ────────────────────────────────────────────────────────
-  html += `<div class="mylist-section-title" style="margin-top:32px">語彙 · Saved Words <span class="mylist-section-count">${words.length}</span></div>`;
+  html += `<div class="mylist-section-title" style="margin-top:32px">${t('ml_section_words')} <span class="mylist-section-count">${words.length}</span></div>`;
   if (!words.length) {
-    html += `<div class="mylist-empty-small">No saved words yet. Browse <strong>Vocabulary</strong> and tap 💾 Save for Quiz.</div>`;
+    html += `<div class="mylist-empty-small">${t('ml_no_words')}</div>`;
   } else {
     // Soft paywall warning at 24+ words
     const FREE_LIMIT = 30;
@@ -359,11 +359,11 @@ export function renderMyList() {
       html += `
         <div class="paywall-hint${isAtLimit ? ' paywall-hint--full' : ''}">
           ${isAtLimit
-            ? `🔒 You've reached the <strong>${FREE_LIMIT}-word free limit</strong>.<br>Upgrade to Premium to save unlimited words.`
-            : `⚠️ You have <strong>${words.length}/${FREE_LIMIT}</strong> free saved words — only <strong>${remaining}</strong> left.<br>Upgrade to <strong>Premium</strong> to save unlimited words.`
+            ? `${t('upgrade_limit_msg')}<br>${t('ml_upgrade_note')}`
+            : t('ml_paywall_warn')(words.length, FREE_LIMIT, remaining)
           }
           <button class="btn btn-primary" style="margin-top:10px;font-size:13px;padding:6px 16px" onclick="switchTab('stats')">
-            ✨ Upgrade — €7.99 one-time
+            ${t('ml_upgrade_btn')}
           </button>
         </div>`;
     }
@@ -386,16 +386,16 @@ export function renderMyList() {
         <div class="ml-select-toolbar" style="margin-bottom:0">
           <button class="btn btn-ghost" id="mlWordSelectBtn" style="font-size:12px;padding:4px 12px" onclick="toggleSelectMode()">Select</button>
           <button class="btn btn-ghost" id="mlWordSelectAll" style="font-size:12px;padding:4px 12px;display:none" onclick="selectAllWords()">☑ All</button>
-          <span class="ml-longpress-hint">💡 Long press to select</span>
+          <span class="ml-longpress-hint">${t('ml_longpress')}</span>
         </div>
-        <input class="mylist-search" type="text" placeholder="Search word or meaning…"
+        <input class="mylist-search" type="text" placeholder="${t('ml_search')}"
           oninput="filterMyList(this.value)">
-        <span class="mylist-count" id="mylistCount">${words.length} word${words.length !== 1 ? 's' : ''}</span>
+        <span class="mylist-count" id="mylistCount">${t('home_words')(words.length)}</span>
       </div>
       <table class="mylist-table" id="mylistTable">
         <thead><tr>
           <th style="width:28px"></th>
-          <th>Word</th><th>Meaning</th><th style="width:52px">Level</th>
+          <th>${t('ml_col_word')}</th><th>${t('ml_col_meaning')}</th><th style="width:52px">${t('ml_col_level')}</th>
         </tr></thead>
         <tbody id="mylistBody">${rows}</tbody>
       </table>`;
@@ -404,9 +404,9 @@ export function renderMyList() {
   // ── Floating delete bar ──────────────────────────────────────────────────
   html += `
     <div class="ml-delete-bar" id="mlDeleteBar">
-      <span id="mlDeleteCount">0 selected</span>
-      <button class="btn btn-danger" style="padding:6px 16px;font-size:13px" onclick="deleteSelected()">🗑 Delete selected</button>
-      <button class="btn btn-ghost"  style="padding:6px 14px;font-size:13px" onclick="clearSelection()">Cancel</button>
+      <span id="mlDeleteCount">${t('ml_n_selected')(0)}</span>
+      <button class="btn btn-danger" style="padding:6px 16px;font-size:13px" onclick="deleteSelected()">${t('ml_delete_btn')}</button>
+      <button class="btn btn-ghost"  style="padding:6px 14px;font-size:13px" onclick="clearSelection()">${t('ml_cancel')}</button>
     </div>`;
 
   section.innerHTML = html;
@@ -422,7 +422,7 @@ export function filterMyList(q) {
     if (show) visible++;
   });
   const cnt = document.getElementById('mylistCount');
-  if (cnt) cnt.textContent = `${visible} word${visible !== 1 ? 's' : ''}`;
+  if (cnt) cnt.textContent = t('home_words')(visible);
 }
 
 export function removeFromMyList(word) {

@@ -472,10 +472,10 @@ function _updateDeleteBar() {
   if (!bar) return;
   const n = document.querySelectorAll('.kanji-saved-chip.selected, #mylistBody tr.selected').length;
   if (n > 0) {
-    count.textContent = `${n} selected`;
+    count.textContent = t('ml_n_selected')(n);
     bar.classList.add('visible');
   } else if (_selectMode) {
-    count.textContent = 'Tap items to select';
+    count.textContent = t('ml_tap_to_select');
     bar.classList.add('visible');
   } else {
     bar.classList.remove('visible');

@@ -359,42 +359,42 @@ export function renderStats() {
   const todayDone     = isBiWeeklyDone(todayStr());
   const biweeklyInfoHtml = todayIsBiW && !todayDone
     ? `<div style="font-size:13px;color:#2e7d32;font-weight:700;padding:10px 0 0">
-        📅 Weekly Challenge is available <strong>today</strong>! Go to Vocabulary tab.
+        ${t('stats_biw_today')}
        </div>`
     : `<div style="font-size:12px;color:var(--muted);padding:10px 0 0">
-        Next Weekly Challenge: <strong>${dateStr(nextMon)}</strong>
+        ${t('stats_next_challenge')} <strong>${dateStr(nextMon)}</strong>
        </div>`;
 
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
       ${missedHtml}
       <div class="kpi-grid kpi-grid-2col">
-        <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">🔥 Day Streak</div></div>
-        <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">📖 Words Learned</div></div>
-        <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">🎯 Avg Score</div></div>
+        <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
+        <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
+        <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
         <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
           <div class="kpi-num kpi-jlpt-level">${localStorage.getItem('km_jlpt_goal') || 'N3'}</div>
-          <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const t={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); const pct=Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/t[g]*100)); return pct > 0 ? pct + '%' : 'Start saving words!'; })()}</div>
-          <div class="kpi-lbl">🎌 JLPT Target</div>
-          <div class="kpi-jlpt-hint">tap to change ↻</div>
+          <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const jlptLimits={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); const pct=Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/jlptLimits[g]*100)); return pct > 0 ? pct + '%' : t('stats_jlpt_start'); })()}</div>
+          <div class="kpi-lbl">${t('stats_kpi_jlpt')}</div>
+          <div class="kpi-jlpt-hint">${t('stats_jlpt_hint')}</div>
         </div>
       </div>
 
       ${history.length ? `
       <div class="chart-block">
-        <div class="chart-title">Quiz Score Progression (last 20 quizzes)</div>
+        <div class="chart-title">${t('stats_chart_scores')}</div>
         <canvas id="scoreCanvas" class="chart-canvas"></canvas>
       </div>` : ''}
 
       <div class="chart-block">
-        <div class="chart-title">Study Activity — Last 14 Days</div>
+        <div class="chart-title">${t('stats_chart_activity')}</div>
         <canvas id="studyCanvas" class="chart-canvas"></canvas>
         ${biweeklyInfoHtml}
       </div>
 
       ${history.length ? `
       <div class="chart-block">
-        <div class="chart-title">Recent Quizzes</div>
+        <div class="chart-title">${t('stats_chart_recent')}</div>
         <div class="qh-list">
           ${[...history].reverse().slice(0, 15).map(h => {
             const qtype = h.type || 'daily';
@@ -414,9 +414,9 @@ export function renderStats() {
       </div>` : `
       <div class="chart-block" style="text-align:center;padding:48px 20px;color:var(--muted)">
         <div style="font-size:48px;margin-bottom:14px">📊</div>
-        <div style="font-size:16px;font-weight:700;color:var(--sub)">No quiz history yet</div>
+        <div style="font-size:16px;font-weight:700;color:var(--sub)">${t('stats_no_quiz_title')}</div>
         <div style="font-size:13px;margin-top:8px;line-height:1.6">
-          Complete a <strong>Daily Quiz</strong> or <strong>Weekly Challenge</strong> to track your score progression here.
+          ${t('stats_no_quiz_body')}
         </div>
       </div>`}
     </div>`;
