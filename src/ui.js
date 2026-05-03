@@ -46,7 +46,7 @@ export function switchTab(tab) {
   document.getElementById('mylistSection').style.display = isMyList ? 'block' : 'none';
   document.getElementById('levelFilter').style.display   = isHidden ? 'none' : '';
   document.getElementById('legendDiv').style.display     = isHidden ? 'none' : '';
-  document.getElementById('searchWrap').style.display    = isHidden ? 'none' : '';
+  document.getElementById('searchWrap').style.display    = (isHidden || tab === 'vocab') ? 'none' : '';
   const si = document.getElementById('searchInput');
   if (si) { si.value = ''; filterGrid(''); }
 
@@ -167,20 +167,8 @@ export function saveToday() {
 
 // ── Search / filter kanji & vocab grid ──────────────────────────────────
 export function filterGrid(q) {
-  if (state.currentTab === 'kanji') {
-    searchAndRenderKanji(q); // async, promise ignored intentionally
-    return;
-  }
-  const query = (q || '').trim().toLowerCase();
-  const cards = document.querySelectorAll('#grid .card:not(.skeleton)');
-  let visible = 0;
-  cards.forEach(card => {
-    const show = !query || (card.dataset.search || '').includes(query);
-    card.style.display = show ? '' : 'none';
-    if (show) visible++;
-  });
-  const noRes = document.getElementById('searchNoResults');
-  if (noRes) noRes.style.display = (query && visible === 0) ? '' : 'none';
+  if (state.currentTab !== 'kanji') return;
+  searchAndRenderKanji(q); // async, promise ignored intentionally
 }
 
 // ── Refresh (new selection) ───────────────────────────────────────────────

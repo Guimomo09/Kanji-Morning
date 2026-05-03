@@ -262,7 +262,7 @@ export function renderVocabCard(item, delay) {
   const card = document.createElement('div');
   card.className = 'card' + (state.quizMode ? ' quiz-card' : '');
   card.style.animationDelay = `${delay}ms`;
-  card.dataset.search = [word, reading || '', meaning, getMeaning(word, getLang()) || ''].join(' ').toLowerCase();
+
   card.innerHTML = `
     ${coverHtml}
     <div class="card-body">
