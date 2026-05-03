@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **3 Mai 2026** · Commit `151f297` (main) · i18n Phase 2 ✅ 91%
+> Dernière mise à jour: **4 Mai 2026** · Commit `23876ad` (main) · TTS + quiz fix + cache fix ✅
 
 ---
 
@@ -40,7 +40,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `3eda6fd` · main `151f297` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `3d3f96b` · main `23876ad` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -78,6 +78,19 @@ kanji.guimo-prod.com {
 - [x] ui.js · main.js · quiz.js · stats.js · index.html entièrement traduits
 - [x] `applyI18nToDOM()` — attributs `data-i18n` sur tous les éléments statiques
 
+**TTS (Web Speech API)** ← commit `3202139` (main)
+- [x] `src/audio.js` — `speakJapanese(text)` · lang ja-JP · rate 0.85 · lazy voice loading
+- [x] Bouton 🔊 sur les cartes kanji, vocab et les 5 types de questions quiz
+- [x] Exposé via `window.speakJapanese` dans main.js
+
+**Fix quiz bloqué** ← commit `3202139` (main)
+- [x] Items `_isSrs: true` des jours précédents ne déclenchent plus les boutons SRS dans le quiz quotidien
+
+**Cache-Control no-cache** ← commit `23876ad` (main)
+- [x] SW v5 — network-first avec `cache: 'no-cache'`
+- [x] Caddyfile — `Cache-Control: no-cache, must-revalidate` sur `/src/*.js /src/*.css /sw.js`
+- [x] CSS — opacity bouton 🔊 à 0.7, `.vocab-header` fusionné
+
 **i18n Phase 2** ← commits `98db03e` → `3eda6fd` (sur `main`)
 - [x] `public/jmdict_trans.json` — 292k entrées JP→EN/FR/DE/ES/RU (~30MB)
 - [x] `src/trans.js` — `getMeaning(word, lang)` lazy-load
@@ -109,7 +122,7 @@ kanji.guimo-prod.com {
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
-- [ ] **Stripe LIVE** — Payment Link live + `sk_live` + `whsec` live + update `config.js` (après 1 semaine de test)
+- [ ] **Stripe LIVE** — Payment Link live + `sk_live` + `whsec` live + update `config.js` (prévu ~10 Mai 2026)
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
