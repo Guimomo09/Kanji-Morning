@@ -6,6 +6,7 @@ import { FREQ } from './freq.js';
 import { state } from './state.js';
 import { getKanjiDetail, getWords, buildPool, pickChars } from './api.js';
 import { cloudUpdate } from './cloud.js';
+import { speakJapanese } from './audio.js';
 
 // ── Blacklist: full written forms that are archaic / redundant ────────────
 // Only add complete word forms, never bare kanji (they won't match variant.written).
@@ -183,6 +184,14 @@ export function renderCard(k, delay) {
     saveBtn.title = nowSaved ? 'Saved to My List' : 'Save to My List';
   });
   card.appendChild(saveBtn);
+
+  // Speak button
+  const speakBtn = document.createElement('button');
+  speakBtn.className = 'speak-btn kanji-speak-btn';
+  speakBtn.title     = 'Prononcer';
+  speakBtn.textContent = '🔊';
+  speakBtn.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(k.kanji); });
+  card.appendChild(speakBtn);
 
   card.insertAdjacentHTML('beforeend', `
     <div class="card-body">

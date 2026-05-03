@@ -138,7 +138,8 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-word">${item.word}</div>
         ${item.reading ? `<div class="quiz-prompt-reading">${item.reading}</div>` : ''}
-        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
+        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -147,7 +148,8 @@ export function renderQuizQuestion() {
       questionLabel = t('quiz_q_word');
       promptHtml = `
         <div class="quiz-prompt-meaning">${getMeaning(item.word, getLang()) || item.meaning}</div>
-        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
+        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
       correctText = item.word;
       wrongTexts  = wrong3.map(w => w.word);
       break;
@@ -156,7 +158,8 @@ export function renderQuizQuestion() {
       questionLabel = t('quiz_q_reading');
       promptHtml = `
         <div class="quiz-prompt-word">${item.word}</div>
-        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
+        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
       correctText = item.reading;
       wrongTexts  = wrong3.filter(w => w.reading).map(w => w.reading);
       while (wrongTexts.length < 3) {
@@ -168,7 +171,8 @@ export function renderQuizQuestion() {
       questionLabel = t('quiz_q_kanji_reading');
       promptHtml = `
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
-        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
+        <button class="speak-btn quiz-speak-btn" data-w="${item.reading}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
       correctText = item.word;
       wrongTexts  = wrong3.map(w => w.word);
       break;
@@ -178,7 +182,8 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <div class="quiz-prompt-reading">${item.word}</div>
-        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
+        <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
+        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -221,7 +226,7 @@ export function handleQuizAnswer(btn, isCorrect) {
   else state.quizState.score++;
 
   const item = state.quizState.questions[state.quizState.current].item;
-  if (state.quizState && (state.quizState.type === 'srs' || item._isSrs)) {
+  if (state.quizState && state.quizState.type === 'srs') {
     const cards = srsLoad();
     const card  = cards[item.word] || {
       word: item.word, reading: item.reading || '', meaning: item.meaning,
