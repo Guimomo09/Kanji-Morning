@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **4 Mai 2026** · Commit `23876ad` (main) · TTS + quiz fix + cache fix ✅
+> Dernière mise à jour: **4 Mai 2026** · Commit `f7488ac` (main) · Barre de recherche kanji ✅
 
 ---
 
@@ -40,7 +40,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `3d3f96b` · main `23876ad` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `246a28d` · main `f7488ac` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -118,6 +118,16 @@ kanji.guimo-prod.com {
 - [x] GitHub Actions — push `main` → prod auto (~10s)
 - [x] Staging `kanji.guimo-prod.com` protégé par basic_auth (privé)
 - [x] Merge workflow : `git checkout main && git merge dev && git push`
+
+**Fix lecture vocab katakana** ← commit `a0e47bf` (main)
+- [x] Mots avec kanji dont l'API retourne une lecture tout-katakana → lecture supprimée
+- [x] Ex: 馬車 → plus de マーチョ, affiche correctement ばしゃ
+
+**Barre de recherche kanji** ← commit `f7488ac` (main)
+- [x] Onglet Kanji uniquement (vocab retiré — filtre sur 10 cartes inutile)
+- [x] Cherche dans les cartes affichées, puis dans tout le pool 2211 kanji via API si nécessaire
+- [x] Message "Aucun résultat" si kanji inconnu
+- [x] Reset automatique au changement d'onglet et sur ↺ New Selection
 
 ### 🟡 Prochaines étapes
 
