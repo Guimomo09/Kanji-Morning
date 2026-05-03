@@ -1,5 +1,7 @@
 import { LEVEL_LABEL, CLOUD_ENABLED } from './config.js';
 import { normalizeMeaning, setStatus, sortGlosses, GLOSS_SKIP_RE, GLOSS_RARE_RE } from './utils.js';
+import { getMeaning } from './trans.js';
+import { getLang } from './i18n.js';
 import { FREQ } from './freq.js';
 import { state } from './state.js';
 import { getKanjiDetail, getWords, buildPool, pickChars } from './api.js';
@@ -158,7 +160,7 @@ export function renderCard(k, delay) {
             <span class="ex-word">${e.w}</span>
             <span class="ex-reading">【${e.r}】</span>
           </div>
-          <div class="ex-meaning">${e.m}</div>
+          <div class="ex-meaning">${getMeaning(e.w, getLang()) || e.m}</div>
         </div>`).join('')
     : '<div class="example"><div class="ex-meaning">No examples available.</div></div>';
 

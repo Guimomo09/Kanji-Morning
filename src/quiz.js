@@ -6,7 +6,8 @@ import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './bi
 import { cloudUpdate } from './cloud.js';
 import { srsLoad, srsIntervalLabel } from './srs.js';
 import { getAllSavedWords } from './vocab.js';
-import { t } from './i18n.js';
+import { t, getLang } from './i18n.js';
+import { getMeaning } from './trans.js';
 
 // ── Question type helpers ─────────────────────────────────────────────────
 // Types: A = word→meaning, B = meaning→word, C = word→reading,
@@ -138,14 +139,14 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word">${item.word}</div>
         ${item.reading ? `<div class="quiz-prompt-reading">${item.reading}</div>` : ''}
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
-      correctText = item.meaning;
-      wrongTexts  = wrong3.map(w => w.meaning);
+      correctText = getMeaning(item.word, getLang()) || item.meaning;
+      wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
 
     case 'B':
       questionLabel = t('quiz_q_word');
       promptHtml = `
-        <div class="quiz-prompt-meaning">${item.meaning}</div>
+        <div class="quiz-prompt-meaning">${getMeaning(item.word, getLang()) || item.meaning}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
       correctText = item.word;
       wrongTexts  = wrong3.map(w => w.word);
@@ -178,8 +179,8 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <div class="quiz-prompt-reading">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>`;
-      correctText = item.meaning;
-      wrongTexts  = wrong3.map(w => w.meaning);
+      correctText = getMeaning(item.word, getLang()) || item.meaning;
+      wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
   }
 

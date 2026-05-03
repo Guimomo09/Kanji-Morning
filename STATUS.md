@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **3 Mai 2026** · Commit `4d829b1` · Umami analytics live
+> Dernière mise à jour: **3 Mai 2026** · Commit `63f71d0` (dev) · i18n Phase 2 en cours
 
 ---
 
@@ -40,7 +40,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD `151ddb1` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `63f71d0` · main `151ddb1` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -71,12 +71,24 @@ kanji.guimo-prod.com {
 **SEO**
 - [x] sitemap.xml · robots.txt · meta/og tags · canonical
 
-**i18n** ← commit `0e58fec`
+**i18n Phase 1** ← commit `0e58fec`
 - [x] `src/i18n.js` — `t('key')` · 5 langues : EN · FR · ES · DE · RU
 - [x] Détection navigateur auto + `localStorage km_lang`
 - [x] Sélecteur de langue dans Settings (⚙️)
 - [x] ui.js · main.js · quiz.js · stats.js · index.html entièrement traduits
 - [x] `applyI18nToDOM()` — attributs `data-i18n` sur tous les éléments statiques
+
+**i18n Phase 2** ← commits `98db03e` → `63f71d0` (sur `dev`, pas encore sur `main`)
+- [x] `public/jmdict_trans.json` — 292k entrées JP→EN/FR/DE/ES/RU (~30MB)
+- [x] `src/trans.js` — `getMeaning(word, lang)` lazy-load
+- [x] Intégré dans vocab.js, quiz.js, kanji.js, stats.js
+- [x] `scripts/build-jmdict.mjs` — extraction JMdict (EN inclus, merge homographes)
+- [x] `scripts/patch-fr-stems.mjs` — héritage par stems (+435 FR)
+- [x] `scripts/patch-morpho.mjs` — conjugaisons godan/ichidan (+1294 toutes langues)
+- [x] `scripts/patch-wordnet.mjs` — JWN v1.1 + OMW (FR/DE/ES/RU via synsets)
+- [x] `scripts/patch-fr-wiktionary.mjs` — fr.wiktionary batch (~25 hits)
+- Couverture actuelle : **EN 81% · FR 63% · DE 80% · ES 68% · RU 76%**
+- Gap FR : ~4450 mots sans trad dans aucune source open data (EN fallback OK)
 
 **Analytics** ← commit `4d829b1`
 - [x] Umami self-hosted sur le VPS (`/opt/umami`, PostgreSQL, PM2)
@@ -97,7 +109,7 @@ kanji.guimo-prod.com {
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
-- [ ] **i18n Phase 2** — sens des mots JMdict en FR/ES/DE/RU (pas juste l'UI)
+- [~] **i18n Phase 2** — EN 81% · FR 63% · DE 80% · ES 68% · RU 76% · gap FR ~4450 mots
 - [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
 
 **Priorité basse**

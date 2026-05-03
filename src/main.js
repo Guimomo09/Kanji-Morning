@@ -12,6 +12,7 @@ import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples
 import { getKanjiDetail, getWords }                             from './api.js';
 import { STRIPE_PAYMENT_LINK }                                  from './config.js';
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
+import { loadTrans } from './trans.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -471,10 +472,10 @@ function _updateDeleteBar() {
   if (!bar) return;
   const n = document.querySelectorAll('.kanji-saved-chip.selected, #mylistBody tr.selected').length;
   if (n > 0) {
-    count.textContent = `${n} selected`;
+    count.textContent = t('ml_n_selected')(n);
     bar.classList.add('visible');
   } else if (_selectMode) {
-    count.textContent = 'Tap items to select';
+    count.textContent = t('ml_tap_to_select');
     bar.classList.add('visible');
   } else {
     bar.classList.remove('visible');
@@ -778,6 +779,8 @@ history.scrollRestoration = 'manual';
 // Apply i18n to static DOM elements on startup
 detectLang();
 applyI18nToDOM();
+// Preload multilingual word translations (non-blocking, used by vocab/quiz/kanji)
+loadTrans();
 
 const _savedTab = localStorage.getItem('km_tab') || 'home';
 switchTab(_savedTab);
