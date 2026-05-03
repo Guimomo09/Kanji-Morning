@@ -298,3 +298,50 @@ export async function loadAndRender(n, forceNew = false) {
       `<div style="grid-column:1/-1;color:var(--red);padding:24px;font-weight:600">${err.message}</div>`;
   }
 }
+
+// ── Full-pool kanji search (single char lookup + current-card filter) ────────
+export async function searchAndRenderKanji(query) {
+  const grid = document.getElementById('grid');
+  const q    = (query || '').trim();
+
+  if (!q) {
+    grid.innerHTML = '';
+    state.currentKanjiCards.forEach((k, i) => grid.appendChild(renderCard(k, i * 80)));
+    return;
+  }
+
+  const ql = q.toLowerCase();
+
+  // Filter among already-loaded cards
+  let matching = state.currentKanjiCards.filter(k => {
+    const s = [k.kanji, k.meaning, ...k.on, ...k.kun, ...k.ex.map(e => `${e.w} ${e.r}`)].join(' ').toLowerCase();
+    return s.includes(ql);
+  });
+
+  // If single kanji char not in current cards, look up in full pool
+  const isSingleKanji = /^[\u4E00-\u9FFF\u3400-\u4DBF]$/.test(q);
+  if (isSingleKanji && !matching.find(k => k.kanji === q)) {
+    if (!state.POOL.length) await buildPool();
+    const inPool = state.POOL.find(p => p.char === q);
+    if (inPool) {
+      try {
+        const [detail, words] = await Promise.all([getKanjiDetail(inPool.char), getWords(inPool.char)]);
+        matching = [{
+          kanji:   inPool.char,
+          level:   LEVEL_LABEL[inPool.jlptNum],
+          on:      detail.on_readings  ?? [],
+          kun:     detail.kun_readings ?? [],
+          meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
+          ex:      bestExamples(words, inPool.char, 3),
+        }];
+      } catch { /* leave matching empty */ }
+    }
+  }
+
+  grid.innerHTML = '';
+  if (!matching.length) {
+    grid.innerHTML = '<div class="search-no-results">Aucun résultat</div>';
+  } else {
+    matching.forEach((k, i) => grid.appendChild(renderCard(k, i * 80)));
+  }
+}

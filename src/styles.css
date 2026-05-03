@@ -279,6 +279,7 @@
     .search-input { width:100%; padding:8px 16px; border:1.5px solid var(--border); border-radius:20px; font-size:14px; background:var(--card); color:var(--text); outline:none; transition:border-color .15s; }
     .search-input:focus { border-color:var(--red); }
     .search-input::-webkit-search-cancel-button { cursor:pointer; }
+    .search-no-results { grid-column:1/-1; text-align:center; color:var(--muted); padding:48px 24px; font-size:15px; }
 
     /* ���� Vocab interactive quiz ���������������������������������������� */
     .quiz-screen {

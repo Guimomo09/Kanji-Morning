@@ -6,7 +6,7 @@ import { saveDailyVocab } from './daily.js';
 import { srsAddWords, srsUpdateReviewCount } from './srs.js';
 import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords } from './vocab.js';
 import { renderHome, renderStats } from './stats.js';
-import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis } from './kanji.js';
+import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis, searchAndRenderKanji } from './kanji.js';
 import { updateBiWeeklyBtn } from './biweekly.js';
 import { t } from './i18n.js';
 
@@ -167,10 +167,20 @@ export function saveToday() {
 
 // ── Search / filter kanji & vocab grid ──────────────────────────────────
 export function filterGrid(q) {
+  if (state.currentTab === 'kanji') {
+    searchAndRenderKanji(q); // async, promise ignored intentionally
+    return;
+  }
   const query = (q || '').trim().toLowerCase();
-  document.querySelectorAll('#grid .card:not(.skeleton)').forEach(card => {
-    card.style.display = (!query || (card.dataset.search || '').includes(query)) ? '' : 'none';
+  const cards = document.querySelectorAll('#grid .card:not(.skeleton)');
+  let visible = 0;
+  cards.forEach(card => {
+    const show = !query || (card.dataset.search || '').includes(query);
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
+  const noRes = document.getElementById('searchNoResults');
+  if (noRes) noRes.style.display = (query && visible === 0) ? '' : 'none';
 }
 
 // ── Refresh (new selection) ───────────────────────────────────────────────
