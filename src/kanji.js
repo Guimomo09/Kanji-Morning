@@ -190,7 +190,7 @@ export function renderCard(k, delay) {
         <div class="kanji-char">${k.kanji}</div>
         <div class="card-info">
           <span class="badge badge-${k.level}">${k.level}</span>
-          <div class="card-meaning">${getMeaning(k.kanji, getLang()) || k.meaning}</div>
+          <div class="card-meaning">${getMeaning(k.kanji, getLang()) || k.ex.reduce((a, e) => a || getMeaning(e.w, getLang()), null) || k.meaning}</div>
         </div>
       </div>
       <div class="readings">
