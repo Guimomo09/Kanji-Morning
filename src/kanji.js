@@ -17,6 +17,10 @@ const ARCHAIC_WORDS = new Set([
   '云う',     // prefer 言う
 ]);
 
+// ── Reading overrides: API data known to be wrong ─────────────────────────
+const READING_OVERRIDE = {
+  '馬車': 'ばしゃ',
+};
 // ── Extract best example words from API response ─────────────────────────
 // Scoring: prefer short common words, penalize historical/specialized glosses.
 export function bestExamples(words, targetChar, max = 3) {
@@ -64,7 +68,8 @@ export function bestExamples(words, targetChar, max = 3) {
 
     candidates.push({
       w: variant.written,
-      r: (() => {
+      hasPriority: !!(variant.priorities && variant.priorities.length > 0),
+      r: READING_OVERRIDE[variant.written] ?? (() => {
         const raw = variant.pronounced ?? '';
         if (!raw || raw === variant.written) return '';
         // Convert katakana to hiragana (e.g. ムダ→むだ)
@@ -75,10 +80,10 @@ export function bestExamples(words, targetChar, max = 3) {
     });
   }
 
-  // Sort by score, then deduplicate by written form (keep best per word)
+  // Sort by score, then deduplicate by written form — prefer variant with priorities
   const seen = new Map();
   candidates.sort((a, b) => a.score - b.score).forEach(c => {
-    if (!seen.has(c.w)) seen.set(c.w, c);
+    if (!seen.has(c.w) || (!seen.get(c.w).hasPriority && c.hasPriority)) seen.set(c.w, c);
   });
   return [...seen.values()].slice(0, max).map(({ w, r, m }) => ({ w, r, m }));
 }
