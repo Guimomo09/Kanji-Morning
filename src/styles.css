@@ -459,6 +459,31 @@
     .kanji-save-btn:hover { color: var(--red); transform: scale(1.2); }
     .kanji-save-btn.saved { color: var(--red); }
 
+    /* ── Speak (TTS) button ───────────────────────────────────────────────── */
+    .speak-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; line-height: 1; padding: 4px 6px;
+      border-radius: 6px; opacity: 0.45;
+      transition: opacity .15s, background .15s, transform .1s;
+      vertical-align: middle;
+    }
+    .speak-btn:hover { opacity: 1; background: var(--border); transform: scale(1.15); }
+    .speak-btn:active { transform: scale(0.95); }
+
+    /* Positioned variant for kanji cards (top-left of save btn) */
+    .kanji-speak-btn {
+      position: absolute; top: 12px; right: 46px; z-index: 3;
+      font-size: 16px; padding: 4px;
+    }
+
+    /* Vocab card — inline dans le header */
+    .vocab-header { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+    .vocab-speak-btn { margin-left: auto; flex-shrink: 0; }
+
+    /* Quiz speak button */
+    .quiz-speak-btn { display: block; margin: 10px auto 0; font-size: 22px; opacity: 0.5; }
+    .quiz-speak-btn:hover { opacity: 1; background: none; }
+
     footer { text-align: center; padding: 32px 20px; font-size: 13px; color: var(--muted); }
 
     /* ── Stats / Progression ─────────────────────────────────────────────── */

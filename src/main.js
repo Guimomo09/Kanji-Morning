@@ -13,6 +13,7 @@ import { getKanjiDetail, getWords }                             from './api.js';
 import { STRIPE_PAYMENT_LINK }                                  from './config.js';
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
 import { loadTrans } from './trans.js';
+import { speakJapanese } from './audio.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -251,6 +252,9 @@ document.addEventListener('keydown', e => {
 
 // ── Expose all functions called by inline onclick handlers ────────────────
 Object.assign(window, {
+  // Audio
+  speakJapanese,
+
   // Navigation
   switchTab,
   setJlptGoal(level) {

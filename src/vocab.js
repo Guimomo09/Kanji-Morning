@@ -11,6 +11,7 @@ import { srsLoad, srsSave } from './srs.js';
 import { showSkeletons, getAllSavedKanjis, ensureKanjiCards } from './kanji.js';
 import { getMeaning } from './trans.js';
 import { getLang, t } from './i18n.js';
+import { speakJapanese } from './audio.js';
 
 // ── Vocab quality filters ─────────────────────────────────────────────────
 function isAllKatakana(str) {
@@ -258,6 +259,7 @@ export function renderVocabCard(item, delay) {
       <div class="vocab-header">
         <div class="vocab-word">${word}</div>
         ${reading ? `<div class="vocab-reading">${reading}</div>` : ''}
+        <button class="speak-btn vocab-speak-btn" title="Prononcer">&#x1F50A;</button>
       </div>
       <div class="vocab-meta">
         <span class="badge badge-${level}">${level}</span>
@@ -270,6 +272,8 @@ export function renderVocabCard(item, delay) {
       ${extraDefs ? `<div>${extraDefs}</div>` : ''}
       ${relatedHtml}
     </div>`;
+  card.querySelector('.vocab-speak-btn')
+      ?.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(word); });
   return card;
 }
 
