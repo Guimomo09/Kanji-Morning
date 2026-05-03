@@ -64,10 +64,10 @@ export function bestExamples(words, targetChar, max = 3) {
     candidates.push({
       w: variant.written,
       r: (() => {
-        const raw = variant.pronounced ?? variant.written;
-        const hasCJK = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(variant.written);
-        const allKata = /^[\u30A0-\u30FF\uFF65-\uFF9F\u30FC\u30FE\u30FF\u309B\u309C]+$/.test(raw);
-        return (hasCJK && allKata) ? '' : raw;
+        const raw = variant.pronounced ?? '';
+        if (!raw || raw === variant.written) return '';
+        // Convert katakana to hiragana (e.g. マーチョ→まーちょ, ムダ→むだ)
+        return raw.replace(/[\u30A1-\u30F6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
       })(),
       m: gloss.length > 42 ? gloss.slice(0, 40) + '…' : gloss,
       score,
