@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **3 Mai 2026** · Commit `151ddb1` · Deploy pipeline staging/prod opérationnel
+> Dernière mise à jour: **3 Mai 2026** · Commit `4d829b1` · Umami analytics live
 
 ---
 
@@ -78,6 +78,12 @@ kanji.guimo-prod.com {
 - [x] ui.js · main.js · quiz.js · stats.js · index.html entièrement traduits
 - [x] `applyI18nToDOM()` — attributs `data-i18n` sur tous les éléments statiques
 
+**Analytics** ← commit `4d829b1`
+- [x] Umami self-hosted sur le VPS (`/opt/umami`, PostgreSQL, PM2)
+- [x] Dashboard → https://stats.asanokanji.com
+- [x] Script tracking dans `index.html` (sans cookie, RGPD-friendly)
+- [x] DNS `stats.asanokanji.com` → VPS, SSL Let's Encrypt via Caddy
+
 **Deploy pipeline** ← commits `37536d9` + `151ddb1`
 - [x] GitHub Actions — push `dev` → staging auto (~10s)
 - [x] GitHub Actions — push `main` → prod auto (~10s)
@@ -87,13 +93,12 @@ kanji.guimo-prod.com {
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
-- [ ] **Stripe LIVE** — Payment Link live + `sk_live` + `whsec` live + update `config.js`
-- [ ] **Merge pipeline vers main** — merger `dev` → `main` pour sync prod
+- [ ] **Stripe LIVE** — Payment Link live + `sk_live` + `whsec` live + update `config.js` (après 1 semaine de test)
 
 **Priorité moyenne**
+- [x] ~~Analytics~~ — Umami self-hosted ✅
 - [ ] **i18n Phase 2** — sens des mots JMdict en FR/ES/DE/RU (pas juste l'UI)
 - [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
-- [ ] **Analytics** — Plausible ou Umami self-hosted (RGPD-friendly)
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)
