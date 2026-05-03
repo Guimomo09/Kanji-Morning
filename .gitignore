@@ -8,6 +8,15 @@ node_modules/
 _extracted_css.txt
 _extracted_js.txt
 
+# Script caches & logs
+_wordnet_cache/
+_enpivot_cache/
+_jmdict_tmp/
+_wikt_log.txt
+_wikt_progress.json
+_wordnet_log.txt
+_enpivot_log.txt
+
 # Editor
 .vscode/
 *.swp
