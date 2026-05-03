@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **3 Mai 2026** · Commit `0e58fec` · i18n EN/FR/ES/DE/RU live
+> Dernière mise à jour: **3 Mai 2026** · Commit `151ddb1` · Deploy pipeline staging/prod opérationnel
 
 ---
 
@@ -17,17 +17,20 @@
 
 ```
 # /etc/caddy/Caddyfile
-asanokanji.com {
+asanokanji.com, www.asanokanji.com {
     root * /var/www/kanji
     file_server
     encode gzip
     reverse_proxy /stripe-webhook localhost:3001
-    header {
-        X-Frame-Options "SAMEORIGIN"
-        X-Content-Type-Options "nosniff"
-        Referrer-Policy "strict-origin-when-cross-origin"
-        -Server
-    }
+    header { X-Frame-Options "SAMEORIGIN" ... }
+}
+
+kanji.guimo-prod.com {
+    root * /var/www/kanji-staging
+    file_server
+    encode gzip
+    basic_auth { GuimoProd <hash> }
+    header { X-Frame-Options "SAMEORIGIN" ... }
 }
 ```
 
@@ -37,8 +40,10 @@ asanokanji.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD `0e58fec`  
-**Deploy**: manuel — `ssh vps "cd /var/www/kanji-webhook && git pull && cp -r public/* /var/www/kanji/"`
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD `151ddb1` · branche active : `dev`  
+**Deploy**: GitHub Actions automatique
+- push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
+- push `main` → prod `asanokanji.com`
 
 ### ✅ Fonctionnel
 
@@ -66,18 +71,24 @@ asanokanji.com {
 **SEO**
 - [x] sitemap.xml · robots.txt · meta/og tags · canonical
 
-**i18n** ← nouveau (commit `0e58fec`)
+**i18n** ← commit `0e58fec`
 - [x] `src/i18n.js` — `t('key')` · 5 langues : EN · FR · ES · DE · RU
 - [x] Détection navigateur auto + `localStorage km_lang`
 - [x] Sélecteur de langue dans Settings (⚙️)
 - [x] ui.js · main.js · quiz.js · stats.js · index.html entièrement traduits
 - [x] `applyI18nToDOM()` — attributs `data-i18n` sur tous les éléments statiques
 
+**Deploy pipeline** ← commits `37536d9` + `151ddb1`
+- [x] GitHub Actions — push `dev` → staging auto (~10s)
+- [x] GitHub Actions — push `main` → prod auto (~10s)
+- [x] Staging `kanji.guimo-prod.com` protégé par basic_auth (privé)
+- [x] Merge workflow : `git checkout main && git merge dev && git push`
+
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
 - [ ] **Stripe LIVE** — Payment Link live + `sk_live` + `whsec` live + update `config.js`
-- [ ] **Deploy auto** — GitHub Actions → git pull + cp sur le VPS
+- [ ] **Merge pipeline vers main** — merger `dev` → `main` pour sync prod
 
 **Priorité moyenne**
 - [ ] **i18n Phase 2** — sens des mots JMdict en FR/ES/DE/RU (pas juste l'UI)
