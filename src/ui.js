@@ -6,7 +6,7 @@ import { saveDailyVocab } from './daily.js';
 import { srsAddWords, srsUpdateReviewCount } from './srs.js';
 import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords } from './vocab.js';
 import { renderHome, renderStats } from './stats.js';
-import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis } from './kanji.js';
+import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis, searchAndRenderKanji } from './kanji.js';
 import { updateBiWeeklyBtn } from './biweekly.js';
 import { t } from './i18n.js';
 
@@ -46,6 +46,9 @@ export function switchTab(tab) {
   document.getElementById('mylistSection').style.display = isMyList ? 'block' : 'none';
   document.getElementById('levelFilter').style.display   = isHidden ? 'none' : '';
   document.getElementById('legendDiv').style.display     = isHidden ? 'none' : '';
+  document.getElementById('searchWrap').style.display    = (isHidden || tab === 'vocab') ? 'none' : '';
+  const si = document.getElementById('searchInput');
+  if (si) { si.value = ''; filterGrid(''); }
 
   if (isHidden) {
     // Show toolbar but only with Bi-Weekly + Review buttons
@@ -162,8 +165,16 @@ export function saveToday() {
   }, 2000);
 }
 
+// ── Search / filter kanji & vocab grid ──────────────────────────────────
+export function filterGrid(q) {
+  if (state.currentTab !== 'kanji') return;
+  searchAndRenderKanji(q); // async, promise ignored intentionally
+}
+
 // ── Refresh (new selection) ───────────────────────────────────────────────
 export function refresh() {
+  const si = document.getElementById('searchInput');
+  if (si) { si.value = ''; filterGrid(''); }
   if (state.currentTab === 'kanji') { loadAndRender(state.count, true); return; }
   renderVocab(true);
 }

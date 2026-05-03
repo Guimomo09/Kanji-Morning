@@ -4,7 +4,7 @@ import { getWordOfDay }                                         from './wotd.js'
 import { todayStr }                                            from './utils.js';
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
-import { switchTab, saveToday, refresh, changeCount, setHeader } from './ui.js';
+import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode as _launchExamMode } from './quiz.js';
@@ -254,6 +254,7 @@ document.addEventListener('keydown', e => {
 Object.assign(window, {
   // Audio
   speakJapanese,
+  filterGrid,
 
   // Navigation
   switchTab,

@@ -138,8 +138,14 @@
   <div class="legend-item"><span class="legend-dot" style="background:var(--n1)"></span><span data-i18n="legend_n1">N1</span></div>
 </div>
 
+<div class="search-wrap" id="searchWrap" style="display:none">
+  <input class="search-input" id="searchInput" type="search" placeholder="🔍 Search kanji, reading or meaning…" oninput="filterGrid(this.value)" />
+</div>
+
 <div class="home-section"   id="homeSection"></div>
-<div class="grid" id="grid" style="display:none"></div>
+<div class="grid" id="grid" style="display:none">
+  <div class="search-no-results" id="searchNoResults" style="display:none">Aucun résultat</div>
+</div>
 <div class="stats-section"  id="statsSection"  style="display:none"></div>
 <div class="mylist-section" id="mylistSection" style="display:none"></div>
 

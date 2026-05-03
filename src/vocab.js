@@ -262,6 +262,7 @@ export function renderVocabCard(item, delay) {
   const card = document.createElement('div');
   card.className = 'card' + (state.quizMode ? ' quiz-card' : '');
   card.style.animationDelay = `${delay}ms`;
+
   card.innerHTML = `
     ${coverHtml}
     <div class="card-body">
