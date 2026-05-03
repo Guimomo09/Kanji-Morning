@@ -6,6 +6,12 @@ asanokanji.com, www.asanokanji.com {
     # Stripe webhook proxy
     reverse_proxy /stripe-webhook localhost:3001
 
+    # JS/CSS sources : toujours revalider (pas de cache stale)
+    @sources {
+        path /src/*.js /src/*.css /sw.js
+    }
+    header @sources Cache-Control "no-cache, must-revalidate"
+
     # Security headers
     header {
         X-Frame-Options "SAMEORIGIN"
