@@ -157,7 +157,8 @@ const TRANSLATIONS = {
     kanji_on:          '音読み (On)',
     kanji_kun:         '訓読み (Kun)',
     kanji_examples:    'Examples',
-    kanji_no_examples: 'No examples available.',
+    kanji_no_examples:   'No examples available.',
+    search_no_results:  'No results found.',
     kanji_from:        'From kanji:',
     kanji_saved:       'Saved',
 
@@ -365,7 +366,8 @@ const TRANSLATIONS = {
     kanji_on:          '音読み (On)',
     kanji_kun:         '訓読み (Kun)',
     kanji_examples:    'Exemples',
-    kanji_no_examples: 'Aucun exemple disponible.',
+    kanji_no_examples:   'Aucun exemple disponible.',
+    search_no_results:  'Aucun résultat.',
     kanji_from:        'Depuis le kanji :',
     kanji_saved:       'Sauvegardé le',
 
@@ -573,7 +575,8 @@ const TRANSLATIONS = {
     kanji_on:          '音読み (On)',
     kanji_kun:         '訓読み (Kun)',
     kanji_examples:    'Ejemplos',
-    kanji_no_examples: 'No hay ejemplos disponibles.',
+    kanji_no_examples:   'No hay ejemplos disponibles.',
+    search_no_results:  'Sin resultados.',
     kanji_from:        'Del kanji:',
     kanji_saved:       'Guardado el',
 
@@ -781,7 +784,8 @@ const TRANSLATIONS = {
     kanji_on:          '音読み (On)',
     kanji_kun:         '訓読み (Kun)',
     kanji_examples:    'Beispiele',
-    kanji_no_examples: 'Keine Beispiele verfügbar.',
+    kanji_no_examples:   'Keine Beispiele verfügbar.',
+    search_no_results:  'Keine Ergebnisse.',
     kanji_from:        'Aus Kanji:',
     kanji_saved:       'Gespeichert am',
 
@@ -989,7 +993,8 @@ const TRANSLATIONS = {
     kanji_on:          '音読み (Он)',
     kanji_kun:         '訓読み (Кун)',
     kanji_examples:    'Примеры',
-    kanji_no_examples: 'Примеры недоступны.',
+    kanji_no_examples:   'Примеры недоступны.',
+    search_no_results:  'Ничего не найдено.',
     kanji_from:        'Из кандзи:',
     kanji_saved:       'Сохранено',
 
