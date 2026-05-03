@@ -9,6 +9,8 @@ import { cloudUpdate } from './cloud.js';
 import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
 import { showSkeletons, getAllSavedKanjis, ensureKanjiCards } from './kanji.js';
+import { getMeaning } from './trans.js';
+import { getLang } from './i18n.js';
 
 // ── Vocab quality filters ─────────────────────────────────────────────────
 function isAllKatakana(str) {
@@ -259,7 +261,7 @@ export function renderVocabCard(item, delay) {
         ${pos ? `<span class="vocab-pos">${pos}</span>` : ''}
       </div>
       <div class="card-meaning" style="border-top:1px solid var(--border);padding-top:14px;${extraDefs || relatedHtml ? 'margin-bottom:8px' : ''}">
-        ${meaning}
+        ${getMeaning(word, getLang()) || meaning}
       </div>
       ${extraDefs ? `<div>${extraDefs}</div>` : ''}
       ${relatedHtml}
@@ -375,7 +377,7 @@ export function renderMyList() {
           <span class="mylist-word">${it.word}</span>
           ${it.reading ? `<span class="mylist-kana">${it.reading}</span>` : ''}
         </td>
-        <td class="ml-col-meaning">${it.meaning}</td>
+        <td class="ml-col-meaning">${getMeaning(it.word, getLang()) || it.meaning}</td>
         <td><span class="badge badge-${it.level}">${it.level}</span></td>
       </tr>`).join('');
 
