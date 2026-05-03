@@ -1,7 +1,7 @@
 import { LEVEL_LABEL, CLOUD_ENABLED } from './config.js';
 import { normalizeMeaning, setStatus, sortGlosses, GLOSS_SKIP_RE, GLOSS_RARE_RE } from './utils.js';
 import { getMeaning } from './trans.js';
-import { getLang } from './i18n.js';
+import { getLang, t } from './i18n.js';
 import { FREQ } from './freq.js';
 import { state } from './state.js';
 import { getKanjiDetail, getWords, buildPool, pickChars } from './api.js';
@@ -299,7 +299,23 @@ export async function loadAndRender(n, forceNew = false) {
   }
 }
 
-// ── Full-pool kanji search (single char lookup + current-card filter) ────────
+// ── Kanji search index (loaded once from public/kanji_index.json) ─────────────
+let _kanjiSearchIndex = null; // Map<char, {m, o, k}>
+
+async function getKanjiSearchIndex() {
+  if (_kanjiSearchIndex) return _kanjiSearchIndex;
+  try {
+    const res = await fetch('/kanji_index.json');
+    if (!res.ok) throw new Error('index not found');
+    const raw = await res.json();
+    _kanjiSearchIndex = raw;
+  } catch {
+    _kanjiSearchIndex = {};
+  }
+  return _kanjiSearchIndex;
+}
+
+// ── Full-pool kanji search ────────────────────────────────────────────────
 export async function searchAndRenderKanji(query) {
   const grid = document.getElementById('grid');
   const q    = (query || '').trim();
@@ -307,41 +323,80 @@ export async function searchAndRenderKanji(query) {
   if (!q) {
     grid.innerHTML = '';
     state.currentKanjiCards.forEach((k, i) => grid.appendChild(renderCard(k, i * 80)));
+    const noRes = document.getElementById('searchNoResults');
+    if (noRes) noRes.style.display = 'none';
     return;
   }
 
   const ql = q.toLowerCase();
 
-  // Filter among already-loaded cards
+  // 1. Filter among already-loaded cards (fast, in-memory)
   let matching = state.currentKanjiCards.filter(k => {
     const s = [k.kanji, k.meaning, ...k.on, ...k.kun, ...k.ex.map(e => `${e.w} ${e.r}`)].join(' ').toLowerCase();
     return s.includes(ql);
   });
 
-  // If single kanji char not in current cards, look up in full pool
-  const isSingleKanji = /^[\u4E00-\u9FFF\u3400-\u4DBF]$/.test(q);
-  if (isSingleKanji && !matching.find(k => k.kanji === q)) {
+  // 2. If not found in current cards, search the full index
+  if (!matching.length) {
     if (!state.POOL.length) await buildPool();
-    const inPool = state.POOL.find(p => p.char === q);
-    if (inPool) {
-      try {
-        const [detail, words] = await Promise.all([getKanjiDetail(inPool.char), getWords(inPool.char)]);
-        matching = [{
-          kanji:   inPool.char,
-          level:   LEVEL_LABEL[inPool.jlptNum],
-          on:      detail.on_readings  ?? [],
-          kun:     detail.kun_readings ?? [],
-          meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
-          ex:      bestExamples(words, inPool.char, 3),
-        }];
-      } catch { /* leave matching empty */ }
+    const index = await getKanjiSearchIndex();
+
+    // Single kanji character: exact lookup
+    const isSingleKanji = /^[\u4E00-\u9FFF\u3400-\u4DBF]$/.test(q);
+    if (isSingleKanji) {
+      const inPool = state.POOL.find(p => p.char === q);
+      if (inPool) {
+        try {
+          const [detail, words] = await Promise.all([getKanjiDetail(inPool.char), getWords(inPool.char)]);
+          matching = [{
+            kanji:   inPool.char,
+            level:   LEVEL_LABEL[inPool.jlptNum],
+            on:      detail.on_readings  ?? [],
+            kun:     detail.kun_readings ?? [],
+            meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
+            ex:      bestExamples(words, inPool.char, 3),
+          }];
+        } catch { /* leave empty */ }
+      }
+    } else {
+      // Text query (meaning/reading): search index for all pool chars
+      const uniqueChars = [...new Set(state.POOL.map(p => p.char))];
+      const hits = uniqueChars.filter(char => {
+        const entry = index[char];
+        if (!entry) return false;
+        const s = [char, entry.m, ...(entry.o || []), ...(entry.k || [])].join(' ').toLowerCase();
+        return s.includes(ql);
+      });
+
+      if (hits.length) {
+        // Fetch full details for matching chars (up to 20)
+        const toFetch = hits.slice(0, 20);
+        const poolMap = Object.fromEntries(state.POOL.map(p => [p.char, p]));
+        const results = await Promise.allSettled(
+          toFetch.map(async char => {
+            const [detail, words] = await Promise.all([getKanjiDetail(char), getWords(char)]);
+            const pool = poolMap[char] || { jlptNum: 1 };
+            return {
+              kanji:   char,
+              level:   LEVEL_LABEL[pool.jlptNum],
+              on:      detail.on_readings  ?? [],
+              kun:     detail.kun_readings ?? [],
+              meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
+              ex:      bestExamples(words, char, 3),
+            };
+          })
+        );
+        matching = results.filter(r => r.status === 'fulfilled').map(r => r.value);
+      }
     }
   }
 
   grid.innerHTML = '';
+  const noRes = document.getElementById('searchNoResults');
   if (!matching.length) {
-    grid.innerHTML = '<div class="search-no-results">Aucun résultat</div>';
+    if (noRes) { noRes.textContent = t('search_no_results'); noRes.style.display = ''; }
   } else {
+    if (noRes) noRes.style.display = 'none';
     matching.forEach((k, i) => grid.appendChild(renderCard(k, i * 80)));
   }
 }
