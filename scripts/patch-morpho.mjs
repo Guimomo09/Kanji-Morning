@@ -108,9 +108,9 @@ async function main() {
   const freqObj  = JSON.parse(freqSrc.slice(freqSrc.indexOf('{'), freqSrc.lastIndexOf('}') + 1));
   const freqWords = Object.keys(freqObj);
 
-  const LANGS = ['fr', 'de', 'es', 'ru'];
+  const LANGS = ['en', 'fr', 'de', 'es', 'ru'];
   let totalPatched = 0;
-  const byLang = { fr: 0, de: 0, es: 0, ru: 0 };
+  const byLang = { en: 0, fr: 0, de: 0, es: 0, ru: 0 };
   const covered = [];
 
   for (const word of freqWords) {

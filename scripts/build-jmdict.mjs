@@ -25,7 +25,7 @@ const ROOT   = join(__dir, '..');
 const TMP    = join(ROOT,  '_jmdict_tmp');
 const OUT    = join(ROOT,  'public', 'jmdict_trans.json');
 
-const LANG_MAP = { fr: 'fre', es: 'spa', de: 'ger', ru: 'rus' };
+const LANG_MAP = { en: 'eng', fr: 'fre', es: 'spa', de: 'ger', ru: 'rus' };
 
 // ── 1. Fetch latest release asset URL ────────────────────────────────────────
 
@@ -117,7 +117,7 @@ function buildTransMap(jmdict) {
       }
     }
 
-    // Skip if no non-EN translation found
+    // Skip if no translation at all (empty entry)
     const hasAny = langCodes.some(lc => collected[lc]?.length > 0);
     if (!hasAny) continue;
 
@@ -142,10 +142,14 @@ function buildTransMap(jmdict) {
 
     for (const form of writtenForms) {
       if (!trans[form]) {
-        trans[form] = row;
+        trans[form] = { ...row };
         kept++;
+      } else {
+        // Merge: fill in languages missing from the existing entry
+        for (const [lang, val] of Object.entries(row)) {
+          if (!trans[form][lang]) trans[form][lang] = val;
+        }
       }
-      // If already seen (e.g., same kanji in multiple entries), keep first
     }
   }
 
