@@ -169,6 +169,7 @@ export function renderCard(k, delay) {
   const card      = document.createElement('div');
   card.className  = 'card';
   card.style.animationDelay = `${delay}ms`;
+  card.dataset.search = [k.kanji, k.meaning, ...k.on, ...k.kun, ...k.ex.map(e => `${e.w} ${e.r}`)].join(' ').toLowerCase();
 
   // Build save button as a proper DOM element so the listener is 100% reliable
   const saveBtn = document.createElement('button');

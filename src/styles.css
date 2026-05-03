@@ -274,6 +274,12 @@
     .pill[data-level="2"].active  { background:var(--n2); }
     .pill[data-level="1"].active  { background:var(--n1); }
 
+    /* Search bar */
+    .search-wrap  { display:flex; padding:0 24px 10px; max-width:1120px; margin:0 auto; }
+    .search-input { width:100%; padding:8px 16px; border:1.5px solid var(--border); border-radius:20px; font-size:14px; background:var(--card); color:var(--text); outline:none; transition:border-color .15s; }
+    .search-input:focus { border-color:var(--red); }
+    .search-input::-webkit-search-cancel-button { cursor:pointer; }
+
     /* ���� Vocab interactive quiz ���������������������������������������� */
     .quiz-screen {
       grid-column: 1 / -1;
@@ -991,6 +997,7 @@
       /* ── Level filter ── */
       .level-filter { padding: 4px 12px 8px; gap: 6px; }
       .toolbar-info { display: none; }
+      .search-wrap  { padding: 0 12px 8px; }
       .legend { padding: 0 12px; gap: 8px; }
 
       /* ── Grid ── */

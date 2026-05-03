@@ -46,6 +46,9 @@ export function switchTab(tab) {
   document.getElementById('mylistSection').style.display = isMyList ? 'block' : 'none';
   document.getElementById('levelFilter').style.display   = isHidden ? 'none' : '';
   document.getElementById('legendDiv').style.display     = isHidden ? 'none' : '';
+  document.getElementById('searchWrap').style.display    = isHidden ? 'none' : '';
+  const si = document.getElementById('searchInput');
+  if (si) { si.value = ''; filterGrid(''); }
 
   if (isHidden) {
     // Show toolbar but only with Bi-Weekly + Review buttons
@@ -162,8 +165,18 @@ export function saveToday() {
   }, 2000);
 }
 
+// ── Search / filter kanji & vocab grid ──────────────────────────────────
+export function filterGrid(q) {
+  const query = (q || '').trim().toLowerCase();
+  document.querySelectorAll('#grid .card:not(.skeleton)').forEach(card => {
+    card.style.display = (!query || (card.dataset.search || '').includes(query)) ? '' : 'none';
+  });
+}
+
 // ── Refresh (new selection) ───────────────────────────────────────────────
 export function refresh() {
+  const si = document.getElementById('searchInput');
+  if (si) { si.value = ''; filterGrid(''); }
   if (state.currentTab === 'kanji') { loadAndRender(state.count, true); return; }
   renderVocab(true);
 }
