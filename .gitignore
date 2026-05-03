@@ -11,6 +11,7 @@ _extracted_js.txt
 # Script caches & logs
 _wordnet_cache/
 _enpivot_cache/
+_kaikki_cache/
 _jmdict_tmp/
 _wikt_log.txt
 _wikt_progress.json
