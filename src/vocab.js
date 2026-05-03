@@ -128,12 +128,17 @@ export async function buildVocabItems(picks) {
       const score     = priorityScore(varPriorities) + freqBonus;
       posCategory(bestMeaningEntry?.part_of_speech); // (side-effect free — kept for future use)
 
+      // If the written form has kanji but the reading is all-katakana, it's bad API data (e.g. 馬車→マーチョ)
+      const rawReading = (canonical.pronounced && canonical.pronounced !== canonical.written)
+        ? canonical.pronounced : '';
+      const reading = (rawReading && !hasNoKanji(wordKey) && isAllKatakana(rawReading))
+        ? '' : rawReading;
+
       candidates.push({
         score,
         item: {
           word:    wordKey,
-          reading: (canonical.pronounced && canonical.pronounced !== canonical.written)
-                     ? canonical.pronounced : '',
+          reading,
           meaning, pos, extraMeanings, level: LEVEL_LABEL[jlptNum],
         },
       });
@@ -197,11 +202,15 @@ export async function buildVocabFromKanjis(kanjiCards) {
       const best = pickBestGloss(entry.meanings || []);
       if (!best) continue;
 
+      const varRawReading = (variant.pronounced && variant.pronounced !== variant.written) ? variant.pronounced : '';
+      const varReading = (varRawReading && !hasNoKanji(variant.written) && isAllKatakana(varRawReading))
+        ? '' : varRawReading;
+
       group.push({
         score: priorityScore(variant.priorities || []),
         item: {
           word:         variant.written,
-          reading:      (variant.pronounced && variant.pronounced !== variant.written) ? variant.pronounced : '',
+          reading:      varReading,
           meaning:      best.meaning.glosses.slice(0, 3).join(', '),
           pos:          best.meaning.part_of_speech?.slice(0, 2).join(', ') || '',
           extraMeanings: [],
