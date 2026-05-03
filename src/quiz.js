@@ -226,7 +226,7 @@ export function handleQuizAnswer(btn, isCorrect) {
   else state.quizState.score++;
 
   const item = state.quizState.questions[state.quizState.current].item;
-  if (state.quizState && (state.quizState.type === 'srs' || item._isSrs)) {
+  if (state.quizState && state.quizState.type === 'srs') {
     const cards = srsLoad();
     const card  = cards[item.word] || {
       word: item.word, reading: item.reading || '', meaning: item.meaning,
