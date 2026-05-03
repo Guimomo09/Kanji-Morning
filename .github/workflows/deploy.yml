@@ -1,56 +1,46 @@
-name: Deploy to VPS
+name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - dev
 
 jobs:
-  deploy:
+  deploy-staging:
+    name: "Staging → kanji.guimo-prod.com"
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Deploy to staging via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy dist/ to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: 95.216.168.28
-          username: root
-          key: ${{ secrets.VPS_DEPLOY_KEY }}
-          source: dist/
-          target: /var/www/kanji/
-          strip_components: 1
-
-      - name: Clean up Tatoeba proxy from Caddy if present
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: 95.216.168.28
-          username: root
-          key: ${{ secrets.VPS_DEPLOY_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            if grep -q "TATOEBA-PROXY" /etc/caddy/Caddyfile; then
-              python3 - << 'PYEOF'
-            import re
-            content = open('/etc/caddy/Caddyfile').read()
-            content = re.sub(
-              r'\s*# TATOEBA-PROXY[^\n]*\n\s*handle /api/tatoeba[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}',
-              '',
-              content
-            )
-            open('/etc/caddy/Caddyfile', 'w').write(content)
-            print("Tatoeba proxy removed from Caddyfile")
-            PYEOF
-              caddy validate --config /etc/caddy/Caddyfile && caddy reload --config /etc/caddy/Caddyfile
-              echo "Caddy reloaded without Tatoeba proxy"
-            fi
+            cd /var/www/kanji-webhook
+            git fetch origin
+            git checkout dev
+            git pull origin dev
+            cp -r index.html public/* /var/www/kanji-staging/
+            echo "STAGING DEPLOYED $(date)"
+
+  deploy-prod:
+    name: "Production → asanokanji.com"
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to production via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/kanji-webhook
+            git fetch origin
+            git checkout main
+            git pull origin main
+            cp -r index.html public/* /var/www/kanji/
+            echo "PROD DEPLOYED $(date)"
