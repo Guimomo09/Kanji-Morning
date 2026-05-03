@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **3 Mai 2026** · Commit `63f71d0` (dev) · i18n Phase 2 en cours
+> Dernière mise à jour: **3 Mai 2026** · Commit `151f297` (main) · i18n Phase 2 ✅ 91%
 
 ---
 
@@ -40,7 +40,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `63f71d0` · main `151ddb1` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `3eda6fd` · main `151f297` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -78,7 +78,7 @@ kanji.guimo-prod.com {
 - [x] ui.js · main.js · quiz.js · stats.js · index.html entièrement traduits
 - [x] `applyI18nToDOM()` — attributs `data-i18n` sur tous les éléments statiques
 
-**i18n Phase 2** ← commits `98db03e` → `63f71d0` (sur `dev`, pas encore sur `main`)
+**i18n Phase 2** ← commits `98db03e` → `3eda6fd` (sur `main`)
 - [x] `public/jmdict_trans.json` — 292k entrées JP→EN/FR/DE/ES/RU (~30MB)
 - [x] `src/trans.js` — `getMeaning(word, lang)` lazy-load
 - [x] Intégré dans vocab.js, quiz.js, kanji.js, stats.js
@@ -86,9 +86,13 @@ kanji.guimo-prod.com {
 - [x] `scripts/patch-fr-stems.mjs` — héritage par stems (+435 FR)
 - [x] `scripts/patch-morpho.mjs` — conjugaisons godan/ichidan (+1294 toutes langues)
 - [x] `scripts/patch-wordnet.mjs` — JWN v1.1 + OMW (FR/DE/ES/RU via synsets)
-- [x] `scripts/patch-fr-wiktionary.mjs` — fr.wiktionary batch (~25 hits)
-- Couverture actuelle : **EN 81% · FR 63% · DE 80% · ES 68% · RU 76%**
-- Gap FR : ~4450 mots sans trad dans aucune source open data (EN fallback OK)
+- [x] `scripts/patch-en-pivot.mjs` — pivot EN→cible via en.wiktionary (FR+487, ES+329, RU+128)
+- [x] `scripts/patch-jpndict.mjs` — FreeDict jpn-fra/deu/rus (direct JP→cible)
+- [x] `scripts/patch-morph.mjs` — fallback morphologique e→u row (+3453 toutes langues)
+- [x] `scripts/patch-fallback.mjs` — fallback EN pour noms propres/mots rares (+4664)
+- [x] `src/kanji.js` — fix meanings kanji cards : getMeaning() fallback via exemples
+- Couverture finale : **EN 81% · FR 91% · DE 91% · ES 91% · RU 91%**
+- 9% restants (1133 mots) : aucune source disponible — plafond open data atteint
 
 **Analytics** ← commit `4d829b1`
 - [x] Umami self-hosted sur le VPS (`/opt/umami`, PostgreSQL, PM2)
@@ -109,7 +113,7 @@ kanji.guimo-prod.com {
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
-- [~] **i18n Phase 2** — EN 81% · FR 63% · DE 80% · ES 68% · RU 76% · gap FR ~4450 mots
+- [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
 - [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
 
 **Priorité basse**
