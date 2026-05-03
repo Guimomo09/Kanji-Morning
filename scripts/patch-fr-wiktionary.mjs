@@ -2,17 +2,19 @@
 /**
  * scripts/patch-fr-wiktionary.mjs
  *
- * Completes missing French translations in public/jmdict_trans.json
- * by querying fr.wiktionary.org (free, no API key).
+ * Fetches French (and optionally DE/ES/RU) translations from Wiktionary
+ * for words that still lack them in public/jmdict_trans.json.
  *
- * Strategy:
- *   - MediaWiki API supports 50 titles per request → very efficient
- *   - Only patch words that: have DE (confirming they're real entries) but no FR
- *   - Batch size 50, ~1 req/sec → ~100k words ≈ 35 min in background
- *   - Resumable: writes progress to _wikt_progress.json
+ * Unlike the first attempt, this version:
+ *   - Targets ONLY the specific words currently missing FR in jmdict_trans
+ *     (these are real nouns, not conjugated forms â†’ much better hit rate)
+ *   - Uses exchars=50000 so long pages (e.g. è‹±å›½) aren't cut before JP section
+ *   - Finds the Japanese section via id="Japonais" anchor (more reliable)
+ *   - BATCH=20, DELAY=4000ms, exponential retry on 429
+ *   - Resumable via _wikt_progress.json
  *
- * Run:  node scripts/patch-fr-wiktionary.mjs
- * Stop: Ctrl-C — progress is saved, re-run to continue
+ * Run: node scripts/patch-fr-wiktionary.mjs
+ * Stop (Ctrl-C): progress is saved, re-run to continue
  */
 
 import { readFile, writeFile } from 'node:fs/promises';
@@ -26,33 +28,40 @@ const TRANS_PATH = join(ROOT, 'public', 'jmdict_trans.json');
 const FREQ_PATH  = join(ROOT, 'src', 'freq.js');
 const PROG_PATH  = join(ROOT, '_wikt_progress.json');
 
-const BATCH  = 50;   // MediaWiki allows 50 titles/request
-const DELAY  = 2000; // ms between requests (polite, avoids 429)
+const TARGET_LANG = process.argv[2] || 'fr';   // pass 'de', 'es', 'ru' as arg
+const WIKT_HOSTS  = { fr: 'fr', de: 'de', es: 'es', ru: 'ru' };
+const WIKT_SECTS  = { fr: 'Japonais', de: 'Japanisch', es: 'JaponÃ©s', ru: 'Ð¯Ð¿Ð¾Ð½ÑÐºÐ¸Ð¹' };
 
-// ── HTML parser ────────────────────────────────────────────────────────────
-// From the fr.wiktionary extract, find the Japanese section and extract
-// the first <ol><li> text (the primary definition).
-function extractFrDef(html) {
+const BATCH  = 20;    // smaller batches â†’ fewer 429s
+const DELAY  = 4000;  // ms between batches
+
+// â”€â”€ HTML parser â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Finds the language section by its HTML anchor id (more reliable than text search).
+function extractDef(html, langSect) {
   if (!html) return null;
 
-  // Find start of Japanese section
-  const jaIdx = html.indexOf('Japonais');
+  // Try id="Japonais" anchor first, then plain text fallback
+  let jaIdx = html.indexOf(`id="${langSect}"`);
+  if (jaIdx === -1) jaIdx = html.indexOf(langSect);
   if (jaIdx === -1) return null;
 
-  // Look for the first <ol> after the Japanese section
   const afterJa = html.slice(jaIdx);
-  const olStart  = afterJa.indexOf('<ol>');
+
+  // Look for the FIRST <ol> in this section (the definition list)
+  const olStart = afterJa.indexOf('<ol');
   if (olStart === -1) return null;
 
-  const olChunk  = afterJa.slice(olStart);
-  const liStart  = olChunk.indexOf('<li>');
+  // Stop at next language section heading to avoid spilling into another language
+  const nextH2 = afterJa.indexOf('<h2', olStart + 1);
+  const sectionHtml = nextH2 !== -1 ? afterJa.slice(olStart, nextH2) : afterJa.slice(olStart);
+
+  const liStart = sectionHtml.indexOf('<li');
   if (liStart === -1) return null;
 
-  // Get content of first <li>
-  let liContent = olChunk.slice(liStart + 4);
+  let liContent = sectionHtml.slice(liStart);
 
   // Stop at nested <ul> (examples) or </li>
-  const ulIdx  = liContent.indexOf('<ul>');
+  const ulIdx  = liContent.indexOf('<ul');
   const endIdx = liContent.indexOf('</li>');
   const cutAt  = Math.min(
     ulIdx  !== -1 ? ulIdx  : Infinity,
@@ -60,33 +69,37 @@ function extractFrDef(html) {
   );
   if (cutAt !== Infinity) liContent = liContent.slice(0, cutAt);
 
-  // Strip HTML tags
+  // Strip HTML tags and clean
   let text = liContent.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 
-  // Trim trailing punctuation noise
+  // Remove domain tags like "(Fantastique, Religion)" at the start
+  text = text.replace(/^\([^)]{1,40}\)\s*/, '').trim();
+
+  // Remove trailing period
   text = text.replace(/\.\s*$/, '').trim();
 
   // Sanity checks
-  if (!text || text.length < 2 || text.length > 120) return null;
-  // Reject if it's still clearly Japanese / not French
-  if (/^[\u3000-\u9FFF]/.test(text)) return null;
+  if (!text || text.length < 2 || text.length > 150) return null;
+  if (/^[\u3000-\u9FFF]/.test(text)) return null; // reject if looks like raw Japanese
 
   return text;
 }
 
-// ── Wiktionary batch fetch ─────────────────────────────────────────────────
-async function fetchBatch(words, retries = 4) {
+// â”€â”€ Wiktionary batch fetch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+async function fetchBatch(words, lang, retries = 5) {
+  const host   = WIKT_HOSTS[lang] ?? 'fr';
+  const sect   = WIKT_SECTS[lang] ?? 'Japonais';
   const titles = words.map(w => encodeURIComponent(w)).join('|');
-  // exchars=12000 ensures we reach the Japanese section even on long pages
-  const url = `https://fr.wiktionary.org/w/api.php?action=query&titles=${titles}&prop=extracts&exchars=12000&format=json&formatversion=2&redirects=1`;
+  const url    = `https://${host}.wiktionary.org/w/api.php?action=query&titles=${titles}&prop=extracts&exchars=50000&format=json&formatversion=2&redirects=1`;
 
   for (let attempt = 0; attempt < retries; attempt++) {
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'Kanji-Morning/patch-fr (build script; contact: asanokanji.com)' },
+      headers: { 'User-Agent': 'Kanji-Morning/patch-wikt (build script; contact: asanokanji.com)' },
     });
+
     if (res.status === 429) {
-      const wait = (attempt + 1) * 6000;
-      process.stdout.write(`\n429 rate-limit — attente ${wait / 1000}s (essai ${attempt + 1}/${retries})…`);
+      const wait = (attempt + 1) * 8000;
+      process.stdout.write(`\n  429 â€” attente ${wait / 1000}sâ€¦`);
       await new Promise(r => setTimeout(r, wait));
       continue;
     }
@@ -94,13 +107,12 @@ async function fetchBatch(words, retries = 4) {
     const data = await res.json();
 
     const result = {};
-    const pages  = data.query?.pages ?? [];
-    for (const page of pages) {
+    for (const page of (data.query?.pages ?? [])) {
       if (page.missing) continue;
-      const def = extractFrDef(page.extract);
+      const def = extractDef(page.extract, sect);
       if (def) result[page.title] = def;
     }
-    // Handle redirects: map original title → resolved title
+    // Apply redirects
     for (const redir of (data.query?.redirects ?? [])) {
       if (result[redir.to] && !result[redir.from]) {
         result[redir.from] = result[redir.to];
@@ -108,108 +120,91 @@ async function fetchBatch(words, retries = 4) {
     }
     return result;
   }
-  throw new Error('Max retries exceeded (429)');
+  throw new Error(`Max retries on 429`);
 }
 
-// ── Main ───────────────────────────────────────────────────────────────────
+// â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function main() {
-  console.log('Loading jmdict_trans.json…');
+  const lang = TARGET_LANG;
+  console.log(`\nTarget language: ${lang.toUpperCase()}\n`);
+
+  console.log('Loading jmdict_trans.jsonâ€¦');
   const trans = JSON.parse(await readFile(TRANS_PATH, 'utf8'));
 
-  // Load freq.js — restrict to common words (better Wiktionary FR coverage)
   const freqSrc  = await readFile(FREQ_PATH, 'utf8');
   const freqObj  = JSON.parse(freqSrc.slice(freqSrc.indexOf('{'), freqSrc.lastIndexOf('}') + 1));
   const freqWords = new Set(Object.keys(freqObj));
-  console.log(`Freq words loaded: ${freqWords.size}`);
 
-  // Category 1: in jmdict_trans + in freq.js + missing FR
-  const inTrans   = Object.keys(trans).filter(w => freqWords.has(w) && !trans[w].fr);
-  // Category 2: in freq.js but not in jmdict_trans at all → add placeholder
-  const inFreqOnly = [...freqWords].filter(w => !trans[w]);
-  for (const w of inFreqOnly) trans[w] = {};
+  // Target: freq words that have an entry in jmdict_trans but missing this lang
+  const candidates = Object.keys(trans).filter(w => freqWords.has(w) && !trans[w][lang]);
+  console.log(`Words missing ${lang.toUpperCase()}: ${candidates.length}`);
 
-  const candidates = [...inTrans, ...inFreqOnly];
-  console.log(`Candidats: ${candidates.length} (${inTrans.length} dans trans + ${inFreqOnly.length} nouveaux)`);
-
-  // Load resume state
+  // Resume support
   let done = new Set();
   if (existsSync(PROG_PATH)) {
     const prog = JSON.parse(await readFile(PROG_PATH, 'utf8'));
-    done = new Set(prog.done ?? []);
-    console.log(`Resuming — ${done.size} words already processed.`);
+    if (prog[lang]) done = new Set(prog[lang]);
+    console.log(`Resuming â€” ${done.size} already processed.`);
   }
 
-  const todo   = candidates.filter(w => !done.has(w));
-  const total  = todo.length;
-  let   found  = 0;
-  let   i      = 0;
+  const todo  = candidates.filter(w => !done.has(w));
+  let   found = 0;
+  let   i     = 0;
 
-  function saveProgress() {
-    const prog = { done: [...done] };
-    writeFile(PROG_PATH, JSON.stringify(prog), 'utf8').catch(() => {});
-  }
-  function saveTrans() {
-    return writeFile(TRANS_PATH, JSON.stringify(trans), 'utf8');
+  async function saveAll() {
+    let prog = {};
+    if (existsSync(PROG_PATH)) {
+      try { prog = JSON.parse(await readFile(PROG_PATH, 'utf8')); } catch {}
+    }
+    prog[lang] = [...done];
+    await writeFile(PROG_PATH, JSON.stringify(prog), 'utf8');
+    await writeFile(TRANS_PATH, JSON.stringify(trans), 'utf8');
   }
 
-  // Save on Ctrl-C
-  let saving = false;
+  let interrupted = false;
   process.on('SIGINT', async () => {
-    if (saving) return;
-    saving = true;
-    console.log('\nInterrupted — saving progress…');
-    saveProgress();
-    await saveTrans();
-    console.log(`Saved. Found ${found} new FR translations so far.`);
-    console.log('Re-run to continue.');
+    if (interrupted) return; interrupted = true;
+    console.log('\nInterrupted â€” sauvegardeâ€¦');
+    await saveAll();
+    console.log(`SauvegardÃ©. +${found} traductions ${lang.toUpperCase()}.`);
     process.exit(0);
   });
 
-  console.log(`Processing ${total} words in batches of ${BATCH}…\n`);
+  console.log(`Processing ${todo.length} words (batch=${BATCH}, delay=${DELAY}ms)â€¦\n`);
 
-  while (i < total) {
-    const batch    = todo.slice(i, i + BATCH);
-    const pct      = Math.round(((i + done.size) / candidates.length) * 100);
-    process.stdout.write(`\r[${String(i + done.size).padStart(6)}/${candidates.length}] ${pct}% — +${found} FR found`);
+  while (i < todo.length && !interrupted) {
+    const batch = todo.slice(i, i + BATCH);
+    const pct   = Math.round(((i + done.size) / candidates.length) * 100);
+    process.stdout.write(`\r[${String(i + done.size).padStart(5)}/${candidates.length}] ${pct}% â€” +${found} trouvÃ©es`);
 
-    let batchResult = {};
     try {
-      batchResult = await fetchBatch(batch);
-    } catch (e) {
-      console.warn('\nFetch error, skipping batch:', e.message);
-    }
-
-    for (const [word, def] of Object.entries(batchResult)) {
-      if (trans[word] && !trans[word].fr) {
-        trans[word].fr = def;
-        found++;
+      const hits = await fetchBatch(batch, lang);
+      for (const [word, def] of Object.entries(hits)) {
+        if (trans[word] && !trans[word][lang]) {
+          trans[word][lang] = def;
+          found++;
+        }
       }
+    } catch (e) {
+      process.stdout.write(`\n  Erreur batch: ${e.message}\n`);
     }
 
     for (const w of batch) done.add(w);
     i += BATCH;
 
-    // Save incrementally every 500 words
-    if (i % 500 === 0) {
-      saveProgress();
-      await saveTrans();
-    }
-
-    // Polite delay
+    if (i % 200 === 0) await saveAll();
     await new Promise(r => setTimeout(r, DELAY));
   }
 
-  // Clean up empty placeholder entries that got no translation at all
-  for (const w of inFreqOnly) {
-    const e = trans[w];
-    if (e && !e.fr && !e.de && !e.es && !e.ru) delete trans[w];
-  }
+  // Final save
+  await saveAll();
 
-  console.log(`\n\nTerminé ! ${found} nouvelles traductions FR trouvées.`);
-  saveProgress();
-  await saveTrans();
-  console.log(`Mis à jour : ${TRANS_PATH}`);
-  console.log('Prochaine étape : git add public/jmdict_trans.json && git commit && git push origin dev');
+  // Coverage report
+  const total = [...freqWords].length;
+  const has   = [...freqWords].filter(w => trans[w]?.[lang]).length;
+  console.log(`\n\nTerminÃ© ! +${found} traductions ${lang.toUpperCase()}`);
+  console.log(`Couverture ${lang.toUpperCase()}: ${has}/${total} (${Math.round(has / total * 100)}%)`);
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
+
