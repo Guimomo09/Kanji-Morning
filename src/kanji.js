@@ -63,7 +63,12 @@ export function bestExamples(words, targetChar, max = 3) {
 
     candidates.push({
       w: variant.written,
-      r: variant.pronounced ?? variant.written,
+      r: (() => {
+        const raw = variant.pronounced ?? variant.written;
+        const hasCJK = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(variant.written);
+        const allKata = /^[\u30A0-\u30FF\uFF65-\uFF9F\u30FC\u30FE\u30FF\u309B\u309C]+$/.test(raw);
+        return (hasCJK && allKata) ? '' : raw;
+      })(),
       m: gloss.length > 42 ? gloss.slice(0, 40) + '…' : gloss,
       score,
     });
@@ -159,7 +164,7 @@ export function renderCard(k, delay) {
         <div class="example">
           <div class="ex-top">
             <span class="ex-word">${e.w}</span>
-            <span class="ex-reading">【${e.r}】</span>
+            ${e.r ? `<span class="ex-reading">【${e.r}】</span>` : ''}
           </div>
           <div class="ex-meaning">${getMeaning(e.w, getLang()) || e.m}</div>
         </div>`).join('')
@@ -360,11 +365,12 @@ export async function searchAndRenderKanji(query) {
       }
     } else {
       // Text query (meaning/reading): search index for all pool chars
+      const lang = getLang();
       const uniqueChars = [...new Set(state.POOL.map(p => p.char))];
       const hits = uniqueChars.filter(char => {
         const entry = index[char];
         if (!entry) return false;
-        const s = [char, entry.m, ...(entry.o || []), ...(entry.k || [])].join(' ').toLowerCase();
+        const s = [char, entry.m, entry[lang] || '', ...(entry.o || []), ...(entry.k || [])].join(' ').toLowerCase();
         return s.includes(ql);
       });
 

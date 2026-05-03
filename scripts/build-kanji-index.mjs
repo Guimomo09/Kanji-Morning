@@ -10,7 +10,7 @@
  * Run once:  node scripts/build-kanji-index.mjs
  */
 
-import { writeFile } from 'node:fs/promises';
+import { writeFile, readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -45,6 +45,11 @@ async function fetchDetail(char) {
 }
 
 async function main() {
+  // Load jmdict_trans.json for multilingual meanings
+  console.log('Loading jmdict_trans.json…');
+  const transRaw = await readFile(join(ROOT, 'public', 'jmdict_trans.json'), 'utf-8');
+  const trans = JSON.parse(transRaw);
+
   console.log('Fetching JLPT lists…');
   const lists = await Promise.all([5, 4, 3, 2, 1].map(n => fetchJLPT(n)));
   const allChars = [...new Set(lists.flat())];
@@ -57,7 +62,15 @@ async function main() {
     const batch = allChars.slice(i, i + BATCH);
     const results = await Promise.all(batch.map(c => fetchDetail(c)));
     batch.forEach((c, j) => {
-      if (results[j]) index[c] = results[j];
+      if (results[j]) {
+        const entry = results[j];
+        const tr = trans[c] || {};
+        if (tr.fr) entry.fr = tr.fr;
+        if (tr.es) entry.es = tr.es;
+        if (tr.de) entry.de = tr.de;
+        if (tr.ru) entry.ru = tr.ru;
+        index[c] = entry;
+      }
     });
     done += batch.length;
     process.stdout.write(`\r${done}/${allChars.length} kanji`);
