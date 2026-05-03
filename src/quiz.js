@@ -220,8 +220,8 @@ export function handleQuizAnswer(btn, isCorrect) {
   if (!isCorrect) btn.classList.add('wrong');
   else state.quizState.score++;
 
+  const item = state.quizState.questions[state.quizState.current].item;
   if (state.quizState && (state.quizState.type === 'srs' || item._isSrs)) {
-    const item  = state.quizState.questions[state.quizState.current].item;
     const cards = srsLoad();
     const card  = cards[item.word] || {
       word: item.word, reading: item.reading || '', meaning: item.meaning,
