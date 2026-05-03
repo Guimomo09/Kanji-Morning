@@ -229,9 +229,13 @@ export async function buildVocabFromKanjis(kanjiCards) {
 // ── Vocab card renderer ───────────────────────────────────────────────
 export function renderVocabCard(item, delay) {
   const { word, reading, meaning, pos, extraMeanings, level, related, sourceKanji } = item;
-  const extraDefs = (extraMeanings || [])
-    .map(d => `<div class="ex-meaning" style="margin-top:2px">${d}</div>`)
-    .join('');
+  // Hide EN extraMeanings when a native translation is available for this word
+  const hasTranslation = !!getMeaning(word, getLang());
+  const extraDefs = hasTranslation
+    ? ''
+    : (extraMeanings || [])
+        .map(d => `<div class="ex-meaning" style="margin-top:2px">${d}</div>`)
+        .join('');
 
   const relatedHtml = (related && related.length > 0)
     ? `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)">
