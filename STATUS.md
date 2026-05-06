@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **4 Mai 2026** · Commit `f7488ac` (main) · Barre de recherche kanji ✅
+> Dernière mise à jour: **6 Mai 2026** · Commit `405d561` (main) · Fix i18n fin de quiz + son hiragana ✅
 
 ---
 
@@ -40,7 +40,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `246a28d` · main `f7488ac` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `bab3425` · main `405d561` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -123,6 +123,11 @@ kanji.guimo-prod.com {
 - [x] Mots avec kanji dont l'API retourne une lecture tout-katakana → lecture supprimée
 - [x] Ex: 馬車 → plus de マーチョ, affiche correctement ばしゃ
 
+**Fix i18n fin de quiz** ← commit `bab3425` (main + dev)
+- [x] Fenêtre "See you tomorrow" traduite en 5 langues (FR/ES/DE/RU/EN) via `quiz_tomorrow_*` dans i18n.js
+- [x] Bouton 🔔 traduit dans toutes les langues
+- [x] Bouton 🔊 parle la lecture hiragana en priorité (`item.reading || item.word`) — quiz types A, E + cartes vocab
+
 **Barre de recherche kanji** ← commit `f7488ac` (main)
 - [x] Onglet Kanji uniquement (vocab retiré — filtre sur 10 cartes inutile)
 - [x] Cherche dans les cartes affichées, puis dans tout le pool 2211 kanji via API si nécessaire
@@ -132,7 +137,7 @@ kanji.guimo-prod.com {
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
-- [ ] **Stripe LIVE** — Payment Link live + `sk_live` + `whsec` live + update `config.js` (prévu ~10 Mai 2026)
+- [ ] **Stripe LIVE** — ⏸️ EN ATTENTE (~10 Mai 2026) — Payment Link live + `sk_live` + `whsec` live + update `config.js`
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
