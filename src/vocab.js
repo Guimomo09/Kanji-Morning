@@ -283,7 +283,7 @@ export function renderVocabCard(item, delay) {
       ${relatedHtml}
     </div>`;
   card.querySelector('.vocab-speak-btn')
-      ?.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(word); });
+      ?.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(reading || word); });
   return card;
 }
 

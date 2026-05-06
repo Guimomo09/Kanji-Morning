@@ -84,6 +84,9 @@ const TRANSLATIONS = {
     quiz_btn_retry:        '↺ Retry',
     quiz_btn_back:         '📖 Back to Words',
     quiz_btn_stats:        '📊 See Stats',
+    quiz_tomorrow_title:   'See you tomorrow!',
+    quiz_tomorrow_body:    'New kanji and vocabulary will be waiting.<br>Consistency beats intensity — がんばって！',
+    quiz_tomorrow_btn:     '🔔 Remind me tomorrow',
 
     home_tagline:     '10 words every morning.',
     home_tagline2:    '7 minutes.',
@@ -293,6 +296,9 @@ const TRANSLATIONS = {
     quiz_btn_retry:        '↺ Réessayer',
     quiz_btn_back:         '📖 Retour aux mots',
     quiz_btn_stats:        '📊 Voir les stats',
+    quiz_tomorrow_title:   'À demain !',
+    quiz_tomorrow_body:    'De nouveaux kanji et vocabulaire t\'attendent.<br>La régularité prime sur l\'intensité — がんばって！',
+    quiz_tomorrow_btn:     '🔔 Me rappeler demain',
 
     home_tagline:     '10 mots chaque matin.',
     home_tagline2:    '7 minutes.',
@@ -502,6 +508,9 @@ const TRANSLATIONS = {
     quiz_btn_retry:        '↺ Reintentar',
     quiz_btn_back:         '📖 Volver a palabras',
     quiz_btn_stats:        '📊 Ver estadísticas',
+    quiz_tomorrow_title:   '¡Hasta mañana!',
+    quiz_tomorrow_body:    'Nuevos kanji y vocabulario te esperan.<br>La constancia supera la intensidad — がんばって！',
+    quiz_tomorrow_btn:     '🔔 Recordarme mañana',
 
     home_tagline:     '10 palabras cada mañana.',
     home_tagline2:    '7 minutos.',
@@ -711,6 +720,9 @@ const TRANSLATIONS = {
     quiz_btn_retry:        '↺ Wiederholen',
     quiz_btn_back:         '📖 Zurück zu Wörtern',
     quiz_btn_stats:        '📊 Statistiken ansehen',
+    quiz_tomorrow_title:   'Bis morgen!',
+    quiz_tomorrow_body:    'Neue Kanji und Vokabeln warten auf dich.<br>Regelmäßigkeit schlägt Intensität — がんばって！',
+    quiz_tomorrow_btn:     '🔔 Morgen erinnern',
 
     home_tagline:     '10 Wörter jeden Morgen.',
     home_tagline2:    '7 Minuten.',
@@ -920,6 +932,9 @@ const TRANSLATIONS = {
     quiz_btn_retry:        '↺ Повторить',
     quiz_btn_back:         '📖 Назад к словам',
     quiz_btn_stats:        '📊 Посмотреть статистику',
+    quiz_tomorrow_title:   'До завтра!',
+    quiz_tomorrow_body:    'Тебя ждут новые кандзи и слова.<br>Регулярность важнее интенсивности — がんばって！',
+    quiz_tomorrow_btn:     '🔔 Напомнить завтра',
 
     home_tagline:     '10 слов каждое утро.',
     home_tagline2:    '7 минут.',

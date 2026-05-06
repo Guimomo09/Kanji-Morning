@@ -139,7 +139,7 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word">${item.word}</div>
         ${item.reading ? `<div class="quiz-prompt-reading">${item.reading}</div>` : ''}
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        <button class="speak-btn quiz-speak-btn" data-w="${item.reading || item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -183,7 +183,7 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <div class="quiz-prompt-reading">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        <button class="speak-btn quiz-speak-btn" data-w="${item.reading || item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -308,11 +308,11 @@ export function renderQuizResults() {
       ${!isSrs && !isExam ? `
       <div class="quiz-tomorrow">
         <div class="quiz-tomorrow-icon">🌅</div>
-        <div class="quiz-tomorrow-title">See you tomorrow!</div>
-        <div class="quiz-tomorrow-body">New kanji and vocabulary will be waiting.<br>Consistency beats intensity — がんばって！</div>
+        <div class="quiz-tomorrow-title">${t('quiz_tomorrow_title')}</div>
+        <div class="quiz-tomorrow-body">${t('quiz_tomorrow_body')}</div>
         <div class="notif-time-row">
           <input type="time" id="notifTimeInput" class="notif-time-input" value="${localStorage.getItem('km_notif_time') || '08:00'}">
-          <button class="btn-notif-opt" id="notifOptBtn" onclick="requestQuizNotification()">🔔 Remind me tomorrow</button>
+          <button class="btn-notif-opt" id="notifOptBtn" onclick="requestQuizNotification()">${t('quiz_tomorrow_btn')}</button>
         </div>
       </div>` : ''}
     </div>`;
