@@ -13,6 +13,19 @@ import { getMeaning } from './trans.js';
 import { getLang, t } from './i18n.js';
 import { speakJapanese } from './audio.js';
 
+// ── JLPT level overrides for words misclassified by kanjiapi.dev ─────────
+// Key = word (written form), value = correct JLPT number (5=N5, 4=N4, etc.)
+const JLPT_OVERRIDES = {
+  '夜':4, '朝':5, '昼':5, '夕':4, '春':5, '夏':5, '秋':5, '冬':5,
+  '山':5, '川':5, '海':5, '空':5, '花':5, '雨':5, '雪':4, '風':5,
+  '木':5, '森':4, '林':4, '石':5, '火':5, '水':5,
+  '目':5, '耳':5, '手':5, '足':5, '口':5, '心':5, '体':5, '頭':5,
+  '魚':5, '鳥':5, '馬':4, '犬':5, '猫':5,
+  '父':5, '母':5, '兄':5, '姉':5, '弟':5, '妹':5, '子':5, '友':5,
+  '学':5, '校':5, '先':5, '生':5, '人':5, '男':5, '女':5,
+  '今':5, '昨':5, '明':5,
+};
+
 // ── Vocab quality filters ─────────────────────────────────────────────────
 function isAllKatakana(str) {
   return str && /^[\u30A0-\u30FF\uFF65-\uFF9F\u30FC\u30FE\u30FF\u309B\u309C]+$/.test(str);
@@ -171,7 +184,8 @@ export async function buildVocabItems(picks) {
         item: {
           word:    wordKey,
           reading,
-          meaning, pos, extraMeanings, level: LEVEL_LABEL[jlptNum],
+          meaning, pos, extraMeanings,
+          level: LEVEL_LABEL[JLPT_OVERRIDES[wordKey] ?? jlptNum],
         },
       });
     }
