@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **7 Mai 2026** · Commit `fdcf60f` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **7 Mai 2026** · Commit `e908fe7` (main) · Stripe LIVE ✅
 
 ---
 
@@ -58,7 +58,7 @@ kanji.guimo-prod.com {
 - [x] Home : Streak / Words / WOTD / JLPT Target (tap to cycle)
 - [x] My List : 2 sections kanji+vocab · multi-select · drag mobile
 - [x] Tutorial onboarding 5 étapes
-- [x] Settings drawer · notifications locales + time picker
+- [x] Settings drawer · hamburger menu mobile
 - [x] Hamburger menu mobile (Settings + Crisp Chat)
 - [x] Sign out avec confirmation · scroll-to-top · tab persistence
 
@@ -87,8 +87,7 @@ kanji.guimo-prod.com {
 **Fix quiz bloqué** ← commit `3202139` (main)
 - [x] Items `_isSrs: true` des jours précédents ne déclenchent plus les boutons SRS dans le quiz quotidien
 
-**Cache-Control no-cache** ← commit `23876ad` (main)
-- [x] SW v5 — network-first avec `cache: 'no-cache'`
+**Cache-Control no-cache** ← commit `23876ad` (main)- [x] SW v5 — network-first avec `cache: 'no-cache'`
 - [x] Caddyfile — `Cache-Control: no-cache, must-revalidate` sur `/src/*.js /src/*.css /sw.js`
 - [x] CSS — opacity bouton 🔊 à 0.7, `.vocab-header` fusionné
 
@@ -146,6 +145,15 @@ kanji.guimo-prod.com {
 - [x] Cherche dans les cartes affichées, puis dans tout le pool 2211 kanji via API si nécessaire
 - [x] Message "Aucun résultat" si kanji inconnu
 - [x] Reset automatique au changement d'onglet et sur ↺ New Selection
+
+**UX monochrome & nettoyage** ← commits `de3b997` → `e908fe7` (main, 7 Mai 2026)
+- [x] Rappel matin supprimé (118 lignes retirées) ← commit `5a31e67`
+- [x] Thème dark/light — pill toggle Light/Auto/Dark · `localStorage km_theme` · anti-flash inline script ← commit `6689950`
+- [x] Dark theme : `.vocab-word`, `.vocab-reading`, `.card-meaning` correctement colorés ← commit `cca892a`
+- [x] Tous les emoji retirés — Settings (⚙️🌐🎨), KPI labels (🔥🎯🎌☁️), quiz questions (💬🔤🔊📊)
+- [x] Tutoriel : icônes emoji → kanji monochromes (朝/漢/語/試 + SVG bar-chart)
+- [x] Historique quiz trié par date (résout désordre post-sync cloud) ← commit `e20adbf`
+- [x] Greeting + date redondants retirés du home (déjà dans le header) ← commit `e908fe7`
 
 ### 🟡 Prochaines étapes
 
