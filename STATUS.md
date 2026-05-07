@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **6 Mai 2026** · Commit `405d561` (main) · Fix i18n fin de quiz + son hiragana ✅
+> Dernière mise à jour: **7 Mai 2026** · Commit `9f4fd44` (main) · Stripe LIVE ✅
 
 ---
 
@@ -137,7 +137,7 @@ kanji.guimo-prod.com {
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
-- [ ] **Stripe LIVE** — ⏸️ EN ATTENTE (~10 Mai 2026) — Payment Link live + `sk_live` + `whsec` live + update `config.js`
+- [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026 — Payment Link live · `sk_live` + `whsec_live` sur VPS · flow testé avec promo code `FRIENDFREE` ✅
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
@@ -146,7 +146,7 @@ kanji.guimo-prod.com {
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)
-- [ ] Promo codes Stripe (affiliés / influenceurs)
+- [x] ~~Promo codes Stripe~~ — Coupon `FRIENDFREE` 100% off · 10 utilisations max ✅
 
 ---
 
@@ -160,16 +160,17 @@ kanji.guimo-prod.com {
 | Cloudflare | DNS + CDN + Email | Gratuit | guimoprod.dev@gmail.com |
 | Hetzner CX22 | VPS | ~4€/mois | — |
 | asanokanji.com | Domaine | ~10$/an | — |
-| Stripe | Paiements (TEST actif) | 1.5%+0.25€ | — |
+| Stripe | Paiements (LIVE ✅) | 1.5%+0.25€ | guimoprod.dev@gmail.com |
 
 **Emails** (Cloudflare → guimoprod.dev@gmail.com)
 - `support@asanokanji.com` — SAV / Crisp
 - `billing@asanokanji.com` — Stripe / facturation
 
-**Stripe TEST**
-- Payment Link : `https://buy.stripe.com/test_cNi3cxd4Jg5H2htf1o7N600`
+**Stripe LIVE**
+- Payment Link : `https://buy.stripe.com/28E6oGcuBbDH5cP7g2cIE00`
 - Prix : €7.99 one-time
 - Redirect : `https://asanokanji.com?premium=success`
+- Promo code : `FRIENDFREE` (100% off · 10 utilisations)
 
 ---
 
