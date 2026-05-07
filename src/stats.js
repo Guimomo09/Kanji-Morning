@@ -346,7 +346,7 @@ export function renderStats() {
     studyLbls.push(`${d.getMonth() + 1}/${d.getDate()}`);
   }
 
-  const recent    = history.slice(-20);
+  const recent    = [...history].sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).slice(-20);
   const scoreVals = recent.map(h => h.pct);
   const scoreLbls = recent.map(h => {
     const d = new Date(h.date + 'T12:00:00');
@@ -395,7 +395,7 @@ export function renderStats() {
       <div class="chart-block">
         <div class="chart-title">${t('stats_chart_recent')}</div>
         <div class="qh-list">
-          ${[...history].reverse().slice(0, 15).map(h => {
+          ${[...history].sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).reverse().slice(0, 15).map(h => {
             const qtype = h.type || 'daily';
             const badge = qtype === 'biweekly'
               ? '<span class="qh-type qh-type-biweekly">Bi-Weekly</span>'
