@@ -405,9 +405,6 @@ Object.assign(window, {
   resetAndBack()  { state.quizState = null; switchTab('vocab'); },
   resetAndStats() { state.quizState = null; switchTab('stats'); },
 
-  // PWA notification opt-in (called from quiz result screen)
-  requestQuizNotification: _requestQuizNotification,
-
   // Settings modal
   openSettings,
   openMobileMenu,
@@ -596,21 +593,8 @@ function _setupMyListDrag() {
 
 // ── Settings ──────────────────────────────────────────────────────────────
 function openSettings() {
-  const toggle  = document.getElementById('settingsNotifToggleMobile');
-  const timeIn  = document.getElementById('settingsTimeInputMobile');
-  const timeRow = document.getElementById('settingsTimeRowMobile');
-  const msg     = document.getElementById('settingsSaveMsgMobile');
+  const msg = document.getElementById('settingsSaveMsgMobile');
   if (msg) msg.textContent = '';
-  const savedTime    = localStorage.getItem('km_notif_time') || '08:00';
-  const notifEnabled = window.Notification?.permission === 'granted' && !!localStorage.getItem('km_notif_scheduled');
-  if (toggle) { toggle.checked = notifEnabled; }
-  if (timeIn) { timeIn.value = savedTime; timeIn.disabled = !notifEnabled; }
-  if (timeRow) timeRow.style.opacity = notifEnabled ? '1' : '.45';
-  toggle?.addEventListener('change', () => {
-    const on = toggle.checked;
-    if (timeIn) timeIn.disabled = !on;
-    if (timeRow) timeRow.style.opacity = on ? '1' : '.45';
-  }, { once: true });
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -621,93 +605,14 @@ function closeSettings() {
 }
 
 function saveSettings() {
-  const toggle  = document.getElementById('settingsNotifToggleMobile');
-  const timeIn  = document.getElementById('settingsTimeInputMobile');
-  const msg     = document.getElementById('settingsSaveMsgMobile');
-  const enabled = toggle?.checked ?? false;
-  const timeVal = (timeIn && timeIn.value) ? timeIn.value : '08:00';
-
-  if (!enabled) {
-    localStorage.removeItem('km_notif_scheduled');
-    if (msg) { msg.textContent = '✓ Reminder disabled'; }
-    setTimeout(closeSettings, 1200);
-    return;
-  }
-
-  if (!('Notification' in window)) {
-    if (msg) msg.textContent = 'Notifications not supported.';
-    return;
-  }
-
-  Notification.requestPermission().then(perm => {
-    if (perm !== 'granted') {
-      if (msg) msg.textContent = '🔕 Blocked in browser settings';
-      if (toggle) toggle.checked = false;
-      return;
-    }
-    const [h, m] = timeVal.split(':').map(Number);
-    localStorage.setItem('km_notif_time', timeVal);
-    const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(h, m, 0, 0);
-    localStorage.setItem('km_notif_scheduled', d.toISOString());
-    const label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-    if (msg) { msg.textContent = `✓ Set for ${label} daily`; }
-    setTimeout(closeSettings, 1200);
-  });
+  closeSettings();
 }
 
-// ── PWA morning notification opt-in ──────────────────────────────────────
-function _checkPendingNotification() {
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  const raw = localStorage.getItem('km_notif_scheduled');
-  if (!raw) return;
-  const scheduled = new Date(raw);
-  if (Date.now() < scheduled.getTime()) return;
-  // Due — fire and reschedule for same time next day
-  const savedTime = localStorage.getItem('km_notif_time') || '08:00';
-  const [h, m]    = savedTime.split(':').map(Number);
-  localStorage.removeItem('km_notif_scheduled');
-  const next = new Date(); next.setDate(next.getDate() + 1); next.setHours(h, m, 0, 0);
-  localStorage.setItem('km_notif_scheduled', next.toISOString());
-  navigator.serviceWorker.ready
-    .then(reg => reg.showNotification('朝の漢字 · Morning Kanji', {
-      body: 'Your daily kanji are waiting. 7 minutes is all it takes! がんばって！',
-      icon: '/icons/icon-192.svg',
-      badge: '/icons/icon-192.svg',
-    }))
-    .catch(() => {
-      try { new Notification('朝の漢字 · Morning Kanji', { body: 'Your daily kanji are waiting! がんばって！' }); } catch {}
-    });
-}
 
-function _requestQuizNotification() {
-  if (!('Notification' in window)) {
-    alert('Notifications are not supported by your browser.');
-    return;
-  }
-  const timeInput = document.getElementById('notifTimeInput');
-  const timeVal   = (timeInput && timeInput.value) ? timeInput.value : '08:00';
-  const [h, m]    = timeVal.split(':').map(Number);
-  const btn       = document.getElementById('notifOptBtn');
-
-  Notification.requestPermission().then(perm => {
-    if (perm === 'granted') {
-      localStorage.setItem('km_notif_time', timeVal);
-      const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(h, m, 0, 0);
-      localStorage.setItem('km_notif_scheduled', d.toISOString());
-      const label = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-      if (btn)       { btn.textContent = `✓ Reminder set for ${label} tomorrow`; btn.disabled = true; btn.classList.add('notif-opted'); }
-      if (timeInput) timeInput.disabled = true;
-    } else if (btn) {
-      btn.textContent = '🔕 Notifications blocked in browser settings';
-      btn.disabled = true;
-    }
-  });
-}
 
 // ── App initialisation ────────────────────────────────────────────────────
 setHeader();
 cleanupOldData();
-_checkPendingNotification();
 _setupMyListDrag();
 
 // ── DEBUG AGENT ──────────────────────────────────────────────────────────
@@ -716,7 +621,6 @@ window.debugAgent = {
     console.log('[debugAgent] DOMContentLoaded: re-init app');
     setHeader();
     cleanupOldData();
-    _checkPendingNotification();
     _setupMyListDrag();
     setPostAuthCallback(() => {
       if (state._fbUser && window.$crisp) {

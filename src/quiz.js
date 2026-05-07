@@ -305,16 +305,7 @@ export function renderQuizResults() {
         <button class="btn btn-ghost" onclick="resetAndBack()">${t('quiz_btn_back')}</button>
         <button class="btn btn-ghost" onclick="resetAndStats()">${t('quiz_btn_stats')}</button>
       </div>
-      ${!isSrs && !isExam ? `
-      <div class="quiz-tomorrow">
-        <div class="quiz-tomorrow-icon">🌅</div>
-        <div class="quiz-tomorrow-title">${t('quiz_tomorrow_title')}</div>
-        <div class="quiz-tomorrow-body">${t('quiz_tomorrow_body')}</div>
-        <div class="notif-time-row">
-          <input type="time" id="notifTimeInput" class="notif-time-input" value="${localStorage.getItem('km_notif_time') || '08:00'}">
-          <button class="btn-notif-opt" id="notifOptBtn" onclick="requestQuizNotification()">${t('quiz_tomorrow_btn')}</button>
-        </div>
-      </div>` : ''}
+
     </div>`;
 
   state.quizState = null;
