@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **7 Mai 2026** · Commit `b9cd6b2` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **7 Mai 2026** · Commit `1f4e1bb` (main) · Stripe LIVE ✅
 
 ---
 
@@ -155,9 +155,24 @@ kanji.guimo-prod.com {
 - [x] Historique quiz trié par date (résout désordre post-sync cloud) ← commit `e20adbf`
 - [x] Greeting + date redondants retirés du home (déjà dans le header) ← commit `e908fe7`
 
-**JLPT level overrides** ← commit `b9cd6b2` (main, 7 Mai 2026)
-- [x] Map `JLPT_OVERRIDES` dans vocab.js — corrige les kanji mal classés par kanjiapi.dev
-- [x] 夜 N3→N4, 朝/昼/花/海/空/山/川… remis à leur vrai niveau N5/N4
+**SEO statique JLPT** ← commit `302eb52` (main, 7 Mai 2026)
+- [x] 5 pages HTML statiques générées : `/jlpt-n5.html` → `/jlpt-n1.html` (2211 kanji total)
+- [x] Meta title, description, canonical, OG, JSON-LD schema · liens internes entre niveaux
+- [x] `scripts/generate-seo-pages.mjs` — fetch kanjiapi.dev, rate-limited (batch 10 / 120ms)
+- [x] `public/sitemap.xml` mis à jour avec 5 nouvelles URLs (priority 0.8–0.9)
+
+**UX session 2 — 7 Mai 2026** ← commits `67942bd` → `1f4e1bb` (main)
+- [x] Streak 7-day dots : ○ vide · ● rouge = pratiqué · 🔥 = aujourd'hui + pratiqué ← `3348301`
+- [x] Suppression flash "Sign in sync" avant résolution Firebase auth (`_fbAuthReady`) ← `3b00795`
+- [x] Quiz reveal card après réponse : mot + lecture + signification (+extras +POS) ← `67942bd`
+- [x] Bouton Next → manuel (plus d'auto-advance à 1100ms) ← `67942bd`
+- [x] Reveal card n'affiche pas ce qui vient d'être testé (anti-redondance) ← `a05f07e`
+- [x] Fix `ReferenceError: type` dans `handleQuizAnswer` ← `f55e13f`
+- [x] `saveQuizResult` trie l'historique avant push Firestore ← `67942bd`
+- [x] Tuile Weekly Challenge retirée des Quick Actions home (bouton toolbar conservé) ← `658eb71`→ rétablie
+- [x] Bouton Weekly Challenge masqué dans la toolbar sur l'onglet Home ← `c2623dc`
+- [x] Dark theme settings drawer complet ← `f5b9e6e`
+- [x] Dark theme menu hamburger mobile — texte items lisible ← `1f4e1bb`
 
 ### 🟡 Prochaines étapes
 
