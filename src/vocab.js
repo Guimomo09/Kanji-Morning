@@ -407,9 +407,9 @@ export function renderMyList() {
   if (!words.length) {
     html += `<div class="mylist-empty-small">${t('ml_no_words')}</div>`;
   } else {
-    // Soft paywall warning at 24+ words
+    // Soft paywall warning at 24+ words (hidden for premium users)
     const FREE_LIMIT = 30;
-    if (words.length >= 24) {
+    if (words.length >= 24 && !state.isPremium) {
       const remaining = FREE_LIMIT - words.length;
       const isAtLimit = remaining <= 0;
       html += `
