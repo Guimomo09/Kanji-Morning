@@ -152,7 +152,11 @@ export async function buildVocabItems(picks) {
       // Hard cutoff: for N5/N4/N3, skip words not common enough
       if (freqRank > FREQ_CUTOFF[jlptNum]) continue;
 
-      const freqBonus = Math.max(0, 600 - freqRank);
+      // For N5/N4: frequency dominates — everyday words (食べ物) beat formal dict entries (食物)
+      // For N3+: balance frequency and dictionary tags equally
+      const freqBonus = jlptNum >= 4
+        ? Math.max(0, 2000 - freqRank * 2)   // N5/N4: frequency is king
+        : Math.max(0, 600 - freqRank);        // N3/N2/N1: standard balance
       const score     = priorityScore(varPriorities) + freqBonus;
       posCategory(bestMeaningEntry?.part_of_speech); // (side-effect free — kept for future use)
 
