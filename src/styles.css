@@ -424,7 +424,13 @@
       letter-spacing: 0;
       text-align: center;
       line-height: 1.3;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
     }
+    .tab br { display: none; }
     .tab:hover  { background: #e0d5c8; }
     .tab.active { background: var(--red); color: #fff; }
 

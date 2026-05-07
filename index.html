@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
@@ -101,22 +101,22 @@
 </header>
 
 <div class="tabbar">
-  <button class="tab active" id="tabHome"   onclick="switchTab('home')">⌂<br><span style="font-size:9px;opacity:.7" data-i18n="tab_home">Home</span></button>
+  <button class="tab active" id="tabHome"   onclick="switchTab('home')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><br><span style="font-size:9px;opacity:.7" data-i18n="tab_home">Home</span></button>
   <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢<br><span style="font-size:9px;opacity:.7" data-i18n="tab_kanji">Kanji</span></button>
   <button class="tab"        id="tabVocab"  onclick="switchTab('vocab')">語<br><span style="font-size:9px;opacity:.7" data-i18n="tab_vocab">Vocab</span></button>
-  <button class="tab"        id="tabMyList" onclick="switchTab('mylist')">☰<br><span style="font-size:9px;opacity:.7" data-i18n="tab_mylist">My List</span></button>
-  <button class="tab"        id="tabStats"  onclick="switchTab('stats')">◎<br><span style="font-size:9px;opacity:.7" data-i18n="tab_stats">Stats</span></button>
+  <button class="tab"        id="tabMyList" onclick="switchTab('mylist')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><br><span style="font-size:9px;opacity:.7" data-i18n="tab_mylist">My List</span></button>
+  <button class="tab"        id="tabStats"  onclick="switchTab('stats')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><br><span style="font-size:9px;opacity:.7" data-i18n="tab_stats">Stats</span></button>
 </div>
 
 <div class="toolbar" id="toolbarDiv">
   <button class="btn btn-primary" id="btnRefresh" onclick="refresh()" data-i18n="btn_new_selection">↺ New Selection</button>
-  <button class="btn btn-quiz"  id="btnFromKanji"     onclick="toggleFromKanji()"     style="display:none" data-i18n="btn_from_kanji">📖 From Kanji</button>
-  <button class="btn btn-save"  id="btnSave"          onclick="saveToday()"           style="display:none" data-i18n="btn_save_quiz">💾 Save for Quiz</button>
+  <button class="btn btn-quiz"  id="btnFromKanji"     onclick="toggleFromKanji()"     style="display:none" data-i18n="btn_from_kanji">From Kanji</button>
+  <button class="btn btn-save"  id="btnSave"          onclick="saveToday()"           style="display:none" data-i18n="btn_save_quiz">Save for Quiz</button>
   <button class="btn btn-quiz"  id="btnDailyQuiz"     onclick="launchDailyQuiz()"     style="display:none" data-i18n="btn_daily_quiz">試 Daily Quiz</button>
   <button class="btn btn-exam"  id="btnExam"          onclick="launchExamMode()"      style="display:none" data-i18n="btn_exam_mode">試験 Exam Mode</button>
   <button class="btn btn-ghost" id="btnMore"          onclick="changeCount(1)"                             data-i18n="btn_more">＋ More</button>
   <button class="btn btn-ghost" id="btnLess"          onclick="changeCount(-1)"                            data-i18n="btn_less">－ Less</button>
-  <button class="btn btn-quiz"  id="btnBiweeklyQuiz"  onclick="launchBiWeeklyQuiz()"  style="display:none" data-i18n="btn_weekly_challenge">📅 Weekly Challenge</button>
+  <button class="btn btn-quiz"  id="btnBiweeklyQuiz"  onclick="launchBiWeeklyQuiz()"  style="display:none" data-i18n="btn_weekly_challenge">Weekly Challenge</button>
 </div>
 <div class="level-filter" id="levelFilter" style="display:none">
   <span class="level-filter-label" data-i18n="filter_level">Level:</span>
