@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **7 Mai 2026** · Commit `9f4fd44` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **7 Mai 2026** · Commit `fdcf60f` (main) · Stripe LIVE ✅
 
 ---
 
@@ -63,10 +63,11 @@ kanji.guimo-prod.com {
 - [x] Sign out avec confirmation · scroll-to-top · tab persistence
 
 **Monétisation**
-- [x] Stripe Premium €7.99 one-time (mode TEST actif)
+- [x] Stripe Premium €7.99 one-time (**LIVE ✅ 7 Mai 2026**)
 - [x] Webhook Node.js/PM2 → Firestore `premium=true`
 - [x] Paywall soft 24/30 + hard gate 30 mots + Exam Mode gate
 - [x] Upgrade modal (contextes: limit / exam / generic)
+- [x] Bandeau upgrade masqué pour les utilisateurs premium ← commit `3def01b`
 
 **SEO**
 - [x] sitemap.xml · robots.txt · meta/og tags · canonical
@@ -127,6 +128,18 @@ kanji.guimo-prod.com {
 - [x] Fenêtre "See you tomorrow" traduite en 5 langues (FR/ES/DE/RU/EN) via `quiz_tomorrow_*` dans i18n.js
 - [x] Bouton 🔔 traduit dans toutes les langues
 - [x] Bouton 🔊 parle la lecture hiragana en priorité (`item.reading || item.word`) — quiz types A, E + cartes vocab
+
+**UI tabs + toolbar** ← commit `(main, 7 Mai 2026)`
+- [x] Icônes onglets remplacées par Lucide SVGs (Home, My List, Stats)
+- [x] Emoji retirés des boutons toolbar (btn_from_kanji, btn_save_quiz, btn_weekly_challenge) via i18n.js
+- [x] CSS `.tab` flexbox colonne pour alignement SVG
+
+**Fixes vocab qualité** ← commits `57431e7` + `fdcf60f` (main, 7 Mai 2026)
+- [x] N5/N4 vocab — fréquence corpus domine le score dictionnaire (`freqBonus` x2) — 食べ物 > 食物
+- [x] Guard kanji-level pour N5/N4/N3 — tous les kanji du composé doivent être au niveau ou au-dessus
+- [x] From Kanji "New Selection" — shuffle top-8, pick 4 (variété garantie)
+- [x] JLPT Target cycle — re-render correct tab (stats ou home)
+- [x] Quiz status home — `.find()` au lieu de `history[last]` (bug post cloud sync tri décroissant)
 
 **Barre de recherche kanji** ← commit `f7488ac` (main)
 - [x] Onglet Kanji uniquement (vocab retiré — filtre sur 10 cartes inutile)
