@@ -236,7 +236,7 @@ export function renderHome() {
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('kpi_streak')}</div><div class="streak-dots">${streakDots}</div>${!state._fbUser ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
+      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('kpi_streak')}</div><div class="streak-dots">${streakDots}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('kpi_words')}</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">

@@ -25,9 +25,10 @@ export const state = {
   _srsAlgo: 'sm2',
 
   // Firebase (set by cloud.js during initCloud)
-  _fbAuth: null,
-  _fbDb:   null,
-  _fbUser: null,
+  _fbAuth:     null,
+  _fbDb:       null,
+  _fbUser:     null,
+  _fbAuthReady: false, // true after first onAuthStateChanged fires
 
   // Premium status (read from Firestore on login)
   isPremium: false,

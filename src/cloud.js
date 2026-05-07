@@ -178,6 +178,7 @@ export function initCloud() {
 
     state._fbAuth.onAuthStateChanged(async user => {
       state._fbUser = user;
+      state._fbAuthReady = true;
       _renderAuthUI(user);
       if (user) {
         await _cloudPull();
