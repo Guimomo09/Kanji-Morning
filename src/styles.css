@@ -368,11 +368,11 @@
     }
     .quiz-next-btn:hover { background: #c62828; }
     /* Streak dots */
-    .streak-dots { display: flex; gap: 5px; margin-top: 8px; justify-content: center; }
-    .streak-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
-    .streak-dot-done { background: var(--text); }
-    .streak-dot-today { outline: 2px solid var(--red); outline-offset: 1px; }
-    .streak-dot-today.streak-dot-done { background: var(--red); outline: none; }
+    .streak-dots { display: flex; gap: 6px; margin-top: 8px; justify-content: center; align-items: center; }
+    .streak-dot  { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--border); background: transparent; }
+    .streak-dot-done  { background: var(--red); border-color: var(--red); }
+    .streak-dot-today { border-color: var(--red); }
+    .streak-dot-flame { width: auto; height: auto; border: none; background: none; font-size: 16px; line-height: 1; }
     /* Results screen */
     .quiz-results     { text-align: center; padding-top: 40px; }
     .quiz-result-emoji { font-size: 56px; margin-bottom: 12px; }

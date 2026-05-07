@@ -196,6 +196,7 @@ export function renderHome() {
     const ds = dateStr(d);
     const done = !!localStorage.getItem(`vocab_daily_${ds}`);
     const isToday = ds === todayStr();
+    if (isToday && done) return `<span class="streak-dot streak-dot-flame">🔥</span>`;
     return `<span class="streak-dot${done ? ' streak-dot-done' : ''}${isToday ? ' streak-dot-today' : ''}"></span>`;
   }).join('');
 
