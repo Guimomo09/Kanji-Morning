@@ -188,8 +188,7 @@ export function renderHome() {
   const avgScore    = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
   const todayWords  = loadDailyVocab(todayStr()) || [];
-  const lastQuiz    = history.length ? history[history.length - 1] : null;
-  const todayQuiz   = lastQuiz && lastQuiz.date === todayStr() ? lastQuiz : null;
+  const todayQuiz   = history.find(h => h.date === todayStr() && (h.type || 'daily') === 'daily') ?? null;
 
   const hour      = new Date().getHours();
   const greetWord = hour < 12 ? t('greeting_morning').replace(/^[^ ]+ /, '') : hour < 18 ? t('greeting_afternoon').replace(/^[^ ]+ /, '') : t('greeting_evening').replace(/^[^ ]+ /, '');
