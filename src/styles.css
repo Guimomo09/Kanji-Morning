@@ -1166,6 +1166,7 @@
     .tutorial-close:hover { color: var(--text); }
     .tutorial-icon {
       font-size: 52px; line-height: 1; margin-bottom: 14px;
+      display:flex; align-items:center; justify-content:center;
     }
     .tutorial-title {
       font-size: 22px; font-weight: 900; color: var(--text);

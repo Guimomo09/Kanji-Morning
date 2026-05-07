@@ -226,7 +226,7 @@ export function renderHome() {
     </div>
 
     <div>
-      <div class="home-greeting">${greetWord} <span>👋</span></div>
+      <div class="home-greeting">${greetWord}</div>
       <div class="home-sub">${localeDate}</div>
     </div>
 
@@ -324,7 +324,7 @@ export function renderStats() {
   const missedMon  = getMissedBiWeeklyMonday();
   const missedHtml = missedMon ? `
     <div class="stat-notif">
-      <div class="stat-notif-icon">💪</div>
+      <div class="stat-notif-icon">週</div>
       <div class="stat-notif-body">
         <div class="stat-notif-title">${t('stats_missed_title')}</div>
         <div class="stat-notif-sub">
