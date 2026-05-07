@@ -1369,6 +1369,15 @@
     html[data-theme="dark"] .quiz-prompt-meaning { color: var(--text); }
     html[data-theme="dark"] .vocab-reading { color: #c4956a; }
     html[data-theme="dark"] #settingsPage { background: var(--card); }
+    html[data-theme="dark"] .settings-page-body { background: var(--card); }
+    html[data-theme="dark"] .settings-section-title { color: var(--muted); }
+    html[data-theme="dark"] .settings-label { color: var(--text); }
+    html[data-theme="dark"] .settings-row { border-color: var(--border); }
+    html[data-theme="dark"] .settings-save-row { border-color: var(--border); }
+    html[data-theme="dark"] .theme-btn { background: var(--card); color: var(--text); border-color: var(--border); }
+    html[data-theme="dark"] .theme-btn:hover { background: #252220; }
+    html[data-theme="dark"] .theme-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
+    html[data-theme="dark"] #langSelect { background: var(--card); color: var(--text); border-color: var(--border); }
     html[data-theme="dark"] .mobile-menu { background: var(--card); color: var(--text); border-color: var(--border); }
     html[data-theme="dark"] .mobile-menu-item:active { background: #252220; }
     html[data-theme="dark"] .mylist-table tr:hover td { background: #252220; }
