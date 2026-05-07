@@ -267,7 +267,8 @@ Object.assign(window, {
     const cur = localStorage.getItem('km_jlpt_goal') || 'N3';
     const next = LEVELS[(LEVELS.indexOf(cur) + 1) % LEVELS.length];
     localStorage.setItem('km_jlpt_goal', next);
-    renderHome();
+    if (state.currentTab === 'stats') renderStats();
+    else renderHome();
   },
   // Tutorial
   showTutorial,
