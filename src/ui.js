@@ -64,6 +64,7 @@ export function switchTab(tab) {
   }
 
   if (isHome) {
+    document.getElementById('btnBiweeklyQuiz').style.display = 'none';
     document.getElementById('hTitle').textContent = '朝の漢字';
     document.getElementById('hSub').textContent   = 'Morning Kanji · Daily Study';
     renderHome();
