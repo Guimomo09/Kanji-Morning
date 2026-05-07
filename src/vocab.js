@@ -63,6 +63,27 @@ function posCategory(posArr) {
 // Based on subtitle-corpus ranks: N5/N4 = daily spoken vocab only.
 const FREQ_CUTOFF = { 5: 2500, 4: 4500, 3: 9000, 2: 99999, 1: 99999 };
 
+// ── Kanji-level guard ────────────────────────────────────────────────────
+// For N5/N4/N3, all kanji in a compound must belong to a level ≤ the seed level.
+// Builds a Set of kanji allowed up to and including `jlptNum`.
+function buildAllowedKanjiSet(jlptNum) {
+  if (jlptNum <= 2) return null; // N2/N1: no restriction
+  const allowed = new Set();
+  (state.POOL || []).forEach(({ char, jlptNum: lvl }) => {
+    if (lvl >= jlptNum) allowed.add(char); // lvl 5=N5, 4=N4 … higher num = easier
+  });
+  return allowed;
+}
+function allKanjiAllowed(word, allowedSet) {
+  if (!allowedSet) return true;
+  for (const ch of word) {
+    if ((ch >= '\u4E00' && ch <= '\u9FFF') || (ch >= '\u3400' && ch <= '\u4DBF')) {
+      if (!allowedSet.has(ch)) return false;
+    }
+  }
+  return true;
+}
+
 // ── Build vocab items from API picks ─────────────────────────────────────
 export async function buildVocabItems(picks) {
   const TOP_TAGS   = ['news1','ichi1','spec1','nf01','nf02','nf03','nf04','nf05','nf06'];
@@ -70,10 +91,16 @@ export async function buildVocabItems(picks) {
   const candidates = [];
   const seenWords  = new Set();
 
+  // Pre-build allowed kanji sets per level (cached per call)
+  const allowedCache = {};
+
   for (let i = 0; i < picks.length; i++) {
     if (wordLists[i].status !== 'fulfilled') continue;
     const { char, jlptNum } = picks[i];
     const words = wordLists[i].value;
+
+    if (!(jlptNum in allowedCache)) allowedCache[jlptNum] = buildAllowedKanjiSet(jlptNum);
+    const allowedSet = allowedCache[jlptNum];
 
     for (const entry of words) {
       if (isProperNoun(entry)) continue;
@@ -89,6 +116,7 @@ export async function buildVocabItems(picks) {
       if (!canonical.written.includes(char)) continue;
       if (hasNoKanji(canonical.written)) continue;
       if (kanjiCount(canonical.written) > maxKanjiForLevel(jlptNum)) continue;
+      if (!allKanjiAllowed(canonical.written, allowedSet)) continue;
 
       const varPriorities = canonical.priorities || [];
       if (!varPriorities.some(p => TOP_TAGS.includes(p))) continue;
