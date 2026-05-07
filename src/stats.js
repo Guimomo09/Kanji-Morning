@@ -297,11 +297,6 @@ export function renderHome() {
           <div class="home-action-title">${t('action_quiz_title')}</div>
           <div class="home-action-sub">${t('home_words')(todayWords.length)} ${t('today_words_ready_pl')}</div>
         </div>
-        <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
-          <div class="home-action-icon">週</div>
-          <div class="home-action-title">${t('action_weekly_title')}</div>
-          <div class="home-action-sub">${biweeklyAvailable ? t('action_weekly_available') : missedBiweekly ? t('action_weekly_missed') : t('action_weekly_next') + ' ' + dateStr(nextBiWeeklyMonday())}</div>
-        </div>
       </div>
     </div>
 
