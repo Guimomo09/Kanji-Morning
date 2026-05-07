@@ -1306,4 +1306,42 @@
       .upgrade-card { flex-direction: column; align-items: flex-start; }
       .upgrade-modal { padding: 24px 18px 22px; }
     }
-  
+
+    /* ── Dark theme override (manual toggle) ────────────────────────────── */
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg:      #0f0e0c;
+      --card:    #1c1a17;
+      --border:  #2e2a24;
+      --text:    #e8e0d5;
+      --ink:     #e8e0d5;
+      --sub:     #a09080;
+      --muted:   #6a5a50;
+      --skel:    #2a2520;
+    }
+    html[data-theme="dark"] .kanji-char,
+    html[data-theme="dark"] .kanji-saved-char,
+    html[data-theme="dark"] .quiz-prompt-word,
+    html[data-theme="dark"] .ex-word,
+    html[data-theme="dark"] .card-meaning,
+    html[data-theme="dark"] .quiz-prompt-meaning { color: var(--text); }
+    html[data-theme="dark"] #settingsPage { background: var(--card); }
+    html[data-theme="dark"] .mobile-menu { background: var(--card); color: var(--text); border-color: var(--border); }
+    html[data-theme="dark"] .mobile-menu-item:active { background: #252220; }
+    html[data-theme="dark"] .mylist-table tr:hover td { background: #252220; }
+    html[data-theme="dark"] .mylist-search { background: var(--card); color: var(--text); border-color: var(--border); }
+    html[data-theme="dark"] .quiz-option { background: var(--card); color: var(--text); border-color: var(--border); }
+    html[data-theme="dark"] .quiz-option:hover:not(:disabled) { background: #252220; }
+    html[data-theme="dark"] .ml-delete-bar { background: var(--card); }
+    html[data-theme="dark"] .pill { background: var(--card); }
+    html[data-theme="dark"] .pill:hover { background: #252220; }
+    html[data-theme="dark"] .btn-ghost { background: var(--card); border-color: var(--border); }
+    html[data-theme="dark"] .btn-ghost:hover { background: #252220; }
+    html[data-theme="dark"] .search-input { background: var(--card); color: var(--text); }
+    html[data-theme="dark"] .upgrade-card { background: linear-gradient(135deg, #1a0808, #1c1a17); }
+    html[data-theme="dark"] .paywall-hint { background: #2a220a; border-color: #7a6020; color: #ffd54f; }
+    html[data-theme="dark"] .paywall-hint--full { background: #2a0808; border-color: #7a1c1c; color: #ff8a80; }
+    html[data-theme="dark"] .reading-kana { color: #c4956a; }
+    html[data-theme="dark"] .kanji-detail-modal { background: var(--card); }
+    html[data-theme="dark"] .quiz-tomorrow { background: #1a1410; border-color: #3e2a1a; }
+

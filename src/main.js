@@ -411,6 +411,7 @@ Object.assign(window, {
   closeMobileMenu,
   closeSettings,
   saveSettings,
+  changeTheme,
 
   // Language switcher
   changeLanguage(code) {
@@ -591,10 +592,30 @@ function _setupMyListDrag() {
   }, { passive: true });
 }
 
+// ── Theme ──────────────────────────────────────────────────────────────
+function _applyTheme(theme) {
+  if (theme === 'dark' || theme === 'light') {
+    document.documentElement.dataset.theme = theme;
+  } else {
+    delete document.documentElement.dataset.theme;
+  }
+}
+function changeTheme(val) {
+  if (val === 'dark' || val === 'light') {
+    localStorage.setItem('km_theme', val);
+  } else {
+    localStorage.removeItem('km_theme');
+  }
+  _applyTheme(val);
+}
+
 // ── Settings ──────────────────────────────────────────────────────────────
 function openSettings() {
   const msg = document.getElementById('settingsSaveMsgMobile');
   if (msg) msg.textContent = '';
+  // Sync theme select
+  const themeSelect = document.getElementById('themeSelect');
+  if (themeSelect) themeSelect.value = localStorage.getItem('km_theme') || 'auto';
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -612,8 +633,7 @@ function saveSettings() {
 
 // ── App initialisation ────────────────────────────────────────────────────
 setHeader();
-cleanupOldData();
-_setupMyListDrag();
+cleanupOldData();_applyTheme(localStorage.getItem('km_theme') || 'auto');_setupMyListDrag();
 
 // ── DEBUG AGENT ──────────────────────────────────────────────────────────
 window.debugAgent = {
