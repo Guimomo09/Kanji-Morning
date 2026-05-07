@@ -7,7 +7,7 @@ import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
-import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, launchExamMode as _launchExamMode } from './quiz.js';
+import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
 import { STRIPE_PAYMENT_LINK }                                  from './config.js';
@@ -389,6 +389,7 @@ Object.assign(window, {
   launchDailyQuiz,
   launchBiWeeklyQuiz,
   handleQuizAnswer,
+  quizNextQuestion,
   launchExamMode() {
     if (!state.isPremium) { openUpgradeModal('exam'); return; }
     _launchExamMode();

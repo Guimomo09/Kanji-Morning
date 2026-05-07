@@ -190,6 +190,15 @@ export function renderHome() {
   const todayWords  = loadDailyVocab(todayStr()) || [];
   const todayQuiz   = history.find(h => h.date === todayStr() && (h.type || 'daily') === 'daily') ?? null;
 
+  const _now = new Date();
+  const streakDots = Array.from({length: 7}, (_, i) => {
+    const d = new Date(_now); d.setDate(_now.getDate() - (6 - i));
+    const ds = dateStr(d);
+    const done = !!localStorage.getItem(`vocab_daily_${ds}`);
+    const isToday = ds === todayStr();
+    return `<span class="streak-dot${done ? ' streak-dot-done' : ''}${isToday ? ' streak-dot-today' : ''}"></span>`;
+  }).join('');
+
   const hour      = new Date().getHours();
   const greetWord = hour < 12 ? t('greeting_morning').replace(/^[^ ]+ /, '') : hour < 18 ? t('greeting_afternoon').replace(/^[^ ]+ /, '') : t('greeting_evening').replace(/^[^ ]+ /, '');
 
@@ -226,7 +235,7 @@ export function renderHome() {
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('kpi_streak')}</div>${!state._fbUser ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
+      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('kpi_streak')}</div><div class="streak-dots">${streakDots}</div>${!state._fbUser ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('kpi_words')}</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">

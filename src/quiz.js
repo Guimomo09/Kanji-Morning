@@ -254,8 +254,24 @@ export function handleQuizAnswer(btn, isCorrect) {
     });
     document.querySelector('.quiz-options')?.after(ratingWrap);
   } else {
-    setTimeout(() => { state.quizState.current++; renderQuizQuestion(); }, 1100);
+    const reveal = document.createElement('div');
+    reveal.className = 'quiz-reveal';
+    const meaning = getMeaning(item.word, getLang()) || item.meaning;
+    reveal.innerHTML = `
+      <div class="quiz-reveal-word">${item.word}${item.reading ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
+      <div class="quiz-reveal-meaning">${meaning}</div>
+      ${item.extraMeanings?.length ? `<div class="quiz-reveal-extras">${item.extraMeanings.join(' · ')}</div>` : ''}
+      ${item.pos ? `<div class="quiz-reveal-pos">${item.pos}</div>` : ''}
+      <button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>
+    `;
+    document.querySelector('.quiz-options')?.after(reveal);
   }
+}
+
+export function quizNextQuestion() {
+  if (!state.quizState) return;
+  state.quizState.current++;
+  renderQuizQuestion();
 }
 
 export function renderQuizResults() {
@@ -325,6 +341,7 @@ export function saveQuizResult(score, total, type) {
   } else {
     history.push({ date: today, score, total, pct: newPct, type: qtype });
   }
+  history.sort((a, b) => a.date.localeCompare(b.date));
   while (history.length > 50) history.shift();
   try { localStorage.setItem('quiz_history', JSON.stringify(history)); } catch {}
   if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ quizHistory: history });
