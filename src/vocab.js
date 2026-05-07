@@ -249,7 +249,13 @@ export async function buildVocabFromKanjis(kanjiCards) {
     }
 
     group.sort((a, b) => b.score - a.score);
-    byKanji.set(k.kanji, group.slice(0, 4).map(c => c.item));
+    // Weighted shuffle: take top-8, shuffle, pick 4 — variety on each refresh
+    const pool = group.slice(0, 8);
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    byKanji.set(k.kanji, pool.slice(0, 4).map(c => c.item));
   }
 
   // Round-robin across kanji to ensure variety
