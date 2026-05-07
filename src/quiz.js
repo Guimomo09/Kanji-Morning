@@ -225,7 +225,7 @@ export function handleQuizAnswer(btn, isCorrect) {
   if (!isCorrect) btn.classList.add('wrong');
   else state.quizState.score++;
 
-  const item = state.quizState.questions[state.quizState.current].item;
+  const { item, type } = state.quizState.questions[state.quizState.current];
   if (state.quizState && state.quizState.type === 'srs') {
     const cards = srsLoad();
     const card  = cards[item.word] || {
