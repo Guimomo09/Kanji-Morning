@@ -177,11 +177,11 @@
     <div class="settings-section-title">🎨 Apparence</div>
     <div class="settings-row">
       <label class="settings-label">Thème</label>
-      <select id="themeSelect" onchange="changeTheme(this.value)" class="settings-toggle" style="width:auto;padding:4px 8px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:8px">
-        <option value="auto">Auto</option>
-        <option value="light">☀️ Light</option>
-        <option value="dark">🌙 Dark</option>
-      </select>
+      <div class="theme-toggle-group" id="themeToggleGroup">
+        <button class="theme-btn" data-val="light" onclick="changeTheme('light')">☀️</button>
+        <button class="theme-btn" data-val="auto"  onclick="changeTheme('auto')">Auto</button>
+        <button class="theme-btn" data-val="dark"  onclick="changeTheme('dark')">🌙</button>
+      </div>
     </div>
     <div class="settings-section-title" style="margin-top:20px" data-i18n="settings_language">🌐 Language</div>
     <div class="settings-row">

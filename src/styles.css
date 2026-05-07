@@ -1307,6 +1307,22 @@
       .upgrade-modal { padding: 24px 18px 22px; }
     }
 
+    /* ── Theme pill toggle ────────────────────────────────────────────────── */
+    .theme-toggle-group {
+      display: flex; gap: 0; border: 1.5px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+    }
+    .theme-btn {
+      background: var(--card); color: var(--sub);
+      border: none; border-right: 1px solid var(--border);
+      padding: 6px 14px; font-size: 14px; cursor: pointer;
+      font-family: inherit; transition: background .15s, color .15s;
+      line-height: 1.4;
+    }
+    .theme-btn:last-child { border-right: none; }
+    .theme-btn:hover { background: var(--border); }
+    .theme-btn.active { background: var(--red); color: #fff; }
+
     /* ── Dark theme override (manual toggle) ────────────────────────────── */
     html[data-theme="dark"] {
       color-scheme: dark;

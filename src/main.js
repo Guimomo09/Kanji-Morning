@@ -600,6 +600,11 @@ function _applyTheme(theme) {
     delete document.documentElement.dataset.theme;
   }
 }
+function _syncThemeButtons(val) {
+  document.querySelectorAll('#themeToggleGroup .theme-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.val === val);
+  });
+}
 function changeTheme(val) {
   if (val === 'dark' || val === 'light') {
     localStorage.setItem('km_theme', val);
@@ -607,15 +612,15 @@ function changeTheme(val) {
     localStorage.removeItem('km_theme');
   }
   _applyTheme(val);
+  _syncThemeButtons(val);
 }
 
 // ── Settings ──────────────────────────────────────────────────────────────
 function openSettings() {
   const msg = document.getElementById('settingsSaveMsgMobile');
   if (msg) msg.textContent = '';
-  // Sync theme select
-  const themeSelect = document.getElementById('themeSelect');
-  if (themeSelect) themeSelect.value = localStorage.getItem('km_theme') || 'auto';
+  // Sync theme buttons
+  _syncThemeButtons(localStorage.getItem('km_theme') || 'auto');
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
