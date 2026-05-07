@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **7 Mai 2026** · Commit `e908fe7` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **7 Mai 2026** · Commit `b9cd6b2` (main) · Stripe LIVE ✅
 
 ---
 
@@ -154,6 +154,10 @@ kanji.guimo-prod.com {
 - [x] Tutoriel : icônes emoji → kanji monochromes (朝/漢/語/試 + SVG bar-chart)
 - [x] Historique quiz trié par date (résout désordre post-sync cloud) ← commit `e20adbf`
 - [x] Greeting + date redondants retirés du home (déjà dans le header) ← commit `e908fe7`
+
+**JLPT level overrides** ← commit `b9cd6b2` (main, 7 Mai 2026)
+- [x] Map `JLPT_OVERRIDES` dans vocab.js — corrige les kanji mal classés par kanjiapi.dev
+- [x] 夜 N3→N4, 朝/昼/花/海/空/山/川… remis à leur vrai niveau N5/N4
 
 ### 🟡 Prochaines étapes
 
