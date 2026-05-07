@@ -1341,7 +1341,9 @@
     html[data-theme="dark"] .quiz-prompt-word,
     html[data-theme="dark"] .ex-word,
     html[data-theme="dark"] .card-meaning,
+    html[data-theme="dark"] .vocab-word,
     html[data-theme="dark"] .quiz-prompt-meaning { color: var(--text); }
+    html[data-theme="dark"] .vocab-reading { color: #c4956a; }
     html[data-theme="dark"] #settingsPage { background: var(--card); }
     html[data-theme="dark"] .mobile-menu { background: var(--card); color: var(--text); border-color: var(--border); }
     html[data-theme="dark"] .mobile-menu-item:active { background: #252220; }
