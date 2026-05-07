@@ -257,9 +257,12 @@ export function handleQuizAnswer(btn, isCorrect) {
     const reveal = document.createElement('div');
     reveal.className = 'quiz-reveal';
     const meaning = getMeaning(item.word, getLang()) || item.meaning;
+    // Don't repeat the field that was just tested as the answer
+    const meaningWasAnswer = type === 'A' || type === 'E';
+    const readingWasAnswer = type === 'C';
     reveal.innerHTML = `
-      <div class="quiz-reveal-word">${item.word}${item.reading ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
-      <div class="quiz-reveal-meaning">${meaning}</div>
+      <div class="quiz-reveal-word">${item.word}${(item.reading && !readingWasAnswer) ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
+      ${!meaningWasAnswer ? `<div class="quiz-reveal-meaning">${meaning}</div>` : ''}
       ${item.extraMeanings?.length ? `<div class="quiz-reveal-extras">${item.extraMeanings.join(' · ')}</div>` : ''}
       ${item.pos ? `<div class="quiz-reveal-pos">${item.pos}</div>` : ''}
       <button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>
