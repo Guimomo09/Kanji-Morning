@@ -45,14 +45,14 @@ const TRANSLATIONS = {
     legend_n2: 'N2 (frequent)',
     legend_n1: 'N1',
 
-    settings_title:           '⚙️ Settings',
+    settings_title:           'Settings',
     settings_back:            '← Back',
     settings_reminder:        '🔔 Morning Reminder',
     settings_enable_reminder: 'Enable daily reminder',
     settings_reminder_time:   'Reminder time',
     settings_save:            'Save',
     settings_saved:           '✓ Saved',
-    settings_language:        '🌐 Language',
+    settings_language:        'Language',
 
     tutorial_steps: [
       { icon: '🌅', title: 'Welcome to<br>朝の漢字',
@@ -257,14 +257,14 @@ const TRANSLATIONS = {
     legend_n2: 'N2 (fréquent)',
     legend_n1: 'N1',
 
-    settings_title:           '⚙️ Paramètres',
+    settings_title:           'Paramètres',
     settings_back:            '← Retour',
     settings_reminder:        '🔔 Rappel du matin',
     settings_enable_reminder: 'Activer le rappel quotidien',
     settings_reminder_time:   'Heure du rappel',
     settings_save:            'Enregistrer',
     settings_saved:           '✓ Sauvegardé',
-    settings_language:        '🌐 Langue',
+    settings_language:        'Langue',
 
     tutorial_steps: [
       { icon: '🌅', title: 'Bienvenue sur<br>朝の漢字',
@@ -469,14 +469,14 @@ const TRANSLATIONS = {
     legend_n2: 'N2 (frecuente)',
     legend_n1: 'N1',
 
-    settings_title:           '⚙️ Configuración',
+    settings_title:           'Configuración',
     settings_back:            '← Volver',
     settings_reminder:        '🔔 Recordatorio matutino',
     settings_enable_reminder: 'Activar recordatorio diario',
     settings_reminder_time:   'Hora del recordatorio',
     settings_save:            'Guardar',
     settings_saved:           '✓ Guardado',
-    settings_language:        '🌐 Idioma',
+    settings_language:        'Idioma',
 
     tutorial_steps: [
       { icon: '🌅', title: 'Bienvenido a<br>朝の漢字',
@@ -681,14 +681,14 @@ const TRANSLATIONS = {
     legend_n2: 'N2 (häufig)',
     legend_n1: 'N1',
 
-    settings_title:           '⚙️ Einstellungen',
+    settings_title:           'Einstellungen',
     settings_back:            '← Zurück',
     settings_reminder:        '🔔 Morgenerinnerung',
     settings_enable_reminder: 'Tägliche Erinnerung aktivieren',
     settings_reminder_time:   'Erinnerungszeit',
     settings_save:            'Speichern',
     settings_saved:           '✓ Gespeichert',
-    settings_language:        '🌐 Sprache',
+    settings_language:        'Sprache',
 
     tutorial_steps: [
       { icon: '🌅', title: 'Willkommen bei<br>朝の漢字',
@@ -893,14 +893,14 @@ const TRANSLATIONS = {
     legend_n2: 'N2 (частый)',
     legend_n1: 'N1',
 
-    settings_title:           '⚙️ Настройки',
+    settings_title:           'Настройки',
     settings_back:            '← Назад',
     settings_reminder:        '🔔 Утреннее напоминание',
     settings_enable_reminder: 'Включить ежедневное напоминание',
     settings_reminder_time:   'Время напоминания',
     settings_save:            'Сохранить',
     settings_saved:           '✓ Сохранено',
-    settings_language:        '🌐 Язык',
+    settings_language:        'Язык',
 
     tutorial_steps: [
       { icon: '🌅', title: 'Добро пожаловать в<br>朝の漢字',
