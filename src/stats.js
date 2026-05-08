@@ -54,6 +54,17 @@ export function computeTotalWords() {
   return seen.size;
 }
 
+export function computeMonthlyCount() {
+  const now = new Date();
+  const prefix = `vocab_daily_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-`;
+  let count = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith(prefix)) count++;
+  }
+  return count;
+}
+
 // ── Activity calendar & view switcher ────────────────────────────────────
 let _calYear     = new Date().getFullYear();
 let _calMonth    = new Date().getMonth(); // 0-indexed
@@ -407,9 +418,11 @@ function drawBarChart(canvas, values, labels) {
 
 // ── Home panel ────────────────────────────────────────────────────────────
 export function renderHome() {
+  const stv         = localStorage.getItem('km_streak_tile_view') || 'streak';
   const streak      = computeStreak();
   const best        = computeBestStreak();
   const total       = computeTotalWords();
+  const monthlyCount = stv === 'month' ? computeMonthlyCount() : 0;
   const history     = loadQuizHistory();
   const avgScore    = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
@@ -462,7 +475,7 @@ export function renderHome() {
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('kpi_streak')}</div><div class="streak-dots">${streakDots}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
+      <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('kpi_streak')}</div>${stv === 'streak' ? `<div class="streak-dots">${streakDots}</div>` : ''}<div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('kpi_words')}</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">
@@ -545,10 +558,12 @@ export function renderHome() {
 
 // ── Stats panel ───────────────────────────────────────────────────────────
 export function renderStats() {
+  const stv      = localStorage.getItem('km_streak_tile_view') || 'streak';
   const history  = loadQuizHistory();
   const streak   = computeStreak();
   const best     = computeBestStreak();
   const total    = computeTotalWords();
+  const monthlyCount = stv === 'month' ? computeMonthlyCount() : 0;
   const avgScore = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
 
@@ -604,7 +619,7 @@ export function renderStats() {
     <div class="stats-container">
       ${missedHtml}
       <div class="kpi-grid kpi-grid-2col">
-        <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
+        <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('stats_kpi_streak')}</div><div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
         <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">

@@ -355,6 +355,12 @@ Object.assign(window, {
     if (state.currentTab === 'stats') renderStats();
     else renderHome();
   },
+  cycleStreakTile() {
+    const cur = localStorage.getItem('km_streak_tile_view') || 'streak';
+    localStorage.setItem('km_streak_tile_view', cur === 'streak' ? 'month' : 'streak');
+    if (state.currentTab === 'stats') renderStats();
+    else renderHome();
+  },
   // Tutorial
   showTutorial,
   closeTutorial,

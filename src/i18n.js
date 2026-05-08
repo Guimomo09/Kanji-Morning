@@ -96,6 +96,8 @@ const TRANSLATIONS = {
     home_how_it_works:'How it works',
 
     kpi_streak:       'Day Streak',
+    kpi_streak_month: 'Days This Month',
+    kpi_streak_hint:  'tap to switch ↻',
     kpi_words:        'Words Learned',
     kpi_today_word:   "Today's Word",
     kpi_avg_score:    'Avg Score',
@@ -201,6 +203,7 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Tap items to select',
 
     stats_kpi_streak:     'Day Streak',
+    stats_kpi_streak_month: 'Days This Month',
     stats_kpi_words:      'Words Learned',
     stats_kpi_avg:        'Avg Score',
     stats_kpi_jlpt:       'JLPT Target',
@@ -324,6 +327,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Comment ça marche',
 
     kpi_streak:       'Jours consécutifs',
+    kpi_streak_month: 'Jours ce mois',
+    kpi_streak_hint:  'toucher pour changer ↻',
     kpi_words:        'Mots appris',
     kpi_today_word:   'Mot du jour',
     kpi_avg_score:    'Score moyen',
@@ -429,6 +434,7 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Appuie sur des éléments pour les sélectionner',
 
     stats_kpi_streak:     'Jours consécutifs',
+    stats_kpi_streak_month: 'Jours ce mois',
     stats_kpi_words:      'Mots appris',
     stats_kpi_avg:        'Score moyen',
     stats_kpi_jlpt:       'Objectif JLPT',
@@ -552,6 +558,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Cómo funciona',
 
     kpi_streak:       'Días seguidos',
+    kpi_streak_month: 'Días este mes',
+    kpi_streak_hint:  'toca para cambiar ↻',
     kpi_words:        'Palabras aprendidas',
     kpi_today_word:   'Palabra del día',
     kpi_avg_score:    'Punt. media',
@@ -657,6 +665,7 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Toca elementos para seleccionar',
 
     stats_kpi_streak:     'Días seguidos',
+    stats_kpi_streak_month: 'Días este mes',
     stats_kpi_words:      'Palabras aprendidas',
     stats_kpi_avg:        'Puntuación media',
     stats_kpi_jlpt:       'Objetivo JLPT',
@@ -780,6 +789,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Wie es funktioniert',
 
     kpi_streak:       'Tage-Serie',
+    kpi_streak_month: 'Tage diesen Monat',
+    kpi_streak_hint:  'tippen zum Wechseln ↻',
     kpi_words:        'Gelernte Wörter',
     kpi_today_word:   'Wort des Tages',
     kpi_avg_score:    'Ø Punktzahl',
@@ -885,6 +896,7 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Elemente antippen zum Auswählen',
 
     stats_kpi_streak:     'Tage in Folge',
+    stats_kpi_streak_month: 'Tage diesen Monat',
     stats_kpi_words:      'Gelernte Wörter',
     stats_kpi_avg:        'Ø Punktzahl',
     stats_kpi_jlpt:       'JLPT-Ziel',
@@ -1008,6 +1020,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Как это работает',
 
     kpi_streak:       'Дней подряд',
+    kpi_streak_month: 'Дней в этом месяце',
+    kpi_streak_hint:  'нажми для смены ↻',
     kpi_words:        'Слов изучено',
     kpi_today_word:   'Слово дня',
     kpi_avg_score:    'Средний балл',
@@ -1117,6 +1131,7 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Нажми на элементы для выбора',
 
     stats_kpi_streak:     'Дней подряд',
+    stats_kpi_streak_month: 'Дней в этом месяце',
     stats_kpi_words:      'Слов выучено',
     stats_kpi_avg:        'Средний балл',
     stats_kpi_jlpt:       'Цель JLPT',

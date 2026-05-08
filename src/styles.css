@@ -754,6 +754,8 @@
     }
 
     /* ── JLPT kpi card ────────────────────────────────────────────────────── */
+    .kpi-streak { cursor: pointer; user-select: none; }
+    .kpi-streak:hover { border-color: var(--red); }
     .kpi-jlpt { cursor: pointer; user-select: none; }
     .kpi-jlpt:hover { border-color: var(--red); }
     .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
