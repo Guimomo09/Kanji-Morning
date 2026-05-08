@@ -128,7 +128,7 @@ export function navActivityCal(dir) {
 }
 
 export function setActivityView(view) {
-  localStorage.setItem('km_activity_view', view);
+  try { localStorage.setItem('km_activity_view', view); } catch (_) { /* quota full — ignore, still switch view */ }
   document.querySelectorAll('.activity-view-pill').forEach(b => {
     b.classList.toggle('active', b.dataset.view === view);
   });
