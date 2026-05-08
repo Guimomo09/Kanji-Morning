@@ -768,7 +768,7 @@
     /* ── Activity view switcher ──────────────────────────────────────────── */
     .streak-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
     .streak-view-pills { display: flex; gap: 4px; flex-shrink: 0; }
-    .streak-view-pills .pill { font-size: 11px; padding: 3px 8px; border-radius: 12px; background: var(--card); border: 1.5px solid var(--border); color: var(--sub); font-weight: 700; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+    .streak-view-pills .pill { font-size: 11px; padding: 6px 10px; border-radius: 12px; background: var(--card); border: 1.5px solid var(--border); color: var(--sub); font-weight: 700; cursor: pointer; transition: background .15s, color .15s, border-color .15s; min-height: 32px; }
     .streak-view-pills .pill.active { background: var(--red); border-color: var(--red); color: #fff; }
     /* ── Study activity real calendar ───────────────────────────────────── */
     .scal { width: 100%; }

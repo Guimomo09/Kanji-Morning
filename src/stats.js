@@ -620,9 +620,9 @@ export function renderStats() {
         <div class="streak-cal-header">
           <span class="chart-title" style="margin:0">${t('stats_chart_activity')}</span>
           <div class="streak-view-pills">
-            <button class="pill activity-view-pill${av === '1w' ? ' active' : ''}" data-view="1w">1W</button>
-            <button class="pill activity-view-pill${av === '2w' ? ' active' : ''}" data-view="2w">2W</button>
-            <button class="pill activity-view-pill${av === 'cal' ? ' active' : ''}" data-view="cal">Calendar</button>
+            <button class="pill activity-view-pill${av === '1w' ? ' active' : ''}" data-view="1w" onclick="setActivityView('1w')">1W</button>
+            <button class="pill activity-view-pill${av === '2w' ? ' active' : ''}" data-view="2w" onclick="setActivityView('2w')">2W</button>
+            <button class="pill activity-view-pill${av === 'cal' ? ' active' : ''}" data-view="cal" onclick="setActivityView('cal')">Calendar</button>
           </div>
         </div>
         <div id="activityViewContent"></div>
