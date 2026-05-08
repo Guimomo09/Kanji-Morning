@@ -72,6 +72,7 @@ export function switchTab(tab) {
     document.getElementById('btnFromKanji').style.display    = 'none';
     document.getElementById('btnExam').style.display         = 'none';
     document.getElementById('btnMyListHint').style.display   = 'none';
+    document.getElementById('btnStatsHint').style.display    = 'none';
     updateBiWeeklyBtn();
     srsUpdateReviewCount();
   }
@@ -84,6 +85,7 @@ export function switchTab(tab) {
     return;
   }
   if (isStats) {
+    document.getElementById('btnStatsHint').style.display    = '';
     document.getElementById('hTitle').textContent = '進歩';
     document.getElementById('hSub').textContent   = t('sub_stats');
     renderStats();

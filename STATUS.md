@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **8 Mai 2026** · Commit `8d2d420` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **8 Mai 2026** · Commit `0f1753c` (main) · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -207,6 +207,14 @@ kanji.guimo-prod.com {
 - [x] Bouton Weekly Challenge masqué dans la toolbar sur l'onglet Home ← `c2623dc`
 - [x] Dark theme settings drawer complet ← `f5b9e6e`
 - [x] Dark theme menu hamburger mobile — texte items lisible ← `1f4e1bb`
+
+**Stats — Activity view switcher & Calendar** ← commits `8d0592b` → `latest` (main, 8 Mai 2026)
+- [x] Heatmap streak séparé retiré — bloc "Study Activity" unifié avec switcher 1W / 2W / Calendar
+- [x] Vrai calendrier mensuel iOS-style avec navigation mois · jours étudiés en rouge · aujourd'hui cerclé
+- [x] Vue calendrier : quadrillage (lignes CSS) · cellules 34px · coins arrondis
+- [x] Titre dynamique selon la vue : "Last 7 Days" / "Last 14 Days" / "Calendar" (5 langues)
+- [x] Bouton "i" Stats déplacé dans la toolbar (pattern identique à My List)
+- [x] Fix `QuotaExceededError` localStorage — `setActivityView` catch quota + `cleanupOldData` purge `vocab_daily_*` > 90 jours
 
 ### 🟡 Prochaines étapes
 

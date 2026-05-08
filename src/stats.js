@@ -603,9 +603,6 @@ export function renderStats() {
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
       ${missedHtml}
-      <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px">
-        <button class="section-hint-btn" onclick="showTabHint('stats')" aria-label="How to read Stats">i</button>
-      </div>
       <div class="kpi-grid kpi-grid-2col">
         <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
