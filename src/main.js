@@ -67,7 +67,7 @@ function closeTutorial() {
 // ════════════════════════════════════════════════════════════════════════════
 const TAB_HINTS = {
   home: {
-    icon: '🏠',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
     title: 'Home — Your Dashboard',
     body: `<p>Your daily study hub. Everything at a glance.</p><ul>
       <li><b>Streak</b> — consecutive days you studied. Don't break the chain!</li>
@@ -97,7 +97,7 @@ const TAB_HINTS = {
     </ul>`,
   },
   mylist: {
-    icon: '📋',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
     title: 'My List — Saved Words & Kanji',
     body: `<p>All your bookmarked kanji and vocabulary in one place.</p><ul>
       <li><b>Tap a kanji chip</b> — opens the kanji detail popup with readings and examples.</li>
@@ -107,7 +107,7 @@ const TAB_HINTS = {
     </ul>`,
   },
   stats: {
-    icon: '📊',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
     title: 'Stats — Your Progress',
     body: `<p>Charts and history tracking your study journey.</p><ul>
       <li><b>Streak calendar</b> — each square = one study day. Darker = more words studied.</li>
