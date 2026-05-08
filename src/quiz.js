@@ -582,7 +582,7 @@ export function renderExamTab() {
       <div class="exam-level-card">
         <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
           ${t('exam_level_label')}
-          <span class="exam-info-tip" tabindex="0" title="${t('exam_cumulative_tip')}">ⓘ</span>
+          <span class="exam-info-tip" tabindex="0" data-tip="${t('exam_cumulative_tip')}">ⓘ</span>
         </div>
         <div class="exam-pills">${levelPills}</div>
         <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>

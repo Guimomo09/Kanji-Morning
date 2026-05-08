@@ -621,7 +621,7 @@
       position: relative; display: inline-block;
     }
     .exam-info-tip:hover::after, .exam-info-tip:focus::after {
-      content: attr(title);
+      content: attr(data-tip);
       position: absolute; left: 0; top: 22px;
       background: var(--text); color: var(--bg);
       font-size: 12px; font-weight: 400; text-transform: none; letter-spacing: 0;
