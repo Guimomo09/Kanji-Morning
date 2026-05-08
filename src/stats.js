@@ -487,7 +487,7 @@ export function renderStats() {
         ${t('stats_next_challenge')} <strong>${dateStr(nextMon)}</strong>
        </div>`;
 
-  const sv = localStorage.getItem('km_streak_view') || '1w';
+  const sv = localStorage.getItem('km_streak_view') || '2w';
 
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
@@ -495,13 +495,21 @@ export function renderStats() {
       <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px">
         <button class="section-hint-btn" onclick="showTabHint('stats')" aria-label="How to read Stats">i</button>
       </div>
+      <div class="kpi-grid kpi-grid-2col">
+        <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
+        <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
+        <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
+        <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
+          <div class="kpi-num kpi-jlpt-level">${localStorage.getItem('km_jlpt_goal') || 'N3'}</div>
+          <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const jlptLimits={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); const pct=Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/jlptLimits[g]*100)); return pct > 0 ? pct + '%' : t('stats_jlpt_start'); })()}</div>
+          <div class="kpi-lbl">${t('stats_kpi_jlpt')}</div>
+          <div class="kpi-jlpt-hint">${t('stats_jlpt_hint')}</div>
+        </div>
+      </div>
 
-      <div class="kpi-card streak-kpi-full">
-        <div class="streak-card-header">
-          <div>
-            <div class="kpi-num">${streak}</div>
-            <div class="kpi-lbl">${t('stats_kpi_streak')}</div>
-          </div>
+      <div class="chart-block">
+        <div class="streak-cal-header">
+          <span class="chart-title" style="margin:0">Streak</span>
           <div class="streak-view-pills">
             <button class="pill streak-view-pill${sv === '1w' ? ' active' : ''}" data-view="1w" onclick="setStreakView('1w')">1W</button>
             <button class="pill streak-view-pill${sv === '2w' ? ' active' : ''}" data-view="2w" onclick="setStreakView('2w')">2W</button>
@@ -509,17 +517,6 @@ export function renderStats() {
           </div>
         </div>
         <div id="streakViewContent"></div>
-      </div>
-
-      <div class="kpi-grid kpi-grid-2col">
-        <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
-        <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
-        <div class="kpi-card kpi-jlpt" style="grid-column:1/-1" onclick="cycleJlptGoal()">
-          <div class="kpi-num kpi-jlpt-level">${localStorage.getItem('km_jlpt_goal') || 'N3'}</div>
-          <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const jlptLimits={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); const pct=Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/jlptLimits[g]*100)); return pct > 0 ? pct + '%' : t('stats_jlpt_start'); })()}</div>
-          <div class="kpi-lbl">${t('stats_kpi_jlpt')}</div>
-          <div class="kpi-jlpt-hint">${t('stats_jlpt_hint')}</div>
-        </div>
       </div>
 
       ${history.length ? `

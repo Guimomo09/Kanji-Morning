@@ -765,9 +765,8 @@
     .kpi-streak-nudge span { cursor: pointer; text-decoration: underline; }
     .kpi-grid-2col { grid-template-columns: 1fr 1fr !important; }
     .kpi-grid-2col .kpi-jlpt { grid-column: unset; }
-    /* ── Streak KPI full-width card ────────────────────────────────────── */
-    .streak-kpi-full { margin-bottom: 10px; }
-    .streak-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    /* ── Streak view switcher in chart-block ────────────────────────────── */
+    .streak-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
     .streak-view-pills { display: flex; gap: 4px; flex-shrink: 0; }
     .streak-view-pills .pill { font-size: 11px; padding: 3px 8px; border-radius: 12px; background: var(--card); border: 1.5px solid var(--border); color: var(--sub); font-weight: 700; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
     .streak-view-pills .pill.active { background: var(--red); border-color: var(--red); color: #fff; }
