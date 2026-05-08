@@ -1,7 +1,7 @@
 
     :root {
-      --red:     #b71c1c;
-      --red-dark:#7f0000;
+      --red:     #c03a20;
+      --red-dark:#8b2510;
       --bg:      #faf7f2;
       --card:    #ffffff;
       --border:  #ede3d8;
@@ -13,7 +13,7 @@
       --n4:      #1b5e20;  --n4-bg: #e8f5e9;
       --n3:      #0d47a1;  --n3-bg: #e3f2fd;
       --n2:      #4a148c;  --n2-bg: #f3e5f5;
-      --n1:      #b71c1c;  --n1-bg: #fce4e4;
+      --n1:      #c03a20;  --n1-bg: #fce4e4;
       --skel:    #e8e0d5;
     }
 
@@ -26,7 +26,7 @@
       min-height: 100vh;
     }
 
-    /* ���� Header ���������������������������������������������������������������������� */
+    /* �E��E��E��E� Header �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     header {
       background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
       color: #fff;
@@ -110,7 +110,7 @@
       #settingsPage { width: 100%; }
     }
 
-    /* ���� Toolbar ���������������������������������������������������������������������� */
+    /* �E��E��E��E� Toolbar �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .toolbar {
       max-width: 1120px;
       margin: 22px auto 0;
@@ -138,7 +138,7 @@
     .toolbar-info { font-size: 13px; color: var(--muted); margin-left: 4px; }
     .toolbar-info strong { color: var(--sub); }
 
-    /* ���� Status bar ���������������������������������������������������������������� */
+    /* �E��E��E��E� Status bar �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     #statusMsg {
       font-size: 12px;
       padding: 3px 10px;
@@ -147,9 +147,9 @@
     }
     .status-loading { background: #fff8e1; color: #f57f17; }
     .status-ok      { background: #e8f5e9; color: #2e7d32; }
-    .status-error   { background: #fce4e4; color: #b71c1c; }
+    .status-error   { background: #fce4e4; color: #c03a20; }
 
-    /* ���� Legend ���������������������������������������������������������������������� */
+    /* �E��E��E��E� Legend �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .legend {
       max-width: 1120px;
       margin: 14px auto 0;
@@ -162,7 +162,7 @@
     .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
     .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ���� Grid ���������������������������������������������������������������������� */
+    /* �E��E��E��E� Grid �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .grid {
       max-width: 1120px;
       margin: 20px auto 48px;
@@ -172,7 +172,7 @@
       gap: 20px;
     }
 
-    /* ���� Card ���������������������������������������������������������������������� */
+    /* �E��E��E��E� Card �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -193,7 +193,7 @@
       to   { opacity: 1; transform: translateY(0);    }
     }
 
-    /* ���� Skeleton card ���������������������������������������������������������� */
+    /* �E��E��E��E� Skeleton card �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .skeleton {
       display: flex;
       gap: 16px;
@@ -228,12 +228,12 @@
       word-break: break-word; overflow-wrap: break-word;
     }
 
-    /* ���� Readings �������������������������������������������������������������� */
+    /* �E��E��E��E� Readings �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .readings { display: flex; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 14px; margin-bottom: 16px; }
     .reading-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); display: block; margin-bottom: 4px; }
     .reading-kana  { font-size: 14px; font-weight: 700; color: #6d4c41; letter-spacing: 1px; word-break: break-all; }
 
-    /* ���� Examples �������������������������������������������������������������� */
+    /* �E��E��E��E� Examples �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .examples-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
     .example {
       display: flex;
@@ -252,7 +252,7 @@
     .ex-reading { font-size: 11px; color: var(--muted); }
     .ex-meaning { font-size: 12px; color: var(--sub); word-break: break-word; overflow-wrap: break-word; }
 
-    /* ���� Quiz mode ������������������������������������������������������������ */
+    /* �E��E��E��E� Quiz mode �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .btn-quiz         { background: #fff3e0; color: #e65100; border: 1.5px solid #ffcc80; }
     .btn-quiz:hover   { background: #ffe0b2; }
     .btn-quiz.active  { background: #e65100; color: #fff; border-color: #e65100; }
@@ -281,7 +281,7 @@
     .search-input::-webkit-search-cancel-button { cursor:pointer; }
     .search-no-results { grid-column:1/-1; text-align:center; color:var(--muted); padding:48px 24px; font-size:15px; }
 
-    /* ���� Vocab interactive quiz ���������������������������������������� */
+    /* �E��E��E��E� Vocab interactive quiz �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .quiz-screen {
       grid-column: 1 / -1;
       display: flex;
@@ -347,7 +347,7 @@
       transform: translateY(-2px);
     }
     .quiz-option.correct { background: #e8f5e9; border-color: #2e7d32; color: #1b5e20; }
-    .quiz-option.wrong   { background: #fce4e4; border-color: #b71c1c; color: #b71c1c; }
+    .quiz-option.wrong   { background: #fce4e4; border-color: #c03a20; color: #c03a20; }
     .quiz-option:disabled { cursor: default; transform: none; }
     /* Reveal card */
     .quiz-reveal {
@@ -421,7 +421,7 @@
     .mylist-full-empty-body  { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 28px; }
     .mylist-full-empty-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-    /* ���� Tabs �������������������������������������������������������������������������� */
+    /* �E��E��E��E� Tabs �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     .tabbar {
       max-width: 1120px;
       margin: 0 auto;
@@ -485,7 +485,7 @@
       padding: 1px 7px; border-radius: 10px;
     }
 
-    /* ���� Footer ���������������������������������������������������������������������� */
+    /* �E��E��E��E� Footer �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
     /* ── Kanji save button ────────────────────────────────────────────────── */
     .kanji-save-btn {
       position: absolute; top: 12px; right: 14px; z-index: 3;
@@ -513,7 +513,7 @@
       font-size: 16px; padding: 4px;
     }
 
-    /* Vocab card — inline dans le header */
+    /* Vocab card  Einline dans le header */
     .vocab-speak-btn { margin-left: auto; flex-shrink: 0; }
 
     /* Quiz speak button */
@@ -567,7 +567,7 @@
     .qh-pct  { color: var(--muted); font-weight: 400; }
     .qh-type { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; margin-left: 4px; }
     .qh-type-daily    { background: #e3f2fd; color: #0d47a1; }
-    .qh-type-biweekly { background: #fce4e4; color: #b71c1c; }
+    .qh-type-biweekly { background: #fce4e4; color: #c03a20; }
     .qh-type-srs      { background: #f3e5f5; color: #4a148c; }
     .qh-type-exam     { background: #1a237e; color: #fff; }
 
@@ -582,7 +582,7 @@
       margin: 12px 0; text-align: center;
     }
     .exam-pass { background: #e8f5e9; color: #1b5e20; }
-    .exam-fail { background: #ffebee; color: #b71c1c; }
+    .exam-fail { background: #ffebee; color: #c03a20; }
     .btn-exam  { background: #1a237e !important; color: #fff !important; border: none !important; }
     .btn-exam:hover { background: #283593 !important; }
     /* Locked button */
@@ -751,7 +751,7 @@
       font-size: 15px;
     }
     .mylist-empty-icon { font-size: 48px; margin-bottom: 12px; }
-    .btn-danger { background: #fce4e4; color: #b71c1c; border: 1.5px solid #ef9a9a; }
+    .btn-danger { background: #fce4e4; color: #c03a20; border: 1.5px solid #ef9a9a; }
     .btn-danger:hover { background: #ffcdd2; }
 
     /* ── My List sections ─────────────────────────────────────────────────── */
@@ -856,7 +856,7 @@
       display: flex; flex-direction: column; align-items: flex-start;
     }
     .paywall-hint--full {
-      background: #fce4e4; border-color: #ef9a9a; color: #b71c1c;
+      background: #fce4e4; border-color: #ef9a9a; color: #c03a20;
     }
     @media (prefers-color-scheme: dark) {
       .paywall-hint      { background: #2a220a; border-color: #7a6020; color: #ffd54f; }
@@ -901,7 +901,7 @@
       display: flex; flex-direction: column; align-items: center; gap: 2px;
     }
     .srs-btn:active { transform: scale(.96); }
-    .srs-btn-again { background: #fce4e4; color: #b71c1c; }
+    .srs-btn-again { background: #fce4e4; color: #c03a20; }
     .srs-btn-hard  { background: #fff3e0; color: #e65100; }
     .srs-btn-good  { background: #e8f5e9; color: #2e7d32; }
     .srs-btn-easy  { background: #e3f2fd; color: #0d47a1; }
@@ -940,7 +940,7 @@
     .auth-syncing { font-size: 11px; color: rgba(255,255,255,.6); margin-left: 4px; }
 
     /* ════════════════════════════════════════════════════════════════
-       📱 MOBILE — max-width: 640px
+       📱 MOBILE  Emax-width: 640px
        ════════════════════════════════════════════════════════════════ */
     @media (max-width: 640px) {
 
@@ -1006,7 +1006,7 @@
       /* Push content above bottom nav */
       .grid, .stats-section, .mylist-section, .home-section { margin-bottom: calc(72px + env(safe-area-inset-bottom)); }
 
-      /* Push Crisp bubble above bottom nav — targets the container in our own DOM */
+      /* Push Crisp bubble above bottom nav  Etargets the container in our own DOM */
       #crisp-chatbox { bottom: 72px !important; }
       .home-actions { grid-template-columns: 1fr 1fr; }
       .home-action-card { padding: 16px 10px; }
@@ -1080,7 +1080,7 @@
       .mylist-kana  { font-size: 11px; }
       .btn-danger   { padding: 5px 8px !important; font-size: 10px !important; }
       .mylist-search { max-width: 100%; min-width: 0; flex: 1; }
-      /* Larger tap target for kanji chip select ✓ on touch screens */
+      /* Larger tap target for kanji chip select ✁Eon touch screens */
       .kanji-chip-check {
         width: 36px; height: 36px;
         top: 0; right: 0;
@@ -1111,7 +1111,7 @@
     }
 
     /* ════════════════════════════════════════════════════════════════
-       🏠 HOME HERO — concept banner + CTA
+       🏠 HOME HERO  Econcept banner + CTA
        ════════════════════════════════════════════════════════════════ */
     .home-hero {
       background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
@@ -1122,7 +1122,7 @@
       overflow: hidden;
     }
     .home-hero::before {
-      content: '漢字';
+      content: '漢孁E;
       position: absolute; right: -10px; top: -14px;
       font-size: 120px; font-weight: 900; opacity: .07;
       line-height: 1; pointer-events: none; user-select: none;
@@ -1351,14 +1351,16 @@
     /* ── Dark theme override (manual toggle) ────────────────────────────── */
     html[data-theme="dark"] {
       color-scheme: dark;
-      --bg:      #0f0e0c;
-      --card:    #1c1a17;
-      --border:  #2e2a24;
-      --text:    #e8e0d5;
-      --ink:     #e8e0d5;
-      --sub:     #a09080;
-      --muted:   #6a5a50;
-      --skel:    #2a2520;
+      --bg:       #0f0e0c;
+      --card:     #1c1a17;
+      --border:   #2e2a24;
+      --text:     #e8e0d5;
+      --ink:      #e8e0d5;
+      --sub:      #a09080;
+      --muted:    #6a5a50;
+      --skel:     #2a2520;
+      --red:      #d04828;
+      --red-dark: #a03318;
     }
     html[data-theme="dark"] .kanji-char,
     html[data-theme="dark"] .kanji-saved-char,

@@ -101,8 +101,8 @@ function drawLineChart(canvas, values, labels) {
 
   // Gradient fill
   const grad = ctx.createLinearGradient(0, P.t, 0, P.t + cH);
-  grad.addColorStop(0, 'rgba(183,28,28,0.22)');
-  grad.addColorStop(1, 'rgba(183,28,28,0)');
+  grad.addColorStop(0, 'rgba(192,58,32,0.22)');
+  grad.addColorStop(1, 'rgba(192,58,32,0)');
   ctx.beginPath();
   values.forEach((v, i) => i === 0 ? ctx.moveTo(xOf(i), yOf(v)) : ctx.lineTo(xOf(i), yOf(v)));
   ctx.lineTo(xOf(n - 1), P.t + cH);
@@ -112,7 +112,7 @@ function drawLineChart(canvas, values, labels) {
 
   // Line
   ctx.beginPath();
-  ctx.strokeStyle = '#b71c1c'; ctx.lineWidth = 2.5;
+  ctx.strokeStyle = '#c03a20'; ctx.lineWidth = 2.5;
   ctx.lineJoin = 'round'; ctx.lineCap = 'round';
   values.forEach((v, i) => i === 0 ? ctx.moveTo(xOf(i), yOf(v)) : ctx.lineTo(xOf(i), yOf(v)));
   ctx.stroke();
@@ -120,7 +120,7 @@ function drawLineChart(canvas, values, labels) {
   // Dots
   values.forEach((v, i) => {
     ctx.beginPath(); ctx.arc(xOf(i), yOf(v), 4, 0, Math.PI * 2);
-    ctx.fillStyle = '#b71c1c'; ctx.fill();
+    ctx.fillStyle = '#c03a20'; ctx.fill();
     ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
   });
 
@@ -157,7 +157,7 @@ function drawBarChart(canvas, values, labels) {
     const y  = P.t + cH - bH;
     const r  = Math.min(4, barW / 2, bH);
 
-    ctx.fillStyle = v > 0 ? '#b71c1c' : '#ede3d8';
+    ctx.fillStyle = v > 0 ? '#c03a20' : '#ede3d8';
     ctx.beginPath();
     ctx.moveTo(x + r, y);
     ctx.lineTo(x + barW - r, y);
@@ -226,7 +226,7 @@ export function renderHome() {
 
   document.getElementById('homeSection').innerHTML = `
     <div class="home-hero">
-      <div class="home-hero-kana">朝の漢字</div>
+      <div class="home-hero-kana">朝�E漢孁E/div>
       <div class="home-hero-title">${t('home_tagline')}<br><strong style="font-size:1.15em">${t('home_tagline2')}</strong> ${t('home_tagline3')}</div>
       <div class="home-hero-sub">${t('home_sub')}</div>
       <div class="home-hero-actions">
@@ -248,12 +248,12 @@ export function renderHome() {
           <div class="kpi-wotd-reading">${wotd.reading}</div>
           <div class="kpi-wotd-meaning">${wotd.meaning}</div>
           ${savedWords.some(w => w.word === wotd.word)
-            ? `<div class="kpi-wotd-saved">✓ ${t('today_done').replace(' ✓','')}</div>`
-            : `<button class="kpi-wotd-save-btn" onclick="saveWotd()">＋ ${t('today_done').replace('✓','').trim() || 'Save this word'}</button>`
+            ? `<div class="kpi-wotd-saved">✁E${t('today_done').replace(' ✁E,'')}</div>`
+            : `<button class="kpi-wotd-save-btn" onclick="saveWotd()">�E�E${t('today_done').replace('✁E,'').trim() || 'Save this word'}</button>`
           }
         </div>
       </div>
-      <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('kpi_avg_score')}</div></div>
+      <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : ' E}</div><div class="kpi-lbl">${t('kpi_avg_score')}</div></div>
       <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
         <div class="kpi-num kpi-jlpt-level">${jlptGoal}</div>
         <div class="kpi-jlpt-pct">${jlptPct > 0 ? jlptPct + '%' : t('kpi_start_saving')}</div>
@@ -267,15 +267,15 @@ export function renderHome() {
       <div class="home-today-title">${t('today_title')}</div>
       <div class="home-today-row">
         <span>${t('today_words_loaded')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_words_sub')}</span></span>
-        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? t('home_words')(todayWords.length) + ' ✓' : t('today_not_loaded')}</span>
+        <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? t('home_words')(todayWords.length) + ' ✁E : t('today_not_loaded')}</span>
       </div>
       <div class="home-today-row">
         <span>${t('today_daily_quiz')}</span>
-        <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✓' : t('today_not_done')}</span>
+        <span class="home-today-val ${todayQuiz ? 'good' : ''}">${todayQuiz ? todayQuiz.pct + '% ✁E : t('today_not_done')}</span>
       </div>
       <div class="home-today-row">
         <span>${t('today_weekly')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_weekly_sub')}</span></span>
-        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${isBiWeeklyDone(todayStr()) ? t('today_done') : biweeklyAvailable ? t('today_available') : missedBiweekly ? t('today_missed') : '—'}</span>
+        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${isBiWeeklyDone(todayStr()) ? t('today_done') : biweeklyAvailable ? t('today_available') : missedBiweekly ? t('today_missed') : ' E}</span>
       </div>
     </div>
 
@@ -288,7 +288,7 @@ export function renderHome() {
           <div class="home-action-sub">${t('action_kanji_sub')}</div>
         </div>
         <div class="home-action-card" onclick="switchTab('vocab')">
-          <div class="home-action-icon">語</div>
+          <div class="home-action-icon">誁E/div>
           <div class="home-action-title">${t('tab_vocab')}</div>
           <div class="home-action-sub">${t('action_vocab_sub')}</div>
         </div>
@@ -375,7 +375,7 @@ export function renderStats() {
       <div class="kpi-grid kpi-grid-2col">
         <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
-        <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
+        <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : ' E}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
         <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
           <div class="kpi-num kpi-jlpt-level">${localStorage.getItem('km_jlpt_goal') || 'N3'}</div>
           <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const jlptLimits={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); const pct=Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/jlptLimits[g]*100)); return pct > 0 ? pct + '%' : t('stats_jlpt_start'); })()}</div>
