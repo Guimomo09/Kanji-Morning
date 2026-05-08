@@ -127,11 +127,19 @@ export function navActivityCal(dir) {
   renderActivityCalendar('activityCalContent');
 }
 
+function _activityTitle(view) {
+  if (view === '1w')  return t('stats_chart_activity_1w');
+  if (view === 'cal') return t('stats_chart_activity_cal');
+  return t('stats_chart_activity');
+}
+
 export function setActivityView(view) {
   try { localStorage.setItem('km_activity_view', view); } catch (_) { /* quota full — ignore, still switch view */ }
   document.querySelectorAll('.activity-view-pill').forEach(b => {
     b.classList.toggle('active', b.dataset.view === view);
   });
+  const titleEl = document.querySelector('#activityChartBlock .chart-title');
+  if (titleEl) titleEl.textContent = _activityTitle(view);
   _renderActivityContent(view);
 }
 
@@ -618,7 +626,7 @@ export function renderStats() {
 
       <div class="chart-block" id="activityChartBlock">
         <div class="streak-cal-header">
-          <span class="chart-title" style="margin:0">${t('stats_chart_activity')}</span>
+          <span class="chart-title" style="margin:0">${_activityTitle(av)}</span>
           <div class="streak-view-pills">
             <button class="pill activity-view-pill${av === '1w' ? ' active' : ''}" data-view="1w" onclick="setActivityView('1w')">1W</button>
             <button class="pill activity-view-pill${av === '2w' ? ' active' : ''}" data-view="2w" onclick="setActivityView('2w')">2W</button>
