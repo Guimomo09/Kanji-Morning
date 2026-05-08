@@ -1495,3 +1495,157 @@
     html[data-theme="dark"] .kanji-detail-modal { background: var(--card); }
     html[data-theme="dark"] .quiz-tomorrow { background: #1a1410; border-color: #3e2a1a; }
 
+    /* ════════════════════════════════════════════════════════════════
+       ⓘ TAB HINT MODAL
+       ════════════════════════════════════════════════════════════════ */
+    .tab-hint-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(3px);
+      z-index: 900;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      animation: fadeIn .2s ease;
+    }
+    .tab-hint-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 32px 28px 24px;
+      max-width: 400px; width: 100%;
+      box-shadow: 0 16px 60px rgba(0,0,0,.3);
+      position: relative;
+      animation: rise .25s ease;
+    }
+    .tab-hint-close {
+      position: absolute; top: 12px; right: 14px;
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: var(--muted); padding: 4px 6px;
+      transition: color .15s; line-height: 1;
+    }
+    .tab-hint-close:hover { color: var(--text); }
+    .tab-hint-icon {
+      font-size: 40px; line-height: 1; margin-bottom: 12px;
+      text-align: center;
+      font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif;
+    }
+    .tab-hint-title {
+      font-size: 19px; font-weight: 900; color: var(--text);
+      margin-bottom: 10px; text-align: center;
+    }
+    .tab-hint-body {
+      font-size: 13.5px; color: var(--sub); line-height: 1.65;
+    }
+    .tab-hint-body p { margin-bottom: 10px; }
+    .tab-hint-body ul {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+    .tab-hint-body li {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 13px;
+    }
+    /* inline ⓘ button in level filter bar */
+    .tab-hint-inline-btn {
+      font-size: 14px; color: var(--muted);
+      background: none; border: none;
+      cursor: pointer; padding: 2px 6px;
+      border-radius: 6px; transition: background .15s, color .15s;
+      line-height: 1; flex-shrink: 0;
+    }
+    .tab-hint-inline-btn:hover { background: var(--border); color: var(--text); }
+    /* section-level ⓘ button (inside rendered sections) */
+    .section-hint-btn {
+      font-size: 13px; color: var(--muted);
+      background: none; border: 1px solid var(--border);
+      border-radius: 50%; cursor: pointer;
+      width: 22px; height: 22px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background .15s, color .15s;
+      vertical-align: middle; flex-shrink: 0;
+      font-style: italic; font-weight: 700; font-family: serif;
+    }
+    .section-hint-btn:hover { background: var(--border); color: var(--text); }
+
+    /* ════════════════════════════════════════════════════════════════
+       📅 STREAK CALENDAR (heatmap)
+       ════════════════════════════════════════════════════════════════ */
+    .streak-calendar-wrap {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+    .streak-calendar {
+      display: grid;
+      /* 7 rows (Mon–Sun), columns built inline per week count */
+      gap: 3px;
+      width: max-content;
+      min-width: 100%;
+    }
+    .streak-cal-cell {
+      width: 13px; height: 13px;
+      border-radius: 3px;
+      background: var(--border);
+      transition: background .15s;
+      flex-shrink: 0;
+    }
+    .streak-cal-cell[data-level="1"] { background: rgba(192,58,32,.35); }
+    .streak-cal-cell[data-level="2"] { background: rgba(192,58,32,.60); }
+    .streak-cal-cell[data-level="3"] { background: rgba(192,58,32,.80); }
+    .streak-cal-cell[data-level="4"] { background: var(--red); }
+    .streak-cal-cell[data-today="1"] { outline: 2px solid var(--red); outline-offset: 1px; }
+    .streak-cal-month-labels {
+      display: flex; font-size: 10px; color: var(--muted);
+      margin-bottom: 4px;
+      width: max-content;
+    }
+    .streak-cal-dow-labels {
+      display: grid;
+      grid-template-rows: repeat(7, 13px);
+      gap: 3px;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+    .streak-cal-dow-lbl {
+      font-size: 9px; color: var(--muted);
+      line-height: 13px; text-align: right;
+    }
+    .streak-cal-container {
+      display: flex; align-items: flex-start;
+    }
+    html[data-theme="dark"] .tab-hint-card { background: var(--card); }
+    html[data-theme="dark"] .tab-hint-body li { background: #1c1a17; }
+
+    /* ════════════════════════════════════════════════════════════════
+       🔍 QUIZ REVEAL: explore button
+       ════════════════════════════════════════════════════════════════ */
+    .quiz-reveal-explore {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 10px;
+      font-size: 12px; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 5px 12px;
+      cursor: pointer; transition: background .15s, color .15s;
+      font-family: inherit;
+    }
+    .quiz-reveal-explore:hover { background: var(--border); color: var(--text); }
+    .quiz-reveal-examples {
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+      text-align: left;
+    }
+    .quiz-reveal-examples-title {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--muted); margin-bottom: 8px;
+    }
+    .quiz-reveal-ex-item {
+      display: flex; align-items: baseline; gap: 8px;
+      padding: 5px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .quiz-reveal-ex-item:last-child { border-bottom: none; }
+    .quiz-reveal-ex-word { font-weight: 700; color: var(--text); font-size: 15px; }
+    .quiz-reveal-ex-reading { color: var(--muted); font-size: 12px; }
+    .quiz-reveal-ex-meaning { color: var(--sub); font-size: 12px; flex: 1; }
+

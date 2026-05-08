@@ -54,7 +54,110 @@ export function computeTotalWords() {
   return seen.size;
 }
 
-// ── Canvas helpers ────────────────────────────────────────────────────────
+// ── Streak calendar heatmap ───────────────────────────────────────────────
+export function renderStreakCalendar(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const WEEKS   = 16;
+  const today   = new Date();
+  // Align: end on the Sunday of the current week (or today if Sunday)
+  // We'll simply end at today and go back WEEKS*7 days
+  const totalDays = WEEKS * 7;
+
+  // Build day data from oldest to newest
+  const days = [];
+  for (let i = totalDays - 1; i >= 0; i--) {
+    const d  = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = dateStr(d);
+    const saved = loadDailyVocab(ds);
+    const wordCount = saved ? saved.length : 0;
+    days.push({
+      ds,
+      wordCount,
+      dow: d.getDay(), // 0=Sun … 6=Sat
+      month: d.getMonth(),
+      dayOfMonth: d.getDate(),
+      isToday: ds === dateStr(today),
+    });
+  }
+
+  // Pad to start on Sunday: find how many days before the first day to skip
+  const firstDow = days[0].dow; // 0=Sun
+  const padBefore = firstDow; // cells to skip at start
+  const totalCells = padBefore + days.length;
+  const totalWeeks = Math.ceil(totalCells / 7);
+
+  // Build month labels (one label per month start, positioned by week column)
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const monthLabels = []; // { label, weekCol }
+  let prevMonth = -1;
+  days.forEach((day, i) => {
+    if (day.month !== prevMonth) {
+      const col = Math.floor((padBefore + i) / 7);
+      monthLabels.push({ label: monthNames[day.month], col });
+      prevMonth = day.month;
+    }
+  });
+
+  // Day-of-week labels (Mon, Wed, Fri only to avoid crowding)
+  const dowLabels = ['S','M','T','W','T','F','S'];
+
+  // Build cell HTML: fill a 7-row × totalWeeks-col grid column by column
+  const cells = new Array(totalWeeks * 7).fill(null);
+  days.forEach((day, i) => { cells[padBefore + i] = day; });
+
+  let cellsHtml = '';
+  for (let row = 0; row < 7; row++) {
+    for (let col = 0; col < totalWeeks; col++) {
+      const cell = cells[col * 7 + row];
+      if (!cell) {
+        cellsHtml += `<span class="streak-cal-cell" style="opacity:0"></span>`;
+      } else {
+        const level = cell.wordCount === 0 ? 0
+          : cell.wordCount < 5  ? 1
+          : cell.wordCount < 10 ? 2
+          : cell.wordCount < 20 ? 3 : 4;
+        const todayAttr = cell.isToday ? ' data-today="1"' : '';
+        const label = `${cell.ds}: ${cell.wordCount} word${cell.wordCount !== 1 ? 's' : ''}`;
+        cellsHtml += `<span class="streak-cal-cell" data-level="${level}"${todayAttr} title="${label}"></span>`;
+      }
+    }
+  }
+
+  // Month label row (width = totalWeeks columns of 16px each)
+  const cellSize = 16; // 13px cell + 3px gap
+  let monthHtml = `<div class="streak-cal-month-labels" style="margin-left:${dowLabels.length ? 22 : 0}px">`;
+  let lastCol = 0;
+  monthLabels.forEach(({ label, col }) => {
+    const gap = col - lastCol;
+    if (gap > 0) monthHtml += `<span style="min-width:${gap * cellSize}px;display:inline-block"></span>`;
+    monthHtml += `<span style="min-width:${cellSize}px;display:inline-block">${label}</span>`;
+    lastCol = col + 1;
+  });
+  monthHtml += '</div>';
+
+  // DOW labels column
+  let dowHtml = `<div class="streak-cal-dow-labels">`;
+  for (let r = 0; r < 7; r++) {
+    const show = r === 1 || r === 3 || r === 5; // Mon, Wed, Fri
+    dowHtml += `<div class="streak-cal-dow-lbl">${show ? dowLabels[r] : ''}</div>`;
+  }
+  dowHtml += '</div>';
+
+  container.innerHTML = `
+    ${monthHtml}
+    <div class="streak-cal-container">
+      ${dowHtml}
+      <div class="streak-calendar-wrap">
+        <div class="streak-calendar" style="grid-template-rows:repeat(7,13px);grid-template-columns:repeat(${totalWeeks},13px)">
+          ${cellsHtml}
+        </div>
+      </div>
+    </div>`;
+}
+
 function setupCanvas(canvas) {
   const dpr    = window.devicePixelRatio || 1;
   const parent = canvas.parentElement;
@@ -264,7 +367,7 @@ export function renderHome() {
     </div>
 
     <div class="home-today">
-      <div class="home-today-title">${t('today_title')}</div>
+      <div class="home-today-title" style="display:flex;align-items:center;gap:8px">${t('today_title')} <button class="section-hint-btn" onclick="showTabHint('home')" aria-label="How to use Home">i</button></div>
       <div class="home-today-row">
         <span>${t('today_words_loaded')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_words_sub')}</span></span>
         <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? t('home_words')(todayWords.length) + ' ✓' : t('today_not_loaded')}</span>
@@ -372,6 +475,9 @@ export function renderStats() {
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
       ${missedHtml}
+      <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px">
+        <button class="section-hint-btn" onclick="showTabHint('stats')" aria-label="How to read Stats">i</button>
+      </div>
       <div class="kpi-grid kpi-grid-2col">
         <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
@@ -389,6 +495,11 @@ export function renderStats() {
         <div class="chart-title">${t('stats_chart_scores')}</div>
         <canvas id="scoreCanvas" class="chart-canvas"></canvas>
       </div>` : ''}
+
+      <div class="chart-block">
+        <div class="chart-title">📅 Streak Calendar</div>
+        <div id="streakCalContainer"></div>
+      </div>
 
       <div class="chart-block">
         <div class="chart-title">${t('stats_chart_activity')}</div>
@@ -430,5 +541,6 @@ export function renderStats() {
     const st = document.getElementById('studyCanvas');
     if (sc) drawLineChart(sc, scoreVals, scoreLbls);
     if (st) drawBarChart(st, studyVals, studyLbls);
+    renderStreakCalendar('streakCalContainer');
   });
 }

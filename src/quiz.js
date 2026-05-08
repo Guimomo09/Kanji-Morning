@@ -267,11 +267,17 @@ export function handleQuizAnswer(btn, isCorrect) {
     // Don't repeat the field that was just tested as the answer
     const meaningWasAnswer = type === 'A' || type === 'E';
     const readingWasAnswer = type === 'C';
+    // Find first kanji char for the "Explore" button
+    const firstKanji = [...item.word].find(c => c >= '\u4E00' && c <= '\u9FFF') || null;
+    const exploreBtn = firstKanji
+      ? `<button class="quiz-reveal-explore" onclick="openKanjiDetail('${firstKanji}')">🔍 Explore 「${firstKanji}」</button>`
+      : '';
     reveal.innerHTML = `
       <div class="quiz-reveal-word">${item.word}${(item.reading && !readingWasAnswer) ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
       ${!meaningWasAnswer ? `<div class="quiz-reveal-meaning">${meaning}</div>` : ''}
       ${item.extraMeanings?.length ? `<div class="quiz-reveal-extras">${item.extraMeanings.join(' · ')}</div>` : ''}
       ${item.pos ? `<div class="quiz-reveal-pos">${item.pos}</div>` : ''}
+      ${exploreBtn}
       <button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>
     `;
     document.querySelector('.quiz-options')?.after(reveal);
@@ -583,6 +589,7 @@ export function renderExamTab() {
         <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
           ${t('exam_level_label')}
           <span class="exam-info-tip" tabindex="0" data-tip="${t('exam_cumulative_tip')}">ⓘ</span>
+          <button class="section-hint-btn" style="margin-left:auto" onclick="showTabHint('exam')" aria-label="How Exam Mode works">i</button>
         </div>
         <div class="exam-pills">${levelPills}</div>
         <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>

@@ -37,6 +37,14 @@ export function switchTab(tab) {
   document.getElementById('tabExam')  .classList.toggle('active', tab === 'exam');
   document.getElementById('tabStats') .classList.toggle('active', tab === 'stats');
 
+  // Update the level-filter ⓘ button (shown only for kanji/vocab tabs)
+  const infoBtn = document.getElementById('levelInfoBtn');
+  if (infoBtn) {
+    const isGrid = tab === 'kanji' || tab === 'vocab';
+    infoBtn.style.display = isGrid ? '' : 'none';
+    infoBtn.dataset.tab = tab;
+  }
+
   const isHome   = tab === 'home';
   const isStats  = tab === 'stats';
   const isMyList = tab === 'mylist';

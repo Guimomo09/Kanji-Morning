@@ -146,6 +146,7 @@
   <button class="pill"        data-level="1"   onclick="setLevel('1')">N1</button>
   <span class="toolbar-info"><span data-i18n="filter_showing">Showing</span> <strong id="countLabel">10</strong> <span id="tabLabel">vocabulary</span></span>
   <span id="statusMsg" class="status-loading">読み込み中…</span>
+  <button class="tab-hint-inline-btn" id="levelInfoBtn" aria-label="How to use this tab" style="display:none" onclick="showTabHint(this.dataset.tab)">ⓘ</button>
 </div>
 
 <div class="legend" id="legendDiv">
@@ -169,6 +170,16 @@
 <div class="exam-section"   id="examSection"   style="display:none"></div>
 
 <footer><span data-i18n="footer_msg">頑張って！Keep showing up — every morning counts.</span><br><a href="/privacy.html" style="color:var(--muted);font-size:12px;text-decoration:none;border-bottom:1px solid var(--border)" data-i18n="footer_privacy">Privacy Policy</a></footer>
+
+<!-- Tab hint modal (ⓘ per-tab explainer) -->
+<div class="tab-hint-backdrop" id="tabHintModal" style="display:none" onclick="closeTabHint()">
+  <div class="tab-hint-card" onclick="event.stopPropagation()">
+    <button class="tab-hint-close" onclick="closeTabHint()">✕</button>
+    <div class="tab-hint-icon" id="tabHintIcon"></div>
+    <div class="tab-hint-title" id="tabHintTitle"></div>
+    <div class="tab-hint-body" id="tabHintBody"></div>
+  </div>
+</div>
 
 <!-- Tutorial overlay (shown on first visit) -->
 <div class="tutorial-overlay" id="tutorialOverlay" style="display:none">
