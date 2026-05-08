@@ -73,8 +73,10 @@ function posCategory(posArr) {
 
 // ── Frequency cutoff per JLPT level ──────────────────────────────────────
 // Words not common enough for a given level are excluded entirely.
-// Based on subtitle-corpus ranks: N5/N4 = daily spoken vocab only.
-const FREQ_CUTOFF = { 5: 2500, 4: 4500, 3: 9000, 2: 99999, 1: 99999 };
+// Based on subtitle-corpus ranks (max = 12 000): N5/N4 = daily spoken vocab only.
+// N2/N1 capped so words absent from the subtitle corpus (rank 99999) are filtered out —
+// this keeps the app focused on real-world, practical vocabulary.
+const FREQ_CUTOFF = { 5: 2500, 4: 4500, 3: 9000, 2: 15000, 1: 20000 };
 
 // ── Kanji-level guard ────────────────────────────────────────────────────
 // For N5/N4/N3, all kanji in a compound must belong to a level ≤ the seed level.
