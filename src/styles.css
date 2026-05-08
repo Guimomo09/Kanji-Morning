@@ -587,8 +587,7 @@
     .btn-exam:hover { background: #283593 !important; }
 
     /* ── Exam tab button ──────────────────────────────────────────────────── */
-    .tab-exam-btn { font-size: 11px; font-weight: 700; letter-spacing: .5px; }
-    .tab-exam-btn.active { color: var(--red); }
+    .tab-exam-btn { font-size: 16px; }
 
     /* ── My List sort button ─────────────────────────────────────────────── */
     .ml-sort-btn {
@@ -618,6 +617,7 @@
       letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; }
     .exam-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
     .exam-level-pill { font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 20px; }
+    .exam-level-pill.active { background: var(--red); color: #fff; border-color: transparent; }
     .exam-level-desc { font-size: 12px; color: var(--sub); margin-top: 4px; }
 
     .exam-info-row {
@@ -654,7 +654,7 @@
     .exam-history-pass { border-left: 3px solid #4caf50; }
     .exam-history-fail { border-left: 3px solid var(--red); }
     .exam-history-date  { color: var(--sub); flex: 1; }
-    .exam-history-level { font-weight: 700; color: var(--text); width: 32px; }
+    .exam-history-level { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: var(--bg); color: var(--sub); border: 1px solid var(--border); white-space: nowrap; }
     .exam-history-score { color: var(--sub); }
     .exam-history-pct   { font-weight: 700; color: var(--text); margin-left: auto; }
     .exam-history-badge {

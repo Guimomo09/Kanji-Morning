@@ -88,6 +88,7 @@ export function switchTab(tab) {
     return;
   }
   if (isExam) {
+    document.getElementById('btnBiweeklyQuiz').style.display = 'none';
     document.getElementById('hTitle').textContent = '試験モード';
     document.getElementById('hSub').textContent   = 'JLPT Exam Mode';
     renderExamTab();

@@ -89,7 +89,7 @@ function _tickQuizTimer() {
 let _examTimeLeft = 0;
 let _examCountdown = null;
 const EXAM_DURATION  = 7 * 60; // 7 minutes
-const EXAM_QUESTIONS = 20;
+const EXAM_QUESTIONS = 30;
 const EXAM_PASS_PCT  = 60;
 
 function _tickExamCountdown() {
@@ -585,11 +585,10 @@ export function renderExamTab() {
         <div class="exam-level-desc">${LEVEL_DESC[targetLevel]} · ${available} mots disponibles</div>
       </div>
       <div class="exam-info-row">
-        <div class="exam-info-item"><span class="exam-info-num">20</span><span class="exam-info-lbl">questions</span></div>
-        <div class="exam-info-item"><span class="exam-info-num">7</span><span class="exam-info-lbl">minutes</span></div>
+        <div class="exam-info-item"><span class="exam-info-num">30</span><span class="exam-info-lbl">questions</span></div>
+        <div class="exam-info-item"><span class="exam-info-num">10</span><span class="exam-info-lbl">minutes</span></div>
         <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">pour PASS</span></div>
       </div>
-      <div class="exam-types-hint">Kanji → lecture · Lecture → kanji · Sens → mot</div>
       ${canStart
         ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">Commencer l'examen →</button>`
         : `<div class="exam-start-blocked">Sauvegarde au moins 4 mots ${targetLevel} depuis l'onglet Vocab pour commencer.</div>`
