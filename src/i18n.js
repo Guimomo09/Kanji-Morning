@@ -213,6 +213,19 @@ const TRANSLATIONS = {
     stats_no_quiz_body:   'Complete a <strong>Daily Quiz</strong> or <strong>Weekly Challenge</strong> to track your score progression here.',
     stats_next_challenge: 'Next Weekly Challenge:',
     stats_biw_today:      'Weekly Challenge is available <strong>today</strong>! Go to Vocabulary tab.',
+
+    exam_locked_title: 'Exam Mode · Premium',
+    exam_locked_body:  'Test your JLPT level with timed exams.<br>Real JLPT-style questions: kanji → reading, meaning → word.',
+    exam_unlock_btn:   'Unlock Premium',
+    exam_level_label:  'TARGET LEVEL',
+    exam_available:    (desc, n) => `${desc} · ${n} words available`,
+    exam_questions:    'questions',
+    exam_minutes:      'minutes',
+    exam_pass_threshold: 'to PASS',
+    exam_start_btn:    'Start exam →',
+    exam_no_words:     level => `Save at least 4 ${level} words from the Vocab tab to start.`,
+    exam_history_title: 'RECENT RESULTS',
+    exam_history_empty: 'No exams taken yet',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -425,6 +438,19 @@ const TRANSLATIONS = {
     stats_no_quiz_body:   'Fais un <strong>Quiz quotidien</strong> ou un <strong>Défi hebdomadaire</strong> pour suivre ta progression ici.',
     stats_next_challenge: 'Prochain défi hebdomadaire :',
     stats_biw_today:      'Le défi hebdomadaire est disponible <strong>aujourd\'hui</strong> ! Va dans l\'onglet Vocabulaire.',
+
+    exam_locked_title: 'Mode Examen · Premium',
+    exam_locked_body:  'Teste ton niveau JLPT avec des examens chronométrés.<br>Questions style vrai JLPT : kanji → lecture, sens → mot.',
+    exam_unlock_btn:   'Débloquer Premium',
+    exam_level_label:  'NIVEAU CIBLE',
+    exam_available:    (desc, n) => `${desc} · ${n} mots disponibles`,
+    exam_questions:    'questions',
+    exam_minutes:      'minutes',
+    exam_pass_threshold: 'pour PASS',
+    exam_start_btn:    "Commencer l'examen →",
+    exam_no_words:     level => `Sauvegarde au moins 4 mots ${level} depuis l'onglet Vocab pour commencer.`,
+    exam_history_title: 'RÉSULTATS RÉCENTS',
+    exam_history_empty: 'Aucun examen passé',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -637,6 +663,19 @@ const TRANSLATIONS = {
     stats_no_quiz_body:   'Completa un <strong>Quiz diario</strong> o un <strong>Desafío semanal</strong> para seguir tu progresión aquí.',
     stats_next_challenge: 'Próximo Desafío semanal:',
     stats_biw_today:      'El Desafío semanal está disponible <strong>hoy</strong>. Ve a la pestaña Vocabulario.',
+
+    exam_locked_title: 'Modo Examen · Premium',
+    exam_locked_body:  'Pon a prueba tu nivel JLPT con exámenes cronometrados.<br>Preguntas estilo JLPT real: kanji → lectura, significado → palabra.',
+    exam_unlock_btn:   'Desbloquear Premium',
+    exam_level_label:  'NIVEL OBJETIVO',
+    exam_available:    (desc, n) => `${desc} · ${n} palabras disponibles`,
+    exam_questions:    'preguntas',
+    exam_minutes:      'minutos',
+    exam_pass_threshold: 'para PASS',
+    exam_start_btn:    'Comenzar examen →',
+    exam_no_words:     level => `Guarda al menos 4 palabras ${level} desde la pestaña Vocab para comenzar.`,
+    exam_history_title: 'RESULTADOS RECIENTES',
+    exam_history_empty: 'Ningún examen realizado',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -849,6 +888,19 @@ const TRANSLATIONS = {
     stats_no_quiz_body:   'Absolviere ein <strong>Tagesquiz</strong> oder eine <strong>Wochenchallenge</strong>, um deinen Fortschritt zu verfolgen.',
     stats_next_challenge: 'Nächste Wochenchallenge:',
     stats_biw_today:      'Die Wochenchallenge ist heute verfügbar! Gehe zum Tab Vokabular.',
+
+    exam_locked_title: 'Prüfungsmodus · Premium',
+    exam_locked_body:  'Teste dein JLPT-Niveau mit Zeitprüfungen.<br>Echte JLPT-Fragen: Kanji → Lesung, Bedeutung → Wort.',
+    exam_unlock_btn:   'Premium freischalten',
+    exam_level_label:  'ZIELNIVEAU',
+    exam_available:    (desc, n) => `${desc} · ${n} Wörter verfügbar`,
+    exam_questions:    'Fragen',
+    exam_minutes:      'Minuten',
+    exam_pass_threshold: 'zum Bestehen',
+    exam_start_btn:    'Prüfung starten →',
+    exam_no_words:     level => `Speichere mindestens 4 ${level}-Wörter im Vocab-Tab, um zu beginnen.`,
+    exam_history_title: 'LETZTE ERGEBNISSE',
+    exam_history_empty: 'Noch keine Prüfungen abgelegt',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -1065,6 +1117,19 @@ const TRANSLATIONS = {
     stats_no_quiz_body:   'Пройди <strong>Ежедневный тест</strong> или <strong>Недельный вызов</strong>, чтобы отслеживать прогресс здесь.',
     stats_next_challenge: 'Следующий Недельный вызов:',
     stats_biw_today:      'Недельный вызов доступен <strong>сегодня</strong>! Перейди во вкладку Словарь.',
+
+    exam_locked_title: 'Режим экзамена · Premium',
+    exam_locked_body:  'Проверь свой уровень JLPT на экзаменах на время.<br>Вопросы в стиле JLPT: кандзи → чтение, значение → слово.',
+    exam_unlock_btn:   'Разблокировать Premium',
+    exam_level_label:  'ЦЕЛЕВОЙ УРОВЕНЬ',
+    exam_available:    (desc, n) => `${desc} · ${n} слов доступно`,
+    exam_questions:    'вопросов',
+    exam_minutes:      'минут',
+    exam_pass_threshold: 'для сдачи',
+    exam_start_btn:    'Начать экзамен →',
+    exam_no_words:     level => `Сохрани минимум 4 слова ${level} во вкладке Vocab, чтобы начать.`,
+    exam_history_title: 'ПОСЛЕДНИЕ РЕЗУЛЬТАТЫ',
+    exam_history_empty: 'Экзаменов ещё не было',
   },
 };
 

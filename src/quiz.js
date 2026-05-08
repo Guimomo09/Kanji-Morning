@@ -539,16 +539,16 @@ export function renderExamTab() {
     section.innerHTML = `
       <div class="exam-locked">
         <div class="exam-locked-icon">🔒</div>
-        <div class="exam-locked-title">Exam Mode · Premium</div>
-        <div class="exam-locked-body">Teste ton niveau JLPT avec des examens chronométrés.<br>Questions style vrai JLPT : kanji → lecture, sens → mot.</div>
-        <button class="btn btn-primary" style="margin-top:20px" onclick="openUpgradeModal('exam')">Débloquer Premium</button>
+        <div class="exam-locked-title">${t('exam_locked_title')}</div>
+        <div class="exam-locked-body">${t('exam_locked_body')}</div>
+        <button class="btn btn-primary" style="margin-top:20px" onclick="openUpgradeModal('exam')">${t('exam_unlock_btn')}</button>
       </div>`;
     return;
   }
 
   const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
   const LEVELS      = ['N5', 'N4', 'N3', 'N2', 'N1'];
-  const LEVEL_DESC  = { N5: 'Débutant', N4: 'Élémentaire', N3: 'Intermédiaire', N2: 'Avancé', N1: 'Expert' };
+  const LEVEL_DESC  = { N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') };
 
   const history = loadQuizHistory()
     .filter(h => h.type === 'exam')
@@ -573,28 +573,28 @@ export function renderExamTab() {
         <span class="exam-history-pct">${h.pct}%</span>
         <span class="exam-history-badge">${h.pct >= 60 ? 'PASS' : 'FAIL'}</span>
       </div>`).join('')
-    : '<div class="exam-history-empty">Aucun examen passé</div>';
+    : `<div class="exam-history-empty">${t('exam_history_empty')}</div>`;
 
   const canStart = available >= 4;
 
   section.innerHTML = `
     <div class="exam-tab-content">
       <div class="exam-level-card">
-        <div class="exam-level-label">Niveau cible</div>
+        <div class="exam-level-label">${t('exam_level_label')}</div>
         <div class="exam-pills">${levelPills}</div>
-        <div class="exam-level-desc">${LEVEL_DESC[targetLevel]} · ${available} mots disponibles</div>
+        <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>
       </div>
       <div class="exam-info-row">
-        <div class="exam-info-item"><span class="exam-info-num">40</span><span class="exam-info-lbl">questions</span></div>
-        <div class="exam-info-item"><span class="exam-info-num">10</span><span class="exam-info-lbl">minutes</span></div>
-        <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">pour PASS</span></div>
+        <div class="exam-info-item"><span class="exam-info-num">40</span><span class="exam-info-lbl">${t('exam_questions')}</span></div>
+        <div class="exam-info-item"><span class="exam-info-num">10</span><span class="exam-info-lbl">${t('exam_minutes')}</span></div>
+        <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">${t('exam_pass_threshold')}</span></div>
       </div>
       ${canStart
-        ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">Commencer l'examen →</button>`
-        : `<div class="exam-start-blocked">Sauvegarde au moins 4 mots ${targetLevel} depuis l'onglet Vocab pour commencer.</div>`
+        ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">${t('exam_start_btn')}</button>`
+        : `<div class="exam-start-blocked">${t('exam_no_words')(targetLevel)}</div>`
       }
       <div class="exam-history-section">
-        <div class="exam-history-title">Résultats récents</div>
+        <div class="exam-history-title">${t('exam_history_title')}</div>
         <div class="exam-history-list">${resultsHtml}</div>
       </div>
     </div>`;
