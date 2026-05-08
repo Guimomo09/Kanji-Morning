@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **8 Mai 2026** · Commit `d87e8e9` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **8 Mai 2026** · Commit `2ed1aa7` (main) · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -165,6 +165,17 @@ kanji.guimo-prod.com {
 - [x] Meta title, description, canonical, OG, JSON-LD schema · liens internes entre niveaux
 - [x] `scripts/generate-seo-pages.mjs` — fetch kanjiapi.dev, rate-limited (batch 10 / 120ms)
 - [x] `public/sitemap.xml` mis à jour avec 5 nouvelles URLs (priority 0.8–0.9)
+
+**Perf & Accessibilité** ← commits `40be8f5` → `2ed1aa7` (main, 8 Mai 2026)
+- [x] Firebase `defer` — supprime 1050ms de blocage au chargement
+- [x] Google Fonts async (`media="print" onload`) — supprime 380ms de blocage
+- [x] Preconnect `stats.asanokanji.com` + `client.crisp.chat` (–760ms LCP estimé)
+- [x] Deploy depuis `dist/` (build Vite) — CSS+JS minifiés, assets hashés
+- [x] Firestore lazy-load (chargé seulement après auth) — –99 KiB pour visiteurs non-connectés
+- [x] SW v6 (invalide l'ancien cache avec la nouvelle structure `assets/`)
+- [x] `--muted: #6b6b6b` (ratio 5.0:1) — fix contraste WCAG sur fond `#faf7f2`
+- [x] Labels tabs : `opacity:.7` → classe `.tab-sub` sans opacité
+- [x] `aria-label="Language"` sur `#langSelect`
 
 **Branding & Logo** ← commits `6cd5a44` → `d87e8e9` (main, 8 Mai 2026)
 - [x] Logo SVG (cercle ivoire + flamme + 朝) créé et intégré
