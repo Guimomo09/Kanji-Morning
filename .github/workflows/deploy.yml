@@ -23,9 +23,9 @@ jobs:
             git fetch origin
             git checkout dev
             git pull origin dev
-            cp index.html /var/www/kanji-staging/
-            cp -r src /var/www/kanji-staging/
-            cp -r public/. /var/www/kanji-staging/
+            npm ci --prefer-offline --silent
+            npm run build
+            cp -r dist/. /var/www/kanji-staging/
             echo "STAGING DEPLOYED $(date)"
 
   deploy-prod:
@@ -44,7 +44,7 @@ jobs:
             git fetch origin
             git checkout main
             git pull origin main
-            cp index.html /var/www/kanji/
-            cp -r src /var/www/kanji/
-            cp -r public/. /var/www/kanji/
+            npm ci --prefer-offline --silent
+            npm run build
+            cp -r dist/. /var/www/kanji/
             echo "PROD DEPLOYED $(date)"

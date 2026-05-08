@@ -168,12 +168,22 @@ export async function cloudUpdate(partial) {
 }
 
 // ── Firebase initialisation ───────────────────────────────────────────────
+function _loadFirestore() {
+  return new Promise((resolve, reject) => {
+    if (window.firebase?.firestore) { resolve(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
 export function initCloud() {
   if (!CLOUD_ENABLED) { _renderAuthUI(null); return; }
   try {
     firebase.initializeApp(FIREBASE_CONFIG);
     state._fbAuth = firebase.auth();
-    state._fbDb   = firebase.firestore();
     _renderAuthUI(null); // show Sign in button immediately
 
     state._fbAuth.onAuthStateChanged(async user => {
@@ -181,6 +191,8 @@ export function initCloud() {
       state._fbAuthReady = true;
       _renderAuthUI(user);
       if (user) {
+        await _loadFirestore();
+        state._fbDb = firebase.firestore();
         await _cloudPull();
         if (_postAuthCallback) _postAuthCallback();
       }
