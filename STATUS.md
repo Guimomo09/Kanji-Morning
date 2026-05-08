@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **8 Mai 2026** · Commit `676f1ac` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **8 Mai 2026** · Commit `8d2d420` (main) · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -177,10 +177,15 @@ kanji.guimo-prod.com {
 - [x] Labels tabs : `opacity:.7` → classe `.tab-sub` sans opacité
 - [x] `aria-label="Language"` sur `#langSelect`
 - [x] `Cache-Control: public, max-age=31536000, immutable` sur `/assets/*` (Caddyfile) — –98 KiB cache mobile
-- [x] `min-height: 60vh` sur `.home-section` — CLS footer 0.193 → 0 ✅
-- [x] `font-display: fallback` (was `swap`) — élimine le CLS tardif des fonts
-- **Scores Lighthouse 8 Mai 2026** : Desktop **93** / 95 / 96 / 100 · Mobile **59** / 95 / 96 / 100
-- **CLS** : 0.143 → 0.037 (desktop) · 0.193 → 0 (mobile) ✅
+- [x] `min-height: 80vh` sur `.home-section` — CLS footer 0.193 → 0 ✅
+- [x] `font-display: optional` (was `swap`) — élimine le CLS tardif des fonts
+- [x] `.quiz-elapsed-wrap` : `opacity: 0.35` → `color: var(--muted)` — fix contraste WCAG AA
+- [x] `.h-date` / `.h-greet` : `opacity` → `color: rgba(255,255,255,0.9)` — fix contraste WCAG AA
+- [x] `.h-settings-btn` : `rgba(.8)` → `rgba(.9)` — fix contraste WCAG AA
+- [x] Suppression CSS mort (`.btn-notif-opt`, `.notif-time-*` — 19 lignes)
+- **Scores Lighthouse finaux 8 Mai 2026** : Desktop **93** / 95 / 96 / 100 · Mobile **59** / 95 / 96 / 100
+- **CLS** : 0.143 → **0.007** (desktop) · 0.193 → **0** (mobile) ✅
+- Note : score mobile 59 = Moto G Power + 4G lente simulée (pire cas). CWV terrain attendus excellents.
 
 **Branding & Logo** ← commits `6cd5a44` → `d87e8e9` (main, 8 Mai 2026)
 - [x] Logo SVG (cercle ivoire + flamme + 朝) créé et intégré
