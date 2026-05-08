@@ -1083,7 +1083,7 @@
         margin: 0;
         padding: 0;        padding-bottom: env(safe-area-inset-bottom);        gap: 0;
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         background: #fff;
         border-top: 1px solid var(--border);
         box-shadow: 0 -2px 12px rgba(0,0,0,.1);
@@ -1091,8 +1091,8 @@
       }
       .tab {
         border-radius: 0;
-        padding: 10px 2px 8px;
-        font-size: 20px;
+        padding: 8px 1px 6px;
+        font-size: 17px;
         letter-spacing: 0;
         line-height: 1.3;
       }
@@ -1103,7 +1103,7 @@
       }
 
       /* Push content above bottom nav */
-      .grid, .stats-section, .mylist-section, .home-section { margin-bottom: calc(72px + env(safe-area-inset-bottom)); }
+      .grid, .stats-section, .mylist-section, .home-section, .exam-section { margin-bottom: calc(72px + env(safe-area-inset-bottom)); }
 
       /* Push Crisp bubble above bottom nav — targets the container in our own DOM */
       #crisp-chatbox { bottom: 72px !important; }
