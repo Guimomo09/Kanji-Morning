@@ -55,107 +55,122 @@ export function computeTotalWords() {
 }
 
 // ── Streak calendar heatmap ───────────────────────────────────────────────
-export function renderStreakCalendar(containerId) {
+// ── Streak card view switcher ─────────────────────────────────────────────
+function buildStreakDotsHtml(numDays) {
+  const today = new Date();
+  let html = `<div class="streak-dots-wide">`;
+  for (let i = numDays - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = dateStr(d);
+    const done = !!localStorage.getItem(`vocab_daily_${ds}`);
+    const isToday = ds === dateStr(today);
+    const dowName = ['S','M','T','W','T','F','S'][d.getDay()];
+    if (isToday && done) {
+      html += `<span class="streak-dot-col"><span class="streak-dot streak-dot-flame">🔥</span><span class="streak-dot-day">${dowName}</span></span>`;
+    } else {
+      html += `<span class="streak-dot-col"><span class="streak-dot${done ? ' streak-dot-done' : ''}${isToday ? ' streak-dot-today' : ''}"></span><span class="streak-dot-day">${dowName}</span></span>`;
+    }
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderStreakHeatmap(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const WEEKS   = 16;
-  const today   = new Date();
-  // Align: end on the Sunday of the current week (or today if Sunday)
-  // We'll simply end at today and go back WEEKS*7 days
-  const totalDays = WEEKS * 7;
+  const DOW_W  = 16;
+  const GAP    = 2;
+  const CELL   = 11;
+  const SLOT   = CELL + GAP;
+  const containerW = container.offsetWidth || 300;
+  const WEEKS  = Math.min(26, Math.max(4, Math.floor((containerW - DOW_W - 4) / SLOT)));
+  const today  = new Date();
 
-  // Build day data from oldest to newest
   const days = [];
-  for (let i = totalDays - 1; i >= 0; i--) {
+  for (let i = WEEKS * 7 - 1; i >= 0; i--) {
     const d  = new Date(today);
     d.setDate(today.getDate() - i);
     const ds = dateStr(d);
     const saved = loadDailyVocab(ds);
-    const wordCount = saved ? saved.length : 0;
-    days.push({
-      ds,
-      wordCount,
-      dow: d.getDay(), // 0=Sun … 6=Sat
-      month: d.getMonth(),
-      dayOfMonth: d.getDate(),
-      isToday: ds === dateStr(today),
-    });
+    days.push({ ds, wordCount: saved ? saved.length : 0, dow: d.getDay(), month: d.getMonth(), isToday: ds === dateStr(today) });
   }
 
-  // Pad to start on Sunday: find how many days before the first day to skip
-  const firstDow = days[0].dow; // 0=Sun
-  const padBefore = firstDow; // cells to skip at start
-  const totalCells = padBefore + days.length;
-  const totalWeeks = Math.ceil(totalCells / 7);
+  const padBefore = days[0].dow;
+  const totalWeeks = Math.ceil((padBefore + days.length) / 7);
+  const cells = new Array(totalWeeks * 7).fill(null);
+  days.forEach((day, i) => { cells[padBefore + i] = day; });
 
-  // Build month labels (one label per month start, positioned by week column)
   const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const monthLabels = []; // { label, weekCol }
+  const monthLabels = [];
   let prevMonth = -1;
   days.forEach((day, i) => {
     if (day.month !== prevMonth) {
-      const col = Math.floor((padBefore + i) / 7);
-      monthLabels.push({ label: monthNames[day.month], col });
+      monthLabels.push({ label: monthNames[day.month], col: Math.floor((padBefore + i) / 7) });
       prevMonth = day.month;
     }
   });
-
-  // Day-of-week labels (Mon, Wed, Fri only to avoid crowding)
-  const dowLabels = ['S','M','T','W','T','F','S'];
-
-  // Build cell HTML: fill a 7-row × totalWeeks-col grid column by column
-  const cells = new Array(totalWeeks * 7).fill(null);
-  days.forEach((day, i) => { cells[padBefore + i] = day; });
 
   let cellsHtml = '';
   for (let row = 0; row < 7; row++) {
     for (let col = 0; col < totalWeeks; col++) {
       const cell = cells[col * 7 + row];
       if (!cell) {
-        cellsHtml += `<span class="streak-cal-cell" style="opacity:0"></span>`;
+        cellsHtml += `<span class="streak-cal-cell" style="opacity:0;width:${CELL}px;height:${CELL}px"></span>`;
       } else {
-        const level = cell.wordCount === 0 ? 0
-          : cell.wordCount < 5  ? 1
-          : cell.wordCount < 10 ? 2
-          : cell.wordCount < 20 ? 3 : 4;
+        const level = cell.wordCount === 0 ? 0 : cell.wordCount < 5 ? 1 : cell.wordCount < 10 ? 2 : cell.wordCount < 20 ? 3 : 4;
         const todayAttr = cell.isToday ? ' data-today="1"' : '';
-        const label = `${cell.ds}: ${cell.wordCount} word${cell.wordCount !== 1 ? 's' : ''}`;
-        cellsHtml += `<span class="streak-cal-cell" data-level="${level}"${todayAttr} title="${label}"></span>`;
+        cellsHtml += `<span class="streak-cal-cell" data-level="${level}"${todayAttr} title="${cell.ds}: ${cell.wordCount} word${cell.wordCount !== 1 ? 's' : ''}" style="width:${CELL}px;height:${CELL}px"></span>`;
       }
     }
   }
 
-  // Month label row (width = totalWeeks columns of 16px each)
-  const cellSize = 16; // 13px cell + 3px gap
-  let monthHtml = `<div class="streak-cal-month-labels" style="margin-left:${dowLabels.length ? 22 : 0}px">`;
+  let monthHtml = `<div style="display:flex;font-size:9px;color:var(--muted);margin-bottom:3px;margin-left:${DOW_W + 2}px">`;
   let lastCol = 0;
   monthLabels.forEach(({ label, col }) => {
     const gap = col - lastCol;
-    if (gap > 0) monthHtml += `<span style="min-width:${gap * cellSize}px;display:inline-block"></span>`;
-    monthHtml += `<span style="min-width:${cellSize}px;display:inline-block">${label}</span>`;
+    if (gap > 0) monthHtml += `<span style="min-width:${gap * SLOT}px;display:inline-block"></span>`;
+    monthHtml += `<span style="min-width:${SLOT}px;display:inline-block">${label}</span>`;
     lastCol = col + 1;
   });
   monthHtml += '</div>';
 
-  // DOW labels column
-  let dowHtml = `<div class="streak-cal-dow-labels">`;
-  for (let r = 0; r < 7; r++) {
-    const show = r === 1 || r === 3 || r === 5; // Mon, Wed, Fri
-    dowHtml += `<div class="streak-cal-dow-lbl">${show ? dowLabels[r] : ''}</div>`;
-  }
+  let dowHtml = `<div style="display:grid;grid-template-rows:repeat(7,${CELL}px);gap:${GAP}px;margin-right:${GAP}px;flex-shrink:0;width:${DOW_W}px">`;
+  ['','M','','W','','F',''].forEach(n => {
+    dowHtml += `<div style="font-size:8px;color:var(--muted);line-height:${CELL}px;text-align:right">${n}</div>`;
+  });
   dowHtml += '</div>';
 
   container.innerHTML = `
     ${monthHtml}
-    <div class="streak-cal-container">
+    <div style="display:flex;align-items:flex-start;overflow:hidden">
       ${dowHtml}
-      <div class="streak-calendar-wrap">
-        <div class="streak-calendar" style="grid-template-rows:repeat(7,13px);grid-template-columns:repeat(${totalWeeks},13px)">
+      <div style="overflow:hidden">
+        <div style="display:grid;grid-template-rows:repeat(7,${CELL}px);grid-template-columns:repeat(${totalWeeks},${CELL}px);gap:${GAP}px">
           ${cellsHtml}
         </div>
       </div>
     </div>`;
+}
+
+export function setStreakView(view) {
+  localStorage.setItem('km_streak_view', view);
+  document.querySelectorAll('.streak-view-pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  _renderStreakViewContent(view);
+}
+
+function _renderStreakViewContent(view) {
+  const el = document.getElementById('streakViewContent');
+  if (!el) return;
+  if (view === 'cal') {
+    el.innerHTML = '<div id="streakHeatmap" style="margin-top:10px"></div>';
+    requestAnimationFrame(() => renderStreakHeatmap('streakHeatmap'));
+  } else {
+    el.innerHTML = `<div style="margin-top:10px">${buildStreakDotsHtml(view === '2w' ? 14 : 7)}</div>`;
+  }
 }
 
 function setupCanvas(canvas) {
@@ -472,17 +487,34 @@ export function renderStats() {
         ${t('stats_next_challenge')} <strong>${dateStr(nextMon)}</strong>
        </div>`;
 
+  const sv = localStorage.getItem('km_streak_view') || '1w';
+
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
       ${missedHtml}
       <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px">
         <button class="section-hint-btn" onclick="showTabHint('stats')" aria-label="How to read Stats">i</button>
       </div>
+
+      <div class="kpi-card streak-kpi-full">
+        <div class="streak-card-header">
+          <div>
+            <div class="kpi-num">${streak}</div>
+            <div class="kpi-lbl">${t('stats_kpi_streak')}</div>
+          </div>
+          <div class="streak-view-pills">
+            <button class="pill streak-view-pill${sv === '1w' ? ' active' : ''}" data-view="1w" onclick="setStreakView('1w')">1W</button>
+            <button class="pill streak-view-pill${sv === '2w' ? ' active' : ''}" data-view="2w" onclick="setStreakView('2w')">2W</button>
+            <button class="pill streak-view-pill${sv === 'cal' ? ' active' : ''}" data-view="cal" onclick="setStreakView('cal')">Calendar</button>
+          </div>
+        </div>
+        <div id="streakViewContent"></div>
+      </div>
+
       <div class="kpi-grid kpi-grid-2col">
-        <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
-        <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
+        <div class="kpi-card kpi-jlpt" style="grid-column:1/-1" onclick="cycleJlptGoal()">
           <div class="kpi-num kpi-jlpt-level">${localStorage.getItem('km_jlpt_goal') || 'N3'}</div>
           <div class="kpi-jlpt-pct">${(() => { const g = localStorage.getItem('km_jlpt_goal')||'N3'; const jlptLimits={N5:800,N4:1500,N3:3750,N2:6000,N1:10000}; const all=getAllSavedWords(); const idx=['N5','N4','N3','N2','N1'].indexOf(g); const allowed=new Set(['N5','N4','N3','N2','N1'].slice(0,idx+1)); const pct=Math.min(100,Math.round(all.filter(w=>allowed.has(w.level)).length/jlptLimits[g]*100)); return pct > 0 ? pct + '%' : t('stats_jlpt_start'); })()}</div>
           <div class="kpi-lbl">${t('stats_kpi_jlpt')}</div>
@@ -495,11 +527,6 @@ export function renderStats() {
         <div class="chart-title">${t('stats_chart_scores')}</div>
         <canvas id="scoreCanvas" class="chart-canvas"></canvas>
       </div>` : ''}
-
-      <div class="chart-block">
-        <div class="chart-title">📅 Streak Calendar</div>
-        <div id="streakCalContainer"></div>
-      </div>
 
       <div class="chart-block">
         <div class="chart-title">${t('stats_chart_activity')}</div>
@@ -541,6 +568,6 @@ export function renderStats() {
     const st = document.getElementById('studyCanvas');
     if (sc) drawLineChart(sc, scoreVals, scoreLbls);
     if (st) drawBarChart(st, studyVals, studyLbls);
-    renderStreakCalendar('streakCalContainer');
+    _renderStreakViewContent(sv);
   });
 }
