@@ -55,7 +55,7 @@ const TRANSLATIONS = {
     settings_language:        'Language',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Welcome to<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px">', title: 'Welcome to<br>朝の漢字',
         body: 'Your daily Japanese study companion.<br>10 words every morning, 7 minutes — kanji, vocabulary, and a smart review system that makes it stick.' },
       { icon: '漢', title: 'Kanji Tab',
         body: 'Explore 10 kanji every day. See their meanings, on/kun readings, and real example words.<br><br>Tap <strong>☆</strong> to save a kanji to your list.' },
@@ -286,7 +286,7 @@ const TRANSLATIONS = {
     settings_language:        'Langue',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Bienvenue sur<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px">', title: 'Bienvenue sur<br>朝の漢字',
         body: 'Ton compagnon d\'étude quotidien du japonais.<br>10 mots chaque matin, 7 minutes — kanji, vocabulaire, et un système de révision intelligent qui fait que ça reste.' },
       { icon: '漢', title: 'Onglet Kanji',
         body: 'Explore 10 kanji par jour. Vois leurs significations, lectures on/kun et des exemples réels.<br><br>Appuie sur <strong>☆</strong> pour sauvegarder un kanji.' },
@@ -517,7 +517,7 @@ const TRANSLATIONS = {
     settings_language:        'Idioma',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Bienvenido a<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px">', title: 'Bienvenido a<br>朝の漢字',
         body: 'Tu compañero diario para aprender japonés.<br>10 palabras cada mañana, 7 minutos — kanji, vocabulario y un sistema de repaso inteligente.' },
       { icon: '漢', title: 'Pestaña Kanji',
         body: 'Explora 10 kanji cada día. Significados, lecturas on/kun y ejemplos reales.<br><br>Toca <strong>☆</strong> para guardar un kanji.' },
@@ -748,7 +748,7 @@ const TRANSLATIONS = {
     settings_language:        'Sprache',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Willkommen bei<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px">', title: 'Willkommen bei<br>朝の漢字',
         body: 'Dein täglicher Lernbegleiter für Japanisch.<br>10 Wörter jeden Morgen, 7 Minuten — Kanji, Vokabeln und ein intelligentes Wiederholungssystem.' },
       { icon: '漢', title: 'Kanji-Tab',
         body: 'Entdecke täglich 10 Kanji. Bedeutungen, On/Kun-Lesungen und echte Beispiele.<br><br>Tippe auf <strong>☆</strong> zum Speichern.' },
@@ -979,7 +979,7 @@ const TRANSLATIONS = {
     settings_language:        'Язык',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Добро пожаловать в<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px">', title: 'Добро пожаловать в<br>朝の漢字',
         body: 'Твой ежедневный помощник по изучению японского.<br>10 слов каждое утро, 7 минут — кандзи, словарь и умная система повторения.' },
       { icon: '漢', title: 'Вкладка Кандзи',
         body: 'Изучай 10 кандзи каждый день. Значения, чтения он/кун и примеры слов.<br><br>Нажми <strong>☆</strong> чтобы сохранить кандзи.' },
