@@ -226,6 +226,7 @@ const TRANSLATIONS = {
     exam_no_words:     level => `Save at least 4 ${level} words from the Vocab tab to start.`,
     exam_history_title: 'RECENT RESULTS',
     exam_history_empty: 'No exams taken yet',
+    exam_cumulative_tip: 'N4 includes N5+N4 words, N3 includes N5+N4+N3, etc.',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -451,6 +452,7 @@ const TRANSLATIONS = {
     exam_no_words:     level => `Sauvegarde au moins 4 mots ${level} depuis l'onglet Vocab pour commencer.`,
     exam_history_title: 'RÉSULTATS RÉCENTS',
     exam_history_empty: 'Aucun examen passé',
+    exam_cumulative_tip: 'N4 inclut N5+N4, N3 inclut N5+N4+N3, etc.',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -676,6 +678,7 @@ const TRANSLATIONS = {
     exam_no_words:     level => `Guarda al menos 4 palabras ${level} desde la pestaña Vocab para comenzar.`,
     exam_history_title: 'RESULTADOS RECIENTES',
     exam_history_empty: 'Ningún examen realizado',
+    exam_cumulative_tip: 'N4 incluye N5+N4, N3 incluye N5+N4+N3, etc.',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -901,6 +904,7 @@ const TRANSLATIONS = {
     exam_no_words:     level => `Speichere mindestens 4 ${level}-Wörter im Vocab-Tab, um zu beginnen.`,
     exam_history_title: 'LETZTE ERGEBNISSE',
     exam_history_empty: 'Noch keine Prüfungen abgelegt',
+    exam_cumulative_tip: 'N4 enthält N5+N4, N3 enthält N5+N4+N3, usw.',
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -1130,6 +1134,7 @@ const TRANSLATIONS = {
     exam_no_words:     level => `Сохрани минимум 4 слова ${level} во вкладке Vocab, чтобы начать.`,
     exam_history_title: 'ПОСЛЕДНИЕ РЕЗУЛЬТАТЫ',
     exam_history_empty: 'Экзаменов ещё не было',
+    exam_cumulative_tip: 'N4 включает N5+N4, N3 включает N5+N4+N3 и т.д.',
   },
 };
 

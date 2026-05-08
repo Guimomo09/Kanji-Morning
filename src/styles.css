@@ -616,6 +616,19 @@
     .exam-level-pill { font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 20px; }
     .exam-level-pill.active { background: var(--red); color: #fff; border-color: transparent; }
     .exam-level-desc { font-size: 12px; color: var(--sub); margin-top: 4px; }
+    .exam-info-tip {
+      font-size: 13px; color: var(--muted); cursor: default;
+      position: relative; display: inline-block;
+    }
+    .exam-info-tip:hover::after, .exam-info-tip:focus::after {
+      content: attr(title);
+      position: absolute; left: 0; top: 22px;
+      background: var(--text); color: var(--bg);
+      font-size: 12px; font-weight: 400; text-transform: none; letter-spacing: 0;
+      padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+      z-index: 10; pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
 
     .exam-info-row {
       display: flex; gap: 12px; margin-bottom: 16px;
