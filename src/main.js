@@ -5,9 +5,9 @@ import { todayStr }                                            from './utils.js'
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
-import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords } from './vocab.js';
+import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort } from './vocab.js';
 import { renderStats, renderHome }                              from './stats.js';
-import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode } from './quiz.js';
+import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
 import { STRIPE_PAYMENT_LINK }                                  from './config.js';
@@ -295,6 +295,12 @@ Object.assign(window, {
   filterMyList,
   removeFromMyList,
   toggleFromKanji,
+  toggleMyListSort,
+
+  // Exam tab
+  renderExamTab,
+  launchExamFromTab,
+  setExamTargetLevel,
 
   // Level pills (shared between kanji and vocab tabs)
   setLevel(level) {
@@ -403,7 +409,7 @@ Object.assign(window, {
   cloudSignOut,
 
   // Quiz result screen wrappers
-  resetAndBack()  { state.quizState = null; switchTab('vocab'); },
+  resetAndBack()  { const tab = state.currentTab; state.quizState = null; switchTab(tab === 'exam' ? 'exam' : 'vocab'); },
   resetAndStats() { state.quizState = null; switchTab('stats'); },
 
   // Settings modal

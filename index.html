@@ -106,6 +106,7 @@
   <button class="tab"        id="tabKanji"  onclick="switchTab('kanji')">漢<br><span style="font-size:9px;opacity:.7" data-i18n="tab_kanji">Kanji</span></button>
   <button class="tab"        id="tabVocab"  onclick="switchTab('vocab')">語<br><span style="font-size:9px;opacity:.7" data-i18n="tab_vocab">Vocab</span></button>
   <button class="tab"        id="tabMyList" onclick="switchTab('mylist')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><br><span style="font-size:9px;opacity:.7" data-i18n="tab_mylist">My List</span></button>
+  <button class="tab tab-exam-btn" id="tabExam"   onclick="switchTab('exam')">試験<br><span style="font-size:9px;opacity:.7">Exam</span></button>
   <button class="tab"        id="tabStats"  onclick="switchTab('stats')"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><br><span style="font-size:9px;opacity:.7" data-i18n="tab_stats">Stats</span></button>
 </div>
 
@@ -149,6 +150,7 @@
 </div>
 <div class="stats-section"  id="statsSection"  style="display:none"></div>
 <div class="mylist-section" id="mylistSection" style="display:none"></div>
+<div class="exam-section"   id="examSection"   style="display:none"></div>
 
 <footer><span data-i18n="footer_msg">頑張って！Keep showing up — every morning counts.</span><br><a href="/privacy.html" style="color:var(--muted);font-size:12px;text-decoration:none;border-bottom:1px solid var(--border)" data-i18n="footer_privacy">Privacy Policy</a></footer>
 

@@ -585,6 +585,105 @@
     .exam-fail { background: #ffebee; color: #c03a20; }
     .btn-exam  { background: #1a237e !important; color: #fff !important; border: none !important; }
     .btn-exam:hover { background: #283593 !important; }
+
+    /* ── Exam tab button ──────────────────────────────────────────────────── */
+    .tab-exam-btn { font-size: 11px; font-weight: 700; letter-spacing: .5px; }
+    .tab-exam-btn.active { color: var(--red); }
+
+    /* ── My List sort button ─────────────────────────────────────────────── */
+    .ml-sort-btn {
+      font-size: 11px; padding: 2px 8px; border-radius: 20px;
+      border: 1px solid var(--border); background: var(--bg);
+      color: var(--sub); cursor: pointer; margin-left: 8px;
+      vertical-align: middle; white-space: nowrap;
+    }
+    .ml-sort-btn:hover { background: var(--card); color: var(--text); }
+
+    /* ── Exam tab content ────────────────────────────────────────────────── */
+    .exam-section { padding: 0 16px 40px; max-width: 640px; margin: 0 auto; }
+    .exam-tab-content { padding: 8px 0 20px; }
+
+    .exam-locked {
+      text-align: center; padding: 60px 24px 40px;
+    }
+    .exam-locked-icon { font-size: 48px; margin-bottom: 16px; }
+    .exam-locked-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .exam-locked-body  { font-size: 14px; color: var(--sub); line-height: 1.6; margin-bottom: 8px; }
+
+    .exam-level-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px; margin-bottom: 16px;
+    }
+    .exam-level-label { font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; }
+    .exam-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .exam-level-pill { font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 20px; }
+    .exam-level-desc { font-size: 12px; color: var(--sub); margin-top: 4px; }
+
+    .exam-info-row {
+      display: flex; gap: 12px; margin-bottom: 16px;
+    }
+    .exam-info-item {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 10px; text-align: center;
+    }
+    .exam-info-num { display: block; font-size: 24px; font-weight: 800; color: var(--text); }
+    .exam-info-lbl { display: block; font-size: 11px; color: var(--sub); margin-top: 2px; }
+
+    .exam-types-hint {
+      font-size: 12px; color: var(--muted); text-align: center;
+      margin-bottom: 20px; letter-spacing: .3px;
+    }
+
+    .exam-start-btn { width: 100%; padding: 16px; font-size: 17px; font-weight: 700; margin-bottom: 32px; }
+    .exam-start-blocked {
+      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px; font-size: 13px; color: var(--sub); text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .exam-history-section { margin-top: 8px; }
+    .exam-history-title { font-size: 13px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .exam-history-list { display: flex; flex-direction: column; gap: 8px; }
+    .exam-history-row {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px; font-size: 13px;
+    }
+    .exam-history-pass { border-left: 3px solid #4caf50; }
+    .exam-history-fail { border-left: 3px solid var(--red); }
+    .exam-history-date  { color: var(--sub); flex: 1; }
+    .exam-history-level { font-weight: 700; color: var(--text); width: 32px; }
+    .exam-history-score { color: var(--sub); }
+    .exam-history-pct   { font-weight: 700; color: var(--text); margin-left: auto; }
+    .exam-history-badge {
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+      background: var(--bg);
+    }
+    .exam-history-pass .exam-history-badge { color: #1b5e20; background: #e8f5e9; }
+    .exam-history-fail .exam-history-badge { color: var(--red); background: #ffebee; }
+    .exam-history-empty { font-size: 13px; color: var(--muted); text-align: center; padding: 20px 0; }
+
+    /* ── Exam results page ────────────────────────────────────────────────── */
+    .exam-results-page { padding: 20px 0; }
+    .exam-res-header {
+      border-radius: 16px; padding: 28px 24px 20px; text-align: center;
+      margin-bottom: 24px;
+    }
+    .exam-res-header.exam-res-pass { background: #e8f5e9; }
+    .exam-res-header.exam-res-fail { background: #ffebee; }
+    .exam-res-verdict { font-size: 36px; font-weight: 900; letter-spacing: 2px; }
+    .exam-res-pass .exam-res-verdict { color: #1b5e20; }
+    .exam-res-fail .exam-res-verdict { color: var(--red); }
+    .exam-res-level { font-size: 15px; font-weight: 700; margin-top: 4px; color: var(--sub); }
+    .exam-res-score-block { text-align: center; margin-bottom: 20px; }
+    .exam-res-big-score { font-size: 52px; font-weight: 900; color: var(--text); line-height: 1; }
+    .exam-res-total { font-size: 28px; color: var(--sub); font-weight: 400; }
+    .exam-res-pct   { font-size: 22px; font-weight: 700; color: var(--sub); }
+    .exam-res-msg   { font-size: 16px; color: var(--sub); margin-top: 6px; }
+    .exam-res-meta  { display: flex; justify-content: center; gap: 24px; margin-bottom: 8px; }
+    .exam-res-meta-item { font-size: 13px; color: var(--muted); }
     /* Locked button */
     .btn-locked {
       background: #f0f0f0 !important; color: #bbb !important;

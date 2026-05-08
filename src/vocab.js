@@ -395,10 +395,37 @@ export function renderMyList() {
     return;
   }
 
+  // ── Sort helpers ─────────────────────────────────────────────────────────
+  const LEVEL_ORDER = { N5: 0, N4: 1, N3: 2, N2: 3, N1: 4 };
+  const sortMode = state.mylistSortMode || 'date';
+  const sortModeLabel = { 'date': '日付', 'level-asc': 'N5→N1', 'level-desc': 'N1→N5' };
+  const sortBtn = `<button class="ml-sort-btn" onclick="toggleMyListSort()" title="Sort order">
+    ↕ ${sortModeLabel[sortMode]}</button>`;
+
+  function sortKanjis(arr) {
+    if (sortMode === 'date') return arr;
+    const sorted = [...arr];
+    sorted.sort((a, b) => {
+      const d = LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level];
+      return sortMode === 'level-asc' ? d : -d;
+    });
+    return sorted;
+  }
+  function sortWords(arr) {
+    if (sortMode === 'date') return arr;
+    const sorted = [...arr];
+    sorted.sort((a, b) => {
+      const d = LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level];
+      return sortMode === 'level-asc' ? d : -d;
+    });
+    return sorted;
+  }
+
   let html = '';
 
   // ── Kanji section ────────────────────────────────────────────────────────
-  html += `<div class="mylist-section-title">${t('ml_section_kanji')} <span class="mylist-section-count">${kanjis.length}</span></div>`;
+  const sortedKanjis = sortKanjis(kanjis);
+  html += `<div class="mylist-section-title">${t('ml_section_kanji')} <span class="mylist-section-count">${kanjis.length}</span>${kanjis.length > 1 ? sortBtn : ''}</div>`;
   if (!kanjis.length) {
     html += `<div class="mylist-empty-small">${t('ml_no_kanji')}</div>`;
   } else {
@@ -408,7 +435,7 @@ export function renderMyList() {
         <button class="btn btn-ghost" id="mlKanjiSelectAll" style="font-size:12px;padding:4px 12px;display:none" onclick="selectAllKanjis()">☑ All</button>
       </div>`;
     html += `<div class="kanji-saved-grid">${
-      kanjis.map((k, idx) => `
+      sortedKanjis.map((k, idx) => `
         <div class="kanji-saved-chip" data-kanji="${k.kanji}" data-index="${idx}" onclick="handleKanjiChipClick(this,'${k.kanji}',event)">
           <span class="kanji-saved-char">${k.kanji}</span>
           <span class="badge badge-${k.level}">${k.level}</span>
@@ -419,7 +446,8 @@ export function renderMyList() {
   }
 
   // ── Words section ────────────────────────────────────────────────────────
-  html += `<div class="mylist-section-title" style="margin-top:32px">${t('ml_section_words')} <span class="mylist-section-count">${words.length}</span></div>`;
+  const sortedWords = sortWords(words);
+  html += `<div class="mylist-section-title" style="margin-top:32px">${t('ml_section_words')} <span class="mylist-section-count">${words.length}</span>${words.length > 1 ? sortBtn : ''}</div>`;
   if (!words.length) {
     html += `<div class="mylist-empty-small">${t('ml_no_words')}</div>`;
   } else {
@@ -440,7 +468,7 @@ export function renderMyList() {
         </div>`;
     }
 
-    const rows = words.map((it, idx) => `
+    const rows = sortedWords.map((it, idx) => `
       <tr id="mlrow_${CSS.escape(it.word)}" data-word="${it.word.replace(/"/g, '&quot;')}" data-index="${idx}" onclick="handleWordRowClick(this,event)">
         <td style="width:28px;text-align:center">
           <span class="ml-check-icon">✓</span>
@@ -495,6 +523,13 @@ export function filterMyList(q) {
   });
   const cnt = document.getElementById('mylistCount');
   if (cnt) cnt.textContent = t('home_words')(visible);
+}
+
+export function toggleMyListSort() {
+  const modes = ['date', 'level-asc', 'level-desc'];
+  const cur   = modes.indexOf(state.mylistSortMode || 'date');
+  state.mylistSortMode = modes[(cur + 1) % modes.length];
+  renderMyList();
 }
 
 export function removeFromMyList(word) {

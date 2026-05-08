@@ -127,7 +127,11 @@ export function renderQuizQuestion() {
   if (current >= total) { renderQuizResults(); return; }
 
   const { item, type } = questions[current];
-  const others = shuffleArr(pool.filter(p => p.word !== item.word));
+  // In exam mode, use all saved words as distractor pool for harder, more realistic wrong answers
+  const distractorSrc = (state.quizState.type === 'exam' && questions[current]._distractorPool)
+    ? questions[current]._distractorPool
+    : pool;
+  const others = shuffleArr(distractorSrc.filter(p => p.word !== item.word));
   const wrong3 = others.slice(0, 3);
 
   let questionLabel, promptHtml, correctText, wrongTexts;
@@ -253,6 +257,9 @@ export function handleQuizAnswer(btn, isCorrect) {
       ratingWrap.appendChild(b);
     });
     document.querySelector('.quiz-options')?.after(ratingWrap);
+  } else if (state.quizState && state.quizState.type === 'exam') {
+    // Exam mode: no reveal card — auto-advance after 1.2s
+    setTimeout(() => { if (state.quizState) quizNextQuestion(); }, 1200);
   } else {
     const reveal = document.createElement('div');
     reveal.className = 'quiz-reveal';
@@ -288,7 +295,8 @@ export function renderQuizResults() {
   clearInterval(_quizTimerInterval); _quizTimerInterval = null; _quizStartTime = 0;
   clearInterval(_examCountdown); _examCountdown = null; _examTimeLeft = 0;
 
-  saveQuizResult(score, total, type);
+  const examLevel = isExam ? (state.quizState?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3') : null;
+  saveQuizResult(score, total, type, examLevel);
   if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
 
   let emoji, msg;
@@ -308,24 +316,52 @@ export function renderQuizResults() {
     ? '<span class="qh-type qh-type-srs">SRS</span>'
     : '<span class="qh-type qh-type-daily">Daily</span>';
 
-  const retryFn = isExam ? 'launchExamMode()' : isBiW ? 'launchBiWeeklyQuiz()' : 'launchDailyQuiz()';
+  const retryFn = isExam ? 'launchExamFromTab()' : isBiW ? 'launchBiWeeklyQuiz()' : 'launchDailyQuiz()';
 
-  document.getElementById('grid').innerHTML = `
-    <div class="quiz-screen quiz-results">
-      <div class="quiz-result-emoji">${emoji}</div>
-      <div style="margin-bottom:6px">${typeBadge}</div>
-      ${isExam ? `<div class="exam-result-banner ${pct >= EXAM_PASS_PCT ? 'exam-pass' : 'exam-fail'}">${pct >= EXAM_PASS_PCT ? '✓ PASS' : '✗ FAIL'}</div>` : ''}
-      <div class="quiz-result-score">${score}&nbsp;/&nbsp;${total}</div>
-      <div class="quiz-result-pct">${pct}%</div>
-      <div class="quiz-result-msg">${msg}</div>
-      ${elapsed ? `<div class="quiz-result-time">⏱ Session: ${elapsed}</div>` : ''}
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
-        <button class="btn btn-primary" onclick="${retryFn}">${t('quiz_btn_retry')}</button>
-        <button class="btn btn-ghost" onclick="resetAndBack()">${t('quiz_btn_back')}</button>
-        <button class="btn btn-ghost" onclick="resetAndStats()">${t('quiz_btn_stats')}</button>
-      </div>
-
-    </div>`;
+  if (isExam) {
+    const examLevel   = state.quizState?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3';
+    const timeUsed    = elapsed || '?';
+    const breakdown   = {};
+    (state.quizState?.questions || []).forEach(q => {
+      const k = q.type; breakdown[k] = (breakdown[k] || 0) + 1;
+    });
+    document.getElementById('grid').innerHTML = `
+      <div class="quiz-screen exam-results-page">
+        <div class="exam-res-header ${pct >= EXAM_PASS_PCT ? 'exam-res-pass' : 'exam-res-fail'}">
+          <div class="exam-res-verdict">${pct >= EXAM_PASS_PCT ? '✓ PASS' : '✗ FAIL'}</div>
+          <div class="exam-res-level">${examLevel}</div>
+        </div>
+        <div class="exam-res-score-block">
+          <div class="exam-res-big-score">${score}<span class="exam-res-total"> / ${total}</span></div>
+          <div class="exam-res-pct">${pct}%</div>
+          <div class="exam-res-msg">${msg}</div>
+        </div>
+        <div class="exam-res-meta">
+          <div class="exam-res-meta-item">⏱ ${timeUsed}</div>
+          <div class="exam-res-meta-item">📚 ${examLevel} cumulative</div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+          <button class="btn btn-primary" onclick="${retryFn}">Recommencer</button>
+          <button class="btn btn-ghost"   onclick="resetAndBack()">← Examen</button>
+          <button class="btn btn-ghost"   onclick="resetAndStats()">Stats</button>
+        </div>
+      </div>`;
+  } else {
+    document.getElementById('grid').innerHTML = `
+      <div class="quiz-screen quiz-results">
+        <div class="quiz-result-emoji">${emoji}</div>
+        <div style="margin-bottom:6px">${typeBadge}</div>
+        <div class="quiz-result-score">${score}&nbsp;/&nbsp;${total}</div>
+        <div class="quiz-result-pct">${pct}%</div>
+        <div class="quiz-result-msg">${msg}</div>
+        ${elapsed ? `<div class="quiz-result-time">⏱ Session: ${elapsed}</div>` : ''}
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">
+          <button class="btn btn-primary" onclick="${retryFn}">${t('quiz_btn_retry')}</button>
+          <button class="btn btn-ghost"   onclick="resetAndBack()">${t('quiz_btn_back')}</button>
+          <button class="btn btn-ghost"   onclick="resetAndStats()">${t('quiz_btn_stats')}</button>
+        </div>
+      </div>`;
+  }
 
   state.quizState = null;
   setStatus('ok', `Quiz done · ${score}/${total} correct (${pct}%)`);
@@ -333,16 +369,17 @@ export function renderQuizResults() {
 }
 
 // ── History ───────────────────────────────────────────────────────────────
-export function saveQuizResult(score, total, type) {
+export function saveQuizResult(score, total, type, examLevel) {
   const history = loadQuizHistory();
   const today   = todayStr();
   const newPct  = Math.round((score / total) * 100);
   const qtype   = type || 'daily';
-  const idx = history.findIndex(h => h.date === today && (h.type || 'daily') === qtype);
+  const idx = history.findIndex(h => h.date === today && (h.type || 'daily') === qtype && (!examLevel || h.examLevel === examLevel));
+  const entry = { date: today, score, total, pct: newPct, type: qtype, ...(examLevel ? { examLevel } : {}) };
   if (idx !== -1) {
-    if (newPct > history[idx].pct) history[idx] = { date: today, score, total, pct: newPct, type: qtype };
+    if (newPct > history[idx].pct) history[idx] = entry;
   } else {
-    history.push({ date: today, score, total, pct: newPct, type: qtype });
+    history.push(entry);
   }
   history.sort((a, b) => a.date.localeCompare(b.date));
   while (history.length > 50) history.shift();
@@ -479,13 +516,163 @@ export function launchExamMode() {
     type: 'exam',
   };
 
-  const sectionMap = { stats: 'statsSection', home: 'homeSection', mylist: 'mylistSection' };
+  const sectionMap = { stats: 'statsSection', home: 'homeSection', mylist: 'mylistSection', exam: 'examSection' };
   if (sectionMap[state.currentTab]) {
     document.getElementById(sectionMap[state.currentTab]).style.display = 'none';
     document.getElementById('grid').style.display = '';
   }
   document.getElementById('levelFilter').style.display = 'none';
   renderQuizQuestion();
+}
+
+// ── Exam tab ───────────────────────────────────────────────────────────────
+export function setExamTargetLevel(level) {
+  localStorage.setItem('km_exam_target_level', level);
+  renderExamTab();
+}
+
+export function renderExamTab() {
+  const section = document.getElementById('examSection');
+  if (!section) return;
+
+  if (!state.isPremium) {
+    section.innerHTML = `
+      <div class="exam-locked">
+        <div class="exam-locked-icon">🔒</div>
+        <div class="exam-locked-title">Exam Mode · Premium</div>
+        <div class="exam-locked-body">Teste ton niveau JLPT avec des examens chronométrés.<br>Questions style vrai JLPT : kanji → lecture, sens → mot.</div>
+        <button class="btn btn-primary" style="margin-top:20px" onclick="openUpgradeModal('exam')">Débloquer Premium</button>
+      </div>`;
+    return;
+  }
+
+  const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
+  const LEVELS      = ['N5', 'N4', 'N3', 'N2', 'N1'];
+  const LEVEL_DESC  = { N5: 'Débutant', N4: 'Élémentaire', N3: 'Intermédiaire', N2: 'Avancé', N1: 'Expert' };
+
+  const history = loadQuizHistory()
+    .filter(h => h.type === 'exam')
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, 5);
+
+  // Count available words for the selected level (cumulative)
+  const goalIdx    = LEVELS.indexOf(targetLevel);
+  const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
+  const available  = getAllSavedWords().filter(w => allowed.has(w.level)).length;
+
+  const levelPills = LEVELS.map(l => `
+    <button class="pill exam-level-pill${l === targetLevel ? ' active' : ''}" onclick="setExamTargetLevel('${l}')">${l}</button>
+  `).join('');
+
+  const resultsHtml = history.length
+    ? history.map(h => `
+      <div class="exam-history-row ${h.pct >= 60 ? 'exam-history-pass' : 'exam-history-fail'}">
+        <span class="exam-history-date">${h.date}</span>
+        <span class="exam-history-level">${h.examLevel || ''}</span>
+        <span class="exam-history-score">${h.score}/${h.total}</span>
+        <span class="exam-history-pct">${h.pct}%</span>
+        <span class="exam-history-badge">${h.pct >= 60 ? 'PASS' : 'FAIL'}</span>
+      </div>`).join('')
+    : '<div class="exam-history-empty">Aucun examen passé</div>';
+
+  const canStart = available >= 4;
+
+  section.innerHTML = `
+    <div class="exam-tab-content">
+      <div class="exam-level-card">
+        <div class="exam-level-label">Niveau cible</div>
+        <div class="exam-pills">${levelPills}</div>
+        <div class="exam-level-desc">${LEVEL_DESC[targetLevel]} · ${available} mots disponibles</div>
+      </div>
+      <div class="exam-info-row">
+        <div class="exam-info-item"><span class="exam-info-num">20</span><span class="exam-info-lbl">questions</span></div>
+        <div class="exam-info-item"><span class="exam-info-num">7</span><span class="exam-info-lbl">minutes</span></div>
+        <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">pour PASS</span></div>
+      </div>
+      <div class="exam-types-hint">Kanji → lecture · Lecture → kanji · Sens → mot</div>
+      ${canStart
+        ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">Commencer l'examen →</button>`
+        : `<div class="exam-start-blocked">Sauvegarde au moins 4 mots ${targetLevel} depuis l'onglet Vocab pour commencer.</div>`
+      }
+      <div class="exam-history-section">
+        <div class="exam-history-title">Résultats récents</div>
+        <div class="exam-history-list">${resultsHtml}</div>
+      </div>
+    </div>`;
+}
+
+export function launchExamFromTab() {
+  if (!state.isPremium) { openUpgradeModal('exam'); return; }
+  const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
+  const LEVELS   = ['N5', 'N4', 'N3', 'N2', 'N1'];
+  const goalIdx  = LEVELS.indexOf(targetLevel);
+  const allowed  = new Set(LEVELS.slice(0, goalIdx + 1));
+
+  const allWords = getAllSavedWords();
+  const filtered = allWords.filter(w => allowed.has(w.level));
+
+  if (filtered.length < 4) {
+    setStatus('error', `Pas assez de mots ${targetLevel} sauvegardés (minimum 4).`);
+    return;
+  }
+  const pool = shuffleArr([...filtered]).slice(0, EXAM_QUESTIONS);
+  _examTimeLeft = EXAM_DURATION;
+  _quizStartTime = Date.now();
+  clearInterval(_quizTimerInterval); _quizTimerInterval = null;
+  clearInterval(_examCountdown);
+  _examCountdown = setInterval(_tickExamCountdown, 1000);
+
+  state.quizState = {
+    questions: buildJlptQuestionList(pool, allWords),
+    pool,
+    current: 0,
+    score: 0,
+    dayLabel: `${pool.length} words`,
+    type: 'exam',
+    examLevel: targetLevel,
+  };
+
+  document.getElementById('examSection').style.display = 'none';
+  document.getElementById('grid').style.display = '';
+  document.getElementById('levelFilter').style.display = 'none';
+  renderQuizQuestion();
+}
+
+// ── JLPT-style question builder ───────────────────────────────────────────
+// Weights: C (kanji→reading) 35%, A (word→meaning) 30%, B (meaning→word) 20%, D (reading→kanji) 15%
+function buildJlptQuestionList(pool, allWordsPool) {
+  const target   = EXAM_QUESTIONS;
+  const typeWeights = ['C','C','C','A','A','A','B','B','D'];
+  const questions  = [];
+  const shuffled   = shuffleArr([...pool]);
+
+  for (const item of shuffled) {
+    const validTypes = validTypesFor(item);
+    // Pick a JLPT-weighted type, fall back to random if not available
+    let type = null;
+    const weighted = shuffleArr([...typeWeights]);
+    for (const t of weighted) {
+      if (validTypes.includes(t)) { type = t; break; }
+    }
+    if (!type) type = validTypes[0];
+    questions.push({ item, type, _distractorPool: allWordsPool });
+    if (questions.length >= target) break;
+  }
+
+  // Fill remaining with second pass (different type for each item)
+  if (questions.length < target) {
+    const usedTypes = new Map(questions.map(q => [q.item.word, q.type]));
+    for (const item of shuffleArr([...pool])) {
+      if (questions.length >= target) break;
+      const used  = usedTypes.get(item.word);
+      const avail = validTypesFor(item).filter(t => t !== used);
+      if (!avail.length) continue;
+      const type  = avail[Math.floor(Math.random() * avail.length)];
+      questions.push({ item, type, _distractorPool: allWordsPool });
+    }
+  }
+
+  return shuffleArr(questions.slice(0, target));
 }
 
 

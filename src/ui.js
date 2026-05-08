@@ -8,6 +8,7 @@ import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords } from 
 import { renderHome, renderStats } from './stats.js';
 import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis, searchAndRenderKanji } from './kanji.js';
 import { updateBiWeeklyBtn } from './biweekly.js';
+import { renderExamTab } from './quiz.js';
 import { t } from './i18n.js';
 
 // ── Header greeting ───────────────────────────────────────────────────────
@@ -33,17 +34,20 @@ export function switchTab(tab) {
   document.getElementById('tabKanji') .classList.toggle('active', tab === 'kanji');
   document.getElementById('tabVocab') .classList.toggle('active', tab === 'vocab');
   document.getElementById('tabMyList').classList.toggle('active', tab === 'mylist');
+  document.getElementById('tabExam')  .classList.toggle('active', tab === 'exam');
   document.getElementById('tabStats') .classList.toggle('active', tab === 'stats');
 
   const isHome   = tab === 'home';
   const isStats  = tab === 'stats';
   const isMyList = tab === 'mylist';
-  const isHidden = isStats || isMyList || isHome;
+  const isExam   = tab === 'exam';
+  const isHidden = isStats || isMyList || isHome || isExam;
 
   document.getElementById('homeSection').style.display   = isHome   ? 'flex'  : 'none';
   document.getElementById('grid').style.display          = isHidden ? 'none' : '';
   document.getElementById('statsSection').style.display  = isStats  ? 'block' : 'none';
   document.getElementById('mylistSection').style.display = isMyList ? 'block' : 'none';
+  document.getElementById('examSection').style.display   = isExam   ? 'block' : 'none';
   document.getElementById('levelFilter').style.display   = isHidden ? 'none' : '';
   document.getElementById('legendDiv').style.display     = isHidden ? 'none' : '';
   document.getElementById('searchWrap').style.display    = (isHidden || tab === 'vocab') ? 'none' : '';
@@ -81,6 +85,12 @@ export function switchTab(tab) {
     document.getElementById('hTitle').textContent = '単語リスト';
     document.getElementById('hSub').textContent   = t('sub_mylist');
     renderMyList();
+    return;
+  }
+  if (isExam) {
+    document.getElementById('hTitle').textContent = '試験モード';
+    document.getElementById('hSub').textContent   = 'JLPT Exam Mode';
+    renderExamTab();
     return;
   }
 
