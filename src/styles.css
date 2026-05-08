@@ -580,7 +580,7 @@
     }
 
     /* ── Exam tab content ────────────────────────────────────────────────── */
-    .exam-section { padding: 0 16px 40px; max-width: 640px; margin: 0 auto; }
+    .exam-section { padding: 0 24px 40px; max-width: 900px; margin: 0 auto; }
     .exam-tab-content { padding: 8px 0 20px; }
 
     .exam-locked {
@@ -1221,6 +1221,7 @@
       .home-hero-title { font-size: 20px; }
       .home-hero-actions { flex-direction: column; }
       .home-hero-actions .btn { width: 100%; text-align: center; }
+      .exam-section { padding: 0 12px 40px; }
     }
 
     /* ════════════════════════════════════════════════════════════════
