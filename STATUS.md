@@ -1,6 +1,11 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **7 Mai 2026** · Commit `1f4e1bb` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **8 Mai 2026** · Commit `d87e8e9` (main) · Stripe LIVE ✅
+
+> ⚠️ **Workflow** : toujours passer par `dev` avant `main`
+> ```
+> git checkout dev  →  tester sur kanji.guimo-prod.com  →  git checkout main && git merge dev && git push
+> ```
 
 ---
 
@@ -160,6 +165,14 @@ kanji.guimo-prod.com {
 - [x] Meta title, description, canonical, OG, JSON-LD schema · liens internes entre niveaux
 - [x] `scripts/generate-seo-pages.mjs` — fetch kanjiapi.dev, rate-limited (batch 10 / 120ms)
 - [x] `public/sitemap.xml` mis à jour avec 5 nouvelles URLs (priority 0.8–0.9)
+
+**Branding & Logo** ← commits `6cd5a44` → `d87e8e9` (main, 8 Mai 2026)
+- [x] Logo SVG (cercle ivoire + flamme + 朝) créé et intégré
+- [x] Logo inliné dans le header — visible desktop et mobile (56px / 42px)
+- [x] Favicon encodé en base64 data URI (contourne problème MIME Nginx)
+- [x] PWA icons 192/512 remplacées par le nouveau logo
+- [x] Couleur brand synchronisée `#c03a20` (manifest, meta theme-color, SVG)
+- [x] `#hTitle` / `#hSub` conservés masqués (requis par ui.js — crash fix)
 
 **UX session 2 — 7 Mai 2026** ← commits `67942bd` → `1f4e1bb` (main)
 - [x] Streak 7-day dots : ○ vide · ● rouge = pratiqué · 🔥 = aujourd'hui + pratiqué ← `3348301`
