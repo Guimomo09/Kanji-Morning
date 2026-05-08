@@ -589,14 +589,11 @@
     /* ── Exam tab button ──────────────────────────────────────────────────── */
     .tab-exam-btn { font-size: 16px; }
 
-    /* ── My List sort button ─────────────────────────────────────────────── */
-    .ml-sort-btn {
-      font-size: 11px; padding: 2px 8px; border-radius: 20px;
-      border: 1px solid var(--border); background: var(--bg);
-      color: var(--sub); cursor: pointer; margin-left: 8px;
-      vertical-align: middle; white-space: nowrap;
+    /* ── My List filter bar ─────────────────────────────────────────────── */
+    .ml-filter-bar {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding: 8px 0 16px;
     }
-    .ml-sort-btn:hover { background: var(--card); color: var(--text); }
 
     /* ── Exam tab content ────────────────────────────────────────────────── */
     .exam-section { padding: 0 16px 40px; max-width: 640px; margin: 0 auto; }

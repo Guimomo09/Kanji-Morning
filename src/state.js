@@ -21,8 +21,9 @@ export const state = {
   kanjiLevelFilter:  localStorage.getItem('kanjiLevelFilter') || 'all',
   vocabFromKanjiMode: false,
 
-  // My List sort mode: 'date' | 'level-asc' (N5→N1) | 'level-desc' (N1→N5)
-  mylistSortMode: 'date',
+  // My List level filters (independent per section): 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
+  mylistKanjiFilter: 'all',
+  mylistWordFilter:  'all',
 
   // SRS — always SM-2, no user choice needed
   _srsAlgo: 'sm2',
