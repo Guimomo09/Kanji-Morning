@@ -106,15 +106,18 @@ function renderActivityCalendar(containerId) {
   container.innerHTML = `
     <div class="scal">
       <div class="scal-nav">
-        <button class="scal-arrow" onclick="navActivityCal(-1)">&#8249;</button>
+        <button class="scal-arrow" id="scalPrev">&#8249;</button>
         <span class="scal-month-label">${monthNames[month]} ${year}</span>
-        <button class="scal-arrow" onclick="navActivityCal(1)">&#8250;</button>
+        <button class="scal-arrow" id="scalNext">&#8250;</button>
       </div>
       <div class="scal-grid">
         ${dowNames.map(n => `<div class="scal-dow">${n}</div>`).join('')}
         ${cellsHtml}
       </div>
     </div>`;
+
+  document.getElementById('scalPrev').addEventListener('click', () => navActivityCal(-1));
+  document.getElementById('scalNext').addEventListener('click', () => navActivityCal(1));
 }
 
 export function navActivityCal(dir) {
@@ -613,13 +616,13 @@ export function renderStats() {
         <canvas id="scoreCanvas" class="chart-canvas"></canvas>
       </div>` : ''}
 
-      <div class="chart-block">
+      <div class="chart-block" id="activityChartBlock">
         <div class="streak-cal-header">
           <span class="chart-title" style="margin:0">${t('stats_chart_activity')}</span>
           <div class="streak-view-pills">
-            <button class="pill activity-view-pill${av === '1w' ? ' active' : ''}" data-view="1w" onclick="setActivityView('1w')">1W</button>
-            <button class="pill activity-view-pill${av === '2w' ? ' active' : ''}" data-view="2w" onclick="setActivityView('2w')">2W</button>
-            <button class="pill activity-view-pill${av === 'cal' ? ' active' : ''}" data-view="cal" onclick="setActivityView('cal')">Calendar</button>
+            <button class="pill activity-view-pill${av === '1w' ? ' active' : ''}" data-view="1w">1W</button>
+            <button class="pill activity-view-pill${av === '2w' ? ' active' : ''}" data-view="2w">2W</button>
+            <button class="pill activity-view-pill${av === 'cal' ? ' active' : ''}" data-view="cal">Calendar</button>
           </div>
         </div>
         <div id="activityViewContent"></div>
@@ -658,5 +661,10 @@ export function renderStats() {
     const sc = document.getElementById('scoreCanvas');
     if (sc) drawLineChart(sc, scoreVals, scoreLbls);
     _renderActivityContent(av);
+
+    // Wire view pills
+    document.querySelectorAll('.activity-view-pill').forEach(btn => {
+      btn.addEventListener('click', () => setActivityView(btn.dataset.view));
+    });
   });
 }
