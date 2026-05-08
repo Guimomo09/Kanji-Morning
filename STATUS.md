@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **8 Mai 2026** · Commit `68eddf3` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **8 Mai 2026** · Commit `4d843a5` (main) · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -218,6 +218,17 @@ kanji.guimo-prod.com {
 - [x] Bouton "i" Stats déplacé dans la toolbar (far-right, `margin-left:auto`) — pattern unifié avec Kanji/Vocab/My List
 - [x] Bouton "i" Kanji/Vocab inline avec compteur (next to count label)
 - [x] Bloc Exam desktop `max-width` aligné sur Home (900px) — plus de saut de largeur au switch d'onglet
+
+**Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
+- [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
+- [x] Préférence persistée en `localStorage` (`km_streak_tile_view`)
+- [x] Fonctionne Home + Stats · i18n 5 langues
+- [x] CSS hover `.kpi-streak` (pattern identique JLPT tile)
+
+**Favicon & Logo** ← commits `e01a826`, `4d843a5` (8 Mai 2026)
+- [x] Favicon remplacé — inline base64 → `/icons/icon-192.svg` direct
+- [x] Modal tuto welcome : kanji 朝 remplacé par le vrai logo SVG (5 langues)
+- [x] SW cache bumped v6 → v7 pour forcer invalidation clients
 
 ### 🟡 Prochaines étapes
 
