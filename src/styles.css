@@ -46,11 +46,11 @@
     .h-title { font-size: 26px; font-weight: 900; letter-spacing: 3px; font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif; }
     .h-sub   { font-size: 12px; opacity: .55; margin-top: 3px; letter-spacing: 1px; }
     .h-logo  { height: 56px; width: 56px; display: block; margin: 0 auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
-    .h-date  { font-size: 13px; opacity: .75; }
-    .h-greet { font-size: 12px; opacity: .45; margin-top: 3px; }
+    .h-date  { font-size: 13px; color: rgba(255,255,255,0.9); }
+    .h-greet { font-size: 11px; color: rgba(255,255,255,0.9); margin-top: 3px; }
     .h-settings-btn {
       background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
-      color: rgba(255,255,255,.8); border-radius: 8px; padding: 6px 10px;
+      color: rgba(255,255,255,.9); border-radius: 8px; padding: 6px 10px;
       font-size: 15px; cursor: pointer; line-height: 1;
       transition: background .15s;
       flex-shrink: 0;
@@ -393,25 +393,7 @@
     .quiz-tomorrow-icon  { font-size: 32px; margin-bottom: 6px; }
     .quiz-tomorrow-title { font-size: 17px; font-weight: 800; color: var(--red); margin-bottom: 6px; }
     .quiz-tomorrow-body  { font-size: 14px; color: var(--sub); line-height: 1.6; }
-    .btn-notif-opt {
-      margin-top: 16px; padding: 9px 18px; border-radius: 20px;
-      border: 1.5px solid var(--red); background: transparent;
-      color: var(--red); font-size: 13px; font-weight: 700;
-      cursor: pointer; font-family: inherit; transition: background .15s, color .15s;
-    }
-    .btn-notif-opt:hover:not(:disabled) { background: var(--red); color: #fff; }
-    .btn-notif-opt.notif-opted, .btn-notif-opt:disabled { opacity: .65; cursor: default; }
-    .notif-time-row {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; margin-top: 16px; flex-wrap: wrap;
-    }
-    .notif-time-input {
-      padding: 7px 10px; border-radius: 8px;
-      border: 1.5px solid var(--border); background: #fff;
-      font-size: 14px; font-family: inherit; color: var(--sub);
-      cursor: pointer;
-    }
-    .notif-time-input:disabled { opacity: .65; cursor: default; }
+
 
     /* ── My List full empty state ──────────────────────────────────────── */
     .mylist-full-empty {
