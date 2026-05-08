@@ -115,9 +115,6 @@ function renderActivityCalendar(containerId) {
         ${cellsHtml}
       </div>
     </div>`;
-
-  document.getElementById('scalPrev').addEventListener('click', () => navActivityCal(-1));
-  document.getElementById('scalNext').addEventListener('click', () => navActivityCal(1));
 }
 
 export function navActivityCal(dir) {
@@ -657,14 +654,25 @@ export function renderStats() {
       </div>`}
     </div>`;
 
+  const statsEl = document.getElementById('statsSection');
+
+  // Event delegation — survives any inner re-render
+  if (statsEl._activityDelegate) {
+    statsEl.removeEventListener('click', statsEl._activityDelegate);
+  }
+  statsEl._activityDelegate = e => {
+    const pill = e.target.closest('.activity-view-pill');
+    if (pill) { e.stopPropagation(); setActivityView(pill.dataset.view); return; }
+    const prev = e.target.closest('#scalPrev');
+    if (prev) { e.stopPropagation(); navActivityCal(-1); return; }
+    const next = e.target.closest('#scalNext');
+    if (next) { e.stopPropagation(); navActivityCal(1); return; }
+  };
+  statsEl.addEventListener('click', statsEl._activityDelegate);
+
   requestAnimationFrame(() => {
     const sc = document.getElementById('scoreCanvas');
     if (sc) drawLineChart(sc, scoreVals, scoreLbls);
     _renderActivityContent(av);
-
-    // Wire view pills
-    document.querySelectorAll('.activity-view-pill').forEach(btn => {
-      btn.addEventListener('click', () => setActivityView(btn.dataset.view));
-    });
   });
 }
