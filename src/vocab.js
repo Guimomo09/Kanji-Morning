@@ -416,7 +416,8 @@ export function renderMyList() {
 
   // ── Kanji section ────────────────────────────────────────────────────────
   const filteredKanjis = applyFilter(kanjis, kanjiFilter);
-  html += `<div class="mylist-section-title">${t('ml_section_kanji')} <span class="mylist-section-count">${kanjis.length}</span></div>`;
+  const kanjiCountLabel = kanjiFilter === 'all' ? kanjis.length : `${filteredKanjis.length}<span style="font-weight:400;color:var(--muted)">/${kanjis.length}</span>`;
+  html += `<div class="mylist-section-title">${t('ml_section_kanji')} <span class="mylist-section-count">${kanjiCountLabel}</span></div>`;
   html += filterPills(kanjiFilter, 'setMyListKanjiFilter');
   if (!kanjis.length) {
     html += `<div class="mylist-empty-small">${t('ml_no_kanji')}</div>`;
@@ -440,7 +441,8 @@ export function renderMyList() {
 
   // ── Words section ────────────────────────────────────────────────────────
   const filteredWords = applyFilter(words, wordFilter);
-  html += `<div class="mylist-section-title" style="margin-top:32px">${t('ml_section_words')} <span class="mylist-section-count">${words.length}</span></div>`;
+  const wordCountLabel = wordFilter === 'all' ? words.length : `${filteredWords.length}<span style="font-weight:400;color:var(--muted)">/${words.length}</span>`;
+  html += `<div class="mylist-section-title" style="margin-top:32px">${t('ml_section_words')} <span class="mylist-section-count">${wordCountLabel}</span></div>`;
   html += filterPills(wordFilter, 'setMyListWordFilter');
   if (!words.length) {
     html += `<div class="mylist-empty-small">${t('ml_no_words')}</div>`;
@@ -484,7 +486,7 @@ export function renderMyList() {
         </div>
         <input class="mylist-search" type="text" placeholder="${t('ml_search')}"
           oninput="filterMyList(this.value)">
-        <span class="mylist-count" id="mylistCount">${t('home_words')(words.length)}</span>
+        <span class="mylist-count" id="mylistCount">${t('home_words')(filteredWords.length)}${wordFilter !== 'all' ? ` / ${t('home_words')(words.length)}` : ''}</span>
       </div>
       <table class="mylist-table" id="mylistTable">
         <thead><tr>
