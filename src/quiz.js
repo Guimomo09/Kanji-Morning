@@ -588,7 +588,6 @@ export function renderExamTab() {
       <div class="exam-level-card">
         <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
           ${t('exam_level_label')}
-          <span class="exam-info-tip" tabindex="0" data-tip="${t('exam_cumulative_tip')}">ⓘ</span>
           <button class="section-hint-btn" style="margin-left:auto" onclick="showTabHint('exam')" aria-label="How Exam Mode works">i</button>
         </div>
         <div class="exam-pills">${levelPills}</div>

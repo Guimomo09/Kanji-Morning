@@ -1526,7 +1526,8 @@
     .tab-hint-icon {
       font-size: 40px; line-height: 1; margin-bottom: 12px;
       text-align: center;
-      font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif;
+      font-family: 'Noto Sans JP', 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif;
+      color: var(--red);
     }
     .tab-hint-title {
       font-size: 19px; font-weight: 900; color: var(--text);

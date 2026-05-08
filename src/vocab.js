@@ -417,7 +417,7 @@ export function renderMyList() {
   // ── Kanji section ────────────────────────────────────────────────────────
   const filteredKanjis = applyFilter(kanjis, kanjiFilter);
   const kanjiCountLabel = kanjiFilter === 'all' ? kanjis.length : `${filteredKanjis.length}<span style="font-weight:400;color:var(--muted)">/${kanjis.length}</span>`;
-  html += `<div class="mylist-section-title" style="display:flex;align-items:center;gap:8px">${t('ml_section_kanji')} <span class="mylist-section-count">${kanjiCountLabel}</span> <button class="section-hint-btn" onclick="showTabHint('mylist')" aria-label="How to use My List">i</button></div>`;
+  html += `<div class="mylist-section-title">${t('ml_section_kanji')} <span class="mylist-section-count">${kanjiCountLabel}</span></div>`;
   html += filterPills(kanjiFilter, 'setMyListKanjiFilter');
   if (!kanjis.length) {
     html += `<div class="mylist-empty-small">${t('ml_no_kanji')}</div>`;

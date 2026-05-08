@@ -71,6 +71,7 @@ export function switchTab(tab) {
     document.getElementById('btnDailyQuiz').style.display    = 'none';
     document.getElementById('btnFromKanji').style.display    = 'none';
     document.getElementById('btnExam').style.display         = 'none';
+    document.getElementById('btnMyListHint').style.display   = 'none';
     updateBiWeeklyBtn();
     srsUpdateReviewCount();
   }
@@ -90,6 +91,7 @@ export function switchTab(tab) {
   }
   if (isMyList) {
     document.getElementById('btnExam').style.display         = '';
+    document.getElementById('btnMyListHint').style.display   = '';
     document.getElementById('hTitle').textContent = '単語リスト';
     document.getElementById('hSub').textContent   = t('sub_mylist');
     renderMyList();

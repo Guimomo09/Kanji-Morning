@@ -70,60 +70,60 @@ const TAB_HINTS = {
     icon: '🏠',
     title: 'Home — Your Dashboard',
     body: `<p>Your daily study hub. Everything at a glance.</p><ul>
-      <li>🔥 <b>Streak</b> — consecutive days you studied. Don't break the chain!</li>
-      <li>🃏 <b>Daily Quiz</b> — 15 new words + 5 review. Only available after saving words from the Vocab tab.</li>
-      <li>📅 <b>Weekly Challenge</b> — every Monday, covers the last 2 weeks of vocabulary.</li>
-      <li>🎯 <b>JLPT tile</b> — tracks how many words you've saved toward your current goal. Tap to change level.</li>
+      <li><b>Streak</b> — consecutive days you studied. Don't break the chain!</li>
+      <li><b>Daily Quiz</b> — 15 new words + 5 review. Only available after saving words from the Vocab tab.</li>
+      <li><b>Weekly Challenge</b> — every Monday, covers the last 2 weeks of vocabulary.</li>
+      <li><b>JLPT tile</b> — tracks how many words you've saved toward your current goal. Tap to change level.</li>
     </ul>`,
   },
   kanji: {
     icon: '漢',
     title: 'Kanji — Browse & Discover',
     body: `<p>Explore kanji organised by JLPT level (N5 = easiest, N1 = hardest).</p><ul>
-      <li>👆 <b>Tap a card</b> — opens the detail popup: readings, meanings & example vocabulary.</li>
-      <li>⭐ <b>Save a kanji</b> — bookmarks it in My List and unlocks its vocabulary for the Vocab tab.</li>
-      <li>＋/－ <b>More / Less</b> — adjust how many cards are shown at once.</li>
-      <li>🔍 <b>Search bar</b> — find any kanji by character, reading, or meaning.</li>
+      <li><b>New Selection</b> — shuffle a new batch of kanji at the same level.</li>
+      <li><b>Save a kanji</b> — tap the star button on a card to bookmark it in My List and unlock its vocabulary.</li>
+      <li><b>More / Less</b> — adjust how many cards are shown at once.</li>
+      <li><b>Search bar</b> — find any kanji by character, reading, or meaning.</li>
     </ul>`,
   },
   vocab: {
     icon: '語',
     title: 'Vocab — Daily Word Cards',
     body: `<p>Vocabulary built from the kanji you've bookmarked.</p><ul>
-      <li>💾 <b>Save for Quiz</b> — adds today's words to your daily quiz pool.</li>
-      <li>🔄 <b>New Selection</b> — shuffles a fresh batch of vocab from your saved kanji.</li>
-      <li>🏷️ <b>Level filter</b> — focus on N5 → N1 or mix all levels.</li>
-      <li>📝 <b>Quiz types</b> vary: word → meaning, meaning → word, kanji → reading, and more.</li>
+      <li><b>New Selection</b> — shuffle a fresh batch of vocab from your saved kanji.</li>
+      <li><b>Save for Quiz</b> — adds today's words to your daily quiz pool.</li>
+      <li><b>From Kanji</b> — when active, vocab is filtered to match only the kanji visible in the Kanji tab.</li>
+      <li><b>Level filter</b> — focus on a specific JLPT level or mix all levels.</li>
     </ul>`,
   },
   mylist: {
     icon: '📋',
     title: 'My List — Saved Words & Kanji',
     body: `<p>All your bookmarked kanji and vocabulary in one place.</p><ul>
-      <li>👆 <b>Tap a kanji chip</b> — opens the kanji detail popup.</li>
-      <li>☑️ <b>Select</b> — enables multi-select mode for bulk deletion.</li>
-      <li>🔁 <b>SRS Review</b> — spaced-repetition practice of your saved words (toolbar button).</li>
-      <li>☁️ <b>Sign in</b> — syncs your list across devices via Google account.</li>
+      <li><b>Tap a kanji chip</b> — opens the kanji detail popup with readings and examples.</li>
+      <li><b>Select</b> — enables multi-select mode for bulk deletion.</li>
+      <li><b>SRS Review</b> — spaced-repetition practice of your saved words (toolbar button).</li>
+      <li><b>Sign in</b> — syncs your list across devices via Google account.</li>
     </ul>`,
   },
   stats: {
     icon: '📊',
     title: 'Stats — Your Progress',
     body: `<p>Charts and history tracking your study journey.</p><ul>
-      <li>📅 <b>Streak calendar</b> — each square = one study day. Darker = more words studied.</li>
-      <li>📈 <b>Score chart</b> — your quiz results over time (last 20 sessions).</li>
-      <li>📊 <b>Activity chart</b> — words studied per day over the last 2 weeks.</li>
-      <li>🎯 <b>JLPT progress</b> — how close you are to your target level vocabulary count.</li>
+      <li><b>Streak calendar</b> — each square = one study day. Darker = more words studied.</li>
+      <li><b>Score chart</b> — your quiz results over time (last 20 sessions).</li>
+      <li><b>Activity chart</b> — words studied per day over the last 2 weeks.</li>
+      <li><b>JLPT progress</b> — how close you are to your target level vocabulary count.</li>
     </ul>`,
   },
   exam: {
     icon: '試験',
     title: 'Exam Mode — JLPT Simulation',
     body: `<p>A timed quiz that simulates a real JLPT test using your saved vocabulary.</p><ul>
-      <li>⏱️ <b>7 minutes</b> — strictly timed. Unanswered questions count as wrong.</li>
-      <li>📝 <b>40 questions</b> — mix of reading, meaning, and recognition question types.</li>
-      <li>🎯 <b>60% to pass</b> — score 24/40 or better.</li>
-      <li>📚 <b>Cumulative levels</b> — N3 exam includes N5, N4 and N3 vocabulary.</li>
+      <li><b>10 minutes</b> — strictly timed. Unanswered questions count as wrong.</li>
+      <li><b>40 questions</b> — mix of reading, meaning, and recognition question types.</li>
+      <li><b>60% to pass</b> — score 24/40 or better.</li>
+      <li><b>Cumulative levels</b> — N3 exam includes N5, N4 and N3 vocabulary.</li>
     </ul>`,
   },
 };
