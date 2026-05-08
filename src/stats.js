@@ -54,8 +54,105 @@ export function computeTotalWords() {
   return seen.size;
 }
 
-// ── Streak calendar heatmap ───────────────────────────────────────────────
-// ── Streak card view switcher ─────────────────────────────────────────────
+// ── Activity calendar & view switcher ────────────────────────────────────
+let _calYear     = new Date().getFullYear();
+let _calMonth    = new Date().getMonth(); // 0-indexed
+let _studyVals14 = [];
+let _studyLbls14 = [];
+let _biweeklyHtml = '';
+
+function renderActivityCalendar(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const today   = new Date();
+  const todayDs = dateStr(today);
+  const year    = _calYear;
+  const month   = _calMonth;
+
+  const monthNames = ['January','February','March','April','May','June',
+                      'July','August','September','October','November','December'];
+  const dowNames   = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+
+  const firstDay    = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // Monday-first offset: Mon=0 … Sun=6
+  const firstDow = (firstDay.getDay() + 6) % 7;
+
+  // Collect studied days in this month
+  const studiedSet = new Set();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const ds = dateStr(new Date(year, month, d));
+    if (localStorage.getItem(`vocab_daily_${ds}`)) studiedSet.add(d);
+  }
+
+  // 6 rows × 7 cols = 42 cells
+  let cellsHtml = '';
+  for (let i = 0; i < 42; i++) {
+    const dayNum = i - firstDow + 1;
+    if (dayNum < 1 || dayNum > daysInMonth) {
+      cellsHtml += `<div class="scal-cell scal-empty"></div>`;
+    } else {
+      const ds        = dateStr(new Date(year, month, dayNum));
+      const isToday   = ds === todayDs;
+      const isStudied = studiedSet.has(dayNum);
+      let cls = 'scal-cell';
+      if (isStudied) cls += ' scal-studied';
+      if (isToday)   cls += ' scal-today';
+      cellsHtml += `<div class="${cls}">${dayNum}</div>`;
+    }
+  }
+
+  container.innerHTML = `
+    <div class="scal">
+      <div class="scal-nav">
+        <button class="scal-arrow" onclick="navActivityCal(-1)">&#8249;</button>
+        <span class="scal-month-label">${monthNames[month]} ${year}</span>
+        <button class="scal-arrow" onclick="navActivityCal(1)">&#8250;</button>
+      </div>
+      <div class="scal-grid">
+        ${dowNames.map(n => `<div class="scal-dow">${n}</div>`).join('')}
+        ${cellsHtml}
+      </div>
+    </div>`;
+}
+
+export function navActivityCal(dir) {
+  _calMonth += dir;
+  if (_calMonth < 0)  { _calMonth = 11; _calYear--; }
+  if (_calMonth > 11) { _calMonth = 0;  _calYear++; }
+  renderActivityCalendar('activityCalContent');
+}
+
+export function setActivityView(view) {
+  localStorage.setItem('km_activity_view', view);
+  document.querySelectorAll('.activity-view-pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  _renderActivityContent(view);
+}
+
+function _renderActivityContent(view) {
+  const el = document.getElementById('activityViewContent');
+  if (!el) return;
+  if (view === 'cal') {
+    _calYear  = new Date().getFullYear();
+    _calMonth = new Date().getMonth();
+    el.innerHTML = `<div id="activityCalContent" style="margin-top:12px"></div>`;
+    requestAnimationFrame(() => renderActivityCalendar('activityCalContent'));
+  } else {
+    const days = view === '1w' ? 7 : 14;
+    const vals = _studyVals14.slice(-days);
+    const lbls = _studyLbls14.slice(-days);
+    el.innerHTML = `<canvas id="studyCanvas" class="chart-canvas"></canvas>${_biweeklyHtml}`;
+    requestAnimationFrame(() => {
+      const st = document.getElementById('studyCanvas');
+      if (st) drawBarChart(st, vals, lbls);
+    });
+  }
+}
+
+// keep old name so nothing else breaks (unused but harmless)
 function buildStreakDotsHtml(numDays) {
   const today = new Date();
   let html = `<div class="streak-dots-wide">`;
@@ -487,7 +584,10 @@ export function renderStats() {
         ${t('stats_next_challenge')} <strong>${dateStr(nextMon)}</strong>
        </div>`;
 
-  const sv = localStorage.getItem('km_streak_view') || '2w';
+  _studyVals14  = studyVals;
+  _studyLbls14  = studyLbls;
+  _biweeklyHtml = biweeklyInfoHtml;
+  const av = localStorage.getItem('km_activity_view') || '2w';
 
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
@@ -507,18 +607,6 @@ export function renderStats() {
         </div>
       </div>
 
-      <div class="chart-block">
-        <div class="streak-cal-header">
-          <span class="chart-title" style="margin:0">Streak</span>
-          <div class="streak-view-pills">
-            <button class="pill streak-view-pill${sv === '1w' ? ' active' : ''}" data-view="1w" onclick="setStreakView('1w')">1W</button>
-            <button class="pill streak-view-pill${sv === '2w' ? ' active' : ''}" data-view="2w" onclick="setStreakView('2w')">2W</button>
-            <button class="pill streak-view-pill${sv === 'cal' ? ' active' : ''}" data-view="cal" onclick="setStreakView('cal')">Calendar</button>
-          </div>
-        </div>
-        <div id="streakViewContent"></div>
-      </div>
-
       ${history.length ? `
       <div class="chart-block">
         <div class="chart-title">${t('stats_chart_scores')}</div>
@@ -526,9 +614,15 @@ export function renderStats() {
       </div>` : ''}
 
       <div class="chart-block">
-        <div class="chart-title">${t('stats_chart_activity')}</div>
-        <canvas id="studyCanvas" class="chart-canvas"></canvas>
-        ${biweeklyInfoHtml}
+        <div class="streak-cal-header">
+          <span class="chart-title" style="margin:0">${t('stats_chart_activity')}</span>
+          <div class="streak-view-pills">
+            <button class="pill activity-view-pill${av === '1w' ? ' active' : ''}" data-view="1w" onclick="setActivityView('1w')">1W</button>
+            <button class="pill activity-view-pill${av === '2w' ? ' active' : ''}" data-view="2w" onclick="setActivityView('2w')">2W</button>
+            <button class="pill activity-view-pill${av === 'cal' ? ' active' : ''}" data-view="cal" onclick="setActivityView('cal')">Calendar</button>
+          </div>
+        </div>
+        <div id="activityViewContent"></div>
       </div>
 
       ${history.length ? `
@@ -562,9 +656,7 @@ export function renderStats() {
 
   requestAnimationFrame(() => {
     const sc = document.getElementById('scoreCanvas');
-    const st = document.getElementById('studyCanvas');
     if (sc) drawLineChart(sc, scoreVals, scoreLbls);
-    if (st) drawBarChart(st, studyVals, studyLbls);
-    _renderStreakViewContent(sv);
+    _renderActivityContent(av);
   });
 }

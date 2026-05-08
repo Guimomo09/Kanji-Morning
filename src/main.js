@@ -6,7 +6,7 @@ import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremium
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter } from './vocab.js';
-import { renderStats, renderHome, setStreakView }               from './stats.js';
+import { renderStats, renderHome, setActivityView, navActivityCal } from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
@@ -363,8 +363,9 @@ Object.assign(window, {
   // Tab hints
   showTabHint,
   closeTabHint,
-  // Streak view switcher
-  setStreakView,
+  // Activity view switcher
+  setActivityView,
+  navActivityCal,
   // Kanji detail popup
   openKanjiDetail,
   closeKanjiDetail,

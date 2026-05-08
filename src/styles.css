@@ -765,14 +765,24 @@
     .kpi-streak-nudge span { cursor: pointer; text-decoration: underline; }
     .kpi-grid-2col { grid-template-columns: 1fr 1fr !important; }
     .kpi-grid-2col .kpi-jlpt { grid-column: unset; }
-    /* ── Streak view switcher in chart-block ────────────────────────────── */
+    /* ── Activity view switcher ──────────────────────────────────────────── */
     .streak-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
     .streak-view-pills { display: flex; gap: 4px; flex-shrink: 0; }
     .streak-view-pills .pill { font-size: 11px; padding: 3px 8px; border-radius: 12px; background: var(--card); border: 1.5px solid var(--border); color: var(--sub); font-weight: 700; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
     .streak-view-pills .pill.active { background: var(--red); border-color: var(--red); color: #fff; }
-    .streak-dots-wide { display: flex; justify-content: space-between; width: 100%; }
-    .streak-dot-col { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-    .streak-dot-day { font-size: 9px; color: var(--muted); line-height: 1; }
+    /* ── Study activity real calendar ───────────────────────────────────── */
+    .scal { width: 100%; }
+    .scal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .scal-arrow { background: none; border: none; font-size: 24px; color: var(--sub); cursor: pointer; padding: 0 6px; line-height: 1; font-weight: 300; }
+    .scal-arrow:hover { color: var(--red); }
+    .scal-month-label { font-size: 15px; font-weight: 700; color: var(--text); }
+    .scal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .scal-dow { text-align: center; font-size: 9px; font-weight: 700; color: var(--muted); padding: 2px 0 8px; letter-spacing: .4px; }
+    .scal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: clamp(10px, 2.5vw, 13px); color: var(--sub); border-radius: 50%; }
+    .scal-empty { visibility: hidden; }
+    .scal-cell.scal-studied { background: var(--red); color: #fff; font-weight: 700; }
+    .scal-cell.scal-today:not(.scal-studied) { border: 2px solid var(--red); color: var(--red); font-weight: 700; }
+    .scal-cell.scal-today.scal-studied { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--red); }
     /* word of the day */
     .kpi-wotd { padding: 0 !important; overflow: hidden; display: flex !important; flex-direction: column !important; align-items: stretch !important; justify-content: flex-start !important; }
     .kpi-wotd-banner {
