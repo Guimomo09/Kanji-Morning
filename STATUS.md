@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **8 Mai 2026** · Commit `2ed1aa7` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **8 Mai 2026** · Commit `676f1ac` (main) · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -166,7 +166,7 @@ kanji.guimo-prod.com {
 - [x] `scripts/generate-seo-pages.mjs` — fetch kanjiapi.dev, rate-limited (batch 10 / 120ms)
 - [x] `public/sitemap.xml` mis à jour avec 5 nouvelles URLs (priority 0.8–0.9)
 
-**Perf & Accessibilité** ← commits `40be8f5` → `2ed1aa7` (main, 8 Mai 2026)
+**Perf & Accessibilité** ← commits `40be8f5` → `676f1ac` (main, 8 Mai 2026)
 - [x] Firebase `defer` — supprime 1050ms de blocage au chargement
 - [x] Google Fonts async (`media="print" onload`) — supprime 380ms de blocage
 - [x] Preconnect `stats.asanokanji.com` + `client.crisp.chat` (–760ms LCP estimé)
@@ -176,6 +176,11 @@ kanji.guimo-prod.com {
 - [x] `--muted: #6b6b6b` (ratio 5.0:1) — fix contraste WCAG sur fond `#faf7f2`
 - [x] Labels tabs : `opacity:.7` → classe `.tab-sub` sans opacité
 - [x] `aria-label="Language"` sur `#langSelect`
+- [x] `Cache-Control: public, max-age=31536000, immutable` sur `/assets/*` (Caddyfile) — –98 KiB cache mobile
+- [x] `min-height: 60vh` sur `.home-section` — CLS footer 0.193 → 0 ✅
+- [x] `font-display: fallback` (was `swap`) — élimine le CLS tardif des fonts
+- **Scores Lighthouse 8 Mai 2026** : Desktop **93** / 95 / 96 / 100 · Mobile **59** / 95 / 96 / 100
+- **CLS** : 0.143 → 0.037 (desktop) · 0.193 → 0 (mobile) ✅
 
 **Branding & Logo** ← commits `6cd5a44` → `d87e8e9` (main, 8 Mai 2026)
 - [x] Logo SVG (cercle ivoire + flamme + 朝) créé et intégré
