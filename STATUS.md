@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **8 Mai 2026** · Commit `0f1753c` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **8 Mai 2026** · Commit `68eddf3` (main) · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -215,6 +215,9 @@ kanji.guimo-prod.com {
 - [x] Titre dynamique selon la vue : "Last 7 Days" / "Last 14 Days" / "Calendar" (5 langues)
 - [x] Bouton "i" Stats déplacé dans la toolbar (pattern identique à My List)
 - [x] Fix `QuotaExceededError` localStorage — `setActivityView` catch quota + `cleanupOldData` purge `vocab_daily_*` > 90 jours
+- [x] Bouton "i" Stats déplacé dans la toolbar (far-right, `margin-left:auto`) — pattern unifié avec Kanji/Vocab/My List
+- [x] Bouton "i" Kanji/Vocab inline avec compteur (next to count label)
+- [x] Bloc Exam desktop `max-width` aligné sur Home (900px) — plus de saut de largeur au switch d'onglet
 
 ### 🟡 Prochaines étapes
 
