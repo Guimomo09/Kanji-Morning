@@ -26,7 +26,7 @@
       min-height: 100vh;
     }
 
-    /* �E��E��E��E� Header �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Header ���������������������������������������������������������������������� */
     header {
       background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
       color: #fff;
@@ -110,7 +110,7 @@
       #settingsPage { width: 100%; }
     }
 
-    /* �E��E��E��E� Toolbar �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Toolbar ���������������������������������������������������������������������� */
     .toolbar {
       max-width: 1120px;
       margin: 22px auto 0;
@@ -138,7 +138,7 @@
     .toolbar-info { font-size: 13px; color: var(--muted); margin-left: 4px; }
     .toolbar-info strong { color: var(--sub); }
 
-    /* �E��E��E��E� Status bar �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Status bar ���������������������������������������������������������������� */
     #statusMsg {
       font-size: 12px;
       padding: 3px 10px;
@@ -149,7 +149,7 @@
     .status-ok      { background: #e8f5e9; color: #2e7d32; }
     .status-error   { background: #fce4e4; color: #c03a20; }
 
-    /* �E��E��E��E� Legend �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Legend ���������������������������������������������������������������������� */
     .legend {
       max-width: 1120px;
       margin: 14px auto 0;
@@ -162,7 +162,7 @@
     .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
     .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-    /* �E��E��E��E� Grid �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Grid ���������������������������������������������������������������������� */
     .grid {
       max-width: 1120px;
       margin: 20px auto 48px;
@@ -172,7 +172,7 @@
       gap: 20px;
     }
 
-    /* �E��E��E��E� Card �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Card ���������������������������������������������������������������������� */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -193,7 +193,7 @@
       to   { opacity: 1; transform: translateY(0);    }
     }
 
-    /* �E��E��E��E� Skeleton card �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Skeleton card ���������������������������������������������������������� */
     .skeleton {
       display: flex;
       gap: 16px;
@@ -228,12 +228,12 @@
       word-break: break-word; overflow-wrap: break-word;
     }
 
-    /* �E��E��E��E� Readings �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Readings �������������������������������������������������������������� */
     .readings { display: flex; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 14px; margin-bottom: 16px; }
     .reading-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); display: block; margin-bottom: 4px; }
     .reading-kana  { font-size: 14px; font-weight: 700; color: #6d4c41; letter-spacing: 1px; word-break: break-all; }
 
-    /* �E��E��E��E� Examples �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Examples �������������������������������������������������������������� */
     .examples-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
     .example {
       display: flex;
@@ -252,7 +252,7 @@
     .ex-reading { font-size: 11px; color: var(--muted); }
     .ex-meaning { font-size: 12px; color: var(--sub); word-break: break-word; overflow-wrap: break-word; }
 
-    /* �E��E��E��E� Quiz mode �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Quiz mode ������������������������������������������������������������ */
     .btn-quiz         { background: #fff3e0; color: #e65100; border: 1.5px solid #ffcc80; }
     .btn-quiz:hover   { background: #ffe0b2; }
     .btn-quiz.active  { background: #e65100; color: #fff; border-color: #e65100; }
@@ -281,7 +281,7 @@
     .search-input::-webkit-search-cancel-button { cursor:pointer; }
     .search-no-results { grid-column:1/-1; text-align:center; color:var(--muted); padding:48px 24px; font-size:15px; }
 
-    /* �E��E��E��E� Vocab interactive quiz �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Vocab interactive quiz ���������������������������������������� */
     .quiz-screen {
       grid-column: 1 / -1;
       display: flex;
@@ -421,7 +421,7 @@
     .mylist-full-empty-body  { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 28px; }
     .mylist-full-empty-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-    /* �E��E��E��E� Tabs �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Tabs �������������������������������������������������������������������������� */
     .tabbar {
       max-width: 1120px;
       margin: 0 auto;
@@ -485,7 +485,7 @@
       padding: 1px 7px; border-radius: 10px;
     }
 
-    /* �E��E��E��E� Footer �E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E��E� */
+    /* ���� Footer ���������������������������������������������������������������������� */
     /* ── Kanji save button ────────────────────────────────────────────────── */
     .kanji-save-btn {
       position: absolute; top: 12px; right: 14px; z-index: 3;
@@ -513,7 +513,7 @@
       font-size: 16px; padding: 4px;
     }
 
-    /* Vocab card  Einline dans le header */
+    /* Vocab card — inline dans le header */
     .vocab-speak-btn { margin-left: auto; flex-shrink: 0; }
 
     /* Quiz speak button */
@@ -940,7 +940,7 @@
     .auth-syncing { font-size: 11px; color: rgba(255,255,255,.6); margin-left: 4px; }
 
     /* ════════════════════════════════════════════════════════════════
-       📱 MOBILE  Emax-width: 640px
+       📱 MOBILE — max-width: 640px
        ════════════════════════════════════════════════════════════════ */
     @media (max-width: 640px) {
 
@@ -1006,7 +1006,7 @@
       /* Push content above bottom nav */
       .grid, .stats-section, .mylist-section, .home-section { margin-bottom: calc(72px + env(safe-area-inset-bottom)); }
 
-      /* Push Crisp bubble above bottom nav  Etargets the container in our own DOM */
+      /* Push Crisp bubble above bottom nav — targets the container in our own DOM */
       #crisp-chatbox { bottom: 72px !important; }
       .home-actions { grid-template-columns: 1fr 1fr; }
       .home-action-card { padding: 16px 10px; }
@@ -1080,7 +1080,7 @@
       .mylist-kana  { font-size: 11px; }
       .btn-danger   { padding: 5px 8px !important; font-size: 10px !important; }
       .mylist-search { max-width: 100%; min-width: 0; flex: 1; }
-      /* Larger tap target for kanji chip select ✁Eon touch screens */
+      /* Larger tap target for kanji chip select ✓ on touch screens */
       .kanji-chip-check {
         width: 36px; height: 36px;
         top: 0; right: 0;
@@ -1111,7 +1111,7 @@
     }
 
     /* ════════════════════════════════════════════════════════════════
-       🏠 HOME HERO  Econcept banner + CTA
+       🏠 HOME HERO — concept banner + CTA
        ════════════════════════════════════════════════════════════════ */
     .home-hero {
       background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
@@ -1122,7 +1122,7 @@
       overflow: hidden;
     }
     .home-hero::before {
-      content: '漢孁E;
+      content: '漢字';
       position: absolute; right: -10px; top: -14px;
       font-size: 120px; font-weight: 900; opacity: .07;
       line-height: 1; pointer-events: none; user-select: none;
