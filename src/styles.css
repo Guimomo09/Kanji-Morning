@@ -8,7 +8,7 @@
       --text:    #1a1a1a;
       --ink:     #1a1a1a;
       --sub:     #555;
-      --muted:   #999;
+      --muted:   #6b6b6b;
       --n5:      #00695c;  --n5-bg: #e0f2f1;
       --n4:      #1b5e20;  --n4-bg: #e8f5e9;
       --n3:      #0d47a1;  --n3-bg: #e3f2fd;
@@ -458,6 +458,7 @@
     .tab br { display: none; }
     .tab:hover  { background: #e0d5c8; }
     .tab.active { background: var(--red); color: #fff; }
+    .tab-sub { font-size: 9px; opacity: 1; }
 
     /* ── Vocab card extras ───────────────────────────────────────────────── */
     .vocab-header { margin-bottom: 10px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
