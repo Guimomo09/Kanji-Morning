@@ -21,9 +21,83 @@ const ARCHAIC_WORDS = new Set([
 const READING_OVERRIDE = {
   '馬車': 'ばしゃ',
 };
+
+// ── Hand-curated examples for number kanji ──────────────────────────────
+// The subtitle corpus uses Arabic numerals (7月, 7日) so all kanji-written
+// number words get freqRank=99999, letting obscure Buddhist/historical terms
+// bubble to the top. These overrides guarantee simple, daily-use examples.
+const EXAMPLE_OVERRIDE = {
+  '一': [
+    { w: '一つ',   r: 'ひとつ',     m: 'one; one thing' },
+    { w: '一人',   r: 'ひとり',     m: 'one person; alone' },
+    { w: '一番',   r: 'いちばん',   m: 'number one; first; best' },
+  ],
+  '二': [
+    { w: '二つ',   r: 'ふたつ',     m: 'two; two things' },
+    { w: '二人',   r: 'ふたり',     m: 'two people; both' },
+    { w: '二月',   r: 'にがつ',     m: 'February' },
+  ],
+  '三': [
+    { w: '三つ',   r: 'みっつ',     m: 'three; three things' },
+    { w: '三月',   r: 'さんがつ',   m: 'March' },
+    { w: '三人',   r: 'さんにん',   m: 'three people' },
+  ],
+  '四': [
+    { w: '四つ',   r: 'よっつ',     m: 'four; four things' },
+    { w: '四月',   r: 'しがつ',     m: 'April' },
+    { w: '四日',   r: 'よっか',     m: '4th day of the month; four days' },
+  ],
+  '五': [
+    { w: '五つ',   r: 'いつつ',     m: 'five; five things' },
+    { w: '五月',   r: 'ごがつ',     m: 'May' },
+    { w: '五日',   r: 'いつか',     m: '5th day of the month; five days' },
+  ],
+  '六': [
+    { w: '六つ',   r: 'むっつ',     m: 'six; six things' },
+    { w: '六月',   r: 'ろくがつ',   m: 'June' },
+    { w: '六日',   r: 'むいか',     m: '6th day of the month; six days' },
+  ],
+  '七': [
+    { w: '七月',   r: 'しちがつ',   m: 'July' },
+    { w: '七日',   r: 'なのか',     m: '7th day of the month; seven days' },
+    { w: '七つ',   r: 'ななつ',     m: 'seven' },
+  ],
+  '八': [
+    { w: '八つ',   r: 'やっつ',     m: 'eight; eight things' },
+    { w: '八月',   r: 'はちがつ',   m: 'August' },
+    { w: '八日',   r: 'ようか',     m: '8th day of the month; eight days' },
+  ],
+  '九': [
+    { w: '九つ',   r: 'ここのつ',   m: 'nine; nine things' },
+    { w: '九月',   r: 'くがつ',     m: 'September' },
+    { w: '九日',   r: 'ここのか',   m: '9th day of the month; nine days' },
+  ],
+  '十': [
+    { w: '十月',   r: 'じゅうがつ', m: 'October' },
+    { w: '十分',   r: 'じゅうぶん', m: 'enough; sufficient; plenty' },
+    { w: '二十',   r: 'にじゅう',   m: 'twenty' },
+  ],
+  '百': [
+    { w: '百円',   r: 'ひゃくえん', m: '100 yen' },
+    { w: '百万',   r: 'ひゃくまん', m: 'one million' },
+    { w: '三百',   r: 'さんびゃく', m: 'three hundred' },
+  ],
+  '千': [
+    { w: '千円',   r: 'せんえん',   m: '1000 yen' },
+    { w: '何千',   r: 'なんぜん',   m: 'thousands of; many thousands' },
+    { w: '三千',   r: 'さんぜん',   m: 'three thousand' },
+  ],
+  '万': [
+    { w: '一万',   r: 'いちまん',   m: '10,000; ten thousand' },
+    { w: '何万',   r: 'なんまん',   m: 'tens of thousands' },
+    { w: '万年筆', r: 'まんねんひつ', m: 'fountain pen' },
+  ],
+};
+
 // ── Extract best example words from API response ─────────────────────────
 // Scoring: prefer short common words, penalize historical/specialized glosses.
 export function bestExamples(words, targetChar, max = 3) {
+  if (EXAMPLE_OVERRIDE[targetChar]) return EXAMPLE_OVERRIDE[targetChar].slice(0, max);
   const candidates   = [];
   const seenMeanings = new Set();
 
@@ -61,8 +135,17 @@ export function bestExamples(words, targetChar, max = 3) {
     const wordLen    = variant.written.length;
     const isRare     = GLOSS_RARE_RE.test(gloss);
     const hasPrefix  = GLOSS_SKIP_RE.test(gloss);
-    // Frequency rank: lower = more common. Unknown words get rank 99999.
-    const freqRank   = FREQ[variant.written] ?? 99999;
+    // Frequency rank: lower = more common.
+    // If not in subtitle corpus, fall back to API's news-frequency rank (nfXX)
+    // so words like 七月 (nf01) rank far above obscure unlisted terms.
+    const priorities = variant.priorities ?? [];
+    let freqRank = FREQ[variant.written];
+    if (freqRank == null) {
+      const nfMatch = priorities.map(p => p.match(/^nf(\d+)$/)).find(Boolean);
+      if (nfMatch)                                               freqRank = 5000 + parseInt(nfMatch[1]) * 100;
+      else if (priorities.some(p => p === 'ichi1' || p === 'spec1')) freqRank = 5000;
+      else                                                       freqRank = 99999;
+    }
     // Score: low frequency rank = low score = appears first
     const score      = (freqRank / 100) + (isRare ? 20 : 0) + (hasPrefix ? 10 : 0) + (wordLen > 4 ? wordLen : 0);
 
