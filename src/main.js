@@ -123,7 +123,7 @@ const TAB_HINTS = {
       <li><b>10 minutes</b> — strictly timed. Unanswered questions count as wrong.</li>
       <li><b>40 questions</b> — mix of reading, meaning, and recognition question types.</li>
       <li><b>60% to pass</b> — score 24/40 or better.</li>
-      <li><b>Cumulative levels</b> — N3 exam includes N5, N4 and N3 vocabulary.</li>
+      <li><b>Cumulative levels</b> — each exam includes all vocabulary up to that level (e.g. N3 includes N5, N4 and N3; N2 adds N2 on top, etc.).</li>
     </ul>`,
   },
 };
