@@ -506,7 +506,7 @@ export async function launchBiWeeklyQuiz() {
     state.currentTab = 'vocab';
   }
   document.getElementById('levelFilter').style.display = 'none';
-  document.getElementById('legendDiv').style.display   = 'none';
+  const _ld = document.getElementById('legendDiv'); if (_ld) _ld.style.display = 'none';
   startVocabQuiz(unique, dayLabel, 'biweekly');
 }
 

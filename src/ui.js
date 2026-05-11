@@ -57,7 +57,7 @@ export function switchTab(tab) {
   document.getElementById('mylistSection').style.display = isMyList ? 'block' : 'none';
   document.getElementById('examSection').style.display   = isExam   ? 'block' : 'none';
   document.getElementById('levelFilter').style.display   = isHidden ? 'none' : '';
-  document.getElementById('legendDiv').style.display     = isHidden ? 'none' : '';
+  const _legend = document.getElementById('legendDiv'); if (_legend) _legend.style.display = isHidden ? 'none' : '';
   document.getElementById('searchWrap').style.display    = (isHidden || tab === 'vocab') ? 'none' : '';
   const si = document.getElementById('searchInput');
   if (si) { si.value = ''; filterGrid(''); }
