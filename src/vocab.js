@@ -364,7 +364,15 @@ function _compact(it, date) {
            level: it.level || '', pos: it.pos || '', savedDate: it.savedDate || date };
 }
 export function rebuildSavedWordsMirror() {
-  const seen = new Set(), all = [];
+  // Scan vocab_daily_* and MERGE into existing km_saved_words (don't overwrite)
+  // This preserves any words already in the mirror from cloud pull (savedWords)
+  let existing = [];
+  try {
+    const raw = localStorage.getItem(_SW_KEY);
+    if (raw) existing = JSON.parse(raw);
+  } catch {}
+  const seen = new Set(existing.map(i => i.word));
+  const newFromDaily = [];
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
     if (!k || !k.startsWith('vocab_daily_')) continue;
@@ -372,10 +380,11 @@ export function rebuildSavedWordsMirror() {
     try {
       const items = JSON.parse(localStorage.getItem(k));
       if (!Array.isArray(items)) continue;
-      items.forEach(it => { if (!seen.has(it.word)) { seen.add(it.word); all.push(_compact(it, date)); } });
+      items.forEach(it => { if (!seen.has(it.word)) { seen.add(it.word); newFromDaily.push(_compact(it, date)); } });
     } catch {}
   }
-  all.sort((a, b) => b.savedDate.localeCompare(a.savedDate));
+  const all = [...newFromDaily, ...existing];
+  all.sort((a, b) => (b.savedDate || '').localeCompare(a.savedDate || ''));
   try { localStorage.setItem(_SW_KEY, JSON.stringify(all)); } catch {}
   return all;
 }
