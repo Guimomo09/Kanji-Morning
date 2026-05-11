@@ -357,7 +357,7 @@ Object.assign(window, {
   },
   cycleStreakTile() {
     const cur = localStorage.getItem('km_streak_tile_view') || 'streak';
-    localStorage.setItem('km_streak_tile_view', cur === 'streak' ? 'month' : 'streak');
+    try { localStorage.setItem('km_streak_tile_view', cur === 'streak' ? 'month' : 'streak'); } catch {}
     if (state.currentTab === 'stats') renderStats();
     else renderHome();
   },

@@ -50,8 +50,9 @@ export function cleanupOldData() {
   const thirtyDaysAgo = new Date(today);
   thirtyDaysAgo.setDate(today.getDate() - 30);
 
-  const ninetyDaysAgo = new Date(today);
-  ninetyDaysAgo.setDate(today.getDate() - 90);
+  // Keep only 14 days of daily vocab to avoid localStorage quota issues
+  const fourteenDaysAgo = new Date(today);
+  fourteenDaysAgo.setDate(today.getDate() - 14);
 
   const keysToDelete = [];
   for (let i = 0; i < localStorage.length; i++) {
@@ -61,9 +62,8 @@ export function cleanupOldData() {
       const itemDate = new Date(k.slice(14) + 'T12:00:00');
       if (itemDate < thirtyDaysAgo) keysToDelete.push(k);
     } else if (k.startsWith('vocab_daily_')) {
-      // Keep 90 days of daily history for stats
       const itemDate = new Date(k.slice(12) + 'T12:00:00');
-      if (itemDate < ninetyDaysAgo) keysToDelete.push(k);
+      if (itemDate < fourteenDaysAgo) keysToDelete.push(k);
     }
   }
   keysToDelete.forEach(k => localStorage.removeItem(k));

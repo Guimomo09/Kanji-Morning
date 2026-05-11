@@ -408,7 +408,24 @@ export function saveQuizResult(score, total, type, examLevel) {
     localStorage.setItem('quiz_history', JSON.stringify(history));
     console.log('[KM] quiz_history saved. biweekly entries:', history.filter(h => h.type === 'biweekly').map(h => h.date + ' ' + h.pct + '%'));
   } catch (e) {
-    console.error('[KM] localStorage.setItem FAILED:', e);
+    console.warn('[KM] localStorage full — evicting old vocab_daily and retrying...');
+    // Emergency eviction: remove vocab_daily older than 7 days
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 7);
+    const toDelete = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('vocab_daily_')) {
+        const d = new Date(k.slice(12) + 'T12:00:00');
+        if (d < cutoff) toDelete.push(k);
+      }
+    }
+    toDelete.forEach(k => localStorage.removeItem(k));
+    // Also trim quiz_history to 20 entries
+    while (history.length > 20) history.shift();
+    try {
+      localStorage.setItem('quiz_history', JSON.stringify(history));
+      console.log('[KM] quiz_history saved after eviction.');
+    } catch (e2) { console.error('[KM] localStorage.setItem FAILED even after eviction:', e2); }
   }
   // Belt-and-suspenders: ensure done marker is always set when a biweekly result is saved
   if (qtype === 'biweekly') {
