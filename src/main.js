@@ -790,6 +790,23 @@ window.addEventListener('DOMContentLoaded', function() {
   window.debugAgent.rerunAll();
 });
 
+// ── Debug helper — call window.kmDebug() from browser console ────────────
+window.kmDebug = function() {
+  const { loadQuizHistory } = window._kmModules || {};
+  const raw = localStorage.getItem('quiz_history');
+  const history = raw ? JSON.parse(raw) : [];
+  const biweekly = history.filter(h => h.type === 'biweekly');
+  const doneKeys = Object.keys(localStorage).filter(k => k.startsWith('biweekly_done_'));
+  console.group('[KM Debug]');
+  console.log('Today:', new Date().toISOString());
+  console.log('quiz_history entries:', history.length);
+  console.log('Biweekly entries:', biweekly);
+  console.log('biweekly_done keys:', doneKeys.map(k => k + '=' + localStorage.getItem(k)));
+  console.log('Full quiz_history:', JSON.parse(raw || '[]'));
+  console.groupEnd();
+  return { history, biweekly, doneKeys };
+};
+
 // ── PWA service worker ────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

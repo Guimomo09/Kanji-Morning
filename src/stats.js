@@ -584,6 +584,7 @@ export function renderStats() {
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
 
   const lastBiweekly = [...history].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') ?? null;
+  console.log('[KM] renderStats — history length:', history.length, '| lastBiweekly:', lastBiweekly);
   const missedMon  = getMissedBiWeeklyMonday();
   const missedHtml = missedMon ? `
     <div class="stat-notif">

@@ -393,16 +393,23 @@ export function saveQuizResult(score, total, type, examLevel) {
   const today   = todayStr();
   const newPct  = Math.round((score / total) * 100);
   const qtype   = type || 'daily';
+  console.log('[KM] saveQuizResult called:', { date: today, score, total, pct: newPct, type: qtype });
   const idx = history.findIndex(h => h.date === today && (h.type || 'daily') === qtype && (!examLevel || h.examLevel === examLevel));
   const entry = { date: today, score, total, pct: newPct, type: qtype, ...(examLevel ? { examLevel } : {}) };
   if (idx !== -1) {
+    console.log('[KM] existing entry found, old pct:', history[idx].pct, 'new pct:', newPct);
     if (newPct > history[idx].pct) history[idx] = entry;
   } else {
     history.push(entry);
   }
   history.sort((a, b) => a.date.localeCompare(b.date));
   while (history.length > 50) history.shift();
-  try { localStorage.setItem('quiz_history', JSON.stringify(history)); } catch {}
+  try {
+    localStorage.setItem('quiz_history', JSON.stringify(history));
+    console.log('[KM] quiz_history saved. biweekly entries:', history.filter(h => h.type === 'biweekly').map(h => h.date + ' ' + h.pct + '%'));
+  } catch (e) {
+    console.error('[KM] localStorage.setItem FAILED:', e);
+  }
   // Belt-and-suspenders: ensure done marker is always set when a biweekly result is saved
   if (qtype === 'biweekly') {
     saveBiWeeklyDone(today);

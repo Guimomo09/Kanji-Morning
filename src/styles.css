@@ -743,10 +743,14 @@
     }
 
     /* ── JLPT kpi card ────────────────────────────────────────────────────── */
-    .kpi-streak { cursor: pointer; user-select: none; }
+    .kpi-streak { cursor: pointer; user-select: none; touch-action: manipulation; }
     .kpi-streak:hover { border-color: var(--red); }
-    .kpi-jlpt { cursor: pointer; user-select: none; }
+    .kpi-streak * { pointer-events: none; }
+    .kpi-streak .kpi-streak-nudge { pointer-events: auto; }
+    .kpi-streak .kpi-streak-nudge span { pointer-events: auto; cursor: pointer; }
+    .kpi-jlpt { cursor: pointer; user-select: none; touch-action: manipulation; }
     .kpi-jlpt:hover { border-color: var(--red); }
+    .kpi-jlpt * { pointer-events: none; }
     .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
     .kpi-jlpt-pct { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
     .kpi-jlpt-hint { font-size: 11px; color: var(--muted); margin-top: 6px; letter-spacing: .3px; }
