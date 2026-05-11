@@ -844,14 +844,12 @@ if ('serviceWorker' in navigator) {
 
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
-  // Rebuild word mirror AFTER cloud pull — merges cloud savedWords + vocab_daily_* into km_saved_words
-  // Then push merged list back to cloud to upgrade any old account to the new savedWords format
-  const merged = rebuildSavedWordsMirror();
-  console.log(`[postAuth] rebuildSavedWordsMirror → ${merged.length} words. CLOUD_ENABLED=${CLOUD_ENABLED} fbUser=${!!state._fbUser}`);
-  if (CLOUD_ENABLED && state._fbUser && merged.length > 0) {
-    cloudUpdate({ savedWords: merged }).catch(e => console.warn('[postAuth] savedWords push failed:', e));
-  } else if (merged.length === 0) {
-    console.warn('[postAuth] merged list is empty — skipping push');
+  // Cloud pull already set km_saved_words. Just push it to Firestore as canonical source of truth.
+  // Do NOT call rebuildSavedWordsMirror() here — it would inflate the list with old local vocab_daily_* keys.
+  const words = getAllSavedWords();
+  console.log(`[postAuth] savedWords after cloud pull: ${words.length}`);
+  if (CLOUD_ENABLED && state._fbUser && words.length > 0) {
+    cloudUpdate({ savedWords: words }).catch(e => console.warn('[postAuth] savedWords push failed:', e));
   }
   // Identify logged-in user in Crisp
   if (state._fbUser && window.$crisp) {
