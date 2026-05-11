@@ -517,7 +517,7 @@ export function renderHome() {
         <span>${t('today_weekly')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_weekly_sub')}</span></span>
         <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${(() => {
           if (isBiWeeklyDone(todayStr())) {
-            const bwResult = loadQuizHistory().find(h => h.type === 'biweekly');
+            const bwResult = [...loadQuizHistory()].reverse().find(h => h.type === 'biweekly');
             return bwResult ? `${bwResult.score}/${bwResult.total} \u00b7 ${bwResult.pct}% \u2713` : t('today_done');
           }
           return biweeklyAvailable ? t('today_available') : missedBiweekly ? t('today_missed') : '\u2014';

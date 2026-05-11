@@ -31,7 +31,10 @@ export function saveBiWeeklyDone(ds) {
   cloudUpdate({ biweeklyDone: { [ds]: true } });
 }
 export function isBiWeeklyDone(ds) {
-  return !!localStorage.getItem(`biweekly_done_${ds}`);
+  if (localStorage.getItem(`biweekly_done_${ds}`)) return true;
+  // Fallback: also check the current period's Monday key (in case only one was saved)
+  const mondayKey = dateStr(getLastBiWeeklyMonday());
+  return mondayKey !== ds && !!localStorage.getItem(`biweekly_done_${mondayKey}`);
 }
 
 // Returns the last bi-weekly Monday that was MISSED (not done and already past)

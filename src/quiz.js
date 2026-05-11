@@ -403,6 +403,11 @@ export function saveQuizResult(score, total, type, examLevel) {
   history.sort((a, b) => a.date.localeCompare(b.date));
   while (history.length > 50) history.shift();
   try { localStorage.setItem('quiz_history', JSON.stringify(history)); } catch {}
+  // Belt-and-suspenders: ensure done marker is always set when a biweekly result is saved
+  if (qtype === 'biweekly') {
+    saveBiWeeklyDone(today);
+    saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
+  }
   if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ quizHistory: history });
 }
 
