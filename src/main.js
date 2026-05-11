@@ -404,6 +404,14 @@ Object.assign(window, {
   renderExamTab,
   launchExamFromTab,
   setExamTargetLevel,
+  toggleExamSection() {
+    const s    = document.getElementById('examJlptSection');
+    const tile = document.getElementById('examMainTile');
+    if (!s) return;
+    const open = s.style.display === 'none';
+    s.style.display = open ? 'block' : 'none';
+    if (tile) tile.classList.toggle('exam-quiz-tile-exam-open', open);
+  },
 
   // Level pills (shared between kanji and vocab tabs)
   setLevel(level) {

@@ -607,50 +607,58 @@ export function renderExamTab() {
       ? t('action_weekly_available')
       : `${t('action_weekly_next')} ${dateStr(nextBiWeeklyMonday())}`;
 
+  // ── Exam tile ─────────────────────────────────────────────────────────
+  const LEVELS     = ['N5', 'N4', 'N3', 'N2', 'N1'];
+  const LEVEL_DESC = { N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') };
+  const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
+  const goalIdx    = LEVELS.indexOf(targetLevel);
+  const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
+  const available  = state.isPremium ? getAllSavedWords().filter(w => allowed.has(w.level)).length : 0;
+  const examHistory = allHistory.filter(h => h.type === 'exam').sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
+  const lastExam   = examHistory[0] || null;
+  const examSub    = !state.isPremium
+    ? t('exam_locked_title')
+    : lastExam
+      ? `${lastExam.examLevel || targetLevel} · ${lastExam.pct}% ${lastExam.pct >= 60 ? '✓ PASS' : '✗ FAIL'}`
+      : `${targetLevel} · ${available} ${t('today_words_ready_pl')}`;
+
   if (!state.isPremium) {
     section.innerHTML = `
       <div class="exam-tab-content">
         <div class="exam-quiz-tiles">
-          <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" onclick="${dailyAvail && !dailyDone ? "switchTab('vocab'); setTimeout(launchDailyQuiz, 200)" : ''}">
+          <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" ${dailyAvail && !dailyDone ? `onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)"` : ''}>
             <div class="exam-quiz-tile-icon">試</div>
             <div class="exam-quiz-tile-title">${t('action_quiz_title')}</div>
             <div class="exam-quiz-tile-sub">${dailySubtitle}</div>
           </div>
-          <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" onclick="${weeklyAvail ? 'launchBiWeeklyQuiz()' : ''}">
+          <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" ${weeklyAvail ? 'onclick="launchBiWeeklyQuiz()"' : ''}>
             <div class="exam-quiz-tile-icon">週</div>
             <div class="exam-quiz-tile-title">${t('action_weekly_title')}</div>
             <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
           </div>
         </div>
-        <div class="exam-locked">
-          <div class="exam-locked-icon">🔒</div>
-          <div class="exam-locked-title">${t('exam_locked_title')}</div>
-          <div class="exam-locked-body">${t('exam_locked_body')}</div>
-          <button class="btn btn-primary" style="margin-top:20px" onclick="openUpgradeModal('exam')">${t('exam_unlock_btn')}</button>
+        <div class="exam-quiz-tile exam-quiz-tile-exam" onclick="openUpgradeModal('exam')">
+          <div class="exam-quiz-tile-inner">
+            <div class="exam-quiz-tile-icon">🔒</div>
+            <div>
+              <div class="exam-quiz-tile-title">JLPT Exam</div>
+              <div class="exam-quiz-tile-sub">${examSub}</div>
+            </div>
+          </div>
+          <div class="exam-quiz-tile-chevron">›</div>
         </div>
       </div>`;
     return;
   }
 
-  const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
-  const LEVELS      = ['N5', 'N4', 'N3', 'N2', 'N1'];
-  const LEVEL_DESC  = { N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') };
+  const levelPills = LEVELS.map(l =>
+    `<button class="pill exam-level-pill${l === targetLevel ? ' active' : ''}" onclick="setExamTargetLevel('${l}')">${l}</button>`
+  ).join('');
 
-  const history = allHistory
-    .filter(h => h.type === 'exam')
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 5);
+  const canStart = available >= 4;
 
-  const goalIdx    = LEVELS.indexOf(targetLevel);
-  const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
-  const available  = getAllSavedWords().filter(w => allowed.has(w.level)).length;
-
-  const levelPills = LEVELS.map(l => `
-    <button class="pill exam-level-pill${l === targetLevel ? ' active' : ''}" onclick="setExamTargetLevel('${l}')">${l}</button>
-  `).join('');
-
-  const resultsHtml = history.length
-    ? history.map(h => `
+  const resultsHtml = examHistory.length
+    ? examHistory.map(h => `
       <div class="exam-history-row ${h.pct >= 60 ? 'exam-history-pass' : 'exam-history-fail'}">
         <span class="exam-history-date">${h.date}</span>
         <span class="exam-history-level">${h.examLevel || ''}</span>
@@ -658,6 +666,57 @@ export function renderExamTab() {
         <span class="exam-history-pct">${h.pct}%</span>
         <span class="exam-history-badge">${h.pct >= 60 ? 'PASS' : 'FAIL'}</span>
       </div>`).join('')
+    : `<div class="exam-history-empty">${t('exam_history_empty')}</div>`;
+
+  section.innerHTML = `
+    <div class="exam-tab-content">
+      <div class="exam-quiz-tiles">
+        <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" ${dailyAvail && !dailyDone ? `onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)"` : ''}>
+          <div class="exam-quiz-tile-icon">試</div>
+          <div class="exam-quiz-tile-title">${t('action_quiz_title')}</div>
+          <div class="exam-quiz-tile-sub">${dailySubtitle}</div>
+        </div>
+        <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" ${weeklyAvail ? 'onclick="launchBiWeeklyQuiz()"' : ''}>
+          <div class="exam-quiz-tile-icon">週</div>
+          <div class="exam-quiz-tile-title">${t('action_weekly_title')}</div>
+          <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
+        </div>
+      </div>
+      <div class="exam-quiz-tile exam-quiz-tile-exam" id="examMainTile" onclick="toggleExamSection()">
+        <div class="exam-quiz-tile-inner">
+          <div class="exam-quiz-tile-icon">試験</div>
+          <div>
+            <div class="exam-quiz-tile-title">JLPT Exam</div>
+            <div class="exam-quiz-tile-sub">${examSub}</div>
+          </div>
+        </div>
+        <div class="exam-quiz-tile-chevron">›</div>
+      </div>
+      <div id="examJlptSection" style="display:none">
+        <div class="exam-level-card" style="margin-top:16px">
+          <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
+            ${t('exam_level_label')}
+            <button class="section-hint-btn" style="margin-left:auto" onclick="showTabHint('exam')" aria-label="How Exam Mode works">i</button>
+          </div>
+          <div class="exam-pills">${levelPills}</div>
+          <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>
+        </div>
+        <div class="exam-info-row">
+          <div class="exam-info-item"><span class="exam-info-num">40</span><span class="exam-info-lbl">${t('exam_questions')}</span></div>
+          <div class="exam-info-item"><span class="exam-info-num">10</span><span class="exam-info-lbl">${t('exam_minutes')}</span></div>
+          <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">${t('exam_pass_threshold')}</span></div>
+        </div>
+        ${canStart
+          ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">${t('exam_start_btn')}</button>`
+          : `<div class="exam-start-blocked">${t('exam_no_words')(targetLevel)}</div>`
+        }
+        <div class="exam-history-section">
+          <div class="exam-history-title">${t('exam_history_title')}</div>
+          <div class="exam-history-list">${resultsHtml}</div>
+        </div>
+      </div>
+    </div>`;
+}
     : `<div class="exam-history-empty">${t('exam_history_empty')}</div>`;
 
   const canStart = available >= 4;
