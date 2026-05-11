@@ -717,47 +717,6 @@ export function renderExamTab() {
       </div>
     </div>`;
 }
-    : `<div class="exam-history-empty">${t('exam_history_empty')}</div>`;
-
-  const canStart = available >= 4;
-
-  section.innerHTML = `
-    <div class="exam-tab-content">
-      <div class="exam-quiz-tiles">
-        <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" onclick="${dailyAvail && !dailyDone ? "switchTab('vocab'); setTimeout(launchDailyQuiz, 200)" : ''}">
-          <div class="exam-quiz-tile-icon">試</div>
-          <div class="exam-quiz-tile-title">${t('action_quiz_title')}</div>
-          <div class="exam-quiz-tile-sub">${dailySubtitle}</div>
-        </div>
-        <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" onclick="${weeklyAvail ? 'launchBiWeeklyQuiz()' : ''}">
-          <div class="exam-quiz-tile-icon">週</div>
-          <div class="exam-quiz-tile-title">${t('action_weekly_title')}</div>
-          <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
-        </div>
-      </div>
-      <div class="exam-level-card">
-        <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
-          ${t('exam_level_label')}
-          <button class="section-hint-btn" style="margin-left:auto" onclick="showTabHint('exam')" aria-label="How Exam Mode works">i</button>
-        </div>
-        <div class="exam-pills">${levelPills}</div>
-        <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>
-      </div>
-      <div class="exam-info-row">
-        <div class="exam-info-item"><span class="exam-info-num">40</span><span class="exam-info-lbl">${t('exam_questions')}</span></div>
-        <div class="exam-info-item"><span class="exam-info-num">10</span><span class="exam-info-lbl">${t('exam_minutes')}</span></div>
-        <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">${t('exam_pass_threshold')}</span></div>
-      </div>
-      ${canStart
-        ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">${t('exam_start_btn')}</button>`
-        : `<div class="exam-start-blocked">${t('exam_no_words')(targetLevel)}</div>`
-      }
-      <div class="exam-history-section">
-        <div class="exam-history-title">${t('exam_history_title')}</div>
-        <div class="exam-history-list">${resultsHtml}</div>
-      </div>
-    </div>`;
-}
 
 export function launchExamFromTab() {
   if (!state.isPremium) { openUpgradeModal('exam'); return; }
