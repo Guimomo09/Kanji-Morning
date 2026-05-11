@@ -4,7 +4,7 @@ import { CLOUD_ENABLED } from './config.js';
 import { cloudSignIn, cloudUpdate } from './cloud.js';
 import { saveDailyVocab } from './daily.js';
 import { srsAddWords, srsUpdateReviewCount } from './srs.js';
-import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords } from './vocab.js';
+import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords, updateSavedWordsMirror } from './vocab.js';
 import { renderHome, renderStats } from './stats.js';
 import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis, searchAndRenderKanji } from './kanji.js';
 import { updateBiWeeklyBtn } from './biweekly.js';
@@ -176,6 +176,7 @@ export function saveToday() {
   }));
 
   saveDailyVocab(todayStr(), itemsToSave);
+  updateSavedWordsMirror(itemsToSave, todayStr());
   btn.textContent = state._fbUser ? t('btn_saved_cloud') : t('btn_saved_local');
   btn.classList.add('saved');
   btn.disabled = true;

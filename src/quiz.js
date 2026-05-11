@@ -5,7 +5,7 @@ import { loadDailyVocab, getQuizDates } from './daily.js';
 import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn, isBiWeeklyMonday, isBiWeeklyDone, nextBiWeeklyMonday } from './biweekly.js';
 import { cloudUpdate } from './cloud.js';
 import { srsLoad, srsIntervalLabel } from './srs.js';
-import { getAllSavedWords } from './vocab.js';
+import { getAllSavedWords, rebuildSavedWordsMirror } from './vocab.js';
 import { t, getLang } from './i18n.js';
 import { getMeaning } from './trans.js';
 
@@ -421,15 +421,17 @@ export function saveQuizResult(score, total, type, examLevel) {
     localStorage.setItem('quiz_history', JSON.stringify(history));
     console.log('[KM] quiz_history saved. exam entries:', history.filter(h => h.type === 'exam').map(h => h.date + ' ' + h.examLevel + ' ' + h.pct + '%'));
   } catch (e) {
-    console.warn('[KM] localStorage full — evicting ALL vocab_daily and retrying...');
-    // Aggressive eviction: remove ALL vocab_daily keys
+    console.warn('[KM] localStorage full — rebuilding word mirror then evicting vocab_daily...');
+    // IMPORTANT: preserve word list in km_saved_words BEFORE deleting vocab_daily_* keys
+    rebuildSavedWordsMirror();
+    // Now safe to delete vocab_daily_* (word list is in km_saved_words)
     const toDelete = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
       if (k && k.startsWith('vocab_daily_')) toDelete.push(k);
     }
     toDelete.forEach(k => localStorage.removeItem(k));
-    console.warn('[KM] evicted', toDelete.length, 'vocab_daily keys');
+    console.warn('[KM] evicted', toDelete.length, 'vocab_daily keys (words preserved in km_saved_words)');
     // Also trim quiz_history to 20 entries
     while (history.length > 20) history.shift();
     try {

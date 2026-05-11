@@ -5,7 +5,7 @@ import { todayStr }                                            from './utils.js'
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
-import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter } from './vocab.js';
+import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror } from './vocab.js';
 import { renderStats, renderHome, setActivityView, navActivityCal } from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
@@ -254,6 +254,7 @@ function saveWotd() {
   const wotd = getWordOfDay();
   const item = { word: wotd.word, reading: wotd.reading, meaning: wotd.meaning, pos: '', level: 'N3' };
   saveDailyVocab(todayStr(), [item]);
+  updateSavedWordsMirror([item], todayStr());
   const added = srsAddWords([item]);
   if (added > 0) srsUpdateReviewCount();
   renderHome(); // re-render to flip button to "✓ Saved"
@@ -756,7 +757,10 @@ function saveSettings() {
 
 // ── App initialisation ────────────────────────────────────────────────────
 setHeader();
-cleanupOldData();_applyTheme(localStorage.getItem('km_theme') || 'auto');_setupMyListDrag();
+cleanupOldData();
+// Ensure km_saved_words mirror is built from existing vocab_daily_* keys (first run / migration)
+if (!localStorage.getItem('km_saved_words')) rebuildSavedWordsMirror();
+_applyTheme(localStorage.getItem('km_theme') || 'auto');_setupMyListDrag();
 
 // ── DEBUG AGENT ──────────────────────────────────────────────────────────
 window.debugAgent = {
