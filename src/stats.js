@@ -426,7 +426,7 @@ export function renderHome() {
   const best        = computeBestStreak();
   const total       = computeTotalWords();
   const monthlyCount = stv === 'month' ? computeMonthlyCount() : 0;
-  const history     = loadQuizHistory();
+  const history     = loadQuizHistory().filter(h => (h.type || 'daily') !== 'exam');
   const avgScore    = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
   const todayWords  = loadDailyVocab(todayStr()) || [];
