@@ -277,14 +277,14 @@ export function handleQuizAnswer(btn, isCorrect) {
         // word + reading shown → meaning was hidden
         minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
       } else if (type === 'B') {
-        // meaning shown → word (+ reading) was hidden
-        minimalHtml = `<div class="quiz-reveal-word">${item.word}${item.reading ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>`;
+        // meaning shown, word was the answer → only reading is new
+        minimalHtml = item.reading ? `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>` : '';
       } else if (type === 'C') {
-        // word shown → reading was hidden
+        // word shown → reading was hidden (already highlighted in answer btn, but confirm pairing)
         minimalHtml = `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>`;
       } else if (type === 'D') {
-        // reading shown → word was hidden
-        minimalHtml = `<div class="quiz-reveal-word">${item.word}</div>`;
+        // reading shown, word was the answer → show meaning as the only new info
+        minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
       }
       reveal.innerHTML = `${minimalHtml}${nextBtn}`;
     } else {
