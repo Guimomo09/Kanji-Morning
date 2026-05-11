@@ -89,6 +89,7 @@ function _tickQuizTimer() {
 let _examTimeLeft = 0;
 let _examCountdown = null;
 let _examSectionOpen = false; // set to true after exam completes → keeps accordion open on return
+let _sessionExamResults = []; // in-memory backup — survives even if localStorage quota fails
 const EXAM_DURATION  = 7 * 60; // 7 minutes
 const EXAM_QUESTIONS = 40;
 const EXAM_PASS_PCT  = 60;
@@ -406,30 +407,35 @@ export function saveQuizResult(score, total, type, examLevel) {
   } else {
     history.push(entry);
   }
+
+  // Always keep a session-level backup for exam results (immune to localStorage failures)
+  if (qtype === 'exam') {
+    _sessionExamResults = _sessionExamResults.filter(r => !(r.date === today && r.examLevel === (examLevel || null)));
+    _sessionExamResults.push(entry);
+    console.log('[KM] exam result backed up in session memory:', entry);
+  }
+
   history.sort((a, b) => a.date.localeCompare(b.date));
   while (history.length > 50) history.shift();
   try {
     localStorage.setItem('quiz_history', JSON.stringify(history));
-    console.log('[KM] quiz_history saved. biweekly entries:', history.filter(h => h.type === 'biweekly').map(h => h.date + ' ' + h.pct + '%'));
+    console.log('[KM] quiz_history saved. exam entries:', history.filter(h => h.type === 'exam').map(h => h.date + ' ' + h.examLevel + ' ' + h.pct + '%'));
   } catch (e) {
-    console.warn('[KM] localStorage full — evicting old vocab_daily and retrying...');
-    // Emergency eviction: remove vocab_daily older than 30 days
-    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
+    console.warn('[KM] localStorage full — evicting ALL vocab_daily and retrying...');
+    // Aggressive eviction: remove ALL vocab_daily keys
     const toDelete = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith('vocab_daily_')) {
-        const d = new Date(k.slice(12) + 'T12:00:00');
-        if (d < cutoff) toDelete.push(k);
-      }
+      if (k && k.startsWith('vocab_daily_')) toDelete.push(k);
     }
     toDelete.forEach(k => localStorage.removeItem(k));
+    console.warn('[KM] evicted', toDelete.length, 'vocab_daily keys');
     // Also trim quiz_history to 20 entries
     while (history.length > 20) history.shift();
     try {
       localStorage.setItem('quiz_history', JSON.stringify(history));
       console.log('[KM] quiz_history saved after eviction.');
-    } catch (e2) { console.error('[KM] localStorage.setItem FAILED even after eviction:', e2); }
+    } catch (e2) { console.error('[KM] localStorage.setItem FAILED even after full eviction:', e2); }
   }
   // Belt-and-suspenders: ensure done marker is always set when a biweekly result is saved
   if (qtype === 'biweekly') {
@@ -623,7 +629,14 @@ export function renderExamTab() {
   const goalIdx    = LEVELS.indexOf(targetLevel);
   const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
   const available  = state.isPremium ? getAllSavedWords().filter(w => allowed.has(w.level)).length : 0;
-  const examHistory = allHistory.filter(h => h.type === 'exam').sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
+  const examHistory = (() => {
+    const stored = allHistory.filter(h => h.type === 'exam');
+    // Merge session backup — add any result not already in stored history
+    const sessionNew = _sessionExamResults.filter(
+      r => !stored.find(h => h.date === r.date && h.examLevel === r.examLevel)
+    );
+    return [...stored, ...sessionNew].sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
+  })();
   const lastExam   = examHistory[0] || null;
   // Auto-open section if: flag set (just completed exam) OR last exam is from today
   const sectionOpen = _examSectionOpen || (lastExam?.date === today);
