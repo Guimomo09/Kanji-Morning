@@ -88,6 +88,7 @@ function _tickQuizTimer() {
 // ── Exam mode state ────────────────────────────────────────────────
 let _examTimeLeft = 0;
 let _examCountdown = null;
+let _examSectionOpen = false; // set to true after exam completes → keeps accordion open on return
 const EXAM_DURATION  = 7 * 60; // 7 minutes
 const EXAM_QUESTIONS = 40;
 const EXAM_PASS_PCT  = 60;
@@ -127,6 +128,8 @@ export function renderQuizQuestion() {
   if (current >= total) { renderQuizResults(); return; }
 
   const { item, type } = questions[current];
+  const _isExam = state.quizState.type === 'exam';
+  const _speak = (word) => _isExam ? '' : `<button class="speak-btn quiz-speak-btn" data-w="${word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
   // In exam mode, use all saved words as distractor pool for harder, more realistic wrong answers
   const distractorSrc = (state.quizState.type === 'exam' && questions[current]._distractorPool)
     ? questions[current]._distractorPool
@@ -143,7 +146,7 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word">${item.word}</div>
         ${item.reading ? `<div class="quiz-prompt-reading">${item.reading}</div>` : ''}
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.reading || item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.reading || item.word)}`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -153,7 +156,7 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-meaning">${getMeaning(item.word, getLang()) || item.meaning}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.word)}`;
       correctText = item.word;
       wrongTexts  = wrong3.map(w => w.word);
       break;
@@ -163,7 +166,7 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-word">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.word)}`;
       correctText = item.reading;
       wrongTexts  = wrong3.filter(w => w.reading).map(w => w.reading);
       while (wrongTexts.length < 3) {
@@ -176,7 +179,7 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.reading}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.reading)}`;
       correctText = item.word;
       wrongTexts  = wrong3.map(w => w.word);
       break;
@@ -187,7 +190,7 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <div class="quiz-prompt-reading">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.reading || item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.reading || item.word)}`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -315,6 +318,7 @@ export function renderQuizResults() {
   clearInterval(_examCountdown); _examCountdown = null; _examTimeLeft = 0;
 
   const examLevel = isExam ? (state.quizState?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3') : null;
+  if (isExam) _examSectionOpen = true; // keep accordion open when user returns to exam tab
   saveQuizResult(score, total, type, examLevel);
   if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
 
@@ -621,6 +625,8 @@ export function renderExamTab() {
   const available  = state.isPremium ? getAllSavedWords().filter(w => allowed.has(w.level)).length : 0;
   const examHistory = allHistory.filter(h => h.type === 'exam').sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
   const lastExam   = examHistory[0] || null;
+  const sectionOpen = _examSectionOpen;
+  _examSectionOpen = false;
   const examSub    = !state.isPremium
     ? t('exam_locked_title')
     : lastExam
@@ -687,7 +693,7 @@ export function renderExamTab() {
           <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
         </div>
       </div>
-      <div class="exam-quiz-tile exam-quiz-tile-exam" id="examMainTile" onclick="toggleExamSection()">
+      <div class="exam-quiz-tile exam-quiz-tile-exam${sectionOpen ? ' exam-quiz-tile-exam-open' : ''}" id="examMainTile" onclick="toggleExamSection()">
         <div class="exam-quiz-tile-inner">
           <div class="exam-quiz-tile-icon">試験</div>
           <div>
@@ -697,7 +703,7 @@ export function renderExamTab() {
         </div>
         <div class="exam-quiz-tile-chevron">›</div>
       </div>
-      <div id="examJlptSection" style="display:none">
+      <div id="examJlptSection" style="display:${sectionOpen ? 'block' : 'none'}">
         <div class="exam-level-card" style="margin-top:16px">
           <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
             ${t('exam_level_label')}
@@ -731,10 +737,10 @@ export function launchExamFromTab() {
   const allowed  = new Set(LEVELS.slice(0, goalIdx + 1));
 
   const allWords = getAllSavedWords();
-  const filtered = allWords.filter(w => allowed.has(w.level));
+  const filtered = allWords.filter(w => allowed.has(w.level) && w.reading); // only words with readings (needed for C/D types)
 
   if (filtered.length < 4) {
-    setStatus('error', `Pas assez de mots ${targetLevel} sauvegardés (minimum 4).`);
+    setStatus('error', `Pas assez de mots ${targetLevel} avec lecture sauvegardés (minimum 4).`);
     return;
   }
   const pool = shuffleArr([...filtered]).slice(0, EXAM_QUESTIONS);
@@ -761,36 +767,34 @@ export function launchExamFromTab() {
 }
 
 // ── JLPT-style question builder ───────────────────────────────────────────
-// Weights: C (kanji→reading) 35%, A (word→meaning) 30%, B (meaning→word) 20%, D (reading→kanji) 15%
+// Exam mode: only kanji↔hiragana types — C (kanji→reading) and D (reading→kanji)
+// No definitions/meanings, no audio → purely script-based, harder than weekly challenge
 function buildJlptQuestionList(pool, allWordsPool) {
-  const target   = EXAM_QUESTIONS;
-  const typeWeights = ['C','C','C','A','A','A','B','B','D'];
-  const questions  = [];
-  const shuffled   = shuffleArr([...pool]);
+  const target      = EXAM_QUESTIONS;
+  const examTypes   = ['C', 'D']; // kanji→hiragana, hiragana→kanji only
+  const questions   = [];
+  // Only use words that have a reading (required for C and D)
+  const validPool   = pool.filter(w => w.reading);
+  const distractors = allWordsPool.filter(w => w.reading);
+  const shuffled    = shuffleArr([...validPool]);
 
   for (const item of shuffled) {
-    const validTypes = validTypesFor(item);
-    // Pick a JLPT-weighted type, fall back to random if not available
-    let type = null;
-    const weighted = shuffleArr([...typeWeights]);
-    for (const t of weighted) {
-      if (validTypes.includes(t)) { type = t; break; }
-    }
-    if (!type) type = validTypes[0];
-    questions.push({ item, type, _distractorPool: allWordsPool });
+    // Alternate C and D for variety
+    const type = examTypes[questions.length % 2];
+    questions.push({ item, type, _distractorPool: distractors });
     if (questions.length >= target) break;
   }
 
-  // Fill remaining with second pass (different type for each item)
+  // Fill remaining with second pass (opposite type for each item)
   if (questions.length < target) {
     const usedTypes = new Map(questions.map(q => [q.item.word, q.type]));
-    for (const item of shuffleArr([...pool])) {
+    for (const item of shuffleArr([...validPool])) {
       if (questions.length >= target) break;
       const used  = usedTypes.get(item.word);
-      const avail = validTypesFor(item).filter(t => t !== used);
+      const avail = examTypes.filter(t => t !== used);
       if (!avail.length) continue;
-      const type  = avail[Math.floor(Math.random() * avail.length)];
-      questions.push({ item, type, _distractorPool: allWordsPool });
+      const type  = avail[0];
+      questions.push({ item, type, _distractorPool: distractors });
     }
   }
 
