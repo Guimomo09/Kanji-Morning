@@ -32,6 +32,6 @@ export async function loadTrans() {
  * @returns {string|null}
  */
 export function getMeaning(word, lang) {
-  if (!_data || lang === 'en' || !lang) return null;
+  if (!_data || !lang) return null;
   return _data[word]?.[lang] ?? null;
 }

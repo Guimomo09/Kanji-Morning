@@ -525,24 +525,6 @@ export function renderHome() {
       </div>
     </div>
 
-    ${lastBiweekly ? `
-    <div class="home-today" style="margin-top:12px">
-      <div class="home-today-title" style="display:flex;align-items:center;justify-content:space-between">
-        <span>${t('action_weekly_title')}</span>
-        <span style="font-size:11px;color:var(--muted);font-weight:500">${lastBiweekly.date}</span>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
-        <div>
-          <div style="font-size:32px;font-weight:900;color:var(--red);line-height:1">${lastBiweekly.pct}%</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">${lastBiweekly.score} / ${lastBiweekly.total} ${t('today_words_ready_pl')}</div>
-        </div>
-        <div class="qh-bar-wrap" style="flex:1;margin:0 16px;height:8px">
-          <div class="qh-bar" style="width:${lastBiweekly.pct}%;height:8px"></div>
-        </div>
-        ${biweeklyAvailable || missedBiweekly ? `<button class="btn btn-ghost" style="font-size:12px;padding:4px 12px;flex-shrink:0" onclick="launchBiWeeklyQuiz()">Retry</button>` : ''}
-      </div>
-    </div>` : ''}
-
     <div>
       <div class="home-today-title" style="margin-bottom:14px">${t('actions_title')}</div>
       <div class="home-actions">
@@ -601,6 +583,7 @@ export function renderStats() {
   const avgScore = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
 
+  const lastBiweekly = [...history].reverse().find(h => h.type === 'biweekly') ?? null;
   const missedMon  = getMissedBiWeeklyMonday();
   const missedHtml = missedMon ? `
     <div class="stat-notif">
@@ -709,6 +692,23 @@ export function renderStats() {
           ${t('stats_no_quiz_body')}
         </div>
       </div>`}
+
+      ${lastBiweekly ? `
+      <div class="chart-block">
+        <div class="chart-title" style="display:flex;align-items:center;justify-content:space-between">
+          <span>${t('action_weekly_title')}</span>
+          <span style="font-size:11px;color:var(--muted);font-weight:500">${lastBiweekly.date}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:12px">
+          <div>
+            <div style="font-size:40px;font-weight:900;color:var(--red);line-height:1">${lastBiweekly.pct}%</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">${lastBiweekly.score} / ${lastBiweekly.total} ${t('today_words_ready_pl')}</div>
+          </div>
+          <div class="qh-bar-wrap" style="flex:1;height:10px">
+            <div class="qh-bar" style="width:${lastBiweekly.pct}%;height:10px"></div>
+          </div>
+        </div>
+      </div>` : ''}
     </div>`;
 
   const statsEl = document.getElementById('statsSection');
