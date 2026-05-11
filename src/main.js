@@ -859,6 +859,7 @@ setPostAuthCallback(() => {
   if      (state.currentTab === 'vocab')  renderVocab();
   else if (state.currentTab === 'mylist') renderMyList();
   else if (state.currentTab === 'stats')  renderStats();
+  else if (state.currentTab === 'exam')   renderExamTab();
   else if (state.currentTab === 'home')   renderHome();
 });
 
