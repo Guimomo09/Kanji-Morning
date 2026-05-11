@@ -107,7 +107,7 @@ export function switchTab(tab) {
   if (isExam) {
     document.getElementById('btnBiweeklyQuiz').style.display = 'none';
     document.getElementById('hTitle').textContent = '試験モード';
-    document.getElementById('hSub').textContent   = 'JLPT Exam Mode';
+    document.getElementById('hSub').textContent   = t('exam_mode_title');
     renderExamTab();
     return;
   }

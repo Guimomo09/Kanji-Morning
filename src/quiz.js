@@ -756,7 +756,7 @@ export function launchExamFromTab() {
   const filtered = allWords.filter(w => allowed.has(w.level) && w.reading); // only words with readings (needed for C/D types)
 
   if (filtered.length < 4) {
-    setStatus('error', `Pas assez de mots ${targetLevel} avec lecture sauvegardés (minimum 4).`);
+    setStatus('error', t('exam_no_words', targetLevel));
     return;
   }
   const pool = shuffleArr([...filtered]).slice(0, EXAM_QUESTIONS);
