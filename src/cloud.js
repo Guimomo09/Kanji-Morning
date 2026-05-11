@@ -169,13 +169,15 @@ export async function checkPremiumStatus() {
 // ── Push a partial update to Firestore ───────────────────────────────────
 export async function cloudUpdate(partial) {
   if (!state._fbDb || !state._fbUser) return;
+  if (partial.savedWords) console.log(`[cloudUpdate] Pushing savedWords: ${partial.savedWords.length} words`);
   try {
     await state._fbDb.collection('users').doc(state._fbUser.uid).set(partial, { merge: true });
+    if (partial.savedWords) console.log(`[cloudUpdate] savedWords push OK`);
   } catch (e) {
     if (e.code === 'resource-exhausted') {
-      console.warn('Cloud storage quota exceeded, skipping sync');
+      console.warn('[cloudUpdate] Cloud storage quota exceeded, skipping sync');
     } else {
-      console.warn('Cloud update failed:', e);
+      console.warn('[cloudUpdate] Cloud update failed:', e);
     }
   }
 }

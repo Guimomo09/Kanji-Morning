@@ -836,11 +836,12 @@ setPostAuthCallback(() => {
   // Rebuild word mirror AFTER cloud pull — merges cloud savedWords + vocab_daily_* into km_saved_words
   // Then push merged list back to cloud to upgrade any old account to the new savedWords format
   const merged = rebuildSavedWordsMirror();
+  console.log(`[postAuth] rebuildSavedWordsMirror → ${merged.length} words. CLOUD_ENABLED=${CLOUD_ENABLED} fbUser=${!!state._fbUser}`);
   if (CLOUD_ENABLED && state._fbUser && merged.length > 0) {
-    cloudUpdate({ savedWords: merged }).catch(() => {});
+    cloudUpdate({ savedWords: merged }).catch(e => console.warn('[postAuth] savedWords push failed:', e));
+  } else if (merged.length === 0) {
+    console.warn('[postAuth] merged list is empty — skipping push');
   }
-  // Rebuild word mirror AFTER cloud pull — ensures days 15-30 are included
-  rebuildSavedWordsMirror();
   // Identify logged-in user in Crisp
   if (state._fbUser && window.$crisp) {
     window.$crisp.push(['set', 'user:email', [state._fbUser.email]]);
@@ -857,6 +858,17 @@ setPostAuthCallback(() => {
 initCloud();
 srsUpdateReviewCount();
 history.scrollRestoration = 'manual';
+
+// ── Manual sync helper — call window.kmSync() from browser console ────────
+window.kmSync = async function() {
+  const words = rebuildSavedWordsMirror();
+  console.log(`[kmSync] Local words: ${words.length}. User: ${state._fbUser?.email}. DB: ${!!state._fbDb}`);
+  if (!state._fbUser || !state._fbDb) { console.error('[kmSync] Not logged in or Firestore not ready'); return; }
+  if (words.length === 0) { console.warn('[kmSync] No local words to push'); return; }
+  await cloudUpdate({ savedWords: words });
+  console.log(`[kmSync] Done. Pushed ${words.length} words to Firestore.`);
+  renderStats();
+};
 
 // Apply i18n to static DOM elements on startup
 detectLang();
