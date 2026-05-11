@@ -2,7 +2,7 @@ import { state } from './state.js';
 import { shuffleArr, todayStr, dateStr, setStatus } from './utils.js';
 import { CLOUD_ENABLED } from './config.js';
 import { loadDailyVocab, getQuizDates } from './daily.js';
-import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './biweekly.js';
+import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn, isBiWeeklyMonday, isBiWeeklyDone, nextBiWeeklyMonday } from './biweekly.js';
 import { cloudUpdate } from './cloud.js';
 import { srsLoad, srsIntervalLabel } from './srs.js';
 import { getAllSavedWords } from './vocab.js';
@@ -583,13 +583,51 @@ export function renderExamTab() {
   const section = document.getElementById('examSection');
   if (!section) return;
 
+  const today       = todayStr();
+  const allHistory  = loadQuizHistory();
+
+  // ── Daily Quiz tile ───────────────────────────────────────────────────
+  const todayWords  = loadDailyVocab(today) || [];
+  const todayQuiz   = allHistory.find(h => h.date === today && (h.type || 'daily') === 'daily') || null;
+  const dailyDone   = !!todayQuiz;
+  const dailyAvail  = todayWords.length > 0;
+  const dailySubtitle = dailyDone
+    ? `${todayQuiz.score}/${todayQuiz.total} · ${todayQuiz.pct}% ✓`
+    : dailyAvail
+      ? `${todayWords.length} ${t('today_words_ready_pl')}`
+      : t('today_not_loaded');
+
+  // ── Weekly Challenge tile ─────────────────────────────────────────────
+  const weeklyDone  = isBiWeeklyDone(today);
+  const weeklyAvail = isBiWeeklyMonday() && !weeklyDone;
+  const lastWeekly  = [...allHistory].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') || null;
+  const weeklySubtitle = weeklyDone && lastWeekly
+    ? `${lastWeekly.score}/${lastWeekly.total} · ${lastWeekly.pct}% ✓`
+    : weeklyAvail
+      ? t('action_weekly_available')
+      : `${t('action_weekly_next')} ${dateStr(nextBiWeeklyMonday())}`;
+
   if (!state.isPremium) {
     section.innerHTML = `
-      <div class="exam-locked">
-        <div class="exam-locked-icon">🔒</div>
-        <div class="exam-locked-title">${t('exam_locked_title')}</div>
-        <div class="exam-locked-body">${t('exam_locked_body')}</div>
-        <button class="btn btn-primary" style="margin-top:20px" onclick="openUpgradeModal('exam')">${t('exam_unlock_btn')}</button>
+      <div class="exam-tab-content">
+        <div class="exam-quiz-tiles">
+          <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" onclick="${dailyAvail && !dailyDone ? "switchTab('vocab'); setTimeout(launchDailyQuiz, 200)" : ''}">
+            <div class="exam-quiz-tile-icon">試</div>
+            <div class="exam-quiz-tile-title">${t('action_quiz_title')}</div>
+            <div class="exam-quiz-tile-sub">${dailySubtitle}</div>
+          </div>
+          <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" onclick="${weeklyAvail ? 'launchBiWeeklyQuiz()' : ''}">
+            <div class="exam-quiz-tile-icon">週</div>
+            <div class="exam-quiz-tile-title">${t('action_weekly_title')}</div>
+            <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
+          </div>
+        </div>
+        <div class="exam-locked">
+          <div class="exam-locked-icon">🔒</div>
+          <div class="exam-locked-title">${t('exam_locked_title')}</div>
+          <div class="exam-locked-body">${t('exam_locked_body')}</div>
+          <button class="btn btn-primary" style="margin-top:20px" onclick="openUpgradeModal('exam')">${t('exam_unlock_btn')}</button>
+        </div>
       </div>`;
     return;
   }
@@ -598,12 +636,11 @@ export function renderExamTab() {
   const LEVELS      = ['N5', 'N4', 'N3', 'N2', 'N1'];
   const LEVEL_DESC  = { N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') };
 
-  const history = loadQuizHistory()
+  const history = allHistory
     .filter(h => h.type === 'exam')
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 5);
 
-  // Count available words for the selected level (cumulative)
   const goalIdx    = LEVELS.indexOf(targetLevel);
   const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
   const available  = getAllSavedWords().filter(w => allowed.has(w.level)).length;
@@ -627,6 +664,18 @@ export function renderExamTab() {
 
   section.innerHTML = `
     <div class="exam-tab-content">
+      <div class="exam-quiz-tiles">
+        <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" onclick="${dailyAvail && !dailyDone ? "switchTab('vocab'); setTimeout(launchDailyQuiz, 200)" : ''}">
+          <div class="exam-quiz-tile-icon">試</div>
+          <div class="exam-quiz-tile-title">${t('action_quiz_title')}</div>
+          <div class="exam-quiz-tile-sub">${dailySubtitle}</div>
+        </div>
+        <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" onclick="${weeklyAvail ? 'launchBiWeeklyQuiz()' : ''}">
+          <div class="exam-quiz-tile-icon">週</div>
+          <div class="exam-quiz-tile-title">${t('action_weekly_title')}</div>
+          <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
+        </div>
+      </div>
       <div class="exam-level-card">
         <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
           ${t('exam_level_label')}

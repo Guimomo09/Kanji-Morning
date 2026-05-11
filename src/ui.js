@@ -96,7 +96,8 @@ export function switchTab(tab) {
     return;
   }
   if (isMyList) {
-    document.getElementById('btnExam').style.display         = '';
+    document.getElementById('btnExam').style.display         = 'none';
+    document.getElementById('btnBiweeklyQuiz').style.display = 'none';
     document.getElementById('btnMyListHint').style.display   = '';
     document.getElementById('hTitle').textContent = '単語リスト';
     document.getElementById('hSub').textContent   = t('sub_mylist');
@@ -139,7 +140,7 @@ export function switchTab(tab) {
   document.getElementById('btnLess').style.display          = 'none';
   document.getElementById('btnSave').style.display          = '';
   document.getElementById('levelFilter').style.display      = '';
-  document.getElementById('btnDailyQuiz').style.display     = '';
+  document.getElementById('btnDailyQuiz').style.display     = 'none';
   document.getElementById('btnExam').style.display          = 'none';
   document.getElementById('btnBiweeklyQuiz').style.display  = 'none';
   document.getElementById('btnSave').classList.remove('saved');
@@ -148,7 +149,6 @@ export function switchTab(tab) {
   applyLevelFilterUI();
   document.getElementById('btnFromKanji').style.display = '';
   document.getElementById('btnFromKanji').classList.toggle('active', state.vocabFromKanjiMode);
-  updateBiWeeklyBtn();
   renderVocab();
 }
 
