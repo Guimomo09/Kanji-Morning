@@ -335,6 +335,10 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// ── In-memory fallback for streak tile view (survives localStorage quota) ─
+let _streakTileView = localStorage.getItem('km_streak_tile_view') || 'streak';
+export function getStreakTileView() { return _streakTileView; }
+
 // ── Expose all functions called by inline onclick handlers ────────────────
 Object.assign(window, {
   // Audio
@@ -356,8 +360,8 @@ Object.assign(window, {
     else renderHome();
   },
   cycleStreakTile() {
-    const cur = localStorage.getItem('km_streak_tile_view') || 'streak';
-    try { localStorage.setItem('km_streak_tile_view', cur === 'streak' ? 'month' : 'streak'); } catch {}
+    _streakTileView = _streakTileView === 'streak' ? 'month' : 'streak';
+    try { localStorage.setItem('km_streak_tile_view', _streakTileView); } catch {}
     if (state.currentTab === 'stats') renderStats();
     else renderHome();
   },

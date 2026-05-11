@@ -9,6 +9,7 @@ import {
   isBiWeeklyDone, getLastBiWeeklyMonday,
 } from './biweekly.js';
 import { t } from './i18n.js';
+import { getStreakTileView } from './main.js';
 
 // ── Streak & totals ───────────────────────────────────────────────────────
 export function computeStreak() {
@@ -418,7 +419,7 @@ function drawBarChart(canvas, values, labels) {
 
 // ── Home panel ────────────────────────────────────────────────────────────
 export function renderHome() {
-  const stv         = localStorage.getItem('km_streak_tile_view') || 'streak';
+  const stv         = getStreakTileView();
   const streak      = computeStreak();
   const best        = computeBestStreak();
   const total       = computeTotalWords();
@@ -574,7 +575,7 @@ export function renderHome() {
 
 // ── Stats panel ───────────────────────────────────────────────────────────
 export function renderStats() {
-  const stv      = localStorage.getItem('km_streak_tile_view') || 'streak';
+  const stv      = getStreakTileView();
   const history  = loadQuizHistory();
   const streak   = computeStreak();
   const best     = computeBestStreak();
