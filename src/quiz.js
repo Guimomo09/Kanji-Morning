@@ -271,21 +271,16 @@ export function handleQuizAnswer(btn, isCorrect) {
     const nextBtn = `<button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>`;
 
     if (isCorrect) {
-      // Minimal: show only what was hidden in the question
+      // Only show info not already visible in the question or the selected answer button
       let minimalHtml = '';
-      if (type === 'A' || type === 'E') {
-        // word + reading shown → meaning was hidden
-        minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
-      } else if (type === 'B') {
-        // meaning shown, word was the answer → only reading is new
+      if (type === 'B') {
+        // meaning shown, word was the answer → reading is the only new info
         minimalHtml = item.reading ? `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>` : '';
-      } else if (type === 'C') {
-        // word shown → reading was hidden (already highlighted in answer btn, but confirm pairing)
-        minimalHtml = `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>`;
       } else if (type === 'D') {
-        // reading shown, word was the answer → show meaning as the only new info
+        // reading shown, word was the answer → meaning is new info
         minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
       }
+      // Types A, C, E: answer already visible in selected button → just Next
       reveal.innerHTML = `${minimalHtml}${nextBtn}`;
     } else {
       // Wrong: full card with everything
