@@ -150,20 +150,8 @@
     .status-ok      { background: #e8f5e9; color: #2e7d32; }
     .status-error   { background: #fce4e4; color: #c03a20; }
 
-    /* ���� Legend ���������������������������������������������������������������������� */
-    .legend {
-      max-width: 1120px;
-      margin: 14px auto 0;
-      padding: 0 24px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
-    .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ���� Grid ���������������������������������������������������������������������� */
+    /* ── Grid ──────────────────────────────────────────────────────────────── */
     .grid {
       max-width: 1120px;
       margin: 20px auto 48px;
@@ -1144,7 +1132,6 @@
       .level-filter { padding: 4px 12px 8px; gap: 6px; }
       .toolbar-info { display: none; }
       .search-wrap  { padding: 0 12px 8px; }
-      .legend { padding: 0 12px; gap: 8px; }
 
       /* ── Grid ── */
       .grid {

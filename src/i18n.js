@@ -39,10 +39,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'vocabulary',
     label_kanji:      'kanji',
 
-    legend_n5: 'N5 (beginner)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (frequent)',
-    legend_n2: 'N2 (frequent)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Settings',
@@ -270,10 +270,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'vocabulaire',
     label_kanji:      'kanji',
 
-    legend_n5: 'N5 (débutant)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (fréquent)',
-    legend_n2: 'N2 (fréquent)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Paramètres',
@@ -501,10 +501,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'vocabulario',
     label_kanji:      'kanji',
 
-    legend_n5: 'N5 (principiante)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (frecuente)',
-    legend_n2: 'N2 (frecuente)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Configuración',
@@ -732,10 +732,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'Vokabeln',
     label_kanji:      'Kanji',
 
-    legend_n5: 'N5 (Anfänger)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (häufig)',
-    legend_n2: 'N2 (häufig)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Einstellungen',
@@ -963,10 +963,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'слов',
     label_kanji:      'кандзи',
 
-    legend_n5: 'N5 (начинающий)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (частый)',
-    legend_n2: 'N2 (частый)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Настройки',
