@@ -239,10 +239,14 @@ kanji.guimo-prod.com {
 - [x] `saveQuizResult` : éviction `vocab_daily_*` avant suppression = rebuild mirror d'abord
 - [x] `km_saved_words` : miroir compact dédié — liste mots immune aux évictions
 - [x] `savedWords` Firestore : backup permanent sans fenêtre de date — jamais perdu
-- [x] Au login : cloud pull → rebuild mirror → push `savedWords` vers Firestore (migration one-shot)
+- [x] Firestore = source de vérité unique — cloud pull **écrase** `km_saved_words` (plus de merge gonflant)
+- [x] `setPostAuthCallback` : utilise directement `km_saved_words` post-pull, sans `rebuildSavedWordsMirror`
+- [x] `computeTotalWords()` lit via `getAllSavedWords()` (km_saved_words) au lieu de `vocab_daily_*`
+- [x] `DOMContentLoaded` ne rappelle plus `setPostAuthCallback`/`initCloud` (bug doublon)
+- [x] Sync manuel `window.kmSync()` + bouton ☁️ dans le menu hamburger mobile
+- [x] SW cache v10
 - [x] Streak tile toggle : état en mémoire (`_streakTileView`) — ne dépend plus du localStorage
 - [x] `getStudiedDatesSet()` : fallback `quiz_history` pour streak/count/calendrier si `vocab_daily_*` évincés
-- [x] SW cache v9
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
