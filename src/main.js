@@ -803,7 +803,18 @@ window.debugAgent = {
 // DOMContentLoaded = wiring safe
 window.addEventListener('DOMContentLoaded', function() {
   console.log('[debugAgent] DOMContentLoaded');
-  window.debugAgent.rerunAll();
+  // Wire menu buttons and one-time UI setup (NO setPostAuthCallback/initCloud here)
+  setHeader();
+  _wireMenuBtn('mobileMenuSettings', openSettings);
+  _wireMenuBtn('mobileMenuChat', function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
+    if (wrap && !wrap.contains(e.target)) closeMobileMenu();
+  });
+  if (!localStorage.getItem('km_onboarding_done')) {
+    setTimeout(showTutorial, 600);
+  }
+  console.log('[debugAgent] All wiring and init done.');
 });
 
 // ── Debug helper — call window.kmDebug() from browser console ────────────
