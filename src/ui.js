@@ -88,6 +88,7 @@ export function switchTab(tab) {
     return;
   }
   if (isStats) {
+    document.getElementById('btnBiweeklyQuiz').style.display  = 'none';
     document.getElementById('btnStatsHint').style.display    = '';
     document.getElementById('hTitle').textContent = '進歩';
     document.getElementById('hSub').textContent   = t('sub_stats');

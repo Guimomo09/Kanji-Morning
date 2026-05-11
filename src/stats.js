@@ -555,6 +555,20 @@ export function renderHome() {
           <div class="home-action-title">${t('action_quiz_title')}</div>
           <div class="home-action-sub">${todayWords.length} ${t('today_words_ready_pl')}</div>
         </div>
+        <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
+          <div class="home-action-icon">週</div>
+          <div class="home-action-title">${t('action_weekly_title')}</div>
+          <div class="home-action-sub">${(() => {
+            if (biweeklyAvailable) return t('action_weekly_available');
+            if (missedBiweekly) return t('action_weekly_missed');
+            const bwDone = isBiWeeklyDone(todayStr());
+            if (bwDone) {
+              const bwResult = loadQuizHistory().find(h => h.type === 'biweekly' && h.date === todayStr());
+              return bwResult ? `${bwResult.score}/${bwResult.total} · ${bwResult.pct}%` : t('today_done');
+            }
+            return t('action_weekly_next') + ' ' + dateStr(nextBiWeeklyMonday());
+          })()}</div>
+        </div>
       </div>
     </div>
 
