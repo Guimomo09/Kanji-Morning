@@ -84,8 +84,8 @@ async function _cloudPull() {
         if (idx === -1) merged.push(cloudEntry);
         else if (cloudEntry.pct > merged[idx].pct) merged[idx] = cloudEntry;
       });
-      merged.sort((a, b) => b.date.localeCompare(a.date));
-      while (merged.length > 50) merged.pop();
+      merged.sort((a, b) => a.date.localeCompare(b.date));
+      while (merged.length > 50) merged.shift();
       try { localStorage.setItem('quiz_history', JSON.stringify(merged)); } catch {}
     }
 

@@ -428,7 +428,7 @@ export function renderHome() {
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
   const todayWords  = loadDailyVocab(todayStr()) || [];
   const todayQuiz   = history.find(h => h.date === todayStr() && (h.type || 'daily') === 'daily') ?? null;
-  const lastBiweekly = [...history].reverse().find(h => h.type === 'biweekly') ?? null;
+  const lastBiweekly = [...history].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') ?? null;
 
   const _now = new Date();
   const streakDots = Array.from({length: 7}, (_, i) => {
@@ -517,7 +517,7 @@ export function renderHome() {
         <span>${t('today_weekly')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_weekly_sub')}</span></span>
         <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${(() => {
           if (isBiWeeklyDone(todayStr())) {
-            const bwResult = [...loadQuizHistory()].reverse().find(h => h.type === 'biweekly');
+            const bwResult = [...loadQuizHistory()].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly');
             return bwResult ? `${bwResult.score}/${bwResult.total} \u00b7 ${bwResult.pct}% \u2713` : t('today_done');
           }
           return biweeklyAvailable ? t('today_available') : missedBiweekly ? t('today_missed') : '\u2014';
@@ -583,7 +583,7 @@ export function renderStats() {
   const avgScore = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
 
-  const lastBiweekly = [...history].reverse().find(h => h.type === 'biweekly') ?? null;
+  const lastBiweekly = [...history].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') ?? null;
   const missedMon  = getMissedBiWeeklyMonday();
   const missedHtml = missedMon ? `
     <div class="stat-notif">
