@@ -591,10 +591,10 @@
     .exam-quiz-tile.done:hover { border-color: var(--border); }
     .exam-quiz-tile.disabled { opacity: 0.45; cursor: default; }
     .exam-quiz-tile.disabled:hover { border-color: var(--border); }
-    .exam-quiz-tile-icon { font-size: 36px; margin-bottom: 8px; line-height: 1; }
-    .exam-quiz-tile-title { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-    .exam-quiz-tile-sub { font-size: 12px; color: var(--muted); }
-    .exam-quiz-tile.done .exam-quiz-tile-sub { color: #2e7d32; font-weight: 600; }
+    .exam-quiz-tile-icon { font-size: 40px; font-weight: 900; margin-bottom: 10px; line-height: 1; }
+    .exam-quiz-tile-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .exam-quiz-tile-sub { font-size: 12px; font-weight: 600; color: var(--muted); }
+    .exam-quiz-tile.done .exam-quiz-tile-sub { color: #2e7d32; font-weight: 700; }
     /* Full-width Exam tile */
     .exam-quiz-tile-exam {
       display: flex; align-items: center; justify-content: space-between;
