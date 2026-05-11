@@ -264,22 +264,40 @@ export function handleQuizAnswer(btn, isCorrect) {
     const reveal = document.createElement('div');
     reveal.className = 'quiz-reveal';
     const meaning = getMeaning(item.word, getLang()) || item.meaning;
-    // Don't repeat the field that was just tested as the answer
-    const meaningWasAnswer = type === 'A' || type === 'E';
-    const readingWasAnswer = type === 'C';
-    // Find first kanji char for the "Explore" button
     const firstKanji = [...item.word].find(c => c >= '\u4E00' && c <= '\u9FFF') || null;
     const exploreBtn = firstKanji
       ? `<button class="quiz-reveal-explore" onclick="openKanjiDetail('${firstKanji}')">🔍 Explore 「${firstKanji}」</button>`
       : '';
-    reveal.innerHTML = `
-      <div class="quiz-reveal-word">${item.word}${(item.reading && !readingWasAnswer) ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
-      ${!meaningWasAnswer ? `<div class="quiz-reveal-meaning">${meaning}</div>` : ''}
-      ${item.extraMeanings?.length ? `<div class="quiz-reveal-extras">${item.extraMeanings.join(' · ')}</div>` : ''}
-      ${item.pos ? `<div class="quiz-reveal-pos">${item.pos}</div>` : ''}
-      ${exploreBtn}
-      <button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>
-    `;
+    const nextBtn = `<button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>`;
+
+    if (isCorrect) {
+      // Minimal: show only what was hidden in the question
+      let minimalHtml = '';
+      if (type === 'A' || type === 'E') {
+        // word + reading shown → meaning was hidden
+        minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
+      } else if (type === 'B') {
+        // meaning shown → word (+ reading) was hidden
+        minimalHtml = `<div class="quiz-reveal-word">${item.word}${item.reading ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>`;
+      } else if (type === 'C') {
+        // word shown → reading was hidden
+        minimalHtml = `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>`;
+      } else if (type === 'D') {
+        // reading shown → word was hidden
+        minimalHtml = `<div class="quiz-reveal-word">${item.word}</div>`;
+      }
+      reveal.innerHTML = `${minimalHtml}${nextBtn}`;
+    } else {
+      // Wrong: full card with everything
+      reveal.innerHTML = `
+        <div class="quiz-reveal-word">${item.word}${item.reading ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
+        <div class="quiz-reveal-meaning">${meaning}</div>
+        ${item.extraMeanings?.length ? `<div class="quiz-reveal-extras">${item.extraMeanings.join(' · ')}</div>` : ''}
+        ${item.pos ? `<div class="quiz-reveal-pos">${item.pos}</div>` : ''}
+        ${exploreBtn}
+        ${nextBtn}
+      `;
+    }
     document.querySelector('.quiz-options')?.after(reveal);
   }
 }
