@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **9 Mai 2026** · Stripe LIVE ✅
+> Dernière mise à jour: **11 Mai 2026** · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -218,6 +218,31 @@ kanji.guimo-prod.com {
 - [x] Bouton "i" Stats déplacé dans la toolbar (far-right, `margin-left:auto`) — pattern unifié avec Kanji/Vocab/My List
 - [x] Bouton "i" Kanji/Vocab inline avec compteur (next to count label)
 - [x] Bloc Exam desktop `max-width` aligné sur Home (900px) — plus de saut de largeur au switch d'onglet
+
+**Exam Mode** ← commit `d29e0d4` (8 Mai 2026)
+- [x] Exam Mode : 40 questions · 10 min · 60% PASS · types C+D seulement (kanji↔hiragana, pas de définitions)
+- [x] Pas de bouton son en mode exam
+- [x] Branding "JLPT Exam" → "Exam Mode" (localisé 5 langues, `exam_mode_title`)
+
+**Exam tab restructuré** ← commits `b58adb2` → `91418ca` (11 Mai 2026)
+- [x] Onglet Exam = hub quiz : 3 tiles (Daily | Weekly grid + accordéon Exam Mode pleine largeur)
+- [x] Boutons quiz retirés des toolbars Vocab + My List
+- [x] Bouton Weekly Challenge masqué sur onglet Stats
+- [x] Tile Exam : niveau pill garde la section ouverte après sélection
+- [x] Tile Exam : sous-titre = dernier niveau + date (pas pct/PASS)
+- [x] Recent Results : niveau (N5, N4…) affiché par ligne
+- [x] Section auto-ouverte si dernier exam du jour (retour depuis écran résultats)
+- [x] Résultats exam exclus des Stats (uniquement dans l'onglet Exam)
+
+**localStorage quota + sauvegarde mots** ← commits `(11 Mai 2026)`
+- [x] `cleanupOldData` : rétention `vocab_daily_*` réduite à 14 jours
+- [x] `saveQuizResult` : éviction `vocab_daily_*` avant suppression = rebuild mirror d'abord
+- [x] `km_saved_words` : miroir compact dédié — liste mots immune aux évictions
+- [x] `savedWords` Firestore : backup permanent sans fenêtre de date — jamais perdu
+- [x] Au login : cloud pull → rebuild mirror → push `savedWords` vers Firestore (migration one-shot)
+- [x] Streak tile toggle : état en mémoire (`_streakTileView`) — ne dépend plus du localStorage
+- [x] `getStudiedDatesSet()` : fallback `quiz_history` pour streak/count/calendrier si `vocab_daily_*` évincés
+- [x] SW cache v9
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
