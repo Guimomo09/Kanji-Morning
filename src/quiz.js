@@ -576,7 +576,12 @@ export function launchExamMode() {
 // ── Exam tab ───────────────────────────────────────────────────────────────
 export function setExamTargetLevel(level) {
   localStorage.setItem('km_exam_target_level', level);
+  // Re-render but keep the exam section open
   renderExamTab();
+  const s = document.getElementById('examJlptSection');
+  const tile = document.getElementById('examMainTile');
+  if (s) { s.style.display = 'block'; }
+  if (tile) tile.classList.add('exam-quiz-tile-exam-open');
 }
 
 export function renderExamTab() {
@@ -619,8 +624,8 @@ export function renderExamTab() {
   const examSub    = !state.isPremium
     ? t('exam_locked_title')
     : lastExam
-      ? `${lastExam.examLevel || targetLevel} · ${lastExam.pct}% ${lastExam.pct >= 60 ? '✓ PASS' : '✗ FAIL'}`
-      : `${targetLevel} · ${available} ${t('today_words_ready_pl')}`;
+      ? `${lastExam.examLevel || targetLevel} · ${lastExam.date}`
+      : `${available} ${t('today_words_ready_pl')}`;
 
   if (!state.isPremium) {
     section.innerHTML = `
@@ -641,7 +646,7 @@ export function renderExamTab() {
           <div class="exam-quiz-tile-inner">
             <div class="exam-quiz-tile-icon">🔒</div>
             <div>
-              <div class="exam-quiz-tile-title">JLPT Exam</div>
+              <div class="exam-quiz-tile-title">${t('exam_mode_title')}</div>
               <div class="exam-quiz-tile-sub">${examSub}</div>
             </div>
           </div>
@@ -661,7 +666,7 @@ export function renderExamTab() {
     ? examHistory.map(h => `
       <div class="exam-history-row ${h.pct >= 60 ? 'exam-history-pass' : 'exam-history-fail'}">
         <span class="exam-history-date">${h.date}</span>
-        <span class="exam-history-level">${h.examLevel || ''}</span>
+        <span class="exam-history-level">${h.examLevel || '—'}</span>
         <span class="exam-history-score">${h.score}/${h.total}</span>
         <span class="exam-history-pct">${h.pct}%</span>
         <span class="exam-history-badge">${h.pct >= 60 ? 'PASS' : 'FAIL'}</span>
@@ -686,7 +691,7 @@ export function renderExamTab() {
         <div class="exam-quiz-tile-inner">
           <div class="exam-quiz-tile-icon">試験</div>
           <div>
-            <div class="exam-quiz-tile-title">JLPT Exam</div>
+            <div class="exam-quiz-tile-title">${t('exam_mode_title')}</div>
             <div class="exam-quiz-tile-sub">${examSub}</div>
           </div>
         </div>

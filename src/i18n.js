@@ -220,6 +220,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Weekly Challenge is available <strong>today</strong>! Go to Vocabulary tab.',
 
     exam_locked_title: 'Exam Mode · Premium',
+    exam_mode_title:   'Exam Mode',
     exam_locked_body:  'Test your JLPT level with timed exams.<br>Real JLPT-style questions: kanji → reading, meaning → word.',
     exam_unlock_btn:   'Unlock Premium',
     exam_level_label:  'TARGET LEVEL',
@@ -451,6 +452,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Le défi hebdomadaire est disponible <strong>aujourd\'hui</strong> ! Va dans l\'onglet Vocabulaire.',
 
     exam_locked_title: 'Mode Examen · Premium',
+    exam_mode_title:   'Mode Examen',
     exam_locked_body:  'Teste ton niveau JLPT avec des examens chronométrés.<br>Questions style vrai JLPT : kanji → lecture, sens → mot.',
     exam_unlock_btn:   'Débloquer Premium',
     exam_level_label:  'NIVEAU CIBLE',
@@ -682,6 +684,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'El Desafío semanal está disponible <strong>hoy</strong>. Ve a la pestaña Vocabulario.',
 
     exam_locked_title: 'Modo Examen · Premium',
+    exam_mode_title:   'Modo Examen',
     exam_locked_body:  'Pon a prueba tu nivel JLPT con exámenes cronometrados.<br>Preguntas estilo JLPT real: kanji → lectura, significado → palabra.',
     exam_unlock_btn:   'Desbloquear Premium',
     exam_level_label:  'NIVEL OBJETIVO',
@@ -913,6 +916,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Die Wochenchallenge ist heute verfügbar! Gehe zum Tab Vokabular.',
 
     exam_locked_title: 'Prüfungsmodus · Premium',
+    exam_mode_title:   'Prüfungsmodus',
     exam_locked_body:  'Teste dein JLPT-Niveau mit Zeitprüfungen.<br>Echte JLPT-Fragen: Kanji → Lesung, Bedeutung → Wort.',
     exam_unlock_btn:   'Premium freischalten',
     exam_level_label:  'ZIELNIVEAU',
@@ -1148,6 +1152,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Недельный вызов доступен <strong>сегодня</strong>! Перейди во вкладку Словарь.',
 
     exam_locked_title: 'Режим экзамена · Premium',
+    exam_mode_title:   'Режим экзамена',
     exam_locked_body:  'Проверь свой уровень JLPT на экзаменах на время.<br>Вопросы в стиле JLPT: кандзи → чтение, значение → слово.',
     exam_unlock_btn:   'Разблокировать Premium',
     exam_level_label:  'ЦЕЛЕВОЙ УРОВЕНЬ',
