@@ -555,20 +555,6 @@ export function renderHome() {
           <div class="home-action-title">${t('action_quiz_title')}</div>
           <div class="home-action-sub">${todayWords.length} ${t('today_words_ready_pl')}</div>
         </div>
-        <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
-          <div class="home-action-icon">週</div>
-          <div class="home-action-title">${t('action_weekly_title')}</div>
-          <div class="home-action-sub">${(() => {
-            if (biweeklyAvailable) return t('action_weekly_available');
-            if (missedBiweekly) return t('action_weekly_missed');
-            const bwDone = isBiWeeklyDone(todayStr());
-            if (bwDone) {
-              const bwResult = loadQuizHistory().find(h => h.type === 'biweekly' && h.date === todayStr());
-              return bwResult ? `${bwResult.score}/${bwResult.total} · ${bwResult.pct}%` : t('today_done');
-            }
-            return t('action_weekly_next') + ' ' + dateStr(nextBiWeeklyMonday());
-          })()}</div>
-        </div>
       </div>
     </div>
 
@@ -598,20 +584,7 @@ export function renderStats() {
   const lastBiweekly = [...history].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') ?? null;
   console.log('[KM] renderStats — history length:', history.length, '| lastBiweekly:', lastBiweekly);
   const missedMon  = getMissedBiWeeklyMonday();
-  const missedHtml = missedMon ? `
-    <div class="stat-notif">
-      <div class="stat-notif-icon">週</div>
-      <div class="stat-notif-body">
-        <div class="stat-notif-title">${t('stats_missed_title')}</div>
-        <div class="stat-notif-sub">
-          ${t('stats_missed_sub')} <strong>${dateStr(missedMon)}</strong> ${t('stats_missed_sub2')}<br>
-          ${t('stats_missed_msg')}
-        </div>
-        <button class="btn btn-quiz" onclick="launchBiWeeklyQuiz()" style="font-size:13px;padding:8px 18px">
-          ${t('stats_start_now')}
-        </button>
-      </div>
-    </div>` : '';
+  const missedHtml = '';
 
   // Study activity last 14 days
   const studyVals = [], studyLbls = [], today = new Date();
