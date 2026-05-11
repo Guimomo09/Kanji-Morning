@@ -11,27 +11,39 @@ import {
 import { t } from './i18n.js';
 import { getStreakTileView } from './main.js';
 
+// ── Unified studied-dates set (vocab_daily keys + quiz_history dates) ────
+// vocab_daily keys can get evicted when localStorage is full, so we
+// supplement with quiz_history which is a single compact key.
+function getStudiedDatesSet() {
+  const dates = new Set();
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith('vocab_daily_')) dates.add(k.slice(12));
+  }
+  try {
+    const history = JSON.parse(localStorage.getItem('quiz_history') || '[]');
+    history.forEach(h => { if (h.date) dates.add(h.date); });
+  } catch {}
+  return dates;
+}
+
 // ── Streak & totals ───────────────────────────────────────────────────────
 export function computeStreak() {
+  const studied = getStudiedDatesSet();
   const today = new Date();
-  const hasTodayData = !!localStorage.getItem(`vocab_daily_${dateStr(today)}`);
+  const hasTodayData = studied.has(dateStr(today));
   let streak = 0;
   for (let i = hasTodayData ? 0 : 1; i < 366; i++) {
     const d = new Date(today); d.setDate(today.getDate() - i);
-    if (localStorage.getItem(`vocab_daily_${dateStr(d)}`)) streak++;
+    if (studied.has(dateStr(d))) streak++;
     else break;
   }
   return streak;
 }
 
 export function computeBestStreak() {
-  const dates = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const k = localStorage.key(i);
-    if (k && k.startsWith('vocab_daily_')) dates.push(k.slice(12));
-  }
+  const dates = [...getStudiedDatesSet()].sort();
   if (!dates.length) return 0;
-  dates.sort();
   let best = 1, cur = 1;
   for (let i = 1; i < dates.length; i++) {
     const diff = Math.round(
@@ -57,12 +69,10 @@ export function computeTotalWords() {
 
 export function computeMonthlyCount() {
   const now = new Date();
-  const prefix = `vocab_daily_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-`;
+  const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-`;
+  const studied = getStudiedDatesSet();
   let count = 0;
-  for (let i = 0; i < localStorage.length; i++) {
-    const k = localStorage.key(i);
-    if (k && k.startsWith(prefix)) count++;
-  }
+  for (const ds of studied) { if (ds.startsWith(monthPrefix)) count++; }
   return count;
 }
 
@@ -91,11 +101,12 @@ function renderActivityCalendar(containerId) {
   // Monday-first offset: Mon=0 … Sun=6
   const firstDow = (firstDay.getDay() + 6) % 7;
 
-  // Collect studied days in this month
+  // Collect studied days in this month from both vocab_daily and quiz_history
+  const allStudied = getStudiedDatesSet();
   const studiedSet = new Set();
   for (let d = 1; d <= daysInMonth; d++) {
     const ds = dateStr(new Date(year, month, d));
-    if (localStorage.getItem(`vocab_daily_${ds}`)) studiedSet.add(d);
+    if (allStudied.has(ds)) studiedSet.add(d);
   }
 
   // 6 rows × 7 cols = 42 cells

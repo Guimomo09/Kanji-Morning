@@ -409,8 +409,8 @@ export function saveQuizResult(score, total, type, examLevel) {
     console.log('[KM] quiz_history saved. biweekly entries:', history.filter(h => h.type === 'biweekly').map(h => h.date + ' ' + h.pct + '%'));
   } catch (e) {
     console.warn('[KM] localStorage full — evicting old vocab_daily and retrying...');
-    // Emergency eviction: remove vocab_daily older than 7 days
-    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 7);
+    // Emergency eviction: remove vocab_daily older than 30 days
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
     const toDelete = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
