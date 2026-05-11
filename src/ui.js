@@ -44,6 +44,9 @@ export function switchTab(tab) {
     infoBtn.style.display = isGrid ? '' : 'none';
     infoBtn.dataset.tab = tab;
   }
+  // Always reset these — only shown explicitly in their own tab branch
+  document.getElementById('btnMyListHint').style.display = 'none';
+  document.getElementById('btnStatsHint').style.display  = 'none';
 
   const isHome   = tab === 'home';
   const isStats  = tab === 'stats';
