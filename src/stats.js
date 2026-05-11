@@ -55,16 +55,7 @@ export function computeBestStreak() {
 }
 
 export function computeTotalWords() {
-  const seen = new Set();
-  for (let i = 0; i < localStorage.length; i++) {
-    const k = localStorage.key(i);
-    if (!k || !k.startsWith('vocab_daily_')) continue;
-    try {
-      const items = JSON.parse(localStorage.getItem(k));
-      if (Array.isArray(items)) items.forEach(it => seen.add(it.word));
-    } catch {}
-  }
-  return seen.size;
+  return getAllSavedWords().length;
 }
 
 export function computeMonthlyCount() {
