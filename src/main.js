@@ -758,8 +758,6 @@ function saveSettings() {
 // ── App initialisation ────────────────────────────────────────────────────
 setHeader();
 cleanupOldData();
-// Ensure km_saved_words mirror is built from existing vocab_daily_* keys (first run / migration)
-if (!localStorage.getItem('km_saved_words')) rebuildSavedWordsMirror();
 _applyTheme(localStorage.getItem('km_theme') || 'auto');_setupMyListDrag();
 
 // ── DEBUG AGENT ──────────────────────────────────────────────────────────
