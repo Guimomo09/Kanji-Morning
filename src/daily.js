@@ -73,7 +73,7 @@ export function cleanupOldData() {
 export function getQuizDates() {
   const today = new Date();
   const dates = [];
-  for (let i = 13; i >= 0; i--) {
+  for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(today.getDate() - i);
     dates.push(dateStr(d));
