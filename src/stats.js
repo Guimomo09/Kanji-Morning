@@ -587,7 +587,8 @@ export function renderHome() {
 // ── Stats panel ───────────────────────────────────────────────────────────
 export function renderStats() {
   const stv      = getStreakTileView();
-  const history  = loadQuizHistory();
+  const allHistory = loadQuizHistory();
+  const history  = allHistory.filter(h => (h.type || 'daily') !== 'exam'); // exclude exam from stats
   const streak   = computeStreak();
   const best     = computeBestStreak();
   const total    = computeTotalWords();

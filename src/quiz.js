@@ -625,7 +625,8 @@ export function renderExamTab() {
   const available  = state.isPremium ? getAllSavedWords().filter(w => allowed.has(w.level)).length : 0;
   const examHistory = allHistory.filter(h => h.type === 'exam').sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
   const lastExam   = examHistory[0] || null;
-  const sectionOpen = _examSectionOpen;
+  // Auto-open section if: flag set (just completed exam) OR last exam is from today
+  const sectionOpen = _examSectionOpen || (lastExam?.date === today);
   _examSectionOpen = false;
   const examSub    = !state.isPremium
     ? t('exam_locked_title')
