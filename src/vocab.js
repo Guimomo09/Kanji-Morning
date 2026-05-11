@@ -389,12 +389,15 @@ export function updateSavedWordsMirror(items, date) {
     const updated = [...newItems, ...existing];
     try { localStorage.setItem(_SW_KEY, JSON.stringify(updated)); }
     catch {
-      // Try freeing quiz_history space and retry
       try {
         const qh = JSON.parse(localStorage.getItem('quiz_history') || '[]');
         if (qh.length > 10) localStorage.setItem('quiz_history', JSON.stringify(qh.slice(-10)));
         localStorage.setItem(_SW_KEY, JSON.stringify(updated));
       } catch {}
+    }
+    // Sync to cloud — permanent backup, no date window
+    if (CLOUD_ENABLED && state._fbUser) {
+      cloudUpdate({ savedWords: updated }).catch(() => {});
     }
   } catch {}
 }
@@ -404,6 +407,10 @@ export function removeFromSavedWordsMirror(wordOrSet) {
     const isSet = wordOrSet instanceof Set;
     const filtered = JSON.parse(raw).filter(i => isSet ? !wordOrSet.has(i.word) : i.word !== wordOrSet);
     localStorage.setItem(_SW_KEY, JSON.stringify(filtered));
+    // Sync removal to cloud
+    if (CLOUD_ENABLED && state._fbUser) {
+      cloudUpdate({ savedWords: filtered }).catch(() => {});
+    }
   } catch {}
 }
 

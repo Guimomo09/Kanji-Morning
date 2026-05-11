@@ -89,6 +89,19 @@ async function _cloudPull() {
       try { localStorage.setItem('quiz_history', JSON.stringify(merged)); } catch {}
     }
 
+    // Pull savedWords flat list (permanent, no date cutoff)
+    if (data.savedWords && Array.isArray(data.savedWords) && data.savedWords.length > 0) {
+      try {
+        const localRaw  = localStorage.getItem('km_saved_words');
+        const local     = localRaw ? JSON.parse(localRaw) : [];
+        const localSet  = new Set(local.map(i => i.word));
+        const merged    = [...local, ...data.savedWords.filter(i => !localSet.has(i.word))];
+        merged.sort((a, b) => (b.savedDate || '').localeCompare(a.savedDate || ''));
+        try { localStorage.setItem('km_saved_words', JSON.stringify(merged)); } catch {}
+        console.log(`[_cloudPull] Restored ${merged.length} saved words from cloud.`);
+      } catch {}
+    }
+
     // Restore level preferences
     if (data.vocabLevel && state.vocabLevelFilter !== data.vocabLevel) {
       state.vocabLevelFilter = data.vocabLevel;

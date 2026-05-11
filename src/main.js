@@ -2,7 +2,7 @@ import { state }                                               from './state.js'
 import { cleanupOldData, saveDailyVocab }                       from './daily.js';
 import { getWordOfDay }                                         from './wotd.js';
 import { todayStr }                                            from './utils.js';
-import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus } from './cloud.js';
+import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus, cloudUpdate } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror } from './vocab.js';
@@ -10,7 +10,7 @@ import { renderStats, renderHome, setActivityView, navActivityCal } from './stat
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
-import { STRIPE_PAYMENT_LINK }                                  from './config.js';
+import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js';
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
 import { loadTrans } from './trans.js';
 import { speakJapanese } from './audio.js';
@@ -833,6 +833,14 @@ if ('serviceWorker' in navigator) {
 
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
+  // Rebuild word mirror AFTER cloud pull — merges cloud savedWords + vocab_daily_* into km_saved_words
+  // Then push merged list back to cloud to upgrade any old account to the new savedWords format
+  const merged = rebuildSavedWordsMirror();
+  if (CLOUD_ENABLED && state._fbUser && merged.length > 0) {
+    cloudUpdate({ savedWords: merged }).catch(() => {});
+  }
+  // Rebuild word mirror AFTER cloud pull — ensures days 15-30 are included
+  rebuildSavedWordsMirror();
   // Identify logged-in user in Crisp
   if (state._fbUser && window.$crisp) {
     window.$crisp.push(['set', 'user:email', [state._fbUser.email]]);
