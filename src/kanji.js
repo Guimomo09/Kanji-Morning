@@ -2762,6 +2762,7 @@ const EXAMPLE_OVERRIDE = {
   ],
 
   // ── N1 wave 2 — batch 2/4 (kanji 309-616) ───
+
   '幽': [
     { w: '幽霊',   r: 'ゆうれい',   m: 'ghost, specter' },
     { w: '幽玄',   r: 'ゆうげん',   m: 'subtle grace, deep mystery (aesthetic concept)' },
@@ -2936,6 +2937,143 @@ const EXAMPLE_OVERRIDE = {
     { w: '洪水',   r: 'こうずい',   m: 'flood, inundation' },
     { w: '洪大',   r: 'こうだい',   m: 'vast, immense' },
     { w: '洪積',   r: 'こうせき',   m: 'diluvial, relating to great flood deposits' },
+  ],
+
+  // ── N1 wave 3 — batch 3/4 (kanji 617-924) ───
+  '浜': [
+    { w: '浜辺',   r: 'はまべ',     m: 'beach, seashore' },
+    { w: '砂浜',   r: 'すなはま',   m: 'sandy beach' },
+    { w: '浜松',   r: 'はままつ',   m: 'Hamamatsu (city in Shizuoka Prefecture)' },
+  ],
+  '淑': [
+    { w: '淑女',   r: 'しゅくじょ', m: 'refined, gracious lady' },
+    { w: '淑やか', r: 'しとやか',   m: 'graceful, demure, refined' },
+    { w: '淑徳',   r: 'しゅくとく', m: 'feminine virtues, moral excellence' },
+  ],
+  '漆': [
+    { w: '漆器',   r: 'しっき',     m: 'lacquerware' },
+    { w: '漆塗り', r: 'うるしぬり', m: 'lacquering, lacquered finish' },
+    { w: '漆黒',   r: 'しっこく',   m: 'jet black, deep black' },
+  ],
+  '爵': [
+    { w: '伯爵',   r: 'はくしゃく', m: 'count, earl' },
+    { w: '公爵',   r: 'こうしゃく', m: 'duke' },
+    { w: '男爵',   r: 'だんしゃく', m: 'baron' },
+  ],
+  '狂': [
+    { w: '熱狂',   r: 'ねっきょう', m: 'frenzy, wild enthusiasm' },
+    { w: '狂気',   r: 'きょうき',   m: 'madness, insanity' },
+    { w: '狂う',   r: 'くるう',     m: 'to go mad, to go wrong, to be off' },
+  ],
+  '猿': [
+    { w: '猿知恵', r: 'さるぢえ',   m: 'shallow cleverness, superficial wisdom' },
+    { w: '猿人',   r: 'えんじん',   m: 'ape-man, early hominid' },
+    { w: '類人猿', r: 'るいじんえん', m: 'anthropoid ape, great ape' },
+  ],
+  '玄': [
+    { w: '玄関',   r: 'げんかん',   m: 'entrance, front door, entryway' },
+    { w: '玄米',   r: 'げんまい',   m: 'unpolished brown rice' },
+    { w: '玄人',   r: 'くろうと',   m: 'expert, professional, skilled person' },
+  ],
+  '珠': [
+    { w: '真珠',   r: 'しんじゅ',   m: 'pearl' },
+    { w: '数珠',   r: 'じゅず',     m: 'Buddhist prayer beads' },
+    { w: '珠玉',   r: 'しゅぎょく', m: 'gems and jewels; choice, precious' },
+  ],
+  '盆': [
+    { w: 'お盆',   r: 'おぼん',     m: 'Obon (Buddhist festival of the dead)' },
+    { w: '盆栽',   r: 'ぼんさい',   m: 'bonsai' },
+    { w: '盆地',   r: 'ぼんち',     m: 'basin, valley surrounded by mountains' },
+  ],
+  '甚': [
+    { w: '甚大',   r: 'じんだい',   m: 'enormous, very great, immense' },
+    { w: '甚だ',   r: 'はなはだ',   m: 'very, exceedingly, greatly' },
+    { w: '幸甚',   r: 'こうじん',   m: 'very fortunate, highly appreciated' },
+  ],
+  '睡': [
+    { w: '睡眠',   r: 'すいみん',   m: 'sleep' },
+    { w: '熟睡',   r: 'じゅくすい', m: 'deep sleep, sound sleep' },
+    { w: '睡眠不足', r: 'すいみんぶそく', m: 'sleep deprivation, lack of sleep' },
+  ],
+  '矛': [
+    { w: '矛',     r: 'ほこ',       m: 'spear, halberd' },
+    { w: '矛盾',   r: 'むじゅん',   m: 'contradiction, inconsistency' },
+    { w: '矛先',   r: 'ほこさき',   m: 'spearhead; brunt (of an attack or criticism)' },
+  ],
+  '稚': [
+    { w: '幼稚',   r: 'ようち',     m: 'childishness, infancy, immaturity' },
+    { w: '幼稚園', r: 'ようちえん', m: 'kindergarten, preschool' },
+    { w: '稚拙',   r: 'ちせつ',     m: 'unskillful, naive, childlike' },
+  ],
+  '稼': [
+    { w: '稼ぐ',   r: 'かせぐ',     m: 'to earn (money), to work hard' },
+    { w: '稼ぎ',   r: 'かせぎ',     m: 'earnings, income' },
+    { w: '出稼ぎ', r: 'でかせぎ',   m: 'working away from home, migrant work' },
+  ],
+  '筋': [
+    { w: '筋肉',   r: 'きんにく',   m: 'muscle' },
+    { w: '筋道',   r: 'すじみち',   m: 'logic, reasoning, line of argument' },
+    { w: '筋書き', r: 'すじがき',   m: 'plot, scenario, storyline' },
+  ],
+  '粋': [
+    { w: '純粋',   r: 'じゅんすい', m: 'pure, genuine, unalloyed' },
+    { w: '粋',     r: 'いき',       m: 'stylish, refined, chic' },
+    { w: '生粋',   r: 'きっすい',   m: 'pure, genuine, thoroughbred' },
+  ],
+  '紫': [
+    { w: '紫',     r: 'むらさき',   m: 'purple, violet' },
+    { w: '紫外線', r: 'しがいせん', m: 'ultraviolet rays' },
+    { w: '紫色',   r: 'むらさきいろ', m: 'purple color' },
+  ],
+  '綱': [
+    { w: '綱領',   r: 'こうりょう', m: 'party platform, fundamental principles' },
+    { w: '要綱',   r: 'ようこう',   m: 'main principle, outline, summary' },
+    { w: '大綱',   r: 'たいこう',   m: 'fundamental principles, general outline' },
+  ],
+  '綺': [
+    { w: '綺麗',   r: 'きれい',     m: 'beautiful, clean, lovely' },
+    { w: '綺麗事', r: 'きれいごと', m: 'sugarcoating, whitewashing' },
+    { w: '綺羅びやか', r: 'きらびやか', m: 'gorgeous, glittering, resplendent' },
+  ],
+  '縁': [
+    { w: '縁',     r: 'えん',       m: 'fate, connection, bond, relationship' },
+    { w: '縁談',   r: 'えんだん',   m: 'marriage proposal, matchmaking talk' },
+    { w: '縁側',   r: 'えんがわ',   m: 'veranda, porch (Japanese style)' },
+  ],
+  '羅': [
+    { w: '羅列',   r: 'られつ',     m: 'enumeration, listing one by one' },
+    { w: '網羅',   r: 'もうら',     m: 'comprehensive coverage, covering everything' },
+    { w: '森羅万象', r: 'しんらばんしょう', m: 'all things in nature, the universe' },
+  ],
+  '肢': [
+    { w: '選択肢', r: 'せんたくし', m: 'option, choice (in a selection)' },
+    { w: '肢体',   r: 'したい',     m: 'limbs, limbs and body' },
+    { w: '四肢',   r: 'しし',       m: 'four limbs, arms and legs' },
+  ],
+  '胎': [
+    { w: '胎児',   r: 'たいじ',     m: 'fetus, unborn child' },
+    { w: '受胎',   r: 'じゅたい',   m: 'conception, becoming pregnant' },
+    { w: '母胎',   r: 'ぼたい',     m: 'mother\'s womb; origin, birthplace' },
+  ],
+  '胡': [
+    { w: '胡椒',   r: 'こしょう',   m: 'pepper (spice)' },
+    { w: '胡坐',   r: 'あぐら',     m: 'sitting cross-legged (Indian style)' },
+    { w: '胡散臭い', r: 'うさんくさい', m: 'suspicious, shady, dubious' },
+  ],
+  '脚': [
+    { w: '脚本',   r: 'きゃくほん', m: 'script, screenplay' },
+    { w: '脚注',   r: 'きゃくちゅう', m: 'footnote' },
+    { w: '脚光',   r: 'きゃっこう', m: 'footlights; limelight, public attention' },
+  ],
+  '至': [
+    { w: '至る',   r: 'いたる',     m: 'to reach, to arrive at, to lead to' },
+    { w: '至急',   r: 'しきゅう',   m: 'urgent, pressing, as soon as possible' },
+    { w: '冬至',   r: 'とうじ',     m: 'winter solstice' },
+  ],
+  '艶': [
+    { w: '艶やか', r: 'つやか',     m: 'glossy, lustrous, charming' },
+    { w: '艶消し', r: 'つやけし',   m: 'matte finish; dampening (enthusiasm)' },
+    { w: '艶出し', r: 'つやだし',   m: 'polishing, giving a gloss' },
   ],
 };
 
