@@ -1801,6 +1801,168 @@ const EXAMPLE_OVERRIDE = {
     { w: '岩山',     r: 'いわやま',     m: 'rocky mountain' },
     { w: '溶岩',     r: 'ようがん',     m: 'lava' },
   ],
+
+  // ── N2 wave 2 — batch 2/4 (kanji 91-180) ─────────────────────────────────
+  '巻': [
+    { w: '巻く',     r: 'まく',         m: 'to wind, to roll, to wrap' },
+    { w: '巻物',     r: 'まきもの',     m: 'scroll, makimono' },
+    { w: '第一巻',   r: 'だいいっかん', m: 'volume one, first volume' },
+  ],
+  '布': [
+    { w: '布',       r: 'ぬの',         m: 'cloth, fabric' },
+    { w: '布団',     r: 'ふとん',       m: 'futon, Japanese bedding' },
+    { w: '毛布',     r: 'もうふ',       m: 'blanket' },
+  ],
+  '希': [
+    { w: '希望',     r: 'きぼう',       m: 'hope, wish, aspiration' },
+    { w: '希少',     r: 'きしょう',     m: 'rare, scarce' },
+    { w: '希薄',     r: 'きはく',       m: 'thin, dilute, sparse' },
+  ],
+  '帯': [
+    { w: '帯',       r: 'おび',         m: 'sash, belt, obi' },
+    { w: '地帯',     r: 'ちたい',       m: 'zone, area, belt' },
+    { w: '携帯',     r: 'けいたい',     m: 'mobile phone; carrying' },
+  ],
+  '幅': [
+    { w: '幅',       r: 'はば',         m: 'width, breadth' },
+    { w: '大幅',     r: 'おおはば',     m: 'large-scale, significant, drastic' },
+    { w: '幅広い',   r: 'はばひろい',   m: 'wide, broad, extensive' },
+  ],
+  '干': [
+    { w: '干す',     r: 'ほす',         m: 'to dry (laundry, food, etc.)' },
+    { w: '干渉',     r: 'かんしょう',   m: 'interference, intervention' },
+    { w: '若干',     r: 'じゃっかん',   m: 'a few, some, a little' },
+  ],
+  '床': [
+    { w: '床',       r: 'ゆか',         m: 'floor' },
+    { w: '床屋',     r: 'とこや',       m: 'barbershop, barber' },
+    { w: '寝床',     r: 'ねどこ',       m: 'bed, sleeping place' },
+  ],
+  '延': [
+    { w: '延長',     r: 'えんちょう',   m: 'extension, prolongation' },
+    { w: '延期',     r: 'えんき',       m: 'postponement, deferment' },
+    { w: '延びる',   r: 'のびる',       m: 'to extend, to be postponed' },
+  ],
+  '弱': [
+    { w: '弱い',     r: 'よわい',       m: 'weak, frail' },
+    { w: '弱点',     r: 'じゃくてん',   m: 'weak point, weakness' },
+    { w: '弱める',   r: 'よわめる',     m: 'to weaken, to reduce (power)' },
+  ],
+  '律': [
+    { w: '規律',     r: 'きりつ',       m: 'discipline, order, rules' },
+    { w: '法律',     r: 'ほうりつ',     m: 'law, act, statute' },
+    { w: '一律',     r: 'いちりつ',     m: 'uniform, flat, across the board' },
+  ],
+  '憎': [
+    { w: '憎む',     r: 'にくむ',       m: 'to hate, to detest' },
+    { w: '憎しみ',   r: 'にくしみ',     m: 'hatred, animosity' },
+    { w: '憎悪',     r: 'ぞうお',       m: 'hatred, abhorrence' },
+  ],
+  '戸': [
+    { w: '戸',       r: 'と',           m: 'door, sliding door' },
+    { w: '戸口',     r: 'とぐち',       m: 'doorway, entrance' },
+    { w: '一戸建て', r: 'いっこだて',   m: 'detached house, single-family home' },
+  ],
+  '拾': [
+    { w: '拾う',     r: 'ひろう',       m: 'to pick up, to find' },
+    { w: '拾い物',   r: 'ひろいもの',   m: 'found article, lucky find' },
+    { w: '収拾',     r: 'しゅうしゅう', m: 'collection, bringing under control' },
+  ],
+  '掃': [
+    { w: '掃除',     r: 'そうじ',       m: 'cleaning, sweeping' },
+    { w: '掃く',     r: 'はく',         m: 'to sweep, to brush' },
+    { w: '大掃除',   r: 'おおそうじ',   m: 'spring cleaning, general cleaning' },
+  ],
+  '旧': [
+    { w: '旧',       r: 'きゅう',       m: 'old, former, ex-' },
+    { w: '旧来',     r: 'きゅうらい',   m: 'traditional, conventional' },
+    { w: '復旧',     r: 'ふっきゅう',   m: 'restoration, recovery, repair' },
+  ],
+  '星': [
+    { w: '星',       r: 'ほし',         m: 'star' },
+    { w: '衛星',     r: 'えいせい',     m: 'satellite' },
+    { w: '星座',     r: 'せいざ',       m: 'constellation' },
+  ],
+  '普': [
+    { w: '普通',     r: 'ふつう',       m: 'ordinary, common, normal' },
+    { w: '普及',     r: 'ふきゅう',     m: 'spread, diffusion, popularization' },
+    { w: '普段',     r: 'ふだん',       m: 'usually, habitually, normally' },
+  ],
+  '暴': [
+    { w: '暴力',     r: 'ぼうりょく',   m: 'violence, force' },
+    { w: '暴れる',   r: 'あばれる',     m: 'to act violently, to rage, to rampage' },
+    { w: '暴力団',   r: 'ぼうりょくだん', m: 'organized crime group, yakuza' },
+  ],
+  '板': [
+    { w: '板',       r: 'いた',         m: 'board, plank, slab' },
+    { w: '黒板',     r: 'こくばん',     m: 'blackboard' },
+    { w: '掲示板',   r: 'けいじばん',   m: 'bulletin board, message board' },
+  ],
+  '林': [
+    { w: '林',       r: 'はやし',       m: 'woods, forest, grove' },
+    { w: '森林',     r: 'しんりん',     m: 'forest, woods' },
+    { w: '竹林',     r: 'ちくりん',     m: 'bamboo grove' },
+  ],
+  '枯': [
+    { w: '枯れる',   r: 'かれる',       m: 'to wither, to die (of plants)' },
+    { w: '枯れ葉',   r: 'かれは',       m: 'dead leaf, fallen leaf' },
+    { w: '枯渇',     r: 'こかつ',       m: 'drying up, exhaustion (of resources)' },
+  ],
+  '柔': [
+    { w: '柔らかい', r: 'やわらかい',   m: 'soft, tender, flexible' },
+    { w: '柔道',     r: 'じゅうどう',   m: 'judo' },
+    { w: '柔軟',     r: 'じゅうなん',   m: 'flexible, supple, adaptable' },
+  ],
+  '柱': [
+    { w: '柱',       r: 'はしら',       m: 'pillar, column, post' },
+    { w: '電柱',     r: 'でんちゅう',   m: 'utility pole, telegraph pole' },
+    { w: '支柱',     r: 'しちゅう',     m: 'prop, support, pillar' },
+  ],
+  '栄': [
+    { w: '栄える',   r: 'さかえる',     m: 'to prosper, to flourish, to thrive' },
+    { w: '繁栄',     r: 'はんえい',     m: 'prosperity, thriving' },
+    { w: '栄養',     r: 'えいよう',     m: 'nutrition, nourishment' },
+  ],
+  '根': [
+    { w: '根',       r: 'ね',           m: 'root (of a plant, problem)' },
+    { w: '根拠',     r: 'こんきょ',     m: 'basis, grounds, foundation' },
+    { w: '根本',     r: 'こんぽん',     m: 'root, origin, foundation' },
+  ],
+  '棒': [
+    { w: '棒',       r: 'ぼう',         m: 'stick, rod, bar' },
+    { w: '鉄棒',     r: 'てつぼう',     m: 'iron bar; horizontal bar (gymnastics)' },
+    { w: '棒読み',   r: 'ぼうよみ',     m: 'reading in a monotone' },
+  ],
+  '植': [
+    { w: '植物',     r: 'しょくぶつ',   m: 'plant, vegetation' },
+    { w: '植える',   r: 'うえる',       m: 'to plant, to grow, to instill' },
+    { w: '植え込む', r: 'うえこむ',     m: 'to plant (in the ground)' },
+  ],
+  '極': [
+    { w: '極端',     r: 'きょくたん',   m: 'extreme, extremity' },
+    { w: '積極的',   r: 'せっきょくてき', m: 'positive, proactive, assertive' },
+    { w: '北極',     r: 'ほっきょく',   m: 'the North Pole, Arctic' },
+  ],
+  '毒': [
+    { w: '毒',       r: 'どく',         m: 'poison, toxin' },
+    { w: '中毒',     r: 'ちゅうどく',   m: 'poisoning; addiction' },
+    { w: '毒素',     r: 'どくそ',       m: 'toxin, toxic substance' },
+  ],
+  '沸': [
+    { w: '沸く',     r: 'わく',         m: 'to boil, to bubble up' },
+    { w: '沸かす',   r: 'わかす',       m: 'to boil (water), to heat' },
+    { w: '沸騰',     r: 'ふっとう',     m: 'boiling, coming to a boil' },
+  ],
+  '波': [
+    { w: '波',       r: 'なみ',         m: 'wave, ripple' },
+    { w: '電波',     r: 'でんぱ',       m: 'radio wave, electromagnetic wave' },
+    { w: '波長',     r: 'はちょう',     m: 'wavelength; compatibility' },
+  ],
+  '泥': [
+    { w: '泥',       r: 'どろ',         m: 'mud, dirt' },
+    { w: '泥棒',     r: 'どろぼう',     m: 'thief, burglar, robber' },
+    { w: '泥沼',     r: 'どろぬま',     m: 'bog, quagmire; vicious cycle' },
+  ],
 };
 
 // ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
