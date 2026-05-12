@@ -51,11 +51,14 @@ async function getTokenizer() {
 }
 
 /**
- * Convert a Japanese sentence to display text:
- * - Kanji known at targetLevelNum (and above = easier) → shown as kanji
- * - mainKanji (the card's kanji) → always shown as kanji
- * - Everything else → converted to hiragana via kuromoji reading
- * No furigana ruby tags — clean textbook-style progressive kanji.
+ * Convert a Japanese sentence to HTML with 3-tier progressive kanji logic:
+ *
+ * 1. Token contains the card's main kanji
+ *    → show in kanji with ruby furigana, main kanji char(s) in red
+ * 2. Token has only kanji at targetLevel or easier (same/higher JLPT num)
+ *    → show in kanji with ruby furigana
+ * 3. Token has kanji harder than targetLevel (lower JLPT num, e.g. N4 in an N5 card)
+ *    → convert entirely to hiragana (no ruby)
  */
 async function toFuriganaHTML(text, targetLevelNum = 5, mainKanji = '') {
   const tokenizer = await getTokenizer();
@@ -66,25 +69,38 @@ async function toFuriganaHTML(text, targetLevelNum = 5, mainKanji = '') {
     const hasKanji = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(surface);
     if (!hasKanji) return escHtml(surface);
 
-    // A token is "all known" if every kanji in it is either the card's kanji
-    // or belongs to a JLPT level >= targetLevelNum (i.e. N5=5 ≥ 5, N4=4 < 5)
-    const allKnown = [...surface].every(ch => {
-      const cp = ch.codePointAt(0);
-      if (!((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF))) return true;
-      if (mainKanji.includes(ch)) return true;
-      const lvl = CHAR_LEVEL_MAP.get(ch);
-      if (lvl === undefined) return false; // not in JLPT → treat as too hard
-      return lvl >= targetLevelNum;
-    });
+    const hira = reading ? katakanaToHiragana(reading) : null;
 
-    if (allKnown) {
-      return escHtml(surface);
+    // Does this token contain the card's main kanji?
+    const containsMain = [...surface].some(ch => mainKanji.includes(ch));
+
+    // Does this token contain any kanji harder than targetLevel?
+    let hasHarder = false;
+    for (const ch of surface) {
+      const cp = ch.codePointAt(0);
+      if (!((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF))) continue;
+      if (mainKanji.includes(ch)) continue; // main kanji always kept as kanji
+      const lvl = CHAR_LEVEL_MAP.get(ch);
+      if (lvl === undefined || lvl < targetLevelNum) { hasHarder = true; break; }
     }
-    // Replace token with its hiragana reading
-    if (reading) {
-      return escHtml(katakanaToHiragana(reading));
+
+    // Tier 3: harder kanji + doesn't contain main kanji → pure hiragana
+    if (hasHarder && !containsMain) {
+      return hira ? escHtml(hira) : escHtml(surface);
     }
-    return escHtml(surface); // fallback: no reading available
+
+    // Tier 1 & 2: show as kanji + ruby furigana
+    if (!hira || hira === surface) return escHtml(surface);
+
+    // Build display surface: main kanji chars in red
+    const displaySurface = [...surface].map(ch => {
+      if (mainKanji.includes(ch)) {
+        return `<span class="mk">${escHtml(ch)}</span>`;
+      }
+      return escHtml(ch);
+    }).join('');
+
+    return `<ruby><rb>${displaySurface}</rb><rt>${escHtml(hira)}</rt></ruby>`;
   }).join('');
 }
 
@@ -320,7 +336,11 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
   .div{width:100%;height:1px;background:#e8e0d5;margin-bottom:24px;flex-shrink:0;}
   .sentences{display:flex;flex-direction:column;gap:${sentGap};}
   .sr{padding:${sentPad};border-radius:16px;background:#faf7f2;border:1px solid #e8e0d5;border-left:4px solid #c03a20;}
-  .sjp{font-size:${sentJpFont}px;font-weight:700;color:#1a1a1a;line-height:1.7;margin-bottom:10px;}
+  .sjp{font-size:${sentJpFont}px;font-weight:700;color:#1a1a1a;line-height:2.8;margin-bottom:10px;}
+  ruby{display:inline ruby;}
+  rb{display:inline;}
+  rt{font-size:${Math.round(sentJpFont*0.38)}px;font-weight:400;color:#888;line-height:1;}
+  .mk{color:#c03a20;font-weight:900;}
   .sen{font-size:${sentEnFont}px;color:#666;font-style:italic;line-height:1.4;}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
