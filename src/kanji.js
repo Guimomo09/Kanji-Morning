@@ -576,6 +576,46 @@ const EXAMPLE_OVERRIDE = {
     { w: '梅雨',   r: 'つゆ',       m: 'rainy season' },
     { w: '大雨',   r: 'おおあめ',   m: 'heavy rain' },
   ],
+  '今': [
+    { w: '今日',   r: 'きょう',     m: 'today' },
+    { w: '今月',   r: 'こんげつ',   m: 'this month' },
+    { w: '今年',   r: 'ことし',     m: 'this year' },
+  ],
+  '前': [
+    { w: '午前',   r: 'ごぜん',     m: 'morning, a.m.' },
+    { w: '前',     r: 'まえ',       m: 'front, before, previous' },
+    { w: '前半',   r: 'ぜんはん',   m: 'first half' },
+  ],
+  '半': [
+    { w: '半分',   r: 'はんぶん',   m: 'half' },
+    { w: '一時半', r: 'いちじはん', m: 'half past one' },
+    { w: '前半',   r: 'ぜんはん',   m: 'first half' },
+  ],
+  '月': [
+    { w: '今月',   r: 'こんげつ',   m: 'this month' },
+    { w: '来月',   r: 'らいげつ',   m: 'next month' },
+    { w: '月曜日', r: 'げつようび', m: 'Monday' },
+  ],
+  '火': [
+    { w: '火',     r: 'ひ',         m: 'fire, flame' },
+    { w: '火曜日', r: 'かようび',   m: 'Tuesday' },
+    { w: '火山',   r: 'かざん',     m: 'volcano' },
+  ],
+  '語': [
+    { w: '日本語', r: 'にほんご',   m: 'Japanese language' },
+    { w: '英語',   r: 'えいご',     m: 'English language' },
+    { w: '語',     r: 'ご',         m: 'language; word' },
+  ],
+  '長': [
+    { w: '長い',   r: 'ながい',     m: 'long; lengthy' },
+    { w: '校長',   r: 'こうちょう', m: 'school principal' },
+    { w: '長男',   r: 'ちょうなん', m: 'eldest son' },
+  ],
+  '電': [
+    { w: '電話',   r: 'でんわ',     m: 'telephone' },
+    { w: '電気',   r: 'でんき',     m: 'electricity; light' },
+    { w: '電車',   r: 'でんしゃ',   m: 'train, electric train' },
+  ],
   // ── N3 — bad API examples replaced ───────────────────────────────────────
   '命': [
     { w: '命',     r: 'いのち',     m: 'life' },

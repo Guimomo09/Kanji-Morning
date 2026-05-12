@@ -211,7 +211,7 @@ export function refresh() {
 // ── Count +/− (kanji tab only) ────────────────────────────────────────────
 export function changeCount(delta) {
   if (state.currentTab === 'vocab') return;
-  state.count = Math.max(5, Math.min(10, state.count + delta));
+  state.count = Math.max(1, Math.min(20, state.count + delta));
   loadAndRender(state.count, true);
 }
 
