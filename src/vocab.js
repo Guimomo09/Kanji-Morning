@@ -5,7 +5,7 @@ import { state } from './state.js';
 import { getWords, buildPool, pickVocabChars } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
 import { CLOUD_ENABLED } from './config.js';
-import { cloudUpdate } from './cloud.js';
+import { cloudUpdate, cloudSavedWordAdd, cloudSavedWordRemove } from './cloud.js';
 import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
 import { showSkeletons, getAllSavedKanjis, ensureKanjiCards } from './kanji.js';
@@ -404,9 +404,9 @@ export function updateSavedWordsMirror(items, date) {
         localStorage.setItem(_SW_KEY, JSON.stringify(updated));
       } catch {}
     }
-    // Sync to cloud — permanent backup, no date window
+    // Sync to cloud — atomic add, one call per new word (never overwrites full list)
     if (CLOUD_ENABLED && state._fbUser) {
-      cloudUpdate({ savedWords: updated }).catch(() => {});
+      newItems.forEach(w => cloudSavedWordAdd(w).catch(() => {}));
     }
   } catch {}
 }
@@ -416,9 +416,9 @@ export function removeFromSavedWordsMirror(wordOrSet) {
     const isSet = wordOrSet instanceof Set;
     const filtered = JSON.parse(raw).filter(i => isSet ? !wordOrSet.has(i.word) : i.word !== wordOrSet);
     localStorage.setItem(_SW_KEY, JSON.stringify(filtered));
-    // Sync removal to cloud
+    // Sync removal to cloud — atomic remove (never overwrites full list)
     if (CLOUD_ENABLED && state._fbUser) {
-      cloudUpdate({ savedWords: filtered }).catch(() => {});
+      cloudSavedWordRemove(wordOrSet).catch(() => {});
     }
   } catch {}
 }
