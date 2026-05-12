@@ -9,28 +9,41 @@ import {
   isBiWeeklyDone, getLastBiWeeklyMonday,
 } from './biweekly.js';
 import { t } from './i18n.js';
+import { getStreakTileView } from './main.js';
+
+// ── Unified studied-dates set (vocab_daily keys + quiz_history dates) ────
+// vocab_daily keys can get evicted when localStorage is full, so we
+// supplement with quiz_history which is a single compact key.
+function getStudiedDatesSet() {
+  const dates = new Set();
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith('vocab_daily_')) dates.add(k.slice(12));
+  }
+  try {
+    const history = JSON.parse(localStorage.getItem('quiz_history') || '[]');
+    history.forEach(h => { if (h.date) dates.add(h.date); });
+  } catch {}
+  return dates;
+}
 
 // ── Streak & totals ───────────────────────────────────────────────────────
 export function computeStreak() {
+  const studied = getStudiedDatesSet();
   const today = new Date();
-  const hasTodayData = !!localStorage.getItem(`vocab_daily_${dateStr(today)}`);
+  const hasTodayData = studied.has(dateStr(today));
   let streak = 0;
   for (let i = hasTodayData ? 0 : 1; i < 366; i++) {
     const d = new Date(today); d.setDate(today.getDate() - i);
-    if (localStorage.getItem(`vocab_daily_${dateStr(d)}`)) streak++;
+    if (studied.has(dateStr(d))) streak++;
     else break;
   }
   return streak;
 }
 
 export function computeBestStreak() {
-  const dates = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const k = localStorage.key(i);
-    if (k && k.startsWith('vocab_daily_')) dates.push(k.slice(12));
-  }
+  const dates = [...getStudiedDatesSet()].sort();
   if (!dates.length) return 0;
-  dates.sort();
   let best = 1, cur = 1;
   for (let i = 1; i < dates.length; i++) {
     const diff = Math.round(
@@ -42,19 +55,246 @@ export function computeBestStreak() {
 }
 
 export function computeTotalWords() {
-  const seen = new Set();
-  for (let i = 0; i < localStorage.length; i++) {
-    const k = localStorage.key(i);
-    if (!k || !k.startsWith('vocab_daily_')) continue;
-    try {
-      const items = JSON.parse(localStorage.getItem(k));
-      if (Array.isArray(items)) items.forEach(it => seen.add(it.word));
-    } catch {}
-  }
-  return seen.size;
+  return getAllSavedWords().length;
 }
 
-// ── Canvas helpers ────────────────────────────────────────────────────────
+export function computeMonthlyCount() {
+  const now = new Date();
+  const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-`;
+  const studied = getStudiedDatesSet();
+  let count = 0;
+  for (const ds of studied) { if (ds.startsWith(monthPrefix)) count++; }
+  return count;
+}
+
+// ── Activity calendar & view switcher ────────────────────────────────────
+let _calYear     = new Date().getFullYear();
+let _calMonth    = new Date().getMonth(); // 0-indexed
+let _studyVals14 = [];
+let _studyLbls14 = [];
+let _biweeklyHtml = '';
+
+function renderActivityCalendar(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const today   = new Date();
+  const todayDs = dateStr(today);
+  const year    = _calYear;
+  const month   = _calMonth;
+
+  const monthNames = ['January','February','March','April','May','June',
+                      'July','August','September','October','November','December'];
+  const dowNames   = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+
+  const firstDay    = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // Monday-first offset: Mon=0 … Sun=6
+  const firstDow = (firstDay.getDay() + 6) % 7;
+
+  // Collect studied days in this month from both vocab_daily and quiz_history
+  const allStudied = getStudiedDatesSet();
+  const studiedSet = new Set();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const ds = dateStr(new Date(year, month, d));
+    if (allStudied.has(ds)) studiedSet.add(d);
+  }
+
+  // 6 rows × 7 cols = 42 cells
+  let cellsHtml = '';
+  for (let i = 0; i < 42; i++) {
+    const dayNum = i - firstDow + 1;
+    if (dayNum < 1 || dayNum > daysInMonth) {
+      cellsHtml += `<div class="scal-cell scal-empty"></div>`;
+    } else {
+      const ds        = dateStr(new Date(year, month, dayNum));
+      const isToday   = ds === todayDs;
+      const isStudied = studiedSet.has(dayNum);
+      let cls = 'scal-cell';
+      if (isStudied) cls += ' scal-studied';
+      if (isToday)   cls += ' scal-today';
+      cellsHtml += `<div class="${cls}">${dayNum}</div>`;
+    }
+  }
+
+  container.innerHTML = `
+    <div class="scal">
+      <div class="scal-nav">
+        <button class="scal-arrow" id="scalPrev">&#8249;</button>
+        <span class="scal-month-label">${monthNames[month]} ${year}</span>
+        <button class="scal-arrow" id="scalNext">&#8250;</button>
+      </div>
+      <div class="scal-grid">
+        ${dowNames.map(n => `<div class="scal-dow">${n}</div>`).join('')}
+        ${cellsHtml}
+      </div>
+    </div>`;
+
+  container.querySelector('#scalPrev').addEventListener('click', () => navActivityCal(-1));
+  container.querySelector('#scalNext').addEventListener('click', () => navActivityCal(1));
+}
+
+export function navActivityCal(dir) {
+  _calMonth += dir;
+  if (_calMonth < 0)  { _calMonth = 11; _calYear--; }
+  if (_calMonth > 11) { _calMonth = 0;  _calYear++; }
+  renderActivityCalendar('activityCalContent');
+}
+
+function _activityTitle(view) {
+  if (view === '1w')  return t('stats_chart_activity_1w');
+  if (view === 'cal') return t('stats_chart_activity_cal');
+  return t('stats_chart_activity');
+}
+
+export function setActivityView(view) {
+  try { localStorage.setItem('km_activity_view', view); } catch (_) { /* quota full — ignore, still switch view */ }
+  document.querySelectorAll('.activity-view-pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  const titleEl = document.querySelector('#activityChartBlock .chart-title');
+  if (titleEl) titleEl.textContent = _activityTitle(view);
+  _renderActivityContent(view);
+}
+
+function _renderActivityContent(view) {
+  const el = document.getElementById('activityViewContent');
+  if (!el) return;
+  if (view === 'cal') {
+    _calYear  = new Date().getFullYear();
+    _calMonth = new Date().getMonth();
+    el.innerHTML = `<div id="activityCalContent" style="margin-top:12px"></div>`;
+    requestAnimationFrame(() => renderActivityCalendar('activityCalContent'));
+  } else {
+    const days = view === '1w' ? 7 : 14;
+    const vals = _studyVals14.slice(-days);
+    const lbls = _studyLbls14.slice(-days);
+    el.innerHTML = `<canvas id="studyCanvas" class="chart-canvas"></canvas>${_biweeklyHtml}`;
+    requestAnimationFrame(() => {
+      const st = document.getElementById('studyCanvas');
+      if (st) drawBarChart(st, vals, lbls);
+    });
+  }
+}
+
+// keep old name so nothing else breaks (unused but harmless)
+function buildStreakDotsHtml(numDays) {
+  const today = new Date();
+  let html = `<div class="streak-dots-wide">`;
+  for (let i = numDays - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = dateStr(d);
+    const done = !!localStorage.getItem(`vocab_daily_${ds}`);
+    const isToday = ds === dateStr(today);
+    const dowName = ['S','M','T','W','T','F','S'][d.getDay()];
+    if (isToday && done) {
+      html += `<span class="streak-dot-col"><span class="streak-dot streak-dot-flame">🔥</span><span class="streak-dot-day">${dowName}</span></span>`;
+    } else {
+      html += `<span class="streak-dot-col"><span class="streak-dot${done ? ' streak-dot-done' : ''}${isToday ? ' streak-dot-today' : ''}"></span><span class="streak-dot-day">${dowName}</span></span>`;
+    }
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderStreakHeatmap(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const DOW_W  = 16;
+  const GAP    = 2;
+  const CELL   = 11;
+  const SLOT   = CELL + GAP;
+  const containerW = container.offsetWidth || 300;
+  const WEEKS  = Math.min(26, Math.max(4, Math.floor((containerW - DOW_W - 4) / SLOT)));
+  const today  = new Date();
+
+  const days = [];
+  for (let i = WEEKS * 7 - 1; i >= 0; i--) {
+    const d  = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = dateStr(d);
+    const saved = loadDailyVocab(ds);
+    days.push({ ds, wordCount: saved ? saved.length : 0, dow: d.getDay(), month: d.getMonth(), isToday: ds === dateStr(today) });
+  }
+
+  const padBefore = days[0].dow;
+  const totalWeeks = Math.ceil((padBefore + days.length) / 7);
+  const cells = new Array(totalWeeks * 7).fill(null);
+  days.forEach((day, i) => { cells[padBefore + i] = day; });
+
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const monthLabels = [];
+  let prevMonth = -1;
+  days.forEach((day, i) => {
+    if (day.month !== prevMonth) {
+      monthLabels.push({ label: monthNames[day.month], col: Math.floor((padBefore + i) / 7) });
+      prevMonth = day.month;
+    }
+  });
+
+  let cellsHtml = '';
+  for (let row = 0; row < 7; row++) {
+    for (let col = 0; col < totalWeeks; col++) {
+      const cell = cells[col * 7 + row];
+      if (!cell) {
+        cellsHtml += `<span class="streak-cal-cell" style="opacity:0;width:${CELL}px;height:${CELL}px"></span>`;
+      } else {
+        const level = cell.wordCount === 0 ? 0 : cell.wordCount < 5 ? 1 : cell.wordCount < 10 ? 2 : cell.wordCount < 20 ? 3 : 4;
+        const todayAttr = cell.isToday ? ' data-today="1"' : '';
+        cellsHtml += `<span class="streak-cal-cell" data-level="${level}"${todayAttr} title="${cell.ds}: ${cell.wordCount} word${cell.wordCount !== 1 ? 's' : ''}" style="width:${CELL}px;height:${CELL}px"></span>`;
+      }
+    }
+  }
+
+  let monthHtml = `<div style="display:flex;font-size:9px;color:var(--muted);margin-bottom:3px;margin-left:${DOW_W + 2}px">`;
+  let lastCol = 0;
+  monthLabels.forEach(({ label, col }) => {
+    const gap = col - lastCol;
+    if (gap > 0) monthHtml += `<span style="min-width:${gap * SLOT}px;display:inline-block"></span>`;
+    monthHtml += `<span style="min-width:${SLOT}px;display:inline-block">${label}</span>`;
+    lastCol = col + 1;
+  });
+  monthHtml += '</div>';
+
+  let dowHtml = `<div style="display:grid;grid-template-rows:repeat(7,${CELL}px);gap:${GAP}px;margin-right:${GAP}px;flex-shrink:0;width:${DOW_W}px">`;
+  ['','M','','W','','F',''].forEach(n => {
+    dowHtml += `<div style="font-size:8px;color:var(--muted);line-height:${CELL}px;text-align:right">${n}</div>`;
+  });
+  dowHtml += '</div>';
+
+  container.innerHTML = `
+    ${monthHtml}
+    <div style="display:flex;align-items:flex-start;overflow:hidden">
+      ${dowHtml}
+      <div style="overflow:hidden">
+        <div style="display:grid;grid-template-rows:repeat(7,${CELL}px);grid-template-columns:repeat(${totalWeeks},${CELL}px);gap:${GAP}px">
+          ${cellsHtml}
+        </div>
+      </div>
+    </div>`;
+}
+
+export function setStreakView(view) {
+  localStorage.setItem('km_streak_view', view);
+  document.querySelectorAll('.streak-view-pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  _renderStreakViewContent(view);
+}
+
+function _renderStreakViewContent(view) {
+  const el = document.getElementById('streakViewContent');
+  if (!el) return;
+  if (view === 'cal') {
+    el.innerHTML = '<div id="streakHeatmap" style="margin-top:10px"></div>';
+    requestAnimationFrame(() => renderStreakHeatmap('streakHeatmap'));
+  } else {
+    el.innerHTML = `<div style="margin-top:10px">${buildStreakDotsHtml(view === '2w' ? 14 : 7)}</div>`;
+  }
+}
+
 function setupCanvas(canvas) {
   const dpr    = window.devicePixelRatio || 1;
   const parent = canvas.parentElement;
@@ -181,14 +421,17 @@ function drawBarChart(canvas, values, labels) {
 
 // ── Home panel ────────────────────────────────────────────────────────────
 export function renderHome() {
+  const stv         = getStreakTileView();
   const streak      = computeStreak();
   const best        = computeBestStreak();
   const total       = computeTotalWords();
-  const history     = loadQuizHistory();
+  const monthlyCount = stv === 'month' ? computeMonthlyCount() : 0;
+  const history     = loadQuizHistory().filter(h => (h.type || 'daily') !== 'exam');
   const avgScore    = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
   const todayWords  = loadDailyVocab(todayStr()) || [];
   const todayQuiz   = history.find(h => h.date === todayStr() && (h.type || 'daily') === 'daily') ?? null;
+  const lastBiweekly = [...history].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') ?? null;
 
   const _now = new Date();
   const streakDots = Array.from({length: 7}, (_, i) => {
@@ -236,7 +479,7 @@ export function renderHome() {
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('kpi_streak')}</div><div class="streak-dots">${streakDots}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
+      <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('kpi_streak')}</div>${stv === 'streak' ? `<div class="streak-dots">${streakDots}</div>` : ''}<div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('kpi_words')}</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">
@@ -264,7 +507,7 @@ export function renderHome() {
     </div>
 
     <div class="home-today">
-      <div class="home-today-title">${t('today_title')}</div>
+      <div class="home-today-title" style="display:flex;align-items:center;gap:8px">${t('today_title')} <button class="section-hint-btn" onclick="showTabHint('home')" aria-label="How to use Home">i</button></div>
       <div class="home-today-row">
         <span>${t('today_words_loaded')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_words_sub')}</span></span>
         <span class="home-today-val ${todayWords.length > 0 ? 'good' : ''}">${todayWords.length > 0 ? t('home_words')(todayWords.length) + ' ✓' : t('today_not_loaded')}</span>
@@ -275,7 +518,13 @@ export function renderHome() {
       </div>
       <div class="home-today-row">
         <span>${t('today_weekly')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_weekly_sub')}</span></span>
-        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${isBiWeeklyDone(todayStr()) ? t('today_done') : biweeklyAvailable ? t('today_available') : missedBiweekly ? t('today_missed') : '—'}</span>
+        <span class="home-today-val ${isBiWeeklyDone(todayStr()) ? 'good' : ''}">${(() => {
+          if (isBiWeeklyDone(todayStr())) {
+            const bwResult = [...loadQuizHistory()].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly');
+            return bwResult ? `${bwResult.score}/${bwResult.total} \u00b7 ${bwResult.pct}% \u2713` : t('today_done');
+          }
+          return biweeklyAvailable ? t('today_available') : missedBiweekly ? t('today_missed') : '\u2014';
+        })()}</span>
       </div>
     </div>
 
@@ -295,12 +544,21 @@ export function renderHome() {
         <div class="home-action-card ${dailyAvailable ? '' : 'disabled'}" onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)">
           <div class="home-action-icon">試</div>
           <div class="home-action-title">${t('action_quiz_title')}</div>
-          <div class="home-action-sub">${t('home_words')(todayWords.length)} ${t('today_words_ready_pl')}</div>
+          <div class="home-action-sub">${todayWords.length} ${t('today_words_ready_pl')}</div>
         </div>
         <div class="home-action-card ${biweeklyAvailable || missedBiweekly ? '' : 'disabled'}" onclick="launchBiWeeklyQuiz()">
           <div class="home-action-icon">週</div>
           <div class="home-action-title">${t('action_weekly_title')}</div>
-          <div class="home-action-sub">${biweeklyAvailable ? t('action_weekly_available') : missedBiweekly ? t('action_weekly_missed') : t('action_weekly_next') + ' ' + dateStr(nextBiWeeklyMonday())}</div>
+          <div class="home-action-sub">${(() => {
+            if (biweeklyAvailable) return t('action_weekly_available');
+            if (missedBiweekly) return t('action_weekly_missed');
+            const bwDone = isBiWeeklyDone(todayStr());
+            if (bwDone) {
+              const bwResult = loadQuizHistory().find(h => h.type === 'biweekly' && h.date === todayStr());
+              return bwResult ? `${bwResult.score}/${bwResult.total} · ${bwResult.pct}%` : t('today_done');
+            }
+            return t('action_weekly_next') + ' ' + dateStr(nextBiWeeklyMonday());
+          })()}</div>
         </div>
       </div>
     </div>
@@ -319,28 +577,20 @@ export function renderHome() {
 
 // ── Stats panel ───────────────────────────────────────────────────────────
 export function renderStats() {
-  const history  = loadQuizHistory();
+  const stv      = getStreakTileView();
+  const allHistory = loadQuizHistory();
+  const history  = allHistory.filter(h => (h.type || 'daily') !== 'exam'); // exclude exam from stats
   const streak   = computeStreak();
   const best     = computeBestStreak();
   const total    = computeTotalWords();
+  const monthlyCount = stv === 'month' ? computeMonthlyCount() : 0;
   const avgScore = history.length
     ? Math.round(history.reduce((s, h) => s + h.pct, 0) / history.length) : null;
 
+  const lastBiweekly = [...history].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') ?? null;
+  console.log('[KM] renderStats — history length:', history.length, '| lastBiweekly:', lastBiweekly);
   const missedMon  = getMissedBiWeeklyMonday();
-  const missedHtml = missedMon ? `
-    <div class="stat-notif">
-      <div class="stat-notif-icon">週</div>
-      <div class="stat-notif-body">
-        <div class="stat-notif-title">${t('stats_missed_title')}</div>
-        <div class="stat-notif-sub">
-          ${t('stats_missed_sub')} <strong>${dateStr(missedMon)}</strong> ${t('stats_missed_sub2')}<br>
-          ${t('stats_missed_msg')}
-        </div>
-        <button class="btn btn-quiz" onclick="launchBiWeeklyQuiz()" style="font-size:13px;padding:8px 18px">
-          ${t('stats_start_now')}
-        </button>
-      </div>
-    </div>` : '';
+  const missedHtml = '';
 
   // Study activity last 14 days
   const studyVals = [], studyLbls = [], today = new Date();
@@ -369,11 +619,16 @@ export function renderStats() {
         ${t('stats_next_challenge')} <strong>${dateStr(nextMon)}</strong>
        </div>`;
 
+  _studyVals14  = studyVals;
+  _studyLbls14  = studyLbls;
+  _biweeklyHtml = biweeklyInfoHtml;
+  const av = localStorage.getItem('km_activity_view') || '2w';
+
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
       ${missedHtml}
       <div class="kpi-grid kpi-grid-2col">
-        <div class="kpi-card"><div class="kpi-num">${streak}</div><div class="kpi-lbl">${t('stats_kpi_streak')}</div></div>
+        <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('stats_kpi_streak')}</div><div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('stats_kpi_words')}</div></div>
         <div class="kpi-card"><div class="kpi-num">${avgScore !== null ? avgScore + '%' : '—'}</div><div class="kpi-lbl">${t('stats_kpi_avg')}</div></div>
         <div class="kpi-card kpi-jlpt" onclick="cycleJlptGoal()">
@@ -390,10 +645,16 @@ export function renderStats() {
         <canvas id="scoreCanvas" class="chart-canvas"></canvas>
       </div>` : ''}
 
-      <div class="chart-block">
-        <div class="chart-title">${t('stats_chart_activity')}</div>
-        <canvas id="studyCanvas" class="chart-canvas"></canvas>
-        ${biweeklyInfoHtml}
+      <div class="chart-block" id="activityChartBlock">
+        <div class="streak-cal-header">
+          <span class="chart-title" style="margin:0">${_activityTitle(av)}</span>
+          <div class="streak-view-pills">
+            <button class="pill activity-view-pill${av === '1w' ? ' active' : ''}" data-view="1w" onclick="setActivityView('1w')">1W</button>
+            <button class="pill activity-view-pill${av === '2w' ? ' active' : ''}" data-view="2w" onclick="setActivityView('2w')">2W</button>
+            <button class="pill activity-view-pill${av === 'cal' ? ' active' : ''}" data-view="cal" onclick="setActivityView('cal')">Calendar</button>
+          </div>
+        </div>
+        <div id="activityViewContent"></div>
       </div>
 
       ${history.length ? `
@@ -423,12 +684,35 @@ export function renderStats() {
           ${t('stats_no_quiz_body')}
         </div>
       </div>`}
+
+      ${lastBiweekly ? `
+      <div class="chart-block">
+        <div class="chart-title" style="display:flex;align-items:center;justify-content:space-between">
+          <span>${t('action_weekly_title')}</span>
+          <span style="font-size:11px;color:var(--muted);font-weight:500">${lastBiweekly.date}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:12px">
+          <div>
+            <div style="font-size:40px;font-weight:900;color:var(--red);line-height:1">${lastBiweekly.pct}%</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px">${lastBiweekly.score} / ${lastBiweekly.total} ${t('today_words_ready_pl')}</div>
+          </div>
+          <div class="qh-bar-wrap" style="flex:1;height:10px">
+            <div class="qh-bar" style="width:${lastBiweekly.pct}%;height:10px"></div>
+          </div>
+        </div>
+      </div>` : ''}
     </div>`;
+
+  const statsEl = document.getElementById('statsSection');
+
+  // Wire pills immediately — buttons are now in the DOM
+  statsEl.querySelectorAll('.activity-view-pill').forEach(btn => {
+    btn.addEventListener('click', () => setActivityView(btn.dataset.view));
+  });
 
   requestAnimationFrame(() => {
     const sc = document.getElementById('scoreCanvas');
-    const st = document.getElementById('studyCanvas');
     if (sc) drawLineChart(sc, scoreVals, scoreLbls);
-    if (st) drawBarChart(st, studyVals, studyLbls);
+    _renderActivityContent(av);
   });
 }

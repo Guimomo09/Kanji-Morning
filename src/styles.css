@@ -21,6 +21,7 @@
 
     body {
       font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+      font-weight: 500;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -150,20 +151,8 @@
     .status-ok      { background: #e8f5e9; color: #2e7d32; }
     .status-error   { background: #fce4e4; color: #c03a20; }
 
-    /* ���� Legend ���������������������������������������������������������������������� */
-    .legend {
-      max-width: 1120px;
-      margin: 14px auto 0;
-      padding: 0 24px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--sub); }
-    .legend-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ���� Grid ���������������������������������������������������������������������� */
+    /* ── Grid ──────────────────────────────────────────────────────────────── */
     .grid {
       max-width: 1120px;
       margin: 20px auto 48px;
@@ -381,7 +370,7 @@
     .quiz-result-pct   { font-size: 20px; color: var(--muted); margin: 4px 0 10px; }
     .quiz-result-msg   { font-size: 18px; font-weight: 700; color: var(--sub); }
     .quiz-result-time  { font-size: 13px; color: var(--muted); margin-top: 6px; }
-    .quiz-elapsed-wrap { opacity: 0.35; font-size: 12px; }
+    .quiz-elapsed-wrap { color: var(--muted); font-size: 12px; }
     .quiz-elapsed      { font-variant-numeric: tabular-nums; }
 
     .quiz-tomorrow {
@@ -580,7 +569,7 @@
     }
 
     /* ── Exam tab content ────────────────────────────────────────────────── */
-    .exam-section { padding: 0 16px 40px; max-width: 640px; margin: 0 auto; }
+    .exam-section { padding: 0 24px 40px; max-width: 900px; margin: 0 auto; }
     .exam-tab-content { padding: 8px 0 20px; }
 
     .exam-locked {
@@ -589,6 +578,35 @@
     .exam-locked-icon { font-size: 48px; margin-bottom: 16px; }
     .exam-locked-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
     .exam-locked-body  { font-size: 14px; color: var(--sub); line-height: 1.6; margin-bottom: 8px; }
+
+    /* ── Exam tab: Daily & Weekly quiz tiles ─────────────────────── */
+    .exam-quiz-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .exam-quiz-tile {
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 20px 16px; text-align: center;
+      cursor: pointer; transition: border-color 0.15s, opacity 0.15s;
+    }
+    .exam-quiz-tile:hover { border-color: var(--red); }
+    .exam-quiz-tile.done { opacity: 0.55; cursor: default; }
+    .exam-quiz-tile.done:hover { border-color: var(--border); }
+    .exam-quiz-tile.disabled { opacity: 0.45; cursor: default; }
+    .exam-quiz-tile.disabled:hover { border-color: var(--border); }
+    .exam-quiz-tile-icon { font-size: 32px; font-weight: 900; margin-bottom: 8px; line-height: 1; }
+    .exam-quiz-tile-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .exam-quiz-tile-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .exam-quiz-tile.done .exam-quiz-tile-sub { color: #2e7d32; font-weight: 700; }
+    /* Full-width Exam tile */
+    .exam-quiz-tile-exam {
+      display: flex; align-items: center; justify-content: space-between;
+      text-align: left; padding: 16px 20px; margin-bottom: 16px;
+    }
+    .exam-quiz-tile-exam .exam-quiz-tile-icon { font-size: 28px; margin: 0; }
+    .exam-quiz-tile-inner { display: flex; align-items: center; gap: 14px; }
+    .exam-quiz-tile-chevron {
+      font-size: 22px; color: var(--muted); transition: transform 0.2s;
+      line-height: 1; flex-shrink: 0;
+    }
+    .exam-quiz-tile-exam-open .exam-quiz-tile-chevron { transform: rotate(90deg); }
 
     .exam-level-card {
       background: var(--card); border: 1px solid var(--border);
@@ -703,7 +721,7 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
-      min-height: 60vh; /* CLS fix: reserve space so footer never shows in initial viewport */
+      min-height: 80vh; /* CLS fix: reserve space so footer never shows in initial viewport */
     }
     .home-greeting {
       font-size: 22px;
@@ -734,7 +752,7 @@
       box-shadow: 0 4px 18px rgba(0,0,0,.1);
       transform: translateY(-2px);
     }
-    .home-action-icon { font-size: 32px; margin-bottom: 8px; }
+    .home-action-icon { font-size: 32px; font-weight: 900; margin-bottom: 8px; }
     .home-action-title { font-size: 15px; font-weight: 700; color: var(--ink); }
     .home-action-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
     .home-action-card.disabled { opacity: .45; cursor: default; pointer-events: none; }
@@ -754,8 +772,14 @@
     }
 
     /* ── JLPT kpi card ────────────────────────────────────────────────────── */
-    .kpi-jlpt { cursor: pointer; user-select: none; }
+    .kpi-streak { cursor: pointer; user-select: none; touch-action: manipulation; }
+    .kpi-streak:hover { border-color: var(--red); }
+    .kpi-streak * { pointer-events: none; }
+    .kpi-streak .kpi-streak-nudge { pointer-events: auto; }
+    .kpi-streak .kpi-streak-nudge span { pointer-events: auto; cursor: pointer; }
+    .kpi-jlpt { cursor: pointer; user-select: none; touch-action: manipulation; }
     .kpi-jlpt:hover { border-color: var(--red); }
+    .kpi-jlpt * { pointer-events: none; }
     .kpi-jlpt-level { color: var(--red) !important; line-height: 1; }
     .kpi-jlpt-pct { font-size: 13px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
     .kpi-jlpt-hint { font-size: 11px; color: var(--muted); margin-top: 6px; letter-spacing: .3px; }
@@ -765,6 +789,24 @@
     .kpi-streak-nudge span { cursor: pointer; text-decoration: underline; }
     .kpi-grid-2col { grid-template-columns: 1fr 1fr !important; }
     .kpi-grid-2col .kpi-jlpt { grid-column: unset; }
+    /* ── Activity view switcher ──────────────────────────────────────────── */
+    .streak-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .streak-view-pills { display: flex; gap: 4px; flex-shrink: 0; }
+    .streak-view-pills .pill { font-size: 11px; padding: 6px 10px; border-radius: 12px; background: var(--card); border: 1.5px solid var(--border); color: var(--sub); font-weight: 700; cursor: pointer; transition: background .15s, color .15s, border-color .15s; min-height: 32px; }
+    .streak-view-pills .pill.active { background: var(--red); border-color: var(--red); color: #fff; }
+    /* ── Study activity real calendar ───────────────────────────────────── */
+    .scal { width: 100%; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 4px; }
+    .scal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .scal-arrow { background: none; border: none; font-size: 24px; color: var(--sub); cursor: pointer; padding: 0 6px; line-height: 1; font-weight: 300; }
+    .scal-arrow:hover { color: var(--red); }
+    .scal-month-label { font-size: 15px; font-weight: 700; color: var(--text); }
+    .scal-grid { display: grid; grid-template-columns: repeat(7, 1fr); grid-auto-rows: 34px; gap: 0; border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
+    .scal-dow { text-align: center; font-size: 9px; font-weight: 700; color: var(--muted); line-height: 34px; letter-spacing: .4px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface, #f5f0ea); }
+    .scal-cell { width: 100%; height: 34px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--sub); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .scal-cell.scal-studied { background: var(--red); color: #fff; font-weight: 700; border-radius: 0; }
+    .scal-cell.scal-today:not(.scal-studied) { color: var(--red); font-weight: 700; }
+    .scal-cell.scal-today.scal-studied { box-shadow: inset 0 0 0 2px #fff; }
+    .scal-empty { background: var(--surface, #f5f0ea); color: transparent; }
     /* word of the day */
     .kpi-wotd { padding: 0 !important; overflow: hidden; display: flex !important; flex-direction: column !important; align-items: stretch !important; justify-content: flex-start !important; }
     .kpi-wotd-banner {
@@ -1124,7 +1166,6 @@
       .level-filter { padding: 4px 12px 8px; gap: 6px; }
       .toolbar-info { display: none; }
       .search-wrap  { padding: 0 12px 8px; }
-      .legend { padding: 0 12px; gap: 8px; }
 
       /* ── Grid ── */
       .grid {
@@ -1203,6 +1244,7 @@
       .home-hero-title { font-size: 20px; }
       .home-hero-actions { flex-direction: column; }
       .home-hero-actions .btn { width: 100%; text-align: center; }
+      .exam-section { padding: 0 12px 40px; }
     }
 
     /* ════════════════════════════════════════════════════════════════
@@ -1494,4 +1536,160 @@
     html[data-theme="dark"] .reading-kana { color: #c4956a; }
     html[data-theme="dark"] .kanji-detail-modal { background: var(--card); }
     html[data-theme="dark"] .quiz-tomorrow { background: #1a1410; border-color: #3e2a1a; }
+
+    /* ════════════════════════════════════════════════════════════════
+       ⓘ TAB HINT MODAL
+       ════════════════════════════════════════════════════════════════ */
+    .tab-hint-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(3px);
+      z-index: 900;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      animation: fadeIn .2s ease;
+    }
+    .tab-hint-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 32px 28px 24px;
+      max-width: 400px; width: 100%;
+      box-shadow: 0 16px 60px rgba(0,0,0,.3);
+      position: relative;
+      animation: rise .25s ease;
+    }
+    .tab-hint-close {
+      position: absolute; top: 12px; right: 14px;
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: var(--muted); padding: 4px 6px;
+      transition: color .15s; line-height: 1;
+    }
+    .tab-hint-close:hover { color: var(--text); }
+    .tab-hint-icon {
+      font-size: 40px; font-weight: 900; line-height: 1; margin-bottom: 12px;
+      text-align: center;
+      font-family: 'Noto Sans JP', 'Yu Gothic', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tab-hint-icon svg { width: 44px; height: 44px; }
+    .tab-hint-title {
+      font-size: 19px; font-weight: 900; color: var(--text);
+      margin-bottom: 10px; text-align: center;
+    }
+    .tab-hint-body {
+      font-size: 13.5px; color: var(--sub); line-height: 1.65;
+    }
+    .tab-hint-body p { margin-bottom: 10px; }
+    .tab-hint-body ul {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+    .tab-hint-body li {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 13px;
+    }
+    /* inline ⓘ button in level filter bar */
+    .tab-hint-inline-btn {
+      font-size: 14px; color: var(--muted);
+      background: none; border: none;
+      cursor: pointer; padding: 2px 6px;
+      border-radius: 6px; transition: background .15s, color .15s;
+      line-height: 1; flex-shrink: 0;
+    }
+    .tab-hint-inline-btn:hover { background: var(--border); color: var(--text); }
+    /* section-level ⓘ button (inside rendered sections) */
+    .section-hint-btn {
+      font-size: 13px; color: var(--muted);
+      background: none; border: 1px solid var(--border);
+      border-radius: 50%; cursor: pointer;
+      width: 22px; height: 22px;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background .15s, color .15s;
+      vertical-align: middle; flex-shrink: 0;
+      font-style: italic; font-weight: 700; font-family: serif;
+    }
+    .section-hint-btn:hover { background: var(--border); color: var(--text); }
+
+    /* ════════════════════════════════════════════════════════════════
+       📅 STREAK CALENDAR (heatmap)
+       ════════════════════════════════════════════════════════════════ */
+    .streak-calendar-wrap {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+    .streak-calendar {
+      display: grid;
+      /* 7 rows (Mon–Sun), columns built inline per week count */
+      gap: 3px;
+      width: max-content;
+      min-width: 100%;
+    }
+    .streak-cal-cell {
+      width: 13px; height: 13px;
+      border-radius: 3px;
+      background: var(--border);
+      transition: background .15s;
+      flex-shrink: 0;
+    }
+    .streak-cal-cell[data-level="1"] { background: rgba(192,58,32,.35); }
+    .streak-cal-cell[data-level="2"] { background: rgba(192,58,32,.60); }
+    .streak-cal-cell[data-level="3"] { background: rgba(192,58,32,.80); }
+    .streak-cal-cell[data-level="4"] { background: var(--red); }
+    .streak-cal-cell[data-today="1"] { outline: 2px solid var(--red); outline-offset: 1px; }
+    .streak-cal-month-labels {
+      display: flex; font-size: 10px; color: var(--muted);
+      margin-bottom: 4px;
+      width: max-content;
+    }
+    .streak-cal-dow-labels {
+      display: grid;
+      grid-template-rows: repeat(7, 13px);
+      gap: 3px;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+    .streak-cal-dow-lbl {
+      font-size: 9px; color: var(--muted);
+      line-height: 13px; text-align: right;
+    }
+    .streak-cal-container {
+      display: flex; align-items: flex-start;
+    }
+    html[data-theme="dark"] .tab-hint-card { background: var(--card); }
+    html[data-theme="dark"] .tab-hint-body li { background: #1c1a17; }
+
+    /* ════════════════════════════════════════════════════════════════
+       🔍 QUIZ REVEAL: explore button
+       ════════════════════════════════════════════════════════════════ */
+    .quiz-reveal-explore {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 10px;
+      font-size: 12px; color: var(--muted);
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 5px 12px;
+      cursor: pointer; transition: background .15s, color .15s;
+      font-family: inherit;
+    }
+    .quiz-reveal-explore:hover { background: var(--border); color: var(--text); }
+    .quiz-reveal-examples {
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+      text-align: left;
+    }
+    .quiz-reveal-examples-title {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .8px; color: var(--muted); margin-bottom: 8px;
+    }
+    .quiz-reveal-ex-item {
+      display: flex; align-items: baseline; gap: 8px;
+      padding: 5px 0; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .quiz-reveal-ex-item:last-child { border-bottom: none; }
+    .quiz-reveal-ex-word { font-weight: 700; color: var(--text); font-size: 15px; }
+    .quiz-reveal-ex-reading { color: var(--muted); font-size: 12px; }
+    .quiz-reveal-ex-meaning { color: var(--sub); font-size: 12px; flex: 1; }
 

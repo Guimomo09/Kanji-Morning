@@ -84,9 +84,22 @@ async function _cloudPull() {
         if (idx === -1) merged.push(cloudEntry);
         else if (cloudEntry.pct > merged[idx].pct) merged[idx] = cloudEntry;
       });
-      merged.sort((a, b) => b.date.localeCompare(a.date));
-      while (merged.length > 50) merged.pop();
+      merged.sort((a, b) => a.date.localeCompare(b.date));
+      while (merged.length > 50) merged.shift();
       try { localStorage.setItem('quiz_history', JSON.stringify(merged)); } catch {}
+    }
+
+    // Pull savedWords — merge cloud + local, never discard words
+    if (data.savedWords && Array.isArray(data.savedWords)) {
+      try {
+        let local = [];
+        try { const r = localStorage.getItem('km_saved_words'); if (r) local = JSON.parse(r); } catch {}
+        const seen = new Set(local.map(i => i.word));
+        const merged = [...local, ...data.savedWords.filter(i => i.word && !seen.has(i.word))];
+        merged.sort((a, b) => (b.savedDate || '').localeCompare(a.savedDate || ''));
+        localStorage.setItem('km_saved_words', JSON.stringify(merged));
+        console.log(`[_cloudPull] Merged saved words: local ${local.length} + cloud ${data.savedWords.length} = ${merged.length}`);
+      } catch {}
     }
 
     // Restore level preferences
@@ -156,14 +169,52 @@ export async function checkPremiumStatus() {
 // ── Push a partial update to Firestore ───────────────────────────────────
 export async function cloudUpdate(partial) {
   if (!state._fbDb || !state._fbUser) return;
+  if (partial.savedWords) console.log(`[cloudUpdate] Pushing savedWords: ${partial.savedWords.length} words`);
   try {
     await state._fbDb.collection('users').doc(state._fbUser.uid).set(partial, { merge: true });
+    if (partial.savedWords) console.log(`[cloudUpdate] savedWords push OK`);
   } catch (e) {
     if (e.code === 'resource-exhausted') {
-      console.warn('Cloud storage quota exceeded, skipping sync');
+      console.warn('[cloudUpdate] Cloud storage quota exceeded, skipping sync');
     } else {
-      console.warn('Cloud update failed:', e);
+      console.warn('[cloudUpdate] Cloud update failed:', e);
     }
+  }
+}
+
+// ── Atomic savedWords operations (never overwrite full list) ─────────────
+// Use arrayUnion to ADD a word — safe regardless of local/cloud sync state
+export async function cloudSavedWordAdd(wordObj) {
+  if (!state._fbDb || !state._fbUser) return;
+  try {
+    await state._fbDb.collection('users').doc(state._fbUser.uid).set(
+      { savedWords: firebase.firestore.FieldValue.arrayUnion(wordObj) },
+      { merge: true }
+    );
+  } catch (e) {
+    console.warn('[cloudSavedWordAdd] failed:', e);
+  }
+}
+
+// Use arrayRemove to DELETE a word — safe regardless of local/cloud sync state
+// Firestore arrayRemove matches by deep equality, so we fetch first to get exact object
+export async function cloudSavedWordRemove(wordOrSet) {
+  if (!state._fbDb || !state._fbUser) return;
+  try {
+    const ref = state._fbDb.collection('users').doc(state._fbUser.uid);
+    const doc = await ref.get();
+    if (!doc.exists) return;
+    const data = doc.data();
+    const current = Array.isArray(data.savedWords) ? data.savedWords : [];
+    const isSet = wordOrSet instanceof Set;
+    const toRemove = current.filter(i => isSet ? wordOrSet.has(i.word) : i.word === wordOrSet);
+    if (!toRemove.length) return;
+    await ref.update({
+      savedWords: firebase.firestore.FieldValue.arrayRemove(...toRemove)
+    });
+    console.log(`[cloudSavedWordRemove] Removed ${toRemove.length} word(s) atomically`);
+  } catch (e) {
+    console.warn('[cloudSavedWordRemove] failed:', e);
   }
 }
 

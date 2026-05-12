@@ -39,10 +39,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'vocabulary',
     label_kanji:      'kanji',
 
-    legend_n5: 'N5 (beginner)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (frequent)',
-    legend_n2: 'N2 (frequent)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Settings',
@@ -55,7 +55,7 @@ const TRANSLATIONS = {
     settings_language:        'Language',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Welcome to<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px" alt="Asano Kanji">', title: 'Welcome to<br>朝の漢字',
         body: 'Your daily Japanese study companion.<br>10 words every morning, 7 minutes — kanji, vocabulary, and a smart review system that makes it stick.' },
       { icon: '漢', title: 'Kanji Tab',
         body: 'Explore 10 kanji every day. See their meanings, on/kun readings, and real example words.<br><br>Tap <strong>☆</strong> to save a kanji to your list.' },
@@ -96,6 +96,8 @@ const TRANSLATIONS = {
     home_how_it_works:'How it works',
 
     kpi_streak:       'Day Streak',
+    kpi_streak_month: 'Days This Month',
+    kpi_streak_hint:  'tap to switch ↻',
     kpi_words:        'Words Learned',
     kpi_today_word:   "Today's Word",
     kpi_avg_score:    'Avg Score',
@@ -201,13 +203,16 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Tap items to select',
 
     stats_kpi_streak:     'Day Streak',
+    stats_kpi_streak_month: 'Days This Month',
     stats_kpi_words:      'Words Learned',
     stats_kpi_avg:        'Avg Score',
     stats_kpi_jlpt:       'JLPT Target',
     stats_jlpt_hint:      'tap to change ↻',
     stats_jlpt_start:     'Start saving words!',
     stats_chart_scores:   'Quiz Score Progression (last 20 quizzes)',
+    stats_chart_activity_1w:  'Study Activity — Last 7 Days',
     stats_chart_activity: 'Study Activity — Last 14 Days',
+    stats_chart_activity_cal: 'Study Activity — Calendar',
     stats_chart_recent:   'Recent Quizzes',
     stats_no_quiz_title:  'No quiz history yet',
     stats_no_quiz_body:   'Complete a <strong>Daily Quiz</strong> or <strong>Weekly Challenge</strong> to track your score progression here.',
@@ -215,6 +220,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Weekly Challenge is available <strong>today</strong>! Go to Vocabulary tab.',
 
     exam_locked_title: 'Exam Mode · Premium',
+    exam_mode_title:   'Exam Mode',
     exam_locked_body:  'Test your JLPT level with timed exams.<br>Real JLPT-style questions: kanji → reading, meaning → word.',
     exam_unlock_btn:   'Unlock Premium',
     exam_level_label:  'TARGET LEVEL',
@@ -265,10 +271,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'vocabulaire',
     label_kanji:      'kanji',
 
-    legend_n5: 'N5 (débutant)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (fréquent)',
-    legend_n2: 'N2 (fréquent)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Paramètres',
@@ -281,7 +287,7 @@ const TRANSLATIONS = {
     settings_language:        'Langue',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Bienvenue sur<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px" alt="Asano Kanji">', title: 'Bienvenue sur<br>朝の漢字',
         body: 'Ton compagnon d\'étude quotidien du japonais.<br>10 mots chaque matin, 7 minutes — kanji, vocabulaire, et un système de révision intelligent qui fait que ça reste.' },
       { icon: '漢', title: 'Onglet Kanji',
         body: 'Explore 10 kanji par jour. Vois leurs significations, lectures on/kun et des exemples réels.<br><br>Appuie sur <strong>☆</strong> pour sauvegarder un kanji.' },
@@ -322,6 +328,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Comment ça marche',
 
     kpi_streak:       'Jours consécutifs',
+    kpi_streak_month: 'Jours ce mois',
+    kpi_streak_hint:  'toucher pour changer ↻',
     kpi_words:        'Mots appris',
     kpi_today_word:   'Mot du jour',
     kpi_avg_score:    'Score moyen',
@@ -427,13 +435,16 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Appuie sur des éléments pour les sélectionner',
 
     stats_kpi_streak:     'Jours consécutifs',
+    stats_kpi_streak_month: 'Jours ce mois',
     stats_kpi_words:      'Mots appris',
     stats_kpi_avg:        'Score moyen',
     stats_kpi_jlpt:       'Objectif JLPT',
     stats_jlpt_hint:      'toucher pour changer ↻',
     stats_jlpt_start:     'Commence à sauvegarder !',
     stats_chart_scores:   'Progression des scores (20 derniers quiz)',
+    stats_chart_activity_1w:  'Activité — 7 derniers jours',
     stats_chart_activity: 'Activité — 14 derniers jours',
+    stats_chart_activity_cal: 'Activité — Calendrier',
     stats_chart_recent:   'Quiz récents',
     stats_no_quiz_title:  'Pas encore d\'historique',
     stats_no_quiz_body:   'Fais un <strong>Quiz quotidien</strong> ou un <strong>Défi hebdomadaire</strong> pour suivre ta progression ici.',
@@ -441,6 +452,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Le défi hebdomadaire est disponible <strong>aujourd\'hui</strong> ! Va dans l\'onglet Vocabulaire.',
 
     exam_locked_title: 'Mode Examen · Premium',
+    exam_mode_title:   'Mode Examen',
     exam_locked_body:  'Teste ton niveau JLPT avec des examens chronométrés.<br>Questions style vrai JLPT : kanji → lecture, sens → mot.',
     exam_unlock_btn:   'Débloquer Premium',
     exam_level_label:  'NIVEAU CIBLE',
@@ -491,10 +503,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'vocabulario',
     label_kanji:      'kanji',
 
-    legend_n5: 'N5 (principiante)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (frecuente)',
-    legend_n2: 'N2 (frecuente)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Configuración',
@@ -507,7 +519,7 @@ const TRANSLATIONS = {
     settings_language:        'Idioma',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Bienvenido a<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px" alt="Asano Kanji">', title: 'Bienvenido a<br>朝の漢字',
         body: 'Tu compañero diario para aprender japonés.<br>10 palabras cada mañana, 7 minutos — kanji, vocabulario y un sistema de repaso inteligente.' },
       { icon: '漢', title: 'Pestaña Kanji',
         body: 'Explora 10 kanji cada día. Significados, lecturas on/kun y ejemplos reales.<br><br>Toca <strong>☆</strong> para guardar un kanji.' },
@@ -548,6 +560,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Cómo funciona',
 
     kpi_streak:       'Días seguidos',
+    kpi_streak_month: 'Días este mes',
+    kpi_streak_hint:  'toca para cambiar ↻',
     kpi_words:        'Palabras aprendidas',
     kpi_today_word:   'Palabra del día',
     kpi_avg_score:    'Punt. media',
@@ -653,13 +667,16 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Toca elementos para seleccionar',
 
     stats_kpi_streak:     'Días seguidos',
+    stats_kpi_streak_month: 'Días este mes',
     stats_kpi_words:      'Palabras aprendidas',
     stats_kpi_avg:        'Puntuación media',
     stats_kpi_jlpt:       'Objetivo JLPT',
     stats_jlpt_hint:      'toca para cambiar ↻',
     stats_jlpt_start:     '¡Empieza a guardar!',
     stats_chart_scores:   'Progresión de puntuaciones (últimos 20 cuestionarios)',
+    stats_chart_activity_1w:  'Actividad — últimos 7 días',
     stats_chart_activity: 'Actividad — últimos 14 días',
+    stats_chart_activity_cal: 'Actividad — Calendario',
     stats_chart_recent:   'Cuestionarios recientes',
     stats_no_quiz_title:  'Sin historial de quiz aún',
     stats_no_quiz_body:   'Completa un <strong>Quiz diario</strong> o un <strong>Desafío semanal</strong> para seguir tu progresión aquí.',
@@ -667,6 +684,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'El Desafío semanal está disponible <strong>hoy</strong>. Ve a la pestaña Vocabulario.',
 
     exam_locked_title: 'Modo Examen · Premium',
+    exam_mode_title:   'Modo Examen',
     exam_locked_body:  'Pon a prueba tu nivel JLPT con exámenes cronometrados.<br>Preguntas estilo JLPT real: kanji → lectura, significado → palabra.',
     exam_unlock_btn:   'Desbloquear Premium',
     exam_level_label:  'NIVEL OBJETIVO',
@@ -717,10 +735,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'Vokabeln',
     label_kanji:      'Kanji',
 
-    legend_n5: 'N5 (Anfänger)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (häufig)',
-    legend_n2: 'N2 (häufig)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Einstellungen',
@@ -733,7 +751,7 @@ const TRANSLATIONS = {
     settings_language:        'Sprache',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Willkommen bei<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px" alt="Asano Kanji">', title: 'Willkommen bei<br>朝の漢字',
         body: 'Dein täglicher Lernbegleiter für Japanisch.<br>10 Wörter jeden Morgen, 7 Minuten — Kanji, Vokabeln und ein intelligentes Wiederholungssystem.' },
       { icon: '漢', title: 'Kanji-Tab',
         body: 'Entdecke täglich 10 Kanji. Bedeutungen, On/Kun-Lesungen und echte Beispiele.<br><br>Tippe auf <strong>☆</strong> zum Speichern.' },
@@ -774,6 +792,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Wie es funktioniert',
 
     kpi_streak:       'Tage-Serie',
+    kpi_streak_month: 'Tage diesen Monat',
+    kpi_streak_hint:  'tippen zum Wechseln ↻',
     kpi_words:        'Gelernte Wörter',
     kpi_today_word:   'Wort des Tages',
     kpi_avg_score:    'Ø Punktzahl',
@@ -879,13 +899,16 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Elemente antippen zum Auswählen',
 
     stats_kpi_streak:     'Tage in Folge',
+    stats_kpi_streak_month: 'Tage diesen Monat',
     stats_kpi_words:      'Gelernte Wörter',
     stats_kpi_avg:        'Ø Punktzahl',
     stats_kpi_jlpt:       'JLPT-Ziel',
     stats_jlpt_hint:      'tippen zum Ändern ↻',
     stats_jlpt_start:     'Fang an, Wörter zu speichern!',
     stats_chart_scores:   'Punktzahlen-Verlauf (letzte 20 Quizze)',
+    stats_chart_activity_1w:  'Lernaktivität — letzte 7 Tage',
     stats_chart_activity: 'Lernaktivität — letzte 14 Tage',
+    stats_chart_activity_cal: 'Lernaktivität — Kalender',
     stats_chart_recent:   'Letzte Quizze',
     stats_no_quiz_title:  'Noch kein Quiz-Verlauf',
     stats_no_quiz_body:   'Absolviere ein <strong>Tagesquiz</strong> oder eine <strong>Wochenchallenge</strong>, um deinen Fortschritt zu verfolgen.',
@@ -893,6 +916,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Die Wochenchallenge ist heute verfügbar! Gehe zum Tab Vokabular.',
 
     exam_locked_title: 'Prüfungsmodus · Premium',
+    exam_mode_title:   'Prüfungsmodus',
     exam_locked_body:  'Teste dein JLPT-Niveau mit Zeitprüfungen.<br>Echte JLPT-Fragen: Kanji → Lesung, Bedeutung → Wort.',
     exam_unlock_btn:   'Premium freischalten',
     exam_level_label:  'ZIELNIVEAU',
@@ -943,10 +967,10 @@ const TRANSLATIONS = {
     label_vocabulary: 'слов',
     label_kanji:      'кандзи',
 
-    legend_n5: 'N5 (начинающий)',
+    legend_n5: 'N5',
     legend_n4: 'N4',
-    legend_n3: 'N3 (частый)',
-    legend_n2: 'N2 (частый)',
+    legend_n3: 'N3',
+    legend_n2: 'N2',
     legend_n1: 'N1',
 
     settings_title:           'Настройки',
@@ -959,7 +983,7 @@ const TRANSLATIONS = {
     settings_language:        'Язык',
 
     tutorial_steps: [
-      { icon: '朝', title: 'Добро пожаловать в<br>朝の漢字',
+      { icon: '<img src="/icons/icon-192.svg" style="width:64px;height:64px" alt="Asano Kanji">', title: 'Добро пожаловать в<br>朝の漢字',
         body: 'Твой ежедневный помощник по изучению японского.<br>10 слов каждое утро, 7 минут — кандзи, словарь и умная система повторения.' },
       { icon: '漢', title: 'Вкладка Кандзи',
         body: 'Изучай 10 кандзи каждый день. Значения, чтения он/кун и примеры слов.<br><br>Нажми <strong>☆</strong> чтобы сохранить кандзи.' },
@@ -1000,6 +1024,8 @@ const TRANSLATIONS = {
     home_how_it_works:'Как это работает',
 
     kpi_streak:       'Дней подряд',
+    kpi_streak_month: 'Дней в этом месяце',
+    kpi_streak_hint:  'нажми для смены ↻',
     kpi_words:        'Слов изучено',
     kpi_today_word:   'Слово дня',
     kpi_avg_score:    'Средний балл',
@@ -1109,13 +1135,16 @@ const TRANSLATIONS = {
     ml_tap_to_select:  'Нажми на элементы для выбора',
 
     stats_kpi_streak:     'Дней подряд',
+    stats_kpi_streak_month: 'Дней в этом месяце',
     stats_kpi_words:      'Слов выучено',
     stats_kpi_avg:        'Средний балл',
     stats_kpi_jlpt:       'Цель JLPT',
     stats_jlpt_hint:      'нажми для смены ↻',
     stats_jlpt_start:     'Начни сохранять слова!',
     stats_chart_scores:   'Прогресс баллов (последние 20 тестов)',
+    stats_chart_activity_1w:  'Активность — последние 7 дней',
     stats_chart_activity: 'Активность — последние 14 дней',
+    stats_chart_activity_cal: 'Активность — Календарь',
     stats_chart_recent:   'Последние тесты',
     stats_no_quiz_title:  'Пока нет истории тестов',
     stats_no_quiz_body:   'Пройди <strong>Ежедневный тест</strong> или <strong>Недельный вызов</strong>, чтобы отслеживать прогресс здесь.',
@@ -1123,6 +1152,7 @@ const TRANSLATIONS = {
     stats_biw_today:      'Недельный вызов доступен <strong>сегодня</strong>! Перейди во вкладку Словарь.',
 
     exam_locked_title: 'Режим экзамена · Premium',
+    exam_mode_title:   'Режим экзамена',
     exam_locked_body:  'Проверь свой уровень JLPT на экзаменах на время.<br>Вопросы в стиле JLPT: кандзи → чтение, значение → слово.',
     exam_unlock_btn:   'Разблокировать Premium',
     exam_level_label:  'ЦЕЛЕВОЙ УРОВЕНЬ',

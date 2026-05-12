@@ -2,10 +2,10 @@ import { state } from './state.js';
 import { shuffleArr, todayStr, dateStr, setStatus } from './utils.js';
 import { CLOUD_ENABLED } from './config.js';
 import { loadDailyVocab, getQuizDates } from './daily.js';
-import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn } from './biweekly.js';
+import { saveBiWeeklyDone, getLastBiWeeklyMonday, updateBiWeeklyBtn, isBiWeeklyMonday, isBiWeeklyDone, nextBiWeeklyMonday } from './biweekly.js';
 import { cloudUpdate } from './cloud.js';
 import { srsLoad, srsIntervalLabel } from './srs.js';
-import { getAllSavedWords } from './vocab.js';
+import { getAllSavedWords, rebuildSavedWordsMirror } from './vocab.js';
 import { t, getLang } from './i18n.js';
 import { getMeaning } from './trans.js';
 
@@ -88,6 +88,8 @@ function _tickQuizTimer() {
 // ── Exam mode state ────────────────────────────────────────────────
 let _examTimeLeft = 0;
 let _examCountdown = null;
+let _examSectionOpen = false; // set to true after exam completes → keeps accordion open on return
+let _sessionExamResults = []; // in-memory backup — survives even if localStorage quota fails
 const EXAM_DURATION  = 7 * 60; // 7 minutes
 const EXAM_QUESTIONS = 40;
 const EXAM_PASS_PCT  = 60;
@@ -127,6 +129,8 @@ export function renderQuizQuestion() {
   if (current >= total) { renderQuizResults(); return; }
 
   const { item, type } = questions[current];
+  const _isExam = state.quizState.type === 'exam';
+  const _speak = (word) => _isExam ? '' : `<button class="speak-btn quiz-speak-btn" data-w="${word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
   // In exam mode, use all saved words as distractor pool for harder, more realistic wrong answers
   const distractorSrc = (state.quizState.type === 'exam' && questions[current]._distractorPool)
     ? questions[current]._distractorPool
@@ -143,7 +147,7 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word">${item.word}</div>
         ${item.reading ? `<div class="quiz-prompt-reading">${item.reading}</div>` : ''}
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.reading || item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.reading || item.word)}`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -153,7 +157,7 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-meaning">${getMeaning(item.word, getLang()) || item.meaning}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.word)}`;
       correctText = item.word;
       wrongTexts  = wrong3.map(w => w.word);
       break;
@@ -163,7 +167,7 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-word">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.word)}`;
       correctText = item.reading;
       wrongTexts  = wrong3.filter(w => w.reading).map(w => w.reading);
       while (wrongTexts.length < 3) {
@@ -176,7 +180,7 @@ export function renderQuizQuestion() {
       promptHtml = `
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.reading}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.reading)}`;
       correctText = item.word;
       wrongTexts  = wrong3.map(w => w.word);
       break;
@@ -187,7 +191,7 @@ export function renderQuizQuestion() {
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <div class="quiz-prompt-reading">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
-        <button class="speak-btn quiz-speak-btn" data-w="${item.reading || item.word}" onclick="speakJapanese(this.dataset.w)" title="Prononcer">&#x1F50A;</button>`;
+        ${_speak(item.reading || item.word)}`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
       wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
@@ -264,16 +268,35 @@ export function handleQuizAnswer(btn, isCorrect) {
     const reveal = document.createElement('div');
     reveal.className = 'quiz-reveal';
     const meaning = getMeaning(item.word, getLang()) || item.meaning;
-    // Don't repeat the field that was just tested as the answer
-    const meaningWasAnswer = type === 'A' || type === 'E';
-    const readingWasAnswer = type === 'C';
-    reveal.innerHTML = `
-      <div class="quiz-reveal-word">${item.word}${(item.reading && !readingWasAnswer) ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
-      ${!meaningWasAnswer ? `<div class="quiz-reveal-meaning">${meaning}</div>` : ''}
-      ${item.extraMeanings?.length ? `<div class="quiz-reveal-extras">${item.extraMeanings.join(' · ')}</div>` : ''}
-      ${item.pos ? `<div class="quiz-reveal-pos">${item.pos}</div>` : ''}
-      <button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>
-    `;
+    const firstKanji = [...item.word].find(c => c >= '\u4E00' && c <= '\u9FFF') || null;
+    const exploreBtn = firstKanji
+      ? `<button class="quiz-reveal-explore" onclick="openKanjiDetail('${firstKanji}')">🔍 Explore 「${firstKanji}」</button>`
+      : '';
+    const nextBtn = `<button class="quiz-next-btn" onclick="quizNextQuestion()">Next →</button>`;
+
+    if (isCorrect) {
+      // Only show info not already visible in the question or the selected answer button
+      let minimalHtml = '';
+      if (type === 'B') {
+        // meaning shown, word was the answer → reading is the only new info
+        minimalHtml = item.reading ? `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>` : '';
+      } else if (type === 'D') {
+        // reading shown, word was the answer → meaning is new info
+        minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
+      }
+      // Types A, C, E: answer already visible in selected button → just Next
+      reveal.innerHTML = `${minimalHtml}${nextBtn}`;
+    } else {
+      // Wrong: full card with everything
+      reveal.innerHTML = `
+        <div class="quiz-reveal-word">${item.word}${item.reading ? ` <span class="quiz-reveal-reading">${item.reading}</span>` : ''}</div>
+        <div class="quiz-reveal-meaning">${meaning}</div>
+        ${item.extraMeanings?.length ? `<div class="quiz-reveal-extras">${item.extraMeanings.join(' · ')}</div>` : ''}
+        ${item.pos ? `<div class="quiz-reveal-pos">${item.pos}</div>` : ''}
+        ${exploreBtn}
+        ${nextBtn}
+      `;
+    }
     document.querySelector('.quiz-options')?.after(reveal);
   }
 }
@@ -296,6 +319,7 @@ export function renderQuizResults() {
   clearInterval(_examCountdown); _examCountdown = null; _examTimeLeft = 0;
 
   const examLevel = isExam ? (state.quizState?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3') : null;
+  if (isExam) _examSectionOpen = true; // keep accordion open when user returns to exam tab
   saveQuizResult(score, total, type, examLevel);
   if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
 
@@ -374,16 +398,52 @@ export function saveQuizResult(score, total, type, examLevel) {
   const today   = todayStr();
   const newPct  = Math.round((score / total) * 100);
   const qtype   = type || 'daily';
+  console.log('[KM] saveQuizResult called:', { date: today, score, total, pct: newPct, type: qtype });
   const idx = history.findIndex(h => h.date === today && (h.type || 'daily') === qtype && (!examLevel || h.examLevel === examLevel));
   const entry = { date: today, score, total, pct: newPct, type: qtype, ...(examLevel ? { examLevel } : {}) };
   if (idx !== -1) {
+    console.log('[KM] existing entry found, old pct:', history[idx].pct, 'new pct:', newPct);
     if (newPct > history[idx].pct) history[idx] = entry;
   } else {
     history.push(entry);
   }
+
+  // Always keep a session-level backup for exam results (immune to localStorage failures)
+  if (qtype === 'exam') {
+    _sessionExamResults = _sessionExamResults.filter(r => !(r.date === today && r.examLevel === (examLevel || null)));
+    _sessionExamResults.push(entry);
+    console.log('[KM] exam result backed up in session memory:', entry);
+  }
+
   history.sort((a, b) => a.date.localeCompare(b.date));
   while (history.length > 50) history.shift();
-  try { localStorage.setItem('quiz_history', JSON.stringify(history)); } catch {}
+  try {
+    localStorage.setItem('quiz_history', JSON.stringify(history));
+    console.log('[KM] quiz_history saved. exam entries:', history.filter(h => h.type === 'exam').map(h => h.date + ' ' + h.examLevel + ' ' + h.pct + '%'));
+  } catch (e) {
+    console.warn('[KM] localStorage full — rebuilding word mirror then evicting vocab_daily...');
+    // IMPORTANT: preserve word list in km_saved_words BEFORE deleting vocab_daily_* keys
+    rebuildSavedWordsMirror();
+    // Now safe to delete vocab_daily_* (word list is in km_saved_words)
+    const toDelete = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('vocab_daily_')) toDelete.push(k);
+    }
+    toDelete.forEach(k => localStorage.removeItem(k));
+    console.warn('[KM] evicted', toDelete.length, 'vocab_daily keys (words preserved in km_saved_words)');
+    // Also trim quiz_history to 20 entries
+    while (history.length > 20) history.shift();
+    try {
+      localStorage.setItem('quiz_history', JSON.stringify(history));
+      console.log('[KM] quiz_history saved after eviction.');
+    } catch (e2) { console.error('[KM] localStorage.setItem FAILED even after full eviction:', e2); }
+  }
+  // Belt-and-suspenders: ensure done marker is always set when a biweekly result is saved
+  if (qtype === 'biweekly') {
+    saveBiWeeklyDone(today);
+    saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
+  }
   if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ quizHistory: history });
 }
 
@@ -482,7 +542,7 @@ export async function launchBiWeeklyQuiz() {
     state.currentTab = 'vocab';
   }
   document.getElementById('levelFilter').style.display = 'none';
-  document.getElementById('legendDiv').style.display   = 'none';
+  const _ld = document.getElementById('legendDiv'); if (_ld) _ld.style.display = 'none';
   startVocabQuiz(unique, dayLabel, 'biweekly');
 }
 
@@ -528,77 +588,159 @@ export function launchExamMode() {
 // ── Exam tab ───────────────────────────────────────────────────────────────
 export function setExamTargetLevel(level) {
   localStorage.setItem('km_exam_target_level', level);
+  // Re-render but keep the exam section open
   renderExamTab();
+  const s = document.getElementById('examJlptSection');
+  const tile = document.getElementById('examMainTile');
+  if (s) { s.style.display = 'block'; }
+  if (tile) tile.classList.add('exam-quiz-tile-exam-open');
 }
 
 export function renderExamTab() {
   const section = document.getElementById('examSection');
   if (!section) return;
 
+  const today       = todayStr();
+  const allHistory  = loadQuizHistory();
+
+  // ── Daily Quiz tile ───────────────────────────────────────────────────
+  const todayWords  = loadDailyVocab(today) || [];
+  const todayQuiz   = allHistory.find(h => h.date === today && (h.type || 'daily') === 'daily') || null;
+  const dailyDone   = !!todayQuiz;
+  const dailyAvail  = todayWords.length > 0;
+  const dailySubtitle = dailyDone
+    ? `${todayQuiz.score}/${todayQuiz.total} · ${todayQuiz.pct}% ✓`
+    : dailyAvail
+      ? `${todayWords.length} ${t('today_words_ready_pl')}`
+      : t('today_not_loaded');
+
+  // ── Weekly Challenge tile ─────────────────────────────────────────────
+  const weeklyDone  = isBiWeeklyDone(today);
+  const weeklyAvail = isBiWeeklyMonday() && !weeklyDone;
+  const lastWeekly  = [...allHistory].sort((a,b) => b.date.localeCompare(a.date)).find(h => h.type === 'biweekly') || null;
+  const weeklySubtitle = weeklyDone && lastWeekly
+    ? `${lastWeekly.score}/${lastWeekly.total} · ${lastWeekly.pct}% ✓`
+    : weeklyAvail
+      ? t('action_weekly_available')
+      : `${t('action_weekly_next')} ${dateStr(nextBiWeeklyMonday())}`;
+
+  // ── Exam tile ─────────────────────────────────────────────────────────
+  const LEVELS     = ['N5', 'N4', 'N3', 'N2', 'N1'];
+  const LEVEL_DESC = { N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') };
+  const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
+  const goalIdx    = LEVELS.indexOf(targetLevel);
+  const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
+  const available  = state.isPremium ? getAllSavedWords().filter(w => allowed.has(w.level)).length : 0;
+  const examHistory = (() => {
+    const stored = allHistory.filter(h => h.type === 'exam');
+    // Merge session backup — add any result not already in stored history
+    const sessionNew = _sessionExamResults.filter(
+      r => !stored.find(h => h.date === r.date && h.examLevel === r.examLevel)
+    );
+    return [...stored, ...sessionNew].sort((a,b) => b.date.localeCompare(a.date)).slice(0, 5);
+  })();
+  const lastExam   = examHistory[0] || null;
+  // Auto-open section if: flag set (just completed exam) OR last exam is from today
+  const sectionOpen = _examSectionOpen || (lastExam?.date === today);
+  _examSectionOpen = false;
+  const examSub    = !state.isPremium
+    ? t('exam_locked_title')
+    : lastExam
+      ? `${lastExam.examLevel || targetLevel} · ${lastExam.date}`
+      : `${available} ${t('today_words_ready_pl')}`;
+
   if (!state.isPremium) {
     section.innerHTML = `
-      <div class="exam-locked">
-        <div class="exam-locked-icon">🔒</div>
-        <div class="exam-locked-title">${t('exam_locked_title')}</div>
-        <div class="exam-locked-body">${t('exam_locked_body')}</div>
-        <button class="btn btn-primary" style="margin-top:20px" onclick="openUpgradeModal('exam')">${t('exam_unlock_btn')}</button>
+      <div class="exam-tab-content">
+        <div class="exam-quiz-tiles">
+          <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" ${dailyAvail && !dailyDone ? `onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)"` : ''}>
+            <div class="exam-quiz-tile-icon">試</div>
+            <div class="exam-quiz-tile-title">${t('action_quiz_title')}</div>
+            <div class="exam-quiz-tile-sub">${dailySubtitle}</div>
+          </div>
+          <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" ${weeklyAvail ? 'onclick="launchBiWeeklyQuiz()"' : ''}>
+            <div class="exam-quiz-tile-icon">週</div>
+            <div class="exam-quiz-tile-title">${t('action_weekly_title')}</div>
+            <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
+          </div>
+        </div>
+        <div class="exam-quiz-tile exam-quiz-tile-exam" onclick="openUpgradeModal('exam')">
+          <div class="exam-quiz-tile-inner">
+            <div class="exam-quiz-tile-icon">🔒</div>
+            <div>
+              <div class="exam-quiz-tile-title">${t('exam_mode_title')}</div>
+              <div class="exam-quiz-tile-sub">${examSub}</div>
+            </div>
+          </div>
+          <div class="exam-quiz-tile-chevron">›</div>
+        </div>
       </div>`;
     return;
   }
 
-  const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
-  const LEVELS      = ['N5', 'N4', 'N3', 'N2', 'N1'];
-  const LEVEL_DESC  = { N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') };
+  const levelPills = LEVELS.map(l =>
+    `<button class="pill exam-level-pill${l === targetLevel ? ' active' : ''}" onclick="setExamTargetLevel('${l}')">${l}</button>`
+  ).join('');
 
-  const history = loadQuizHistory()
-    .filter(h => h.type === 'exam')
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 5);
+  const canStart = available >= 4;
 
-  // Count available words for the selected level (cumulative)
-  const goalIdx    = LEVELS.indexOf(targetLevel);
-  const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
-  const available  = getAllSavedWords().filter(w => allowed.has(w.level)).length;
-
-  const levelPills = LEVELS.map(l => `
-    <button class="pill exam-level-pill${l === targetLevel ? ' active' : ''}" onclick="setExamTargetLevel('${l}')">${l}</button>
-  `).join('');
-
-  const resultsHtml = history.length
-    ? history.map(h => `
+  const resultsHtml = examHistory.length
+    ? examHistory.map(h => `
       <div class="exam-history-row ${h.pct >= 60 ? 'exam-history-pass' : 'exam-history-fail'}">
         <span class="exam-history-date">${h.date}</span>
-        <span class="exam-history-level">${h.examLevel || ''}</span>
+        <span class="exam-history-level">${h.examLevel || '—'}</span>
         <span class="exam-history-score">${h.score}/${h.total}</span>
         <span class="exam-history-pct">${h.pct}%</span>
         <span class="exam-history-badge">${h.pct >= 60 ? 'PASS' : 'FAIL'}</span>
       </div>`).join('')
     : `<div class="exam-history-empty">${t('exam_history_empty')}</div>`;
 
-  const canStart = available >= 4;
-
   section.innerHTML = `
     <div class="exam-tab-content">
-      <div class="exam-level-card">
-        <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
-          ${t('exam_level_label')}
-          <span class="exam-info-tip" tabindex="0" data-tip="${t('exam_cumulative_tip')}">ⓘ</span>
+      <div class="exam-quiz-tiles">
+        <div class="exam-quiz-tile${dailyDone ? ' done' : ''}" ${dailyAvail && !dailyDone ? `onclick="switchTab('vocab'); setTimeout(launchDailyQuiz, 200)"` : ''}>
+          <div class="exam-quiz-tile-icon">試</div>
+          <div class="exam-quiz-tile-title">${t('action_quiz_title')}</div>
+          <div class="exam-quiz-tile-sub">${dailySubtitle}</div>
         </div>
-        <div class="exam-pills">${levelPills}</div>
-        <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>
+        <div class="exam-quiz-tile${weeklyDone ? ' done' : !weeklyAvail ? ' disabled' : ''}" ${weeklyAvail ? 'onclick="launchBiWeeklyQuiz()"' : ''}>
+          <div class="exam-quiz-tile-icon">週</div>
+          <div class="exam-quiz-tile-title">${t('action_weekly_title')}</div>
+          <div class="exam-quiz-tile-sub">${weeklySubtitle}</div>
+        </div>
       </div>
-      <div class="exam-info-row">
-        <div class="exam-info-item"><span class="exam-info-num">40</span><span class="exam-info-lbl">${t('exam_questions')}</span></div>
-        <div class="exam-info-item"><span class="exam-info-num">10</span><span class="exam-info-lbl">${t('exam_minutes')}</span></div>
-        <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">${t('exam_pass_threshold')}</span></div>
+      <div class="exam-quiz-tile exam-quiz-tile-exam${sectionOpen ? ' exam-quiz-tile-exam-open' : ''}" id="examMainTile" onclick="toggleExamSection()">
+        <div class="exam-quiz-tile-inner">
+          <div class="exam-quiz-tile-icon">試験</div>
+          <div>
+            <div class="exam-quiz-tile-title">${t('exam_mode_title')}</div>
+            <div class="exam-quiz-tile-sub">${examSub}</div>
+          </div>
+        </div>
+        <div class="exam-quiz-tile-chevron">›</div>
       </div>
-      ${canStart
-        ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">${t('exam_start_btn')}</button>`
-        : `<div class="exam-start-blocked">${t('exam_no_words')(targetLevel)}</div>`
-      }
-      <div class="exam-history-section">
-        <div class="exam-history-title">${t('exam_history_title')}</div>
-        <div class="exam-history-list">${resultsHtml}</div>
+      <div id="examJlptSection" style="display:${sectionOpen ? 'block' : 'none'}">
+        <div class="exam-level-card" style="margin-top:16px">
+          <div class="exam-level-label" style="display:flex;align-items:center;gap:6px">
+            ${t('exam_level_label')}
+            <button class="section-hint-btn" style="margin-left:auto" onclick="showTabHint('exam')" aria-label="How Exam Mode works">i</button>
+          </div>
+          <div class="exam-pills">${levelPills}</div>
+          <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>
+        </div>
+        <div class="exam-info-row">
+          <div class="exam-info-item"><span class="exam-info-num">40</span><span class="exam-info-lbl">${t('exam_questions')}</span></div>
+          <div class="exam-info-item"><span class="exam-info-num">10</span><span class="exam-info-lbl">${t('exam_minutes')}</span></div>
+          <div class="exam-info-item"><span class="exam-info-num">60%</span><span class="exam-info-lbl">${t('exam_pass_threshold')}</span></div>
+        </div>
+        ${canStart
+          ? `<button class="btn btn-primary exam-start-btn" onclick="launchExamFromTab()">${t('exam_start_btn')}</button>`
+          : `<div class="exam-start-blocked">${t('exam_no_words')(targetLevel)}</div>`
+        }
+        <div class="exam-history-section">
+          <div class="exam-history-title">${t('exam_history_title')}</div>
+          <div class="exam-history-list">${resultsHtml}</div>
+        </div>
       </div>
     </div>`;
 }
@@ -611,10 +753,10 @@ export function launchExamFromTab() {
   const allowed  = new Set(LEVELS.slice(0, goalIdx + 1));
 
   const allWords = getAllSavedWords();
-  const filtered = allWords.filter(w => allowed.has(w.level));
+  const filtered = allWords.filter(w => allowed.has(w.level) && w.reading); // only words with readings (needed for C/D types)
 
   if (filtered.length < 4) {
-    setStatus('error', `Pas assez de mots ${targetLevel} sauvegardés (minimum 4).`);
+    setStatus('error', t('exam_no_words', targetLevel));
     return;
   }
   const pool = shuffleArr([...filtered]).slice(0, EXAM_QUESTIONS);
@@ -641,36 +783,34 @@ export function launchExamFromTab() {
 }
 
 // ── JLPT-style question builder ───────────────────────────────────────────
-// Weights: C (kanji→reading) 35%, A (word→meaning) 30%, B (meaning→word) 20%, D (reading→kanji) 15%
+// Exam mode: only kanji↔hiragana types — C (kanji→reading) and D (reading→kanji)
+// No definitions/meanings, no audio → purely script-based, harder than weekly challenge
 function buildJlptQuestionList(pool, allWordsPool) {
-  const target   = EXAM_QUESTIONS;
-  const typeWeights = ['C','C','C','A','A','A','B','B','D'];
-  const questions  = [];
-  const shuffled   = shuffleArr([...pool]);
+  const target      = EXAM_QUESTIONS;
+  const examTypes   = ['C', 'D']; // kanji→hiragana, hiragana→kanji only
+  const questions   = [];
+  // Only use words that have a reading (required for C and D)
+  const validPool   = pool.filter(w => w.reading);
+  const distractors = allWordsPool.filter(w => w.reading);
+  const shuffled    = shuffleArr([...validPool]);
 
   for (const item of shuffled) {
-    const validTypes = validTypesFor(item);
-    // Pick a JLPT-weighted type, fall back to random if not available
-    let type = null;
-    const weighted = shuffleArr([...typeWeights]);
-    for (const t of weighted) {
-      if (validTypes.includes(t)) { type = t; break; }
-    }
-    if (!type) type = validTypes[0];
-    questions.push({ item, type, _distractorPool: allWordsPool });
+    // Alternate C and D for variety
+    const type = examTypes[questions.length % 2];
+    questions.push({ item, type, _distractorPool: distractors });
     if (questions.length >= target) break;
   }
 
-  // Fill remaining with second pass (different type for each item)
+  // Fill remaining with second pass (opposite type for each item)
   if (questions.length < target) {
     const usedTypes = new Map(questions.map(q => [q.item.word, q.type]));
-    for (const item of shuffleArr([...pool])) {
+    for (const item of shuffleArr([...validPool])) {
       if (questions.length >= target) break;
       const used  = usedTypes.get(item.word);
-      const avail = validTypesFor(item).filter(t => t !== used);
+      const avail = examTypes.filter(t => t !== used);
       if (!avail.length) continue;
-      const type  = avail[Math.floor(Math.random() * avail.length)];
-      questions.push({ item, type, _distractorPool: allWordsPool });
+      const type  = avail[0];
+      questions.push({ item, type, _distractorPool: distractors });
     }
   }
 

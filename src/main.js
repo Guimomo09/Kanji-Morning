@@ -2,15 +2,15 @@ import { state }                                               from './state.js'
 import { cleanupOldData, saveDailyVocab }                       from './daily.js';
 import { getWordOfDay }                                         from './wotd.js';
 import { todayStr }                                            from './utils.js';
-import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus } from './cloud.js';
+import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus, cloudUpdate } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
-import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter } from './vocab.js';
-import { renderStats, renderHome }                              from './stats.js';
+import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror } from './vocab.js';
+import { renderStats, renderHome, setActivityView, navActivityCal } from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
-import { STRIPE_PAYMENT_LINK }                                  from './config.js';
+import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js';
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
 import { loadTrans } from './trans.js';
 import { speakJapanese } from './audio.js';
@@ -61,6 +61,91 @@ function closeTutorial() {
   document.body.style.overflow = '';
   localStorage.setItem('km_onboarding_done', '1');
 }
+
+// ════════════════════════════════════════════════════════════════════════════
+// TAB HINTS (ⓘ per-tab explainer)
+// ════════════════════════════════════════════════════════════════════════════
+const TAB_HINTS = {
+  home: {
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+    title: 'Home — Your Dashboard',
+    body: `<p>Your daily study hub. Everything at a glance.</p><ul>
+      <li><b>Streak</b> — consecutive days you studied. Don't break the chain!</li>
+      <li><b>Daily Quiz</b> — 15 new words + 5 review. Only available after saving words from the Vocab tab.</li>
+      <li><b>Weekly Challenge</b> — every Monday, covers the last 2 weeks of vocabulary.</li>
+      <li><b>JLPT tile</b> — tracks how many words you've saved toward your current goal. Tap to change level.</li>
+    </ul>`,
+  },
+  kanji: {
+    icon: '漢',
+    title: 'Kanji — Browse & Discover',
+    body: `<p>Explore kanji organised by JLPT level (N5 = easiest, N1 = hardest).</p><ul>
+      <li><b>New Selection</b> — shuffle a new batch of kanji at the same level.</li>
+      <li><b>Save a kanji</b> — tap the star button on a card to bookmark it in My List and unlock its vocabulary.</li>
+      <li><b>More / Less</b> — adjust how many cards are shown at once.</li>
+      <li><b>Search bar</b> — find any kanji by character, reading, or meaning.</li>
+    </ul>`,
+  },
+  vocab: {
+    icon: '語',
+    title: 'Vocab — Daily Word Cards',
+    body: `<p>Vocabulary built from the kanji you've bookmarked.</p><ul>
+      <li><b>New Selection</b> — shuffle a fresh batch of vocab from your saved kanji.</li>
+      <li><b>Save for Quiz</b> — adds today's words to your daily quiz pool.</li>
+      <li><b>From Kanji</b> — when active, vocab is filtered to match only the kanji visible in the Kanji tab.</li>
+      <li><b>Level filter</b> — focus on a specific JLPT level or mix all levels.</li>
+    </ul>`,
+  },
+  mylist: {
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+    title: 'My List — Saved Words & Kanji',
+    body: `<p>All your bookmarked kanji and vocabulary in one place.</p><ul>
+      <li><b>Tap a kanji chip</b> — opens the kanji detail popup with readings and examples.</li>
+      <li><b>Select</b> — enables multi-select mode for bulk deletion.</li>
+      <li><b>SRS Review</b> — spaced-repetition practice of your saved words (toolbar button).</li>
+      <li><b>Sign in</b> — syncs your list across devices via Google account.</li>
+    </ul>`,
+  },
+  stats: {
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+    title: 'Stats — Your Progress',
+    body: `<p>Charts and history tracking your study journey.</p><ul>
+      <li><b>Streak calendar</b> — each square = one study day. Darker = more words studied.</li>
+      <li><b>Score chart</b> — your quiz results over time (last 20 sessions).</li>
+      <li><b>Activity chart</b> — words studied per day over the last 2 weeks.</li>
+      <li><b>JLPT progress</b> — how close you are to your target level vocabulary count.</li>
+    </ul>`,
+  },
+  exam: {
+    icon: '試験',
+    title: 'Exam Mode — JLPT Simulation',
+    body: `<p>A timed quiz that simulates a real JLPT test using your saved vocabulary.</p><ul>
+      <li><b>10 minutes</b> — strictly timed. Unanswered questions count as wrong.</li>
+      <li><b>40 questions</b> — mix of reading, meaning, and recognition question types.</li>
+      <li><b>60% to pass</b> — score 24/40 or better.</li>
+      <li><b>Cumulative levels</b> — each exam includes all vocabulary up to that level (e.g. N3 includes N5, N4 and N3; N2 adds N2 on top, etc.).</li>
+    </ul>`,
+  },
+};
+
+let _currentTabForHint = 'home';
+
+function showTabHint(tab) {
+  const key  = tab || _currentTabForHint;
+  const hint = TAB_HINTS[key];
+  if (!hint) return;
+  document.getElementById('tabHintIcon').innerHTML  = hint.icon;
+  document.getElementById('tabHintTitle').textContent = hint.title;
+  document.getElementById('tabHintBody').innerHTML  = hint.body;
+  document.getElementById('tabHintModal').style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTabHint() {
+  document.getElementById('tabHintModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 
 function tutorialNext() {
   const steps = t('tutorial_steps');
@@ -169,6 +254,7 @@ function saveWotd() {
   const wotd = getWordOfDay();
   const item = { word: wotd.word, reading: wotd.reading, meaning: wotd.meaning, pos: '', level: 'N3' };
   saveDailyVocab(todayStr(), [item]);
+  updateSavedWordsMirror([item], todayStr());
   const added = srsAddWords([item]);
   if (added > 0) srsUpdateReviewCount();
   renderHome(); // re-render to flip button to "✓ Saved"
@@ -250,6 +336,10 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// ── In-memory fallback for streak tile view (survives localStorage quota) ─
+let _streakTileView = localStorage.getItem('km_streak_tile_view') || 'streak';
+export function getStreakTileView() { return _streakTileView; }
+
 // ── Expose all functions called by inline onclick handlers ────────────────
 Object.assign(window, {
   // Audio
@@ -270,11 +360,23 @@ Object.assign(window, {
     if (state.currentTab === 'stats') renderStats();
     else renderHome();
   },
+  cycleStreakTile() {
+    _streakTileView = _streakTileView === 'streak' ? 'month' : 'streak';
+    try { localStorage.setItem('km_streak_tile_view', _streakTileView); } catch {}
+    if (state.currentTab === 'stats') renderStats();
+    else renderHome();
+  },
   // Tutorial
   showTutorial,
   closeTutorial,
   tutorialNext,
   tutorialPrev,
+  // Tab hints
+  showTabHint,
+  closeTabHint,
+  // Activity view switcher
+  setActivityView,
+  navActivityCal,
   // Kanji detail popup
   openKanjiDetail,
   closeKanjiDetail,
@@ -303,6 +405,14 @@ Object.assign(window, {
   renderExamTab,
   launchExamFromTab,
   setExamTargetLevel,
+  toggleExamSection() {
+    const s    = document.getElementById('examJlptSection');
+    const tile = document.getElementById('examMainTile');
+    if (!s) return;
+    const open = s.style.display === 'none';
+    s.style.display = open ? 'block' : 'none';
+    if (tile) tile.classList.toggle('exam-quiz-tile-exam-open', open);
+  },
 
   // Level pills (shared between kanji and vocab tabs)
   setLevel(level) {
@@ -647,7 +757,8 @@ function saveSettings() {
 
 // ── App initialisation ────────────────────────────────────────────────────
 setHeader();
-cleanupOldData();_applyTheme(localStorage.getItem('km_theme') || 'auto');_setupMyListDrag();
+cleanupOldData();
+_applyTheme(localStorage.getItem('km_theme') || 'auto');_setupMyListDrag();
 
 // ── DEBUG AGENT ──────────────────────────────────────────────────────────
 window.debugAgent = {
@@ -690,8 +801,36 @@ window.debugAgent = {
 // DOMContentLoaded = wiring safe
 window.addEventListener('DOMContentLoaded', function() {
   console.log('[debugAgent] DOMContentLoaded');
-  window.debugAgent.rerunAll();
+  // Wire menu buttons and one-time UI setup (NO setPostAuthCallback/initCloud here)
+  setHeader();
+  _wireMenuBtn('mobileMenuSettings', openSettings);
+  _wireMenuBtn('mobileMenuChat', function() { if (window.$crisp) { window.$crisp.push(['do','chat:show']); window.$crisp.push(['do','chat:open']); } });
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
+    if (wrap && !wrap.contains(e.target)) closeMobileMenu();
+  });
+  if (!localStorage.getItem('km_onboarding_done')) {
+    setTimeout(showTutorial, 600);
+  }
+  console.log('[debugAgent] All wiring and init done.');
 });
+
+// ── Debug helper — call window.kmDebug() from browser console ────────────
+window.kmDebug = function() {
+  const { loadQuizHistory } = window._kmModules || {};
+  const raw = localStorage.getItem('quiz_history');
+  const history = raw ? JSON.parse(raw) : [];
+  const biweekly = history.filter(h => h.type === 'biweekly');
+  const doneKeys = Object.keys(localStorage).filter(k => k.startsWith('biweekly_done_'));
+  console.group('[KM Debug]');
+  console.log('Today:', new Date().toISOString());
+  console.log('quiz_history entries:', history.length);
+  console.log('Biweekly entries:', biweekly);
+  console.log('biweekly_done keys:', doneKeys.map(k => k + '=' + localStorage.getItem(k)));
+  console.log('Full quiz_history:', JSON.parse(raw || '[]'));
+  console.groupEnd();
+  return { history, biweekly, doneKeys };
+};
 
 // ── PWA service worker ────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
@@ -703,6 +842,13 @@ if ('serviceWorker' in navigator) {
 
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
+  // Cloud pull already set km_saved_words. Just push it to Firestore as canonical source of truth.
+  // Do NOT call rebuildSavedWordsMirror() here — it would inflate the list with old local vocab_daily_* keys.
+  const words = getAllSavedWords();
+  console.log(`[postAuth] savedWords after cloud pull: ${words.length}`);
+  if (CLOUD_ENABLED && state._fbUser && words.length > 0) {
+    cloudUpdate({ savedWords: words }).catch(e => console.warn('[postAuth] savedWords push failed:', e));
+  }
   // Identify logged-in user in Crisp
   if (state._fbUser && window.$crisp) {
     window.$crisp.push(['set', 'user:email', [state._fbUser.email]]);
@@ -713,12 +859,24 @@ setPostAuthCallback(() => {
   if      (state.currentTab === 'vocab')  renderVocab();
   else if (state.currentTab === 'mylist') renderMyList();
   else if (state.currentTab === 'stats')  renderStats();
+  else if (state.currentTab === 'exam')   renderExamTab();
   else if (state.currentTab === 'home')   renderHome();
 });
 
 initCloud();
 srsUpdateReviewCount();
 history.scrollRestoration = 'manual';
+
+// ── Manual sync helper — call window.kmSync() from browser console ────────
+window.kmSync = async function() {
+  const words = rebuildSavedWordsMirror();
+  console.log(`[kmSync] Local words: ${words.length}. User: ${state._fbUser?.email}. DB: ${!!state._fbDb}`);
+  if (!state._fbUser || !state._fbDb) { console.error('[kmSync] Not logged in or Firestore not ready'); return; }
+  if (words.length === 0) { console.warn('[kmSync] No local words to push'); return; }
+  await cloudUpdate({ savedWords: words });
+  console.log(`[kmSync] Done. Pushed ${words.length} words to Firestore.`);
+  renderStats();
+};
 
 // Apply i18n to static DOM elements on startup
 detectLang();

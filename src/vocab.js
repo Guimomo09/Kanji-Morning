@@ -5,7 +5,7 @@ import { state } from './state.js';
 import { getWords, buildPool, pickVocabChars } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
 import { CLOUD_ENABLED } from './config.js';
-import { cloudUpdate } from './cloud.js';
+import { cloudUpdate, cloudSavedWordAdd, cloudSavedWordRemove } from './cloud.js';
 import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
 import { showSkeletons, getAllSavedKanjis, ensureKanjiCards } from './kanji.js';
@@ -356,9 +356,23 @@ export function setVocabLevel(level) {
   renderVocab(true);
 }
 
-// ── My List ───────────────────────────────────────────────────────────────
-export function getAllSavedWords() {
-  const seen = new Set(), all = [];
+// ── My List — km_saved_words mirror ────────────────────────────────────────
+// A compact, dedicated key that survives localStorage eviction of vocab_daily_* keys.
+const _SW_KEY = 'km_saved_words';
+function _compact(it, date) {
+  return { word: it.word, reading: it.reading || '', meaning: it.meaning || '',
+           level: it.level || '', pos: it.pos || '', savedDate: it.savedDate || date };
+}
+export function rebuildSavedWordsMirror() {
+  // Scan vocab_daily_* and MERGE into existing km_saved_words (don't overwrite)
+  // This preserves any words already in the mirror from cloud pull (savedWords)
+  let existing = [];
+  try {
+    const raw = localStorage.getItem(_SW_KEY);
+    if (raw) existing = JSON.parse(raw);
+  } catch {}
+  const seen = new Set(existing.map(i => i.word));
+  const newFromDaily = [];
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
     if (!k || !k.startsWith('vocab_daily_')) continue;
@@ -366,13 +380,61 @@ export function getAllSavedWords() {
     try {
       const items = JSON.parse(localStorage.getItem(k));
       if (!Array.isArray(items)) continue;
-      items.forEach(it => {
-        if (!seen.has(it.word)) { seen.add(it.word); all.push({ ...it, savedDate: date }); }
-      });
+      items.forEach(it => { if (!seen.has(it.word)) { seen.add(it.word); newFromDaily.push(_compact(it, date)); } });
     } catch {}
   }
-  all.sort((a, b) => b.savedDate.localeCompare(a.savedDate));
+  const all = [...newFromDaily, ...existing];
+  all.sort((a, b) => (b.savedDate || '').localeCompare(a.savedDate || ''));
+  try { localStorage.setItem(_SW_KEY, JSON.stringify(all)); } catch {}
   return all;
+}
+export function updateSavedWordsMirror(items, date) {
+  try {
+    const raw = localStorage.getItem(_SW_KEY);
+    const existing = raw ? JSON.parse(raw) : [];
+    const seen = new Set(existing.map(i => i.word));
+    const newItems = items.filter(i => !seen.has(i.word)).map(i => _compact(i, date));
+    if (!newItems.length) return;
+    const updated = [...newItems, ...existing];
+    try { localStorage.setItem(_SW_KEY, JSON.stringify(updated)); }
+    catch {
+      try {
+        const qh = JSON.parse(localStorage.getItem('quiz_history') || '[]');
+        if (qh.length > 10) localStorage.setItem('quiz_history', JSON.stringify(qh.slice(-10)));
+        localStorage.setItem(_SW_KEY, JSON.stringify(updated));
+      } catch {}
+    }
+    // Sync to cloud — atomic add, one call per new word (never overwrites full list)
+    if (CLOUD_ENABLED && state._fbUser) {
+      newItems.forEach(w => cloudSavedWordAdd(w).catch(() => {}));
+    }
+  } catch {}
+}
+export function removeFromSavedWordsMirror(wordOrSet) {
+  try {
+    const raw = localStorage.getItem(_SW_KEY); if (!raw) return;
+    const isSet = wordOrSet instanceof Set;
+    const filtered = JSON.parse(raw).filter(i => isSet ? !wordOrSet.has(i.word) : i.word !== wordOrSet);
+    localStorage.setItem(_SW_KEY, JSON.stringify(filtered));
+    // Sync removal to cloud — atomic remove (never overwrites full list)
+    if (CLOUD_ENABLED && state._fbUser) {
+      cloudSavedWordRemove(wordOrSet).catch(() => {});
+    }
+  } catch {}
+}
+
+// ── My List ───────────────────────────────────────────────────────────────
+export function getAllSavedWords() {
+  // Try compact mirror first (immune to vocab_daily_* eviction)
+  try {
+    const raw = localStorage.getItem(_SW_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {}
+  // Fall back: scan vocab_daily_* and rebuild mirror
+  return rebuildSavedWordsMirror();
 }
 
 export function renderMyList() {
@@ -562,6 +624,7 @@ export function removeFromMyList(word) {
   if (CLOUD_ENABLED && state._fbUser && Object.keys(cloudPatch).length) {
     cloudUpdate({ dailyWords: cloudPatch });
   }
+  removeFromSavedWordsMirror(word);
   renderMyList();
 }
 
@@ -594,6 +657,7 @@ export function removeSelectedWords(words) {
   if (CLOUD_ENABLED && state._fbUser && Object.keys(cloudPatch).length) {
     cloudUpdate({ dailyWords: cloudPatch });
   }
+  removeFromSavedWordsMirror(wordSet);
 }
 
 export function toggleFromKanji() {

@@ -43,11 +43,16 @@ export function loadDailyVocab(date) {
   } catch { return null; }
 }
 
-// ── Cleanup old biweekly markers (>30 days) ───────────────────────────────
+// ── Cleanup old data ──────────────────────────────────────────────────────
 export function cleanupOldData() {
-  const today        = new Date();
+  const today = new Date();
+
   const thirtyDaysAgo = new Date(today);
   thirtyDaysAgo.setDate(today.getDate() - 30);
+
+  // Keep only 14 days of daily vocab to avoid localStorage quota issues
+  const fourteenDaysAgo = new Date(today);
+  fourteenDaysAgo.setDate(today.getDate() - 14);
 
   const keysToDelete = [];
   for (let i = 0; i < localStorage.length; i++) {
@@ -56,6 +61,9 @@ export function cleanupOldData() {
     if (k.startsWith('biweekly_done_')) {
       const itemDate = new Date(k.slice(14) + 'T12:00:00');
       if (itemDate < thirtyDaysAgo) keysToDelete.push(k);
+    } else if (k.startsWith('vocab_daily_')) {
+      const itemDate = new Date(k.slice(12) + 'T12:00:00');
+      if (itemDate < fourteenDaysAgo) keysToDelete.push(k);
     }
   }
   keysToDelete.forEach(k => localStorage.removeItem(k));
@@ -65,7 +73,7 @@ export function cleanupOldData() {
 export function getQuizDates() {
   const today = new Date();
   const dates = [];
-  for (let i = 13; i >= 0; i--) {
+  for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(today.getDate() - i);
     dates.push(dateStr(d));

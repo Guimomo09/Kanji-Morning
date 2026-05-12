@@ -1,29 +1,25 @@
-import { BIWEEKLY_EPOCH } from './config.js';
 import { dateStr, todayStr } from './utils.js';
 import { cloudUpdate } from './cloud.js'; // circular ok
 
-// ── Schedule helpers ──────────────────────────────────────────────────────
-function _biWeeklyMonday(periodOffset) {
-  const d = new Date(BIWEEKLY_EPOCH);
-  d.setDate(d.getDate() + periodOffset * 14);
+// ── Schedule helpers — every Monday ───────────────────────────────────────
+export function isBiWeeklyMonday() {
+  return new Date().getDay() === 1;
+}
+
+export function getLastBiWeeklyMonday() {
+  const today = new Date();
+  const d = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const day = d.getDay(); // 0=Sun,1=Mon,...,6=Sat
+  const diff = day === 1 ? 0 : day === 0 ? 6 : day - 1;
+  d.setDate(d.getDate() - diff);
   return d;
 }
 
-function _currentPeriod() {
-  const today = new Date();
-  const ms    = new Date(today.getFullYear(), today.getMonth(), today.getDate()) - BIWEEKLY_EPOCH;
-  return Math.max(0, Math.floor(ms / (14 * 86400000)));
+export function nextBiWeeklyMonday() {
+  const d = getLastBiWeeklyMonday();
+  d.setDate(d.getDate() + 7);
+  return d;
 }
-
-export function isBiWeeklyMonday() {
-  const today = new Date();
-  if (today.getDay() !== 1) return false;
-  const ms = new Date(today.getFullYear(), today.getMonth(), today.getDate()) - BIWEEKLY_EPOCH;
-  return ms >= 0 && ms % (14 * 86400000) === 0;
-}
-
-export function getLastBiWeeklyMonday() { return _biWeeklyMonday(_currentPeriod()); }
-export function nextBiWeeklyMonday()    { return _biWeeklyMonday(_currentPeriod() + 1); }
 
 // ── Done markers ──────────────────────────────────────────────────────────
 export function saveBiWeeklyDone(ds) {
@@ -31,15 +27,18 @@ export function saveBiWeeklyDone(ds) {
   cloudUpdate({ biweeklyDone: { [ds]: true } });
 }
 export function isBiWeeklyDone(ds) {
-  return !!localStorage.getItem(`biweekly_done_${ds}`);
+  if (localStorage.getItem(`biweekly_done_${ds}`)) return true;
+  // Fallback: check this week's Monday key
+  const mondayKey = dateStr(getLastBiWeeklyMonday());
+  return mondayKey !== ds && !!localStorage.getItem(`biweekly_done_${mondayKey}`);
 }
 
-// Returns the last bi-weekly Monday that was MISSED (not done and already past)
+// Returns last Monday that was MISSED (not done and already past)
 export function getMissedBiWeeklyMonday() {
   const today     = new Date();
   const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const lastMon   = getLastBiWeeklyMonday();
-  if (lastMon.getTime() === todayDate.getTime()) return null; // today IS the day
+  if (lastMon.getTime() === todayDate.getTime()) return null; // today IS Monday
   return isBiWeeklyDone(dateStr(lastMon)) ? null : lastMon;
 }
 
@@ -51,5 +50,5 @@ export function updateBiWeeklyBtn() {
   btn.style.display = '';
   btn.disabled = !available;
   btn.classList.toggle('btn-locked', !available);
-  btn.title = available ? '' : `Next bi-weekly quiz: ${dateStr(nextBiWeeklyMonday())}`;
+  btn.title = available ? '' : `Next Weekly Challenge: ${dateStr(nextBiWeeklyMonday())}`;
 }

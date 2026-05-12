@@ -10,8 +10,7 @@ export const LEVEL_LABEL        = { 5: 'N5', 4: 'N4', 3: 'N3', 2: 'N2', 1: 'N1' 
 export const VOCAB_LEVEL_WEIGHT = { 5: 20, 4: 25, 3: 35, 2: 15, 1: 5 };
 export const VOCAB_COUNT        = 10; // fixed daily word count
 
-// Bi-weekly epoch: Monday April 27, 2026
-export const BIWEEKLY_EPOCH = new Date(2026, 3, 27);
+// Bi-weekly epoch removed — challenge is now every Monday
 
 // ── Firebase ──────────────────────────────────────────────────────────────
 export const FIREBASE_CONFIG = {

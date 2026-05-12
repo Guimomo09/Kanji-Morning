@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **8 Mai 2026** · Commit `676f1ac` (main) · Stripe LIVE ✅
+> Dernière mise à jour: **12 Mai 2026** · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -177,10 +177,15 @@ kanji.guimo-prod.com {
 - [x] Labels tabs : `opacity:.7` → classe `.tab-sub` sans opacité
 - [x] `aria-label="Language"` sur `#langSelect`
 - [x] `Cache-Control: public, max-age=31536000, immutable` sur `/assets/*` (Caddyfile) — –98 KiB cache mobile
-- [x] `min-height: 60vh` sur `.home-section` — CLS footer 0.193 → 0 ✅
-- [x] `font-display: fallback` (was `swap`) — élimine le CLS tardif des fonts
-- **Scores Lighthouse 8 Mai 2026** : Desktop **93** / 95 / 96 / 100 · Mobile **59** / 95 / 96 / 100
-- **CLS** : 0.143 → 0.037 (desktop) · 0.193 → 0 (mobile) ✅
+- [x] `min-height: 80vh` sur `.home-section` — CLS footer 0.193 → 0 ✅
+- [x] `font-display: optional` (was `swap`) — élimine le CLS tardif des fonts
+- [x] `.quiz-elapsed-wrap` : `opacity: 0.35` → `color: var(--muted)` — fix contraste WCAG AA
+- [x] `.h-date` / `.h-greet` : `opacity` → `color: rgba(255,255,255,0.9)` — fix contraste WCAG AA
+- [x] `.h-settings-btn` : `rgba(.8)` → `rgba(.9)` — fix contraste WCAG AA
+- [x] Suppression CSS mort (`.btn-notif-opt`, `.notif-time-*` — 19 lignes)
+- **Scores Lighthouse finaux 8 Mai 2026** : Desktop **93** / 95 / 96 / 100 · Mobile **59** / 95 / 96 / 100
+- **CLS** : 0.143 → **0.007** (desktop) · 0.193 → **0** (mobile) ✅
+- Note : score mobile 59 = Moto G Power + 4G lente simulée (pire cas). CWV terrain attendus excellents.
 
 **Branding & Logo** ← commits `6cd5a44` → `d87e8e9` (main, 8 Mai 2026)
 - [x] Logo SVG (cercle ivoire + flamme + 朝) créé et intégré
@@ -202,6 +207,82 @@ kanji.guimo-prod.com {
 - [x] Bouton Weekly Challenge masqué dans la toolbar sur l'onglet Home ← `c2623dc`
 - [x] Dark theme settings drawer complet ← `f5b9e6e`
 - [x] Dark theme menu hamburger mobile — texte items lisible ← `1f4e1bb`
+
+**Stats — Activity view switcher & Calendar** ← commits `8d0592b` → `latest` (main, 8 Mai 2026)
+- [x] Heatmap streak séparé retiré — bloc "Study Activity" unifié avec switcher 1W / 2W / Calendar
+- [x] Vrai calendrier mensuel iOS-style avec navigation mois · jours étudiés en rouge · aujourd'hui cerclé
+- [x] Vue calendrier : quadrillage (lignes CSS) · cellules 34px · coins arrondis
+- [x] Titre dynamique selon la vue : "Last 7 Days" / "Last 14 Days" / "Calendar" (5 langues)
+- [x] Bouton "i" Stats déplacé dans la toolbar (pattern identique à My List)
+- [x] Fix `QuotaExceededError` localStorage — `setActivityView` catch quota + `cleanupOldData` purge `vocab_daily_*` > 90 jours
+- [x] Bouton "i" Stats déplacé dans la toolbar (far-right, `margin-left:auto`) — pattern unifié avec Kanji/Vocab/My List
+- [x] Bouton "i" Kanji/Vocab inline avec compteur (next to count label)
+- [x] Bloc Exam desktop `max-width` aligné sur Home (900px) — plus de saut de largeur au switch d'onglet
+
+**Exam Mode** ← commit `d29e0d4` (8 Mai 2026)
+- [x] Exam Mode : 40 questions · 10 min · 60% PASS · types C+D seulement (kanji↔hiragana, pas de définitions)
+- [x] Pas de bouton son en mode exam
+- [x] Branding "JLPT Exam" → "Exam Mode" (localisé 5 langues, `exam_mode_title`)
+
+**Exam tab restructuré** ← commits `b58adb2` → `91418ca` (11 Mai 2026)
+- [x] Onglet Exam = hub quiz : 3 tiles (Daily | Weekly grid + accordéon Exam Mode pleine largeur)
+- [x] Boutons quiz retirés des toolbars Vocab + My List
+- [x] Bouton Weekly Challenge masqué sur onglet Stats
+- [x] Tile Exam : niveau pill garde la section ouverte après sélection
+- [x] Tile Exam : sous-titre = dernier niveau + date (pas pct/PASS)
+- [x] Recent Results : niveau (N5, N4…) affiché par ligne
+- [x] Section auto-ouverte si dernier exam du jour (retour depuis écran résultats)
+- [x] Résultats exam exclus des Stats (uniquement dans l'onglet Exam)
+
+**localStorage quota + sauvegarde mots** ← commits `(11 Mai 2026)`
+- [x] `cleanupOldData` : rétention `vocab_daily_*` réduite à 14 jours
+- [x] `saveQuizResult` : éviction `vocab_daily_*` avant suppression = rebuild mirror d'abord
+- [x] `km_saved_words` : miroir compact dédié — liste mots immune aux évictions
+- [x] `savedWords` Firestore : backup permanent sans fenêtre de date — jamais perdu
+- [x] Firestore = source de vérité unique — cloud pull **écrase** `km_saved_words` (plus de merge gonflant)
+- [x] `setPostAuthCallback` : utilise directement `km_saved_words` post-pull, sans `rebuildSavedWordsMirror`
+- [x] `computeTotalWords()` lit via `getAllSavedWords()` (km_saved_words) au lieu de `vocab_daily_*`
+- [x] `DOMContentLoaded` ne rappelle plus `setPostAuthCallback`/`initCloud` (bug doublon)
+- [x] SW cache v10
+- [x] Streak tile toggle : état en mémoire (`_streakTileView`) — ne dépend plus du localStorage
+- [x] `getStudiedDatesSet()` : fallback `quiz_history` pour streak/count/calendrier si `vocab_daily_*` évincés
+
+**Fixes session 11 Mai 2026 (suite)**
+- [x] Home Avg Score exclut les exams (cohérent avec Stats) ← `ceffe11`
+- [x] Exam tab re-render après pull premium au refresh (plus de vue locked) ← `cb4e206`
+- [x] Alt attribute sur logo tutorial img (5 langues) — SEO/accessibilité ← `e0dc990`
+- [x] `og:image` + JSON-LD `Organization` + `WebSite` dans index.html (logo Google Search) ← `48a181b`
+
+**EXAMPLE_OVERRIDE — 12 Mai 2026** ← commits `39b2acd` → `7727908` (main)
+- [x] EXAMPLE_OVERRIDE 100% complet — N5 → N4 → N3 → N2 → N1 (tous les niveaux)
+- [x] Exemples offensants/erronés remplacés sur l'ensemble du JLPT (rufous hawk-cuckoo, sixty-nine, slur, salmon→ayu, etc.)
+- [x] `scripts/scan-overrides.mjs` — QA scan automatique · 0 issues sur tous les niveaux
+- [x] 1232 kanji N1 couverts en 4 vagues
+
+**Fixes session 12 Mai 2026** ← commits `545f1ac` → `97a90b7` (main)
+- [x] More/Less incrémental — `loadAndRenderDelta(delta)` : +More appende seulement la nouvelle carte, -Less retire la dernière sans appel API ← `545f1ac`
+- [x] Race condition More/Less — flag `_deltaInProgress` bloque les clicks pendant un fetch en cours ← `97a90b7`
+- [x] Ordre onglets revenu à Kanji → Vocab → My List → Exam → Stats ← `97a90b7`
+
+**Marketing & Promotion — 11 Mai 2026**
+- [x] `PRODUCTHUNT.md` — dossier de lancement complet (tagline, description, timing, checklist)
+- [x] `scripts/screenshot-producthunt.mjs` — génère 5 screenshots 1270×952 depuis asanokanji.com
+- [x] `screenshots/` — 5 captures prêtes pour ProductHunt (home, kanji, vocab, stats, jlpt-n5)
+- [x] `scripts/generate-kanji-cards.mjs` — génère des cartes kanji 1080×1080px pour Instagram/X/LinkedIn
+  - Bandeau rouge pleine largeur · logo PNG · titre centré · badge JLPT
+  - Tile blanche centrée · kanji 300px · signification · lectures 音/訓
+  - Options CLI : `--level n5/n4/n3/n2/n1` · `--count N` · `--kanji 火,水,木` · `--theme dark`
+
+**Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
+- [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
+- [x] Préférence persistée en `localStorage` (`km_streak_tile_view`)
+- [x] Fonctionne Home + Stats · i18n 5 langues
+- [x] CSS hover `.kpi-streak` (pattern identique JLPT tile)
+
+**Favicon & Logo** ← commits `e01a826`, `4d843a5` (8 Mai 2026)
+- [x] Favicon remplacé — inline base64 → `/icons/icon-192.svg` direct
+- [x] Modal tuto welcome : kanji 朝 remplacé par le vrai logo SVG (5 langues)
+- [x] SW cache bumped v6 → v7 pour forcer invalidation clients
 
 ### 🟡 Prochaines étapes
 

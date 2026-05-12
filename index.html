@@ -15,6 +15,27 @@
   <meta property="og:url" content="https://asanokanji.com/" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://asanokanji.com/icons/icon-512.svg" />
+  <meta property="og:image:alt" content="Asano Kanji logo" />
+
+  <!-- Structured data: Organization (logo for Google Search) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Asano Kanji",
+    "url": "https://asanokanji.com/",
+    "logo": "https://asanokanji.com/icons/icon-512.svg"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Asano Kanji",
+    "url": "https://asanokanji.com/"
+  }
+  </script>
 
   <!--
     Data source: kanjiapi.dev (free, open API, no auth required)
@@ -26,7 +47,7 @@
   -->
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iX+ODrOOCpOODpOODvF8xIiBkYXRhLW5hbWU9IuODrOOCpOODpOODvCAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xLCAuY2xzLTIgewogICAgICAgIGZpbGw6ICNmYWY3ZjI7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgZmlsbDogI2MwM2EyMDsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBmb250LWZhbWlseTogTm90b1NhbnNKUC1Cb2xkLCAnTm90byBTYW5zIEpQJzsKICAgICAgICBmb250LXNpemU6IDM5LjE3cHg7CiAgICAgICAgZm9udC12YXJpYXRpb24tc2V0dGluZ3M6ICd3Z2h0JyA3MDA7CiAgICAgICAgZm9udC13ZWlnaHQ6IDcwMDsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPGc+CiAgICA8Y2lyY2xlIGNsYXNzPSJjbHMtMSIgY3g9Ijk2IiBjeT0iOTYiIHI9IjkyLjE1Ii8+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Ik0xNjEuMzQsMzAuNjZjMjEuNjgsMjEuNDUsMzIuNjMsNTMuNTUsMjcuMDcsODMuNzMtMTAuNTUsNTguNTgtNzQuMDEsODkuNTUtMTI4LjAyLDY3LjU4QzEyLjE2LDE2Mi44LTExLjQsMTA3LjgxLDguMzQsNTkuNjksMzQuNC0zLjE0LDExMy44NC0xNy4wMywxNjEuMzQsMzAuNjZoMFpNMTYwLjk3LDMxLjAzQzEyMS4xNy05LjA3LDUyLjMzLS4wNiwyMS42OSw0Ni4zNS0yLjIxLDgxLjMxLDIuMzgsMTI5Ljg1LDMxLjg1LDE2MC4xNWM0OC44Niw1MCwxMjkuNCwyNy4xOSwxNTAuMi0zOC4wNCwxMC4yOC0zMS4zMywyLjY5LTY3Ljc1LTIxLjA4LTkxLjA4aDBaIi8+CiAgPC9nPgogIDxnPgogICAgPHBhdGggY2xhc3M9ImNscy0zIiBkPSJNODAuMjcsNDguOTVjLS4wMiwyLjUzLTEuMjYsNC41LTEuMTIsNy4xOC40OSw5LjU1LDguMDUsOS40NCwxMy4wOCwxNC44Nyw1LjU5LDYuMDMsNS41MywxMS45NiwxLjY2LDE3LjcxLS44NS0xLjctLjIzLTMuMi0uNzEtNS4xNi0yLjA5LTguNTEtMTAuMDYtOC4zMS0xNS4wMS0xNC4wOC01Ljk2LTYuOTQtNC4xMy0xNi4xOSwyLjExLTIwLjUyWiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0zIiBkPSJNMTAwLjI4LDI1LjAyYy00LjMyLDUuMzEtNi4yLDExLjMxLTQuMjIsMTguMDEsMi43Myw5LjI3LDEyLjc1LDEzLjg4LDE3Ljk0LDIxLjQ3LDcuMjEsMTAuNTUsMi44NCwyMS40Ni05LjYsMjQuMi0uNjItLjU0LjI0LS43OC41Ni0xLjAxLDIxLjg2LTE1LjkyLTcuNzctMjYuNTktMTMuMDItNDAuMzQtMy4xOS04LjM1LS41Mi0xNi43OCw2LjkzLTIxLjczLjQ3LS4zMS43MS0uODUsMS40MS0uNjFaIi8+CiAgPC9nPgogIDxwYXRoIGNsYXNzPSJjbHMtMyIgZD0iTTE1NC4yNywxNTEuMTNjLTUuNS0xLjAyLTE0LjM0LTEuNzEtMjQuMjctMi4xNSwzMC44Mi0xNi41NywzOC40OC01Mi40MywyOS41My01Mi40M0gzMi40N2MtOC45NiwwLTEuMjcsMzUuOTMsMjkuNjMsNTIuNDgtMTAuOC41MS0yMi43NSwxLjMzLTI2LjUyLDIuNTItMy41MiwxLjEtLjQ4LDEuODksMy4wMywyLjQ3LDIuMjcuMzcsNS4xLjcsOC4zNSwxLC4xMi45NywxLjc4LDEuNzMsMy42MiwyLjM1LDE3LjExLDUuNyw3My4zNyw1LjgxLDkwLjQ0LjA4LDIuMy0uNzcsMy44NS0xLjU2LDQuMDEtMi40MiwzLjA0LS4yOCw1LjctLjYsNy44Ni0uOTUsNS4zNS0uODgsNy41My0xLjc5LDEuMzgtMi45NFoiLz4KICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Ik0xNzYuOTIsMTA3LjkxYy0yLjM2LTcuMDMtNy40Mi04LjQ3LTE0LjI5LTcuNC00LjMuNjctMTIuNTcsMS44OC0xNC4zNyw2LjQ0LTIuNDksNi4zMy0zLjkxLDEzLjI5LTUuODMsMTkuODItLjQ3LDEuNjEuNTgsMy4wMywyLjAzLDMuNTgsOC41OSwzLjI2LDE3LjQ2LDQuODIsMjUuMjktMS4xMiw2LjY0LTUuMDQsOC45NS0xMy4zOCw3LjE3LTIxLjMyLS44Mi0zLjY1LTYuNDMtMi4xMS01LjYxLDEuNTUsMS40NSw2LjQ1LTEuMDEsMTMuMDEtNi44NywxNi4zNHMtMTIuNDcsMS4xOS0xOC40Mi0xLjA3bDIuMDMsMy41OGMxLjM2LTQuNjMsMi43Mi05LjI1LDQuMDktMTMuODguNDEtMS4zOC43OC01LjIsMS44NC02LjI0cy00LjA2LDIsMS40MS4yNGMxLjQ1LS40NywyLjg2LTEsNC4zNC0xLjM4LDMuOS0xLjAyLDkuODgtMi42NywxMS41OCwyLjQxLDEuMTgsMy41NCw2LjgxLDIuMDIsNS42MS0xLjU1WiIvPgogIDx0ZXh0IGNsYXNzPSJjbHMtMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzYuNDIgMTM3LjQ1KSI+PHRzcGFuIHg9IjAiIHk9IjAiPuacnTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4=" />
+  <link rel="icon" type="image/svg+xml" href="/icons/icon-192.svg" />
 
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json" />
@@ -43,9 +64,9 @@
   <link rel="preconnect" href="https://stats.asanokanji.com" />
   <link rel="preconnect" href="https://client.crisp.chat" />
   <!-- Google Fonts async (non-blocking) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=fallback" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=fallback" rel="stylesheet" media="print" onload="this.media='all'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=fallback" rel="stylesheet" /></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
 
   <link rel="stylesheet" href="/src/styles.css" />
 
@@ -135,6 +156,9 @@
   <button class="btn btn-ghost" id="btnMore"          onclick="changeCount(1)"                             data-i18n="btn_more">＋ More</button>
   <button class="btn btn-ghost" id="btnLess"          onclick="changeCount(-1)"                            data-i18n="btn_less">－ Less</button>
   <button class="btn btn-quiz"  id="btnBiweeklyQuiz"  onclick="launchBiWeeklyQuiz()"  style="display:none" data-i18n="btn_weekly_challenge">Weekly Challenge</button>
+  <button class="section-hint-btn" id="btnMyListHint" style="display:none;margin-left:auto" onclick="showTabHint('mylist')" aria-label="How to use My List">i</button>
+  <button class="section-hint-btn" id="btnStatsHint"  style="display:none;margin-left:auto" onclick="showTabHint('stats')"  aria-label="How to read Stats">i</button>
+  <button class="section-hint-btn" id="levelInfoBtn"  style="display:none;margin-left:auto" aria-label="How to use this tab" onclick="showTabHint(this.dataset.tab)">i</button>
 </div>
 <div class="level-filter" id="levelFilter" style="display:none">
   <span class="level-filter-label" data-i18n="filter_level">Level:</span>
@@ -146,14 +170,6 @@
   <button class="pill"        data-level="1"   onclick="setLevel('1')">N1</button>
   <span class="toolbar-info"><span data-i18n="filter_showing">Showing</span> <strong id="countLabel">10</strong> <span id="tabLabel">vocabulary</span></span>
   <span id="statusMsg" class="status-loading">読み込み中…</span>
-</div>
-
-<div class="legend" id="legendDiv">
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n5)"></span><span data-i18n="legend_n5">N5 (beginner)</span></div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n4)"></span><span data-i18n="legend_n4">N4</span></div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n3)"></span><span data-i18n="legend_n3">N3 (frequent)</span></div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n2)"></span><span data-i18n="legend_n2">N2 (frequent)</span></div>
-  <div class="legend-item"><span class="legend-dot" style="background:var(--n1)"></span><span data-i18n="legend_n1">N1</span></div>
 </div>
 
 <div class="search-wrap" id="searchWrap" style="display:none">
@@ -169,6 +185,16 @@
 <div class="exam-section"   id="examSection"   style="display:none"></div>
 
 <footer><span data-i18n="footer_msg">頑張って！Keep showing up — every morning counts.</span><br><a href="/privacy.html" style="color:var(--muted);font-size:12px;text-decoration:none;border-bottom:1px solid var(--border)" data-i18n="footer_privacy">Privacy Policy</a></footer>
+
+<!-- Tab hint modal (ⓘ per-tab explainer) -->
+<div class="tab-hint-backdrop" id="tabHintModal" style="display:none" onclick="closeTabHint()">
+  <div class="tab-hint-card" onclick="event.stopPropagation()">
+    <button class="tab-hint-close" onclick="closeTabHint()">✕</button>
+    <div class="tab-hint-icon" id="tabHintIcon"></div>
+    <div class="tab-hint-title" id="tabHintTitle"></div>
+    <div class="tab-hint-body" id="tabHintBody"></div>
+  </div>
+</div>
 
 <!-- Tutorial overlay (shown on first visit) -->
 <div class="tutorial-overlay" id="tutorialOverlay" style="display:none">
