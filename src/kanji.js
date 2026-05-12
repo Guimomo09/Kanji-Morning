@@ -599,7 +599,7 @@ const EXAMPLE_OVERRIDE = {
   '火': [
     { w: '火',     r: 'ひ',         m: 'fire, flame' },
     { w: '火曜日', r: 'かようび',   m: 'Tuesday' },
-    { w: '火山',   r: 'かざん',     m: 'volcano' },
+    { w: '花火',   r: 'はなび',     m: 'fireworks' },
   ],
   '語': [
     { w: '日本語', r: 'にほんご',   m: 'Japanese language' },
