@@ -25,46 +25,68 @@ const READING_OVERRIDE = {
 // ── Kanji meaning overrides ───────────────────────────────────────────────
 // kanjiapi.dev returns meanings alphabetically — for simple kanji the
 // alphabetically-first meaning is often archaic/technical, not the core one.
-// Values here replace the API meanings entirely for display.
+// Format: { char: { en, fr?, es?, de?, ru? } }
+// Non-EN fallback: kanji_index.json[char][lang] (see bestKanjiMeaning below).
 export const KANJI_MEANING_OVERRIDE = {
   // N5
-  '午': ['noon', 'midday'],
-  '子': ['child', 'kid'],
-  '目': ['eye'],
-  '足': ['foot', 'leg'],
-  '見': ['see', 'look at', 'watch'],
-  '校': ['school', 'educational institution'],
-  '空': ['sky', 'air', 'empty'],
-  '生': ['life', 'living', 'birth'],
-  '立': ['stand', 'stand up', 'rise'],
-  '名': ['name', 'famous'],
-  '国': ['country', 'nation'],
-  '川': ['river', 'stream'],
-  '土': ['earth', 'soil', 'ground'],
-  '年': ['year'],
-  '気': ['spirit', 'energy', 'mood', 'atmosphere'],
-  '早': ['early', 'fast', 'quick'],
-  '来': ['come', 'arrive'],
-  '東': ['east'],
-  '南': ['south'],
-  '北': ['north'],
-  '西': ['west'],
+  '午': { en: ['noon', 'midday'],                    fr: ['midi'],                   es: ['mediodía'],           de: ['Mittag'],              ru: ['полдень'] },
+  '子': { en: ['child', 'kid'],                      fr: ['enfant'],                 es: ['niño', 'hijo'],       de: ['Kind'],                ru: ['ребёнок', 'дитя'] },
+  '目': { en: ['eye'],                               fr: ['œil'],                    es: ['ojo'],                de: ['Auge'],                ru: ['глаз'] },
+  '足': { en: ['foot', 'leg'],                       fr: ['pied', 'jambe'],          es: ['pie', 'pierna'],      de: ['Fuß', 'Bein'],         ru: ['нога', 'стопа'] },
+  '見': { en: ['see', 'look at', 'watch'],           fr: ['voir', 'regarder'],       es: ['ver', 'mirar'],       de: ['sehen', 'schauen'],    ru: ['видеть', 'смотреть'] },
+  '校': { en: ['school', 'educational institution'], fr: ['école'],                  es: ['escuela'],            de: ['Schule'],              ru: ['школа'] },
+  '空': { en: ['sky', 'air', 'empty'],               fr: ['ciel', 'air', 'vide'],    es: ['cielo', 'vacío'],     de: ['Himmel', 'Luft'],      ru: ['небо', 'воздух', 'пустой'] },
+  '生': { en: ['life', 'living', 'birth'],           fr: ['vie', 'naissance'],       es: ['vida', 'nacimiento'], de: ['Leben', 'Geburt'],     ru: ['жизнь', 'рождение'] },
+  '立': { en: ['stand', 'stand up', 'rise'],         fr: ['se lever', 'se tenir'],   es: ['levantarse', 'estar de pie'], de: ['stehen', 'aufstehen'], ru: ['стоять', 'вставать'] },
+  '名': { en: ['name', 'famous'],                    fr: ['nom', 'célèbre'],         es: ['nombre', 'famoso'],   de: ['Name', 'berühmt'],     ru: ['имя', 'известный'] },
+  '国': { en: ['country', 'nation'],                 fr: ['pays', 'nation'],         es: ['país', 'nación'],     de: ['Land', 'Nation'],      ru: ['страна', 'государство'] },
+  '川': { en: ['river', 'stream'],                   fr: ['rivière', 'fleuve'],      es: ['río'],                de: ['Fluss'],               ru: ['река'] },
+  '土': { en: ['earth', 'soil', 'ground'],           fr: ['terre', 'sol'],           es: ['tierra', 'suelo'],    de: ['Erde', 'Boden'],       ru: ['земля', 'почва'] },
+  '年': { en: ['year'],                              fr: ['année', 'an'],            es: ['año'],                de: ['Jahr'],                ru: ['год'] },
+  '気': { en: ['spirit', 'energy', 'mood', 'atmosphere'], fr: ['esprit', 'énergie', 'humeur'], es: ['espíritu', 'energía', 'ánimo'], de: ['Geist', 'Energie', 'Stimmung'], ru: ['дух', 'энергия', 'настроение'] },
+  '早': { en: ['early', 'fast', 'quick'],            fr: ['tôt', 'rapide'],          es: ['temprano', 'rápido'], de: ['früh', 'schnell'],     ru: ['рано', 'быстро'] },
+  '来': { en: ['come', 'arrive'],                    fr: ['venir', 'arriver'],       es: ['venir', 'llegar'],    de: ['kommen', 'ankommen'],  ru: ['приходить', 'приезжать'] },
+  '東': { en: ['east'],                              fr: ['est'],                    es: ['este'],               de: ['Osten'],               ru: ['восток'] },
+  '南': { en: ['south'],                             fr: ['sud'],                    es: ['sur'],                de: ['Süden'],               ru: ['юг'] },
+  '北': { en: ['north'],                             fr: ['nord'],                   es: ['norte'],              de: ['Norden'],              ru: ['север'] },
+  '西': { en: ['west'],                              fr: ['ouest'],                  es: ['oeste'],              de: ['Westen'],              ru: ['запад'] },
   // N4
-  '発': ['departure', 'emit', 'launch', 'start'],
-  '感': ['feeling', 'sense', 'emotion'],
-  '楽': ['fun', 'easy', 'comfortable', 'music'],
-  '運': ['carry', 'luck', 'fortune', 'transport'],
-  '転': ['roll', 'turn', 'rotate', 'change'],
-  '起': ['get up', 'rise', 'occur', 'wake up'],
-  '考': ['think', 'consider', 'idea'],
-  '死': ['death', 'die'],
-  '止': ['stop', 'halt'],
-  '重': ['heavy', 'important', 'serious', 'pile up'],
-  '野': ['field', 'plain', 'wild'],
-  '服': ['clothes', 'clothing', 'obey'],
-  '者': ['person', 'someone'],
-  '理': ['reason', 'logic', 'principle', 'manage'],
-  '活': ['lively', 'active', 'live'],
+  '発': { en: ['departure', 'emit', 'launch', 'start'], fr: ['départ', 'émettre', 'lancer'], es: ['salida', 'emitir', 'lanzar'], de: ['Abfahrt', 'aussenden', 'starten'], ru: ['отправление', 'испускать', 'запускать'] },
+  '感': { en: ['feeling', 'sense', 'emotion'],       fr: ['sentiment', 'sens', 'émotion'], es: ['sentimiento', 'emoción'], de: ['Gefühl', 'Empfindung'], ru: ['чувство', 'ощущение', 'эмоция'] },
+  '楽': { en: ['fun', 'easy', 'comfortable', 'music'], fr: ['amusant', 'facile', 'musique'], es: ['divertido', 'fácil', 'música'], de: ['Spaß', 'einfach', 'Musik'], ru: ['веселье', 'лёгкий', 'музыка'] },
+  '運': { en: ['carry', 'luck', 'fortune', 'transport'], fr: ['chance', 'chance', 'transport'], es: ['suerte', 'transportar'], de: ['Glück', 'transportieren'], ru: ['удача', 'перевозить'] },
+  '転': { en: ['roll', 'turn', 'rotate', 'change'],  fr: ['rouler', 'tourner', 'changer'], es: ['rodar', 'girar', 'cambiar'], de: ['rollen', 'drehen', 'wechseln'], ru: ['катиться', 'вращаться', 'менять'] },
+  '起': { en: ['get up', 'rise', 'occur', 'wake up'], fr: ['se lever', 'se réveiller', 'survenir'], es: ['levantarse', 'despertarse', 'ocurrir'], de: ['aufstehen', 'aufwachen', 'vorkommen'], ru: ['вставать', 'просыпаться', 'происходить'] },
+  '考': { en: ['think', 'consider', 'idea'],         fr: ['penser', 'réfléchir'],    es: ['pensar', 'considerar'], de: ['denken', 'überlegen'],  ru: ['думать', 'размышлять'] },
+  '死': { en: ['death', 'die'],                      fr: ['mort', 'mourir'],         es: ['muerte', 'morir'],    de: ['Tod', 'sterben'],      ru: ['смерть', 'умирать'] },
+  '止': { en: ['stop', 'halt'],                      fr: ['arrêter', 'stopper'],     es: ['parar', 'detener'],   de: ['stoppen', 'anhalten'], ru: ['останавливать', 'прекращать'] },
+  '重': { en: ['heavy', 'important', 'serious', 'pile up'], fr: ['lourd', 'important', 'grave'], es: ['pesado', 'importante', 'grave'], de: ['schwer', 'wichtig', 'ernst'], ru: ['тяжёлый', 'важный', 'серьёзный'] },
+  '野': { en: ['field', 'plain', 'wild'],            fr: ['champ', 'plaine', 'sauvage'], es: ['campo', 'llanura', 'salvaje'], de: ['Feld', 'Ebene', 'wild'], ru: ['поле', 'равнина', 'дикий'] },
+  '服': { en: ['clothes', 'clothing', 'obey'],       fr: ['vêtements', 'habits'],    es: ['ropa', 'vestimenta'], de: ['Kleidung', 'Kleidungsstück'], ru: ['одежда', 'одеяние'] },
+  '者': { en: ['person', 'someone'],                 fr: ['personne', 'quelqu\'un'],  es: ['persona', 'alguien'], de: ['Person', 'jemand'],    ru: ['человек', 'некто'] },
+  '理': { en: ['reason', 'logic', 'principle', 'manage'], fr: ['raison', 'logique', 'principe'], es: ['razón', 'lógica', 'principio'], de: ['Vernunft', 'Logik', 'Prinzip'], ru: ['причина', 'логика', 'принцип'] },
+  '活': { en: ['lively', 'active', 'live'],          fr: ['vif', 'actif', 'vivant'], es: ['vivo', 'activo'],     de: ['lebhaft', 'aktiv'],    ru: ['живой', 'активный'] },
+  // N5 — clean up "radical" suffix from number kanji
+  '一': { en: ['one'],   fr: ['un'],   es: ['uno'],   de: ['eins'],  ru: ['один'] },
+  '二': { en: ['two'],   fr: ['deux'], es: ['dos'],   de: ['zwei'],  ru: ['два'] },
+  '八': { en: ['eight'], fr: ['huit'], es: ['ocho'],  de: ['acht'],  ru: ['восемь'] },
+  '行': { en: ['go', 'walk', 'do', 'journey'],       fr: ['aller', 'marcher', 'faire', 'voyage'], es: ['ir', 'caminar', 'hacer', 'viaje'], de: ['gehen', 'tun', 'Reise'], ru: ['идти', 'делать', 'путешествие'] },
+  // N4
+  '京': { en: ['capital city'],                      fr: ['ville capitale'],         es: ['capital'],            de: ['Hauptstadt'],          ru: ['столица'] },
+  '朝': { en: ['morning', 'dynasty', 'epoch'],       fr: ['matin', 'dynastie'],      es: ['mañana', 'dinastía'], de: ['Morgen', 'Dynastie'],  ru: ['утро', 'династия'] },
+  '弟': { en: ['younger brother'],                   fr: ['frère cadet'],            es: ['hermano menor'],      de: ['jüngerer Bruder'],     ru: ['младший брат'] },
+  '使': { en: ['use', 'employ', 'envoy'],            fr: ['utiliser', 'employer', 'messager'], es: ['usar', 'emplear', 'mensajero'], de: ['benutzen', 'verwenden', 'Bote'], ru: ['использовать', 'применять', 'посланник'] },
+  '去': { en: ['leave', 'past', 'go away'],          fr: ['partir', 'passé', 'quitter'], es: ['irse', 'pasado', 'alejarse'], de: ['weggehen', 'Vergangenheit', 'verlassen'], ru: ['уходить', 'прошлое', 'прошедший'] },
+  '正': { en: ['correct', 'right', 'proper'],        fr: ['correct', 'juste', 'droit'], es: ['correcto', 'justo', 'recto'], de: ['korrekt', 'richtig', 'ordentlich'], ru: ['правильный', 'правосудие', 'честный'] },
+  '英': { en: ['England', 'English', 'outstanding'], fr: ['Angleterre', 'anglais', 'remarquable'], es: ['Inglaterra', 'inglés', 'sobresaliente'], de: ['England', 'Englisch', 'herausragend'], ru: ['Англия', 'английский', 'выдающийся'] },
+  '真': { en: ['true', 'real', 'genuine'],           fr: ['vrai', 'réel', 'authentique'], es: ['verdadero', 'real', 'genuino'], de: ['wahr', 'echt', 'aufrichtig'], ru: ['истинный', 'настоящий', 'подлинный'] },
+  // N3
+  '参': { en: ['go (humble)', 'come (humble)', 'visit'], fr: ['aller (humble)', 'venir (humble)', 'visiter'], es: ['ir (humilde)', 'venir (humilde)', 'visitar'], de: ['gehen (höflich)', 'kommen (höflich)', 'besuchen'], ru: ['идти (вежливо)', 'прийти (вежливо)', 'посещать'] },
+  '反': { en: ['anti-', 'oppose', 'reverse', 'rebel'], fr: ['anti-', 'opposer', 'inverse'], es: ['anti-', 'oponer', 'inverso'], de: ['anti-', 'entgegen', 'umgekehrt'], ru: ['анти-', 'против', 'обратный'] },
+  '合': { en: ['fit', 'join', 'suit', 'agree'],      fr: ['correspondre', 'convenir', 'unir'], es: ['ajustar', 'unir', 'concordar'], de: ['passen', 'vereinen', 'übereinstimmen'], ru: ['подходить', 'соединять', 'совпадать'] },
+  '図': { en: ['drawing', 'map', 'diagram', 'plan'], fr: ['dessin', 'carte', 'diagramme', 'plan'], es: ['dibujo', 'mapa', 'diagrama', 'plan'], de: ['Zeichnung', 'Karte', 'Diagramm', 'Plan'], ru: ['рисунок', 'карта', 'схема', 'план'] },
+  '加': { en: ['add', 'increase', 'join'],           fr: ['ajouter', 'augmenter', 'joindre'], es: ['añadir', 'aumentar', 'unirse'], de: ['hinzufügen', 'erhöhen', 'beitreten'], ru: ['добавлять', 'увеличивать', 'присоединять'] },
+  '予': { en: ['beforehand', 'in advance', 'preliminary'], fr: ["à l'avance", 'préalable', 'préliminaire'], es: ['de antemano', 'previo', 'preliminar'], de: ['im Voraus', 'Vorbereitung', 'vorläufig'], ru: ['заранее', 'предварительный', 'заблаговременно'] },
 };
 
 
@@ -135,7 +157,335 @@ const EXAMPLE_OVERRIDE = {
   '万': [
     { w: '一万',   r: 'いちまん',   m: '10,000; ten thousand' },
     { w: '何万',   r: 'なんまん',   m: 'tens of thousands' },
-    { w: '万年筆', r: 'まんねんひつ', m: 'fountain pen' },
+    { w: '一万円', r: 'いちまんえん', m: '10,000 yen' },
+  ],
+  // ── N5 — bad API examples replaced ───────────────────────────────────────
+  '人': [
+    { w: '人',     r: 'ひと',       m: 'person, someone' },
+    { w: '外国人', r: 'がいこくじん', m: 'foreigner' },
+    { w: '大人',   r: 'おとな',     m: 'adult' },
+  ],
+  '上': [
+    { w: '上',     r: 'うえ',       m: 'above, top, on' },
+    { w: '上手',   r: 'じょうず',   m: 'skilled, good at' },
+    { w: '上着',   r: 'うわぎ',     m: 'jacket, coat' },
+  ],
+  '下': [
+    { w: '下',     r: 'した',       m: 'below, under, bottom' },
+    { w: '地下',   r: 'ちか',       m: 'underground, basement' },
+    { w: '上下',   r: 'じょうげ',   m: 'up and down, top and bottom' },
+  ],
+  '中': [
+    { w: '中',       r: 'なか',         m: 'inside, middle, among' },
+    { w: '中学校',   r: 'ちゅうがっこう', m: 'middle school, junior high school' },
+    { w: '一日中',   r: 'いちにちじゅう', m: 'all day long' },
+  ],
+  '子': [
+    { w: '子',     r: 'こ',         m: 'child, kid' },
+    { w: '男の子', r: 'おとこのこ', m: 'boy' },
+    { w: '女の子', r: 'おんなのこ', m: 'girl' },
+  ],
+  '先': [
+    { w: '先生',   r: 'せんせい',   m: 'teacher' },
+    { w: '先週',   r: 'せんしゅう', m: 'last week' },
+    { w: '先',     r: 'さき',       m: 'ahead, tip, future' },
+  ],
+  '入': [
+    { w: '入る',   r: 'はいる',     m: 'to enter, to go in' },
+    { w: '入口',   r: 'いりぐち',   m: 'entrance' },
+    { w: '入学',   r: 'にゅうがく', m: 'school enrollment, starting school' },
+  ],
+  '外': [
+    { w: '外',     r: 'そと',       m: 'outside, outdoors' },
+    { w: '外出',   r: 'がいしゅつ', m: 'going out' },
+    { w: '海外',   r: 'かいがい',   m: 'overseas, abroad' },
+  ],
+  '大': [
+    { w: '大きい', r: 'おおきい',   m: 'big, large' },
+    { w: '大学',   r: 'だいがく',   m: 'university' },
+    { w: '大事',   r: 'だいじ',     m: 'important, precious' },
+  ],
+  '天': [
+    { w: '天気',   r: 'てんき',     m: 'weather' },
+    { w: '天井',   r: 'てんじょう', m: 'ceiling' },
+    { w: '天才',   r: 'てんさい',   m: 'genius, gifted person' },
+  ],
+  '学': [
+    { w: '大学',   r: 'だいがく',   m: 'university' },
+    { w: '学ぶ',   r: 'まなぶ',     m: 'to learn, to study' },
+    { w: '学生',   r: 'がくせい',   m: 'student' },
+  ],
+  '小': [
+    { w: '小さい',   r: 'ちいさい',     m: 'small, little' },
+    { w: '小学校',   r: 'しょうがっこう', m: 'elementary school' },
+    { w: '小説',     r: 'しょうせつ',   m: 'novel, fiction' },
+  ],
+  '山': [
+    { w: '山',     r: 'やま',       m: 'mountain' },
+    { w: '富士山', r: 'ふじさん',   m: 'Mt. Fuji' },
+    { w: '山登り', r: 'やまのぼり', m: 'mountain climbing, hiking' },
+  ],
+  '白': [
+    { w: '白',     r: 'しろ',       m: 'white' },
+    { w: '白紙',   r: 'はくし',     m: 'blank paper, clean slate' },
+    { w: '白黒',   r: 'しろくろ',   m: 'black and white' },
+  ],
+  '木': [
+    { w: '木',     r: 'き',         m: 'tree, wood' },
+    { w: '木曜日', r: 'もくようび', m: 'Thursday' },
+    { w: '木の葉', r: 'このは',     m: 'leaf' },
+  ],
+  '本': [
+    { w: '本',       r: 'ほん',       m: 'book' },
+    { w: '日本',     r: 'にほん',     m: 'Japan' },
+    { w: '本当に',   r: 'ほんとうに', m: 'really, truly' },
+  ],
+  '休': [
+    { w: '休む',   r: 'やすむ',     m: 'to rest, to be absent' },
+    { w: '休み',   r: 'やすみ',     m: 'rest, holiday, break' },
+    { w: '夏休み', r: 'なつやすみ', m: 'summer vacation' },
+  ],
+  '南': [
+    { w: '南',     r: 'みなみ',     m: 'south' },
+    { w: '南口',   r: 'みなみぐち', m: 'south exit' },
+    { w: '南北',   r: 'なんぼく',   m: 'north and south' },
+  ],
+  '後': [
+    { w: '後',     r: 'あと',       m: 'after, later, behind' },
+    { w: '後ろ',   r: 'うしろ',     m: 'back, behind' },
+    { w: '午後',   r: 'ごご',       m: 'afternoon, p.m.' },
+  ],
+  '時': [
+    { w: '時間',   r: 'じかん',     m: 'time, hours, duration' },
+    { w: '何時',   r: 'なんじ',     m: 'what time' },
+    { w: '時々',   r: 'ときどき',   m: 'sometimes, occasionally' },
+  ],
+  '水': [
+    { w: '水',     r: 'みず',       m: 'water' },
+    { w: '水曜日', r: 'すいようび', m: 'Wednesday' },
+    { w: '水泳',   r: 'すいえい',   m: 'swimming' },
+  ],
+  '気': [
+    { w: '天気',   r: 'てんき',     m: 'weather' },
+    { w: '元気',   r: 'げんき',     m: 'healthy, energetic, lively' },
+    { w: '気持ち', r: 'きもち',     m: 'feeling, mood' },
+  ],
+  '書': [
+    { w: '書く',   r: 'かく',       m: 'to write' },
+    { w: '教科書', r: 'きょうかしょ', m: 'textbook' },
+    { w: '図書館', r: 'としょかん', m: 'library' },
+  ],
+  '金': [
+    { w: 'お金',   r: 'おかね',     m: 'money' },
+    { w: '金曜日', r: 'きんようび', m: 'Friday' },
+    { w: '金色',   r: 'きんいろ',   m: 'gold color' },
+  ],
+  '食': [
+    { w: '食べる', r: 'たべる',     m: 'to eat' },
+    { w: '食事',   r: 'しょくじ',   m: 'meal' },
+    { w: '朝食',   r: 'ちょうしょく', m: 'breakfast' },
+  ],
+  '高': [
+    { w: '高い',   r: 'たかい',     m: 'tall, high; expensive' },
+    { w: '高校',   r: 'こうこう',   m: 'high school' },
+    { w: '最高',   r: 'さいこう',   m: 'the best, maximum' },
+  ],
+  '聞': [
+    { w: '聞く',   r: 'きく',       m: 'to hear, to listen, to ask' },
+    { w: '聞こえる', r: 'きこえる', m: 'to be audible, to sound' },
+    { w: '新聞',   r: 'しんぶん',   m: 'newspaper' },
+  ],
+  '行': [
+    { w: '行く',   r: 'いく',       m: 'to go' },
+    { w: '旅行',   r: 'りょこう',   m: 'travel, trip' },
+    { w: '銀行',   r: 'ぎんこう',   m: 'bank' },
+  ],
+  // ── N4 — bad API examples replaced ───────────────────────────────────────
+  '世': [
+    { w: '世界',   r: 'せかい',     m: 'world' },
+    { w: '世の中', r: 'よのなか',   m: 'society, the world' },
+    { w: '世紀',   r: 'せいき',     m: 'century' },
+  ],
+  '主': [
+    { w: '主人',   r: 'しゅじん',   m: 'husband; master; owner; host' },
+    { w: '主に',   r: 'おもに',     m: 'mainly, chiefly, primarily' },
+    { w: '主役',   r: 'しゅやく',   m: 'lead role, main character' },
+  ],
+  '事': [
+    { w: '仕事',   r: 'しごと',     m: 'work, job' },
+    { w: '大事',   r: 'だいじ',     m: 'important; serious' },
+    { w: '事故',   r: 'じこ',       m: 'accident' },
+  ],
+  '代': [
+    { w: '時代',   r: 'じだい',     m: 'era, age, period' },
+    { w: '代わり', r: 'かわり',     m: 'substitute, instead, in place of' },
+    { w: '代表',   r: 'だいひょう', m: 'representative, typical example' },
+  ],
+  '朝': [
+    { w: '朝',     r: 'あさ',       m: 'morning' },
+    { w: '今朝',   r: 'けさ',       m: 'this morning' },
+    { w: '朝食',   r: 'ちょうしょく', m: 'breakfast' },
+  ],
+  '春': [
+    { w: '春',     r: 'はる',       m: 'spring (season)' },
+    { w: '春休み', r: 'はるやすみ', m: 'spring break, spring vacation' },
+    { w: '青春',   r: 'せいしゅん', m: 'youth, springtime of life' },
+  ],
+  '昼': [
+    { w: '昼ご飯', r: 'ひるごはん', m: 'lunch' },
+    { w: '昼食',   r: 'ちゅうしょく', m: 'lunch' },
+    { w: '昼間',   r: 'ひるま',     m: 'daytime, during the day' },
+  ],
+  '真': [
+    { w: '写真',   r: 'しゃしん',   m: 'photograph' },
+    { w: '真実',   r: 'しんじつ',   m: 'truth, reality' },
+    { w: '真面目', r: 'まじめ',     m: 'serious, sincere, diligent' },
+  ],
+  '映': [
+    { w: '映画',   r: 'えいが',     m: 'movie, film' },
+    { w: '映像',   r: 'えいぞう',   m: 'image, video, footage' },
+    { w: '映る',   r: 'うつる',     m: 'to be reflected, to look (good/bad)' },
+  ],
+  '有': [
+    { w: '有名',   r: 'ゆうめい',   m: 'famous, well-known' },
+    { w: '有効',   r: 'ゆうこう',   m: 'valid, effective' },
+    { w: '有利',   r: 'ゆうり',     m: 'advantageous, favorable' },
+  ],
+  '歩': [
+    { w: '歩く',   r: 'あるく',     m: 'to walk' },
+    { w: '散歩',   r: 'さんぽ',     m: 'walk, stroll' },
+    { w: '一歩',   r: 'いっぽ',     m: 'one step' },
+  ],
+  '多': [
+    { w: '多い',   r: 'おおい',     m: 'many, much, a lot' },
+    { w: '多分',   r: 'たぶん',     m: 'probably, perhaps' },
+    { w: '多少',   r: 'たしょう',   m: 'more or less, a little' },
+  ],
+  '色': [
+    { w: '色',     r: 'いろ',       m: 'color' },
+    { w: '色々',   r: 'いろいろ',   m: 'various, diverse, all sorts of' },
+    { w: '黄色',   r: 'きいろ',     m: 'yellow' },
+  ],
+  '花': [
+    { w: '花',     r: 'はな',       m: 'flower, blossom' },
+    { w: '花見',   r: 'はなみ',     m: 'cherry blossom viewing' },
+    { w: '花火',   r: 'はなび',     m: 'fireworks' },
+  ],
+  '赤': [
+    { w: '赤',     r: 'あか',       m: 'red' },
+    { w: '赤ちゃん', r: 'あかちゃん', m: 'baby, infant' },
+    { w: '赤字',   r: 'あかじ',     m: 'deficit, being in the red' },
+  ],
+  '走': [
+    { w: '走る',   r: 'はしる',     m: 'to run' },
+    { w: '競走',   r: 'きょうそう', m: 'race' },
+    { w: '走り回る', r: 'はしりまわる', m: 'to run around' },
+  ],
+  '起': [
+    { w: '起きる', r: 'おきる',     m: 'to wake up; to occur, to happen' },
+    { w: '早起き', r: 'はやおき',   m: 'early rising' },
+    { w: '起こす', r: 'おこす',     m: 'to wake someone up; to cause' },
+  ],
+  '足': [
+    { w: '足',     r: 'あし',       m: 'foot, leg' },
+    { w: '足りる', r: 'たりる',     m: 'to be sufficient, to be enough' },
+    { w: '不足',   r: 'ふそく',     m: 'shortage, lack' },
+  ],
+  '魚': [
+    { w: '魚',     r: 'さかな',     m: 'fish' },
+    { w: '金魚',   r: 'きんぎょ',   m: 'goldfish' },
+    { w: '魚屋',   r: 'さかなや',   m: 'fishmonger, fish market' },
+  ],
+  '鳥': [
+    { w: '小鳥',   r: 'ことり',     m: 'small bird, little bird' },
+    { w: '野鳥',   r: 'やちょう',   m: 'wild bird' },
+    { w: '鳥',     r: 'とり',       m: 'bird' },
+  ],
+  '牛': [
+    { w: '牛',     r: 'うし',       m: 'cow, ox, bull' },
+    { w: '牛乳',   r: 'ぎゅうにゅう', m: "cow's milk" },
+    { w: '牛肉',   r: 'ぎゅうにく', m: 'beef' },
+  ],
+  '銀': [
+    { w: '銀',     r: 'ぎん',       m: 'silver' },
+    { w: '銀行',   r: 'ぎんこう',   m: 'bank' },
+    { w: '銀メダル', r: 'ぎんめだる', m: 'silver medal' },
+  ],
+  '飲': [
+    { w: '飲む',   r: 'のむ',       m: 'to drink' },
+    { w: '飲み物', r: 'のみもの',   m: 'drink, beverage' },
+    { w: '飲み水', r: 'のみみず',   m: 'drinking water' },
+  ],
+  '黒': [
+    { w: '黒',     r: 'くろ',       m: 'black' },
+    { w: '黒板',   r: 'こくばん',   m: 'blackboard' },
+    { w: '黒字',   r: 'くろじ',     m: 'surplus, profit, in the black' },
+  ],
+  '古': [
+    { w: '古い',   r: 'ふるい',     m: 'old, aged' },
+    { w: '中古',   r: 'ちゅうこ',   m: 'used, secondhand' },
+    { w: '古典',   r: 'こてん',     m: 'classic, classical literature' },
+  ],
+  '安': [
+    { w: '安い',   r: 'やすい',     m: 'cheap, inexpensive' },
+    { w: '安心',   r: 'あんしん',   m: 'peace of mind, relief' },
+    { w: '安全',   r: 'あんぜん',   m: 'safe, security' },
+  ],
+  '室': [
+    { w: '教室',   r: 'きょうしつ', m: 'classroom' },
+    { w: '部屋',   r: 'へや',       m: 'room' },
+    { w: '寝室',   r: 'しんしつ',   m: 'bedroom' },
+  ],
+  '借': [
+    { w: '借りる', r: 'かりる',     m: 'to borrow, to rent' },
+    { w: '借金',   r: 'しゃっきん', m: 'debt' },
+    { w: '貸し借り', r: 'かしかり', m: 'lending and borrowing' },
+  ],
+  '動': [
+    { w: '動く',   r: 'うごく',     m: 'to move' },
+    { w: '運動',   r: 'うんどう',   m: 'exercise, movement, campaign' },
+    { w: '活動',   r: 'かつどう',   m: 'activity, action' },
+  ],
+  '口': [
+    { w: '口',     r: 'くち',       m: 'mouth' },
+    { w: '人口',   r: 'じんこう',   m: 'population' },
+    { w: '出口',   r: 'でぐち',     m: 'exit' },
+  ],
+  // ── N3 — bad API examples replaced ───────────────────────────────────────
+  '命': [
+    { w: '命',     r: 'いのち',     m: 'life' },
+    { w: '生命',   r: 'せいめい',   m: 'life, existence' },
+    { w: '革命',   r: 'かくめい',   m: 'revolution' },
+  ],
+  '和': [
+    { w: '和食',   r: 'わしょく',   m: 'Japanese cuisine' },
+    { w: '平和',   r: 'へいわ',     m: 'peace' },
+    { w: '和室',   r: 'わしつ',     m: 'Japanese-style room' },
+  ],
+  '化': [
+    { w: '変化',   r: 'へんか',     m: 'change, variation' },
+    { w: '文化',   r: 'ぶんか',     m: 'culture, civilization' },
+    { w: '化学',   r: 'かがく',     m: 'chemistry' },
+  ],
+  '勝': [
+    { w: '勝つ',   r: 'かつ',       m: 'to win' },
+    { w: '優勝',   r: 'ゆうしょう', m: 'championship, winning first place' },
+    { w: '勝負',   r: 'しょうぶ',   m: 'match, game, contest' },
+  ],
+  '息': [
+    { w: '息',     r: 'いき',       m: 'breath' },
+    { w: '息子',   r: 'むすこ',     m: 'son' },
+    { w: '休息',   r: 'きゅうそく', m: 'rest, repose' },
+  ],
+  '労': [
+    { w: '労働',   r: 'ろうどう',   m: 'labour, work, toil' },
+    { w: '苦労',   r: 'くろう',     m: 'hardship, difficulty, trouble' },
+    { w: '努力',   r: 'どりょく',   m: 'effort, hard work' },
+  ],
+  '交': [
+    { w: '交流',   r: 'こうりゅう', m: 'exchange, interaction' },
+    { w: '交差点', r: 'こうさてん', m: 'intersection, crossroads' },
+    { w: '外交',   r: 'がいこう',   m: 'diplomacy, foreign affairs' },
   ],
 };
 
@@ -167,9 +517,22 @@ function isWordLevelOk(written, targetJlptNum, charLevelMap) {
 }
 
 // ── Best display meaning for a kanji ─────────────────────────────────────
-// Uses hand-curated overrides first, then sortGlosses on the API data.
-function bestKanjiMeaning(char, apiMeanings) {
-  if (KANJI_MEANING_OVERRIDE[char]) return KANJI_MEANING_OVERRIDE[char].join(', ');
+// Priority: KANJI_MEANING_OVERRIDE[lang] → kanji_index[char][lang] → EN override → sortGlosses
+function bestKanjiMeaning(char, apiMeanings, lang = 'en', indexEntry = null) {
+  const ov = KANJI_MEANING_OVERRIDE[char];
+  // Curated multilingual override
+  if (ov) {
+    // New format: { en: [...], fr: [...], ... }
+    if (ov[lang]) return ov[lang].join(', ');
+    // EN fallback inside new format
+    if (ov.en)  return ov.en.join(', ');
+  }
+  // Non-EN: use kanji_index translated field (already includes FR/ES/DE/RU)
+  if (lang !== 'en' && indexEntry?.[lang]) {
+    const terms = indexEntry[lang].split(',').map(t => t.trim()).filter(Boolean).slice(0, 3);
+    if (terms.length) return terms.join(', ');
+  }
+  // EN default: sortGlosses on API data
   return sortGlosses(apiMeanings ?? ['?']).slice(0, 4).join(', ');
 }
 
@@ -405,6 +768,8 @@ export function renderCard(k, delay) {
 export async function ensureKanjiCards() {
   if (state.currentKanjiCards.length > 0) return state.currentKanjiCards;
   if (!state.POOL.length) await buildPool();
+  const _idx = await getKanjiSearchIndex();
+  const lang  = getLang();
   const picks   = pickChars(state.count);
   const results = await Promise.allSettled(
     picks.map(async ({ char, jlptNum }) => {
@@ -414,7 +779,7 @@ export async function ensureKanjiCards() {
         level:   LEVEL_LABEL[jlptNum],
         on:      detail.on_readings  ?? [],
         kun:     detail.kun_readings ?? [],
-        meaning: bestKanjiMeaning(char, detail.meanings),
+        meaning: bestKanjiMeaning(char, detail.meanings, lang, _idx[char]),
         ex:      bestExamples(words, char, 3, jlptNum),
       };
     })
@@ -446,6 +811,8 @@ export async function loadAndRender(n, forceNew = false) {
     if (!state.POOL.length) await buildPool();
     if (state.currentTab !== 'kanji') return; // tab changed while loading
 
+    const _idx = await getKanjiSearchIndex();
+    const lang  = getLang();
     const picks   = pickChars(n);
     const results = await Promise.allSettled(
       picks.map(async ({ char, jlptNum }) => {
@@ -455,7 +822,7 @@ export async function loadAndRender(n, forceNew = false) {
           level:   LEVEL_LABEL[jlptNum],
           on:      detail.on_readings  ?? [],
           kun:     detail.kun_readings ?? [],
-          meaning: bestKanjiMeaning(char, detail.meanings),
+          meaning: bestKanjiMeaning(char, detail.meanings, lang, _idx[char]),
           ex:      bestExamples(words, char, 3, jlptNum),
         };
       })
@@ -529,12 +896,13 @@ export async function searchAndRenderKanji(query) {
       if (inPool) {
         try {
           const [detail, words] = await Promise.all([getKanjiDetail(inPool.char), getWords(inPool.char)]);
+          const _idx = _kanjiSearchIndex ?? {};
           matching = [{
             kanji:   inPool.char,
             level:   LEVEL_LABEL[inPool.jlptNum],
             on:      detail.on_readings  ?? [],
             kun:     detail.kun_readings ?? [],
-            meaning: bestKanjiMeaning(inPool.char, detail.meanings),
+            meaning: bestKanjiMeaning(inPool.char, detail.meanings, lang, _idx[inPool.char]),
             ex:      bestExamples(words, inPool.char, 3, inPool.jlptNum),
           }];
         } catch { /* leave empty */ }
@@ -563,7 +931,7 @@ export async function searchAndRenderKanji(query) {
               level:   LEVEL_LABEL[pool.jlptNum],
               on:      detail.on_readings  ?? [],
               kun:     detail.kun_readings ?? [],
-              meaning: bestKanjiMeaning(char, detail.meanings),
+              meaning: bestKanjiMeaning(char, detail.meanings, lang, index[char]),
               ex:      bestExamples(words, char, 3, pool.jlptNum),
             };
           })
