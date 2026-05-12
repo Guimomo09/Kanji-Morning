@@ -1366,7 +1366,7 @@ const EXAMPLE_OVERRIDE = {
   '閉': [
     { w: '閉める',   r: 'しめる',       m: 'to close, to shut' },
     { w: '閉まる',   r: 'しまる',       m: 'to be closed, to shut' },
-    { w: '締め切り', r: 'しめきり',     m: 'deadline' },
+    { w: '閉会',     r: 'へいかい',     m: 'close of a meeting, adjournment' },
   ],
   '草': [
     { w: '草',       r: 'くさ',         m: 'grass, weed' },
@@ -1621,6 +1621,28 @@ const EXAMPLE_OVERRIDE = {
     { w: '鳴く',     r: 'なく',         m: 'to cry, to chirp, to bark (animals)' },
     { w: '鳴る',     r: 'なる',         m: 'to ring, to sound, to chime' },
     { w: '悲鳴',     r: 'ひめい',       m: 'shriek, scream' },
+  ],
+
+  // ── N3 wave 5 — final cleanup (末/込/活/参 API bad first examples) ──────────
+  '末': [
+    { w: '年末',     r: 'ねんまつ',     m: 'end of the year' },
+    { w: '末',       r: 'すえ',         m: 'end, close, later part' },
+    { w: '週末',     r: 'しゅうまつ',   m: 'weekend' },
+  ],
+  '込': [
+    { w: '申し込む', r: 'もうしこむ',   m: 'to apply, to register, to request' },
+    { w: '込む',     r: 'こむ',         m: 'to be crowded, to be packed' },
+    { w: '盛り込む', r: 'もりこむ',     m: 'to incorporate, to include' },
+  ],
+  '活': [
+    { w: '生活',     r: 'せいかつ',     m: 'life, living, livelihood' },
+    { w: '活動',     r: 'かつどう',     m: 'activity, action' },
+    { w: '活用',     r: 'かつよう',     m: 'practical use, utilization' },
+  ],
+  '参': [
+    { w: '参加',     r: 'さんか',       m: 'participation, taking part' },
+    { w: '参る',     r: 'まいる',       m: 'to go (humble); to be overwhelmed' },
+    { w: '参考',     r: 'さんこう',     m: 'reference, consultation' },
   ],
 };
 
