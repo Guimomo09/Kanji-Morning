@@ -1129,6 +1129,312 @@ const EXAMPLE_OVERRIDE = {
     { w: '交差点', r: 'こうさてん', m: 'intersection, crossroads' },
     { w: '外交',   r: 'がいこう',   m: 'diplomacy, foreign affairs' },
   ],
+
+  // ── N3 wave 2 — critical fixes ────────────────────────────────────────────
+  // OFFENSIVE CONTENT
+  '猫': [
+    { w: '猫',       r: 'ねこ',         m: 'cat' },
+    { w: '子猫',     r: 'こねこ',       m: 'kitten' },
+    { w: '猫背',     r: 'ねこぜ',       m: 'hunched back, slouch' },
+  ],
+  '笑': [
+    { w: '笑う',     r: 'わらう',       m: 'to laugh, to smile' },
+    { w: '笑顔',     r: 'えがお',       m: 'smiling face' },
+    { w: '苦笑い',   r: 'くしょうい',   m: 'wry smile, bitter laugh' },
+  ],
+  '精': [
+    { w: '精神',     r: 'せいしん',     m: 'mind, spirit' },
+    { w: '精一杯',   r: 'せいいっぱい', m: 'with all one\'s strength' },
+    { w: '精密',     r: 'せいみつ',     m: 'precise, detailed' },
+  ],
+  // COMPLETELY WRONG DEFINITIONS
+  '腹': [
+    { w: 'お腹',     r: 'おなか',       m: 'stomach, belly' },
+    { w: '腹',       r: 'はら',         m: 'belly, abdomen' },
+    { w: '腹立てる', r: 'はらだてる',   m: 'to get angry' },
+  ],
+  '緒': [
+    { w: '一緒',     r: 'いっしょ',     m: 'together' },
+    { w: '内緒',     r: 'ないしょ',     m: 'secret, private' },
+    { w: '情緒',     r: 'じょうちょ',   m: 'emotion, atmosphere' },
+  ],
+  '老': [
+    { w: '老人',     r: 'ろうじん',     m: 'elderly person' },
+    { w: '老いる',   r: 'おいる',       m: 'to grow old' },
+    { w: '老後',     r: 'ろうご',       m: 'old age, one\'s later years' },
+  ],
+  '耳': [
+    { w: '耳',       r: 'みみ',         m: 'ear' },
+    { w: '耳鳴り',   r: 'みみなり',     m: 'ringing in the ears' },
+    { w: '耳元',     r: 'みみもと',     m: 'close to one\'s ear' },
+  ],
+  '育': [
+    { w: '育てる',   r: 'そだてる',     m: 'to raise, to bring up' },
+    { w: '教育',     r: 'きょういく',   m: 'education' },
+    { w: '保育園',   r: 'ほいくえん',   m: 'nursery school, daycare' },
+  ],
+  '術': [
+    { w: '手術',     r: 'しゅじゅつ',   m: 'surgery, operation' },
+    { w: '技術',     r: 'ぎじゅつ',     m: 'technology, skill' },
+    { w: '美術',     r: 'びじゅつ',     m: 'fine arts' },
+  ],
+  '解': [
+    { w: '理解',     r: 'りかい',       m: 'understanding, comprehension' },
+    { w: '解く',     r: 'とく',         m: 'to solve, to untie' },
+    { w: '解説',     r: 'かいせつ',     m: 'explanation, commentary' },
+  ],
+  '許': [
+    { w: '許す',     r: 'ゆるす',       m: 'to forgive, to permit' },
+    { w: '許可',     r: 'きょか',       m: 'permission, authorization' },
+    { w: '免許',     r: 'めんきょ',     m: 'license (driving, etc.)' },
+  ],
+  '盗': [
+    { w: '盗む',     r: 'ぬすむ',       m: 'to steal, to pilfer' },
+    { w: '強盗',     r: 'ごうとう',     m: 'robber, thief' },
+    { w: '盗難',     r: 'とうなん',     m: 'theft, robbery' },
+  ],
+  '礼': [
+    { w: '礼',       r: 'れい',         m: 'bow, courtesy, thanks' },
+    { w: '礼儀',     r: 'れいぎ',       m: 'manners, etiquette' },
+    { w: '失礼',     r: 'しつれい',     m: 'rudeness; excuse me' },
+  ],
+  '断': [
+    { w: '断る',     r: 'ことわる',     m: 'to refuse, to decline' },
+    { w: '判断',     r: 'はんだん',     m: 'judgment, decision' },
+    { w: '決断',     r: 'けつだん',     m: 'determination, resolution' },
+  ],
+  '果': [
+    { w: '果物',     r: 'くだもの',     m: 'fruit' },
+    { w: '結果',     r: 'けっか',       m: 'result, outcome' },
+    { w: '成果',     r: 'せいか',       m: 'result, achievement' },
+  ],
+  '破': [
+    { w: '破る',     r: 'やぶる',       m: 'to tear, to break' },
+    { w: '破壊',     r: 'はかい',       m: 'destruction' },
+    { w: '突破',     r: 'とっぱ',       m: 'breakthrough, breaking through' },
+  ],
+  '路': [
+    { w: '道路',     r: 'どうろ',       m: 'road, highway' },
+    { w: '路線',     r: 'ろせん',       m: 'route (bus, train)' },
+    { w: '通路',     r: 'つうろ',       m: 'passage, aisle, corridor' },
+  ],
+  '途': [
+    { w: '途中',     r: 'とちゅう',     m: 'on the way, midway' },
+    { w: '用途',     r: 'ようと',       m: 'use, purpose, application' },
+    { w: '途切れる', r: 'とぎれる',     m: 'to be interrupted, to pause' },
+  ],
+  '薬': [
+    { w: '薬',       r: 'くすり',       m: 'medicine, drug' },
+    { w: '薬局',     r: 'やっきょく',   m: 'pharmacy, drugstore' },
+    { w: '薬品',     r: 'やくひん',     m: 'medicine, chemicals' },
+  ],
+  '遊': [
+    { w: '遊ぶ',     r: 'あそぶ',       m: 'to play, to have fun' },
+    { w: '遊び',     r: 'あそび',       m: 'play, game, fun' },
+    { w: '遊園地',   r: 'ゆうえんち',   m: 'amusement park' },
+  ],
+  '渡': [
+    { w: '渡す',     r: 'わたす',       m: 'to hand over, to pass' },
+    { w: '渡る',     r: 'わたる',       m: 'to cross (a bridge, street)' },
+    { w: '渡航',     r: 'とこう',       m: 'voyage, journey abroad' },
+  ],
+  '欠': [
+    { w: '欠ける',   r: 'かける',       m: 'to be lacking, to be missing' },
+    { w: '欠席',     r: 'けっせき',     m: 'absence' },
+    { w: '欠点',     r: 'けってん',     m: 'flaw, shortcoming, defect' },
+  ],
+  '殺': [
+    { w: '殺す',     r: 'ころす',       m: 'to kill' },
+    { w: '殺人',     r: 'さつじん',     m: 'murder' },
+    { w: '暗殺',     r: 'あんさつ',     m: 'assassination' },
+  ],
+  '良': [
+    { w: '良い',     r: 'よい',         m: 'good, fine' },
+    { w: '良質',     r: 'りょうしつ',   m: 'high quality' },
+    { w: '改良',     r: 'かいりょう',   m: 'improvement, reform' },
+  ],
+  '眠': [
+    { w: '眠る',     r: 'ねむる',       m: 'to sleep' },
+    { w: '眠い',     r: 'ねむい',       m: 'sleepy, drowsy' },
+    { w: '睡眠',     r: 'すいみん',     m: 'sleep' },
+  ],
+  '石': [
+    { w: '石',       r: 'いし',         m: 'stone, rock' },
+    { w: '石油',     r: 'せきゆ',       m: 'oil, petroleum' },
+    { w: '石けん',   r: 'せっけん',     m: 'soap' },
+  ],
+  '種': [
+    { w: '種類',     r: 'しゅるい',     m: 'type, kind, variety' },
+    { w: '種',       r: 'たね',         m: 'seed; kind, type' },
+    { w: '各種',     r: 'かくしゅ',     m: 'various kinds, all sorts' },
+  ],
+  '流': [
+    { w: '流れる',   r: 'ながれる',     m: 'to flow, to stream' },
+    { w: '流行',     r: 'りゅうこう',   m: 'trend, fashion' },
+    { w: '流通',     r: 'りゅうつう',   m: 'distribution, circulation' },
+  ],
+  '求': [
+    { w: '求める',   r: 'もとめる',     m: 'to seek, to want' },
+    { w: '要求',     r: 'ようきゅう',   m: 'demand, request' },
+    { w: '請求書',   r: 'せいきゅうしょ', m: 'invoice, bill' },
+  ],
+  '絵': [
+    { w: '絵',       r: 'え',           m: 'picture, drawing, painting' },
+    { w: '絵画',     r: 'かいが',       m: 'painting, picture' },
+    { w: '似顔絵',   r: 'にがおえ',     m: 'portrait, likeness' },
+  ],
+  '祖': [
+    { w: '祖父',     r: 'そふ',         m: 'grandfather' },
+    { w: '祖母',     r: 'そぼ',         m: 'grandmother' },
+    { w: '先祖',     r: 'せんぞ',       m: 'ancestor, forefather' },
+  ],
+  '神': [
+    { w: '神',       r: 'かみ',         m: 'god, deity' },
+    { w: '神社',     r: 'じんじゃ',     m: 'Shinto shrine' },
+    { w: '精神',     r: 'せいしん',     m: 'mind, spirit' },
+  ],
+  '貧': [
+    { w: '貧しい',   r: 'まずしい',     m: 'poor, impoverished' },
+    { w: '貧困',     r: 'ひんこん',     m: 'poverty' },
+    { w: '貧乏',     r: 'びんぼう',     m: 'poverty, being poor' },
+  ],
+  '訪': [
+    { w: '訪問',     r: 'ほうもん',     m: 'visit, call' },
+    { w: '訪れる',   r: 'おとずれる',   m: 'to visit, to come' },
+    { w: '訪日',     r: 'ほうにち',     m: 'visit to Japan' },
+  ],
+  '王': [
+    { w: '王',       r: 'おう',         m: 'king, monarch' },
+    { w: '国王',     r: 'こくおう',     m: 'king, sovereign' },
+    { w: '王様',     r: 'おうさま',     m: 'king (respectful)' },
+  ],
+  '景': [
+    { w: '景色',     r: 'けしき',       m: 'scenery, view' },
+    { w: '背景',     r: 'はいけい',     m: 'background' },
+    { w: '景気',     r: 'けいき',       m: 'economic conditions, business' },
+  ],
+  '晴': [
+    { w: '晴れ',     r: 'はれ',         m: 'clear weather, sunny' },
+    { w: '晴れる',   r: 'はれる',       m: 'to clear up (weather)' },
+    { w: '素晴らしい', r: 'すばらしい', m: 'wonderful, splendid' },
+  ],
+  '暗': [
+    { w: '暗い',     r: 'くらい',       m: 'dark, gloomy' },
+    { w: '暗記',     r: 'あんき',       m: 'memorization, learning by heart' },
+    { w: '暗号',     r: 'あんごう',     m: 'code, cipher' },
+  ],
+  '申': [
+    { w: '申す',     r: 'もうす',       m: 'to say (humble form)' },
+    { w: '申し込む', r: 'もうしこむ',   m: 'to apply, to register' },
+    { w: '申し訳ない', r: 'もうしわけない', m: 'I\'m sorry, inexcusable' },
+  ],
+  '留': [
+    { w: '留学',     r: 'りゅうがく',   m: 'studying abroad' },
+    { w: '留守',     r: 'るす',         m: 'absence from home' },
+    { w: '留まる',   r: 'とどまる',     m: 'to stay, to remain' },
+  ],
+  '越': [
+    { w: '越える',   r: 'こえる',       m: 'to cross over, to exceed' },
+    { w: '引っ越し', r: 'ひっこし',     m: 'moving (house)' },
+    { w: '乗り越える', r: 'のりこえる', m: 'to overcome, to get through' },
+  ],
+  '辞': [
+    { w: '辞書',     r: 'じしょ',       m: 'dictionary' },
+    { w: '辞める',   r: 'やめる',       m: 'to resign, to quit' },
+    { w: '辞典',     r: 'じてん',       m: 'dictionary, lexicon' },
+  ],
+  '職': [
+    { w: '職業',     r: 'しょくぎょう', m: 'occupation, profession' },
+    { w: '職場',     r: 'しょくば',     m: 'workplace' },
+    { w: '就職',     r: 'しゅうしょく', m: 'getting a job, employment' },
+  ],
+  '苦': [
+    { w: '苦しい',   r: 'くるしい',     m: 'painful, difficult, distressing' },
+    { w: '苦手',     r: 'にがて',       m: 'weak point; not good at' },
+    { w: '苦労',     r: 'くろう',       m: 'hardship, trouble' },
+  ],
+  '犯': [
+    { w: '犯人',     r: 'はんにん',     m: 'criminal, offender' },
+    { w: '犯罪',     r: 'はんざい',     m: 'crime' },
+    { w: '犯す',     r: 'おかす',       m: 'to commit (a crime), to violate' },
+  ],
+  '民': [
+    { w: '国民',     r: 'こくみん',     m: 'citizens, people of a nation' },
+    { w: '住民',     r: 'じゅうみん',   m: 'residents, inhabitants' },
+    { w: '民主主義', r: 'みんしゅしゅぎ', m: 'democracy' },
+  ],
+  '閉': [
+    { w: '閉める',   r: 'しめる',       m: 'to close, to shut' },
+    { w: '閉まる',   r: 'しまる',       m: 'to be closed, to shut' },
+    { w: '締め切り', r: 'しめきり',     m: 'deadline' },
+  ],
+  '草': [
+    { w: '草',       r: 'くさ',         m: 'grass, weed' },
+    { w: '草原',     r: 'そうげん',     m: 'grassland, meadow' },
+    { w: '雑草',     r: 'ざっそう',     m: 'weed' },
+  ],
+  '突': [
+    { w: '突然',     r: 'とつぜん',     m: 'suddenly, unexpectedly' },
+    { w: '衝突',     r: 'しょうとつ',   m: 'collision, conflict' },
+    { w: '突く',     r: 'つく',         m: 'to thrust, to poke' },
+  ],
+  '等': [
+    { w: '平等',     r: 'びょうどう',   m: 'equality, equal treatment' },
+    { w: '等しい',   r: 'ひとしい',     m: 'equal, identical' },
+    { w: '高等',     r: 'こうとう',     m: 'high level, advanced' },
+  ],
+  '米': [
+    { w: '米',       r: 'こめ',         m: 'rice (uncooked)' },
+    { w: '米国',     r: 'べいこく',     m: 'United States of America' },
+    { w: '白米',     r: 'はくまい',     m: 'white rice' },
+  ],
+  '速': [
+    { w: '速い',     r: 'はやい',       m: 'fast, quick, rapid' },
+    { w: '速度',     r: 'そくど',       m: 'speed, velocity' },
+    { w: '急速',     r: 'きゅうそく',   m: 'rapid, swift' },
+  ],
+  '遅': [
+    { w: '遅い',     r: 'おそい',       m: 'slow; late' },
+    { w: '遅れる',   r: 'おくれる',     m: 'to be late, to be delayed' },
+    { w: '遅延',     r: 'ちえん',       m: 'delay' },
+  ],
+  '船': [
+    { w: '船',       r: 'ふね',         m: 'ship, boat' },
+    { w: '漁船',     r: 'ぎょせん',     m: 'fishing boat' },
+    { w: '乗船',     r: 'じょうせん',   m: 'boarding a ship' },
+  ],
+  '識': [
+    { w: '意識',     r: 'いしき',       m: 'consciousness, awareness' },
+    { w: '認識',     r: 'にんしき',     m: 'recognition, understanding' },
+    { w: '知識',     r: 'ちしき',       m: 'knowledge' },
+  ],
+
+  // ── N3 wave 3 — remaining bad counter/ateji fixes ─────────────────────────
+  '信': [
+    { w: '信じる',   r: 'しんじる',     m: 'to believe, to trust' },
+    { w: '通信',     r: 'つうしん',     m: 'communication, correspondence' },
+    { w: '自信',     r: 'じしん',       m: 'self-confidence' },
+  ],
+  '客': [
+    { w: 'お客さん', r: 'おきゃくさん', m: 'guest, customer' },
+    { w: '乗客',     r: 'じょうきゃく', m: 'passenger' },
+    { w: '観客',     r: 'かんきゃく',   m: 'spectator, audience' },
+  ],
+  '更': [
+    { w: '変更',     r: 'へんこう',     m: 'change, alteration' },
+    { w: '更新',     r: 'こうしん',     m: 'renewal, update' },
+    { w: '更に',     r: 'さらに',       m: 'furthermore, even more' },
+  ],
+  '球': [
+    { w: '野球',     r: 'やきゅう',     m: 'baseball' },
+    { w: '地球',     r: 'ちきゅう',     m: 'Earth, the globe' },
+    { w: '球場',     r: 'きゅうじょう', m: 'baseball stadium' },
+  ],
+  '頭': [
+    { w: '頭',       r: 'あたま',       m: 'head, mind' },
+    { w: '冒頭',     r: 'ぼうとう',     m: 'beginning, opening' },
+    { w: '先頭',     r: 'せんとう',     m: 'head (of a line), front' },
+  ],
 };
 
 // ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
