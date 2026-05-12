@@ -1122,7 +1122,7 @@ const EXAMPLE_OVERRIDE = {
   '労': [
     { w: '労働',   r: 'ろうどう',   m: 'labour, work, toil' },
     { w: '苦労',   r: 'くろう',     m: 'hardship, difficulty, trouble' },
-    { w: '努力',   r: 'どりょく',   m: 'effort, hard work' },
+    { w: '労力',   r: 'ろうりょく', m: 'effort, labour, toil' },
   ],
   '交': [
     { w: '交流',   r: 'こうりゅう', m: 'exchange, interaction' },
@@ -1434,6 +1434,193 @@ const EXAMPLE_OVERRIDE = {
     { w: '頭',       r: 'あたま',       m: 'head, mind' },
     { w: '冒頭',     r: 'ぼうとう',     m: 'beginning, opening' },
     { w: '先頭',     r: 'せんとう',     m: 'head (of a line), front' },
+  ],
+
+  // ── N3 wave 4 — wrong definitions / ateji cleanup ─────────────────────────
+  '便': [
+    { w: '便利',     r: 'べんり',       m: 'convenient, handy' },
+    { w: '不便',     r: 'ふべん',       m: 'inconvenient, impractical' },
+    { w: '郵便',     r: 'ゆうびん',     m: 'mail, post' },
+  ],
+  '係': [
+    { w: '関係',     r: 'かんけい',     m: 'relationship, connection' },
+    { w: '係員',     r: 'かかりいん',   m: 'staff member, clerk' },
+    { w: '係る',     r: 'かかわる',     m: 'to be involved, to relate to' },
+  ],
+  '側': [
+    { w: '内側',     r: 'うちがわ',     m: 'inside, inner side' },
+    { w: '外側',     r: 'そとがわ',     m: 'outside, outer side' },
+    { w: '側面',     r: 'そくめん',     m: 'side, flank, aspect' },
+  ],
+  '働': [
+    { w: '働く',     r: 'はたらく',     m: 'to work, to labor' },
+    { w: '労働',     r: 'ろうどう',     m: 'labor, work, toil' },
+    { w: '共働き',   r: 'ともばたらき', m: 'dual income (both spouses working)' },
+  ],
+  '優': [
+    { w: '優しい',   r: 'やさしい',     m: 'kind, gentle, tender' },
+    { w: '優秀',     r: 'ゆうしゅう',   m: 'excellent, outstanding' },
+    { w: '俳優',     r: 'はいゆう',     m: 'actor, actress' },
+  ],
+  '全': [
+    { w: '全体',     r: 'ぜんたい',     m: 'the whole, entirety' },
+    { w: '安全',     r: 'あんぜん',     m: 'safety, security' },
+    { w: '全員',     r: 'ぜんいん',     m: 'all members, everyone' },
+  ],
+  '共': [
+    { w: '共に',     r: 'ともに',       m: 'together, with' },
+    { w: '共通',     r: 'きょうつう',   m: 'common, shared' },
+    { w: '共同',     r: 'きょうどう',   m: 'joint, cooperative, together' },
+  ],
+  '具': [
+    { w: '道具',     r: 'どうぐ',       m: 'tool, instrument' },
+    { w: '具体的',   r: 'ぐたいてき',   m: 'concrete, specific' },
+    { w: '具合',     r: 'ぐあい',       m: 'condition, state, how one feels' },
+  ],
+  '列': [
+    { w: '列車',     r: 'れっしゃ',     m: 'train' },
+    { w: '行列',     r: 'ぎょうれつ',   m: 'queue, line, procession' },
+    { w: '整列',     r: 'せいれつ',     m: 'standing in a row, lining up' },
+  ],
+  '刻': [
+    { w: '時刻',     r: 'じこく',       m: 'time, hour' },
+    { w: '深刻',     r: 'しんこく',     m: 'serious, grave' },
+    { w: '刻む',     r: 'きざむ',       m: 'to carve, to chop finely' },
+  ],
+  '呼': [
+    { w: '呼ぶ',     r: 'よぶ',         m: 'to call, to summon, to invite' },
+    { w: '呼吸',     r: 'こきゅう',     m: 'breathing, respiration' },
+    { w: '呼びかける', r: 'よびかける', m: 'to call out to, to appeal' },
+  ],
+  '喜': [
+    { w: '喜ぶ',     r: 'よろこぶ',     m: 'to be happy, to be pleased' },
+    { w: '喜び',     r: 'よろこび',     m: 'joy, happiness, delight' },
+    { w: '喜劇',     r: 'きげき',       m: 'comedy, comic play' },
+  ],
+  '因': [
+    { w: '原因',     r: 'げんいん',     m: 'cause, reason' },
+    { w: '要因',     r: 'よういん',     m: 'main cause, key factor' },
+    { w: '因果',     r: 'いんが',       m: 'cause and effect, karma' },
+  ],
+  '困': [
+    { w: '困る',     r: 'こまる',       m: 'to be troubled, to be in difficulty' },
+    { w: '困難',     r: 'こんなん',     m: 'difficulty, hardship' },
+    { w: '困惑',     r: 'こんわく',     m: 'bewilderment, perplexity' },
+  ],
+  '変': [
+    { w: '変わる',   r: 'かわる',       m: 'to change, to be different' },
+    { w: '変化',     r: 'へんか',       m: 'change, transformation' },
+    { w: '大変',     r: 'たいへん',     m: 'very; serious, difficult' },
+  ],
+  '太': [
+    { w: '太陽',     r: 'たいよう',     m: 'the sun' },
+    { w: '太い',     r: 'ふとい',       m: 'thick, fat, bold' },
+    { w: '太平洋',   r: 'たいへいよう', m: 'Pacific Ocean' },
+  ],
+  '害': [
+    { w: '害',       r: 'がい',         m: 'harm, damage, injury' },
+    { w: '被害',     r: 'ひがい',       m: 'damage, injury, harm suffered' },
+    { w: '障害',     r: 'しょうがい',   m: 'obstacle, disability, disorder' },
+  ],
+  '庭': [
+    { w: '庭',       r: 'にわ',         m: 'garden, yard' },
+    { w: '家庭',     r: 'かてい',       m: 'home, family, household' },
+    { w: '庭園',     r: 'ていえん',     m: 'garden, park' },
+  ],
+  '形': [
+    { w: '形',       r: 'かたち',       m: 'shape, form, figure' },
+    { w: '形式',     r: 'けいしき',     m: 'format, form, formality' },
+    { w: '人形',     r: 'にんぎょう',   m: 'doll, puppet' },
+  ],
+  '怒': [
+    { w: '怒る',     r: 'おこる',       m: 'to get angry, to be furious' },
+    { w: '怒り',     r: 'いかり',       m: 'anger, rage' },
+    { w: '怒鳴る',   r: 'どなる',       m: 'to shout, to yell, to roar' },
+  ],
+  '愛': [
+    { w: '愛',       r: 'あい',         m: 'love, affection' },
+    { w: '愛する',   r: 'あいする',     m: 'to love' },
+    { w: '恋愛',     r: 'れんあい',     m: 'romance, love' },
+  ],
+  '所': [
+    { w: '場所',     r: 'ばしょ',       m: 'place, location, spot' },
+    { w: '住所',     r: 'じゅうしょ',   m: 'address' },
+    { w: '所',       r: 'ところ',       m: 'place, point, part' },
+  ],
+  '望': [
+    { w: '希望',     r: 'きぼう',       m: 'hope, wish, aspiration' },
+    { w: '望む',     r: 'のぞむ',       m: 'to hope for, to wish' },
+    { w: '展望',     r: 'てんぼう',     m: 'prospect, outlook, view' },
+  ],
+  '由': [
+    { w: '理由',     r: 'りゆう',       m: 'reason, cause' },
+    { w: '自由',     r: 'じゆう',       m: 'freedom, liberty' },
+    { w: '由来',     r: 'ゆらい',       m: 'origin, history' },
+  ],
+  '示': [
+    { w: '指示',     r: 'しじ',         m: 'instructions, directions' },
+    { w: '展示',     r: 'てんじ',       m: 'exhibition, display' },
+    { w: '示す',     r: 'しめす',       m: 'to show, to indicate, to demonstrate' },
+  ],
+  '罪': [
+    { w: '犯罪',     r: 'はんざい',     m: 'crime, offence' },
+    { w: '罪',       r: 'つみ',         m: 'sin, crime, fault, guilt' },
+    { w: '無罪',     r: 'むざい',       m: 'innocence, not guilty' },
+  ],
+  '若': [
+    { w: '若い',     r: 'わかい',       m: 'young' },
+    { w: '若者',     r: 'わかもの',     m: 'young person, youth' },
+    { w: '若手',     r: 'わかて',       m: 'young talent, up-and-comer' },
+  ],
+  '誤': [
+    { w: '誤解',     r: 'ごかい',       m: 'misunderstanding' },
+    { w: '誤り',     r: 'あやまり',     m: 'error, mistake' },
+    { w: '誤る',     r: 'あやまる',     m: 'to make a mistake, to err' },
+  ],
+  '迷': [
+    { w: '迷う',     r: 'まよう',       m: 'to hesitate, to get lost, to wander' },
+    { w: '迷惑',     r: 'めいわく',     m: 'trouble, nuisance, inconvenience' },
+    { w: '迷子',     r: 'まいご',       m: 'lost child, person who is lost' },
+  ],
+  '過': [
+    { w: '過去',     r: 'かこ',         m: 'the past' },
+    { w: '過ごす',   r: 'すごす',       m: 'to spend time, to pass time' },
+    { w: '通り過ぎる', r: 'とおりすぎる', m: 'to pass by, to go past' },
+  ],
+  '際': [
+    { w: '実際',     r: 'じっさい',     m: 'in practice, actually, in reality' },
+    { w: '国際',     r: 'こくさい',     m: 'international' },
+    { w: '際',       r: 'きわ',         m: 'edge, verge, moment' },
+  ],
+  '難': [
+    { w: '難しい',   r: 'むずかしい',   m: 'difficult, hard' },
+    { w: '困難',     r: 'こんなん',     m: 'difficulty, hardship' },
+    { w: '避難',     r: 'ひなん',       m: 'evacuation, taking shelter' },
+  ],
+  '面': [
+    { w: '面白い',   r: 'おもしろい',   m: 'interesting, fun, amusing' },
+    { w: '場面',     r: 'ばめん',       m: 'scene, situation' },
+    { w: '面',       r: 'おもて',       m: 'face, surface, side' },
+  ],
+  '頂': [
+    { w: '頂く',     r: 'いただく',     m: 'to receive (humble); to eat/drink (humble)' },
+    { w: '山頂',     r: 'さんちょう',   m: 'mountain top, summit' },
+    { w: '頂上',     r: 'ちょうじょう', m: 'top, summit, peak' },
+  ],
+  '飛': [
+    { w: '飛ぶ',     r: 'とぶ',         m: 'to fly, to jump' },
+    { w: '飛行機',   r: 'ひこうき',     m: 'airplane' },
+    { w: '飛び込む', r: 'とびこむ',     m: 'to jump into, to dive into' },
+  ],
+  '馬': [
+    { w: '馬',       r: 'うま',         m: 'horse' },
+    { w: '馬力',     r: 'ばりき',       m: 'horsepower; energy, drive' },
+    { w: '乗馬',     r: 'じょうば',     m: 'horseback riding' },
+  ],
+  '鳴': [
+    { w: '鳴く',     r: 'なく',         m: 'to cry, to chirp, to bark (animals)' },
+    { w: '鳴る',     r: 'なる',         m: 'to ring, to sound, to chime' },
+    { w: '悲鳴',     r: 'ひめい',       m: 'shriek, scream' },
   ],
 };
 
