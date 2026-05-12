@@ -434,14 +434,14 @@ const POLITE_RE = /(です|ます|ました|でした|ません|ませんでし�
 function containsWordExact(sentence, word) {
   let idx = 0;
   while ((idx = sentence.indexOf(word, idx)) !== -1) {
-    const after = sentence[idx + word.length];
-    if (after === undefined) return true; // end of string
-    const cp = after.codePointAt(0);
-    // If next char is kanji or katakana, it's part of a longer compound → skip
-    const isCompound = (cp >= 0x4E00 && cp <= 0x9FFF) ||
-                       (cp >= 0x3400 && cp <= 0x4DBF) ||
-                       (cp >= 0x30A0 && cp <= 0x30FF);
-    if (!isCompound) return true;
+    const before = idx > 0 ? sentence[idx - 1] : null;
+    const after  = sentence[idx + word.length];
+    const isKanjiOrKana = ch => {
+      if (!ch) return false;
+      const cp = ch.codePointAt(0);
+      return (cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF) || (cp >= 0x30A0 && cp <= 0x30FF);
+    };
+    if (!isKanjiOrKana(before) && !isKanjiOrKana(after)) return true;
     idx += word.length;
   }
   return false;
