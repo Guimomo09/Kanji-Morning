@@ -3075,6 +3075,108 @@ const EXAMPLE_OVERRIDE = {
     { w: '艶消し', r: 'つやけし',   m: 'matte finish; dampening (enthusiasm)' },
     { w: '艶出し', r: 'つやだし',   m: 'polishing, giving a gloss' },
   ],
+
+  // ── N1 wave 4 — batch 4/4 (kanji 925-1232) ───
+  '芽': [
+    { w: '芽',     r: 'め',         m: 'bud, sprout, shoot' },
+    { w: '新芽',   r: 'しんめ',     m: 'new bud, fresh sprout' },
+    { w: '芽生え', r: 'めばえ',     m: 'budding, first sign, germination' },
+  ],
+  '荘': [
+    { w: '別荘',   r: 'べっそう',   m: 'vacation home, holiday house' },
+    { w: '荘厳',   r: 'そうごん',   m: 'solemn, majestic, awe-inspiring' },
+    { w: '山荘',   r: 'さんそう',   m: 'mountain villa, mountain lodge' },
+  ],
+  '葵': [
+    { w: '葵',     r: 'あおい',     m: 'hollyhock; aoi (family crest of the Tokugawa)' },
+    { w: '葵祭',   r: 'あおいまつり', m: 'Aoi Festival (held in Kyoto in May)' },
+    { w: '立葵',   r: 'たちあおい', m: 'hollyhock (Alcea rosea)' },
+  ],
+  '藻': [
+    { w: '藻',     r: 'も',         m: 'algae, seaweed, aquatic plant' },
+    { w: '海藻',   r: 'かいそう',   m: 'seaweed, marine algae' },
+    { w: '藻掻く', r: 'もがく',     m: 'to struggle, to writhe, to flounder' },
+  ],
+  '詐': [
+    { w: '詐欺',   r: 'さぎ',       m: 'fraud, swindle, con' },
+    { w: '詐欺師', r: 'さぎし',     m: 'swindler, con artist, fraudster' },
+    { w: '詐称',   r: 'さしょう',   m: 'misrepresentation, false claim' },
+  ],
+  '請': [
+    { w: '要請',   r: 'ようせい',   m: 'request, demand, call for' },
+    { w: '申請',   r: 'しんせい',   m: 'application, petition, request' },
+    { w: '請求',   r: 'せいきゅう', m: 'bill, invoice, claim' },
+  ],
+  '賀': [
+    { w: '賀状',   r: 'がじょう',   m: 'New Year\'s card, congratulatory letter' },
+    { w: '祝賀',   r: 'しゅくが',   m: 'celebration, congratulations' },
+    { w: '年賀',   r: 'ねんが',     m: 'New Year\'s greeting' },
+  ],
+  '賊': [
+    { w: '海賊',   r: 'かいぞく',   m: 'pirate, buccaneer' },
+    { w: '盗賊',   r: 'とうぞく',   m: 'thief, robber, bandit' },
+    { w: '賊軍',   r: 'ぞくぐん',   m: 'rebel army, insurgent forces' },
+  ],
+  '辰': [
+    { w: '辰年',   r: 'たつどし',   m: 'Year of the Dragon' },
+    { w: '辰砂',   r: 'しんしゃ',   m: 'cinnabar (mineral); vermilion pigment' },
+    { w: '辰刻',   r: 'しんこく',   m: 'hour of the dragon (approx. 7-9 AM)' },
+  ],
+  '逸': [
+    { w: '逸話',   r: 'いつわ',     m: 'anecdote, episode, little-known story' },
+    { w: '秀逸',   r: 'しゅういつ', m: 'excellent, outstanding, brilliant' },
+    { w: '逸脱',   r: 'いつだつ',   m: 'deviation, departure, digression' },
+  ],
+  '那': [
+    { w: '刹那',   r: 'せつな',     m: 'moment, instant, split second' },
+    { w: '旦那',   r: 'だんな',     m: 'husband, master, patron' },
+    { w: '那覇',   r: 'なは',       m: 'Naha (capital of Okinawa Prefecture)' },
+  ],
+  '郎': [
+    { w: '新郎',   r: 'しんろう',   m: 'bridegroom, groom' },
+    { w: '郎党',   r: 'ろうとう',   m: 'followers, retainers, henchmen' },
+    { w: '野郎',   r: 'やろう',     m: 'fellow, guy, rascal' },
+  ],
+  '郭': [
+    { w: '輪郭',   r: 'りんかく',   m: 'outline, contour, silhouette' },
+    { w: '外郭',   r: 'がいかく',   m: 'outer wall; periphery, outer boundary' },
+    { w: '城郭',   r: 'じょうかく', m: 'castle and its walls, fortified castle' },
+  ],
+  '醜': [
+    { w: '醜い',   r: 'みにくい',   m: 'ugly, unsightly, repulsive' },
+    { w: '醜態',   r: 'しゅうたい', m: 'disgraceful behavior, shameful conduct' },
+    { w: '醜悪',   r: 'しゅうあく', m: 'ugly, repulsive, heinous' },
+  ],
+  '錠': [
+    { w: '錠前',   r: 'じょうまえ', m: 'lock, padlock' },
+    { w: '錠剤',   r: 'じょうざい', m: 'pill, tablet, lozenge' },
+    { w: '手錠',   r: 'てじょう',   m: 'handcuffs, manacles' },
+  ],
+  '雄': [
+    { w: '英雄',   r: 'えいゆう',   m: 'hero, great man, champion' },
+    { w: '雄大',   r: 'ゆうだい',   m: 'grand, majestic, magnificent' },
+    { w: '雄弁',   r: 'ゆうべん',   m: 'eloquence, powerful oratory' },
+  ],
+  '鮎': [
+    { w: '鮎',     r: 'あゆ',       m: 'ayu sweetfish (Plecoglossus altivelis)' },
+    { w: '鮎漁',   r: 'あゆりょう', m: 'ayu fishing' },
+    { w: '鮎並',   r: 'あいなめ',   m: 'fat greenling (Hexagrammos otakii)' },
+  ],
+  '鹿': [
+    { w: '鹿',     r: 'しか',       m: 'deer' },
+    { w: '鹿児島', r: 'かごしま',   m: 'Kagoshima (prefecture)' },
+    { w: '小鹿',   r: 'こじか',     m: 'fawn, young deer' },
+  ],
+  '麗': [
+    { w: '麗しい', r: 'うるわしい', m: 'beautiful, lovely, graceful' },
+    { w: '華麗',   r: 'かれい',     m: 'splendid, gorgeous, brilliant' },
+    { w: '麗らか', r: 'うららか',   m: 'bright and clear (spring day), balmy' },
+  ],
+  '麻': [
+    { w: '麻薬',   r: 'まやく',     m: 'narcotic, drug (illicit)' },
+    { w: '麻酔',   r: 'ますい',     m: 'anesthesia, anesthetic' },
+    { w: '麻',     r: 'あさ',       m: 'hemp, flax, linen' },
+  ],
 };
 
 // ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
