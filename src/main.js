@@ -2,7 +2,7 @@ import { state }                                               from './state.js'
 import { cleanupOldData, saveDailyVocab }                       from './daily.js';
 import { getWordOfDay }                                         from './wotd.js';
 import { todayStr }                                            from './utils.js';
-import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus, cloudUpdate } from './cloud.js';
+import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus, cloudUpdate, cloudSavedWordAdd } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror } from './vocab.js';
@@ -842,13 +842,10 @@ if ('serviceWorker' in navigator) {
 
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
-  // Cloud pull already set km_saved_words. Just push it to Firestore as canonical source of truth.
-  // Do NOT call rebuildSavedWordsMirror() here — it would inflate the list with old local vocab_daily_* keys.
+  // Cloud pull already merged km_saved_words (local+cloud). No push needed here —
+  // atomic ops (cloudSavedWordAdd/Remove) keep Firestore in sync going forward.
   const words = getAllSavedWords();
-  console.log(`[postAuth] savedWords after cloud pull: ${words.length}`);
-  if (CLOUD_ENABLED && state._fbUser && words.length > 0) {
-    cloudUpdate({ savedWords: words }).catch(e => console.warn('[postAuth] savedWords push failed:', e));
-  }
+  console.log(`[postAuth] savedWords after cloud pull: ${words.length} (no push — atomic ops handle sync)`);
   // Identify logged-in user in Crisp
   if (state._fbUser && window.$crisp) {
     window.$crisp.push(['set', 'user:email', [state._fbUser.email]]);
@@ -869,12 +866,25 @@ history.scrollRestoration = 'manual';
 
 // ── Manual sync helper — call window.kmSync() from browser console ────────
 window.kmSync = async function() {
-  const words = rebuildSavedWordsMirror();
-  console.log(`[kmSync] Local words: ${words.length}. User: ${state._fbUser?.email}. DB: ${!!state._fbDb}`);
   if (!state._fbUser || !state._fbDb) { console.error('[kmSync] Not logged in or Firestore not ready'); return; }
-  if (words.length === 0) { console.warn('[kmSync] No local words to push'); return; }
-  await cloudUpdate({ savedWords: words });
-  console.log(`[kmSync] Done. Pushed ${words.length} words to Firestore.`);
+  // 1. Read current Firestore list
+  let cloudWords = [];
+  try {
+    const doc = await state._fbDb.collection('users').doc(state._fbUser.uid).get();
+    if (doc.exists && Array.isArray(doc.data().savedWords)) cloudWords = doc.data().savedWords;
+  } catch (e) { console.error('[kmSync] Could not read Firestore:', e); return; }
+  // 2. Merge local + cloud (never discard)
+  const local = rebuildSavedWordsMirror();
+  const seen = new Set(local.map(i => i.word));
+  const merged = [...local, ...cloudWords.filter(i => !seen.has(i.word))];
+  merged.sort((a, b) => (b.savedDate || '').localeCompare(a.savedDate || ''));
+  // 3. Update local mirror with merged list
+  try { localStorage.setItem('km_saved_words', JSON.stringify(merged)); } catch {}
+  console.log(`[kmSync] Local: ${local.length} | Cloud: ${cloudWords.length} | Merged: ${merged.length}`);
+  if (merged.length === 0) { console.warn('[kmSync] No words to push'); return; }
+  // 4. Push merged list — safe because merged >= cloud
+  await cloudUpdate({ savedWords: merged });
+  console.log(`[kmSync] Done. Pushed ${merged.length} words to Firestore.`);
   renderStats();
 };
 
