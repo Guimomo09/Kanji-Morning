@@ -3479,6 +3479,74 @@ export async function ensureKanjiCards() {
   return cards;
 }
 
+// ── Incremental add/remove cards (used by +More / −Less buttons) ──────────
+// delta > 0 → fetch `delta` new cards and append; delta < 0 → remove last cards
+export async function loadAndRenderDelta(delta) {
+  const grid = document.getElementById('grid');
+
+  if (delta < 0) {
+    const toRemove = Math.min(Math.abs(delta), state.currentKanjiCards.length - 1);
+    for (let i = 0; i < toRemove; i++) {
+      state.currentKanjiCards.pop();
+      if (grid.lastElementChild) grid.removeChild(grid.lastElementChild);
+    }
+    document.getElementById('countLabel').textContent = state.currentKanjiCards.length;
+    return;
+  }
+
+  // delta > 0 — pick new chars not already on screen
+  if (!state.POOL.length) await buildPool();
+  const _idx = await getKanjiSearchIndex();
+  const lang  = getLang();
+  const already = new Set(state.currentKanjiCards.map(k => k.kanji));
+  const filteredPool = state.kanjiLevelFilter === 'all'
+    ? state.POOL
+    : state.POOL.filter(x => x.jlptNum === Number(state.kanjiLevelFilter));
+  const source      = filteredPool.length ? filteredPool : state.POOL;
+  const uniqueChars = [...new Set(source.map(x => x.char))].filter(c => !already.has(c));
+
+  const picks = [];
+  const seen  = new Set();
+  let tries   = 0;
+  while (picks.length < delta && tries < source.length * 4) {
+    const item = source[Math.floor(Math.random() * source.length)];
+    if (!already.has(item.char) && !seen.has(item.char)) {
+      seen.add(item.char);
+      picks.push(item);
+    }
+    tries++;
+  }
+  for (const char of uniqueChars) {
+    if (picks.length >= delta) break;
+    if (!seen.has(char)) {
+      seen.add(char);
+      picks.push(source.find(x => x.char === char));
+    }
+  }
+
+  const results = await Promise.allSettled(
+    picks.map(async ({ char, jlptNum }) => {
+      const [detail, words] = await Promise.all([getKanjiDetail(char), getWords(char)]);
+      return {
+        kanji:   char,
+        level:   LEVEL_LABEL[jlptNum],
+        on:      detail.on_readings  ?? [],
+        kun:     detail.kun_readings ?? [],
+        meaning: bestKanjiMeaning(char, detail.meanings, lang, _idx[char]),
+        ex:      bestExamples(words, char, 3, jlptNum),
+      };
+    })
+  );
+
+  results.forEach((r, i) => {
+    if (r.status !== 'fulfilled') return;
+    const k = r.value;
+    state.currentKanjiCards.push(k);
+    grid.appendChild(renderCard(k, i * 80));
+  });
+  document.getElementById('countLabel').textContent = state.currentKanjiCards.length;
+}
+
 // ── Main kanji loader ─────────────────────────────────────────────────────
 // forceNew = true  →  pick a fresh random set (ignores cache)
 export async function loadAndRender(n, forceNew = false) {

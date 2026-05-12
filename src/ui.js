@@ -6,7 +6,7 @@ import { saveDailyVocab } from './daily.js';
 import { srsAddWords, srsUpdateReviewCount } from './srs.js';
 import { renderVocab, applyLevelFilterUI, renderMyList, getAllSavedWords, updateSavedWordsMirror } from './vocab.js';
 import { renderHome, renderStats } from './stats.js';
-import { loadAndRender, applyKanjiLevelFilterUI, getAllSavedKanjis, searchAndRenderKanji } from './kanji.js';
+import { loadAndRender, loadAndRenderDelta, applyKanjiLevelFilterUI, getAllSavedKanjis, searchAndRenderKanji } from './kanji.js';
 import { updateBiWeeklyBtn } from './biweekly.js';
 import { renderExamTab } from './quiz.js';
 import { t } from './i18n.js';
@@ -211,8 +211,15 @@ export function refresh() {
 // ── Count +/− (kanji tab only) ────────────────────────────────────────────
 export function changeCount(delta) {
   if (state.currentTab === 'vocab') return;
-  state.count = Math.max(1, Math.min(20, state.count + delta));
-  loadAndRender(state.count, true);
+  const newCount = Math.max(1, Math.min(20, state.count + delta));
+  if (newCount === state.count) return;
+  const actualDelta = newCount - state.count;
+  state.count = newCount;
+  if (state.currentKanjiCards.length > 0) {
+    loadAndRenderDelta(actualDelta);
+  } else {
+    loadAndRender(state.count, true);
+  }
 }
 
 // ── Quiz mode toggle (kanji tab) — removed, kanji tab is browse-only now
