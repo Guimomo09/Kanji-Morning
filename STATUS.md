@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **12 Mai 2026** · Stripe LIVE ✅
+> Dernière mise à jour: **13 Mai 2026** · Reels TikTok ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `bab3425` · main `405d561` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `1851edc` · branche active : `main`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -264,14 +264,34 @@ kanji.guimo-prod.com {
 - [x] Race condition More/Less — flag `_deltaInProgress` bloque les clicks pendant un fetch en cours ← `97a90b7`
 - [x] Ordre onglets revenu à Kanji → Vocab → My List → Exam → Stats ← `97a90b7`
 
+**Atomic savedWords sync — fix critique 12 Mai 2026** ← commits `(main)`
+> Problème : `cloudUpdate({savedWords:[liste_locale]})` écrasait Firestore avec la liste locale (potentiellement < cloud). Un user a perdu 76 mots sauvegardés suite à un login sur un nouvel appareil.
+- [x] `cloudSavedWordAdd(wordObj)` — `arrayUnion(wordObj)` Firestore : ajout atomique, jamais d'écrasement ← `cloud.js`
+- [x] `cloudSavedWordRemove(wordOrSet)` — lit Firestore, filtre, `arrayRemove(...toRemove)` atomique ← `cloud.js`
+- [x] `_cloudPull` savedWords : **merge** cloud+local (dédoublonnage par clé, tri par date) — plus d'écrasement ← `cloud.js`
+- [x] `setPostAuthCallback` : ne pousse **plus** les savedWords vers Firestore après pull — ops atomiques gèrent la sync ← `main.js`
+- [x] `window.kmSync()` : lit Firestore d'abord → merge local+cloud → push merged (merged ≥ cloud toujours) ← `main.js`
+- [x] `vocab.js` : `updateSavedWordsMirror` / `removeFromSavedWordsMirror` utilisent les ops atomiques (plus de push complet)
+- [x] Testé : save/remove en déco/reco + switch staging↔prod → aucune perte ✅
+
 **Marketing & Promotion — 11 Mai 2026**
 - [x] `PRODUCTHUNT.md` — dossier de lancement complet (tagline, description, timing, checklist)
 - [x] `scripts/screenshot-producthunt.mjs` — génère 5 screenshots 1270×952 depuis asanokanji.com
 - [x] `screenshots/` — 5 captures prêtes pour ProductHunt (home, kanji, vocab, stats, jlpt-n5)
-- [x] `scripts/generate-kanji-cards.mjs` — génère des cartes kanji 1080×1080px pour Instagram/X/LinkedIn
-  - Bandeau rouge pleine largeur · logo PNG · titre centré · badge JLPT
-  - Tile blanche centrée · kanji 300px · signification · lectures 音/訓
-  - Options CLI : `--level n5/n4/n3/n2/n1` · `--count N` · `--kanji 火,水,木` · `--theme dark`
+- [x] `scripts/generate-kanji-cards.mjs` — génère des cartes kanji 1080×1080px (insta) et 1080×1920px (tiktok)
+  - Bandeau rouge `#c03a20` pleine largeur · logo PNG · titre centré · badge JLPT
+  - Tile blanche centrée · kanji · signification · lectures KUN (vert, grande) puis ON (rouge, petite), ordre popular-first
+  - Options CLI : `--level n5/n4/n3/n2/n1` · `--count N` · `--kanji 火,水,木`
+
+**Reels TikTok — 13 Mai 2026**
+- [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 de 50s par kanji
+  - Structure : `3s intro` + `10s` × 3 cartes + `15s CTA` + `2s fondu noir`
+  - Intro : carte 1 floutée + overlay `kanji-cards/text-intro.png` (PNG transparent, centré) + TTS 「本日の漢字」
+  - Cartes 1–3 : slides PNG TikTok + voix Nanami (ja-JP, -10%) — lectures KUN puis ON, popular-first, sans kanji ni définitions
+  - CTA : `CTA_Footage.mp4` (0–10s brut, 10–15s flouté) + overlay `kanji-cards/text-cta.png` centré à t=10s
+  - Audio : xfade dissolve 0.3s + acrossfade, re-encodé aac 128k (fix silence concat)
+  - Overlays texte via PNG transparents (police libre, indépendant de ffmpeg drawtext)
+  - Output : `kanji-cards/{level}/reels/{kanji}.mp4`
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)

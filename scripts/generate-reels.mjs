@@ -87,10 +87,11 @@ const FFPROBE = (() => {
 })();
 
 // ── TTS helper ────────────────────────────────────────────────────────────────
-// Voice: ja-JP-NanamiNeural (female, clear, natural)
+// Voice: ja-JP-NanamiNeural · rate -10% for more natural pacing
 async function tts(text, outMp3) {
   const r = spawnSync(PYTHON, ['-m', 'edge_tts',
     '--voice', 'ja-JP-NanamiNeural',
+    '--rate=-10%',
     '--text',  text,
     '--write-media', outMp3,
   ], { encoding: 'utf8', timeout: 30000 });
@@ -126,7 +127,7 @@ function imageToVideo(img, audio, outFile) {
     '-i', audio,
     '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
     '-profile:v', 'baseline', '-level', '4.0', '-pix_fmt', 'yuv420p',
-    '-c:a', 'aac', '-b:a', '128k',
+    '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
     '-movflags', '+faststart',
     '-shortest',
     '-vf', 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2',
@@ -135,16 +136,51 @@ function imageToVideo(img, audio, outFile) {
   ], { encoding: 'utf8' });
 }
 
-// Concatenate video segments
-function concat(segments, outFile) {
-  const listPath = outFile.replace('.mp4', '_list.txt');
-  writeFileSync(listPath, segments.map(s => `file '${s.replace(/\\/g, '/')}'`).join('\n'));
-  spawnSync(FFMPEG, ['-y',
-    '-f', 'concat', '-safe', '0', '-i', listPath,
-    '-c', 'copy',
+// Concatenate video segments with smooth xfade dissolve between each
+function concatWithXFade(segments, durations, outFile, fadeDur = 0.3) {
+  const n = segments.length;
+  const inputs = segments.flatMap(s => ['-i', s]);
+
+  // xfade offsets: cumulative (dur_i - fadeDur) for each transition
+  const offsets = [];
+  let t = 0;
+  for (let i = 0; i < n - 1; i++) {
+    t += durations[i] - fadeDur;
+    offsets.push(+t.toFixed(3));
+  }
+
+  // Video xfade chain
+  let vPrev = '0:v';
+  const vParts = [];
+  for (let i = 1; i < n; i++) {
+    const out = i === n - 1 ? 'vout' : `v${i}`;
+    vParts.push(`[${vPrev}][${i}:v]xfade=transition=fade:duration=${fadeDur}:offset=${offsets[i-1]}[${out}]`);
+    vPrev = out;
+  }
+
+  // Audio acrossfade chain
+  let aPrev = '0:a';
+  const aParts = [];
+  for (let i = 1; i < n; i++) {
+    const out = i === n - 1 ? 'aout' : `a${i}`;
+    aParts.push(`[${aPrev}][${i}:a]acrossfade=d=${fadeDur}[${out}]`);
+    aPrev = out;
+  }
+
+  const filterComplex = [...vParts, ...aParts].join(';');
+
+  const r = spawnSync(FFMPEG, [
+    '-y',
+    ...inputs,
+    '-filter_complex', filterComplex,
+    '-map', '[vout]', '-map', '[aout]',
+    '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+    '-profile:v', 'baseline', '-level', '4.0', '-pix_fmt', 'yuv420p',
+    '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
+    '-movflags', '+faststart',
     outFile,
   ], { encoding: 'utf8' });
-  unlinkSync(listPath);
+  if (r.status !== 0) throw new Error('concatWithXFade failed: ' + r.stderr);
 }
 
 // Prepend silence before audio (intro delay)
@@ -158,52 +194,84 @@ function prependSilence(inp, outFile, silenceSec) {
   ], { encoding: 'utf8' });
 }
 
-// Blur intro: blurred card1 + "Today's Kanji" text overlay + silence
-function blurIntroVideo(img, outFile, duration) {
-  // Tahoma Bold — bold sans-serif, bien supportée par ffmpeg-static
-  // Note: dans la vf string passée via spawnSync (array, pas shell),
-  // \' = apostrophe échappée pour ffmpeg filter parser
-  const fontFile = 'C\\:/Windows/Fonts/arialbd.ttf';
-  const drawtext = `drawtext=fontfile=${fontFile}:text=Kanji of the Day:fontsize=88:fontcolor=black:borderw=4:bordercolor=black:x=(w-text_w)/2:y=(h-text_h)/2:shadowcolor=black@0.4:shadowx=5:shadowy=5`;
-  for (const extra of [`,${drawtext}`, '']) {
-    const r = spawnSync(FFMPEG, ['-y',
-      '-loop', '1', '-i', img,
-      '-f', 'lavfi', '-i', 'anullsrc=r=44100:cl=stereo',
-      '-t', String(duration),
-      '-vf', `scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2,gblur=sigma=20${extra}`,
-      '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-      '-profile:v', 'baseline', '-level', '4.0', '-pix_fmt', 'yuv420p',
-      '-c:a', 'aac', '-b:a', '128k',
-      '-movflags', '+faststart',
-      '-r', '30',
-      outFile,
-    ], { encoding: 'utf8' });
-    if (r.status === 0) { if (!extra) console.warn('⚠️  drawtext non dispo — intro sans texte'); return; }
+// Blur intro: blurred card1 + optional text-intro.png overlay + optional audio
+function blurIntroVideo(img, outFile, duration, audioFile = null) {
+  const textPng = join(ROOT, 'kanji-cards', 'text-intro.png');
+  const hasText = existsSync(textPng);
+  const audioArgs = audioFile
+    ? ['-i', audioFile]
+    : ['-f', 'lavfi', '-i', 'anullsrc=r=44100:cl=stereo'];
+  const inputs = ['-loop', '1', '-i', img, ...audioArgs];
+  let filterComplex, mapV;
+  if (hasText) {
+    inputs.push('-i', textPng);
+    // audio is input 1, text png is input 2
+    filterComplex = [
+      '[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2,gblur=sigma=20[bg]',
+      '[bg][2:v]overlay=(W-w)/2:(H-h)/2[vout]',
+    ].join(';');
+    mapV = '[vout]';
+  } else {
+    console.warn('⚠️  kanji-cards/text-intro.png manquant — intro sans texte');
+    filterComplex = '[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2,gblur=sigma=20[vout]';
+    mapV = '[vout]';
   }
-  throw new Error('blurIntroVideo failed');
-}
-
-// CTA slide: app screenshot + text overlay, no audio
-function ctaVideo(screenshotPng, outFile, duration) {
-  const fontFile = 'C\\:/Windows/Fonts/arialbd.ttf';
-  // 2 lines: line1 centered, line2 below with gap
-  const line1 = `drawtext=fontfile=${fontFile}:text=Learn Japanese daily:fontsize=72:fontcolor=white:borderw=3:bordercolor=white:shadowcolor=black@0.8:shadowx=3:shadowy=3:x=(w-text_w)/2:y=(h/2)+120`;
-  const line2 = `drawtext=fontfile=${fontFile}:text=with Asa no Kanji:fontsize=60:fontcolor=white:borderw=2:bordercolor=white:shadowcolor=black@0.8:shadowx=3:shadowy=3:x=(w-text_w)/2:y=(h/2)+210`;
-  // Scale screenshot to fill 1080x1920, then darken slightly for readability
-  const vf = `scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,colormatrix=bt601:bt709,eq=brightness=-0.15,${line1},${line2}`;
+  const audioIdx = audioFile ? '1:a' : '1:a';
   const r = spawnSync(FFMPEG, ['-y',
-    '-loop', '1', '-i', screenshotPng,
-    '-f', 'lavfi', '-i', 'anullsrc=r=44100:cl=stereo',
+    ...inputs,
     '-t', String(duration),
-    '-vf', vf,
+    '-filter_complex', filterComplex,
+    '-map', mapV,
+    '-map', audioIdx,
     '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
     '-profile:v', 'baseline', '-level', '4.0', '-pix_fmt', 'yuv420p',
-    '-c:a', 'aac', '-b:a', '128k',
+    '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
     '-movflags', '+faststart',
     '-r', '30',
     outFile,
   ], { encoding: 'utf8' });
-  if (r.status !== 0) throw new Error('ctaVideo failed: ' + r.stderr);
+  if (r.status !== 0) throw new Error('blurIntroVideo failed: ' + r.stderr.slice(-400));
+}
+
+// CTA: 0→10s raw footage, 10s→end blurred + text-cta.png overlay centered
+function ctaVideo(footageMp4, outFile, duration) {
+  const BLUR_START = 10;
+  const textPng = join(ROOT, 'kanji-cards', 'text-cta.png');
+  const hasText = existsSync(textPng);
+  const inputs = ['-i', footageMp4];
+  let fc;
+  if (hasText) {
+    inputs.push('-i', textPng);
+    fc = [
+      '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920[base]',
+      '[base]split[v1][v2]',
+      '[v2]gblur=sigma=25[blurred]',
+      `[v1][blurred]overlay=enable='gte(t,${BLUR_START})'[blended]`,
+      `[blended][1:v]overlay=(W-w)/2:(H-h)/2:enable='gte(t,${BLUR_START})'[vout]`,
+    ].join(';');
+  } else {
+    console.warn('⚠️  kanji-cards/text-cta.png manquant — CTA sans texte');
+    fc = [
+      '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920[base]',
+      '[base]split[v1][v2]',
+      '[v2]gblur=sigma=25[blurred]',
+      `[v1][blurred]overlay=enable='gte(t,${BLUR_START})'[vout]`,
+    ].join(';');
+  }
+  const r = spawnSync(FFMPEG, ['-y',
+    ...inputs,
+    '-t', String(duration),
+    '-filter_complex', fc,
+    '-map', '[vout]',
+    '-map', '0:a',
+    '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
+    '-profile:v', 'baseline', '-level', '4.0', '-pix_fmt', 'yuv420p',
+    '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
+    '-movflags', '+faststart',
+    '-r', '30',
+    outFile,
+  ], { encoding: 'utf8' });
+  if (r.status !== 0) throw new Error('ctaVideo failed: ' + r.stderr.slice(-400));
 }
 
 // Fade to black: solid black + silence
@@ -214,7 +282,7 @@ function fadeToBlackVideo(outFile, duration) {
     '-t', String(duration),
     '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
     '-profile:v', 'baseline', '-level', '4.0', '-pix_fmt', 'yuv420p',
-    '-c:a', 'aac', '-b:a', '128k',
+    '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
     '-movflags', '+faststart',
     outFile,
   ], { encoding: 'utf8' });
@@ -276,12 +344,17 @@ for (const kanji of targetKanji) {
 
   // ── Build TTS scripts ────────────────────────────────────────────────────
   const meanings = (data.m || '').split(',').slice(0, 2).join(', ');
-  const onReads  = (data.o || []).slice(0, 2).join('、');
-  const kunReads = (data.k || []).slice(0, 2).join('、');
-  const readings = [onReads, kunReads].filter(Boolean).join('。');
+  // Clean readings: strip '-' prefix, strip okurigana after '.', katakana→hiragana, reverse (kanjiapi = least→most common)
+  const cleanKun = [...new Set((data.k || []).map(r => r.replace(/^-/, '').replace(/\..+$/, '')).reverse())];
+  const cleanOn  = [...new Set((data.o || []).map(r =>
+    r.replace(/[\u30A1-\u30F6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60)).replace(/\s.+$/, '')
+  ).reverse())];
+  const kunReads = cleanKun.join('。');
+  const onReads  = cleanOn.join('。');
+  const readings = [kunReads, onReads].filter(Boolean).join('。');
 
-  // Card 1: kanji reading + meaning
-  const tts1Text = `${kanji}。${readings ? readings + '。' : ''}${meanings}.`;
+  // Card 1: KUN readings → ON readings only (no kanji, no meaning)
+  const tts1Text = [...cleanKun, ...cleanOn].join('。') + '。';
 
   // Card 2: vocab words
   const vocabWords = (EXAMPLE_OVERRIDE[kanji] || []).slice(0, 3);
@@ -296,11 +369,13 @@ for (const kanji of targetKanji) {
 
   try {
     // Generate TTS audio files
+    const mp3_0  = join(TMP, `${kanji}_0.mp3`);  // intro
     const mp3_1  = join(TMP, `${kanji}_1.mp3`);
     const mp3_2  = join(TMP, `${kanji}_2.mp3`);
     const mp3_3a = join(TMP, `${kanji}_3a.mp3`);
     const mp3_3b = join(TMP, `${kanji}_3b.mp3`);
     const mp3_3  = join(TMP, `${kanji}_3.mp3`);
+    await tts('本日の漢字', mp3_0);
     await tts(tts1Text,  mp3_1);
     await tts(tts2Text,  mp3_2);
     await tts(tts3aText, mp3_3a);
@@ -319,12 +394,16 @@ for (const kanji of targetKanji) {
 
     // Fixed durations per template
     const INTRO_DUR = 3;   // intro floue
-    const DUR1      = 7;   // carte kanji
-    const DUR2      = 7;   // carte vocab
-    const DUR3      = 7;   // carte phrases
-    const CTA_DUR   = 5;   // CTA app
+    const DUR1      = 10;  // carte kanji
+    const DUR2      = 10;  // carte vocab
+    const DUR3      = 10;  // carte phrases
+    const CTA_DUR   = 15;  // CTA app (0-10s raw, 10-15s blurred + texte)
     const FADE_DUR  = 2;   // fondu noir
     const TOTAL     = INTRO_DUR + DUR1 + DUR2 + DUR3 + CTA_DUR + FADE_DUR;
+
+    // Pad intro audio to INTRO_DUR
+    const pad0 = join(TMP, `${kanji}_0p.mp3`);
+    padAudio(mp3_0, pad0, INTRO_DUR);
 
     // Pad all audio to fixed durations
     const pad1 = join(TMP, `${kanji}_1p.mp3`);
@@ -334,9 +413,9 @@ for (const kanji of targetKanji) {
     padAudio(mp3_2,  pad2, DUR2);
     padAudio(mp3_3,  pad3, DUR3);
 
-    // App screenshot for CTA
-    const appScreenshot = join(ROOT, 'app-screenshot.png');
-    if (!existsSync(appScreenshot)) throw new Error('app-screenshot.png manquant — lance le script de screenshot');
+    // CTA footage
+    const appScreenshot = join(ROOT, 'kanji-cards', 'CTA_Footage.mp4');
+    if (!existsSync(appScreenshot)) throw new Error('kanji-cards/CTA_Footage.mp4 manquant');
 
     console.log(`   📹 [${INTRO_DUR}s intro + ${DUR1}s + ${DUR2}s + ${DUR3}s + ${CTA_DUR}s CTA + ${FADE_DUR}s fade = ${TOTAL}s]`);
 
@@ -347,19 +426,23 @@ for (const kanji of targetKanji) {
     const seg3 = join(TMP, `${kanji}_seg3.mp4`);  // phrases
     const seg4 = join(TMP, `${kanji}_seg4.mp4`);  // CTA
     const seg5 = join(TMP, `${kanji}_seg5.mp4`);  // fade noir
-    blurIntroVideo(card1, seg0, INTRO_DUR);
+    blurIntroVideo(card1, seg0, INTRO_DUR, pad0);
     imageToVideo(card1, pad1, seg1);
     imageToVideo(card2, pad2, seg2);
     imageToVideo(card3, pad3, seg3);
     ctaVideo(appScreenshot, seg4, CTA_DUR);
     fadeToBlackVideo(seg5, FADE_DUR);
 
-    // Concatenate all
+    // Concatenate all with 0.3s crossfade between each segment
     const outFile = join(REELS_DIR, `${kanji}.mp4`);
-    concat([seg0, seg1, seg2, seg3, seg4, seg5], outFile);
+    concatWithXFade(
+      [seg0, seg1, seg2, seg3, seg4, seg5],
+      [INTRO_DUR, DUR1, DUR2, DUR3, CTA_DUR, FADE_DUR],
+      outFile
+    );
 
     // Cleanup tmp files
-    for (const f of [mp3_1, mp3_1d, mp3_2, mp3_3, mp3_3a, mp3_3b, pad1, pad2, pad3, seg0, seg1, seg2, seg3, seg4, seg5]) {
+    for (const f of [mp3_0, mp3_1, mp3_1d, mp3_2, mp3_3, mp3_3a, mp3_3b, pad0, pad1, pad2, pad3, seg0, seg1, seg2, seg3, seg4, seg5]) {
       try { unlinkSync(f); } catch {}
     }
 

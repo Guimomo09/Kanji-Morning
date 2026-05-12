@@ -222,11 +222,11 @@ function buildKanjiHTML(kanji, data, levelStr, fmt) {
           kanjiFont, meaningFont, meaningMaxW,
           tagFont, tagPad, labelFont, readingGap } = fmt;
 
-  const onVals   = (data.o || []).slice(0, 3).join('・');
-  const kunVals  = (data.k || []).slice(0, 3).join('・');
+  const onVals   = [...new Set((data.o || []).slice(0, 3).map(r => r.replace(/[\u30A1-\u30F6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60)).replace(/\s.+$/, '')).reverse())].join('\u30fb');
+  const kunVals  = [...new Set((data.k || []).slice(0, 3).map(r => r.replace(/^-/, '')).reverse())].join('\u30fb');
   const meanings = (data.m || '').split(',').slice(0, 3).join(', ');
-  const onBlock  = onVals  ? `<div class="rr"><span class="rl">ON</span><span class="tag on">${onVals}</span></div>`   : '';
-  const kunBlock = kunVals ? `<div class="rr"><span class="rl">KUN</span><span class="tag kun">${kunVals}</span></div>` : '';
+  const kunBlock = kunVals ? `<div class="r-sect"><span class="rl-big">Kun</span><span class="tag kun-tag">${kunVals}</span></div>` : '';
+  const onBlock  = onVals  ? `<div class="r-sect"><span class="rl-sm">On</span><span class="tag on-tag">${onVals}</span></div>`  : '';
   const LVL = levelStr || LEVEL.toUpperCase();
   const logoW = logoSize + 36;
 
@@ -243,12 +243,13 @@ function buildKanjiHTML(kanji, data, levelStr, fmt) {
   .kanji{font-size:${kanjiFont}px;font-weight:900;color:#1a1a1a;line-height:1;margin-bottom:24px;}
   .meaning{font-size:${meaningFont}px;font-weight:700;color:#1a1a1a;text-align:center;margin-bottom:32px;max-width:${meaningMaxW}px;line-height:1.3;}
   .divider{width:48px;height:4px;background:#c03a20;border-radius:2px;margin-bottom:32px;opacity:.35;}
-  .readings{display:flex;flex-direction:column;gap:${readingGap}px;align-items:center;}
-  .rr{display:flex;align-items:center;gap:14px;}
-  .rl{font-size:${labelFont}px;font-weight:900;letter-spacing:1.5px;width:44px;text-align:right;color:#aaa;flex-shrink:0;}
-  .tag{border-radius:12px;padding:${tagPad};font-size:${tagFont}px;font-weight:700;}
-  .on{background:#fdecea;color:#b91c1c;}
-  .kun{background:#e8f5e9;color:#2e7d32;}
+  .readings{display:flex;flex-direction:column;gap:${readingGap * 2}px;align-items:center;width:100%;}
+  .r-sect{display:flex;flex-direction:column;align-items:center;gap:${Math.round(readingGap * 0.7)}px;}
+  .rl-big{font-size:${Math.round(labelFont * 1.3)}px;font-weight:900;letter-spacing:2px;color:#888;text-transform:uppercase;}
+  .rl-sm{font-size:${labelFont}px;font-weight:700;letter-spacing:1.5px;color:#bbb;text-transform:uppercase;}
+  .tag{border-radius:14px;font-weight:700;}
+  .kun-tag{background:#e8f5e9;color:#2e7d32;font-size:${Math.round(tagFont * 1.25)}px;padding:${tagPad};}
+  .on-tag{background:#fdecea;color:#b91c1c;font-size:${tagFont}px;padding:${tagPad};}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
@@ -258,7 +259,7 @@ function buildKanjiHTML(kanji, data, levelStr, fmt) {
     <div class="kanji">${kanji}</div>
     <div class="meaning">${meanings}</div>
     <div class="divider"></div>
-    <div class="readings">${onBlock}${kunBlock}</div>
+    <div class="readings">${kunBlock}${onBlock}</div>
   </div></div>
 </body></html>`;
 }
