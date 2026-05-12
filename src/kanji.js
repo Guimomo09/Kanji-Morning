@@ -94,12 +94,41 @@ const EXAMPLE_OVERRIDE = {
   ],
 };
 
+// ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
+// Returns a Map<char, jlptNum> (5=N5 easiest … 1=N1 hardest).
+function getCharLevelMap() {
+  if (!state.POOL.length) return new Map();
+  // state.POOL contains duplicates for weighting — deduplicate by keeping first occurrence
+  const map = new Map();
+  for (const { char, jlptNum } of state.POOL) {
+    if (!map.has(char)) map.set(char, jlptNum);
+  }
+  return map;
+}
+
+// Returns true if every kanji in `written` is at or below the given JLPT level.
+// jlptNum 5=N5 (easiest), 1=N1 (hardest).
+// Unknown kanji (not in pool) are treated as too advanced.
+function isWordLevelOk(written, targetJlptNum, charLevelMap) {
+  for (const ch of written) {
+    const cp = ch.codePointAt(0);
+    // CJK Unified Ideographs main block + Extension A
+    if ((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF)) {
+      const lvl = charLevelMap.get(ch);
+      if (lvl === undefined || lvl < targetJlptNum) return false;
+    }
+  }
+  return true;
+}
+
 // ── Extract best example words from API response ─────────────────────────
-// Scoring: prefer short common words, penalize historical/specialized glosses.
-export function bestExamples(words, targetChar, max = 3) {
+// Scoring: prefer short common words that are level-appropriate.
+// Pass jlptNum (5=N5 … 1=N1) to restrict to vocab of that level or easier.
+export function bestExamples(words, targetChar, max = 3, jlptNum = null) {
   if (EXAMPLE_OVERRIDE[targetChar]) return EXAMPLE_OVERRIDE[targetChar].slice(0, max);
   const candidates   = [];
   const seenMeanings = new Set();
+  const charLevelMap = jlptNum ? getCharLevelMap() : null;
 
   for (const entry of words) {
     // Pick the best variant: prefer one with non-empty priorities (= standard reading)
@@ -146,8 +175,12 @@ export function bestExamples(words, targetChar, max = 3) {
       else if (priorities.some(p => p === 'ichi1' || p === 'spec1')) freqRank = 5000;
       else                                                       freqRank = 99999;
     }
-    // Score: low frequency rank = low score = appears first
-    const score      = (freqRank / 100) + (isRare ? 20 : 0) + (hasPrefix ? 10 : 0) + (wordLen > 4 ? wordLen : 0);
+    // Score: low = appears first.
+    // Heavy penalty for words that contain kanji harder than the target JLPT level.
+    const levelPenalty = (charLevelMap && !isWordLevelOk(variant.written, jlptNum, charLevelMap))
+      ? 100000
+      : 0;
+    const score      = (freqRank / 100) + (isRare ? 20 : 0) + (hasPrefix ? 10 : 0) + (wordLen > 4 ? wordLen : 0) + levelPenalty;
 
     candidates.push({
       w: variant.written,
@@ -330,7 +363,7 @@ export async function ensureKanjiCards() {
         on:      detail.on_readings  ?? [],
         kun:     detail.kun_readings ?? [],
         meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
-        ex:      bestExamples(words, char, 3),
+        ex:      bestExamples(words, char, 3, jlptNum),
       };
     })
   );
@@ -371,7 +404,7 @@ export async function loadAndRender(n, forceNew = false) {
           on:      detail.on_readings  ?? [],
           kun:     detail.kun_readings ?? [],
           meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
-          ex:      bestExamples(words, char, 3),
+          ex:      bestExamples(words, char, 3, jlptNum),
         };
       })
     );
@@ -450,7 +483,7 @@ export async function searchAndRenderKanji(query) {
             on:      detail.on_readings  ?? [],
             kun:     detail.kun_readings ?? [],
             meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
-            ex:      bestExamples(words, inPool.char, 3),
+            ex:      bestExamples(words, inPool.char, 3, inPool.jlptNum),
           }];
         } catch { /* leave empty */ }
       }
@@ -479,7 +512,7 @@ export async function searchAndRenderKanji(query) {
               on:      detail.on_readings  ?? [],
               kun:     detail.kun_readings ?? [],
               meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
-              ex:      bestExamples(words, char, 3),
+              ex:      bestExamples(words, char, 3, pool.jlptNum),
             };
           })
         );
