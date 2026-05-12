@@ -18,8 +18,10 @@
  */
 
 import { readFileSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
-import { join, dirname } from 'path';
+import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -31,6 +33,68 @@ const get = (flag, def) => { const i = args.indexOf(flag); return i !== -1 ? arg
 const LEVEL  = get('--level', 'n5');
 const COUNT  = parseInt(get('--count', '5'), 10);
 const CUSTOM = get('--kanji', null);
+
+// ── Kuromoji furigana ─────────────────────────────────────────────────────────
+const kuromoji = require('kuromoji');
+const KUROMOJI_DIC = resolve(ROOT, 'node_modules/kuromoji/dict');
+
+let _tokenizer = null;
+async function getTokenizer() {
+  if (_tokenizer) return _tokenizer;
+  return new Promise((res, rej) => {
+    kuromoji.builder({ dicPath: KUROMOJI_DIC }).build((err, t) => {
+      if (err) return rej(err);
+      _tokenizer = t;
+      res(t);
+    });
+  });
+}
+
+/**
+ * Convert a Japanese sentence to display text:
+ * - Kanji known at targetLevelNum (and above = easier) → shown as kanji
+ * - mainKanji (the card's kanji) → always shown as kanji
+ * - Everything else → converted to hiragana via kuromoji reading
+ * No furigana ruby tags — clean textbook-style progressive kanji.
+ */
+async function toFuriganaHTML(text, targetLevelNum = 5, mainKanji = '') {
+  const tokenizer = await getTokenizer();
+  const tokens = tokenizer.tokenize(text);
+  return tokens.map(tok => {
+    const surface = tok.surface_form;
+    const reading = tok.reading; // katakana
+    const hasKanji = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(surface);
+    if (!hasKanji) return escHtml(surface);
+
+    // A token is "all known" if every kanji in it is either the card's kanji
+    // or belongs to a JLPT level >= targetLevelNum (i.e. N5=5 ≥ 5, N4=4 < 5)
+    const allKnown = [...surface].every(ch => {
+      const cp = ch.codePointAt(0);
+      if (!((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF))) return true;
+      if (mainKanji.includes(ch)) return true;
+      const lvl = CHAR_LEVEL_MAP.get(ch);
+      if (lvl === undefined) return false; // not in JLPT → treat as too hard
+      return lvl >= targetLevelNum;
+    });
+
+    if (allKnown) {
+      return escHtml(surface);
+    }
+    // Replace token with its hiragana reading
+    if (reading) {
+      return escHtml(katakanaToHiragana(reading));
+    }
+    return escHtml(surface); // fallback: no reading available
+  }).join('');
+}
+
+function katakanaToHiragana(str) {
+  return str.replace(/[\u30A1-\u30F6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
 // ── Output dirs ───────────────────────────────────────────────────────────────
 const INSTA_DIR  = join(ROOT, 'kanji-cards', 'insta');
@@ -104,14 +168,14 @@ const FMT = {
   tiktok: {
     key: 'tiktok',
     canvasW: 1080, canvasH: 1920,
-    headerH: 130, headerFont: 30, levelFont: 24, logoSize: 78,
-    cardW: 920, cardH: 1640, cardPad: '56px 72px', cardRadius: 32,
-    kanjiFont: 310, meaningFont: 44, meaningMaxW: 800,
-    tagFont: 32, tagPad: '10px 28px', labelFont: 20, readingGap: 18,
-    badgeFont: 100, titleFont: 34, subFont: 22,
-    wordKanjiFont: 50, wordReadFont: 24, wordMeanFont: 30,
-    wordPad: '26px 32px', wordGap: '0', wordJustify: 'space-around',
-    sentJpFont: 38, sentEnFont: 23, sentPad: '28px 32px', sentGap: '0', sentJustify: 'space-around',
+    headerH: 120, headerFont: 30, levelFont: 24, logoSize: 70,
+    cardW: 940, cardH: 860, cardPad: '44px 70px', cardRadius: 30,
+    kanjiFont: 285, meaningFont: 40, meaningMaxW: 770,
+    tagFont: 28, tagPad: '9px 26px', labelFont: 18, readingGap: 14,
+    badgeFont: 100, titleFont: 31, subFont: 20,
+    wordKanjiFont: 46, wordReadFont: 22, wordMeanFont: 28,
+    wordPad: '22px 30px', wordGap: '30px', wordJustify: 'center',
+    sentJpFont: 37, sentEnFont: 22, sentPad: '26px 30px', sentGap: '26px', sentJustify: 'center',
   },
 };
 
@@ -232,15 +296,12 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
           sentJpFont, sentEnFont, sentPad, sentGap, sentJustify } = fmt;
   const LVL = levelStr || LEVEL.toUpperCase();
   const logoW = logoSize + 36;
-
-  const rows = sentences.map(({ jp, en }) => {
-    const hl = jp.replace(new RegExp(kanji, 'g'), `<span style="color:#c03a20;font-weight:900;">${kanji}</span>`);
-    return `
+  // sentences items now have { jpHtml, en } — jpHtml already has ruby tags
+  const rows = sentences.map(({ jpHtml, en }) => `
     <div class="sr">
-      <div class="sjp">${hl}</div>
+      <div class="sjp">${jpHtml}</div>
       <div class="sen">${en}</div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -251,15 +312,15 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
   .ht{flex:1;text-align:center;font-size:${headerFont}px;font-weight:800;color:#fff;letter-spacing:.5px;}
   .hr{color:rgba(255,255,255,.85);font-size:${levelFont}px;font-weight:800;letter-spacing:1.5px;width:${logoW}px;text-align:right;white-space:nowrap;}
   .stage{flex:1;display:flex;align-items:center;justify-content:center;}
-  .card{width:${cardW}px;height:${cardH}px;background:#fff;border-radius:${cardRadius}px;border:1.5px solid #e8e0d5;box-shadow:0 12px 48px rgba(0,0,0,.10);display:flex;flex-direction:column;padding:${cardPad};}
+  .card{width:${cardW}px;background:#fff;border-radius:${cardRadius}px;border:1.5px solid #e8e0d5;box-shadow:0 12px 48px rgba(0,0,0,.10);display:flex;flex-direction:column;padding:${cardPad};}
   .ch{display:flex;align-items:center;gap:24px;margin-bottom:28px;}
   .badge{font-size:${badgeFont}px;font-weight:900;color:#c03a20;line-height:1;width:${Math.round(badgeFont * 1.2)}px;text-align:center;flex-shrink:0;}
   .ctitle{font-size:${titleFont}px;font-weight:800;color:#1a1a1a;}
   .csub{font-size:${subFont}px;color:#999;margin-top:4px;}
   .div{width:100%;height:1px;background:#e8e0d5;margin-bottom:24px;flex-shrink:0;}
-  .sentences{display:flex;flex-direction:column;flex:1;gap:${sentGap};justify-content:${sentJustify};}
+  .sentences{display:flex;flex-direction:column;gap:${sentGap};}
   .sr{padding:${sentPad};border-radius:16px;background:#faf7f2;border:1px solid #e8e0d5;border-left:4px solid #c03a20;}
-  .sjp{font-size:${sentJpFont}px;font-weight:700;color:#1a1a1a;line-height:1.5;margin-bottom:10px;}
+  .sjp{font-size:${sentJpFont}px;font-weight:700;color:#1a1a1a;line-height:1.7;margin-bottom:10px;}
   .sen{font-size:${sentEnFont}px;color:#666;font-style:italic;line-height:1.4;}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -278,12 +339,17 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
 }
 
 // ── Fetch: vocab ───────────────────────────────────────────────────────────────
-function isWordLevelOk(written, targetJlptNum) {
+// strictMode=true: reject any kanji harder than target (used for vocab)
+// strictMode=false: allow 1 level looser + unknown kanji treated as N3 (used for sentences)
+function isWordLevelOk(written, targetJlptNum, strictMode = true) {
+  const minLvl = strictMode ? targetJlptNum : Math.max(1, targetJlptNum - 1);
   for (const ch of written) {
     const cp = ch.codePointAt(0);
     if ((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF)) {
       const lvl = CHAR_LEVEL_MAP.get(ch);
-      if (lvl === undefined || lvl < targetJlptNum) return false;
+      // Unknown (not in JLPT): treat as N3 (level 3) — acceptable unless targeting N5 strictly
+      const effectiveLvl = lvl ?? 3;
+      if (effectiveLvl < minLvl) return false;
     }
   }
   return true;
@@ -340,27 +406,35 @@ async function fetchVocab(kanji, levelNum) {
 }
 
 // ── Fetch: sentences ──────────────────────────────────────────────────────────
+// Polite endings — desu/masu forms (preferred)
+const POLITE_RE = /(です|ます|ました|でした|ません|ませんでした|でしょう|ましょう)[。？！]?$/;
+
 async function fetchSentences(kanji, levelNum, count = 2) {
   try {
-    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(kanji)}&from=jpn&to=eng&limit=100&sort=relevance`;
+    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(kanji)}&from=jpn&to=eng&limit=200&sort=relevance`;
     const res = await fetch(url);
     if (!res.ok) return [];
     const data = await res.json();
-    // Longueur max par niveau (plus permissif qu'avant pour garantir 2 résultats)
-    const maxLen = { 5: 32, 4: 42, 3: 54, 2: 68, 1: 90 }[levelNum] || 42;
-    const out = [], seen = new Set();
+    const maxLen = { 5: 28, 4: 36, 3: 48, 2: 64, 1: 90 }[levelNum] || 36;
+
+    const polite = [], plain = [];
+    const seen = new Set();
     for (const s of (data.results || [])) {
       const jp = s.text?.trim();
       const en = s.translations?.[0]?.[0]?.text?.trim();
       if (!jp || !en || !jp.includes(kanji)) continue;
       if (jp.length > maxLen) continue;
-      if (jp.replace(/[。！？\s、]/g, '').length < 4) continue; // ignore trivial
+      if (jp.replace(/[。！？\s、]/g, '').length < 4) continue;
       if (seen.has(jp)) continue;
+      // Reject sentences with kanji much harder than target (1-level tolerance, loose mode)
+      if (!isWordLevelOk(jp, levelNum, false)) continue;
       seen.add(jp);
-      out.push({ jp, en });
-      if (out.length >= count) break;
+      if (POLITE_RE.test(jp)) polite.push({ jp, en });
+      else plain.push({ jp, en });
     }
-    return out;
+    // Prefer polite sentences; fill remaining slots with plain
+    const result = [...polite, ...plain];
+    return result.slice(0, count);
   } catch { return []; }
 }
 
@@ -393,7 +467,15 @@ for (const kanji of targetKanji) {
   // Fetch une seule fois, réutilisé pour les deux formats
   const words     = await fetchVocab(kanji, lvlNum);
   const sentences = await fetchSentences(kanji, lvlNum, 2);
-  const vocabSrc  = EXAMPLE_OVERRIDE[kanji] ? 'override' : 'api';
+
+  // Convert sentences: known kanji shown as kanji, rest → hiragana (progressive textbook style)
+  const sentencesWithFurigana = await Promise.all(
+    sentences.map(async ({ jp, en }) => ({
+      jpHtml: await toFuriganaHTML(jp, lvlNum, kanji),
+      en,
+    }))
+  );
+  const vocabSrc = EXAMPLE_OVERRIDE[kanji] ? 'override' : 'api';
 
   for (const [fmtKey, fmt] of Object.entries(FMT)) {
     const baseDir  = fmtKey === 'insta' ? INSTA_DIR : TIKTOK_DIR;
@@ -411,14 +493,14 @@ for (const kanji of targetKanji) {
     }
 
     // Carte 3 — Phrases
-    if (sentences.length > 0) {
-      await renderCard(buildPhrasesHTML(kanji, sentences, lvlStr, fmt), join(kanjiDir, '3-phrases.png'), fmt);
+    if (sentencesWithFurigana.length > 0) {
+      await renderCard(buildPhrasesHTML(kanji, sentencesWithFurigana, lvlStr, fmt), join(kanjiDir, '3-phrases.png'), fmt);
     } else {
       console.log(`  ⚠️  [${fmtKey}] Pas de phrases pour ${kanji}`);
     }
   }
 
-  console.log(`✅ ${kanji} (${lvlStr}) — vocab [${vocabSrc}]: ${words.map(w => w.w).join(', ') || '—'} — phrases: ${sentences.length}/2`);
+  console.log(`✅ ${kanji} (${lvlStr}) — vocab [${vocabSrc}]: ${words.map(w => w.w).join(', ') || '—'} — phrases: ${sentencesWithFurigana.length}/2`);
   ok++;
 }
 
