@@ -429,6 +429,24 @@ async function fetchVocab(kanji, levelNum) {
 // Polite endings — desu/masu forms (preferred)
 const POLITE_RE = /(です|ます|ました|でした|ません|ませんでした|でしょう|ましょう)[。？！]?$/;
 
+// Check that a sentence contains the vocab word as a standalone word —
+// not as a substring of a longer compound (火 should not match 火元).
+function containsWordExact(sentence, word) {
+  let idx = 0;
+  while ((idx = sentence.indexOf(word, idx)) !== -1) {
+    const after = sentence[idx + word.length];
+    if (after === undefined) return true; // end of string
+    const cp = after.codePointAt(0);
+    // If next char is kanji or katakana, it's part of a longer compound → skip
+    const isCompound = (cp >= 0x4E00 && cp <= 0x9FFF) ||
+                       (cp >= 0x3400 && cp <= 0x4DBF) ||
+                       (cp >= 0x30A0 && cp <= 0x30FF);
+    if (!isCompound) return true;
+    idx += word.length;
+  }
+  return false;
+}
+
 // Search Tatoeba for the best sentence containing a specific vocab word.
 async function fetchSentenceForWord(word, maxLen) {
   try {
@@ -441,7 +459,7 @@ async function fetchSentenceForWord(word, maxLen) {
       const jp = s.text?.trim();
       const en = s.translations?.[0]?.[0]?.text?.trim();
       if (!jp || !en) continue;
-      if (!jp.includes(word)) continue; // must contain the exact word
+      if (!containsWordExact(jp, word)) continue; // exact word match only
       if (jp.length > maxLen) continue;
       if (jp.replace(/[。！？\s、]/g, '').length < 4) continue;
       if (POLITE_RE.test(jp)) { polite.push({ jp, en }); break; }
@@ -456,7 +474,7 @@ async function fetchSentences(kanji, levelNum, words, count = 2) {
   const maxLen = { 5: 40, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
   const results = [];
   const seenJp = new Set();
-  for (const w of words.slice(0, count + 1)) {
+  for (const w of words.slice(0, count + 2)) {
     if (results.length >= count) break;
     const sent = await fetchSentenceForWord(w.w, maxLen);
     if (sent && !seenJp.has(sent.jp)) {
