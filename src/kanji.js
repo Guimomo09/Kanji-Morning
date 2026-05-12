@@ -616,6 +616,483 @@ const EXAMPLE_OVERRIDE = {
     { w: '電気',   r: 'でんき',     m: 'electricity; light' },
     { w: '電車',   r: 'でんしゃ',   m: 'train, electric train' },
   ],
+  // ── N4 — bad API examples replaced / quality overrides ──────────────────
+  '仕': [
+    { w: '仕事',     r: 'しごと',       m: 'work, job' },
+    { w: '仕方',     r: 'しかた',       m: 'way, method, means' },
+    { w: '仕組み',   r: 'しくみ',       m: 'structure, mechanism' },
+  ],
+  '以': [
+    { w: '以上',     r: 'いじょう',     m: 'more than; above; that is all' },
+    { w: '以前',     r: 'いぜん',       m: 'before, previously' },
+    { w: '以来',     r: 'いらい',       m: 'since, ever since' },
+  ],
+  '会': [
+    { w: '会議',     r: 'かいぎ',       m: 'meeting, conference' },
+    { w: '会社',     r: 'かいしゃ',     m: 'company, corporation' },
+    { w: '会話',     r: 'かいわ',       m: 'conversation' },
+  ],
+  '住': [
+    { w: '住む',     r: 'すむ',         m: 'to live, to reside' },
+    { w: '住所',     r: 'じゅうしょ',   m: 'address' },
+    { w: '住宅',     r: 'じゅうたく',   m: 'house, residence' },
+  ],
+  '体': [
+    { w: '体',       r: 'からだ',       m: 'body' },
+    { w: '体育',     r: 'たいいく',     m: 'physical education' },
+    { w: '全体',     r: 'ぜんたい',     m: 'whole, entirety' },
+  ],
+  '写': [
+    { w: '写真',     r: 'しゃしん',     m: 'photograph, photo' },
+    { w: '写す',     r: 'うつす',       m: 'to copy; to photograph' },
+    { w: '写真集',   r: 'しゃしんしゅう', m: 'photo album' },
+  ],
+  '切': [
+    { w: '大切',     r: 'たいせつ',     m: 'important, precious' },
+    { w: '切る',     r: 'きる',         m: 'to cut' },
+    { w: '切手',     r: 'きって',       m: 'postage stamp' },
+  ],
+  '力': [
+    { w: '力',       r: 'ちから',       m: 'strength, power' },
+    { w: '努力',     r: 'どりょく',     m: 'effort, hard work' },
+    { w: '協力',     r: 'きょうりょく', m: 'cooperation' },
+  ],
+  '台': [
+    { w: '台所',     r: 'だいどころ',   m: 'kitchen' },
+    { w: '台風',     r: 'たいふう',     m: 'typhoon' },
+    { w: '舞台',     r: 'ぶたい',       m: 'stage (theatre)' },
+  ],
+  '同': [
+    { w: '同じ',     r: 'おなじ',       m: 'same, identical' },
+    { w: '同時',     r: 'どうじ',       m: 'simultaneous, at the same time' },
+    { w: '同僚',     r: 'どうりょう',   m: 'colleague, co-worker' },
+  ],
+  '味': [
+    { w: '味',       r: 'あじ',         m: 'taste, flavor' },
+    { w: '意味',     r: 'いみ',         m: 'meaning' },
+    { w: '趣味',     r: 'しゅみ',       m: 'hobby, interest' },
+  ],
+  '始': [
+    { w: '始まる',   r: 'はじまる',     m: 'to begin, to start' },
+    { w: '始める',   r: 'はじめる',     m: 'to start (something)' },
+    { w: '開始',     r: 'かいし',       m: 'start, commencement' },
+  ],
+  '字': [
+    { w: '漢字',     r: 'かんじ',       m: 'kanji, Chinese character' },
+    { w: '数字',     r: 'すうじ',       m: 'numeral, digit' },
+    { w: '文字',     r: 'もじ',         m: 'letter, character' },
+  ],
+  '屋': [
+    { w: '部屋',     r: 'へや',         m: 'room' },
+    { w: '本屋',     r: 'ほんや',       m: 'bookstore' },
+    { w: '花屋',     r: 'はなや',       m: 'florist, flower shop' },
+  ],
+  '帰': [
+    { w: '帰る',     r: 'かえる',       m: 'to return home' },
+    { w: '帰国',     r: 'きこく',       m: 'return to one\'s country' },
+    { w: '帰宅',     r: 'きたく',       m: 'returning home' },
+  ],
+  '度': [
+    { w: '温度',     r: 'おんど',       m: 'temperature' },
+    { w: '程度',     r: 'ていど',       m: 'degree, extent' },
+    { w: '今度',     r: 'こんど',       m: 'this time; next time' },
+  ],
+  '心': [
+    { w: '心',       r: 'こころ',       m: 'heart, mind, spirit' },
+    { w: '中心',     r: 'ちゅうしん',   m: 'center, core' },
+    { w: '安心',     r: 'あんしん',     m: 'relief, peace of mind' },
+  ],
+  '急': [
+    { w: '急ぐ',     r: 'いそぐ',       m: 'to hurry, to rush' },
+    { w: '急に',     r: 'きゅうに',     m: 'suddenly, unexpectedly' },
+    { w: '急行',     r: 'きゅうこう',   m: 'express (train)' },
+  ],
+  '悪': [
+    { w: '悪い',     r: 'わるい',       m: 'bad, wrong, poor' },
+    { w: '悪化',     r: 'あっか',       m: 'worsening, deterioration' },
+    { w: '最悪',     r: 'さいあく',     m: 'worst, terrible' },
+  ],
+  '手': [
+    { w: '手',       r: 'て',           m: 'hand' },
+    { w: '手紙',     r: 'てがみ',       m: 'letter (mail)' },
+    { w: '上手',     r: 'じょうず',     m: 'skilled, good at' },
+  ],
+  '持': [
+    { w: '持つ',     r: 'もつ',         m: 'to hold, to carry' },
+    { w: '気持ち',   r: 'きもち',       m: 'feeling, mood' },
+    { w: '持ち物',   r: 'もちもの',     m: 'belongings, personal effects' },
+  ],
+  '教': [
+    { w: '教える',   r: 'おしえる',     m: 'to teach, to tell' },
+    { w: '教育',     r: 'きょういく',   m: 'education' },
+    { w: '教室',     r: 'きょうしつ',   m: 'classroom' },
+  ],
+  '文': [
+    { w: '文化',     r: 'ぶんか',       m: 'culture, civilization' },
+    { w: '文章',     r: 'ぶんしょう',   m: 'sentence, text' },
+    { w: '作文',     r: 'さくぶん',     m: 'essay, composition' },
+  ],
+  '料': [
+    { w: '料理',     r: 'りょうり',     m: 'cooking, dish' },
+    { w: '無料',     r: 'むりょう',     m: 'free of charge' },
+    { w: '料金',     r: 'りょうきん',   m: 'fee, charge' },
+  ],
+  '新': [
+    { w: '新しい',   r: 'あたらしい',   m: 'new' },
+    { w: '新聞',     r: 'しんぶん',     m: 'newspaper' },
+    { w: '新幹線',   r: 'しんかんせん', m: 'Shinkansen, bullet train' },
+  ],
+  '方': [
+    { w: '方法',     r: 'ほうほう',     m: 'method, way' },
+    { w: '方向',     r: 'ほうこう',     m: 'direction' },
+    { w: '方針',     r: 'ほうしん',     m: 'policy, course of action' },
+  ],
+  '明': [
+    { w: '明るい',   r: 'あかるい',     m: 'bright, cheerful' },
+    { w: '説明',     r: 'せつめい',     m: 'explanation' },
+    { w: '明日',     r: 'あした',       m: 'tomorrow' },
+  ],
+  '夕': [
+    { w: '夕方',     r: 'ゆうがた',     m: 'evening, dusk' },
+    { w: '夕食',     r: 'ゆうしょく',   m: 'dinner, supper' },
+    { w: '夕日',     r: 'ゆうひ',       m: 'setting sun' },
+  ],
+  '夜': [
+    { w: '夜',       r: 'よる',         m: 'night, evening' },
+    { w: '今夜',     r: 'こんや',       m: 'tonight, this evening' },
+    { w: '夜中',     r: 'よなか',       m: 'midnight, middle of the night' },
+  ],
+  '姉': [
+    { w: '姉',       r: 'あね',         m: 'older sister' },
+    { w: 'お姉さん', r: 'おねえさん',   m: 'older sister (polite form)' },
+    { w: '姉妹',     r: 'しまい',       m: 'sisters' },
+  ],
+  '業': [
+    { w: '授業',     r: 'じゅぎょう',   m: 'class, lesson' },
+    { w: '卒業',     r: 'そつぎょう',   m: 'graduation' },
+    { w: '工業',     r: 'こうぎょう',   m: 'industry, manufacturing' },
+  ],
+  '歌': [
+    { w: '歌う',     r: 'うたう',       m: 'to sing' },
+    { w: '歌',       r: 'うた',         m: 'song' },
+    { w: '歌手',     r: 'かしゅ',       m: 'singer' },
+  ],
+  '洋': [
+    { w: '洋服',     r: 'ようふく',     m: 'Western clothing' },
+    { w: '太平洋',   r: 'たいへいよう', m: 'Pacific Ocean' },
+    { w: '西洋',     r: 'せいよう',     m: 'Western countries, the West' },
+  ],
+  '海': [
+    { w: '海',       r: 'うみ',         m: 'sea, ocean' },
+    { w: '海外',     r: 'かいがい',     m: 'overseas, abroad' },
+    { w: '海水浴',   r: 'かいすいよく', m: 'sea bathing, swimming in the sea' },
+  ],
+  '漢': [
+    { w: '漢字',     r: 'かんじ',       m: 'kanji, Chinese character' },
+    { w: '漢語',     r: 'かんご',       m: 'Chinese-origin word' },
+    { w: '漢和辞典', r: 'かんわじてん', m: 'kanji dictionary' },
+  ],
+  '田': [
+    { w: '田舎',     r: 'いなか',       m: 'countryside, rural area' },
+    { w: '田んぼ',   r: 'たんぼ',       m: 'paddy field, rice field' },
+    { w: '田園',     r: 'でんえん',     m: 'rural scenery, countryside' },
+  ],
+  '界': [
+    { w: '世界',     r: 'せかい',       m: 'world' },
+    { w: '限界',     r: 'げんかい',     m: 'limit, boundary' },
+    { w: '業界',     r: 'ぎょうかい',   m: 'industry, business world' },
+  ],
+  '着': [
+    { w: '着る',     r: 'きる',         m: 'to wear (clothing)' },
+    { w: '着く',     r: 'つく',         m: 'to arrive' },
+    { w: '到着',     r: 'とうちゃく',   m: 'arrival' },
+  ],
+  '知': [
+    { w: '知る',     r: 'しる',         m: 'to know, to find out' },
+    { w: '知識',     r: 'ちしき',       m: 'knowledge' },
+    { w: '知り合い', r: 'しりあい',     m: 'acquaintance' },
+  ],
+  '社': [
+    { w: '会社',     r: 'かいしゃ',     m: 'company, corporation' },
+    { w: '社会',     r: 'しゃかい',     m: 'society' },
+    { w: '神社',     r: 'じんじゃ',     m: 'Shinto shrine' },
+  ],
+  '私': [
+    { w: '私',       r: 'わたし',       m: 'I, me' },
+    { w: '私立',     r: 'しりつ',       m: 'private (school, etc.)' },
+    { w: '私生活',   r: 'しせいかつ',   m: 'private life' },
+  ],
+  '究': [
+    { w: '研究',     r: 'けんきゅう',   m: 'research, study' },
+    { w: '研究者',   r: 'けんきゅうしゃ', m: 'researcher' },
+    { w: '追究',     r: 'ついきゅう',   m: 'investigation, inquiry' },
+  ],
+  '終': [
+    { w: '終わる',   r: 'おわる',       m: 'to end, to finish' },
+    { w: '最終',     r: 'さいしゅう',   m: 'final, last' },
+    { w: '終わり',   r: 'おわり',       m: 'end, conclusion' },
+  ],
+  '自': [
+    { w: '自分',     r: 'じぶん',       m: 'oneself' },
+    { w: '自由',     r: 'じゆう',       m: 'freedom, liberty' },
+    { w: '自転車',   r: 'じてんしゃ',   m: 'bicycle' },
+  ],
+  '茶': [
+    { w: 'お茶',     r: 'おちゃ',       m: 'tea' },
+    { w: '茶色',     r: 'ちゃいろ',     m: 'brown (color)' },
+    { w: '茶道',     r: 'さどう',       m: 'tea ceremony' },
+  ],
+  '親': [
+    { w: '親',       r: 'おや',         m: 'parent' },
+    { w: '親切',     r: 'しんせつ',     m: 'kind, kindness' },
+    { w: '親友',     r: 'しんゆう',     m: 'close friend, best friend' },
+  ],
+  '質': [
+    { w: '質問',     r: 'しつもん',     m: 'question' },
+    { w: '品質',     r: 'ひんしつ',     m: 'quality (of a product)' },
+    { w: '性質',     r: 'せいしつ',     m: 'nature, character, property' },
+  ],
+  '近': [
+    { w: '近い',     r: 'ちかい',       m: 'near, close' },
+    { w: '最近',     r: 'さいきん',     m: 'recently, lately' },
+    { w: '近所',     r: 'きんじょ',     m: 'neighborhood' },
+  ],
+  '元': [
+    { w: '元気',     r: 'げんき',       m: 'energetic, healthy; fine' },
+    { w: '元',       r: 'もと',         m: 'origin, former' },
+    { w: '地元',     r: 'じもと',       m: 'local, home area' },
+  ],
+  '勉': [
+    { w: '勉強',     r: 'べんきょう',   m: 'study, learning' },
+    { w: '勤勉',     r: 'きんべん',     m: 'diligent, hardworking' },
+    { w: '勉学',     r: 'べんがく',     m: 'studying, pursuit of knowledge' },
+  ],
+  '問': [
+    { w: '問題',     r: 'もんだい',     m: 'problem, issue, question' },
+    { w: '質問',     r: 'しつもん',     m: 'question' },
+    { w: '問う',     r: 'とう',         m: 'to ask, to question' },
+  ],
+  '待': [
+    { w: '待つ',     r: 'まつ',         m: 'to wait' },
+    { w: '期待',     r: 'きたい',       m: 'expectation, hope' },
+    { w: '招待',     r: 'しょうたい',   m: 'invitation' },
+  ],
+  '思': [
+    { w: '思う',     r: 'おもう',       m: 'to think, to feel' },
+    { w: '思い出',   r: 'おもいで',     m: 'memory, recollection' },
+    { w: '思い',     r: 'おもい',       m: 'thought, feeling' },
+  ],
+  '旅': [
+    { w: '旅行',     r: 'りょこう',     m: 'travel, trip' },
+    { w: '旅',       r: 'たび',         m: 'journey, travel' },
+    { w: '旅館',     r: 'りょかん',     m: 'Japanese inn' },
+  ],
+  '族': [
+    { w: '家族',     r: 'かぞく',       m: 'family' },
+    { w: '民族',     r: 'みんぞく',     m: 'people, ethnic group' },
+    { w: '水族館',   r: 'すいぞくかん', m: 'aquarium' },
+  ],
+  '注': [
+    { w: '注意',     r: 'ちゅうい',     m: 'attention, caution, warning' },
+    { w: '注文',     r: 'ちゅうもん',   m: 'order (for an item)' },
+    { w: '注目',     r: 'ちゅうもく',   m: 'attention, notice' },
+  ],
+  '物': [
+    { w: '動物',     r: 'どうぶつ',     m: 'animal' },
+    { w: '食べ物',   r: 'たべもの',     m: 'food' },
+    { w: '建物',     r: 'たてもの',     m: 'building' },
+  ],
+  '用': [
+    { w: '用',       r: 'よう',         m: 'use; business; errand' },
+    { w: '使用',     r: 'しよう',       m: 'use, application' },
+    { w: '費用',     r: 'ひよう',       m: 'cost, expense' },
+  ],
+  '町': [
+    { w: '町',       r: 'まち',         m: 'town, city district' },
+    { w: '下町',     r: 'したまち',     m: 'downtown, old city area' },
+    { w: '市町村',   r: 'しちょうそん', m: 'cities, towns and villages' },
+  ],
+  '秋': [
+    { w: '秋',       r: 'あき',         m: 'autumn, fall' },
+    { w: '秋分',     r: 'しゅうぶん',   m: 'autumnal equinox' },
+    { w: '春夏秋冬', r: 'しゅんかしゅうとう', m: 'four seasons' },
+  ],
+  '答': [
+    { w: '答える',   r: 'こたえる',     m: 'to answer, to respond' },
+    { w: '答',       r: 'こたえ',       m: 'answer, response' },
+    { w: '回答',     r: 'かいとう',     m: 'reply, answer' },
+  ],
+  '肉': [
+    { w: '肉',       r: 'にく',         m: 'meat' },
+    { w: '牛肉',     r: 'ぎゅうにく',   m: 'beef' },
+    { w: '肉料理',   r: 'にくりょうり', m: 'meat dish' },
+  ],
+  '買': [
+    { w: '買う',     r: 'かう',         m: 'to buy' },
+    { w: '買い物',   r: 'かいもの',     m: 'shopping' },
+    { w: '売買',     r: 'ばいばい',     m: 'buying and selling, trade' },
+  ],
+  '通': [
+    { w: '通る',     r: 'とおる',       m: 'to pass, to go through' },
+    { w: '通学',     r: 'つうがく',     m: 'commuting to school' },
+    { w: '普通',     r: 'ふつう',       m: 'ordinary, usual, normal' },
+  ],
+  '道': [
+    { w: '道',       r: 'みち',         m: 'road, way, path' },
+    { w: '近道',     r: 'ちかみち',     m: 'shortcut' },
+    { w: '道路',     r: 'どうろ',       m: 'road, highway' },
+  ],
+  '開': [
+    { w: '開ける',   r: 'あける',       m: 'to open' },
+    { w: '開発',     r: 'かいはつ',     m: 'development' },
+    { w: '公開',     r: 'こうかい',     m: 'opening to the public' },
+  ],
+  '院': [
+    { w: '病院',     r: 'びょういん',   m: 'hospital' },
+    { w: '大学院',   r: 'だいがくいん', m: 'graduate school' },
+    { w: '入院',     r: 'にゅういん',   m: 'hospitalization' },
+  ],
+  '青': [
+    { w: '青い',     r: 'あおい',       m: 'blue; green' },
+    { w: '青空',     r: 'あおぞら',     m: 'blue sky' },
+    { w: '青年',     r: 'せいねん',     m: 'youth, young person' },
+  ],
+  '音': [
+    { w: '音楽',     r: 'おんがく',     m: 'music' },
+    { w: '音',       r: 'おと',         m: 'sound, noise' },
+    { w: '発音',     r: 'はつおん',     m: 'pronunciation' },
+  ],
+  '題': [
+    { w: '問題',     r: 'もんだい',     m: 'problem, issue, question' },
+    { w: '話題',     r: 'わだい',       m: 'topic, subject of conversation' },
+    { w: '課題',     r: 'かだい',       m: 'homework, task, assignment' },
+  ],
+  '風': [
+    { w: '風',       r: 'かぜ',         m: 'wind' },
+    { w: '台風',     r: 'たいふう',     m: 'typhoon' },
+    { w: '風景',     r: 'ふうけい',     m: 'scenery, landscape' },
+  ],
+  '駅': [
+    { w: '駅',       r: 'えき',         m: 'station' },
+    { w: '駅前',     r: 'えきまえ',     m: 'in front of the station' },
+    { w: '駅員',     r: 'えきいん',     m: 'station staff' },
+  ],
+  // ── N4 wave 3 — remaining API overrides ──────────────────────────────────
+  '少': [
+    { w: '少し',     r: 'すこし',       m: 'a little, slightly' },
+    { w: '少ない',   r: 'すくない',     m: 'few, little (in quantity)' },
+    { w: '少なくとも', r: 'すくなくとも', m: 'at least' },
+  ],
+  '犬': [
+    { w: '犬',       r: 'いぬ',         m: 'dog' },
+    { w: '子犬',     r: 'こいぬ',       m: 'puppy' },
+    { w: '番犬',     r: 'ばんけん',     m: 'watchdog, guard dog' },
+  ],
+  '病': [
+    { w: '病院',     r: 'びょういん',   m: 'hospital' },
+    { w: '病気',     r: 'びょうき',     m: 'illness, sickness' },
+    { w: '看病',     r: 'かんびょう',   m: 'nursing, caring for the sick' },
+  ],
+  '研': [
+    { w: '研究',     r: 'けんきゅう',   m: 'research' },
+    { w: '研究者',   r: 'けんきゅうしゃ', m: 'researcher' },
+    { w: '研修',     r: 'けんしゅう',   m: 'training, internship' },
+  ],
+  '作': [
+    { w: '作品',     r: 'さくひん',     m: 'work, creation (art, literature)' },
+    { w: '作業',     r: 'さぎょう',     m: 'task, operation, work' },
+    { w: '作家',     r: 'さっか',       m: 'author, writer' },
+  ],
+  '兄': [
+    { w: '兄',       r: 'あに',         m: 'older brother' },
+    { w: 'お兄さん', r: 'おにいさん',   m: 'older brother (polite)' },
+    { w: '兄弟',     r: 'きょうだい',   m: 'siblings, brothers and sisters' },
+  ],
+  '冬': [
+    { w: '冬',       r: 'ふゆ',         m: 'winter' },
+    { w: '冬休み',   r: 'ふゆやすみ',   m: 'winter vacation' },
+    { w: '冬至',     r: 'とうじ',       m: 'winter solstice' },
+  ],
+  '別': [
+    { w: '特別',     r: 'とくべつ',     m: 'special' },
+    { w: '別れ',     r: 'わかれ',       m: 'parting, farewell' },
+    { w: '区別',     r: 'くべつ',       m: 'distinction, difference' },
+  ],
+  '堂': [
+    { w: '食堂',     r: 'しょくどう',   m: 'cafeteria, dining hall' },
+    { w: '本堂',     r: 'ほんどう',     m: 'main hall (of a temple)' },
+    { w: '堂々',     r: 'どうどう',     m: 'majestic, dignified' },
+  ],
+  '売': [
+    { w: '売る',     r: 'うる',         m: 'to sell' },
+    { w: '売り場',   r: 'うりば',       m: 'sales floor, counter' },
+    { w: '販売',     r: 'はんばい',     m: 'sales' },
+  ],
+  '妹': [
+    { w: '妹',       r: 'いもうと',     m: 'younger sister' },
+    { w: '姉妹',     r: 'しまい',       m: 'sisters' },
+    { w: '兄妹',     r: 'あにいもうと', m: 'older brother and younger sister' },
+  ],
+  '広': [
+    { w: '広い',     r: 'ひろい',       m: 'wide, spacious, broad' },
+    { w: '広告',     r: 'こうこく',     m: 'advertisement' },
+    { w: '広場',     r: 'ひろば',       m: 'plaza, open space' },
+  ],
+  '建': [
+    { w: '建てる',   r: 'たてる',       m: 'to build, to construct' },
+    { w: '建物',     r: 'たてもの',     m: 'building' },
+    { w: '建築',     r: 'けんちく',     m: 'architecture, building construction' },
+  ],
+  '強': [
+    { w: '強い',     r: 'つよい',       m: 'strong, powerful' },
+    { w: '勉強',     r: 'べんきょう',   m: 'study' },
+    { w: '強調',     r: 'きょうちょう', m: 'emphasis, stress' },
+  ],
+  '意': [
+    { w: '意味',     r: 'いみ',         m: 'meaning' },
+    { w: '意見',     r: 'いけん',       m: 'opinion' },
+    { w: '注意',     r: 'ちゅうい',     m: 'attention, caution' },
+  ],
+  '紙': [
+    { w: '紙',       r: 'かみ',         m: 'paper' },
+    { w: '手紙',     r: 'てがみ',       m: 'letter (mail)' },
+    { w: '折り紙',   r: 'おりがみ',     m: 'origami, paper folding' },
+  ],
+  '言': [
+    { w: '言う',     r: 'いう',         m: 'to say, to speak' },
+    { w: '言葉',     r: 'ことば',       m: 'word, expression, language' },
+    { w: '発言',     r: 'はつげん',     m: 'statement, remark' },
+  ],
+  '計': [
+    { w: '計画',     r: 'けいかく',     m: 'plan, project' },
+    { w: '合計',     r: 'ごうけい',     m: 'total, sum' },
+    { w: '時計',     r: 'とけい',       m: 'clock, watch' },
+  ],
+  '貸': [
+    { w: '貸す',     r: 'かす',         m: 'to lend, to loan' },
+    { w: '貸し出し', r: 'かしだし',     m: 'lending, checkout' },
+    { w: '賃貸',     r: 'ちんたい',     m: 'rental, lease' },
+  ],
+  '送': [
+    { w: '送る',     r: 'おくる',       m: 'to send; to see off' },
+    { w: '放送',     r: 'ほうそう',     m: 'broadcasting' },
+    { w: '送別会',   r: 'そうべつかい', m: 'farewell party' },
+  ],
+  '週': [
+    { w: '今週',     r: 'こんしゅう',   m: 'this week' },
+    { w: '来週',     r: 'らいしゅう',   m: 'next week' },
+    { w: '毎週',     r: 'まいしゅう',   m: 'every week' },
+  ],
+  '集': [
+    { w: '集める',   r: 'あつめる',     m: 'to collect, to gather' },
+    { w: '集まる',   r: 'あつまる',     m: 'to gather, to come together' },
+    { w: '集合',     r: 'しゅうごう',   m: 'assembly, gathering point' },
+  ],
+  '飯': [
+    { w: 'ご飯',     r: 'ごはん',       m: 'cooked rice; meal' },
+    { w: '夕飯',     r: 'ゆうはん',     m: 'dinner, evening meal' },
+    { w: '朝ご飯',   r: 'あさごはん',   m: 'breakfast' },
+  ],
   // ── N3 — bad API examples replaced ───────────────────────────────────────
   '命': [
     { w: '命',     r: 'いのち',     m: 'life' },
