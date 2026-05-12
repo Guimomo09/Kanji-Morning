@@ -89,11 +89,16 @@ async function _cloudPull() {
       try { localStorage.setItem('quiz_history', JSON.stringify(merged)); } catch {}
     }
 
-    // Pull savedWords flat list — Firestore is source of truth, overwrite local
-    if (data.savedWords && Array.isArray(data.savedWords) && data.savedWords.length > 0) {
+    // Pull savedWords — merge cloud + local, never discard words
+    if (data.savedWords && Array.isArray(data.savedWords)) {
       try {
-        localStorage.setItem('km_saved_words', JSON.stringify(data.savedWords));
-        console.log(`[_cloudPull] Restored ${data.savedWords.length} saved words from cloud (overwrite).`);
+        let local = [];
+        try { const r = localStorage.getItem('km_saved_words'); if (r) local = JSON.parse(r); } catch {}
+        const seen = new Set(local.map(i => i.word));
+        const merged = [...local, ...data.savedWords.filter(i => i.word && !seen.has(i.word))];
+        merged.sort((a, b) => (b.savedDate || '').localeCompare(a.savedDate || ''));
+        localStorage.setItem('km_saved_words', JSON.stringify(merged));
+        console.log(`[_cloudPull] Merged saved words: local ${local.length} + cloud ${data.savedWords.length} = ${merged.length}`);
       } catch {}
     }
 
@@ -174,6 +179,42 @@ export async function cloudUpdate(partial) {
     } else {
       console.warn('[cloudUpdate] Cloud update failed:', e);
     }
+  }
+}
+
+// ── Atomic savedWords operations (never overwrite full list) ─────────────
+// Use arrayUnion to ADD a word — safe regardless of local/cloud sync state
+export async function cloudSavedWordAdd(wordObj) {
+  if (!state._fbDb || !state._fbUser) return;
+  try {
+    await state._fbDb.collection('users').doc(state._fbUser.uid).set(
+      { savedWords: firebase.firestore.FieldValue.arrayUnion(wordObj) },
+      { merge: true }
+    );
+  } catch (e) {
+    console.warn('[cloudSavedWordAdd] failed:', e);
+  }
+}
+
+// Use arrayRemove to DELETE a word — safe regardless of local/cloud sync state
+// Firestore arrayRemove matches by deep equality, so we fetch first to get exact object
+export async function cloudSavedWordRemove(wordOrSet) {
+  if (!state._fbDb || !state._fbUser) return;
+  try {
+    const ref = state._fbDb.collection('users').doc(state._fbUser.uid);
+    const doc = await ref.get();
+    if (!doc.exists) return;
+    const data = doc.data();
+    const current = Array.isArray(data.savedWords) ? data.savedWords : [];
+    const isSet = wordOrSet instanceof Set;
+    const toRemove = current.filter(i => isSet ? wordOrSet.has(i.word) : i.word === wordOrSet);
+    if (!toRemove.length) return;
+    await ref.update({
+      savedWords: firebase.firestore.FieldValue.arrayRemove(...toRemove)
+    });
+    console.log(`[cloudSavedWordRemove] Removed ${toRemove.length} word(s) atomically`);
+  } catch (e) {
+    console.warn('[cloudSavedWordRemove] failed:', e);
   }
 }
 
