@@ -451,6 +451,131 @@ const EXAMPLE_OVERRIDE = {
     { w: '人口',   r: 'じんこう',   m: 'population' },
     { w: '出口',   r: 'でぐち',     m: 'exit' },
   ],
+  '左': [
+    { w: '左',     r: 'ひだり',     m: 'left, left side' },
+    { w: '左右',   r: 'さゆう',     m: 'left and right' },
+    { w: '左折',   r: 'させつ',     m: 'turning left' },
+  ],
+  '右': [
+    { w: '右',     r: 'みぎ',       m: 'right, right side' },
+    { w: '左右',   r: 'さゆう',     m: 'left and right' },
+    { w: '右折',   r: 'うせつ',     m: 'turning right' },
+  ],
+  '午': [
+    { w: '午後',   r: 'ごご',       m: 'afternoon, p.m.' },
+    { w: '午前',   r: 'ごぜん',     m: 'morning, a.m.' },
+    { w: '正午',   r: 'しょうご',   m: 'noon, midday' },
+  ],
+  '何': [
+    { w: '何',     r: 'なに',       m: 'what' },
+    { w: '何度',   r: 'なんど',     m: 'how many times; how many degrees' },
+    { w: '何か',   r: 'なにか',     m: 'something' },
+  ],
+  '円': [
+    { w: '千円',   r: 'せんえん',   m: '1,000 yen' },
+    { w: '百円',   r: 'ひゃくえん', m: '100 yen' },
+    { w: '円',     r: 'えん',       m: 'yen (Japanese currency); circle' },
+  ],
+  '出': [
+    { w: '出る',   r: 'でる',       m: 'to exit, to leave, to come out' },
+    { w: '出口',   r: 'でぐち',     m: 'exit' },
+    { w: '輸出',   r: 'ゆしゅつ',   m: 'export' },
+  ],
+  '北': [
+    { w: '北',     r: 'きた',       m: 'north' },
+    { w: '北口',   r: 'きたぐち',   m: 'north exit' },
+    { w: '北海道', r: 'ほっかいどう', m: 'Hokkaido (northernmost island of Japan)' },
+  ],
+  '友': [
+    { w: '友達',   r: 'ともだち',   m: 'friend' },
+    { w: '友人',   r: 'ゆうじん',   m: 'friend (formal)' },
+    { w: '友好',   r: 'ゆうこう',   m: 'friendship, amity' },
+  ],
+  '名': [
+    { w: '名前',   r: 'なまえ',     m: 'name' },
+    { w: '名刺',   r: 'めいし',     m: 'business card' },
+    { w: '有名',   r: 'ゆうめい',   m: 'famous, well-known' },
+  ],
+  '土': [
+    { w: '土',     r: 'つち',       m: 'earth, soil, ground' },
+    { w: '土曜日', r: 'どようび',   m: 'Saturday' },
+    { w: '土地',   r: 'とち',       m: 'land, plot of land' },
+  ],
+  '年': [
+    { w: '今年',   r: 'ことし',     m: 'this year' },
+    { w: '来年',   r: 'らいねん',   m: 'next year' },
+    { w: '昨年',   r: 'さくねん',   m: 'last year' },
+  ],
+  '日': [
+    { w: '毎日',   r: 'まいにち',   m: 'every day' },
+    { w: '今日',   r: 'きょう',     m: 'today' },
+    { w: '休日',   r: 'きゅうじつ', m: 'holiday, day off' },
+  ],
+  '来': [
+    { w: '来年',   r: 'らいねん',   m: 'next year' },
+    { w: '来月',   r: 'らいげつ',   m: 'next month' },
+    { w: '来週',   r: 'らいしゅう', m: 'next week' },
+  ],
+  '毎': [
+    { w: '毎日',   r: 'まいにち',   m: 'every day' },
+    { w: '毎週',   r: 'まいしゅう', m: 'every week' },
+    { w: '毎朝',   r: 'まいあさ',   m: 'every morning' },
+  ],
+  '男': [
+    { w: '男',     r: 'おとこ',     m: 'man, male' },
+    { w: '男の子', r: 'おとこのこ', m: 'boy' },
+    { w: '長男',   r: 'ちょうなん', m: 'eldest son' },
+  ],
+  '話': [
+    { w: '話す',   r: 'はなす',     m: 'to speak, to talk' },
+    { w: '話',     r: 'はなし',     m: 'story, talk, conversation' },
+    { w: '電話',   r: 'でんわ',     m: 'telephone' },
+  ],
+  '読': [
+    { w: '読む',   r: 'よむ',       m: 'to read' },
+    { w: '読書',   r: 'どくしょ',   m: 'reading (books)' },
+    { w: '読み方', r: 'よみかた',   m: 'way of reading; pronunciation' },
+  ],
+  '見': [
+    { w: '見る',   r: 'みる',       m: 'to see, to look at, to watch' },
+    { w: '見物',   r: 'けんぶつ',   m: 'sightseeing, watching' },
+    { w: '見方',   r: 'みかた',     m: 'viewpoint, way of seeing' },
+  ],
+  '女': [
+    { w: '女',     r: 'おんな',     m: 'woman, female' },
+    { w: '女性',   r: 'じょせい',   m: 'woman, female' },
+    { w: '女の子', r: 'おんなのこ', m: 'girl' },
+  ],
+  '母': [
+    { w: 'お母さん', r: 'おかあさん', m: 'mother (polite)' },
+    { w: '母',     r: 'はは',       m: 'mother (humble)' },
+    { w: '母親',   r: 'ははおや',   m: 'mother' },
+  ],
+  '父': [
+    { w: 'お父さん', r: 'おとうさん', m: 'father (polite)' },
+    { w: '父',     r: 'ちち',       m: 'father (humble)' },
+    { w: '父親',   r: 'ちちおや',   m: 'father' },
+  ],
+  '川': [
+    { w: '川',     r: 'かわ',       m: 'river, stream' },
+    { w: '川岸',   r: 'かわぎし',   m: 'riverbank' },
+    { w: '天の川', r: 'あまのがわ', m: 'Milky Way' },
+  ],
+  '車': [
+    { w: '電車',   r: 'でんしゃ',   m: 'train, electric train' },
+    { w: '自動車', r: 'じどうしゃ', m: 'car, automobile' },
+    { w: '駐車場', r: 'ちゅうしゃじょう', m: 'parking lot' },
+  ],
+  '間': [
+    { w: '時間',   r: 'じかん',     m: 'time, hours, duration' },
+    { w: '人間',   r: 'にんげん',   m: 'human being, person' },
+    { w: '間',     r: 'あいだ',     m: 'between, space, interval' },
+  ],
+  '雨': [
+    { w: '雨',     r: 'あめ',       m: 'rain' },
+    { w: '梅雨',   r: 'つゆ',       m: 'rainy season' },
+    { w: '大雨',   r: 'おおあめ',   m: 'heavy rain' },
+  ],
   // ── N3 — bad API examples replaced ───────────────────────────────────────
   '命': [
     { w: '命',     r: 'いのち',     m: 'life' },
