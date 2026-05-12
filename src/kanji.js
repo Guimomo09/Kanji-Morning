@@ -2277,6 +2277,489 @@ const EXAMPLE_OVERRIDE = {
     { w: '黄金',     r: 'こがね',       m: 'gold, golden' },
     { w: '卵黄',     r: 'らんおう',     m: 'egg yolk' },
   ],
+
+  // ── N1 wave 1 — batch 1/4 (kanji 1-308) ───────────────────────────────────
+  '丁': [
+    { w: '丁寧',     r: 'ていねい',     m: 'polite, careful, thorough' },
+    { w: '丁度',     r: 'ちょうど',     m: 'exactly, just, precisely' },
+    { w: '丁目',     r: 'ちょうめ',     m: 'district block number (address)' },
+  ],
+  '且': [
+    { w: 'なお且つ', r: 'なおかつ',     m: 'and yet, in addition, further' },
+    { w: '且つ',     r: 'かつ',         m: 'besides, moreover, at the same time' },
+    { w: '且て',     r: 'かつて',       m: 'once, ever, formerly' },
+  ],
+  '丘': [
+    { w: '丘',       r: 'おか',         m: 'hill, knoll' },
+    { w: '丘陵',     r: 'きゅうりょう', m: 'hill, hillock, rising ground' },
+    { w: '砂丘',     r: 'さきゅう',     m: 'sand dune' },
+  ],
+  '丹': [
+    { w: '丹念',     r: 'たんねん',     m: 'painstaking, careful, elaborate' },
+    { w: '丹精',     r: 'たんせい',     m: 'taking great pains, working diligently' },
+    { w: '牡丹',     r: 'ぼたん',       m: 'peony (flower)' },
+  ],
+  '乃': [
+    { w: '乃至',     r: 'ないし',       m: 'or, up to, between' },
+    { w: '乃ち',     r: 'すなわち',     m: 'that is, in other words' },
+    { w: '乃父',     r: 'だいふ',       m: 'your father, my father' },
+  ],
+  '也': [
+    { w: '也',       r: 'なり',         m: 'a sum of money (classical particle)' },
+    { w: '可也',     r: 'かなり',       m: 'considerably, fairly, quite' },
+    { w: '時は金也', r: 'ときはかねなり', m: 'time is money' },
+  ],
+  '亜': [
+    { w: '亜細亜',   r: 'あじあ',       m: 'Asia' },
+    { w: '亜熱帯',   r: 'あねったい',   m: 'subtropics' },
+    { w: '亜種',     r: 'あしゅ',       m: 'subspecies' },
+  ],
+  '享': [
+    { w: '享受',     r: 'きょうじゅ',   m: 'enjoyment, appreciation, reception' },
+    { w: '享楽',     r: 'きょうらく',   m: 'enjoyment, pleasure' },
+    { w: '享年',     r: 'きょうねん',   m: 'age at death' },
+  ],
+  '亭': [
+    { w: '料亭',     r: 'りょうてい',   m: 'high-class Japanese restaurant' },
+    { w: '亭主',     r: 'ていしゅ',     m: 'husband; host (at a tea ceremony)' },
+    { w: '料亭',     r: 'りょうてい',   m: 'high-class Japanese restaurant' },
+    { w: '亭',       r: 'ちん',         m: 'pavilion, kiosk' },
+  ],
+  '仁': [
+    { w: '仁義',     r: 'じんぎ',       m: 'humanity and justice; moral code' },
+    { w: '仁術',     r: 'じんじゅつ',   m: 'benevolent art (esp. medicine)' },
+    { w: '仁愛',     r: 'じんあい',     m: 'benevolence, charity, love' },
+  ],
+  '仙': [
+    { w: '仙人',     r: 'せんにん',     m: 'hermit, recluse, wizard' },
+    { w: '仙台',     r: 'せんだい',     m: 'Sendai (city in Miyagi)' },
+    { w: '水仙',     r: 'すいせん',     m: 'daffodil, narcissus' },
+  ],
+  '仮': [
+    { w: '仮名',     r: 'かな',         m: 'kana (Japanese syllabary)' },
+    { w: '仮説',     r: 'かせつ',       m: 'hypothesis, supposition' },
+    { w: '仮定',     r: 'かてい',       m: 'assumption, supposition, premise' },
+  ],
+  '仰': [
+    { w: '信仰',     r: 'しんこう',     m: 'faith, belief, religion' },
+    { w: '仰ぐ',     r: 'あおぐ',       m: 'to look up at; to revere' },
+    { w: '仰天',     r: 'ぎょうてん',   m: 'astonishment, being astounded' },
+  ],
+  '企': [
+    { w: '企業',     r: 'きぎょう',     m: 'enterprise, business, company' },
+    { w: '企画',     r: 'きかく',       m: 'plan, project, planning' },
+    { w: '企て',     r: 'くわだて',     m: 'plan, scheme, attempt' },
+  ],
+  '伊': [
+    { w: '伊達',     r: 'だて',         m: 'elegance, dandyism; vanity' },
+    { w: '伊勢',     r: 'いせ',         m: 'Ise (region in Mie Prefecture)' },
+    { w: '伊豆',     r: 'いず',         m: 'Izu (peninsula, islands)' },
+  ],
+  '伴': [
+    { w: '伴奏',     r: 'ばんそう',     m: 'musical accompaniment' },
+    { w: '同伴',     r: 'どうはん',     m: 'going together, accompanying' },
+    { w: '伴う',     r: 'ともなう',     m: 'to accompany, to be accompanied by' },
+  ],
+  '催': [
+    { w: '開催',     r: 'かいさい',     m: 'holding (an event), hosting' },
+    { w: '主催',     r: 'しゅさい',     m: 'sponsoring, hosting, organizing' },
+    { w: '催し',     r: 'もよおし',     m: 'event, gathering, function' },
+  ],
+  '債': [
+    { w: '債券',     r: 'さいけん',     m: 'bond, debenture' },
+    { w: '国債',     r: 'こくさい',     m: 'national bond, government bond' },
+    { w: '債務',     r: 'さいむ',       m: 'debt, obligation, liability' },
+  ],
+  '傷': [
+    { w: '傷',       r: 'きず',         m: 'wound, injury, scar' },
+    { w: '傷つく',   r: 'きずつく',     m: 'to be wounded, to be hurt' },
+    { w: '負傷',     r: 'ふしょう',     m: 'injury, wound' },
+  ],
+  '僚': [
+    { w: '同僚',     r: 'どうりょう',   m: 'colleague, coworker' },
+    { w: '閣僚',     r: 'かくりょう',   m: 'cabinet minister' },
+    { w: '官僚',     r: 'かんりょう',   m: 'government official, bureaucrat' },
+  ],
+  '僧': [
+    { w: '僧侶',     r: 'そうりょ',     m: 'Buddhist priest, monk' },
+    { w: '僧院',     r: 'そういん',     m: 'monastery, convent' },
+    { w: '高僧',     r: 'こうそう',     m: 'high priest, eminent monk' },
+  ],
+  '儒': [
+    { w: '儒教',     r: 'じゅきょう',   m: 'Confucianism' },
+    { w: '儒学',     r: 'じゅがく',     m: 'Confucian studies' },
+    { w: '儒者',     r: 'じゅしゃ',     m: 'Confucian scholar' },
+  ],
+  '充': [
+    { w: '充実',     r: 'じゅうじつ',   m: 'fulfillment, enrichment, completeness' },
+    { w: '充電',     r: 'じゅうでん',   m: 'charging (a battery)' },
+    { w: '補充',     r: 'ほじゅう',     m: 'replenishment, supplement' },
+  ],
+  '克': [
+    { w: '克服',     r: 'こくふく',     m: 'overcoming, conquest (of a difficulty)' },
+    { w: '克己',     r: 'こっき',       m: 'self-control, self-discipline' },
+    { w: '克明',     r: 'こくめい',     m: 'detailed, precise, scrupulous' },
+  ],
+  '典': [
+    { w: '古典',     r: 'こてん',       m: 'classic, classical literature' },
+    { w: '式典',     r: 'しきてん',     m: 'ceremony, ritual, formal function' },
+    { w: '辞典',     r: 'じてん',       m: 'dictionary' },
+  ],
+  '兼': [
+    { w: '兼ねる',   r: 'かねる',       m: 'to serve dual purposes, to double as' },
+    { w: '兼業',     r: 'けんぎょう',   m: 'side business, concurrent work' },
+    { w: '兼任',     r: 'けんにん',     m: 'concurrent post, holding two positions' },
+  ],
+  '冒': [
+    { w: '冒険',     r: 'ぼうけん',     m: 'adventure, risk, venture' },
+    { w: '冒頭',     r: 'ぼうとう',     m: 'beginning, start, opening' },
+    { w: '冒す',     r: 'おかす',       m: 'to brave, to risk, to challenge' },
+  ],
+  '冗': [
+    { w: '冗談',     r: 'じょうだん',   m: 'joke, jest' },
+    { w: '冗長',     r: 'じょうちょう', m: 'wordy, verbose, redundant' },
+    { w: '冗費',     r: 'じょうひ',     m: 'waste, unnecessary expenditure' },
+  ],
+  '刀': [
+    { w: '刀',       r: 'かたな',       m: 'sword, katana' },
+    { w: '刀剣',     r: 'とうけん',     m: 'swords, bladed weapons' },
+    { w: '日本刀',   r: 'にほんとう',   m: 'Japanese sword' },
+  ],
+  '刑': [
+    { w: '死刑',     r: 'しけい',       m: 'death penalty, capital punishment' },
+    { w: '刑事',     r: 'けいじ',       m: 'detective, criminal investigator' },
+    { w: '刑罰',     r: 'けいばつ',     m: 'penalty, punishment' },
+  ],
+  '剖': [
+    { w: '解剖',     r: 'かいぼう',     m: 'dissection, autopsy' },
+    { w: '解剖学',   r: 'かいぼうがく', m: 'anatomy' },
+    { w: '剖検',     r: 'ぼうけん',     m: 'autopsy, post-mortem examination' },
+  ],
+  '剣': [
+    { w: '剣道',     r: 'けんどう',     m: 'kendo (Japanese fencing)' },
+    { w: '剣士',     r: 'けんし',       m: 'swordsman, fencer' },
+    { w: '真剣',     r: 'しんけん',     m: 'serious, earnest; real sword' },
+  ],
+  '剤': [
+    { w: '洗剤',     r: 'せんざい',     m: 'detergent, cleanser' },
+    { w: '薬剤',     r: 'やくざい',     m: 'medicine, pharmaceutical, drug' },
+    { w: '消毒剤',   r: 'しょうどくざい', m: 'disinfectant' },
+  ],
+  '剰': [
+    { w: '過剰',     r: 'かじょう',     m: 'excess, surplus, overabundance' },
+    { w: '余剰',     r: 'よじょう',     m: 'surplus, excess' },
+    { w: '剰余',     r: 'じょうよ',     m: 'remainder, surplus' },
+  ],
+  '励': [
+    { w: '奨励',     r: 'しょうれい',   m: 'encouragement, promotion, incentive' },
+    { w: '励む',     r: 'はげむ',       m: 'to strive, to work hard' },
+    { w: '激励',     r: 'げきれい',     m: 'encouragement, cheering on' },
+  ],
+  '勅': [
+    { w: '勅令',     r: 'ちょくれい',   m: 'imperial edict, imperial decree' },
+    { w: '勅語',     r: 'ちょくご',     m: 'imperial message, imperial rescript' },
+    { w: '勅命',     r: 'ちょくめい',   m: 'imperial command' },
+  ],
+  '勘': [
+    { w: '勘定',     r: 'かんじょう',   m: 'bill, calculation, count' },
+    { w: '勘違い',   r: 'かんちがい',   m: 'misunderstanding, misconception' },
+    { w: '勘',       r: 'かん',         m: 'intuition, sense, perception' },
+  ],
+  '勧': [
+    { w: '勧告',     r: 'かんこく',     m: 'advice, recommendation, counsel' },
+    { w: '勧誘',     r: 'かんゆう',     m: 'invitation, solicitation' },
+    { w: '勧める',   r: 'すすめる',     m: 'to recommend, to advise, to encourage' },
+  ],
+  '勲': [
+    { w: '勲章',     r: 'くんしょう',   m: 'decoration, medal, order' },
+    { w: '勲功',     r: 'くんこう',     m: 'meritorious deeds, distinguished service' },
+    { w: '殊勲',     r: 'しゅくん',     m: 'distinguished service, special merit' },
+  ],
+  '匠': [
+    { w: '師匠',     r: 'ししょう',     m: 'master, teacher, expert craftsman' },
+    { w: '巨匠',     r: 'きょしょう',   m: 'great master, grandmaster' },
+    { w: '意匠',     r: 'いしょう',     m: 'design, motif, artistic conception' },
+  ],
+  '匿': [
+    { w: '匿名',     r: 'とくめい',     m: 'anonymity, using a pseudonym' },
+    { w: '匿す',     r: 'かくす',       m: 'to hide, to conceal' },
+    { w: '隠匿',     r: 'いんとく',     m: 'concealment, hiding' },
+  ],
+  '升': [
+    { w: '升',       r: 'ます',         m: 'traditional Japanese unit of volume (~0.18L)' },
+    { w: '一升',     r: 'いっしょう',   m: 'one shō (~1.8 liters)' },
+    { w: '升目',     r: 'ますめ',       m: 'grid squares, ruled squares' },
+  ],
+  '卑': [
+    { w: '卑しい',   r: 'いやしい',     m: 'humble, base, vulgar, greedy' },
+    { w: '卑劣',     r: 'ひれつ',       m: 'mean, cowardly, despicable' },
+    { w: '卑屈',     r: 'ひくつ',       m: 'servile, submissive, cringing' },
+  ],
+  '卓': [
+    { w: '卓球',     r: 'たっきゅう',   m: 'table tennis, ping-pong' },
+    { w: '食卓',     r: 'しょくたく',   m: 'dining table' },
+    { w: '卓越',     r: 'たくえつ',     m: 'excellence, superiority' },
+  ],
+  '博': [
+    { w: '博物館',   r: 'はくぶつかん', m: 'museum' },
+    { w: '博士',     r: 'はかせ',       m: 'doctor (academic degree)' },
+    { w: '博覧会',   r: 'はくらんかい', m: 'exhibition, fair, exposition' },
+  ],
+  '即': [
+    { w: '即座',     r: 'そくざ',       m: 'immediate, prompt, on the spot' },
+    { w: '即時',     r: 'そくじ',       m: 'immediate, prompt' },
+    { w: '即興',     r: 'そっきょう',   m: 'improvisation, extemporization' },
+  ],
+  '厄': [
+    { w: '厄介',     r: 'やっかい',     m: 'trouble, nuisance, burden' },
+    { w: '厄年',     r: 'やくどし',     m: 'unlucky year, year of bad luck' },
+    { w: '厄払い',   r: 'やくばらい',   m: 'warding off evil, purification' },
+  ],
+  '厳': [
+    { w: '厳しい',   r: 'きびしい',     m: 'strict, harsh, severe' },
+    { w: '厳重',     r: 'げんじゅう',   m: 'strict, tight, rigorous' },
+    { w: '尊厳',     r: 'そんげん',     m: 'dignity, majesty, solemnity' },
+  ],
+  '及': [
+    { w: '普及',     r: 'ふきゅう',     m: 'diffusion, spread, popularization' },
+    { w: '及ぶ',     r: 'およぶ',       m: 'to reach, to amount to, to extend' },
+    { w: '追及',     r: 'ついきゅう',   m: 'pursuit, investigation, questioning' },
+  ],
+  '叙': [
+    { w: '叙情',     r: 'じょじょう',   m: 'lyricism, lyrical expression' },
+    { w: '叙述',     r: 'じょじゅつ',   m: 'description, narration' },
+    { w: '叙勲',     r: 'じょくん',     m: 'conferral of decoration' },
+  ],
+  '叡': [
+    { w: '叡智',     r: 'えいち',       m: 'wisdom, intelligence, sagacity' },
+    { w: '叡覧',     r: 'えいらん',     m: 'imperial inspection' },
+    { w: '比叡山',   r: 'ひえいざん',   m: 'Mount Hiei (in Kyoto)' },
+  ],
+  '司': [
+    { w: '司令',     r: 'しれい',       m: 'command, commandant' },
+    { w: '司法',     r: 'しほう',       m: 'administration of justice, judicature' },
+    { w: '司会',     r: 'しかい',       m: 'chairing, hosting, moderation' },
+  ],
+  '哲': [
+    { w: '哲学',     r: 'てつがく',     m: 'philosophy' },
+    { w: '哲学的',   r: 'てつがくてき', m: 'philosophical' },
+    { w: '先哲',     r: 'せんてつ',     m: 'ancient sage, wise man of the past' },
+  ],
+  '唱': [
+    { w: '合唱',     r: 'がっしょう',   m: 'chorus, choral singing' },
+    { w: '提唱',     r: 'ていしょう',   m: 'advocacy, proposal' },
+    { w: '斉唱',     r: 'せいしょう',   m: 'unison singing' },
+  ],
+  '嘆': [
+    { w: '嘆く',     r: 'なげく',       m: 'to lament, to deplore, to grieve' },
+    { w: '嘆願',     r: 'たんがん',     m: 'petition, entreaty, supplication' },
+    { w: '感嘆',     r: 'かんたん',     m: 'admiration, exclamation' },
+  ],
+  '嘱': [
+    { w: '嘱託',     r: 'しょくたく',   m: 'commission, entrust, part-time worker' },
+    { w: '嘱望',     r: 'しょくぼう',   m: 'great hopes (for someone)' },
+    { w: '委嘱',     r: 'いしょく',     m: 'commission, entrust' },
+  ],
+  '圏': [
+    { w: '首都圏',   r: 'しゅとけん',   m: 'Greater Tokyo metropolitan area' },
+    { w: '圏内',     r: 'けんない',     m: 'within a region or area' },
+    { w: '北極圏',   r: 'ほっきょくけん', m: 'Arctic Circle' },
+  ],
+  '坑': [
+    { w: '炭坑',     r: 'たんこう',     m: 'coal mine' },
+    { w: '坑道',     r: 'こうどう',     m: 'tunnel, mine shaft' },
+    { w: '落盤坑',   r: 'らくばんこう', m: 'collapsed mine shaft' },
+  ],
+  '壁': [
+    { w: '壁',       r: 'かべ',         m: 'wall, barrier' },
+    { w: '壁画',     r: 'へきが',       m: 'mural, wall painting, fresco' },
+    { w: '岸壁',     r: 'がんぺき',     m: 'cliff, wharf, quay' },
+  ],
+  '壊': [
+    { w: '壊れる',   r: 'こわれる',     m: 'to break, to be damaged, to collapse' },
+    { w: '破壊',     r: 'はかい',       m: 'destruction, demolition, breaking' },
+    { w: '崩壊',     r: 'ほうかい',     m: 'collapse, crumbling, breakdown' },
+  ],
+  '奇': [
+    { w: '奇妙',     r: 'きみょう',     m: 'strange, odd, peculiar' },
+    { w: '好奇心',   r: 'こうきしん',   m: 'curiosity' },
+    { w: '奇跡',     r: 'きせき',       m: 'miracle, wonder' },
+  ],
+  '奉': [
+    { w: '奉仕',     r: 'ほうし',       m: 'service, ministry, dedication' },
+    { w: '奉公',     r: 'ほうこう',     m: 'service, serving a master' },
+    { w: '信奉',     r: 'しんぽう',     m: 'belief, faith, adherence' },
+  ],
+  '奏': [
+    { w: '演奏',     r: 'えんそう',     m: 'musical performance' },
+    { w: '演奏会',   r: 'えんそうかい', m: 'concert, recital' },
+    { w: '伴奏',     r: 'ばんそう',     m: 'musical accompaniment' },
+  ],
+  '契': [
+    { w: '契約',     r: 'けいやく',     m: 'contract, agreement' },
+    { w: '契約書',   r: 'けいやくしょ', m: 'written contract' },
+    { w: '契機',     r: 'けいき',       m: 'opportunity, trigger, occasion' },
+  ],
+  '奨': [
+    { w: '奨励',     r: 'しょうれい',   m: 'encouragement, promotion' },
+    { w: '奨学金',   r: 'しょうがくきん', m: 'scholarship, student grant' },
+    { w: '推奨',     r: 'すいしょう',   m: 'recommendation, endorsement' },
+  ],
+  '嫌': [
+    { w: '嫌い',     r: 'きらい',       m: 'dislike, hate, aversion' },
+    { w: '嫌悪',     r: 'けんお',       m: 'hatred, disgust, aversion' },
+    { w: '嫌がる',   r: 'いやがる',     m: 'to show dislike, to be reluctant' },
+  ],
+  '嬢': [
+    { w: '令嬢',     r: 'れいじょう',   m: "young lady, (someone's) daughter" },
+    { w: 'お嬢さん', r: 'おじょうさん', m: "young lady, (another's) daughter" },
+    { w: '嬢',       r: 'じょう',       m: 'Miss, young woman' },
+  ],
+  '孔': [
+    { w: '孔子',     r: 'こうし',       m: 'Confucius' },
+    { w: '瞳孔',     r: 'どうこう',     m: 'pupil (of the eye)' },
+    { w: '孔雀',     r: 'くじゃく',     m: 'peacock' },
+  ],
+  '孤': [
+    { w: '孤独',     r: 'こどく',       m: 'loneliness, isolation, solitude' },
+    { w: '孤立',     r: 'こりつ',       m: 'isolation, being alone' },
+    { w: '孤児',     r: 'こじ',         m: 'orphan' },
+  ],
+  '宙': [
+    { w: '宇宙',     r: 'うちゅう',     m: 'universe, space, cosmos' },
+    { w: '宇宙飛行士', r: 'うちゅうひこうし', m: 'astronaut' },
+    { w: '宙返り',   r: 'ちゅうがえり', m: 'somersault, loop-the-loop' },
+  ],
+  '宣': [
+    { w: '宣言',     r: 'せんげん',     m: 'declaration, proclamation' },
+    { w: '宣伝',     r: 'せんでん',     m: 'publicity, propaganda, advertising' },
+    { w: '宣告',     r: 'せんこく',     m: 'pronouncement, sentence, ruling' },
+  ],
+  '宮': [
+    { w: '神宮',     r: 'じんぐう',     m: 'Shinto shrine (of high rank)' },
+    { w: '宮殿',     r: 'きゅうでん',   m: 'palace' },
+    { w: '宮内庁',   r: 'くないちょう', m: 'Imperial Household Agency' },
+  ],
+  '宴': [
+    { w: '披露宴',   r: 'ひろうえん',   m: 'wedding reception' },
+    { w: '宴会',     r: 'えんかい',     m: 'banquet, party, dinner' },
+    { w: '宴',       r: 'うたげ',       m: 'feast, banquet, party' },
+  ],
+  '密': [
+    { w: '秘密',     r: 'ひみつ',       m: 'secret, mystery' },
+    { w: '密か',     r: 'ひそか',       m: 'secret, private, covert' },
+    { w: '緊密',     r: 'きんみつ',     m: 'close, tight, intimate (relationship)' },
+  ],
+  '寛': [
+    { w: '寛ぐ',     r: 'くつろぐ',     m: 'to relax, to unwind, to feel at home' },
+    { w: '寛容',     r: 'かんよう',     m: 'tolerance, generosity, magnanimity' },
+    { w: '寛大',     r: 'かんだい',     m: 'tolerant, generous, lenient' },
+  ],
+  '寧': [
+    { w: '寧ろ',     r: 'むしろ',       m: 'rather, instead, preferably' },
+    { w: '丁寧',     r: 'ていねい',     m: 'polite, careful, thorough' },
+    { w: '安寧',     r: 'あんねい',     m: 'peace, tranquility, public order' },
+  ],
+  '審': [
+    { w: '審査',     r: 'しんさ',       m: 'judging, examination, screening' },
+    { w: '審議',     r: 'しんぎ',       m: 'deliberation, discussion' },
+    { w: '審判',     r: 'しんぱん',     m: 'referee, umpire; judgment' },
+  ],
+  '寮': [
+    { w: '寮',       r: 'りょう',       m: 'dormitory, residence hall' },
+    { w: '寮生',     r: 'りょうせい',   m: 'dormitory student, boarder' },
+    { w: '社員寮',   r: 'しゃいんりょう', m: 'company dormitory' },
+  ],
+  '寸': [
+    { w: '寸前',     r: 'すんぜん',     m: 'on the verge of, just before' },
+    { w: '寸法',     r: 'すんぽう',     m: 'measurement, dimensions, size' },
+    { w: '一寸',     r: 'ちょっと',     m: 'a little, a moment, just a bit' },
+  ],
+  '射': [
+    { w: '放射線',   r: 'ほうしゃせん', m: 'radiation' },
+    { w: '注射',     r: 'ちゅうしゃ',   m: 'injection, shot' },
+    { w: '射撃',     r: 'しゃげき',     m: 'shooting, gunfire' },
+  ],
+  '尺': [
+    { w: '尺度',     r: 'しゃくど',     m: 'scale, measure, criterion' },
+    { w: '巻き尺',   r: 'まきじゃく',   m: 'tape measure' },
+    { w: '尺八',     r: 'しゃくはち',   m: 'shakuhachi (traditional bamboo flute)' },
+  ],
+  '展': [
+    { w: '発展',     r: 'はってん',     m: 'development, growth, expansion' },
+    { w: '展示',     r: 'てんじ',       m: 'exhibition, display' },
+    { w: '進展',     r: 'しんてん',     m: 'progress, advance' },
+  ],
+  '属': [
+    { w: '金属',     r: 'きんぞく',     m: 'metal' },
+    { w: '所属',     r: 'しょぞく',     m: 'belonging to, affiliation' },
+    { w: '専属',     r: 'せんぞく',     m: 'exclusive, belonging to one person' },
+  ],
+  '屈': [
+    { w: '屈辱',     r: 'くつじょく',   m: 'disgrace, humiliation' },
+    { w: '屈する',   r: 'くっする',     m: 'to yield, to give in, to submit' },
+    { w: '理屈',     r: 'りくつ',       m: 'reason, logic, argument' },
+  ],
+  '岳': [
+    { w: '山岳',     r: 'さんがく',     m: 'mountain, alpine' },
+    { w: '岳',       r: 'たけ',         m: 'mountain peak' },
+    { w: '富岳',     r: 'ふがく',       m: 'Mount Fuji' },
+  ],
+  '峠': [
+    { w: '峠',       r: 'とうげ',       m: 'mountain pass' },
+    { w: '峠道',     r: 'とうげみち',   m: 'road over a mountain pass' },
+    { w: '峠越え',   r: 'とうげごえ',   m: 'crossing a mountain pass' },
+  ],
+  '峡': [
+    { w: '海峡',     r: 'かいきょう',   m: 'strait, channel' },
+    { w: '峡谷',     r: 'きょうこく',   m: 'gorge, canyon, ravine' },
+    { w: '三峡',     r: 'さんきょう',   m: 'Three Gorges (of the Yangtze)' },
+  ],
+  '崇': [
+    { w: '崇拝',     r: 'すうはい',     m: 'worship, adoration, reverence' },
+    { w: '崇高',     r: 'すうこう',     m: 'sublime, lofty, noble' },
+    { w: '崇敬',     r: 'すうけい',     m: 'reverence, deep respect' },
+  ],
+  '崩': [
+    { w: '崩壊',     r: 'ほうかい',     m: 'collapse, crumbling, breakdown' },
+    { w: '崩れる',   r: 'くずれる',     m: 'to crumble, to collapse, to break down' },
+    { w: '崩す',     r: 'くずす',       m: 'to knock down, to break (into small change)' },
+  ],
+  '嵐': [
+    { w: '嵐',       r: 'あらし',       m: 'storm, tempest' },
+    { w: '嵐のような', r: 'あらしのような', m: 'stormy, tumultuous' },
+    { w: '夜嵐',     r: 'よあらし',     m: 'night storm' },
+  ],
+  '巡': [
+    { w: '巡回',     r: 'じゅんかい',   m: 'tour, patrol, going around' },
+    { w: '巡査',     r: 'じゅんさ',     m: 'police officer, constable' },
+    { w: '巡る',     r: 'めぐる',       m: 'to go around, to travel about, to tour' },
+  ],
+  '帆': [
+    { w: '帆船',     r: 'はんせん',     m: 'sailing ship, sailboat' },
+    { w: '帆',       r: 'ほ',           m: 'sail' },
+    { w: '帆走',     r: 'はんそう',     m: 'sailing, navigating under sail' },
+  ],
+  '帝': [
+    { w: '帝国',     r: 'ていこく',     m: 'empire' },
+    { w: '帝王',     r: 'ていおう',     m: 'emperor, sovereign' },
+    { w: '皇帝',     r: 'こうてい',     m: 'emperor' },
+  ],
+  '帳': [
+    { w: '電話帳',   r: 'でんわちょう', m: 'phone book, telephone directory' },
+    { w: 'メモ帳',   r: 'めもちょう',   m: 'notepad, memo book' },
+    { w: '帳簿',     r: 'ちょうぼ',     m: 'account book, ledger' },
+  ],
+  '幕': [
+    { w: '幕',       r: 'まく',         m: 'curtain, act (of a play)' },
+    { w: '開幕',     r: 'かいまく',     m: 'raising the curtain, opening (of an event)' },
+    { w: '幕府',     r: 'ばくふ',       m: 'shogunate, bakufu' },
+  ],
+  '幣': [
+    { w: '紙幣',     r: 'しへい',       m: 'paper money, banknote' },
+    { w: '貨幣',     r: 'かへい',       m: 'money, currency, coin' },
+    { w: '造幣局',   r: 'ぞうへいきょく', m: 'mint (bureau)' },
+  ],
 };
 
 // ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
