@@ -209,14 +209,21 @@ export function refresh() {
 }
 
 // ── Count +/− (kanji tab only) ────────────────────────────────────────────
-export function changeCount(delta) {
+let _deltaInProgress = false;
+export async function changeCount(delta) {
   if (state.currentTab === 'vocab') return;
+  if (_deltaInProgress) return;
   const newCount = Math.max(1, Math.min(20, state.count + delta));
   if (newCount === state.count) return;
   const actualDelta = newCount - state.count;
   state.count = newCount;
   if (state.currentKanjiCards.length > 0) {
-    loadAndRenderDelta(actualDelta);
+    _deltaInProgress = true;
+    try {
+      await loadAndRenderDelta(actualDelta);
+    } finally {
+      _deltaInProgress = false;
+    }
   } else {
     loadAndRender(state.count, true);
   }
