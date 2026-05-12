@@ -113,8 +113,8 @@ function escHtml(s) {
 }
 
 // ── Output dirs ───────────────────────────────────────────────────────────────
-const INSTA_DIR  = join(ROOT, 'kanji-cards', 'insta');
-const TIKTOK_DIR = join(ROOT, 'kanji-cards', 'tiktok');
+const INSTA_DIR  = join(ROOT, 'kanji-cards', LEVEL, 'insta');
+const TIKTOK_DIR = join(ROOT, 'kanji-cards', LEVEL, 'tiktok');
 mkdirSync(INSTA_DIR,  { recursive: true });
 mkdirSync(TIKTOK_DIR, { recursive: true });
 
@@ -140,19 +140,34 @@ function realLevel(kanji) {
   return n ? `N${n}` : LEVEL.toUpperCase();
 }
 
-// ── EXAMPLE_OVERRIDE (app curated data — highest priority for vocab) ──────────
+// ── EXAMPLE_OVERRIDE + SENTENCE_OVERRIDE (app curated data) ──────────────────
 let EXAMPLE_OVERRIDE = {};
+let SENTENCE_OVERRIDE = {};
 try {
   const kjText = readFileSync(join(ROOT, 'src', 'kanji.js'), 'utf8');
-  const ovStart = kjText.indexOf('const EXAMPLE_OVERRIDE = {');
-  if (ovStart !== -1) {
-    const ovEnd  = kjText.indexOf('\n};', ovStart) + 3;
-    const objStr = kjText.slice(ovStart + 'const EXAMPLE_OVERRIDE = '.length, ovEnd - 1);
-    EXAMPLE_OVERRIDE = new Function(`"use strict"; return (${objStr})`)();
-    console.log(`✅ EXAMPLE_OVERRIDE: ${Object.keys(EXAMPLE_OVERRIDE).length} kanji chargés`);
-  }
+
+  const loadObj = (varName) => {
+    // handles both `const FOO = {` and `export const FOO = {`
+    const marker = `${varName} = {`;
+    const start = kjText.indexOf(marker);
+    if (start === -1) return {};
+    const objStart = start + marker.length - 1;
+    // find matching closing brace
+    let depth = 0, i = objStart;
+    while (i < kjText.length) {
+      if (kjText[i] === '{') depth++;
+      else if (kjText[i] === '}') { depth--; if (depth === 0) break; }
+      i++;
+    }
+    const objStr = kjText.slice(objStart, i + 1);
+    return new Function(`"use strict"; return (${objStr})`)();
+  };
+
+  EXAMPLE_OVERRIDE  = loadObj('EXAMPLE_OVERRIDE');
+  SENTENCE_OVERRIDE = loadObj('SENTENCE_OVERRIDE');
+  console.log(`✅ EXAMPLE_OVERRIDE: ${Object.keys(EXAMPLE_OVERRIDE).length} kanji  |  SENTENCE_OVERRIDE: ${Object.keys(SENTENCE_OVERRIDE).length} kanji`);
 } catch (e) {
-  console.warn(`⚠️  EXAMPLE_OVERRIDE non chargé: ${e.message}`);
+  console.warn(`⚠️  Overrides non chargés: ${e.message}`);
 }
 
 // ── Kanji selection ───────────────────────────────────────────────────────────
@@ -447,61 +462,107 @@ function containsWordExact(sentence, word) {
   return false;
 }
 
-// Search Tatoeba for the best sentence containing a specific vocab word.
-async function fetchSentenceForWord(word, maxLen) {
+// Search Tatoeba for candidates containing a vocab word.
+// Scores each sentence: lower = better  (levelOk×1000 + polite×100 + length)
+async function fetchTatoebaCandidates(word, maxLen, levelNum) {
   try {
-    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=100&sort=relevance`;
+    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=200&sort=relevance`;
     const res = await fetch(url);
-    if (!res.ok) return null;
+    if (!res.ok) return [];
     const data = await res.json();
-    const polite = [], plain = [];
+    const candidates = [];
     for (const s of (data.results || [])) {
       const jp = s.text?.trim();
       const en = s.translations?.[0]?.[0]?.text?.trim();
       if (!jp || !en) continue;
-      if (!containsWordExact(jp, word)) continue; // exact word match only
+      if (!containsWordExact(jp, word)) continue;
       if (jp.length > maxLen) continue;
-      if (jp.replace(/[。！？\s、]/g, '').length < 4) continue;
-      if (POLITE_RE.test(jp)) { polite.push({ jp, en }); break; }
-      else plain.push({ jp, en });
+      if (jp.replace(/[。！？\s、]/g, '').length < 8) continue;
+      const levelOk = isWordLevelOk(jp, levelNum, false);
+      const polite  = POLITE_RE.test(jp);
+      const score   = (levelOk ? 0 : 1000) + (polite ? 0 : 100) + jp.length;
+      candidates.push({ jp, en, score });
     }
-    return polite[0] ?? plain[0] ?? null;
-  } catch { return null; }
+    candidates.sort((a, b) => a.score - b.score);
+    return candidates;
+  } catch { return []; }
 }
 
-// Fetch one sentence per vocab word (up to count), polite preferred.
+// Search Massif (native Japanese corpus) for sentences.
+// massif.la has no official API but responds to JSON requests.
+async function fetchMassifCandidates(word, maxLen, levelNum) {
+  try {
+    const url = `https://massif.la/ja/search?q=${encodeURIComponent(word)}&fmt=json`;
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    const candidates = [];
+    for (const item of (data.results || [])) {
+      // Massif returns { text } — no English translation
+      // We only use it as a fallback when Tatoeba finds nothing
+      const jp = item.text?.trim();
+      if (!jp) continue;
+      if (!jp.includes(word)) continue;
+      if (jp.length > maxLen) continue;
+      if (jp.replace(/[。！？\s、]/g, '').length < 8) continue;
+      if (!isWordLevelOk(jp, levelNum, false)) continue;
+      const polite = POLITE_RE.test(jp);
+      candidates.push({ jp, en: null, score: (polite ? 0 : 100) + jp.length });
+    }
+    candidates.sort((a, b) => a.score - b.score);
+    return candidates;
+  } catch { return []; }
+}
+
+// Fetch one sentence per vocab word (up to count), polite + level-appropriate preferred.
 async function fetchSentences(kanji, levelNum, words, count = 2) {
-  const maxLen = { 5: 40, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
+  // 1. SENTENCE_OVERRIDE — highest priority, hand-curated
+  if (SENTENCE_OVERRIDE[kanji]?.length > 0) {
+    console.log(`   [sentences] override`);
+    return SENTENCE_OVERRIDE[kanji].slice(0, count);
+  }
+
+  const maxLen = { 5: 20, 4: 34, 3: 48, 2: 62, 1: 82 }[levelNum] || 34;
   const results = [];
-  const seenJp = new Set();
-  for (const w of words.slice(0, count + 2)) {
+  const seenJp  = new Set();
+
+  // 2. Try each vocab word on Tatoeba (try all, not just count+2)
+  for (const w of words) {
     if (results.length >= count) break;
-    const sent = await fetchSentenceForWord(w.w, maxLen);
-    if (sent && !seenJp.has(sent.jp)) {
-      seenJp.add(sent.jp);
-      results.push(sent);
+    const cands = await fetchTatoebaCandidates(w.w, maxLen, levelNum);
+    for (const c of cands) {
+      if (seenJp.has(c.jp)) continue;
+      seenJp.add(c.jp);
+      results.push({ jp: c.jp, en: c.en });
+      break; // one sentence per vocab word
     }
   }
-  // Fallback: search by kanji directly if not enough sentences found
+
+  // 3. Fallback: search by kanji directly on Tatoeba
   if (results.length < count) {
-    try {
-      const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(kanji)}&from=jpn&to=eng&limit=100&sort=relevance`;
-      const res = await fetch(url);
-      if (res.ok) {
-        const data = await res.json();
-        for (const s of (data.results || [])) {
-          if (results.length >= count) break;
-          const jp = s.text?.trim();
-          const en = s.translations?.[0]?.[0]?.text?.trim();
-          if (!jp || !en || !jp.includes(kanji)) continue;
-          if (jp.length > maxLen) continue;
-          if (seenJp.has(jp)) continue;
-          seenJp.add(jp);
-          results.push({ jp, en });
-        }
-      }
-    } catch { /* ignore */ }
+    const cands = await fetchTatoebaCandidates(kanji, maxLen, levelNum);
+    for (const c of cands) {
+      if (results.length >= count) break;
+      if (seenJp.has(c.jp)) continue;
+      seenJp.add(c.jp);
+      results.push({ jp: c.jp, en: c.en });
+    }
   }
+
+  // 4. Fallback: Massif (native corpus, no English — mark for display)
+  if (results.length < count) {
+    for (const w of words) {
+      if (results.length >= count) break;
+      const cands = await fetchMassifCandidates(w.w, maxLen, levelNum);
+      for (const c of cands) {
+        if (seenJp.has(c.jp)) continue;
+        seenJp.add(c.jp);
+        results.push({ jp: c.jp, en: '—' }); // no translation from Massif
+        break;
+      }
+    }
+  }
+
   return results;
 }
 

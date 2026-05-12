@@ -3226,6 +3226,342 @@ function bestKanjiMeaning(char, apiMeanings, lang = 'en', indexEntry = null) {
   return sortGlosses(apiMeanings ?? ['?']).slice(0, 4).join(', ');
 }
 
+// ── Sentence overrides (for card generation) ─────────────────────────────
+// Hand-curated example sentences per kanji (all JLPT N5). Format: { jp, en }
+// Highest priority — overrides all API sources.
+export const SENTENCE_OVERRIDE = {
+  // ── Numbers ──
+  '一': [
+    { jp: 'みかんを一つください。', en: 'Give me one mandarin, please.' },
+    { jp: '一番すきなたべものは何ですか。', en: "What's your favorite food?" },
+  ],
+  '二': [
+    { jp: '二月はさむいです。', en: 'February is cold.' },
+    { jp: '二人でいきましょう。', en: "Let's go, just the two of us." },
+  ],
+  '三': [
+    { jp: '三月に花見をします。', en: "I'll do hanami in March." },
+    { jp: '三人でたべましょう。', en: "Let's eat, the three of us." },
+  ],
+  '四': [
+    { jp: '四月から学校がはじまります。', en: 'School starts in April.' },
+    { jp: '四日にかえります。', en: "I'll return on the 4th." },
+  ],
+  '五': [
+    { jp: '五月はきもちがいいです。', en: 'May feels nice.' },
+    { jp: 'あと五日でやすみです。', en: 'Only 5 more days until vacation.' },
+  ],
+  '六': [
+    { jp: '六月は雨がおおいです。', en: 'There is a lot of rain in June.' },
+    { jp: '六つたべました。', en: 'I ate six.' },
+  ],
+  '七': [
+    { jp: '七月はあついです。', en: 'July is hot.' },
+    { jp: '七日においわいをします。', en: "I'll celebrate on the 7th." },
+  ],
+  '八': [
+    { jp: '八月はなつやすみです。', en: 'August is summer vacation.' },
+    { jp: '八日に東京へいきます。', en: "I'm going to Tokyo on the 8th." },
+  ],
+  '九': [
+    { jp: '九月に学校がはじまります。', en: 'School starts in September.' },
+    { jp: '九日はひまです。', en: 'The 9th is free.' },
+  ],
+  '十': [
+    { jp: '十分まってください。', en: 'Please wait ten minutes.' },
+    { jp: '十月にりょこうします。', en: "I'll travel in October." },
+  ],
+  '百': [
+    { jp: 'これは百円です。', en: 'This is 100 yen.' },
+    { jp: 'ひゃくにんいました。', en: 'There were 100 people.' },
+  ],
+  '千': [
+    { jp: '千円でかいました。', en: 'I bought it for 1000 yen.' },
+    { jp: '三千円のかばんです。', en: 'It is a 3000-yen bag.' },
+  ],
+  '万': [
+    { jp: '一万円しかありません。', en: 'I only have 10,000 yen.' },
+    { jp: '何万人もきました。', en: 'Tens of thousands of people came.' },
+  ],
+  '円': [
+    { jp: '百円でかえますか。', en: 'Can I buy it for 100 yen?' },
+    { jp: '千円おつりをください。', en: 'Please give me change for 1000 yen.' },
+  ],
+  // ── Time ──
+  '年': [
+    { jp: '今年はいそがしいです。', en: 'This year is busy.' },
+    { jp: '来年またきます。', en: "I'll come again next year." },
+  ],
+  '月': [
+    { jp: '月曜日はしごとです。', en: 'Monday is a workday.' },
+    { jp: '来月りょこうします。', en: "I'll travel next month." },
+  ],
+  '日': [
+    { jp: '今日はいい天気ですね。', en: "The weather is nice today, isn't it?" },
+    { jp: '毎日日本語を勉強します。', en: 'I study Japanese every day.' },
+  ],
+  '時': [
+    { jp: '何時におきますか。', en: 'What time do you wake up?' },
+    { jp: '時間がありません。', en: "I don't have time." },
+  ],
+  '午': [
+    { jp: '午後にかいものをします。', en: "I'll go shopping in the afternoon." },
+    { jp: '午前中はいえにいます。', en: "I'll be home in the morning." },
+  ],
+  '半': [
+    { jp: '一時半にあいましょう。', en: "Let's meet at 1:30." },
+    { jp: '半分たべました。', en: 'I ate half.' },
+  ],
+  '今': [
+    { jp: '今どこにいますか。', en: 'Where are you right now?' },
+    { jp: '今日はさむいですね。', en: "It's cold today, isn't it?" },
+  ],
+  '先': [
+    { jp: '先生はやさしいです。', en: 'The teacher is kind.' },
+    { jp: '先週どこへいきましたか。', en: 'Where did you go last week?' },
+  ],
+  '来': [
+    { jp: '来週テストがあります。', en: "There's a test next week." },
+    { jp: '来年また日本にきます。', en: "I'll come to Japan again next year." },
+  ],
+  '毎': [
+    { jp: '毎朝コーヒーをのみます。', en: 'I drink coffee every morning.' },
+    { jp: '毎日べんきょうします。', en: 'I study every day.' },
+  ],
+  '前': [
+    { jp: '駅の前にいます。', en: "I'm in front of the station." },
+    { jp: '前にもきたことがあります。', en: "I've been here before." },
+  ],
+  '後': [
+    { jp: '後でれんらくします。', en: "I'll contact you later." },
+    { jp: '後ろにすわってください。', en: 'Please sit behind me.' },
+  ],
+  '間': [
+    { jp: '時間がありません。', en: "I don't have time." },
+    { jp: '人間はふしぎですね。', en: "Humans are mysterious, aren't they?" },
+  ],
+  // ── People / Family ──
+  '人': [
+    { jp: 'あの人はだれですか。', en: 'Who is that person?' },
+    { jp: '外国人の友だちがいます。', en: 'I have a foreign friend.' },
+  ],
+  '友': [
+    { jp: '友だちとあそびます。', en: 'I play with my friends.' },
+    { jp: '友だちはやさしいです。', en: 'My friend is kind.' },
+  ],
+  '名': [
+    { jp: 'お名前はなんですか。', en: 'What is your name?' },
+    { jp: '有名なレストランです。', en: "It's a famous restaurant." },
+  ],
+  '父': [
+    { jp: 'お父さんはなんさいですか。', en: 'How old is your father?' },
+    { jp: '父は会社員です。', en: 'My father is a company employee.' },
+  ],
+  '母': [
+    { jp: 'お母さんはげんきですか。', en: 'Is your mother well?' },
+    { jp: '母のりょうりがすきです。', en: "I like my mother's cooking." },
+  ],
+  '子': [
+    { jp: '子どもがふたりいます。', en: 'I have two children.' },
+    { jp: 'あのおんなの子はだれですか。', en: 'Who is that girl?' },
+  ],
+  '男': [
+    { jp: 'あそこに男のこがいます。', en: "There's a boy over there." },
+    { jp: 'あの男のひとはだれですか。', en: 'Who is that man?' },
+  ],
+  '女': [
+    { jp: '女のこがさんにんいます。', en: 'There are three girls.' },
+    { jp: '女のひとがうたっています。', en: 'A woman is singing.' },
+  ],
+  // ── Directions / Positions ──
+  '上': [
+    { jp: '日本語がとても上手ですね。', en: 'Your Japanese is very good.' },
+    { jp: 'つくえの上にあります。', en: "It's on top of the desk." },
+  ],
+  '下': [
+    { jp: '地下にコンビニがあります。', en: "There's a convenience store underground." },
+    { jp: 'いすの下をみてください。', en: 'Please look under the chair.' },
+  ],
+  '中': [
+    { jp: 'かばんの中にあります。', en: "It's inside the bag." },
+    { jp: '一日中テレビをみていました。', en: 'I was watching TV all day long.' },
+  ],
+  '入': [
+    { jp: '入口はどこですか。', en: 'Where is the entrance?' },
+    { jp: 'どうぞお入りください。', en: 'Please come in.' },
+  ],
+  '出': [
+    { jp: '出口はあちらです。', en: 'The exit is over there.' },
+    { jp: '七時に家を出ます。', en: 'I leave home at seven.' },
+  ],
+  '北': [
+    { jp: '北海道はさむいです。', en: 'Hokkaido is cold.' },
+    { jp: '北口でおちあいましょう。', en: "Let's meet at the north exit." },
+  ],
+  '南': [
+    { jp: '南口をでてください。', en: 'Please exit from the south exit.' },
+    { jp: '南のほうがあたたかいです。', en: 'The south is warmer.' },
+  ],
+  '東': [
+    { jp: '東京はひとがおおいです。', en: 'Tokyo has a lot of people.' },
+    { jp: '東口でまっています。', en: "I'm waiting at the east exit." },
+  ],
+  '西': [
+    { jp: '西口でまちましょう。', en: "Let's wait at the west exit." },
+    { jp: '関西へいきたいです。', en: 'I want to go to Kansai.' },
+  ],
+  '右': [
+    { jp: '右にまがってください。', en: 'Please turn right.' },
+    { jp: '右にほんやがあります。', en: "There's a bookstore on the right." },
+  ],
+  '左': [
+    { jp: '左にまがってください。', en: 'Please turn left.' },
+    { jp: '左のたてものです。', en: 'It is the building on the left.' },
+  ],
+  '外': [
+    { jp: '外はさむいです。', en: 'It is cold outside.' },
+    { jp: '外国にいきたいです。', en: 'I want to go abroad.' },
+  ],
+  // ── Nature ──
+  '山': [
+    { jp: '富士山は高いです。', en: 'Mount Fuji is tall.' },
+    { jp: '山に登りたいです。', en: 'I want to climb a mountain.' },
+  ],
+  '川': [
+    { jp: '川で泳ぎましょう。', en: "Let's swim in the river." },
+    { jp: '天の川が見えます。', en: 'You can see the Milky Way.' },
+  ],
+  '天': [
+    { jp: '今日は天気がいいです。', en: 'The weather is nice today.' },
+    { jp: '天ぷらがすきです。', en: 'I like tempura.' },
+  ],
+  '雨': [
+    { jp: '今日は雨がふっています。', en: "It's raining today." },
+    { jp: '梅雨のきせつになりました。', en: 'The rainy season has come.' },
+  ],
+  '気': [
+    { jp: '今日はいい天気ですね。', en: "The weather is nice today, isn't it?" },
+    { jp: '元気にしていますか。', en: 'How have you been?' },
+  ],
+  '水': [
+    { jp: '水を一杯ください。', en: 'Please give me a glass of water.' },
+    { jp: '水曜日は休みです。', en: 'Wednesday is my day off.' },
+  ],
+  '火': [
+    { jp: '花火がきれいです。', en: 'The fireworks are beautiful.' },
+    { jp: '火曜日に映画を見ます。', en: 'I watch a movie on Tuesdays.' },
+  ],
+  '土': [
+    { jp: '土曜日は暇ですか。', en: 'Are you free on Saturday?' },
+    { jp: 'この土地は広いです。', en: 'This land is spacious.' },
+  ],
+  '金': [
+    { jp: 'お金がありません。', en: "I don't have any money." },
+    { jp: '金曜日に帰ります。', en: 'I will go home on Friday.' },
+  ],
+  '木': [
+    { jp: '公園に木があります。', en: 'There are trees in the park.' },
+    { jp: '木曜日に会いましょう。', en: "Let's meet on Thursday." },
+  ],
+  // ── Education / Language ──
+  '学': [
+    { jp: '毎日にほんごをまなびます。', en: 'I study Japanese every day.' },
+    { jp: '学生のころがなつかしいです。', en: 'I miss my student days.' },
+  ],
+  '校': [
+    { jp: '学校はたのしいですか。', en: 'Is school fun?' },
+    { jp: '高校のじかんがなつかしいです。', en: 'I miss my high school days.' },
+  ],
+  '生': [
+    { jp: '先生はやさしいです。', en: 'The teacher is kind.' },
+    { jp: '来年学生になります。', en: "I'll become a student next year." },
+  ],
+  '本': [
+    { jp: 'この本はおもしろいです。', en: 'This book is interesting.' },
+    { jp: '本当にありがとうございます。', en: 'Thank you very much.' },
+  ],
+  '語': [
+    { jp: '日本語がすこしはなせます。', en: 'I can speak a little Japanese.' },
+    { jp: '英語がとくいですか。', en: 'Are you good at English?' },
+  ],
+  '書': [
+    { jp: '手紙を書きます。', en: "I'll write a letter." },
+    { jp: '毎日日記を書きます。', en: 'I write in my diary every day.' },
+  ],
+  '話': [
+    { jp: 'ゆっくり話してください。', en: 'Please speak slowly.' },
+    { jp: '電話でおはなしできますか。', en: 'Can we talk on the phone?' },
+  ],
+  '聞': [
+    { jp: 'おんがくをよく聞きます。', en: 'I often listen to music.' },
+    { jp: 'もういちど聞いていいですか。', en: 'May I ask one more time?' },
+  ],
+  '見': [
+    { jp: 'えいがを見にいきます。', en: "I'll go see a movie." },
+    { jp: 'ここからうみが見えます。', en: 'You can see the sea from here.' },
+  ],
+  '読': [
+    { jp: '毎日本を読みます。', en: 'I read books every day.' },
+    { jp: '読書がすきです。', en: 'I like reading.' },
+  ],
+  '食': [
+    { jp: 'なにを食べましたか。', en: 'What did you eat?' },
+    { jp: 'いっしょに食事しませんか。', en: 'Shall we have a meal together?' },
+  ],
+  // ── Adjectives / Common vocab ──
+  '大': [
+    { jp: '大きいかばんをかいました。', en: 'I bought a big bag.' },
+    { jp: '健康はとても大事です。', en: 'Health is very important.' },
+  ],
+  '小': [
+    { jp: 'このへやは小さいですね。', en: "This room is small, isn't it." },
+    { jp: '小学校のころがなつかしいです。', en: 'I miss my elementary school days.' },
+  ],
+  '高': [
+    { jp: 'このかばんは高いです。', en: 'This bag is expensive.' },
+    { jp: '最高のたびでした。', en: 'It was the best trip.' },
+  ],
+  '長': [
+    { jp: 'このみちは長いですね。', en: "This road is long, isn't it." },
+    { jp: 'はなしが長くなりました。', en: 'The story got long.' },
+  ],
+  '白': [
+    { jp: '白いシャツがすきです。', en: 'I like white shirts.' },
+    { jp: 'このかみは白いです。', en: 'This paper is white.' },
+  ],
+  // ── Actions ──
+  '行': [
+    { jp: 'どこへ行きますか。', en: 'Where are you going?' },
+    { jp: '来年りょこうに行きます。', en: "I'll go traveling next year." },
+  ],
+  '休': [
+    { jp: '夏休みはながいです。', en: 'Summer vacation is long.' },
+    { jp: '今日はかいしゃを休みます。', en: "I'll take the day off from work today." },
+  ],
+  '何': [
+    { jp: '何がたべたいですか。', en: 'What do you want to eat?' },
+    { jp: '何かのみますか。', en: 'Would you like something to drink?' },
+  ],
+  '国': [
+    { jp: 'どこの国からきましたか。', en: 'Where are you from?' },
+    { jp: '外国にいきたいです。', en: 'I want to go abroad.' },
+  ],
+  // ── Transport / Tech ──
+  '電': [
+    { jp: '電車でいきます。', en: "I'll go by train." },
+    { jp: '電気をけしてください。', en: 'Please turn off the lights.' },
+  ],
+  '車': [
+    { jp: '電車はべんりです。', en: 'The train is convenient.' },
+    { jp: '車でいきますか。', en: 'Will you go by car?' },
+  ],
+  // ── Extra (N4 per API but taught at N5 level) ──
+  '口': [
+    { jp: '出口はどこですか。', en: 'Where is the exit?' },
+    { jp: '人口が多い町です。', en: 'It is a town with a large population.' },
+  ],
+};
+
 // ── Extract best example words from API response ─────────────────────────
 // Scoring: prefer short common words that are level-appropriate.
 // Pass jlptNum (5=N5 … 1=N1) to restrict to vocab of that level or easier.
