@@ -1644,6 +1644,163 @@ const EXAMPLE_OVERRIDE = {
     { w: '参る',     r: 'まいる',       m: 'to go (humble); to be overwhelmed' },
     { w: '参考',     r: 'さんこう',     m: 'reference, consultation' },
   ],
+
+  // ── N2 wave 1 — batch 1/4 (kanji 1-90) ───────────────────────────────────
+  '久': [
+    { w: '久しぶり', r: 'ひさしぶり',   m: 'long time no see, after a long time' },
+    { w: '永久',     r: 'えいきゅう',   m: 'eternity, permanence' },
+    { w: '久々',     r: 'ひさびさ',     m: 'after a long time, long-awaited' },
+  ],
+  '乾': [
+    { w: '乾く',     r: 'かわく',       m: 'to dry, to become dry' },
+    { w: '乾燥',     r: 'かんそう',     m: 'dryness, dehydration' },
+    { w: '乾電池',   r: 'かんでんち',   m: 'dry cell battery' },
+  ],
+  '仏': [
+    { w: '仏',       r: 'ほとけ',       m: 'Buddha, Buddhist image' },
+    { w: '仏教',     r: 'ぶっきょう',   m: 'Buddhism' },
+    { w: '大仏',     r: 'だいぶつ',     m: 'large statue of Buddha' },
+  ],
+  '令': [
+    { w: '命令',     r: 'めいれい',     m: 'order, command, instruction' },
+    { w: '法令',     r: 'ほうれい',     m: 'laws and ordinances, regulations' },
+    { w: '令和',     r: 'れいわ',       m: 'Reiwa era (2019–)' },
+  ],
+  '伸': [
+    { w: '伸びる',   r: 'のびる',       m: 'to grow, to stretch, to extend' },
+    { w: '伸ばす',   r: 'のばす',       m: 'to stretch out, to lengthen' },
+    { w: '背伸び',   r: 'せのび',       m: 'standing on tiptoe; stretching oneself' },
+  ],
+  '伺': [
+    { w: '伺う',     r: 'うかがう',     m: 'to ask (humble); to visit (humble)' },
+    { w: '伺い',     r: 'うかがい',     m: 'humble inquiry, question' },
+    { w: '伺いを立てる', r: 'うかがいをたてる', m: 'to ask for instructions' },
+  ],
+  '低': [
+    { w: '低い',     r: 'ひくい',       m: 'low, short' },
+    { w: '低下',     r: 'ていか',       m: 'fall, drop, decline' },
+    { w: '最低',     r: 'さいてい',     m: 'worst, minimum, at least' },
+  ],
+  '停': [
+    { w: '停止',     r: 'ていし',       m: 'stop, halt, suspension' },
+    { w: '停車',     r: 'ていしゃ',     m: 'stopping (a vehicle), stop' },
+    { w: 'バス停',   r: 'バスてい',     m: 'bus stop' },
+  ],
+  '児': [
+    { w: '児童',     r: 'じどう',       m: 'child, juvenile' },
+    { w: '幼児',     r: 'ようじ',       m: 'infant, toddler, young child' },
+    { w: '育児',     r: 'いくじ',       m: 'childcare, child-rearing' },
+  ],
+  '匹': [
+    { w: '匹',       r: 'ひき',         m: 'counter for small animals (cats, dogs, fish)' },
+    { w: '一匹',     r: 'いっぴき',     m: 'one small animal' },
+    { w: '匹敵',     r: 'ひってき',     m: 'to be a match for, to rival' },
+  ],
+  '印': [
+    { w: '印象',     r: 'いんしょう',   m: 'impression' },
+    { w: '目印',     r: 'めじるし',     m: 'mark, sign, landmark' },
+    { w: '調印',     r: 'ちょういん',   m: 'signing (a treaty), signature' },
+  ],
+  '卵': [
+    { w: '卵',       r: 'たまご',       m: 'egg' },
+    { w: '卵焼き',   r: 'たまごやき',   m: 'Japanese rolled omelette' },
+    { w: '産卵',     r: 'さんらん',     m: 'egg-laying, spawning' },
+  ],
+  '双': [
+    { w: '双方',     r: 'そうほう',     m: 'both sides, both parties' },
+    { w: '双子',     r: 'ふたご',       m: 'twins' },
+    { w: '双眼鏡',   r: 'そうがんきょう', m: 'binoculars' },
+  ],
+  '召': [
+    { w: '召す',     r: 'めす',         m: 'to call, to summon (honorific)' },
+    { w: '召し上がる', r: 'めしあがる', m: 'to eat, to drink (honorific)' },
+    { w: '召集',     r: 'しょうしゅう', m: 'convening, summoning' },
+  ],
+  '周': [
+    { w: '周り',     r: 'まわり',       m: 'surroundings, around, vicinity' },
+    { w: '一周',     r: 'いっしゅう',   m: 'one lap, one round, one revolution' },
+    { w: '周辺',     r: 'しゅうへん',   m: 'surroundings, vicinity, neighborhood' },
+  ],
+  '咲': [
+    { w: '咲く',     r: 'さく',         m: 'to bloom, to flower' },
+    { w: '花が咲く', r: 'はながさく',   m: 'flowers bloom' },
+    { w: '返り咲き', r: 'かえりざき',   m: 'comeback, return to prominence' },
+  ],
+  '喫': [
+    { w: '喫茶店',   r: 'きっさてん',   m: 'coffee shop, café' },
+    { w: '喫煙',     r: 'きつえん',     m: 'smoking (tobacco)' },
+    { w: '満喫',     r: 'まんきつ',     m: 'to fully enjoy, to have one\'s fill of' },
+  ],
+  '団': [
+    { w: '団体',     r: 'だんたい',     m: 'group, organization' },
+    { w: '集団',     r: 'しゅうだん',   m: 'group, mass, collective' },
+    { w: '団地',     r: 'だんち',       m: 'housing complex, housing estate' },
+  ],
+  '刺': [
+    { w: '名刺',     r: 'めいし',       m: 'business card' },
+    { w: '刺す',     r: 'さす',         m: 'to stab, to sting, to pierce' },
+    { w: '刺激',     r: 'しげき',       m: 'stimulus, stimulation, excitement' },
+  ],
+  '劇': [
+    { w: '劇場',     r: 'げきじょう',   m: 'theatre, playhouse' },
+    { w: '演劇',     r: 'えんげき',     m: 'drama, theatrical performance' },
+    { w: '劇的',     r: 'げきてき',     m: 'dramatic' },
+  ],
+  '効': [
+    { w: '効果',     r: 'こうか',       m: 'effect, result, effectiveness' },
+    { w: '有効',     r: 'ゆうこう',     m: 'valid, effective, useful' },
+    { w: '効率',     r: 'こうりつ',     m: 'efficiency' },
+  ],
+  '坂': [
+    { w: '坂',       r: 'さか',         m: 'slope, hill' },
+    { w: '坂道',     r: 'さかみち',     m: 'sloping road, hill' },
+    { w: '上り坂',   r: 'のぼりざか',   m: 'uphill slope, ascent' },
+  ],
+  '型': [
+    { w: '型',       r: 'かた',         m: 'type, model, mold, pattern' },
+    { w: '大型',     r: 'おおがた',     m: 'large size, large-scale' },
+    { w: '血液型',   r: 'けつえきがた', m: 'blood type' },
+  ],
+  '塩': [
+    { w: '塩',       r: 'しお',         m: 'salt' },
+    { w: '塩分',     r: 'えんぶん',     m: 'salt content, saltiness' },
+    { w: '食塩',     r: 'しょくえん',   m: 'table salt, edible salt' },
+  ],
+  '央': [
+    { w: '中央',     r: 'ちゅうおう',   m: 'center, middle, central' },
+    { w: '震央',     r: 'しんおう',     m: 'epicenter (of an earthquake)' },
+    { w: '中央集権', r: 'ちゅうおうしゅうけん', m: 'centralization of power' },
+  ],
+  '姓': [
+    { w: '姓名',     r: 'せいめい',     m: 'full name (surname and given name)' },
+    { w: '姓',       r: 'せい',         m: 'surname, family name' },
+    { w: '旧姓',     r: 'きゅうせい',   m: 'maiden name, former surname' },
+  ],
+  '専': [
+    { w: '専門',     r: 'せんもん',     m: 'specialty, field of expertise' },
+    { w: '専念',     r: 'せんねん',     m: 'devotion, concentration on' },
+    { w: '専用',     r: 'せんよう',     m: 'exclusive use, dedicated' },
+  ],
+  '将': [
+    { w: '将来',     r: 'しょうらい',   m: 'future, prospects' },
+    { w: '将軍',     r: 'しょうぐん',   m: 'shogun, military commander' },
+    { w: '大将',     r: 'たいしょう',   m: 'general, admiral; leader' },
+  ],
+  '導': [
+    { w: '指導',     r: 'しどう',       m: 'guidance, coaching, instruction' },
+    { w: '導く',     r: 'みちびく',     m: 'to lead, to guide' },
+    { w: '誘導',     r: 'ゆうどう',     m: 'guidance, induction, leading' },
+  ],
+  '層': [
+    { w: '地層',     r: 'ちそう',       m: 'stratum, geological layer' },
+    { w: '階層',     r: 'かいそう',     m: 'class, stratum, hierarchy' },
+    { w: '大気層',   r: 'たいきそう',   m: 'atmospheric layer' },
+  ],
+  '岩': [
+    { w: '岩',       r: 'いわ',         m: 'rock, boulder' },
+    { w: '岩山',     r: 'いわやま',     m: 'rocky mountain' },
+    { w: '溶岩',     r: 'ようがん',     m: 'lava' },
+  ],
 };
 
 // ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
