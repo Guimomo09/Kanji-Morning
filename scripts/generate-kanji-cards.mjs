@@ -429,33 +429,62 @@ async function fetchVocab(kanji, levelNum) {
 // Polite endings — desu/masu forms (preferred)
 const POLITE_RE = /(です|ます|ました|でした|ません|ませんでした|でしょう|ましょう)[。？！]?$/;
 
-async function fetchSentences(kanji, levelNum, count = 2) {
+// Search Tatoeba for the best sentence containing a specific vocab word.
+async function fetchSentenceForWord(word, maxLen) {
   try {
-    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(kanji)}&from=jpn&to=eng&limit=200&sort=relevance`;
+    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=100&sort=relevance`;
     const res = await fetch(url);
-    if (!res.ok) return [];
+    if (!res.ok) return null;
     const data = await res.json();
-    const maxLen = { 5: 28, 4: 36, 3: 48, 2: 64, 1: 90 }[levelNum] || 36;
-
     const polite = [], plain = [];
-    const seen = new Set();
     for (const s of (data.results || [])) {
       const jp = s.text?.trim();
       const en = s.translations?.[0]?.[0]?.text?.trim();
-      if (!jp || !en || !jp.includes(kanji)) continue;
+      if (!jp || !en) continue;
+      if (!jp.includes(word)) continue; // must contain the exact word
       if (jp.length > maxLen) continue;
       if (jp.replace(/[。！？\s、]/g, '').length < 4) continue;
-      if (seen.has(jp)) continue;
-      // Reject sentences with kanji much harder than target (1-level tolerance, loose mode)
-      if (!isWordLevelOk(jp, levelNum, false)) continue;
-      seen.add(jp);
-      if (POLITE_RE.test(jp)) polite.push({ jp, en });
+      if (POLITE_RE.test(jp)) { polite.push({ jp, en }); break; }
       else plain.push({ jp, en });
     }
-    // Prefer polite sentences; fill remaining slots with plain
-    const result = [...polite, ...plain];
-    return result.slice(0, count);
-  } catch { return []; }
+    return polite[0] ?? plain[0] ?? null;
+  } catch { return null; }
+}
+
+// Fetch one sentence per vocab word (up to count), polite preferred.
+async function fetchSentences(kanji, levelNum, words, count = 2) {
+  const maxLen = { 5: 40, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
+  const results = [];
+  const seenJp = new Set();
+  for (const w of words.slice(0, count + 1)) {
+    if (results.length >= count) break;
+    const sent = await fetchSentenceForWord(w.w, maxLen);
+    if (sent && !seenJp.has(sent.jp)) {
+      seenJp.add(sent.jp);
+      results.push(sent);
+    }
+  }
+  // Fallback: search by kanji directly if not enough sentences found
+  if (results.length < count) {
+    try {
+      const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(kanji)}&from=jpn&to=eng&limit=100&sort=relevance`;
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        for (const s of (data.results || [])) {
+          if (results.length >= count) break;
+          const jp = s.text?.trim();
+          const en = s.translations?.[0]?.[0]?.text?.trim();
+          if (!jp || !en || !jp.includes(kanji)) continue;
+          if (jp.length > maxLen) continue;
+          if (seenJp.has(jp)) continue;
+          seenJp.add(jp);
+          results.push({ jp, en });
+        }
+      }
+    } catch { /* ignore */ }
+  }
+  return results;
 }
 
 // ── Playwright ────────────────────────────────────────────────────────────────
@@ -486,7 +515,7 @@ for (const kanji of targetKanji) {
 
   // Fetch une seule fois, réutilisé pour les deux formats
   const words     = await fetchVocab(kanji, lvlNum);
-  const sentences = await fetchSentences(kanji, lvlNum, 2);
+  const sentences = await fetchSentences(kanji, lvlNum, words, 2);
 
   // Convert sentences: known kanji shown as kanji, rest → hiragana (progressive textbook style)
   const sentencesWithFurigana = await Promise.all(
