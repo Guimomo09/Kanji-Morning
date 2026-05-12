@@ -1963,6 +1963,138 @@ const EXAMPLE_OVERRIDE = {
     { w: '泥棒',     r: 'どろぼう',     m: 'thief, burglar, robber' },
     { w: '泥沼',     r: 'どろぬま',     m: 'bog, quagmire; vicious cycle' },
   ],
+
+  // ── N2 wave 3 — batch 3/4 (kanji 181-270) ─────────────────────────────────
+  '涙': [
+    { w: '涙',       r: 'なみだ',       m: 'tear, teardrop' },
+    { w: '涙声',     r: 'なみだごえ',   m: 'tearful voice' },
+    { w: '涙ぐむ',   r: 'なみだぐむ',   m: 'to be on the verge of tears' },
+  ],
+  '混': [
+    { w: '混乱',     r: 'こんらん',     m: 'disorder, confusion, turmoil' },
+    { w: '混む',     r: 'こむ',         m: 'to be crowded, to be packed' },
+    { w: '混雑',     r: 'こんざつ',     m: 'congestion, crowding' },
+  ],
+  '濃': [
+    { w: '濃い',     r: 'こい',         m: 'dark (color), strong (taste), thick (liquid)' },
+    { w: '濃度',     r: 'のうど',       m: 'concentration, density' },
+    { w: '濃厚',     r: 'のうこう',     m: 'rich, thick, strong-flavored' },
+  ],
+  '濯': [
+    { w: '洗濯',     r: 'せんたく',     m: 'laundry, washing' },
+    { w: '洗濯機',   r: 'せんたくき',   m: 'washing machine' },
+    { w: '洗濯物',   r: 'せんたくもの', m: 'laundry, things to be washed' },
+  ],
+  '焼': [
+    { w: '焼く',     r: 'やく',         m: 'to bake, to roast, to grill, to burn' },
+    { w: '焼き肉',   r: 'やきにく',     m: 'grilled meat, yakiniku' },
+    { w: '焼き物',   r: 'やきもの',     m: 'pottery, ceramics; grilled food' },
+  ],
+  '燥': [
+    { w: '乾燥',     r: 'かんそう',     m: 'dryness, dehydration' },
+    { w: '乾燥肌',   r: 'かんそうはだ', m: 'dry skin' },
+    { w: '燥ぐ',     r: 'はしゃぐ',     m: 'to frolic, to make merry, to be excited' },
+  ],
+  '片': [
+    { w: '片方',     r: 'かたほう',     m: 'one side, the other' },
+    { w: '片側',     r: 'かたがわ',     m: 'one side' },
+    { w: '欠片',     r: 'かけら',       m: 'fragment, shard, piece' },
+  ],
+  '玉': [
+    { w: '玉',       r: 'たま',         m: 'ball, sphere, jewel' },
+    { w: '玉ねぎ',   r: 'たまねぎ',     m: 'onion' },
+    { w: '水玉',     r: 'みずたま',     m: 'water drop; polka dot' },
+  ],
+  '珍': [
+    { w: '珍しい',   r: 'めずらしい',   m: 'rare, unusual, novel' },
+    { w: '珍品',     r: 'ちんぴん',     m: 'rare article, curio' },
+    { w: '珍事',     r: 'ちんじ',       m: 'unusual happening, strange event' },
+  ],
+  '甘': [
+    { w: '甘い',     r: 'あまい',       m: 'sweet; lenient, naive' },
+    { w: '甘える',   r: 'あまえる',     m: 'to depend on, to be indulged' },
+    { w: '甘やかす', r: 'あまやかす',   m: 'to pamper, to spoil' },
+  ],
+  '畜': [
+    { w: '家畜',     r: 'かちく',       m: 'domestic animals, livestock' },
+    { w: '畜産',     r: 'ちくさん',     m: 'animal husbandry, livestock farming' },
+    { w: '畜舎',     r: 'ちくしゃ',     m: 'barn, stable, livestock shed' },
+  ],
+  '皮': [
+    { w: '皮',       r: 'かわ',         m: 'skin, peel, hide, rind' },
+    { w: '皮膚',     r: 'ひふ',         m: 'skin (of the body)' },
+    { w: '皮肉',     r: 'ひにく',       m: 'irony, sarcasm' },
+  ],
+  '皿': [
+    { w: 'お皿',     r: 'おさら',       m: 'plate, dish' },
+    { w: '灰皿',     r: 'はいざら',     m: 'ashtray' },
+    { w: '受け皿',   r: 'うけざら',     m: 'saucer; receptacle, catch-all' },
+  ],
+  '硬': [
+    { w: '硬い',     r: 'かたい',       m: 'hard, stiff, rigid' },
+    { w: '硬貨',     r: 'こうか',       m: 'coin' },
+    { w: '強硬',     r: 'きょうこう',   m: 'firm, resolute, uncompromising' },
+  ],
+  '移': [
+    { w: '移動',     r: 'いどう',       m: 'movement, transfer, relocation' },
+    { w: '移転',     r: 'いてん',       m: 'moving, transfer, relocation' },
+    { w: '移る',     r: 'うつる',       m: 'to move, to transfer, to change' },
+  ],
+  '章': [
+    { w: '章',       r: 'しょう',       m: 'chapter, section' },
+    { w: '文章',     r: 'ぶんしょう',   m: 'sentence, text, writing' },
+    { w: '印章',     r: 'いんしょう',   m: 'seal, stamp' },
+  ],
+  '符': [
+    { w: '切符',     r: 'きっぷ',       m: 'ticket (train, bus, etc.)' },
+    { w: '符号',     r: 'ふごう',       m: 'sign, symbol, code' },
+    { w: '音符',     r: 'おんぷ',       m: 'musical note' },
+  ],
+  '管': [
+    { w: '管理',     r: 'かんり',       m: 'management, administration, control' },
+    { w: '管',       r: 'くだ',         m: 'pipe, tube' },
+    { w: '血管',     r: 'けっかん',     m: 'blood vessel' },
+  ],
+  '簡': [
+    { w: '簡単',     r: 'かんたん',     m: 'simple, easy, brief' },
+    { w: '簡潔',     r: 'かんけつ',     m: 'concise, brief, succinct' },
+    { w: '書簡',     r: 'しょかん',     m: 'letter, correspondence' },
+  ],
+  '紅': [
+    { w: '紅葉',     r: 'こうよう',     m: 'autumn foliage, fall colors' },
+    { w: '紅茶',     r: 'こうちゃ',     m: 'black tea' },
+    { w: '紅白',     r: 'こうはく',     m: 'red and white' },
+  ],
+  '缶': [
+    { w: '缶',       r: 'かん',         m: 'can, tin' },
+    { w: '缶詰',     r: 'かんづめ',     m: 'canned food, canning' },
+    { w: 'ドラム缶', r: 'どらむかん',   m: 'oil drum, barrel' },
+  ],
+  '羽': [
+    { w: '羽',       r: 'はね',         m: 'feather, wing' },
+    { w: '羽毛',     r: 'うもう',       m: 'feathers, plumage, down' },
+    { w: '羽根',     r: 'はね',         m: 'feather, shuttlecock' },
+  ],
+  '肌': [
+    { w: '肌',       r: 'はだ',         m: 'skin, complexion' },
+    { w: '肌着',     r: 'はだぎ',       m: 'underwear, undershirt' },
+    { w: '肌寒い',   r: 'はださむい',   m: 'chilly, slightly cold' },
+  ],
+  '肯': [
+    { w: '肯定',     r: 'こうてい',     m: 'affirmation, approval, positive' },
+    { w: '肯ける',   r: 'うなずける',   m: 'to be understandable, to make sense' },
+    { w: '首肯',     r: 'しゅこう',     m: 'nodding assent, agreement' },
+  ],
+  '胃': [
+    { w: '胃',       r: 'い',           m: 'stomach' },
+    { w: '胃腸',     r: 'いちょう',     m: 'stomach and intestines' },
+    { w: '胃薬',     r: 'いぐすり',     m: 'stomach medicine' },
+  ],
+  '滴': [
+    { w: '点滴',     r: 'てんてき',     m: 'intravenous drip, IV' },
+    { w: '水滴',     r: 'すいてき',     m: 'drop of water' },
+    { w: '一滴',     r: 'いってき',     m: 'a drop (of liquid)' },
+  ],
 };
 
 // ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
