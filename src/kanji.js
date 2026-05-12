@@ -433,8 +433,8 @@ const EXAMPLE_OVERRIDE = {
   ],
   '室': [
     { w: '教室',   r: 'きょうしつ', m: 'classroom' },
-    { w: '部屋',   r: 'へや',       m: 'room' },
     { w: '寝室',   r: 'しんしつ',   m: 'bedroom' },
+    { w: '室内',   r: 'しつない',   m: 'indoors, inside a room' },
   ],
   '借': [
     { w: '借りる', r: 'かりる',     m: 'to borrow, to rent' },
@@ -1692,7 +1692,7 @@ const EXAMPLE_OVERRIDE = {
     { w: '育児',     r: 'いくじ',       m: 'childcare, child-rearing' },
   ],
   '匹': [
-    { w: '匹',       r: 'ひき',         m: 'counter for small animals (cats, dogs, fish)' },
+    { w: '匹',       r: 'ひき',         m: 'unit for counting small animals' },
     { w: '一匹',     r: 'いっぴき',     m: 'one small animal' },
     { w: '匹敵',     r: 'ひってき',     m: 'to be a match for, to rival' },
   ],
@@ -1910,7 +1910,7 @@ const EXAMPLE_OVERRIDE = {
   ],
   '柔': [
     { w: '柔らかい', r: 'やわらかい',   m: 'soft, tender, flexible' },
-    { w: '柔道',     r: 'じゅうどう',   m: 'judo' },
+    { w: '柔道',     r: 'じゅうどう',   m: 'martial art using throws and holds' },
     { w: '柔軟',     r: 'じゅうなん',   m: 'flexible, supple, adaptable' },
   ],
   '柱': [
@@ -2094,6 +2094,188 @@ const EXAMPLE_OVERRIDE = {
     { w: '点滴',     r: 'てんてき',     m: 'intravenous drip, IV' },
     { w: '水滴',     r: 'すいてき',     m: 'drop of water' },
     { w: '一滴',     r: 'いってき',     m: 'a drop (of liquid)' },
+  ],
+
+  // ── N2 wave 4 — batch 4/4 (kanji 271-367) ─────────────────────────────────
+  '胸': [
+    { w: '胸',       r: 'むね',         m: 'chest, breast' },
+    { w: '胸焼け',   r: 'むねやけ',     m: 'heartburn' },
+    { w: '度胸',     r: 'どきょう',     m: 'courage, guts' },
+  ],
+  '腰': [
+    { w: '腰',       r: 'こし',         m: 'waist, hip, lower back' },
+    { w: '腰痛',     r: 'ようつう',     m: 'lower back pain' },
+    { w: '足腰',     r: 'あしこし',     m: 'legs and lower back' },
+  ],
+  '膚': [
+    { w: '皮膚',     r: 'ひふ',         m: 'skin' },
+    { w: '皮膚科',   r: 'ひふか',       m: 'dermatology, skin clinic' },
+    { w: '皮膚炎',   r: 'ひふえん',     m: 'dermatitis, skin inflammation' },
+  ],
+  '舟': [
+    { w: '舟',       r: 'ふね',         m: 'small boat' },
+    { w: '小舟',     r: 'こぶね',       m: 'small boat, dinghy' },
+    { w: '助け舟',   r: 'たすけぶね',   m: 'rescue boat; helping hand' },
+  ],
+  '豊': [
+    { w: '豊か',     r: 'ゆたか',       m: 'rich, abundant, plentiful' },
+    { w: '豊富',     r: 'ほうふ',       m: 'abundant, plentiful' },
+    { w: '豊作',     r: 'ほうさく',     m: 'good harvest, bumper crop' },
+  ],
+  '芸': [
+    { w: '芸術',     r: 'げいじゅつ',   m: 'art, fine arts' },
+    { w: '芸能',     r: 'げいのう',     m: 'entertainment, performing arts' },
+    { w: '文芸',     r: 'ぶんげい',     m: 'literature, literary arts' },
+  ],
+  '荒': [
+    { w: '荒れる',   r: 'あれる',       m: 'to become rough, to be stormy, to be unsettled' },
+    { w: '荒廃',     r: 'こうはい',     m: 'ruin, desolation, devastation' },
+    { w: '荒野',     r: 'こうや',       m: 'wasteland, wilderness, wild field' },
+  ],
+  '菜': [
+    { w: '野菜',     r: 'やさい',       m: 'vegetable, vegetables' },
+    { w: '白菜',     r: 'はくさい',     m: 'Chinese cabbage' },
+    { w: '菜食',     r: 'さいしょく',   m: 'vegetarian diet' },
+  ],
+  '蔵': [
+    { w: '蔵',       r: 'くら',         m: 'warehouse, storehouse, cellar' },
+    { w: '貯蔵',     r: 'ちょぞう',     m: 'storage, preservation' },
+    { w: '冷蔵庫',   r: 'れいぞうこ',   m: 'refrigerator, fridge' },
+  ],
+  '袋': [
+    { w: '袋',       r: 'ふくろ',       m: 'bag, sack, pouch' },
+    { w: '手袋',     r: 'てぶくろ',     m: 'gloves' },
+    { w: '紙袋',     r: 'かみぶくろ',   m: 'paper bag' },
+  ],
+  '装': [
+    { w: '服装',     r: 'ふくそう',     m: 'dress, attire, clothing' },
+    { w: '装置',     r: 'そうち',       m: 'device, apparatus, equipment' },
+    { w: '装備',     r: 'そうび',       m: 'equipment, gear' },
+  ],
+  '裏': [
+    { w: '裏',       r: 'うら',         m: 'back, reverse side, wrong side' },
+    { w: '裏側',     r: 'うらがわ',     m: 'back side, reverse side, behind' },
+    { w: '裏切り',   r: 'うらぎり',     m: 'betrayal, treachery' },
+  ],
+  '補': [
+    { w: '補う',     r: 'おぎなう',     m: 'to supplement, to make up for' },
+    { w: '補助',     r: 'ほじょ',       m: 'assistance, support, subsidy' },
+    { w: '補充',     r: 'ほじゅう',     m: 'replenishment, supplementation' },
+  ],
+  '角': [
+    { w: '角',       r: 'かど',         m: 'corner, edge, angle' },
+    { w: '三角',     r: 'さんかく',     m: 'triangle' },
+    { w: '角度',     r: 'かくど',       m: 'angle' },
+  ],
+  '貨': [
+    { w: '通貨',     r: 'つうか',       m: 'currency' },
+    { w: '貨物',     r: 'かもつ',       m: 'freight, cargo, goods' },
+    { w: '百貨店',   r: 'ひゃっかてん', m: 'department store' },
+  ],
+  '貯': [
+    { w: '貯金',     r: 'ちょきん',     m: 'savings, bank deposit' },
+    { w: '貯蓄',     r: 'ちょちく',     m: 'savings, accumulation' },
+    { w: '貯める',   r: 'ためる',       m: 'to save up, to store' },
+  ],
+  '賢': [
+    { w: '賢い',     r: 'かしこい',     m: 'wise, intelligent, clever' },
+    { w: '賢者',     r: 'けんじゃ',     m: 'wise person, sage' },
+    { w: '悪賢い',   r: 'わるがしこい', m: 'cunning, crafty, sly' },
+  ],
+  '跡': [
+    { w: '跡',       r: 'あと',         m: 'trace, mark, evidence, ruins' },
+    { w: '遺跡',     r: 'いせき',       m: 'archaeological ruins, historic remains' },
+    { w: '奇跡',     r: 'きせき',       m: 'miracle, wonder' },
+  ],
+  '軽': [
+    { w: '軽い',     r: 'かるい',       m: 'light (weight), minor, easy' },
+    { w: '軽傷',     r: 'けいしょう',   m: 'minor injury' },
+    { w: '軽減',     r: 'けいげん',     m: 'reduction, mitigation' },
+  ],
+  '輸': [
+    { w: '輸入',     r: 'ゆにゅう',     m: 'import' },
+    { w: '輸出',     r: 'ゆしゅつ',     m: 'export' },
+    { w: '輸送',     r: 'ゆそう',       m: 'transport, shipping' },
+  ],
+  '辺': [
+    { w: '辺り',     r: 'あたり',       m: 'vicinity, neighborhood, around' },
+    { w: '周辺',     r: 'しゅうへん',   m: 'surroundings, outskirts, vicinity' },
+    { w: '近辺',     r: 'きんぺん',     m: 'neighborhood, nearby area' },
+  ],
+  '逆': [
+    { w: '逆',       r: 'ぎゃく',       m: 'reverse, opposite, inverse' },
+    { w: '逆転',     r: 'ぎゃくてん',   m: 'reversal, turnaround' },
+    { w: '逆らう',   r: 'さからう',     m: 'to go against, to defy, to disobey' },
+  ],
+  '量': [
+    { w: '量',       r: 'りょう',       m: 'quantity, amount, volume' },
+    { w: '大量',     r: 'たいりょう',   m: 'large quantity, mass' },
+    { w: '量る',     r: 'はかる',       m: 'to measure, to weigh' },
+  ],
+  '針': [
+    { w: '針',       r: 'はり',         m: 'needle, pin, hook' },
+    { w: '方針',     r: 'ほうしん',     m: 'policy, course, plan of action' },
+    { w: '指針',     r: 'ししん',       m: 'guideline, guiding principle' },
+  ],
+  '鈍': [
+    { w: '鈍い',     r: 'にぶい',       m: 'dull, slow, dim, blunt' },
+    { w: '鈍化',     r: 'どんか',       m: 'becoming dull, slowing down' },
+    { w: '鈍感',     r: 'どんかん',     m: 'insensitive, thick-skinned, obtuse' },
+  ],
+  '録': [
+    { w: '記録',     r: 'きろく',       m: 'record, note, documentation' },
+    { w: '録音',     r: 'ろくおん',     m: 'sound recording' },
+    { w: '登録',     r: 'とうろく',     m: 'registration, enrollment' },
+  ],
+  '門': [
+    { w: '門',       r: 'もん',         m: 'gate, entrance' },
+    { w: '専門',     r: 'せんもん',     m: 'specialty, expertise, major' },
+    { w: '部門',     r: 'ぶもん',       m: 'division, department, field' },
+  ],
+  '陸': [
+    { w: '陸',       r: 'りく',         m: 'land, ground, shore' },
+    { w: '大陸',     r: 'たいりく',     m: 'continent' },
+    { w: '陸上',     r: 'りくじょう',   m: 'on land, land (transport, athletics)' },
+  ],
+  '階': [
+    { w: '階段',     r: 'かいだん',     m: 'stairs, staircase, steps' },
+    { w: '二階',     r: 'にかい',       m: 'second floor, upstairs' },
+    { w: '段階',     r: 'だんかい',     m: 'stage, step, phase, level' },
+  ],
+  '雲': [
+    { w: '雲',       r: 'くも',         m: 'cloud' },
+    { w: '雲海',     r: 'うんかい',     m: 'sea of clouds' },
+    { w: '暗雲',     r: 'あんうん',     m: 'dark clouds; ominous signs' },
+  ],
+  '革': [
+    { w: '革命',     r: 'かくめい',     m: 'revolution' },
+    { w: '改革',     r: 'かいかく',     m: 'reform, reformation' },
+    { w: '革新',     r: 'かくしん',     m: 'innovation, reform, progressivism' },
+  ],
+  '預': [
+    { w: '預金',     r: 'よきん',       m: 'bank deposit, savings' },
+    { w: '預ける',   r: 'あずける',     m: 'to deposit, to entrust' },
+    { w: '預かる',   r: 'あずかる',     m: 'to take custody of, to look after' },
+  ],
+  '香': [
+    { w: '香り',     r: 'かおり',       m: 'fragrance, aroma, scent' },
+    { w: '香水',     r: 'こうすい',     m: 'perfume' },
+    { w: '香辛料',   r: 'こうしんりょう', m: 'spices, seasoning' },
+  ],
+  '骨': [
+    { w: '骨',       r: 'ほね',         m: 'bone' },
+    { w: '骨折',     r: 'こっせつ',     m: 'bone fracture, broken bone' },
+    { w: '骨格',     r: 'こっかく',     m: 'skeleton, frame, physique' },
+  ],
+  '麦': [
+    { w: '麦',       r: 'むぎ',         m: 'wheat, barley, oat' },
+    { w: '小麦',     r: 'こむぎ',       m: 'wheat' },
+    { w: '麦茶',     r: 'むぎちゃ',     m: 'barley tea' },
+  ],
+  '黄': [
+    { w: '黄色',     r: 'きいろ',       m: 'yellow' },
+    { w: '黄金',     r: 'こがね',       m: 'gold, golden' },
+    { w: '卵黄',     r: 'らんおう',     m: 'egg yolk' },
   ],
 };
 
