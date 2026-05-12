@@ -2760,6 +2760,183 @@ const EXAMPLE_OVERRIDE = {
     { w: '貨幣',     r: 'かへい',       m: 'money, currency, coin' },
     { w: '造幣局',   r: 'ぞうへいきょく', m: 'mint (bureau)' },
   ],
+
+  // ── N1 wave 2 — batch 2/4 (kanji 309-616) ───
+  '幽': [
+    { w: '幽霊',   r: 'ゆうれい',   m: 'ghost, specter' },
+    { w: '幽玄',   r: 'ゆうげん',   m: 'subtle grace, deep mystery (aesthetic concept)' },
+    { w: '幽閉',   r: 'ゆうへい',   m: 'confinement, imprisonment' },
+  ],
+  '弾': [
+    { w: '弾く',   r: 'ひく',       m: 'to play (piano, guitar, etc.)' },
+    { w: '爆弾',   r: 'ばくだん',   m: 'bomb, explosive device' },
+    { w: '弾丸',   r: 'だんがん',   m: 'bullet, shell' },
+  ],
+  '微': [
+    { w: '微妙',   r: 'びみょう',   m: 'subtle, delicate, nuanced' },
+    { w: '微笑む', r: 'ほほえむ',   m: 'to smile gently' },
+    { w: '微細',   r: 'びさい',     m: 'minute, tiny, fine' },
+  ],
+  '慈': [
+    { w: '慈善',   r: 'じぜん',     m: 'charity, philanthropy' },
+    { w: '慈悲',   r: 'じひ',       m: 'mercy, compassion' },
+    { w: '慈しむ', r: 'いつくしむ', m: 'to love tenderly, to cherish' },
+  ],
+  '愚': [
+    { w: '愚か',   r: 'おろか',     m: 'foolish, stupid' },
+    { w: '愚痴',   r: 'ぐち',       m: 'grumbling, complaining' },
+    { w: '愚直',   r: 'ぐちょく',   m: 'honest to a fault, overly sincere' },
+  ],
+  '慶': [
+    { w: '慶び',   r: 'よろこび',   m: 'joy, delight' },
+    { w: '慶祝',   r: 'けいしゅく', m: 'celebration, congratulation' },
+    { w: '慶応',   r: 'けいおう',   m: 'Keio era (1865-1868) / Keio University' },
+  ],
+  '懐': [
+    { w: '懐かしい', r: 'なつかしい', m: 'nostalgic, fondly remembered' },
+    { w: '懐',       r: 'ふところ',   m: 'breast pocket, one\'s bosom' },
+    { w: '懐中',     r: 'かいちゅう', m: 'in one\'s pocket, portable' },
+  ],
+  '戯': [
+    { w: '戯れる', r: 'たわむれる', m: 'to play, to jest, to frolic' },
+    { w: '遊戯',   r: 'ゆうぎ',     m: 'play, game, amusement' },
+    { w: '悪戯',   r: 'いたずら',   m: 'prank, mischief, naughtiness' },
+  ],
+  '扇': [
+    { w: '扇形',   r: 'おうぎがた', m: 'fan shape, sector' },
+    { w: '扇風機', r: 'せんぷうき', m: 'electric fan' },
+    { w: '扇ぐ',   r: 'あおぐ',     m: 'to fan, to fan oneself' },
+  ],
+  '抗': [
+    { w: '抗議',   r: 'こうぎ',     m: 'protest, objection' },
+    { w: '対抗',   r: 'たいこう',   m: 'opposition, rivalry' },
+    { w: '抵抗',   r: 'ていこう',   m: 'resistance, opposition' },
+  ],
+  '括': [
+    { w: '括弧',   r: 'かっこ',     m: 'parentheses, brackets' },
+    { w: '包括',   r: 'ほうかつ',   m: 'inclusion, comprehensive coverage' },
+    { w: '一括',   r: 'いっかつ',   m: 'lump-sum, all at once, batch' },
+  ],
+  '排': [
+    { w: '排除',   r: 'はいじょ',   m: 'exclusion, removal' },
+    { w: '排気',   r: 'はいき',     m: 'exhaust, ventilation' },
+    { w: '排水',   r: 'はいすい',   m: 'drainage, draining' },
+  ],
+  '撲': [
+    { w: '打撲',     r: 'だぼく',     m: 'blow, bruising strike' },
+    { w: '撲滅',     r: 'ぼくめつ',   m: 'eradication, stamping out' },
+    { w: '打撲傷',   r: 'だぼくしょう', m: 'bruise, contusion' },
+  ],
+  '操': [
+    { w: '操縦',   r: 'そうじゅう', m: 'piloting, operating (aircraft, vehicle)' },
+    { w: '体操',   r: 'たいそう',   m: 'gymnastics, calisthenics' },
+    { w: '操作',   r: 'そうさ',     m: 'operation, handling, manipulation' },
+  ],
+  '故': [
+    { w: '故郷',   r: 'こきょう',   m: 'hometown, birthplace' },
+    { w: '事故',   r: 'じこ',       m: 'accident, incident' },
+    { w: '故障',   r: 'こしょう',   m: 'breakdown, malfunction, failure' },
+  ],
+  '敢': [
+    { w: '果敢',   r: 'かかん',     m: 'bold, daring, resolute' },
+    { w: '勇敢',   r: 'ゆうかん',   m: 'brave, courageous' },
+    { w: '敢えて', r: 'あえて',     m: 'deliberately, purposely, daringly' },
+  ],
+  '敦': [
+    { w: '敦厚',   r: 'とんこう',   m: 'sincere and kindhearted' },
+    { w: '敦睦',   r: 'とんぼく',   m: 'cordial friendship' },
+    { w: '敦い',   r: 'あつい',     m: 'kind, sincere, warm-hearted' },
+  ],
+  '旗': [
+    { w: '旗',     r: 'はた',       m: 'flag, banner' },
+    { w: '国旗',   r: 'こっき',     m: 'national flag' },
+    { w: '旗手',   r: 'きしゅ',     m: 'standard-bearer, flag bearer' },
+  ],
+  '既': [
+    { w: '既に',   r: 'すでに',     m: 'already, by now' },
+    { w: '既成',   r: 'きせい',     m: 'established, ready-made' },
+    { w: '既存',   r: 'きそん',     m: 'existing, pre-existing' },
+  ],
+  '条': [
+    { w: '条件',   r: 'じょうけん', m: 'condition, requirement, terms' },
+    { w: '条約',   r: 'じょうやく', m: 'treaty, pact' },
+    { w: '条文',   r: 'じょうぶん', m: 'text of a law, clause, article' },
+  ],
+  '松': [
+    { w: '松',     r: 'まつ',       m: 'pine tree' },
+    { w: '松並木', r: 'まつなみき', m: 'row of pine trees' },
+    { w: '松葉',   r: 'まつば',     m: 'pine needle' },
+  ],
+  '柄': [
+    { w: '柄',     r: 'がら',       m: 'pattern, design (on fabric, etc.)' },
+    { w: '人柄',   r: 'ひとがら',   m: 'character, personality, nature' },
+    { w: '大柄',   r: 'おおがら',   m: 'large build, large pattern' },
+  ],
+  '案': [
+    { w: '案',     r: 'あん',       m: 'idea, plan, proposal' },
+    { w: '提案',   r: 'ていあん',   m: 'proposal, suggestion' },
+    { w: '法案',   r: 'ほうあん',   m: 'bill (legislation)' },
+  ],
+  '暖': [
+    { w: '暖かい', r: 'あたたかい', m: 'warm, mild (weather, feeling)' },
+    { w: '暖房',   r: 'だんぼう',   m: 'heating, indoor heater' },
+    { w: '温暖',   r: 'おんだん',   m: 'warm, mild (climate)' },
+  ],
+  '椋': [
+    { w: '椋鳥',   r: 'むくどり',   m: 'grey starling, white-cheeked starling (bird)' },
+    { w: '星椋鳥', r: 'ほしむくどり', m: 'common starling, European starling' },
+    { w: '椋',     r: 'むく',       m: 'Aphananthe aspera (type of elm tree)' },
+  ],
+  '槽': [
+    { w: '水槽',   r: 'すいそう',   m: 'fish tank, water tank' },
+    { w: '浴槽',   r: 'よくそう',   m: 'bathtub' },
+    { w: '貯水槽', r: 'ちょすいそう', m: 'water reservoir, cistern' },
+  ],
+  '模': [
+    { w: '模様',   r: 'もよう',     m: 'pattern, design, appearance' },
+    { w: '模倣',   r: 'もほう',     m: 'imitation, mimicry' },
+    { w: '模型',   r: 'もけい',     m: 'model, scale model, mock-up' },
+  ],
+  '樹': [
+    { w: '樹木',   r: 'じゅもく',   m: 'trees, timber, woody plants' },
+    { w: '樹立',   r: 'じゅりつ',   m: 'establishment, setting up' },
+    { w: '樹脂',   r: 'じゅし',     m: 'resin, rosin' },
+  ],
+  '欺': [
+    { w: '詐欺',   r: 'さぎ',       m: 'fraud, swindle, scam' },
+    { w: '欺く',   r: 'あざむく',   m: 'to deceive, to trick, to delude' },
+    { w: '欺瞞',   r: 'ぎまん',     m: 'deception, trickery, duplicity' },
+  ],
+  '殖': [
+    { w: '増殖',   r: 'ぞうしょく', m: 'multiplication, proliferation' },
+    { w: '繁殖',   r: 'はんしょく', m: 'breeding, propagation, multiplication' },
+    { w: '殖産',   r: 'しょくさん', m: 'increase in production, industrial development' },
+  ],
+  '沖': [
+    { w: '沖',     r: 'おき',       m: 'open sea, offshore, out at sea' },
+    { w: '沖合',   r: 'おきあい',   m: 'offshore, off the coast' },
+    { w: '沖縄',   r: 'おきなわ',   m: 'Okinawa (prefecture)' },
+  ],
+  '江': [
+    { w: '江',     r: 'え',         m: 'inlet, creek, bay' },
+    { w: '江戸',   r: 'えど',       m: 'Edo (old name for Tokyo)' },
+    { w: '江戸時代', r: 'えどじだい', m: 'Edo period (1603-1868)' },
+  ],
+  '沼': [
+    { w: '沼',     r: 'ぬま',       m: 'marsh, swamp, bog' },
+    { w: '沼地',   r: 'ぬまち',     m: 'swampy land, marshy ground' },
+    { w: '泥沼',   r: 'どろぬま',   m: 'quagmire, bog; inextricable situation' },
+  ],
+  '是': [
+    { w: '是非',   r: 'ぜひ',       m: 'certainly, by all means; right and wrong' },
+    { w: '是正',   r: 'ぜせい',     m: 'correction, remedy, rectification' },
+    { w: '是認',   r: 'ぜにん',     m: 'approval, recognition, acknowledgment' },
+  ],
+  '洪': [
+    { w: '洪水',   r: 'こうずい',   m: 'flood, inundation' },
+    { w: '洪大',   r: 'こうだい',   m: 'vast, immense' },
+    { w: '洪積',   r: 'こうせき',   m: 'diluvial, relating to great flood deposits' },
+  ],
 };
 
 // ── Kanji-level lookup built from the loaded pool (available after buildPool()) ─
