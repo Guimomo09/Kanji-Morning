@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **11 Mai 2026** · Stripe LIVE ✅
+> Dernière mise à jour: **12 Mai 2026** · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -250,6 +250,28 @@ kanji.guimo-prod.com {
 **Fixes session 11 Mai 2026 (suite)**
 - [x] Home Avg Score exclut les exams (cohérent avec Stats) ← `ceffe11`
 - [x] Exam tab re-render après pull premium au refresh (plus de vue locked) ← `cb4e206`
+- [x] Alt attribute sur logo tutorial img (5 langues) — SEO/accessibilité ← `e0dc990`
+- [x] `og:image` + JSON-LD `Organization` + `WebSite` dans index.html (logo Google Search) ← `48a181b`
+
+**EXAMPLE_OVERRIDE — 12 Mai 2026** ← commits `39b2acd` → `7727908` (main)
+- [x] EXAMPLE_OVERRIDE 100% complet — N5 → N4 → N3 → N2 → N1 (tous les niveaux)
+- [x] Exemples offensants/erronés remplacés sur l'ensemble du JLPT (rufous hawk-cuckoo, sixty-nine, slur, salmon→ayu, etc.)
+- [x] `scripts/scan-overrides.mjs` — QA scan automatique · 0 issues sur tous les niveaux
+- [x] 1232 kanji N1 couverts en 4 vagues
+
+**Fixes session 12 Mai 2026** ← commits `545f1ac` → `97a90b7` (main)
+- [x] More/Less incrémental — `loadAndRenderDelta(delta)` : +More appende seulement la nouvelle carte, -Less retire la dernière sans appel API ← `545f1ac`
+- [x] Race condition More/Less — flag `_deltaInProgress` bloque les clicks pendant un fetch en cours ← `97a90b7`
+- [x] Ordre onglets revenu à Kanji → Vocab → My List → Exam → Stats ← `97a90b7`
+
+**Marketing & Promotion — 11 Mai 2026**
+- [x] `PRODUCTHUNT.md` — dossier de lancement complet (tagline, description, timing, checklist)
+- [x] `scripts/screenshot-producthunt.mjs` — génère 5 screenshots 1270×952 depuis asanokanji.com
+- [x] `screenshots/` — 5 captures prêtes pour ProductHunt (home, kanji, vocab, stats, jlpt-n5)
+- [x] `scripts/generate-kanji-cards.mjs` — génère des cartes kanji 1080×1080px pour Instagram/X/LinkedIn
+  - Bandeau rouge pleine largeur · logo PNG · titre centré · badge JLPT
+  - Tile blanche centrée · kanji 300px · signification · lectures 音/訓
+  - Options CLI : `--level n5/n4/n3/n2/n1` · `--count N` · `--kanji 火,水,木` · `--theme dark`
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
