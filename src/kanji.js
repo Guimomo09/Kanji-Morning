@@ -22,7 +22,52 @@ const READING_OVERRIDE = {
   '馬車': 'ばしゃ',
 };
 
-// ── Hand-curated examples for number kanji ──────────────────────────────
+// ── Kanji meaning overrides ───────────────────────────────────────────────
+// kanjiapi.dev returns meanings alphabetically — for simple kanji the
+// alphabetically-first meaning is often archaic/technical, not the core one.
+// Values here replace the API meanings entirely for display.
+export const KANJI_MEANING_OVERRIDE = {
+  // N5
+  '午': ['noon', 'midday'],
+  '子': ['child', 'kid'],
+  '目': ['eye'],
+  '足': ['foot', 'leg'],
+  '見': ['see', 'look at', 'watch'],
+  '校': ['school', 'educational institution'],
+  '空': ['sky', 'air', 'empty'],
+  '生': ['life', 'living', 'birth'],
+  '立': ['stand', 'stand up', 'rise'],
+  '名': ['name', 'famous'],
+  '国': ['country', 'nation'],
+  '川': ['river', 'stream'],
+  '土': ['earth', 'soil', 'ground'],
+  '年': ['year'],
+  '気': ['spirit', 'energy', 'mood', 'atmosphere'],
+  '早': ['early', 'fast', 'quick'],
+  '来': ['come', 'arrive'],
+  '東': ['east'],
+  '南': ['south'],
+  '北': ['north'],
+  '西': ['west'],
+  // N4
+  '発': ['departure', 'emit', 'launch', 'start'],
+  '感': ['feeling', 'sense', 'emotion'],
+  '楽': ['fun', 'easy', 'comfortable', 'music'],
+  '運': ['carry', 'luck', 'fortune', 'transport'],
+  '転': ['roll', 'turn', 'rotate', 'change'],
+  '起': ['get up', 'rise', 'occur', 'wake up'],
+  '考': ['think', 'consider', 'idea'],
+  '死': ['death', 'die'],
+  '止': ['stop', 'halt'],
+  '重': ['heavy', 'important', 'serious', 'pile up'],
+  '野': ['field', 'plain', 'wild'],
+  '服': ['clothes', 'clothing', 'obey'],
+  '者': ['person', 'someone'],
+  '理': ['reason', 'logic', 'principle', 'manage'],
+  '活': ['lively', 'active', 'live'],
+};
+
+
 // The subtitle corpus uses Arabic numerals (7月, 7日) so all kanji-written
 // number words get freqRank=99999, letting obscure Buddhist/historical terms
 // bubble to the top. These overrides guarantee simple, daily-use examples.
@@ -119,6 +164,13 @@ function isWordLevelOk(written, targetJlptNum, charLevelMap) {
     }
   }
   return true;
+}
+
+// ── Best display meaning for a kanji ─────────────────────────────────────
+// Uses hand-curated overrides first, then sortGlosses on the API data.
+function bestKanjiMeaning(char, apiMeanings) {
+  if (KANJI_MEANING_OVERRIDE[char]) return KANJI_MEANING_OVERRIDE[char].join(', ');
+  return sortGlosses(apiMeanings ?? ['?']).slice(0, 4).join(', ');
 }
 
 // ── Extract best example words from API response ─────────────────────────
@@ -362,7 +414,7 @@ export async function ensureKanjiCards() {
         level:   LEVEL_LABEL[jlptNum],
         on:      detail.on_readings  ?? [],
         kun:     detail.kun_readings ?? [],
-        meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
+        meaning: bestKanjiMeaning(char, detail.meanings),
         ex:      bestExamples(words, char, 3, jlptNum),
       };
     })
@@ -403,7 +455,7 @@ export async function loadAndRender(n, forceNew = false) {
           level:   LEVEL_LABEL[jlptNum],
           on:      detail.on_readings  ?? [],
           kun:     detail.kun_readings ?? [],
-          meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
+          meaning: bestKanjiMeaning(char, detail.meanings),
           ex:      bestExamples(words, char, 3, jlptNum),
         };
       })
@@ -482,7 +534,7 @@ export async function searchAndRenderKanji(query) {
             level:   LEVEL_LABEL[inPool.jlptNum],
             on:      detail.on_readings  ?? [],
             kun:     detail.kun_readings ?? [],
-            meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
+            meaning: bestKanjiMeaning(inPool.char, detail.meanings),
             ex:      bestExamples(words, inPool.char, 3, inPool.jlptNum),
           }];
         } catch { /* leave empty */ }
@@ -511,7 +563,7 @@ export async function searchAndRenderKanji(query) {
               level:   LEVEL_LABEL[pool.jlptNum],
               on:      detail.on_readings  ?? [],
               kun:     detail.kun_readings ?? [],
-              meaning: sortGlosses(detail.meanings ?? ['?']).slice(0, 4).join(', '),
+              meaning: bestKanjiMeaning(char, detail.meanings),
               ex:      bestExamples(words, char, 3, pool.jlptNum),
             };
           })

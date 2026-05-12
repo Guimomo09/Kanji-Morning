@@ -58,13 +58,30 @@ function meaningScore(m) {
   return score;
 }
 
+// Patterns to push to the back in kanji meaning strings.
+// These are technically correct but confusing for learners or not the primary
+// modern meaning (zodiac hours, radical descriptions, counters, geographic artifacts).
+const KANJI_GLOSS_DEPRIORITIZE_RE = new RegExp(
+  [
+    /^\d{1,2}[AP]M/.source,                   // time ranges: "11AM-1PM", "1AM-3AM"
+    /sign of the /.source,                     // "sign of the horse", "sign of the rat"
+    /\d+(?:st|nd|rd|th) sign of/.source,       // "seventh sign of Chinese zodiac"
+    /Chinese zodiac/.source,                   // any zodiac reference
+    /\bradical\b/.source,                      // "three-stroke river radical (no. 47)"
+    /^counter for\b/i.source,                  // "counter for years", "counter for gunshots"
+    /^Turkey$/.source,                         // 土 artifact (土 = earth, not Turkey)
+    /^be sufficient$/.source,                  // 足 — "be sufficient" buries "foot, leg"
+  ].join('|'),
+  'i'
+);
+
 export function sortGlosses(glosses) {
   if (!glosses || glosses.length <= 1) return glosses || [];
   return [...glosses].sort((a, b) => {
-    const aRare = RARE_RE.test(a);
-    const bRare = RARE_RE.test(b);
-    if (aRare && !bRare) return 1;
-    if (!aRare && bRare) return -1;
+    const aDeprio = KANJI_GLOSS_DEPRIORITIZE_RE.test(a) || RARE_RE.test(a);
+    const bDeprio = KANJI_GLOSS_DEPRIORITIZE_RE.test(b) || RARE_RE.test(b);
+    if (aDeprio && !bDeprio) return 1;
+    if (!aDeprio && bDeprio) return -1;
     return 0;
   });
 }
