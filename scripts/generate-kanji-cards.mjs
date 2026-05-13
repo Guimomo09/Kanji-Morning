@@ -17,7 +17,7 @@
  *   node scripts/generate-kanji-cards.mjs --theme dark
  */
 
-import { readFileSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
+import { readFileSync, mkdirSync, writeFileSync, unlinkSync, existsSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
@@ -33,6 +33,8 @@ const get = (flag, def) => { const i = args.indexOf(flag); return i !== -1 ? arg
 const LEVEL  = get('--level', 'n5');
 const COUNT  = parseInt(get('--count', '5'), 10);
 const CUSTOM = get('--kanji', null);
+const DIR    = get('--dir', LEVEL);
+const FORCE  = args.includes('--force');
 
 // ── Kuromoji furigana ─────────────────────────────────────────────────────────
 const kuromoji = require('kuromoji');
@@ -60,48 +62,81 @@ async function getTokenizer() {
  * 3. Token has kanji harder than targetLevel (lower JLPT num, e.g. N4 in an N5 card)
  *    → convert entirely to hiragana (no ruby)
  */
+// Irregular readings: kuromoji gets these wrong (dates, counters)
+// Longer entries must come first to avoid partial matches
+const IRREGULAR_MAP = [
+  ['二十四日','にじゅうよっか'],['二十日','はつか'],['十四日','じゅうよっか'],
+  ['一日','ついたち'],['二日','ふつか'],['三日','みっか'],['四日','よっか'],['五日','いつか'],
+  ['六日','むいか'],['七日','なのか'],['八日','ようか'],['九日','ここのか'],['十日','とおか'],
+  ['二人','ふたり'],['一人','ひとり'],
+];
+
+// Split text into segments: [{text, hira}] where hira is set only for irregular forms
+function splitIrregulars(text) {
+  const segments = [];
+  let remaining = text;
+  while (remaining.length > 0) {
+    let found = false;
+    for (const [surface, hira] of IRREGULAR_MAP) {
+      const idx = remaining.indexOf(surface);
+      if (idx === -1) continue;
+      if (idx > 0) segments.push({ text: remaining.slice(0, idx), hira: null });
+      segments.push({ text: surface, hira });
+      remaining = remaining.slice(idx + surface.length);
+      found = true;
+      break;
+    }
+    if (!found) { segments.push({ text: remaining, hira: null }); break; }
+  }
+  return segments;
+}
+
 async function toFuriganaHTML(text, targetLevelNum = 5, mainKanji = '') {
   const tokenizer = await getTokenizer();
-  const tokens = tokenizer.tokenize(text);
-  return tokens.map(tok => {
-    const surface = tok.surface_form;
-    const reading = tok.reading; // katakana
-    const hasKanji = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(surface);
-    if (!hasKanji) return escHtml(surface);
+  const segments = splitIrregulars(text);
+  const htmlParts = [];
 
-    const hira = reading ? katakanaToHiragana(reading) : null;
-
-    // Does this token contain the card's main kanji?
-    const containsMain = [...surface].some(ch => mainKanji.includes(ch));
-
-    // Does this token contain any kanji harder than targetLevel?
-    let hasHarder = false;
-    for (const ch of surface) {
-      const cp = ch.codePointAt(0);
-      if (!((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF))) continue;
-      if (mainKanji.includes(ch)) continue; // main kanji always kept as kanji
-      const lvl = CHAR_LEVEL_MAP.get(ch);
-      if (lvl === undefined || lvl < targetLevelNum) { hasHarder = true; break; }
+  for (const seg of segments) {
+    if (seg.hira) {
+      // Render irregular form directly with correct ruby
+      const displaySurface = [...seg.text].map(ch =>
+        mainKanji.includes(ch) ? `<span class="mk">${escHtml(ch)}</span>` : escHtml(ch)
+      ).join('');
+      htmlParts.push(`<ruby><rb>${displaySurface}</rb><rt>${escHtml(seg.hira)}</rt></ruby>`);
+      continue;
     }
+    // Normal segment: tokenize with kuromoji
+    const tokens = tokenizer.tokenize(seg.text);
+    for (const tok of tokens) {
+      const surface = tok.surface_form;
+      const reading = tok.reading; // katakana
+      const hasKanji = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(surface);
+      if (!hasKanji) { htmlParts.push(escHtml(surface)); continue; }
 
-    // Tier 3: harder kanji + doesn't contain main kanji → pure hiragana
-    if (hasHarder && !containsMain) {
-      return hira ? escHtml(hira) : escHtml(surface);
-    }
+      const hira = reading ? katakanaToHiragana(reading) : null;
+      const containsMain = [...surface].some(ch => mainKanji.includes(ch));
 
-    // Tier 1 & 2: show as kanji + ruby furigana
-    if (!hira || hira === surface) return escHtml(surface);
-
-    // Build display surface: main kanji chars in red
-    const displaySurface = [...surface].map(ch => {
-      if (mainKanji.includes(ch)) {
-        return `<span class="mk">${escHtml(ch)}</span>`;
+      let hasHarder = false;
+      for (const ch of surface) {
+        const cp = ch.codePointAt(0);
+        if (!((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF))) continue;
+        if (mainKanji.includes(ch)) continue;
+        const lvl = CHAR_LEVEL_MAP.get(ch);
+        if (lvl === undefined || lvl < targetLevelNum) { hasHarder = true; break; }
       }
-      return escHtml(ch);
-    }).join('');
 
-    return `<ruby><rb>${displaySurface}</rb><rt>${escHtml(hira)}</rt></ruby>`;
-  }).join('');
+      if (hasHarder && !containsMain) {
+        htmlParts.push(hira ? escHtml(hira) : escHtml(surface)); continue;
+      }
+      if (!hira || hira === surface) { htmlParts.push(escHtml(surface)); continue; }
+
+      const displaySurface = [...surface].map(ch =>
+        mainKanji.includes(ch) ? `<span class="mk">${escHtml(ch)}</span>` : escHtml(ch)
+      ).join('');
+      htmlParts.push(`<ruby><rb>${displaySurface}</rb><rt>${escHtml(hira)}</rt></ruby>`);
+    }
+  }
+  return htmlParts.join('');
 }
 
 function katakanaToHiragana(str) {
@@ -113,13 +148,19 @@ function escHtml(s) {
 }
 
 // ── Output dirs ───────────────────────────────────────────────────────────────
-const INSTA_DIR  = join(ROOT, 'kanji-cards', LEVEL, 'insta');
-const TIKTOK_DIR = join(ROOT, 'kanji-cards', LEVEL, 'tiktok');
+const INSTA_DIR  = join(ROOT, 'kanji-cards', DIR, 'cards');
+const TIKTOK_DIR = join(ROOT, 'kanji-cards', DIR, 'tiktok');
 mkdirSync(INSTA_DIR,  { recursive: true });
 mkdirSync(TIKTOK_DIR, { recursive: true });
 
 // ── JLPT data ─────────────────────────────────────────────────────────────────
 const KANJI_INDEX = JSON.parse(readFileSync(join(ROOT, 'public', 'kanji_index.json'), 'utf8'));
+
+// ── Kanji lock status ─────────────────────────────────────────────────────────
+const STATUS_FILE_PATH = join(ROOT, 'kanji-status.json');
+const KANJI_STATUS = existsSync(STATUS_FILE_PATH)
+  ? JSON.parse(readFileSync(STATUS_FILE_PATH, 'utf8'))
+  : {};
 
 async function fetchJLPTList(num) {
   const res = await fetch(`https://kanjiapi.dev/v1/kanji/jlpt-${num}`);
@@ -328,12 +369,19 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
           sentJpFont, sentEnFont, sentPad, sentGap, sentJustify } = fmt;
   const LVL = levelStr || LEVEL.toUpperCase();
   const logoW = logoSize + 36;
-  // sentences items now have { jpHtml, en } — jpHtml already has ruby tags
-  const rows = sentences.map(({ jpHtml, en }) => `
+  // sentences items have { jpHtml, en, readingType, reading } — reading is actual kana (ひ, ニチ…)
+  const rows = sentences.map(({ jpHtml, en, readingType, reading }) => {
+    const badgeText = readingType === 'kun' ? 'KUN' : readingType === 'on' ? 'ON' : null;
+    const badge = badgeText
+      ? `<span class="rbadge ${readingType}-badge">${badgeText}</span>`
+      : '';
+    return `
     <div class="sr">
+      ${badge ? `<div class="badge-row">${badge}</div>` : ''}
       <div class="sjp">${jpHtml}</div>
       <div class="sen">${en}</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -357,6 +405,10 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
   rb{display:inline;}
   rt{font-size:${Math.round(sentJpFont*0.38)}px;font-weight:400;color:#888;line-height:1;}
   .mk{color:#c03a20;font-weight:900;}
+  .rbadge{display:inline-block;font-size:${Math.round(sentJpFont*0.52)}px;font-weight:900;border-radius:6px;padding:2px 10px;margin-bottom:6px;line-height:1.6;}
+  .kun-badge{background:#e8f5e9;color:#2e7d32;}
+  .on-badge{background:#fdecea;color:#b91c1c;}
+  .badge-row{margin-bottom:4px;}
   .sen{font-size:${sentEnFont}px;color:#666;font-style:italic;line-height:1.4;}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -429,16 +481,38 @@ function pickLevelWords(wordEntries, targetChar, targetJlptNum, max = 3) {
 }
 
 async function fetchVocab(kanji, levelNum) {
-  // 1. EXAMPLE_OVERRIDE — données curées de l'app (priorité max)
-  if (EXAMPLE_OVERRIDE[kanji]?.length > 0) {
-    return EXAMPLE_OVERRIDE[kanji].slice(0, 3);
-  }
-  // 2. Fallback : kanjiapi.dev
+  const kanjiData = KANJI_INDEX[kanji] || {};
+
+  // Build pool: EXAMPLE_OVERRIDE (curated, priority) + kanjiapi.dev (supplement)
+  // Combining both ensures KUN+ON coverage even when one source is one-sided.
+  const overrideWords = EXAMPLE_OVERRIDE[kanji] || [];
+  let apiWords = [];
   try {
     const res = await fetch(`https://kanjiapi.dev/v1/words/${encodeURIComponent(kanji)}`);
-    if (!res.ok) return [];
-    return pickLevelWords(await res.json(), kanji, levelNum, 3);
-  } catch { return []; }
+    if (res.ok) apiWords = pickLevelWords(await res.json(), kanji, levelNum, 30);
+  } catch {}
+
+  // Merge: override words first (priority), then api words (dedup by written form)
+  const seenW = new Set(overrideWords.map(w => w.w));
+  const pool = [...overrideWords, ...apiWords.filter(w => !seenW.has(w.w))];
+
+  if (pool.length === 0) return [];
+
+  // Classify and order: KUN first, ON second, fill with others
+  // Override words keep their curated readings; api words use pickLevelWords readings.
+  const { kun, on, other } = classifyVocab(pool, kanjiData, kanji);
+  const result = [];
+  const seen = new Set();
+  const add = w => { if (!seen.has(w.w)) { seen.add(w.w); result.push({ w: w.w, r: w.r, m: w.m }); } };
+
+  if (kun[0]) add(kun[0]);
+  if (on[0])  add(on[0]);
+  for (const w of [...other, ...kun.slice(1), ...on.slice(1)]) {
+    if (result.length >= 3) break;
+    add(w);
+  }
+
+  return result;
 }
 
 // ── Fetch: sentences ──────────────────────────────────────────────────────────
@@ -515,52 +589,166 @@ async function fetchMassifCandidates(word, maxLen, levelNum) {
   } catch { return []; }
 }
 
-// Fetch one sentence per vocab word (up to count), polite + level-appropriate preferred.
-async function fetchSentences(kanji, levelNum, words, count = 2) {
-  // 1. SENTENCE_OVERRIDE — highest priority, hand-curated
-  if (SENTENCE_OVERRIDE[kanji]?.length > 0) {
-    console.log(`   [sentences] override`);
-    return SENTENCE_OVERRIDE[kanji].slice(0, count);
-  }
+// Rendaku: voiced equivalent of first mora (ひ→び, か→が, etc.)
+function voiced(r) {
+  const map = {'か':'が','き':'ぎ','く':'ぐ','け':'げ','こ':'ご',
+               'さ':'ざ','し':'じ','す':'ず','せ':'ぜ','そ':'ぞ',
+               'た':'だ','ち':'ぢ','つ':'づ','て':'で','と':'ど',
+               'は':'ば','ひ':'び','ふ':'ぶ','へ':'べ','ほ':'ぼ'};
+  if (!r) return r;
+  return (map[r[0]] ?? r[0]) + r.slice(1);
+}
 
-  const maxLen = { 5: 20, 4: 34, 3: 48, 2: 62, 1: 82 }[levelNum] || 34;
-  const results = [];
-  const seenJp  = new Set();
-
-  // 2. Try each vocab word on Tatoeba (try all, not just count+2)
+// Classify vocab words as KUN or ON based on their reading vs kanji readings
+// Each classified word gets a `matchedReading` (hiragana for KUN, katakana for ON)
+function classifyVocab(words, kanjiData, targetKanji = '') {
+  const kunRoots   = (kanjiData.k || []).map(r => r.replace(/^-/, '').replace(/\..+$/, '').trim()).filter(Boolean);
+  const onRootsKata = (kanjiData.o || []).map(r => r.replace(/\s.+$/, '').trim()).filter(Boolean);
+  const onRootsHira = onRootsKata.map(r =>
+    r.replace(/[\u30A1-\u30F6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60))
+  );
+  const kun = [], on = [], other = [];
   for (const w of words) {
-    if (results.length >= count) break;
-    const cands = await fetchTatoebaCandidates(w.w, maxLen, levelNum);
-    for (const c of cands) {
-      if (seenJp.has(c.jp)) continue;
-      seenJp.add(c.jp);
-      results.push({ jp: c.jp, en: c.en });
-      break; // one sentence per vocab word
+    const r = w.r || '';
+    const pos = targetKanji ? (w.w || '').indexOf(targetKanji) : 0;
+    let classified = false;
+    if (pos === 0) {
+      // Kanji leads — match reading prefix
+      const km = kunRoots.find(k => r.startsWith(k)) ?? kunRoots.find(k => r.startsWith(voiced(k)));
+      if (km) {
+        kun.push({ ...w, matchedReading: r.startsWith(voiced(km)) ? voiced(km) : km });
+        classified = true;
+      } else {
+        const oi = onRootsHira.findIndex(o => r.startsWith(o));
+        if (oi >= 0) { on.push({ ...w, matchedReading: onRootsKata[oi] }); classified = true; }
+      }
+    } else {
+      // Kanji is suffix — match anywhere in reading
+      const km = kunRoots.find(k => r.includes(k)) ?? kunRoots.find(k => r.includes(voiced(k)));
+      if (km) {
+        kun.push({ ...w, matchedReading: r.includes(voiced(km)) ? voiced(km) : km });
+        classified = true;
+      } else {
+        const oi = onRootsHira.findIndex(o => r.includes(o));
+        if (oi >= 0) { on.push({ ...w, matchedReading: onRootsKata[oi] }); classified = true; }
+      }
     }
+    if (!classified) other.push({ ...w, matchedReading: null });
+  }
+  return { kun, on, other };
+}
+
+// Detect whether the kanji's reading in this sentence is KUN or ON.
+// Tokenizes JP, finds the token containing the kanji, reads its kana,
+// then matches against the kanji's known KUN/ON roots.
+async function detectReadingType(jp, kanji, kanjiData) {
+  try {
+    const tokenizer = await getTokenizer();
+    const tokens = tokenizer.tokenize(jp);
+    const kunRoots = (kanjiData.k || []).map(r => r.replace(/^-/, '').replace(/\..+$/, '').trim()).filter(Boolean);
+    const onKata   = (kanjiData.o || []).map(r => r.replace(/\s.+$/, '').trim()).filter(Boolean);
+    const onHira   = onKata.map(r => r.replace(/[\u30A1-\u30F6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60)));
+    for (const tok of tokens) {
+      if (!tok.surface_form.includes(kanji)) continue;
+      const rd = tok.reading ? tok.reading.replace(/[\u30A1-\u30F6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60)) : '';
+      if (!rd) continue;
+      const pos = tok.surface_form.indexOf(kanji);
+      // KUN: reading at pos starts with kun root (handle rendaku via voiced())
+      const km = kunRoots.find(k => rd.startsWith(k) || rd.includes(k) || rd.startsWith(voiced(k)) || rd.includes(voiced(k)));
+      if (km) return { type: 'kun', reading: km };
+      const oi = onHira.findIndex(o => rd.startsWith(o) || rd.includes(o));
+      if (oi >= 0) return { type: 'on', reading: onKata[oi] };
+    }
+  } catch {}
+  return { type: null, reading: null };
+}
+
+// Fetch 2 example sentences: priority 1 KUN+1 ON > 2 KUN > 2 ON > any 2.
+// Combines SENTENCE_OVERRIDE (curated) + Tatoeba to find the best possible pair.
+async function fetchSentences(kanji, levelNum, displayWords, count = 2) {
+  const kanjiData = KANJI_INDEX[kanji] || {};
+  let results = [];
+  const seenJp = new Set();
+
+  // ── 1) SENTENCE_OVERRIDE — type all entries, keep as candidates ──
+  const overrideRaw = (SENTENCE_OVERRIDE[kanji] || []).filter(s => s.jp && s.en);
+  const overrideTyped = [];
+  for (const s of overrideRaw) {
+    const { type, reading } = await detectReadingType(s.jp, kanji, kanjiData);
+    overrideTyped.push({ jp: s.jp, en: s.en, readingType: type, reading, src: 'override' });
+  }
+  const overrideKuns = overrideTyped.filter(s => s.readingType === 'kun');
+  const overrideOns  = overrideTyped.filter(s => s.readingType === 'on');
+
+  // If we already have 1 KUN + 1 ON from override alone → done, no Tatoeba needed
+  if (overrideKuns.length >= 1 && overrideOns.length >= 1) {
+    results = [overrideKuns[0], overrideOns[0]];
+    return results;
   }
 
-  // 3. Fallback: search by kanji directly on Tatoeba
-  if (results.length < count) {
-    const cands = await fetchTatoebaCandidates(kanji, maxLen, levelNum);
-    for (const c of cands) {
-      if (results.length >= count) break;
-      if (seenJp.has(c.jp)) continue;
-      seenJp.add(c.jp);
-      results.push({ jp: c.jp, en: c.en });
-    }
-  }
+  // ── 2) Tatoeba — search by vocab words to supplement override ──
+  // Mark already-seen phrases from override so Tatoeba doesn't duplicate them
+  for (const s of overrideTyped) seenJp.add(s.jp);
 
-  // 4. Fallback: Massif (native corpus, no English — mark for display)
-  if (results.length < count) {
-    for (const w of words) {
-      if (results.length >= count) break;
-      const cands = await fetchMassifCandidates(w.w, maxLen, levelNum);
+  let pool = [];
+  try {
+    const res = await fetch(`https://kanjiapi.dev/v1/words/${encodeURIComponent(kanji)}`);
+    if (res.ok) pool = pickLevelWords(await res.json(), kanji, levelNum, 20);
+  } catch {}
+  const seenW = new Set(pool.map(w => w.w));
+  for (const w of displayWords) if (!seenW.has(w.w)) { pool.push(w); seenW.add(w.w); }
+
+  const { kun: wordsKun, on: wordsOn, other: wordsOther } = classifyVocab(pool, kanjiData, kanji);
+  const maxLen = { 5: 35, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
+
+  async function fetchOneFor(wordList, readingType) {
+    for (const w of wordList) {
+      const cands = await fetchTatoebaCandidates(w.w, maxLen, levelNum);
       for (const c of cands) {
         if (seenJp.has(c.jp)) continue;
         seenJp.add(c.jp);
-        results.push({ jp: c.jp, en: '—' }); // no translation from Massif
-        break;
+        return { jp: c.jp, en: c.en, readingType, reading: w.matchedReading };
       }
+    }
+    const cands = await fetchTatoebaCandidates(kanji, maxLen, levelNum);
+    for (const c of cands) {
+      if (seenJp.has(c.jp)) continue;
+      seenJp.add(c.jp);
+      return { jp: c.jp, en: c.en, readingType, reading: null };
+    }
+    return null;
+  }
+
+  const haveKun = overrideKuns.length > 0;
+  const haveOn  = overrideOns.length > 0;
+
+  // Fetch the missing type(s) from Tatoeba
+  let tatKun = null, tatOn = null;
+  if (!haveKun) {
+    tatKun = await fetchOneFor(wordsKun.length ? wordsKun : wordsOther, 'kun');
+  }
+  if (!haveOn) {
+    tatOn = await fetchOneFor(wordsOn.length ? wordsOn : wordsOther, 'on');
+  }
+
+  // Build final pair using all candidates, priority: KUN+ON > 2KUN > 2ON > any 2
+  const allKuns = [...overrideKuns, ...(tatKun ? [tatKun] : [])];
+  const allOns  = [...overrideOns,  ...(tatOn  ? [tatOn]  : [])];
+  const allAny  = [...overrideTyped, ...(tatKun ? [tatKun] : []), ...(tatOn ? [tatOn] : [])];
+
+  if (allKuns.length >= 1 && allOns.length >= 1) {
+    results = [allKuns[0], allOns[0]];
+  } else if (allKuns.length >= 2) {
+    results = allKuns.slice(0, 2);
+  } else if (allOns.length >= 2) {
+    results = allOns.slice(0, 2);
+  } else {
+    // Fill with whatever we have, then last resort any Tatoeba sentence
+    results = allAny.slice(0, 2);
+    while (results.length < count) {
+      const s = await fetchOneFor([...wordsKun, ...wordsOn, ...wordsOther], null);
+      if (!s) break;
+      results.push(s);
     }
   }
 
@@ -585,10 +773,17 @@ async function renderCard(html, outPath, fmt) {
 }
 
 // ── Main loop ─────────────────────────────────────────────────────────────────
-let ok = 0;
+let ok = 0, skipped = 0;
 for (const kanji of targetKanji) {
   const data = KANJI_INDEX[kanji];
   if (!data) { console.log(`⚠️  Pas de données pour ${kanji}`); continue; }
+
+  // Skip kanji already validated and locked (unless --force)
+  if (!FORCE && KANJI_STATUS[kanji]?.status === 'ok' && KANJI_STATUS[kanji]?.locked) {
+    console.log(`🔒 ${kanji} — déjà OK (locked ${KANJI_STATUS[kanji].locked}), skipped`);
+    skipped++;
+    continue;
+  }
 
   const lvlStr = realLevel(kanji);
   const lvlNum = CHAR_LEVEL_MAP.get(kanji) ?? parseInt(LEVEL.replace('n', ''), 10);
@@ -599,9 +794,11 @@ for (const kanji of targetKanji) {
 
   // Convert sentences: known kanji shown as kanji, rest → hiragana (progressive textbook style)
   const sentencesWithFurigana = await Promise.all(
-    sentences.map(async ({ jp, en }) => ({
+    sentences.map(async ({ jp, en, readingType, reading }) => ({
       jpHtml: await toFuriganaHTML(jp, lvlNum, kanji),
       en,
+      readingType,
+      reading,
     }))
   );
   const vocabSrc = EXAMPLE_OVERRIDE[kanji] ? 'override' : 'api';
@@ -634,6 +831,7 @@ for (const kanji of targetKanji) {
 }
 
 await browser.close();
-console.log(`\n🎉 ${ok} kanji × 2 formats × 3 cartes`);
-console.log(`   kanji-cards/insta/{kanji}/  →  1080×1080px`);
-console.log(`   kanji-cards/tiktok/{kanji}/ →  1080×1920px\n`);
+console.log(`\n🎉 ${ok} kanji générés × 2 formats × 3 cartes`);
+if (skipped > 0) console.log(`🔒 ${skipped} kanji skippés (déjà locked OK)`);
+console.log(`   kanji-cards/${DIR}/cards/{kanji}/  →  1080×1080px (insta square)`);
+  console.log(`   kanji-cards/${DIR}/tiktok/{kanji}/ →  1080×1920px (portrait)\n`);

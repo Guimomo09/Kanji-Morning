@@ -33,10 +33,11 @@ const get   = (f, d) => { const i = args.indexOf(f); return i !== -1 ? args[i+1]
 const LEVEL = get('--level', 'n5');
 const COUNT = parseInt(get('--count', '5'), 10);
 const CUSTOM = get('--kanji', null);
+const DIR   = get('--dir', LEVEL);
 
 // ── Paths ─────────────────────────────────────────────────────────────────────
-const CARDS_DIR = join(ROOT, 'kanji-cards', LEVEL);
-const REELS_DIR = join(CARDS_DIR, 'reels');
+const CARDS_DIR = join(ROOT, 'kanji-cards', DIR);
+const REELS_DIR = join(CARDS_DIR, 'real');
 mkdirSync(REELS_DIR, { recursive: true });
 
 // ── kanji_index ───────────────────────────────────────────────────────────────
@@ -207,13 +208,13 @@ function blurIntroVideo(img, outFile, duration, audioFile = null) {
     inputs.push('-i', textPng);
     // audio is input 1, text png is input 2
     filterComplex = [
-      '[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2,gblur=sigma=20[bg]',
+      '[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2,gblur=sigma=20,eq=brightness=-0.2[bg]',
       '[bg][2:v]overlay=(W-w)/2:(H-h)/2[vout]',
     ].join(';');
     mapV = '[vout]';
   } else {
     console.warn('⚠️  kanji-cards/text-intro.png manquant — intro sans texte');
-    filterComplex = '[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2,gblur=sigma=20[vout]';
+    filterComplex = '[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2,gblur=sigma=20,eq=brightness=-0.2[vout]';
     mapV = '[vout]';
   }
   const audioIdx = audioFile ? '1:a' : '1:a';
@@ -245,16 +246,17 @@ function ctaVideo(footageMp4, outFile, duration) {
     fc = [
       '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920[base]',
       '[base]split[v1][v2]',
-      '[v2]gblur=sigma=25[blurred]',
+      '[v2]gblur=sigma=25,eq=brightness=-0.2[blurred]',
       `[v1][blurred]overlay=enable='gte(t,${BLUR_START})'[blended]`,
-      `[blended][1:v]overlay=(W-w)/2:(H-h)/2:enable='gte(t,${BLUR_START})'[vout]`,
+      `[1:v]scale=iw*0.8:ih*0.8[txt]`,
+      `[blended][txt]overlay=(W-w)/2:(H-h)/2:enable='gte(t,${BLUR_START})'[vout]`,
     ].join(';');
   } else {
     console.warn('⚠️  kanji-cards/text-cta.png manquant — CTA sans texte');
     fc = [
       '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920[base]',
       '[base]split[v1][v2]',
-      '[v2]gblur=sigma=25[blurred]',
+      '[v2]gblur=sigma=25,eq=brightness=-0.2[blurred]',
       `[v1][blurred]overlay=enable='gte(t,${BLUR_START})'[vout]`,
     ].join(';');
   }
@@ -457,4 +459,4 @@ for (const kanji of targetKanji) {
 try { require('fs').rmdirSync(TMP); } catch {}
 
 console.log(`\n🎉 ${ok}/${targetKanji.length} reels générés`);
-console.log(`   kanji-cards/${LEVEL}/reels/*.mp4\n`);
+console.log(`   kanji-cards/${DIR}/real/*.mp4\n`);

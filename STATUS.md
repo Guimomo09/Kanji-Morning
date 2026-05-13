@@ -283,6 +283,15 @@ kanji.guimo-prod.com {
   - Tile blanche centrée · kanji · signification · lectures KUN (vert, grande) puis ON (rouge, petite), ordre popular-first
   - Options CLI : `--level n5/n4/n3/n2/n1` · `--count N` · `--kanji 火,水,木`
 
+**Contenu cartes — 13 Mai 2026**
+- [x] `EXAMPLE_OVERRIDE` — vocab curé pour tous les niveaux N5→N1 (2211 kanji)
+- [x] `SENTENCE_OVERRIDE` — 2 phrases par kanji · N5→N1 · 100% couvert
+  - N5 (79) : phrases curées manuellement
+  - N4/N3/N2 (900) : Tatoeba réel (harvest 15h) + 53 manuelles pour gaps
+  - N1 (1232) : ~1032 Tatoeba réel + ~200 templates offline (fill-n1-gaps.mjs)
+  - Audit final : N5 ✅ N4 ✅ N3 ✅ N2 ✅ N1 ✅ (100% tous niveaux)
+- [x] Scripts utilitaires : `build-sentence-overrides.mjs` · `inject-sentences.mjs` · `fill-n1-gaps.mjs` · `repair-example-override.mjs` · `check-n1.mjs`
+
 **Reels TikTok — 13 Mai 2026**
 - [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 de 50s par kanji
   - Structure : `3s intro` + `10s` × 3 cartes + `15s CTA` + `2s fondu noir`
