@@ -375,10 +375,18 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
     const badge = badgeText
       ? `<span class="rbadge ${readingType}-badge">${badgeText}</span>`
       : '';
+    // Auto-fit: scale down font so JP phrase fits on one line
+    const rawJp = jpHtml.replace(/<rt>[^<]*<\/rt>/g, '').replace(/<[^>]+>/g, '');
+    const hCardPad = parseInt(cardPad.trim().split(/\s+/)[1] ?? cardPad);
+    const hSentPad = parseInt(sentPad.trim().split(/\s+/)[1] ?? sentPad);
+    const availW = cardW - hCardPad * 2 - hSentPad * 2;
+    const fitFont = rawJp.length > 0
+      ? Math.min(sentJpFont, Math.max(18, Math.floor(availW / rawJp.length)))
+      : sentJpFont;
     return `
     <div class="sr">
       ${badge ? `<div class="badge-row">${badge}</div>` : ''}
-      <div class="sjp">${jpHtml}</div>
+      <div class="sjp" style="font-size:${fitFont}px">${jpHtml}</div>
       <div class="sen">${en}</div>
     </div>`;
   }).join('');
@@ -403,7 +411,7 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
   .sjp{font-size:${sentJpFont}px;font-weight:700;color:#1a1a1a;line-height:2.8;margin-bottom:10px;}
   ruby{display:inline ruby;}
   rb{display:inline;}
-  rt{font-size:${Math.round(sentJpFont*0.38)}px;font-weight:400;color:#888;line-height:1;}
+  rt{font-size:0.38em;font-weight:400;color:#888;line-height:1;}
   .mk{color:#c03a20;font-weight:900;}
   .rbadge{display:inline-block;font-size:${Math.round(sentJpFont*0.52)}px;font-weight:900;border-radius:6px;padding:2px 10px;margin-bottom:6px;line-height:1.6;}
   .kun-badge{background:#e8f5e9;color:#2e7d32;}
@@ -681,74 +689,97 @@ async function fetchSentences(kanji, levelNum, displayWords, count = 2) {
   const overrideOns  = overrideTyped.filter(s => s.readingType === 'on');
 
   // If we already have 1 KUN + 1 ON from override alone → done, no Tatoeba needed
+  // Mark override sentences as seen (needed for all downstream dedup)
+  for (const s of overrideTyped) seenJp.add(s.jp);
+
   if (overrideKuns.length >= 1 && overrideOns.length >= 1) {
     results = [overrideKuns[0], overrideOns[0]];
-    return results;
   }
 
   // ── 2) Tatoeba — search by vocab words to supplement override ──
-  // Mark already-seen phrases from override so Tatoeba doesn't duplicate them
-  for (const s of overrideTyped) seenJp.add(s.jp);
+  if (results.length < 2) {
+    let pool = [];
+    try {
+      const res = await fetch(`https://kanjiapi.dev/v1/words/${encodeURIComponent(kanji)}`);
+      if (res.ok) pool = pickLevelWords(await res.json(), kanji, levelNum, 20);
+    } catch {}
+    const seenW = new Set(pool.map(w => w.w));
+    for (const w of displayWords) if (!seenW.has(w.w)) { pool.push(w); seenW.add(w.w); }
 
-  let pool = [];
-  try {
-    const res = await fetch(`https://kanjiapi.dev/v1/words/${encodeURIComponent(kanji)}`);
-    if (res.ok) pool = pickLevelWords(await res.json(), kanji, levelNum, 20);
-  } catch {}
-  const seenW = new Set(pool.map(w => w.w));
-  for (const w of displayWords) if (!seenW.has(w.w)) { pool.push(w); seenW.add(w.w); }
+    const { kun: wordsKun, on: wordsOn, other: wordsOther } = classifyVocab(pool, kanjiData, kanji);
+    const maxLen = { 5: 35, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
 
-  const { kun: wordsKun, on: wordsOn, other: wordsOther } = classifyVocab(pool, kanjiData, kanji);
-  const maxLen = { 5: 35, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
-
-  async function fetchOneFor(wordList, readingType) {
-    for (const w of wordList) {
-      const cands = await fetchTatoebaCandidates(w.w, maxLen, levelNum);
+    const fetchOneFor = async (wordList, readingType) => {
+      for (const w of wordList) {
+        const cands = await fetchTatoebaCandidates(w.w, maxLen, levelNum);
+        for (const c of cands) {
+          if (seenJp.has(c.jp)) continue;
+          seenJp.add(c.jp);
+          return { jp: c.jp, en: c.en, readingType, reading: w.matchedReading };
+        }
+      }
+      const cands = await fetchTatoebaCandidates(kanji, maxLen, levelNum);
       for (const c of cands) {
         if (seenJp.has(c.jp)) continue;
         seenJp.add(c.jp);
-        return { jp: c.jp, en: c.en, readingType, reading: w.matchedReading };
+        return { jp: c.jp, en: c.en, readingType, reading: null };
+      }
+      return null;
+    };
+
+    const haveKun = overrideKuns.length > 0;
+    const haveOn  = overrideOns.length > 0;
+
+    // Fetch the missing type(s) from Tatoeba
+    let tatKun = null, tatOn = null;
+    if (!haveKun) {
+      tatKun = await fetchOneFor(wordsKun.length ? wordsKun : wordsOther, 'kun');
+    }
+    if (!haveOn) {
+      tatOn = await fetchOneFor(wordsOn.length ? wordsOn : wordsOther, 'on');
+    }
+
+    // Build final pair using all candidates, priority: KUN+ON > 2KUN > 2ON > any 2
+    const allKuns = [...overrideKuns, ...(tatKun ? [tatKun] : [])];
+    const allOns  = [...overrideOns,  ...(tatOn  ? [tatOn]  : [])];
+    const allAny  = [...overrideTyped, ...(tatKun ? [tatKun] : []), ...(tatOn ? [tatOn] : [])];
+
+    if (allKuns.length >= 1 && allOns.length >= 1) {
+      results = [allKuns[0], allOns[0]];
+    } else if (allKuns.length >= 2) {
+      results = allKuns.slice(0, 2);
+    } else if (allOns.length >= 2) {
+      results = allOns.slice(0, 2);
+    } else {
+      results = allAny.slice(0, 2);
+      while (results.length < count) {
+        const s = await fetchOneFor([...wordsKun, ...wordsOn, ...wordsOther], null);
+        if (!s) break;
+        results.push(s);
       }
     }
-    const cands = await fetchTatoebaCandidates(kanji, maxLen, levelNum);
-    for (const c of cands) {
-      if (seenJp.has(c.jp)) continue;
-      seenJp.add(c.jp);
-      return { jp: c.jp, en: c.en, readingType, reading: null };
-    }
-    return null;
   }
 
-  const haveKun = overrideKuns.length > 0;
-  const haveOn  = overrideOns.length > 0;
-
-  // Fetch the missing type(s) from Tatoeba
-  let tatKun = null, tatOn = null;
-  if (!haveKun) {
-    tatKun = await fetchOneFor(wordsKun.length ? wordsKun : wordsOther, 'kun');
-  }
-  if (!haveOn) {
-    tatOn = await fetchOneFor(wordsOn.length ? wordsOn : wordsOther, 'on');
-  }
-
-  // Build final pair using all candidates, priority: KUN+ON > 2KUN > 2ON > any 2
-  const allKuns = [...overrideKuns, ...(tatKun ? [tatKun] : [])];
-  const allOns  = [...overrideOns,  ...(tatOn  ? [tatOn]  : [])];
-  const allAny  = [...overrideTyped, ...(tatKun ? [tatKun] : []), ...(tatOn ? [tatOn] : [])];
-
-  if (allKuns.length >= 1 && allOns.length >= 1) {
-    results = [allKuns[0], allOns[0]];
-  } else if (allKuns.length >= 2) {
-    results = allKuns.slice(0, 2);
-  } else if (allOns.length >= 2) {
-    results = allOns.slice(0, 2);
-  } else {
-    // Fill with whatever we have, then last resort any Tatoeba sentence
-    results = allAny.slice(0, 2);
-    while (results.length < count) {
-      const s = await fetchOneFor([...wordsKun, ...wordsOn, ...wordsOther], null);
-      if (!s) break;
-      results.push(s);
+  // ── 3) Vocab coverage pass ─────────────────────────────────────────────────
+  // Ensure the 2 phrases each cover a different display vocab word where possible.
+  // If both sentences contain the same word (or sentence 2 contains none), try Tatoeba.
+  if (results.length === 2 && displayWords.length >= 2) {
+    const maxLenVP = { 5: 35, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
+    const vocabWords = displayWords.map(w => w.w);
+    const cov0 = vocabWords.findIndex(w => results[0].jp.includes(w));
+    const cov1 = vocabWords.findIndex(w => results[1].jp.includes(w));
+    if (cov0 >= 0 && (cov1 === -1 || cov1 === cov0)) {
+      const altWord = vocabWords.find((_, i) => i !== cov0);
+      if (altWord) {
+        const cands = await fetchTatoebaCandidates(altWord, maxLenVP, levelNum);
+        for (const c of cands) {
+          if (seenJp.has(c.jp)) continue;
+          const { type, reading } = await detectReadingType(c.jp, kanji, kanjiData);
+          results[1] = { jp: c.jp, en: c.en, readingType: type, reading };
+          seenJp.add(c.jp);
+          break;
+        }
+      }
     }
   }
 
@@ -766,8 +797,8 @@ async function renderCard(html, outPath, fmt) {
   const tmpPath = outPath.replace(/\.png$/, '_tmp.html');
   writeFileSync(tmpPath, html, 'utf8');
   await page.setViewportSize({ width: canvasW, height: canvasH });
-  await page.goto(`file:///${tmpPath.replace(/\\/g, '/')}`, { waitUntil: 'networkidle' });
-  await page.waitForTimeout(900);
+  await page.goto(`file:///${tmpPath.replace(/\\/g, '/')}`, { waitUntil: 'load', timeout: 30000 });
+  await page.waitForTimeout(1200);
   await page.screenshot({ path: outPath, clip: { x: 0, y: 0, width: canvasW, height: canvasH } });
   unlinkSync(tmpPath);
 }
@@ -788,6 +819,7 @@ for (const kanji of targetKanji) {
   const lvlStr = realLevel(kanji);
   const lvlNum = CHAR_LEVEL_MAP.get(kanji) ?? parseInt(LEVEL.replace('n', ''), 10);
 
+  try {
   // Fetch une seule fois, réutilisé pour les deux formats
   const words     = await fetchVocab(kanji, lvlNum);
   const sentences = await fetchSentences(kanji, lvlNum, words, 2);
@@ -828,6 +860,9 @@ for (const kanji of targetKanji) {
 
   console.log(`✅ ${kanji} (${lvlStr}) — vocab [${vocabSrc}]: ${words.map(w => w.w).join(', ') || '—'} — phrases: ${sentencesWithFurigana.length}/2`);
   ok++;
+  } catch (e) {
+    console.error(`❌ ${kanji}: ${e.message?.slice(0, 120)}`);
+  }
 }
 
 await browser.close();

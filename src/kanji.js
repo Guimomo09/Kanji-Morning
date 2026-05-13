@@ -3676,7 +3676,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '味': [
     { jp: 'これどういう意味？', en: 'What does this mean?' },
-    { jp: 'それどういう意味？', en: 'What does it mean?' },
+    { jp: 'いい意味で言ったんです。', en: 'I meant it in a good sense.' },
   ],
   '品': [
     { jp: '年は上品に取りたいものですね。', en: 'I want to age gracefully.' },
@@ -3811,7 +3811,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '意': [
     { jp: 'これどういう意味？', en: 'What does this mean?' },
-    { jp: 'それどういう意味？', en: 'What does it mean?' },
+    { jp: 'いい意味で言ったんです。', en: 'I meant it in a good sense.' },
   ],
   '手': [
     { jp: '彼から手紙がきた？', en: 'You heard from him?' },
@@ -3819,7 +3819,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '持': [
     { jp: '天気が持つかなあ。', en: 'I wonder if the weather will hold.' },
-    { jp: '天気は持つかなあ。', en: 'I wonder if the weather will hold.' },
+    { jp: 'スマホは長持ちしますか？', en: 'Does your smartphone hold its charge?' },
   ],
   '教': [
     { jp: 'やり方を教えるね。', en: 'I\'ll show you how to do it.' },
@@ -4006,8 +4006,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '数日で全部終わるよ。', en: 'It will all be over in a few days.' },
   ],
   '習': [
-    { jp: '神道も仏教も、宗教というより日常的な習慣のようなものになっているからです。', en: 'That\'s because Shintoism and Buddhism are practiced in their daily customs instead of as their religion.' },
-    { jp: '神道も仏教も、日本では宗教と言うよりも日常的な習慣の一種のようになってしまっているのです。', en: 'That\'s because Shintoism and Buddhism are practiced in their daily customs instead of as their religion.' },
+    { jp: '毎日練習を習慣にしています。', en: 'I make daily practice a habit.' },
+    { jp: '習い事を始めたばかりです。', en: 'I just started taking lessons.' },
   ],
   '考': [
     { jp: '彼は論理的思考力が致命的に欠如している。', en: 'He has no ability to reason logically at all.' },
@@ -4147,7 +4147,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '館': [
     { jp: 'ここは図書館です。', en: 'This is a library.' },
-    { jp: 'これは図書館です。', en: 'This is a library.' },
+    { jp: '映画館に行きましょう。', en: 'Let\'s go to the cinema.' },
   ],
   '駅': [
     { jp: '南駅はどこですか？', en: 'Where is the South Station?' },
@@ -4159,7 +4159,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '魚': [
     { jp: '金魚も飼ってるよ。', en: 'I have goldfish, too.' },
-    { jp: '私も金魚、飼ってる。', en: 'I have goldfish, too.' },
+    { jp: '焼き魚が好きです。', en: 'I like grilled fish.' },
   ],
   '鳥': [
     { jp: 'ほら！あの木に小鳥がいる。', en: 'Look! There\'s a bird in that tree.' },
@@ -4195,7 +4195,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '他': [
     { jp: '遠くの親戚より近くの他人。', en: 'A stranger living nearby is better than a relative living far away.' },
-    { jp: '遠い親戚より近くの他人。', en: 'A stranger living nearby is better than a relative living far away.' },
+    { jp: '他に何か必要ですか？', en: 'Do you need anything else?' },
   ],
   '付': [
     { jp: '今、日付変更線越えたって。', en: 'He said we just crossed the International Date Line.' },
@@ -4222,7 +4222,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '例': [
     { jp: '上記の例をご覧ください。', en: 'See the example given above.' },
-    { jp: '上記の例をご参照ください。', en: 'See the example given above.' },
+    { jp: '例えばどんな食べ物が好き？', en: 'What kind of food do you like, for example?' },
   ],
   '供': [
     { jp: '５月５日は子供の日です。', en: 'The 5th May is Children\'s Day.' },
@@ -4250,7 +4250,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '値': [
     { jp: '彼の言うことは一言も聞くに値しない。', en: 'Not a word he says is worthy to be heard.' },
-    { jp: '彼の言い分は一言だって聞く価値がない。', en: 'Not a word he says is worthy to be heard.' },
+    { jp: '物の値段が上がっています。', en: 'Prices are going up.' },
   ],
   '偉': [
     { jp: 'いまだかつて偉大なもので熱烈な精神なくして成し遂げられたものは何もない。', en: 'Nothing great was ever achieved without enthusiasm.' },
@@ -4546,8 +4546,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '彼女は新宿まで歩いた。', en: 'She walked as far as Shinjuku.' },
   ],
   '寄': [
-    { jp: '霧が押し寄せてくるのを見て、トムとメアリーは手を取り合った。', en: 'Tom and Mary held hands as they watched the fog roll in.' },
-    { jp: 'トムとメアリーは手を取り合って、霧が押し寄せてくるのを見ていた。', en: 'Tom and Mary held hands as they watched the fog roll in.' },
+    { jp: '駅に立ち寄りますか？', en: 'Will you stop by the station?' },
+    { jp: '近くに寄ってください。', en: 'Please come closer.' },
   ],
   '富': [
     { jp: 'その湖には魚が豊富にいる。', en: 'The lake abounds with fish.' },
@@ -4558,11 +4558,11 @@ export const SENTENCE_OVERRIDE = {
   ],
   '寝': [
     { jp: '彼は寝る前に目覚ましをかけた。', en: 'He set the alarm before going to bed.' },
-    { jp: '彼は寝る前に目覚し時計をあわせた。', en: 'He set the alarm before going to bed.' },
+    { jp: '早く寝ると体にいいよ。', en: 'Going to bed early is good for you.' },
   ],
   '察': [
     { jp: '警察に嘘をついた。', en: 'I lied to the cops.' },
-    { jp: '警察に嘘を言った。', en: 'I lied to the cops.' },
+    { jp: '状況を察してください。', en: 'Please read the situation.' },
   ],
   '対': [
     { jp: '民衆は国王に対して反乱を起こした。', en: 'People rose in revolt against the king.' },
@@ -4738,8 +4738,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '栓抜きどこだろう？', en: 'Where\'s the bottle opener?' },
   ],
   '抱': [
-    { jp: '連年、禁煙の誓いは、新年の抱負ランキングのトップ10にランクインしている。', en: 'The pledge to stop smoking cigarettes ranks among the top ten New Year\'s resolutions year after year.' },
-    { jp: 'タバコを止めるという誓いは、毎年、新年の抱負ランキングのトップ10に入っている。', en: 'The pledge to stop smoking cigarettes ranks among the top ten New Year\'s resolutions year after year.' },
+    { jp: '赤ちゃんを抱っこしました。', en: 'I held the baby in my arms.' },
+    { jp: '夢を抱いて頑張ってください。', en: 'Please keep going, holding onto your dreams.' },
   ],
   '押': [
     { jp: '社長の挨拶が長くて式の後半が押せ押せになってしまった。', en: 'The company president\'s welcome was so long that we were squeezed for time in the second half of the ceremony.' },
@@ -4883,7 +4883,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '歳': [
     { jp: 'あの方は八十歳です。', en: 'He is eighty years old.' },
-    { jp: 'あの人は八十歳です。', en: 'He is eighty years old.' },
+    { jp: 'もう何歳になりましたか？', en: 'How old are you now?' },
   ],
   '残': [
     { jp: '残念すぎる。何が何でも君に会いたいのに。', en: 'That\'s too bad. I really would love to see you.' },
@@ -4994,7 +4994,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '由': [
     { jp: '理由聞いてもいい？', en: 'May I ask why?' },
-    { jp: '理由を聞いてもいい？', en: 'May I ask why?' },
+    { jp: '自由に使ってください。', en: 'Please use it freely.' },
   ],
   '申': [
     { jp: '私は周と申します。', en: 'My surname is Zhou.' },
@@ -5106,7 +5106,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '等': [
     { jp: '人間は全て平等である。', en: 'All men are equal.' },
-    { jp: '全ての人間は平等である。', en: 'All men are equal.' },
+    { jp: '等しく扱われる権利がある。', en: 'Everyone has the right to equal treatment.' },
   ],
   '箱': [
     { jp: 'どっちの箱がいい？', en: 'Which box do you like better?' },
@@ -5141,8 +5141,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '彼は絶対的な権力を持っている。', en: 'He has absolute power.' },
   ],
   '続': [
-    { jp: 'インターネット接続をご確認ください。', en: 'Please check your internet connection.' },
-    { jp: 'インターネット接続を確認してみてください。', en: 'Please check your internet connection.' },
+    { jp: '読書を続けるつもりです。', en: 'I plan to keep reading.' },
+    { jp: '毎日続けることが大切です。', en: 'It is important to keep going every day.' },
   ],
   '緒': [
     { jp: '内緒にしといてね。', en: 'Please keep it secret.' },
@@ -5206,7 +5206,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '草': [
     { jp: '百合は宿根草です。', en: 'Lilies are perennial plants.' },
-    { jp: 'ユリは多年草です。', en: 'Lilies are perennial plants.' },
+    { jp: '草原を歩くのが好きです。', en: 'I like walking through the meadows.' },
   ],
   '落': [
     { jp: 'あなたが高層ビルから落ちる夢見ちゃった。', en: 'In my dream, I saw you falling from a tall building.' },
@@ -5291,8 +5291,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '会議はどうだった？', en: 'How was your meeting?' },
   ],
   '負': [
-    { jp: '連年、禁煙の誓いは、新年の抱負ランキングのトップ10にランクインしている。', en: 'The pledge to stop smoking cigarettes ranks among the top ten New Year\'s resolutions year after year.' },
-    { jp: 'タバコを止めるという誓いは、毎年、新年の抱負ランキングのトップ10に入っている。', en: 'The pledge to stop smoking cigarettes ranks among the top ten New Year\'s resolutions year after year.' },
+    { jp: '試合に負けてしまいました。', en: 'I lost the match.' },
+    { jp: '責任を負うのが大人です。', en: 'Taking responsibility is what adults do.' },
   ],
   '財': [
     { jp: 'ヤバイ！財布忘れた！', en: 'By Jove! I forgot my wallet!' },
@@ -5436,7 +5436,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '際': [
     { jp: '実際は何があったの？', en: 'What actually happened?' },
-    { jp: '実際に何が起こったの？', en: 'What actually happened?' },
+    { jp: '国際的な問題ですね。', en: 'It\'s an international issue.' },
   ],
   '雑': [
     { jp: '新聞や雑誌の投書欄を読みます。', en: 'I read the reader\'s column in newspapers and magazines.' },
@@ -5560,7 +5560,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '伺': [
     { jp: '明日お伺いします。', en: 'I\'ll visit you tomorrow.' },
-    { jp: '喜んでお伺いします。', en: 'I\'ll be glad to come.' },
+    { jp: '先生のご意見を伺いたい。', en: 'I\'d like to hear the teacher\'s opinion.' },
   ],
   '低': [
     { jp: 'この山は低いです。', en: 'This is a low mountain.' },
@@ -5636,7 +5636,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '刺': [
     { jp: '名刺をお持ちですか？', en: 'Do you have a business card?' },
-    { jp: '名刺はお持ちですか？', en: 'Do you have a business card?' },
+    { jp: '刺身を食べませんか？', en: 'Would you like some sashimi?' },
   ],
   '則': [
     { jp: '君は規則を破った。', en: 'You broke the rule.' },
@@ -5672,7 +5672,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '匹': [
     { jp: '猫を12匹飼ってます。', en: 'I have a dozen cats.' },
-    { jp: '12匹猫を飼ってます。', en: 'I have a dozen cats.' },
+    { jp: '犬を一匹飼いたいです。', en: 'I want to keep one dog.' },
   ],
   '区': [
     { jp: '下京区に引っ越す。', en: 'I move to the Shimagyou district.' },
@@ -5832,7 +5832,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '寺': [
     { jp: 'お寺はどこですか？', en: 'Where\'s the temple?' },
-    { jp: '寺院はどこですか？', en: 'Where\'s the temple?' },
+    { jp: 'お寺で静かに座った。', en: 'I sat quietly at the temple.' },
   ],
   '封': [
     { jp: '相手のエースを封じ込めれば勝機はある。', en: 'If we can contain the opponent\'s best player, we have a shot at winning.' },
@@ -5848,7 +5848,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '尊': [
     { jp: '心から尊敬します。', en: 'I really respect you.' },
-    { jp: '心から尊敬してます。', en: 'I really respect you.' },
+    { jp: '自尊心を大切にしよう。', en: 'Let\'s value our self-respect.' },
   ],
   '導': [
     { jp: '彼は明らかに有能な指導者だ。', en: 'He is admittedly an able leader.' },
@@ -5900,7 +5900,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '帽': [
     { jp: 'トムはTシャツに野球帽姿だった。', en: 'Tom was wearing a T-shirt and a baseball cap.' },
-    { jp: 'トムはTシャツに野球帽だったよ。', en: 'Tom was wearing a T-shirt and a baseball cap.' },
+    { jp: '帽子を忘れないでね。', en: 'Don\'t forget your hat.' },
   ],
   '幅': [
     { jp: 'トムは肩幅が狭い。', en: 'Tom has narrow shoulders.' },
@@ -5940,7 +5940,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '弱': [
     { jp: '誰にでも弱点がある。', en: 'Everybody has weaknesses.' },
-    { jp: '誰にでも弱点はある。', en: 'Everybody has weaknesses.' },
+    { jp: '彼は体が弱いです。', en: 'He has a weak constitution.' },
   ],
   '律': [
     { jp: '規律のおかげでその若者たちに変化が生まれている。', en: 'Thanks to the discipline they are receiving, we are starting to see a change in those young people.' },
@@ -6019,8 +6019,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: 'トムが花を採ったんだ。', en: 'Tom picked flowers.' },
   ],
   '接': [
-    { jp: 'インターネット接続をご確認ください。', en: 'Please check your internet connection.' },
-    { jp: 'インターネット接続を確認してみてください。', en: 'Please check your internet connection.' },
+    { jp: '先生と直接話してみよう。', en: 'Let\'s talk directly with the teacher.' },
+    { jp: '接触を避けてください。', en: 'Please avoid contact.' },
   ],
   '換': [
     { jp: 'LINE交換しませんか？', en: 'Why don\'t we exchange LINE info?' },
@@ -6060,7 +6060,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '曇': [
     { jp: 'まだ曇っています。', en: 'It\'s still cloudy.' },
-    { jp: '今日は曇っている。', en: 'It\'s cloudy today.' },
+    { jp: '空が急に曇ってきた。', en: 'The sky suddenly clouded over.' },
   ],
   '替': [
     { jp: '両替人の金を散らし、その台を倒した。', en: 'He scattered the coins of the money-changers and overturned their table.' },
@@ -6204,7 +6204,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '沸': [
     { jp: 'トムは、やかんが沸くのを待っていました。', en: 'Tom waited for the kettle to boil.' },
-    { jp: 'トムは、やかんの湯が沸くのを待ってました。', en: 'Tom waited for the kettle to boil.' },
+    { jp: 'お湯が沸いたら教えてね。', en: 'Tell me when the water boils.' },
   ],
   '油': [
     { jp: '水は油よりも重い。', en: 'Water is heavier than oil.' },
@@ -6236,7 +6236,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '浴': [
     { jp: '水浴びした後、ソファに寝そべった。', en: 'After a cold shower, I lay down on the sofa.' },
-    { jp: '水浴びした後、ソファーに寝転がった。', en: 'After a cold shower, I lay down on the sofa.' },
+    { jp: '朝シャワーを浴びました。', en: 'I took a shower this morning.' },
   ],
   '涙': [
     { jp: 'トムは涙を流した。', en: 'Tom wept.' },
@@ -6410,15 +6410,15 @@ export const SENTENCE_OVERRIDE = {
   ],
   '磨': [
     { jp: '歯磨きをしてたの。', en: 'I was brushing my teeth.' },
-    { jp: '歯を磨いてたのよ。', en: 'I was brushing my teeth.' },
+    { jp: '腕を磨いています。', en: 'I\'m honing my skills.' },
   ],
   '祈': [
     { jp: '毎日お祈りしてるの？', en: 'Do you pray every day?' },
     { jp: 'トムは祈っている。', en: 'Tom is praying.' },
   ],
   '祝': [
-    { jp: '明日は母方の祖父の還暦祝いをする。', en: 'My grandfather on my mother\'s side is celebrating his 60th birthday tomorrow.' },
-    { jp: '明日は母方の祖父の還暦のお祝いをする。', en: 'My grandfather on my mother\'s side is celebrating his 60th birthday tomorrow.' },
+    { jp: '旧暦では何月ですか？', en: 'What month is it in the old calendar?' },
+    { jp: '誕生日をお祝いしました。', en: 'I celebrated a birthday.' },
   ],
   '祭': [
     { jp: '復活祭、おめでとうございます。', en: 'Happy Easter!' },
@@ -6676,7 +6676,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '袋': [
     { jp: '手袋が必要ですか？', en: 'Do you need gloves?' },
-    { jp: '手袋が要りますか？', en: 'Do you need gloves?' },
+    { jp: '紙袋に入れてください。', en: 'Please put it in a paper bag.' },
   ],
   '被': [
     { jp: '帽子を被りなさい。', en: 'Put on the hat.' },
@@ -6995,11 +6995,11 @@ export const SENTENCE_OVERRIDE = {
   ],
   '井': [
     { jp: '私は福井に行っています。', en: 'I\'m going to Fukui.' },
-    { jp: '私は福井に向かっています。', en: 'I\'m heading to Fukui.' },
+    { jp: '井戸から水を汲んだ。', en: 'I drew water from the well.' },
   ],
   '亜': [
     { jp: '黄銅は銅と亜鉛の合金である。', en: 'Brass is an alloy of copper and zinc.' },
-    { jp: '真鍮は銅と亜鉛の合金である。', en: 'Brass is an alloy of copper and zinc.' },
+    { jp: '亜熱帯の気候が好きです。', en: 'I like the subtropical climate.' },
   ],
   '亥': [
     { jp: '2019年は亥年です。', en: '2019 is the Year of the Pig.' },
@@ -7051,7 +7051,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '伎': [
     { jp: '歌舞伎ってわかる？', en: 'Do you know kabuki?' },
-    { jp: '歌舞伎って知ってる？', en: 'Do you know kabuki?' },
+    { jp: '歌舞伎座に行ったことある？', en: 'Have you ever been to the Kabukiza theatre?' },
   ],
   '伏': [
     { jp: '彼は床に身を伏せた。', en: 'He laid himself flat on the floor.' },
@@ -8282,7 +8282,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '慨': [
     { jp: '感慨深い日でした。', en: 'It was an emotional day.' },
-    { jp: '感慨深い一日でした。', en: 'It was an emotional day.' },
+    { jp: '彼の行動に憤慨しました。', en: 'I was outraged by his actions.' },
   ],
   '慮': [
     { jp: '彼は無遠慮な人だ。', en: 'He is a rude person.' },
@@ -8578,7 +8578,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '擁': [
     { jp: '誰がトムを擁護した？', en: 'Who defended Tom?' },
-    { jp: '田中稔子氏は広島原爆の生存者であり、平和と核軍縮の擁護者として活動しています。', en: 'Toshiko Tanaka is a survivor of the Hiroshima bombing turned advocate for peace and nuclear disarmament.' },
+    { jp: '稲が稔る季節になりました。', en: 'The season when rice ripens has come.' },
   ],
   '操': [
     { jp: 'この自動車は操縦しやすい。', en: 'This car is easy to handle.' },
@@ -8741,8 +8741,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '君は流暢な英語を話す。', en: 'You speak fluent English.' },
   ],
   '暦': [
-    { jp: '明日は母方の祖父の還暦祝いをする。', en: 'My grandfather on my mother\'s side is celebrating his 60th birthday tomorrow.' },
-    { jp: '明日は母方の祖父の還暦のお祝いをする。', en: 'My grandfather on my mother\'s side is celebrating his 60th birthday tomorrow.' },
+    { jp: '故郷に還りたいです。', en: 'I want to return to my hometown.' },
+    { jp: '暦の上では春です。', en: 'According to the calendar, it is spring.' },
   ],
   '暫': [
     { jp: '私は暫く待つように言われた。', en: 'I was told to wait for a while.' },
@@ -9021,7 +9021,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '沼': [
     { jp: 'トムは泥沼にはまった。', en: 'Tom fell into the mud.' },
-    { jp: 'トムは泥沼に突っ込んだ。', en: 'Tom fell into the mud.' },
+    { jp: 'この沼には魚がいる。', en: 'There are fish in this marsh.' },
   ],
   '沿': [
     { jp: '川沿いを歩いたよ。', en: 'I walked along the river.' },
@@ -9058,7 +9058,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '派': [
     { jp: '彼は立派な青年だ。', en: 'He\'s a fine young man.' },
-    { jp: '彼はなかなか立派だ。', en: 'He\'s really something.' },
+    { jp: '彼女は活発で派手だ。', en: 'She is lively and flashy.' },
   ],
   '浄': [
     { jp: '当店の水は浄水器を使用しています。', en: 'This store uses a water filter.' },
@@ -9099,7 +9099,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '渇': [
     { jp: '今は喉が渇いて死にそうだ。', en: 'I\'m dying of thirst at the moment.' },
-    { jp: '喉が渇いて死にそうだよ。水をくれ！', en: 'I\'m dying of thirst. Give me water!' },
+    { jp: '砂漠は渇いた大地です。', en: 'The desert is a dry land.' },
   ],
   '渉': [
     { jp: '交渉は大事な局面を迎えた。', en: 'The negotiation has entered upon a serious phase.' },
@@ -9314,7 +9314,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '献': [
     { jp: '献血は今回が初めて？', en: 'Is this the first time you\'ve ever given blood?' },
-    { jp: '献血は初めてですか？', en: 'Is this the first time you\'ve ever given blood?' },
+    { jp: '神社に食べ物を献上した。', en: 'I offered food at the shrine.' },
   ],
   '猶': [
     { jp: '期限までの猶予はありません。', en: 'There is no grace period until the deadline.' },
@@ -9365,8 +9365,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: 'お琴の魅力を分かってもらえて嬉しいです。ありがとう。', en: 'Thank you for understanding the beauty of the koto. I\'m very delighted.' },
   ],
   '瑞': [
-    { jp: '瑞西は仏蘭西・伊太利・墺太利・独逸に囲まれている。', en: 'Switzerland is situated between France, Italy, Austria and Germany.' },
-    { jp: '瑞は仏・伊・墺・独に取り囲まれている。', en: 'Switzerland is situated between France, Italy, Austria and Germany.' },
+    { jp: '瑞穂の国は日本の別称です。', en: 'Mizuho no kuni is another name for Japan.' },
+    { jp: '彼女の瑞々しい笑顔が素敵だ。', en: 'Her fresh, dewy smile is lovely.' },
   ],
   '瑠': [
     { jp: '瑠璃鶇が空を背負っている。', en: 'The bluebird carries the sky on his back.' },
@@ -9476,7 +9476,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '看': [
     { jp: '日本では看護婦の社会的地位は高いでしょうか。', en: 'In Japan, are nurses high on the social scale?' },
-    { jp: '日本では看護婦さんは社会的地位が高いのですか。', en: 'In Japan, are nurses high on the social scale?' },
+    { jp: '看板に書いてあります。', en: 'It says so on the sign.' },
   ],
   '眺': [
     { jp: 'トムは窓際に座り、外を眺めた。', en: 'Tom sat at the window, looking outside.' },
@@ -9507,8 +9507,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: 'トムが嘘をついていたのは一目瞭然だった。', en: 'It was obvious Tom had lied.' },
   ],
   '瞳': [
-    { jp: '私の孫息子は猫を飼っている。その猫は白と黒の被毛を持ち緑がかった瞳をしている。孫はその猫と遊ぶのが大好きで、その猫をビビと名づけた。ビビは美しい。それは私たちのペットである。', en: 'My grandson has a kitten. The kitten has white and black fur and greenish eyes. My grandson loves playing with it. He named it Vivi. Vivi is beautiful. It is our pet.' },
-    { jp: '私の孫は子猫を飼っています。その猫の毛並みは白と黒で瞳はグリーンがかっています。孫はその猫と遊ぶのが大好きで、ヴィヴィと呼んでいます。ヴィヴィは綺麗な猫で、私たちのペットです。', en: 'My grandson has a kitten. The kitten has white and black fur and greenish eyes. My grandson loves playing with it. He named it Vivi. Vivi is beautiful. It is our pet.' },
+    { jp: '彼女の瞳は綺麗ですね。', en: 'Her eyes are beautiful.' },
+    { jp: '瞳を閉じて聴いてください。', en: 'Please close your eyes and listen.' },
   ],
   '矛': [
     { jp: '彼は矛盾している。', en: 'He isn\'t consistent with himself.' },
@@ -9559,7 +9559,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '礎': [
     { jp: '基礎体温はつけてますよ。', en: 'I\'m keeping a record of basal body temperature.' },
-    { jp: '基礎体温をつけています。', en: 'I\'m keeping a record of basal body temperature.' },
+    { jp: '基礎からしっかり学ぼう。', en: 'Let\'s study thoroughly from the basics.' },
   ],
   '祉': [
     { jp: '彼は福祉事務所で働いている。', en: 'He works at the welfare office.' },
@@ -9612,7 +9612,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '稔': [
     { jp: '田中稔子氏は広島原爆の生存者であり、平和と核軍縮の擁護者として活動しています。', en: 'Toshiko Tanaka is a survivor of the Hiroshima bombing turned advocate for peace and nuclear disarmament.' },
-    { jp: '田中稔子さんは、広島の原爆の生存者であり、平和と核軍縮の提唱者として活動しています。', en: 'Toshiko Tanaka is a survivor of the Hiroshima bombing turned advocate for peace and nuclear disarmament.' },
+    { jp: '努力が実を結んで稔りました。', en: 'Our efforts bore fruit.' },
   ],
   '稚': [
     { jp: '彼は幼稚園に通っている。', en: 'He goes to kindergarten.' },
@@ -9669,7 +9669,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '竜': [
     { jp: '竜は架空の動物だ。', en: 'A dragon is a creature of fancy.' },
-    { jp: '竜は想像上の動物だ。', en: 'A dragon is a creature of fancy.' },
+    { jp: '竜巻が近づいています。', en: 'A tornado is approaching.' },
   ],
   '端': [
     { jp: '冬支度は万端です！', en: 'Winter preparations are all complete.' },
@@ -9677,7 +9677,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '笛': [
     { jp: '口笛の吹き方、知ってる？', en: 'Do you know how to whistle?' },
-    { jp: '口笛の吹き方ってわかる？', en: 'Do you know how to whistle?' },
+    { jp: '笛の音が聞こえます。', en: 'I can hear the sound of a flute.' },
   ],
   '第': [
     { jp: '見つけ次第殺すぞ！', en: 'Once I find them, I\'ll kill them!' },
@@ -9763,7 +9763,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '級': [
     { jp: '彼は私の級友です。', en: 'He is my classmate.' },
-    { jp: '彼は私の同級生です。', en: 'He is my classmate.' },
+    { jp: '一級品の品質ですね。', en: 'It\'s first-class quality.' },
   ],
   '紛': [
     { jp: '１９９０年代は湾岸紛争で始まった。', en: 'The 1990s began with the Gulf incident.' },
@@ -10202,7 +10202,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '薪': [
     { jp: 'トムは薪を割ってるよ。', en: 'Tom is chopping firewood.' },
-    { jp: 'トムは薪割りしてるよ。', en: 'Tom is chopping firewood.' },
+    { jp: '薪ストーブで暖まった。', en: 'I warmed up by the wood stove.' },
   ],
   '薫': [
     { jp: '薫、今のところおまえが一番のリアクション、大賞だよ。', en: 'Kaoru, yours is the best reaction so far - you win the grand prize.' },
@@ -10715,7 +10715,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '還': [
     { jp: '明日は母方の祖父の還暦祝いをする。', en: 'My grandfather on my mother\'s side is celebrating his 60th birthday tomorrow.' },
-    { jp: '明日は母方の祖父の還暦のお祝いをする。', en: 'My grandfather on my mother\'s side is celebrating his 60th birthday tomorrow.' },
+    { jp: '彼は還暦を迎えました。', en: 'He has turned sixty years old.' },
   ],
   '那': [
     { jp: 'トムは妹の旦那よ。', en: 'Tom is my younger sister\'s husband.' },
@@ -11022,7 +11022,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '霧': [
     { jp: '私達は霧の中で迷った。', en: 'We got lost in the fog.' },
-    { jp: '私たちは霧の中で迷子になった。', en: 'We got lost in the fog.' },
+    { jp: '朝霧が出ています。', en: 'There\'s morning fog.' },
   ],
   '露': [
     { jp: '露が草の葉におりている。', en: 'The dew is on the leaves of grass.' },
@@ -11119,7 +11119,7 @@ export const SENTENCE_OVERRIDE = {
     { jp: '「唇が割れてるけど、どうしたの？」「弟と一緒にばか騒ぎしてて、口を蹴られちゃったんだ」', en: '"How did you split your lip?" "My brother and I were horseplaying, and he ended up kicking me in the mouth."' },
   ],
   '騰': [
-    { jp: '水は212℉で沸騰します。', en: 'Water boils at 212°F.' },
+    { jp: '物価が高騰しています。', en: 'Prices are soaring.' },
     { jp: '水は100℃で沸騰します。', en: 'Water boils at 212°F.' },
   ],
   '驚': [
