@@ -494,6 +494,10 @@ async function fetchVocab(kanji, levelNum) {
   // Build pool: EXAMPLE_OVERRIDE (curated, priority) + kanjiapi.dev (supplement)
   // Combining both ensures KUN+ON coverage even when one source is one-sided.
   const overrideWords = EXAMPLE_OVERRIDE[kanji] || [];
+
+  // If we have 3+ curated words, use them directly — no API needed.
+  // This prevents API words from displacing curated words in the final 3 slots.
+  if (overrideWords.length >= 3) return overrideWords.slice(0, 3);
   let apiWords = [];
   try {
     const res = await fetch(`https://kanjiapi.dev/v1/words/${encodeURIComponent(kanji)}`);

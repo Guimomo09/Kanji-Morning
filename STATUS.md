@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **14 Mai 2026** · QA phrases + clean kanji-cards ✅
+> Dernière mise à jour: **14 Mai 2026** · Reels 33s + BGM Chili Crisp + timings dynamiques ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -295,15 +295,22 @@ kanji.guimo-prod.com {
 - [x] `kanji-status.json` — 2211/2211 kanji `status: ok` + `locked: 2026-05-13` (skip auto à la génération sans `--force`)
 - [x] `generate-kanji-cards.mjs` : flag `--force` · skip auto si kanji déjà locked · dossiers renommés `insta/` → `cards/` · `reels/` → `real/`
 
-**Reels TikTok — 13 Mai 2026**
-- [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 de 50s par kanji
-  - Structure : `3s intro` + `10s` × 3 cartes + `15s CTA` + `2s fondu noir`
-  - Intro : carte 1 floutée + overlay `kanji-cards/text-intro.png` (PNG transparent, centré) + TTS 「本日の漢字」
-  - Cartes 1–3 : slides PNG TikTok + voix Nanami (ja-JP, -10%) — lectures KUN puis ON, popular-first, sans kanji ni définitions
-  - CTA : `CTA_Footage.mp4` (0–10s brut, 10–15s flouté) + overlay `kanji-cards/text-cta.png` centré à t=10s
-  - Audio : xfade dissolve 0.3s + acrossfade, re-encodé aac 128k (fix silence concat)
+**Reels TikTok — 13 Mai 2026 → 14 Mai 2026**
+- [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 ~33s par kanji
+  - Structure : `2s intro` + `6s` carte 1 + `7s` carte 2 + `9s` carte 3 + `7s CTA` + `2s fondu noir` = **33s**
+  - Intro : carte 1 floutée + assombrie + overlay `kanji-cards/text-intro.png` (PNG manuel, centré) · silence (pas de TTS)
+  - Cartes 1–3 : VOICEVOX speaker 16 (九州そら) · gaps dynamiques par `assembleWithDynamicGaps()` (minGap adaptatif)
+  - Card 1 : lectures KUN+ON individuelles, max 6, gaps dynamiques (minGap 0.6s / 6s)
+  - Card 2 : vocab individuel, gaps dynamiques (minGap 0.8s / 7s)
+  - Card 3 : 2 phrases, gap adaptatif `max(1.0, (9 - dur1 - dur2) / 3)`
+  - CTA : `CTA_Footage.mp4` (fallback vidéo) + overlay `kanji-cards/text-cta.png` centré · durée 7s
+  - BGM : `kanji-cards/bgm.mp3` · fade in 1.5s · fade out calé sur fondu noir final · volume via `--bgm-vol`
+  - Crossfade : 1.0s intro→card1 (reveal fluide) · 0.6s entre les autres segments
+  - Audio : xfade dissolve + acrossfade, re-encodé aac 128k
   - Overlays texte via PNG transparents (police libre, indépendant de ffmpeg drawtext)
-  - Output : `kanji-cards/{level}/real/{kanji}.mp4`
+  - Output : `kanji-cards/{level}/reels/{kanji}.mp4`
+  - CLI : `--speaker 16 --speed 1.1 --bgm-vol 0.07`
+- [x] `scripts/generate-hook-png.mjs` — génère `kanji-cards/text-intro.png` (hook PNG intro uniquement)
 
 **QA phrases dupliquées + améliorations cartes — 14 Mai 2026** ← commits `d9153ac` → `6ad85ad` (main)
 - [x] `scripts/_check-dupes.mjs` — détecte les phrases dupliquées (JP ou EN identique) dans SENTENCE_OVERRIDE — 71 trouvées
