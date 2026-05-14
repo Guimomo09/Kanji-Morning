@@ -707,12 +707,12 @@ function _setupMyListDrag() {
       const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
       if (el) {
         el.classList.toggle('selected');
-        _didDrag = true; // suppress the subsequent click event (prevents double-toggle via handleKanjiChipClick)
+        e.preventDefault(); // block the synthetic click that would double-toggle via handleKanjiChipClick
         _updateDeleteBar();
       }
     }
     _touchMoved = false;
-  }, { passive: true });
+  }, { passive: false });
 }
 
 // ── Theme ──────────────────────────────────────────────────────────────
