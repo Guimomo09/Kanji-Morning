@@ -200,6 +200,11 @@ const EXAMPLE_OVERRIDE = {
     { w: '外出',   r: 'がいしゅつ', m: 'going out' },
     { w: '海外',   r: 'かいがい',   m: 'overseas, abroad' },
   ],
+  '国': [
+    { w: '国',     r: 'くに',       m: 'country, nation' },
+    { w: '外国',   r: 'がいこく',   m: 'foreign country' },
+    { w: '中国',   r: 'ちゅうごく', m: 'China' },
+  ],
   '大': [
     { w: '大きい', r: 'おおきい',   m: 'big, large' },
     { w: '大学',   r: 'だいがく',   m: 'university' },

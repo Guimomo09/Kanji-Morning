@@ -1,14 +1,15 @@
 /**
  * generate-kanji-cards.mjs — v2
  *
- * Génère 3 cartes par kanji dans deux formats :
- *   kanji-cards/insta/{kanji}/   → 1080×1080px  (Instagram / carré)
- *   kanji-cards/tiktok/{kanji}/  → 1080×1920px  (TikTok / 9:16 portrait)
+ * Génère 3 cartes par kanji :
+ *   kanji-cards/{level}/cards/{kanji}/   → 1080×1080px  (Instagram / carré, permanent)
+ *   kanji-cards/{level}/.staging/{kanji}/ → 1080×1920px  (portrait, temporaire pour reels)
  *
  * Cartes :
  *   1-kanji.png   — kanji + signification + lectures
  *   2-vocab.png   — 3 mots exemple (EXAMPLE_OVERRIDE de l'app en priorité)
  *   3-phrases.png — 2 phrases d'exemple (Tatoeba)
+ *   sentences.json — (dans .staging/) source TTS pour generate-reels.mjs
  *
  * Usage :
  *   node scripts/generate-kanji-cards.mjs
@@ -148,8 +149,10 @@ function escHtml(s) {
 }
 
 // ── Output dirs ───────────────────────────────────────────────────────────────
-const INSTA_DIR  = join(ROOT, 'kanji-cards', DIR, 'cards');
-const TIKTOK_DIR = join(ROOT, 'kanji-cards', DIR, 'reels');
+// cards/ → insta PNGs (permanent)
+// .staging/ → tiktok PNGs (temp, read + deleted by generate-reels.mjs)
+const INSTA_DIR    = join(ROOT, 'kanji-cards', DIR, 'cards');
+const TIKTOK_DIR   = join(ROOT, 'kanji-cards', DIR, '.staging');
 mkdirSync(INSTA_DIR,  { recursive: true });
 mkdirSync(TIKTOK_DIR, { recursive: true });
 
@@ -381,13 +384,15 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
     const hSentPad = parseInt(sentPad.trim().split(/\s+/)[1] ?? sentPad);
     const availW = cardW - hCardPad * 2 - hSentPad * 2;
     const fitFont = rawJp.length > 0
-      ? Math.min(sentJpFont, Math.max(18, Math.floor(availW / rawJp.length)))
+      // ×1.15 safety margin: ruby annotations widen the base characters slightly
+      ? Math.min(sentJpFont, Math.max(18, Math.floor(availW / (rawJp.length * 1.15))))
       : sentJpFont;
+    const enShort = en && en.length > 90 ? en.slice(0, 88) + '…' : en;
     return `
     <div class="sr">
       ${badge ? `<div class="badge-row">${badge}</div>` : ''}
       <div class="sjp" style="font-size:${fitFont}px">${jpHtml}</div>
-      <div class="sen">${en}</div>
+      <div class="sen">${enShort}</div>
     </div>`;
   }).join('');
 
@@ -417,7 +422,7 @@ function buildPhrasesHTML(kanji, sentences, levelStr, fmt) {
   .kun-badge{background:#e8f5e9;color:#2e7d32;}
   .on-badge{background:#fdecea;color:#b91c1c;}
   .badge-row{margin-bottom:4px;}
-  .sen{font-size:${sentEnFont}px;color:#666;font-style:italic;line-height:1.4;}
+  .sen{font-size:${sentEnFont}px;color:#666;font-style:italic;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
@@ -711,7 +716,7 @@ async function fetchSentences(kanji, levelNum, displayWords, count = 2) {
     for (const w of displayWords) if (!seenW.has(w.w)) { pool.push(w); seenW.add(w.w); }
 
     const { kun: wordsKun, on: wordsOn, other: wordsOther } = classifyVocab(pool, kanjiData, kanji);
-    const maxLen = { 5: 35, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
+    const maxLen = { 5: 28, 4: 40, 3: 55, 2: 70, 1: 90 }[levelNum] || 40;
 
     const fetchOneFor = async (wordList, readingType) => {
       for (const w of wordList) {
@@ -768,7 +773,7 @@ async function fetchSentences(kanji, levelNum, displayWords, count = 2) {
   // Ensure the 2 phrases each cover a different display vocab word where possible.
   // If both sentences contain the same word (or sentence 2 contains none), try Tatoeba.
   if (results.length === 2 && displayWords.length >= 2) {
-    const maxLenVP = { 5: 35, 4: 50, 3: 65, 2: 80, 1: 100 }[levelNum] || 50;
+    const maxLenVP = { 5: 28, 4: 40, 3: 55, 2: 70, 1: 90 }[levelNum] || 40;
     const vocabWords = displayWords.map(w => w.w);
     const cov0 = vocabWords.findIndex(w => results[0].jp.includes(w));
     const cov1 = vocabWords.findIndex(w => results[1].jp.includes(w));
@@ -857,6 +862,12 @@ for (const kanji of targetKanji) {
     // Carte 3 — Phrases
     if (sentencesWithFurigana.length > 0) {
       await renderCard(buildPhrasesHTML(kanji, sentencesWithFurigana, lvlStr, fmt), join(kanjiDir, '3-phrases.png'), fmt);
+      // Sidecar sentences.json — used by generate-reels.mjs for TTS sync
+      if (fmtKey === 'tiktok') {
+        writeFileSync(join(kanjiDir, 'sentences.json'), JSON.stringify(
+          sentences.map(s => ({ jp: s.jp, en: s.en }))
+        ));
+      }
     } else {
       console.log(`  ⚠️  [${fmtKey}] Pas de phrases pour ${kanji}`);
     }
