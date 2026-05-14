@@ -705,7 +705,11 @@ function _setupMyListDrag() {
     // In select mode: plain tap (no move) toggles the item
     if (!_touchMoved) {
       const el = e.target.closest('.kanji-saved-chip, #mylistBody tr');
-      if (el) { el.classList.toggle('selected'); _updateDeleteBar(); }
+      if (el) {
+        el.classList.toggle('selected');
+        _didDrag = true; // suppress the subsequent click event (prevents double-toggle via handleKanjiChipClick)
+        _updateDeleteBar();
+      }
     }
     _touchMoved = false;
   }, { passive: true });

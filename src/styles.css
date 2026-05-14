@@ -1183,6 +1183,8 @@
       .vocab-word { font-size: 38px; }
       .card-meaning { font-size: 15px; }
       .kanji-char { font-size: 58px; width: 66px; min-width: 66px; }
+      /* Prevent meaning text from sliding under absolute speak/save buttons */
+      .card-info { padding-right: 58px; }
 
       /* ── Quiz interactive ── */
       .quiz-options {
