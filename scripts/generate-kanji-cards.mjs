@@ -149,7 +149,7 @@ function escHtml(s) {
 
 // ── Output dirs ───────────────────────────────────────────────────────────────
 const INSTA_DIR  = join(ROOT, 'kanji-cards', DIR, 'cards');
-const TIKTOK_DIR = join(ROOT, 'kanji-cards', DIR, 'tiktok');
+const TIKTOK_DIR = join(ROOT, 'kanji-cards', DIR, 'reels');
 mkdirSync(INSTA_DIR,  { recursive: true });
 mkdirSync(TIKTOK_DIR, { recursive: true });
 
@@ -238,7 +238,7 @@ const FMT = {
     sentJpFont: 34, sentEnFont: 20, sentPad: '24px 28px', sentGap: '24px', sentJustify: 'center',
   },
   tiktok: {
-    key: 'tiktok',
+    key: 'reels',
     canvasW: 1080, canvasH: 1920,
     headerH: 120, headerFont: 30, levelFont: 24, logoSize: 70,
     cardW: 940, cardH: 860, cardPad: '44px 70px', cardRadius: 30,
@@ -869,4 +869,4 @@ await browser.close();
 console.log(`\n🎉 ${ok} kanji générés × 2 formats × 3 cartes`);
 if (skipped > 0) console.log(`🔒 ${skipped} kanji skippés (déjà locked OK)`);
 console.log(`   kanji-cards/${DIR}/cards/{kanji}/  →  1080×1080px (insta square)`);
-  console.log(`   kanji-cards/${DIR}/tiktok/{kanji}/ →  1080×1920px (portrait)\n`);
+  console.log(`   kanji-cards/${DIR}/reels/{kanji}/ →  1080×1920px (portrait)\n`);

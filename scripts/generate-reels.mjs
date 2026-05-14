@@ -37,7 +37,7 @@ const DIR   = get('--dir', LEVEL);
 
 // ── Paths ─────────────────────────────────────────────────────────────────────
 const CARDS_DIR = join(ROOT, 'kanji-cards', DIR);
-const REELS_DIR = join(CARDS_DIR, 'real');
+const REELS_DIR = join(CARDS_DIR, 'reels');
 mkdirSync(REELS_DIR, { recursive: true });
 
 // ── kanji_index ───────────────────────────────────────────────────────────────
@@ -310,7 +310,7 @@ if (CUSTOM) {
 } else {
   // Pick from generated cards
   const { readdirSync } = await import('fs');
-  const tiktokDir = join(CARDS_DIR, 'tiktok');
+  const tiktokDir = join(CARDS_DIR, 'reels');
   if (!existsSync(tiktokDir)) {
     console.error(`❌ Dossier ${tiktokDir} introuvable. Génère d'abord les cartes avec generate-kanji-cards.mjs`);
     process.exit(1);
@@ -332,7 +332,7 @@ for (const kanji of targetKanji) {
   const data = KANJI_INDEX[kanji];
   if (!data) { console.warn(`⚠️  Pas de données pour ${kanji}`); continue; }
 
-  const tiktokDir = join(CARDS_DIR, 'tiktok', kanji);
+  const tiktokDir = join(CARDS_DIR, 'reels', kanji);
   const card1 = join(tiktokDir, '1-kanji.png');
   const card2 = join(tiktokDir, '2-vocab.png');
   const card3 = join(tiktokDir, '3-phrases.png');

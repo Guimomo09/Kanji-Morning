@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **13 Mai 2026** · Reels TikTok ✅
+> Dernière mise à jour: **14 Mai 2026** · QA phrases + clean kanji-cards ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -291,6 +291,9 @@ kanji.guimo-prod.com {
   - N1 (1232) : ~1032 Tatoeba réel + ~200 templates offline (fill-n1-gaps.mjs)
   - Audit final : N5 ✅ N4 ✅ N3 ✅ N2 ✅ N1 ✅ (100% tous niveaux)
 - [x] Scripts utilitaires : `build-sentence-overrides.mjs` · `inject-sentences.mjs` · `fill-n1-gaps.mjs` · `repair-example-override.mjs` · `check-n1.mjs`
+- [x] `scripts/audit-kanji-quality.mjs` — audit KUN/ON qualité par kanji → génère `kanji-status.json` · statuts : `ok` / `phrase-missing` / `vocab-missing` / `both-missing`
+- [x] `kanji-status.json` — 2211/2211 kanji `status: ok` + `locked: 2026-05-13` (skip auto à la génération sans `--force`)
+- [x] `generate-kanji-cards.mjs` : flag `--force` · skip auto si kanji déjà locked · dossiers renommés `insta/` → `cards/` · `reels/` → `real/`
 
 **Reels TikTok — 13 Mai 2026**
 - [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 de 50s par kanji
@@ -300,7 +303,22 @@ kanji.guimo-prod.com {
   - CTA : `CTA_Footage.mp4` (0–10s brut, 10–15s flouté) + overlay `kanji-cards/text-cta.png` centré à t=10s
   - Audio : xfade dissolve 0.3s + acrossfade, re-encodé aac 128k (fix silence concat)
   - Overlays texte via PNG transparents (police libre, indépendant de ffmpeg drawtext)
-  - Output : `kanji-cards/{level}/reels/{kanji}.mp4`
+  - Output : `kanji-cards/{level}/real/{kanji}.mp4`
+
+**QA phrases dupliquées + améliorations cartes — 14 Mai 2026** ← commits `d9153ac` → `6ad85ad` (main)
+- [x] `scripts/_check-dupes.mjs` — détecte les phrases dupliquées (JP ou EN identique) dans SENTENCE_OVERRIDE — 71 trouvées
+- [x] `scripts/_patch-dupes.mjs` — remplace les dupes dans `src/kanji.js` — 65 patchées / 6 not found
+- [x] `generate-kanji-cards.mjs` — auto-fit font (taille adaptée à la longueur de la signification) + vocab coverage pass à chaque génération
+- [x] `src/kanji.js` — 65 phrases dupliquées remplacées par des alternatives uniques
+
+**Clean kanji-cards + refacto dossiers — 14 Mai 2026**
+- [x] Structure finale par level : `cards/` (PNG 1080×1080 Instagram) · `reels/` (PNG 1080×1920 TikTok portrait + MP4)
+- [x] Suppression dossiers test/preview : `preview/` `preview2/` `preview3/` `test-kunon/` `test-merge2/` `font-test/` `n3/`
+- [x] Suppression contenu test n5 : `n5/insta/` `n5/real/` `n5/reels/` (vieux MP4 de test)
+- [x] `n5/tiktok/` → `n5/reels/` · `n4/tiktok/` → `n4/reels/`
+- [x] `generate-kanji-cards.mjs` : output portrait `tiktok/` → `reels/`
+- [x] `generate-reels.mjs` : lit depuis `reels/` (was `tiktok/`) · output MP4 dans `reels/` (was `real/`)
+- [x] 4 phrases trop longues N4 fixées (使/医/英/試 ≤ 20 chars) + 3 doublons EN corrigés (酒/衝/賀)
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)

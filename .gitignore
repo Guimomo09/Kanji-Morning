@@ -19,6 +19,17 @@ _wikt_progress.json
 _wordnet_log.txt
 _enpivot_log.txt
 
+# Generated kanji cards (local only — not tracked in git)
+kanji-cards/
+.reels-tmp/
+
+# Script output files
+_dupes-result.txt
+_patch-result.txt
+_test-fix.txt
+_test-i.txt
+_test-vocab.txt
+
 # Editor
 .vscode/
 *.swp

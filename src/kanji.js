@@ -3608,7 +3608,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '使': [
     { jp: '日本大使館はどこにありますか。', en: 'Where is the Japanese Embassy?' },
-    { jp: '日本大使館は日本人に対し、注意するよう警告している。', en: 'The Japanese embassy has warned Japanese citizens to be careful.' },
+    { jp: '言葉を正しく使おう。', en: "Let's use words correctly." },
   ],
   '借': [
     { jp: '３００ドル借りる必要があるんだ。', en: 'I need to borrow three hundred dollars.' },
@@ -3656,7 +3656,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '医': [
     { jp: '世の中は藪医者だらけ。', en: 'The world is full of incompetent doctors.' },
-    { jp: 'お客様の中にお医者様はいらっしゃいませんか。', en: 'Is there a doctor in the house?' },
+    { jp: '彼は医者になった。', en: 'He became a doctor.' },
   ],
   '去': [
     { jp: '「風と共に去りぬ」を読む。', en: 'Read "Gone With The Wind".' },
@@ -3958,7 +3958,7 @@ export const SENTENCE_OVERRIDE = {
     { jp: '誰が発明したのか？', en: 'Who invented it?' },
   ],
   '目': [
-    { jp: 'まず目に入るのは真っ赤なディスカウントドラッグストアの看板である。', en: 'The first thing that hits you is the bright red discount drugstore sign.' },
+    { jp: 'あの看板が目立つね。', en: 'That sign really stands out.' },
     { jp: 'いや、これが二回目だ。', en: 'No, this is my second time.' },
   ],
   '真': [
@@ -4011,7 +4011,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '考': [
     { jp: '彼は論理的思考力が致命的に欠如している。', en: 'He has no ability to reason logically at all.' },
-    { jp: 'ほとんどの人が、コンピューターは決して思考力を持つようにならないだろうと考えている。', en: 'Most people think computers will never be able to think.' },
+    { jp: 'もっとよく考えてみて。', en: 'Think it over more carefully.' },
   ],
   '肉': [
     { jp: '何よりも牛肉が好き。', en: 'I like beef more than anything.' },
@@ -4031,7 +4031,7 @@ export const SENTENCE_OVERRIDE = {
   ],
   '英': [
     { jp: '高等学校では英語と数学が重視されている。', en: 'English and mathematics are made much of in senior high schools.' },
-    { jp: '英語が得意な人もいれば、数学が得意な人もいる。', en: 'Some are good at English, and others are good at mathematics.' },
+    { jp: '英語を毎日練習する。', en: 'Practice English every day.' },
   ],
   '茶': [
     { jp: 'お茶は持ってきた？', en: 'Have you brought the tea?' },
@@ -4050,8 +4050,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '彼は計画を変えた。', en: 'He\'s altered his plans.' },
   ],
   '試': [
-    { jp: '彼は司法試験に合格し、法律事務所を創設した。', en: 'He passed the law examination and set up a law office.' },
-    { jp: '長年にわたる努力が実を結び、トムは司法試験に合格することができました。', en: 'Tom\'s many years of hard work paid off, and he was able to pass the bar exam.' },
+    { jp: '明日は試験がある。', en: 'I have an exam tomorrow.' },
+    { jp: '試着してみますか？', en: 'Would you like to try it on?' },
   ],
   '買': [
     { jp: 'トムは買うと思う？', en: 'Do you think Tom will buy it?' },
@@ -4154,8 +4154,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '駅前には銀行がある。', en: 'There is a bank in front of the station.' },
   ],
   '験': [
-    { jp: '彼は司法試験に合格し、法律事務所を創設した。', en: 'He passed the law examination and set up a law office.' },
-    { jp: '長年にわたる努力が実を結び、トムは司法試験に合格することができました。', en: 'Tom\'s many years of hard work paid off, and he was able to pass the bar exam.' },
+    { jp: '試験は来週ありますか？', en: 'Is the test next week?' },
+    { jp: '経験は大事だよ。', en: 'Experience is important.' },
   ],
   '魚': [
     { jp: '金魚も飼ってるよ。', en: 'I have goldfish, too.' },
@@ -5403,8 +5403,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '空港まで迎えの車を出すように手配した。', en: 'I arranged for a car to meet you at the airport.' },
   ],
   '酒': [
-    { jp: '酒豪女は嫌いです。', en: 'I don\'t like women who drink a lot.' },
-    { jp: '酒飲みの女は嫌だ。', en: 'I don\'t like women who drink a lot.' },
+    { jp: '酒豪女は嫌いです。', en: 'I don\'t like heavy drinkers.' },
+    { jp: '酒飲みの女は嫌だ。', en: 'I don\'t like women who drink too much.' },
   ],
   '閉': [
     { jp: '門を閉める時間だ。', en: 'It is time to shut the gate.' },
@@ -10293,8 +10293,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '私はトムの護衛です。', en: 'I\'m Tom\'s bodyguard.' },
   ],
   '衝': [
-    { jp: '衝動買いはするな。', en: 'Don\'t buy a pig in a poke.' },
-    { jp: '衝動買いはやめとけ。', en: 'Don\'t buy a pig in a poke.' },
+    { jp: '衝動買いはするな。', en: 'Don\'t make impulsive purchases.' },
+    { jp: '衝動買いはやめとけ。', en: 'Stop buying things on impulse.' },
   ],
   '衡': [
     { jp: '金衡１ポンドは１２オンスである。', en: 'One pound troy weighs 12 oz.' },
@@ -10528,8 +10528,8 @@ export const SENTENCE_OVERRIDE = {
     { jp: '姉貴はいないんだ。', en: 'I don\'t have an older sister.' },
   ],
   '賀': [
-    { jp: '年賀状はもう全部書き終わった？', en: 'Have you written all the New Year\'s cards already?' },
-    { jp: '年賀状はもう全部書き上げましたか？', en: 'Have you written all the New Year\'s cards already?' },
+    { jp: '年賀状はもう全部書き終わった？', en: 'Have you finished writing all the New Year\'s cards?' },
+    { jp: '年賀状はもう全部書き上げましたか？', en: 'Have you completed all your New Year\'s cards?' },
   ],
   '賃': [
     { jp: '賃貸アパートをさがしています。', en: 'I\'m looking for an apartment to rent.' },

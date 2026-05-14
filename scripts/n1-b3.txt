@@ -1,0 +1,1215 @@
+[617] 派
+      派遣 (はけん) = dispatch
+      派閥 (はばつ) = clique
+      派 (は) = school
+[618] 浄
+      洗浄剤 (せんじょうざい) = detergent
+      浄化 (じょうか) = purification
+      洗浄 (せんじょう) = cleansing (one's mind and body)
+[619] 浜
+      浜 (はま) = Yokohama
+      浜松 (はままつ) = Hamamatsu (city)
+      横浜 (よこはま) = Yokohama (city)
+[620] 浦
+      浦 (うら) = inlet
+      津々浦々 (つつうらうら) = all over the country
+      浦波 (うらなみ) = (seaside) breakers
+[621] 浩
+      浩瀚 (こうかん) = bulky
+      浩蕩 (こうとう) = vast
+      浩然 (こうぜん) = abundant (of flowing water)
+[622] 浪
+      浪 (なみ) = ups and downs
+      津浪 (つなみ) = tsunami
+      浪人 (ろうにん) = high school graduate waiting for another chance …
+[623] 浸
+      浸透 (しんとう) = osmosis
+      浸ける (つける) = to pickle
+      浸水 (しんすい) = inundation
+[624] 涯
+      生涯 (しょうがい) = life
+      生涯教育 (しょうがいきょういく) = lifelong education
+      涯 (はて) = horizon
+[625] 淑
+      淑やか (しとやか) = graceful
+      淑徳 (しゅくとく) = womanly virtues
+      淑女 (しゅくじょ) = (female) pervert
+[626] 淡
+      淡々 (たんたん) = flowing gently
+      淡水 (たんすい) = fresh water (i.e. not salt water)
+      濃淡 (のうたん) = light and shade
+[627] 淳
+      淳朴 (じゅんぼく) = simple and honest
+      淳良 (じゅんりょう) = simple and kind
+      淳久堂 (じゅんくどう) = Junkudo (Japanese bookstore chain)
+[628] 添
+      添う (そう) = to be added
+      添える (そえる) = to accompany (as an aid, guide, translator, etc.)
+      付き添い (つきそい) = attendance (on)
+[629] 渇
+      渇く (かわく) = to be thirsty
+      渇水 (かっすい) = water shortage
+      枯渇 (こかつ) = drying up
+[630] 渉
+      交渉 (こうしょう) = connection
+      干渉 (かんしょう) = interference
+      渉外 (しょうがい) = public relations
+[631] 渋
+      渋谷 (しぶや) = Shibuya City (special ward of Tokyo)
+      渋面 (じゅうめん) = grimace
+      渋滞 (じゅうたい) = delay
+[632] 渓
+      渓 (たに) = valley
+      渓谷 (けいこく) = valley (with a river running through it)
+      渓流 (けいりゅう) = mountain stream
+[633] 渚
+      渚 (なぎさ) = water's edge
+      汀渚 (ていしょ) = sand bar
+      渚畔 (しょはん) = shore
+[634] 渥
+      渥然 (あくぜん) = glossy
+      優渥 (ゆうあく) = gracious
+      渥地 (あくち) = marshland
+[635] 渦
+      渦 (うず) = whirlpool
+      渦中 (かちゅう) = vortex
+      渦巻 (うずまき) = spiral (shape, pattern)
+[636] 湧
+      湧く (わく) = to appear (esp. suddenly) (sweat, tears, etc.)
+      湧き起こる (わきおこる) = to well up
+      湧水 (ゆうすい) = spring
+[637] 源
+      資源 (しげん) = resources
+      財源 (ざいげん) = source of funds
+      源 (みなもと) = source (of a river)
+[638] 溝
+      溝 (どぶ) = gap (between cutting guides)
+      側溝 (そっこう) = gutter
+      海溝 (かいこう) = ocean trench
+[639] 滅
+      滅多に (めったに) = rarely
+      滅茶滅茶 (めちゃめちゃ) = very
+      滅茶苦茶 (めちゃくちゃ) = disorderly
+[640] 滉
+      滉瀁 (こうよう) = wide and deep (of a body of water)
+[641] 滋
+      滋る (しげる) = to grow thickly
+      滋養 (じよう) = nourishment
+      滋賀 (しが) = Shiga (prefecture)
+[642] 滑
+      滑走路 (かっそうろ) = runway
+      滑走 (かっそう) = taxiing
+      円滑 (えんかつ) = smooth
+[643] 滝
+      滝 (たき) = rapids
+      滝川 (たきがわ) = rapids
+      滝口 (たきぐち) = top of a waterfall
+[644] 滞
+      滞在 (たいざい) = stay
+      滞在中 (たいざいちゅう) = during a stay
+      渋滞 (じゅうたい) = delay
+[645] 漂
+      漂流 (ひょうりゅう) = drifting
+      漂う (ただよう) = to be in the air (e.g. a feeling or mood)
+      漂白剤 (ひょうはくざい) = bleaching agent
+[646] 漆
+      漆 (なな) = seven
+      漆器 (しっき) = lacquer ware
+      漆塗り (うるしぬり) = lacquering
+[647] 漏
+      漏る (もる) = to leak
+      漏えい (ろうえい) = leak (of secrets, information, etc.)
+      漏れる (もれる) = to find expression
+[648] 漠
+      サハラ沙漠 (さはらさばく) = Sahara Desert
+      沙漠 (さばく) = desert
+      漠然 (ばくぜん) = vague
+[649] 漫
+      漫画 (まんが) = cartoon
+      漫画家 (まんがか) = cartoonist
+      漫才 (まんざい) = manzai
+[650] 漬
+      漬ける (つける) = to pickle
+      漬け物 (つけもの) = tsukemono
+      塩漬 (しおづけ) = pickling in salt
+[651] 漱
+      漱 (うがい) = gargling
+      盥漱 (かんそう) = washing one's hands and rinsing one's mouth
+      含漱 (がんそう) = gargling
+[652] 漸
+      漸 (やや) = a little
+      漸と (やっと) = at last
+      漸て (やがて) = almost
+[653] 潔
+      清潔 (せいけつ) = clean
+      簡潔 (かんけつ) = concise
+      潔白 (けっぱく) = innocence
+[654] 潜
+      潜在 (せんざい) = potentiality
+      潜水艦 (せんすいかん) = submarine
+      潜水 (せんすい) = diving
+[655] 潟
+      新潟 (にいがた) = Niigata (city, prefecture)
+      干潟 (ひがた) = tidal flat
+      潟 (かた) = lagoon
+[656] 潤
+      潤色 (じゅんしょく) = rhetorical flourishes
+      潤滑油 (じゅんかつゆ) = person or thing that makes things run smoothly
+      利潤 (りじゅん) = profit
+[657] 潮
+      潮 (しお) = sea water
+      風潮 (ふうちょう) = tendency
+      潮流 (ちょうりゅう) = tide
+[658] 澄
+      清澄 (せいちょう) = clear
+      澄む (すむ) = to pronounce as an unvoiced sound
+      澄みきる (すみきる) = to be perfectly clear (water, air, etc.)
+[659] 澪
+      澪 (みお) = wake (of a ship)
+      澪標 (みおじるし) = marks in a water channel
+[660] 激
+      過激 (かげき) = extreme
+      急激 (きゅうげき) = sudden
+      刺激 (しげき) = excitement
+[661] 濁
+      汚濁 (おだく) = pollution
+      濁る (にごる) = to become voiced (of a consonant)
+      濁す (にごす) = to make ambiguous
+[662] 濫
+      濫用 (らんよう) = abuse
+      濫立 (らんりつ) = standing (for election) in (excessively) large n…
+      濫発 (らんぱつ) = random firing
+[663] 瀬
+      瀬戸もの (せともの) = earthenware
+      瀬 (せ) = chance
+      瀬戸 (せと) = strait
+[664] 災
+      災害 (さいがい) = calamity
+      火災 (かさい) = conflagration
+      防災 (ぼうさい) = disaster preparedness
+[665] 炉
+      焜炉 (こんろ) = cooking stove
+      原子炉 (げんしろ) = atomic reactor
+      炉心 (ろしん) = nuclear reactor core
+[666] 炊
+      炊く (たく) = to cook (grains, e.g. rice)
+      炊飯器 (すいはんき) = rice cooker
+      炊事 (すいじ) = cooking
+[667] 炎
+      肺炎 (はいえん) = pneumonia
+      肝炎 (かんえん) = hepatitis
+      炎 (ほのお) = flame
+[668] 為
+      為替 (かわせ) = exchange (e.g. foreign)
+      所為 (せい) = consequence
+      為に (ために) = because of
+[669] 烈
+      強烈 (きょうれつ) = strong
+      猛烈 (もうれつ) = fierce
+      痛烈 (つうれつ) = severe
+[670] 焦
+      焦点 (しょうてん) = focus
+      焦り (あせり) = impatience
+      焦げる (こげる) = to burn
+[671] 煩
+      煩い (うるさい) = noisy
+      煩雑 (はんざつ) = complex
+      煩う (わずらう) = to be ill
+[672] 煮
+      煮える (にえる) = to be boiled
+      煮る (にる) = to boil
+      煮物 (にもの) = nimono
+[673] 熊
+      熊 (くま) = bear (any mammal of family Ursidae)
+      熊手 (くまで) = rake
+      穴熊 (あなぐま) = Eurasian badger (Meles meles)
+[674] 熙
+      熙々 (きき) = relaxed and enjoyable
+      熙春茶 (ひちゅんちゃ) = hyson (Chinese green tea)
+      康熙字典 (こうきじてん) = Kangxi dictionary
+[675] 熟
+      成熟 (せいじゅく) = maturity
+      熟 (つくづく) = intently
+      熟知 (じゅくち) = being familiar with
+[676] 燎
+      庭燎 (ていりょう) = garden bonfire (esp. one held on the imperial gr…
+      燎原 (りょうげん) = agricultural burning
+      燎原の火 (りょうげんのひ) = wildfire
+[677] 燦
+      燦 (さん) = brilliant
+      燦々 (さんさん) = brilliant
+      燦爛 (さんらん) = brilliant
+[678] 燿
+[679] 爵
+      伯爵 (はくしゃく) = count
+      男爵 (だんしゃく) = Irish cobbler (variety of potato)
+      公爵 (こうしゃく) = prince
+[680] 爽
+      爽やか (さわやか) = clear (voice)
+      爽快 (そうかい) = refreshing
+      爽凉 (そうりょう) = cool and refreshing
+[681] 爾
+      伯剌西爾 (ぶらじる) = Brazil
+      亜爾加里 (あるかり) = alkali
+      爾 (なんじ) = thou
+[682] 牧
+      牧場 (まきば) = pasture
+      牧野 (ぼくや) = pasture land
+      牧師 (ぼくし) = pastor
+[683] 牲
+      犠牲者 (ぎせいしゃ) = victim
+      犠牲 (ぎせい) = sacrifice
+      牲 (にえ) = gift
+[684] 犠
+      犠牲者 (ぎせいしゃ) = victim
+      犠牲 (ぎせい) = sacrifice
+      犠飛 (ぎひ) = sacrifice fly
+[685] 狂
+      気狂い (きちがい) = madness
+      狂言 (きょうげん) = kabuki play
+      熱狂 (ねっきょう) = wild enthusiasm
+[686] 狩
+      狩り場 (かりば) = hunting ground
+      狩 (かり) = hunting
+      狩猟 (しゅりょう) = hunting
+[687] 独
+      独自 (どくじ) = independent
+      独立 (どくりつ) = independence (e.g. of a nation)
+      独り (ひとり) = one person
+[688] 狭
+      狭心症 (きょうしんしょう) = angina pectoris
+      狭き門 (せまきもん) = the strait gate (in the Bible)
+      手狭 (てぜま) = narrow
+[689] 猛
+      猛暑 (もうしょ) = heat wave
+      猛烈 (もうれつ) = fierce
+      猛攻 (もうこう) = fierce attack
+[690] 猟
+      狩猟 (しゅりょう) = hunting
+      密猟 (みつりょう) = poaching
+      猟 (りょう) = game
+[691] 猪
+      猪 (いのしし) = wild boar
+      猪口 (ちょこ) = sake cup
+      鹿猪 (しかいのしし) = babirusa (Babyrousa babyrussa)
+[692] 献
+      献金 (けんきん) = donation
+      貢献 (こうけん) = contribution (furthering a goal or cause)
+      文献 (ぶんけん) = literature
+[693] 猶
+      猶 (なお) = as ...
+      猶さら (なおさら) = still less
+      猶予 (ゆうよ) = postponement
+[694] 猿
+      猿 (さる) = bathhouse prostitute
+      猿人 (えんじん) = ape man
+      犬猿の仲 (けんえんのなか) = like cats and dogs
+[695] 獄
+      地獄 (じごく) = hell
+      獄中 (ごくちゅう) = during imprisonment
+      監獄 (かんごく) = prison
+[696] 獣
+      獣 (けだもの) = animal with human characteristics
+      獣医 (じゅうい) = veterinarian
+      怪獣 (かいじゅう) = monster
+[697] 獲
+      獲得 (かくとく) = acquisition
+      獲る (える) = to be able to ..., can ...
+      捕獲 (ほかく) = capture
+[698] 玄
+      玄関 (げんかん) = entrance
+      玄米 (げんまい) = unpolished rice
+      玄人 (くろうと) = woman in the nightlife business
+[699] 率
+      比率 (ひりつ) = ratio
+      効率 (こうりつ) = efficiency
+      税率 (ぜいりつ) = tariff
+[700] 玖
+      玖 (く) = nine
+      玖馬 (きゅーば) = Cuba
+[701] 玲
+      玲々 (れいれい) = tinkling (jewels, metal, etc.)
+      玲瓏 (れいろう) = clear
+      八面玲瓏 (はちめんれいろう) = beautiful from all sides
+[702] 珠
+      珠盤 (そろばん) = abacus
+      珠 (たま) = ball (i.e. a testicle)
+      真珠 (しんじゅ) = pearl
+[703] 班
+      班 (はん) = squad
+      西班牙 (すぺいん) = Spain
+      首班 (しゅはん) = head
+[704] 琉
+      琉球 (りゅうきゅう) = Ryukyu
+      琉璃 (るり) = beryl
+      琉歌 (りゅうか) = Okinawan fixed form poetry
+[705] 琢
+      琢く (みがく) = to refine (a skill, etc.)
+      琢磨 (たくま) = polish (jewels)
+      切瑳琢磨 (せっさたくま) = diligent application (to work or study)
+[706] 琳
+      琳派 (りんぱ) = Rimpa school (of painting, 17th-early 20th centu…
+      光琳派 (こうりんは) = Korin school
+[707] 琴
+      琴 (こと) = koto (13-stringed Japanese zither)
+      口琴 (びやぼん) = Edo-period mouth harp (with a hairpin-like frame…
+      琴柱 (ことじ) = bridge of a koto
+[708] 瑚
+      珊瑚 (さんご) = coral
+      珊瑚海 (さんごかい) = Coral Sea
+      脳珊瑚 (のうさんご) = brain coral
+[709] 瑛
+      玉瑛 (ぎょくえい) = crystal
+[710] 瑞
+      瑞典 (すうぇーでん) = Sweden
+      瑞西 (すいす) = Switzerland
+      瑞々しい (みずみずしい) = fresh and youthful
+[711] 瑠
+      浄瑠璃 (じょうるり) = jōruri
+      瑠璃 (るり) = beryl
+      人形浄瑠璃 (にんぎょうじょうるり) = Japanese puppet theatre in which recited narrati…
+[712] 瑳
+      切瑳琢磨 (せっさたくま) = diligent application (to work or study)
+      切瑳 (せっさ) = polishing (stones)
+[713] 瑶
+      瑶緘 (ようかん) = your letter
+      瑶顔 (ようがん) = beautiful face
+      瑶池 (ようち) = beautiful pond
+[714] 璃
+      浄瑠璃 (じょうるり) = jōruri
+      琉璃 (るり) = beryl
+      人形浄瑠璃 (にんぎょうじょうるり) = Japanese puppet theatre in which recited narrati…
+[715] 環
+      環境 (かんきょう) = environment
+      環境庁 (かんきょうちょう) = Environment Agency
+      一環 (いっかん) = monocyclic
+[716] 甚
+      甚い (いたい) = cringy
+      甚大 (じんだい) = very great
+      甚だ (はなはだ) = very
+[717] 甫
+      甫めて (はじめて) = for the first time
+      年甫 (ねんぽ) = beginning of the year
+      新甫 (しんぽ) = new futures on the first trading session of the …
+[718] 甲
+      甲板 (こうはん) = deck (of a ship)
+      甲斐 (かい) = Kai (former province located in present-day Yama…
+      やり甲斐 (やりがい) = being worth doing
+[719] 畔
+      湖畔 (こはん) = lake shore
+      河畔 (かはん) = riverside
+      畔 (あぜ) = ridge between grooves in threshold or lintel
+[720] 畝
+      畝り (うねり) = undulation
+      畝る (うねる) = to wind (of a road, river, etc.)
+      畝 (うね) = rib (cloth, mountains, sea)
+[721] 異
+      異例 (いれい) = exceptional
+      異常 (いじょう) = strangeness
+      異に (ことに) = additionally
+[722] 疎
+      疎か (おろそか) = negligent
+      疎ら (まばら) = sparse
+      意志疎通 (いしそつう) = (reciprocal) communication
+[723] 疫
+      免疫 (めんえき) = being hardened (to)
+      検疫 (けんえき) = quarantine
+      防疫 (ぼうえき) = communicable disease control (e.g. by quarantine…
+[724] 疾
+      疾っくに (とっくに) = long ago
+      疾患 (しっかん) = disease
+      疾る (はしる) = to run
+[725] 症
+      症 (しょう) = illness
+      症状 (しょうじょう) = symptoms
+      発症 (はっしょう) = outbreak of an illness
+[726] 痘
+      種痘 (しゅとう) = smallpox vaccination
+      天然痘 (てんねんとう) = smallpox
+      痘 (いも) = pockmark
+[727] 痢
+      下痢 (げり) = diarrhea
+      赤痢 (せきり) = dysentery
+      痢 (り) = diarrhea
+[728] 痴
+      方向音痴 (ほうこうおんち) = (person with) no sense of direction
+      痴ほう (ちほう) = dementia
+      愚痴 (ぐち) = moha (ignorance, folly)
+[729] 癒
+      癒着 (ゆちゃく) = adhesion
+      治癒 (ちゆ) = healing
+      全癒 (ぜんゆ) = complete healing
+[730] 癖
+      癖に (くせに) = and yet
+      口癖 (くちぐせ) = manner of talking
+      癖 (くせ) = habit (usu. a bad one)
+[731] 皇
+      天皇 (てんのう) = Emperor of Japan
+      皇太子 (こうたいし) = crown prince
+      皇后 (こうごう) = (Japanese) empress
+[732] 皐
+      皐月晴れ (さつきばれ) = fine weather during the rainy season
+      皐月 (さつき) = fifth month of the lunar calendar
+      皐月鱒 (さつきます) = sea-run variety of red-spotted masu trout (subsp…
+[733] 皓
+      皓月 (こうげつ) = bright white moon
+      皓歯 (こうし) = pearly white teeth
+      皓白 (こうはく) = pure white
+[734] 盆
+      盆 (ぼん) = gambler's den
+      盆栽 (ぼんさい) = bonsai
+      盆地 (ぼんち) = basin (e.g. between mountains)
+[735] 益
+      利益 (りえき) = profit
+      収益 (しゅうえき) = earnings
+      益 (ますます) = increasingly
+[736] 盛
+      盛り込む (もりこむ) = to fill (a vessel) with
+      盛ん (さかん) = popular
+      盛りつけ (もりつけ) = arrangement of food (on a dish)
+[737] 盟
+      加盟 (かめい) = joining (an association, agreement, etc.)
+      同盟 (どうめい) = alliance
+      聯盟 (れんめい) = league
+[738] 監
+      監督 (かんとく) = supervision
+      監視 (かんし) = monitoring
+      監査 (かんさ) = inspection
+[739] 盤
+      基盤 (きばん) = bedrock
+      終盤 (しゅうばん) = endgame
+      中盤 (ちゅうばん) = midfield (in soccer)
+[740] 盲
+      盲導犬 (もうどうけん) = guide dog
+      盲人 (もうじん) = blind person
+      盲目 (もうもく) = blindness
+[741] 盾
+      盾つく (たてつく) = to defy
+      矛盾 (むじゅん) = contradiction
+      盾 (たて) = shield
+[742] 眉
+      眉毛 (まゆげ) = eyebrow
+      眉 (まゆ) = eyebrow
+      焦眉 (しょうび) = emergency
+[743] 看
+      看護婦 (かんごふ) = (female) nurse
+      看護 (かんご) = nursing
+      看る (みる) = to look after (often medically)
+[744] 眸
+      眸 (ひとみ) = one's eyes
+      一眸 (いちぼう) = one sweep (of the eye)
+      明眸 (めいぼう) = bright or beautiful eyes
+[745] 眺
+      眺める (ながめる) = to look on (from the sidelines)
+      眺め (ながめ) = scene
+      眺望 (ちょうぼう) = prospect
+[746] 眼
+      眼 (まなこ) = pupil and (dark) iris of the eye
+      近眼 (きんがん) = nearsightedness
+      老眼 (ろうがん) = presbyopia
+[747] 睡
+      睡たい (ねむたい) = sleepy
+      睡眠 (すいみん) = sleep
+      睡 (ねむり) = death
+[748] 督
+      監督 (かんとく) = supervision
+      基督 (きりすと) = Christ
+      基督教 (きりすときょう) = Christianity
+[749] 睦
+      親睦 (しんぼく) = friendship
+      惇睦 (とんぼく) = cordial and friendly
+      睦言 (むつごと) = lovers' talk
+[750] 瞬
+      瞬間 (しゅんかん) = moment
+      瞬く (またたく) = to blink (one's eyes)
+      一瞬 (いっしゅん) = instant
+[751] 瞭
+      明瞭 (めいりょう) = clear
+      瞭然 (りょうぜん) = obvious
+      不明瞭 (ふめいりょう) = dimness
+[752] 瞳
+      瞳 (ひとみ) = one's eyes
+      瞳孔 (どうこう) = pupil (of the eye)
+      瞳子 (どうし) = pupil
+[753] 矛
+      矛楯 (むじゅん) = contradiction
+      矛先 (ほこさき) = force (of an argument)
+      矛 (ほこ) = grip of a bow
+[754] 矢
+      矢鱈 (やたら) = indiscriminate
+      矢張 (やはり) = still
+      矢っ張り (やっぱり) = still
+[755] 矯
+      矯正 (きょうせい) = correction (of a fault, defect, flaw, etc.)
+      奇矯 (ききょう) = eccentric
+      矯風 (きょうふう) = reform of morals
+[756] 砕
+      砕く (くだく) = to simplify
+      砕ける (くだける) = to be worried
+      火砕流 (かさいりゅう) = pyroclastic flow
+[757] 砲
+      発砲 (はっぽう) = firing
+      砲撃 (ほうげき) = bombarding
+      主砲 (しゅほう) = main battery
+[758] 硝
+      硝子 (がらす) = glass
+      硝子戸 (がらすど) = glass door
+      硝酸 (しょうさん) = nitric acid
+[759] 硫
+      硫黄 (いおう) = sulfur (S)
+      脱硫 (だつりゅう) = desulfurization
+      硫酸 (りゅうさん) = sulfuric acid
+[760] 碁
+      碁会所 (ごかいじょ) = commercial go-playing parlour (parlor)
+      囲碁 (いご) = go (board game)
+      碁 (ご) = go (board game)
+[761] 碑
+      碑 (いしぶみ) = stone monument bearing an inscription (esp. memo…
+      記念碑 (きねんひ) = commemorative plaque (usu. on a stone)
+      碑文 (ひぶん) = inscription
+[762] 碧
+      碧 (あお) = black (horse coat color)
+      碧い (あおい) = green
+      碧々 (あおあお) = verdant
+[763] 碩
+      碩儒 (せきじゅ) = (Confucian) scholar
+      碩老 (せきろう) = wise and learned elder
+      碩学 (せきがく) = great scholar
+[764] 磁
+      磁気 (じき) = magnetism
+      磁石 (じしゃく) = compass
+      陶磁器 (とうじき) = ceramics
+[765] 磯
+      磯 (いそ) = (rocky) beach
+      磯べ (いそべ) = food wrapped in nori
+      磯蟹 (いそがに) = Asian shore crab (Hemigrapsus sanguineus)
+[766] 礁
+      暗礁 (あんしょう) = unforeseen difficulty
+      岩礁 (がんしょう) = reef
+      坐礁 (ざしょう) = running aground
+[767] 礎
+      基礎 (きそ) = foundation
+      礎案 (そあん) = rough plan
+      礎 (いしずえ) = foundation stone
+[768] 祉
+      福祉 (ふくし) = welfare
+      老人福祉 (ろうじんふくし) = welfare for the aged
+      社会福祉 (しゃかいふくし) = social welfare
+[769] 祐
+      富祐 (ふゆう) = wealth
+      祐助 (ゆうじょ) = assistance
+      神祐 (しんゆう) = heavenly protection
+[770] 祥
+      不祥事 (ふしょうじ) = scandal
+      発祥 (はっしょう) = appearance of an auspicious sign that one will r…
+      発祥地 (はっしょうち) = birthplace (e.g. of jazz, Buddhism)
+[771] 票
+      投票 (とうひょう) = voting
+      国民投票 (こくみんとうひょう) = national referendum
+      開票 (かいひょう) = counting ballots
+[772] 禄
+      元禄 (げんろく) = Genroku era (1688.9.30-1704.3.13)
+      禄 (ろく) = stipend
+      禄高 (ろくだか) = (amount of a samurai's) stipend
+[773] 禅
+      禅 (ぜん) = Zen (Buddhism)
+      禅寺 (ぜんでら) = Zen temple
+      坐禅 (ざぜん) = zazen (seated Zen meditation, usu. in a cross-le…
+[774] 禍
+      コロナ禍 (ころなか) = COVID-19 pandemic
+      禍 (わざわい) = disaster
+      惨禍 (さんか) = calamity
+[775] 禎
+      嘉禎 (かてい) = Katei era (1235.9.19-1238.11.23)
+      禎祥 (ていしょう) = good omen
+[776] 秀
+      優秀 (ゆうしゅう) = superior
+      秀作 (しゅうさく) = excellent (piece of) work
+      秀逸 (しゅういつ) = excellent
+[777] 秘
+      秘書 (ひしょ) = (private) secretary
+      秘密 (ひみつ) = esoteric teachings
+      秘か (ひそか) = secret
+[778] 租
+      租税 (そぜい) = taxes
+      租界 (そかい) = concession
+      租 (そ) = annual tribute
+[779] 秦
+      秦 (しん) = Qin dynasty (of China; 221-207 BCE)
+      秦皮 (とねりこ) = Japanese ash (Fraxinus japonica)
+      先秦 (せんしん) = pre-Qin period (of China)
+[780] 秩
+      秩序 (ちつじょ) = order
+      無秩序 (むちつじょ) = disorder
+      秩禄 (ちつろく) = official salary
+[781] 称
+      正式名称 (せいしきめいしょう) = official name
+      名称 (めいしょう) = name
+      敬称 (けいしょう) = title of honour
+[782] 稀
+      稀薄 (きはく) = lacking (enthusiasm, consideration, substance, e…
+      稀少 (きしょう) = scarce
+      稀 (まれ) = seldom
+[783] 稔
+      稔り (みのり) = ripening (of a crop)
+      稔る (みのる) = to bear fruit
+      豊稔 (ほうねん) = bumper harvest
+[784] 稚
+      稚海藻 (わかめ) = wakame (species of edible brown seaweed, Undaria…
+      幼稚園 (ようちえん) = kindergarten
+      幼稚 (ようち) = infancy
+[785] 稜
+      稜 (りょう) = ridge (e.g. of a mountain)
+      稜堡 (りょうほ) = bastion
+      山稜 (さんりょう) = mountain ridge
+[786] 稲
+      稲 (いね) = rice plant (Oryza sativa)
+      稲作 (いなさく) = rice cultivation
+      水稲 (すいとう) = wet-land rice
+[787] 稼
+      馬稼 (ばか) = Mactra chinensis (species of trough shell)
+      出稼ぎ (でかせぎ) = working away from home (esp. abroad)
+      稼ぎ (かせぎ) = earnings
+[788] 稿
+      原稿 (げんこう) = manuscript
+      投稿 (とうこう) = contribution (to a newspaper, magazine, etc.)
+      原稿用紙 (げんこうようし) = Japanese writing paper (lined with a square grid…
+[789] 穀
+      穀物 (こくもつ) = grain
+      米穀 (べいこく) = rice
+      穀倉 (こくそう) = granary
+[790] 穂
+      穂 (ほ) = crest (of a wave)
+      稲穂 (いなほ) = ear (head) of rice
+      蔓穂 (つるぼ) = Scilla scilloides (species of squill)
+[791] 穏
+      穏健 (おんけん) = quiet
+      穏やか (おだやか) = moderate
+      平穏 (へいおん) = tranquil
+[792] 穣
+      穣 (じょう) = 10^28
+      豊穣 (ほうじょう) = abundant (grain) crop
+      豊穣の角 (ほうじょうのつの) = cornucopia
+[793] 穫
+      収穫 (しゅうかく) = catch (fishing)
+      穫る (とる) = to harvest (a crop)
+      収穫祭 (しゅうかくさい) = harvest festival
+[794] 穴
+      穴 (あな) = (partitioned) box (type of floor seating in a tr…
+      馬穴 (ばけつ) = bucket
+      穴うめ (あなうめ) = cloze deletion (test format)
+[795] 窃
+      窃か (ひそか) = secret
+      窃盗 (せっとう) = theft
+      窃視 (せっし) = peeping at (without permission)
+[796] 窒
+      窒素 (ちっそ) = nitrogen (N)
+      窒息 (ちっそく) = suffocation
+      窒塞 (ちっそく) = blocked
+[797] 窮
+      窮極 (きゅうきょく) = ultimate
+      窮地 (きゅうち) = dilemma
+      窮状 (きゅうじょう) = distress
+[798] 窯
+      窯 (かま) = stove
+      窯業 (ようぎょう) = ceramics
+      窯元 (かまもと) = potter
+[799] 竜
+      竜 (りゅう) = dragon (esp. a Chinese dragon)
+      恐竜 (きょうりゅう) = dinosaur
+      竜王 (りゅうおう) = Dragon King
+[800] 竣
+      竣功 (しゅんこう) = completion of construction
+      竣成 (しゅんせい) = completion
+      竣功式 (しゅんこうしき) = ceremony to mark completion
+[801] 端
+      簡端 (かんたん) = brief
+      端 (はし) = beginning
+      端書 (はがき) = postcard
+[802] 笙
+      笙 (しょう) = traditional Japanese wind instrument resembling …
+      鳳笙 (ほうしょう) = shō (Japanese free reed musical instrument)
+      笙歌 (しょうか) = singing and playing the shō
+[803] 笛
+      笛 (ふえ) = whistle
+      汽笛 (きてき) = steam whistle
+      口笛 (くちぶえ) = whistle (sound made with the lips)
+[804] 第
+      第 (だい) = prefix for forming ordinal numbers
+      第二 (だいに) = second
+      第一 (だいいち) = most important
+[805] 笹
+      笹 (ささ) = bamboo grass
+      笹原 (ささはら) = field of bamboo grass
+      雪笹 (ゆきざさ) = Maianthemum japonicum (species of monocot)
+[806] 筋
+      筋 (すじ) = gristly fish paste (made of muscle, tendons, ski…
+      売れ筋 (うれすじ) = popular line (of products)
+      売れ筋ランキング (うれすじらんきんぐ) = list of top-selling products
+[807] 策
+      政策 (せいさく) = political measures
+      対策 (たいさく) = measure
+      策戦 (さくせん) = military operation
+[808] 箇
+      箇別 (こべつ) = individual
+      箇 (こ) = counter for articles
+      箇国 (かこく) = counter for countries
+[809] 節
+      季節 (きせつ) = season
+      節 (ふし) = node
+      お節 (おせち) = osechi
+[810] 範
+      範囲 (はんい) = extent
+      広範 (こうはん) = wide
+      範 (はん) = example
+[811] 篤
+      危篤 (きとく) = critical condition
+      篤い (あつい) = abundant
+      重篤 (じゅうとく) = critical (condition)
+[812] 簿
+      名簿 (めいぼ) = register of names
+      帳簿 (ちょうぼ) = account book
+      家計簿 (かけいぼ) = household account book
+[813] 粋
+      純粋 (じゅんすい) = pure
+      粋 (いき) = familiar with worldly pleasures (esp. sexual rel…
+      生っ粋 (きっすい) = pure
+[814] 粗
+      粗品 (そしな) = gift given out by companies to customers as a to…
+      粗木 (あらき) = logs in bark
+      粗 (ほぼ) = almost
+[815] 粘
+      粘々 (ねばねば) = stickiness
+      粘り (ねばり) = stickiness
+      粘り強い (ねばりづよい) = sticky
+[816] 粛
+      自粛 (じしゅく) = self-restraint
+      厳粛 (げんしゅく) = grave
+      粛清 (しゅくせい) = (political) purge
+[817] 糖
+      砂糖 (さとう) = sugar
+      糖尿病 (とうにょうびょう) = diabetes
+      糖 (とう) = sugar
+[818] 糧
+      食糧 (しょくりょう) = food (esp. staple food such as rice or wheat)
+      食糧庁 (しょくりょうちょう) = food agency
+      兵糧 (ひょうろう) = (army) provisions
+[819] 系
+      理系 (りけい) = science
+      文系 (ぶんけい) = humanities, social sciences, and fine arts
+      日系 (にっけい) = (of) Japanese descent
+[820] 糾
+      糾す (ただす) = to ascertain
+      紛糾 (ふんきゅう) = complication
+      糾弾 (きゅうだん) = censure
+[821] 紀
+      紀念 (きねん) = memento
+      世紀 (せいき) = century
+      デボン紀 (でぼんき) = Devonian period
+[822] 紋
+      波紋 (はもん) = repercussions
+      指紋 (しもん) = fingerprint
+      紋様 (もんよう) = pattern
+[823] 納
+      納税 (のうぜい) = payment of taxes
+      納得 (なっとく) = consent
+      納入 (のうにゅう) = payment (of taxes, fees, etc.)
+[824] 紗
+      紗 (しゃ) = (silk) gauze
+      金紗 (きんしゃ) = silk crepe
+      薄紗 (はくさ) = delicate gauze
+[825] 紘
+      八紘 (はっこう) = the eight directions
+      八紘一宇 (はっこういちう) = universal brotherhood
+[826] 級
+      高級 (こうきゅう) = high-ranking
+      級 (きゅう) = (school) grade
+      フライ級 (ふらいきゅう) = fly-weight (boxer)
+[827] 紛
+      紛争 (ふんそう) = dispute
+      紛らす (まぎらす) = to conceal (e.g. one's grief with a smile)
+      珍紛漢紛 (ちんぷんかんぷん) = unintelligible language
+[828] 素
+      要素 (ようそ) = element (e.g. in array)
+      素材 (そざい) = subject matter
+      素 (もと) = cause
+[829] 紡
+      紡績 (ぼうせき) = spinning (textiles)
+      紡ぐ (つむぐ) = to spin
+      紡ぎ唄 (つむぎうた) = spinning song
+[830] 索
+      捜索 (そうさく) = legally authorized search of a person, building,…
+      検索条件 (けんさくじょうけん) = search criteria
+      摸索 (もさく) = groping (for)
+[831] 紫
+      紫 (むらさき) = soy sauce
+      紫外線 (しがいせん) = ultraviolet rays
+      紫色 (むらさきいろ) = purple
+[832] 紬
+      紬 (つむぎ) = tsumugi
+      絹紬 (けんちゅう) = pongee (unbleached silk)
+      白紬 (しろつむぎ) = white pongee
+[833] 累
+      累積 (るいせき) = accumulation
+      累計 (るいけい) = cumulative total
+      累進 (るいしん) = increasing progressively (of income tax, etc.)
+[834] 紳
+      紳士 (しんし) = gentleman
+      紳士協定 (しんしきょうてい) = gentlemen's agreement
+      紳士的 (しんしてき) = gentlemanly
+[835] 紺
+      紺屋 (こんや) = dyer
+      紺 (こん) = navy blue
+      濃紺 (のうこん) = dark blue
+[836] 絃
+      絃楽 (げんがく) = music for strings
+      絃 (つる) = bail (arched pot handle)
+      管絃楽 (かんげんがく) = orchestral music
+[837] 結
+      結果 (けっか) = bearing fruit
+      結婚 (けっこん) = marriage
+      結論 (けつろん) = conclusion
+[838] 絞
+      お絞り (おしぼり) = wet towel (supplied at table)
+      絞りこむ (しぼりこむ) = to narrow down
+      絞る (しぼる) = to stop down (lens)
+[839] 絢
+      絢爛 (けんらん) = gorgeous
+      絢文 (けんぶん) = colorful pattern
+      絢緞子 (あやどんす) = damask
+[840] 統
+      統一 (とういつ) = unity
+      大統領 (だいとうりょう) = president (of a nation)
+      伝統 (でんとう) = tradition
+[841] 絹
+      絹 (きぬ) = silk
+      絹織物 (きぬおりもの) = silk goods
+      絹布 (けんぷ) = silk
+[842] 継
+      継続 (けいぞく) = continuation
+      後継 (こうけい) = succession
+      中継 (ちゅうけい) = relay broadcasting
+[843] 綜
+      綜合 (そうごう) = synthesis
+      綜理 (そうり) = prime minister (as the head of a cabinet governm…
+      綜括 (そうかつ) = review (by labour or political movements of past…
+[844] 維
+      維持 (いじ) = maintenance
+      維 (これ) = here
+      線維 (せんい) = fibre
+[845] 綱
+      横綱 (よこづな) = grand champion
+      大綱 (たいこう) = fundamental principles
+      要綱 (ようこう) = main principle
+[846] 網
+      通信網 (つうしんもう) = communications network
+      網膜 (もうまく) = retina
+      金網 (かなあみ) = wire netting
+[847] 綸
+      綸子 (りんず) = figured satin
+      綸言 (りんげん) = imperial words
+      綸旨 (りんじ) = the Emperor's command
+[848] 綺
+      綺麗 (きれい) = completely
+      綺羅びやか (きらびやか) = gorgeous
+      綺 (かにはた) = thin twilled silk fabric
+[849] 綾
+      綾 (あや) = cat's cradle
+      綾取 (あやとり) = cat's cradle
+      綾子 (りんず) = figured satin
+[850] 緊
+      緊急 (きんきゅう) = urgency
+      緊張 (きんちょう) = tensions (between countries, groups, etc.)
+      緊々 (ひしひし) = tightly
+[851] 緋
+      緋 (あか) = Red (i.e. communist)
+      緋梅 (ひばい) = Hibai Japanese apricot
+      深緋 (ふかひ) = deep scarlet
+[852] 締
+      取締役 (とりしまりやく) = company director
+      締結 (ていけつ) = fastening (as in a joint)
+      取締役会 (とりしまりやくかい) = board of directors
+[853] 緩
+      緩和 (かんわ) = relief
+      緩い (ぬるい) = lenient
+      緩める (ゆるめる) = to make more gradual (of a slope)
+[854] 緯
+      経緯 (けいい) = longitude and latitude
+      北緯 (ほくい) = north latitude
+      緯度 (いど) = latitude (nav.)
+[855] 縁
+      縁 (よし) = piece of information that one has heard
+      無縁 (むえん) = unrelated to the teachings of Buddha
+      血縁 (けつえん) = blood relative
+[856] 縄
+      沖縄 (おきなわ) = Okinawa (city, prefecture)
+      縄文 (じょうもん) = Jōmon period (ca. 14000-1000 BCE)
+      縄張 (なわばり) = territory (of an animal)
+[857] 縛
+      縛る (しばる) = to restrict (freedom)
+      縛り首 (しばりくび) = (death by) hanging
+      呪縛 (じゅばく) = spell (that restricts one's movements)
+[858] 縦
+      縦横 (たてよこ) = length and breadth
+      操縦 (そうじゅう) = management (of people)
+      縦 (たて) = (weaving) warp
+[859] 縫
+      縫成 (ほうせい) = sewing (by machine)
+      縫う (ぬう) = to weave one's way (e.g. through a crowd)
+      縫いぐるみ (ぬいぐるみ) = stuffed toy
+[860] 縮
+      軍縮 (ぐんしゅく) = reduction of armaments
+      縮れる (ちぢれる) = to be wavy
+      縮める (ちぢめる) = to crumple (fabric)
+[861] 繁
+      繁栄 (はんえい) = prosperity
+      頻繁 (ひんぱん) = frequent
+      繁殖 (はんしょく) = breeding
+[862] 繊
+      繊維 (せんい) = fibre
+      化繊 (かせん) = synthetic fiber
+      繊細 (せんさい) = sensitive
+[863] 織
+      組織 (そしき) = system (e.g. railroad, transport, party, etc.)
+      組織的 (そしきてき) = systematic
+      織物 (おりもの) = textile
+[864] 繕
+      繕う (つくろう) = to treat (illness, injury, etc.)
+      修繕 (しゅうぜん) = repair
+      営繕 (えいぜん) = maintenance and repair
+[865] 繭
+      繭 (まゆ) = cocoon
+      産繭 (さんけん) = (silkworm) cocoon production
+      山繭 (てんさん) = Japanese oak silkmoth (Antheraea yamamai)
+[866] 繰
+      やり繰り (やりくり) = making do
+      引っ繰り返る (ひっくりかえる) = to be overturned
+      繰り返し (くりかえし) = repeatedly
+[867] 罰
+      罰 (ばつ) = punishment
+      賞罰 (しょうばつ) = reward and punishment
+      罰金 (ばっきん) = fine
+[868] 罷
+      罷む (やむ) = to cease
+      罷免 (ひめん) = dismissal (from a position)
+      罷める (やめる) = to resign
+[869] 羅
+      羅馬 (ろーま) = Rome
+      羅典語 (らてんご) = Latin (language)
+      天婦羅 (てんぷら) = tempura
+[870] 羊
+      仔羊 (こひつじ) = lamb
+      羊 (ひつじ) = sheep (Ovis aries)
+      羊毛 (ようもう) = wool
+[871] 義
+      論義 (ろんぎ) = discussion
+      義 (ぎ) = meaning
+      主義 (しゅぎ) = doctrine
+[872] 翁
+      翁 (おう) = old man
+      翁貝 (おきながい) = lantern shell
+      仙翁 (せんのう) = lychnis (Lychnis senno)
+[873] 翔
+      翔ける (かける) = to run
+      翔ぶ (とぶ) = to come flying (of a punch, kick, etc.)
+      飛翔 (ひしょう) = flight
+[874] 翠
+      翠 (みどり) = green
+      翠色 (みどりいろ) = green
+      翠屋 (みどりや) = Midoriya
+[875] 翻
+      翻す (こぼす) = to let (one's feelings) show
+      翻訳 (ほんやく) = translation
+      翻意 (ほんい) = changing one's mind
+[876] 翼
+      右翼 (うよく) = right wing (in soccer, rugby, etc.)
+      左翼 (さよく) = left wing (in soccer, rugby, etc.)
+      翼 (つばさ) = Chinese "Wings" constellation (one of the 28 man…
+[877] 耀
+      耀く (かがやく) = to light up (with happiness, hope, etc.)
+      耀き (かがやき) = brightness
+      耀かしい (かがやかしい) = brilliant
+[878] 耐
+      耐える (たえる) = to be fit for
+      耐久 (たいきゅう) = endurance
+      忍耐 (にんたい) = endurance
+[879] 耗
+      消耗 (しょうもう) = exhaustion
+      消耗品 (しょうもうひん) = consumable goods
+      摩耗 (まもう) = wear
+[880] 耶
+      有耶無耶 (うやむや) = indefinite
+      耶嬢 (やじょう) = father and mother
+      伽耶 (かや) = Kaya (ancient Korean confederacy)
+[881] 聖
+      棋聖 (きせい) = great master of go
+      聖域 (せいいき) = issue that is regarded as being off-limits
+      聖書 (せいしょ) = Bible
+[882] 聡
+      聡明 (そうめい) = wise
+      聡敏 (そうびん) = sagacity
+      聡い (さとい) = clever
+[883] 聴
+      聴取 (ちょうしゅ) = listening (e.g. to the radio)
+      聴す (ゆるす) = to acknowledge
+      聴く (きく) = to hear
+[884] 肇
+      肇歳 (ちょうさい) = beginning of the year
+      肇国 (ちょうこく) = founding of a state
+      肇造 (ちょうぞう) = establishment
+[885] 肖
+      肖像 (しょうぞう) = portrait
+      不肖 (ふしょう) = unworthy (of one's father, teacher, etc.)
+      肖る (あやかる) = to be named after
+[886] 肝
+      肝 (きも) = liver
+      肝臓 (かんぞう) = liver
+      肝心 (かんじん) = essential
+[887] 肢
+      肢 (あし) = bottom structural component (i.e. radical) of a …
+      選択肢 (せんたくし) = choices
+      肢体 (したい) = limbs
+[888] 肥
+      肥満 (ひまん) = corpulence
+      肥料 (ひりょう) = manure
+      肥大 (ひだい) = hypertrophy
+[889] 肪
+      脂肪酸 (しぼうさん) = fatty acid
+      脂肪体 (しぼうたい) = corpus adiposum
+      脂肪質 (しぼうしつ) = fatty
+[890] 肺
+      肺 (はい) = lung
+      肺炎 (はいえん) = pneumonia
+      肺血症 (はいけつしょう) = sepsis
+[891] 胆
+      胆 (きも) = liver
+      大胆 (だいたん) = bold
+      落胆 (らくたん) = discouragement
+[892] 胎
+      胎む (はらむ) = to be swollen and ripe (of a plant ear, head, sp…
+      胎仔 (たいじ) = fetus
+      胎内 (たいない) = interior of a Buddhistic statue
+[893] 胞
+      細胞 (さいぼう) = cell
+      細胞内 (さいぼうない) = inside the cell
+      同胞 (どうほう) = brethren
+[894] 胡
+      胡瓜 (きゅうり) = cucumber (Cucumis sativus)
+      胡椒 (こしょう) = pepper
+      胡坐 (あぐら) = sitting cross-legged (i.e. Indian style)
+[895] 胤
+      胤 (たね) = issue
+      皇胤 (こういん) = Imperial descendant (posterity)
+      落胤 (らくいん) = nobleman's illegitimate child
+[896] 胴
+      胴 (どう) = dealer
+      胴体 (どうたい) = body
+      胴像 (どうぞう) = bronze statue
+[897] 脅
+      脅威 (きょうい) = threat
+      脅える (おびえる) = to become frightened
+      脅かす (おびやかす) = to intimidate
+[898] 脈
+      人脈 (じんみゃく) = personal connections
+      山脈 (さんみゃく) = mountain range
+      動脈 (どうみゃく) = artery
+[899] 脚
+      脚 (あし) = bottom structural component (i.e. radical) of a …
+      脚本 (きゃくほん) = script
+      左脚 (ひだりあし) = left foot
+[900] 脩
+      脩竹 (しゅうちく) = tall bamboo
+      束脩 (そくしゅう) = gift of dried meat from a new vassal or pupil
+[901] 脱
+      脱税 (だつぜい) = tax evasion
+      脱衣所 (だついじょ) = changing room (at a bathhouse, swimming pool, et…
+      脱ける (ぬける) = to exit (a program loop)
+[902] 脹
+      脹れる (はれる) = to swell (from inflammation)
+      膨脹 (ぼうちょう) = expansion
+      脹らむ (ふくらむ) = to expand
+[903] 腐
+      腐敗 (ふはい) = corruption
+      豆腐 (とうふ) = tofu
+      腐心 (ふしん) = taking great pains (to do)
+[904] 腸
+      腸 (ちょう) = guts
+      大腸 (だいちょう) = large intestine
+      胃腸 (いちょう) = stomach and intestines
+[905] 膜
+      膜 (まく) = membrane
+      網膜 (もうまく) = retina
+      粘膜 (ねんまく) = mucous membrane
+[906] 膨
+      膨大 (ぼうだい) = swelling
+      膨張 (ぼうちょう) = expansion
+      膨れる (ふくれる) = to get cross
+[907] 臨
+      臨時 (りんじ) = special
+      臨く (のぞく) = to face
+      臨床 (りんしょう) = clinical (e.g. pathology, physiology)
+[908] 臭
+      臭う (におう) = to be fragrant
+      臭い (くさい) = smelling of
+      水臭い (みずくさい) = watery (alcohol, coffee, etc.)
+[909] 至
+      冬至 (とうじ) = winter solstice
+      必至 (ひっし) = brinkmate (inevitable checkmate)
+      至って (いたって) = very much
+[910] 致
+      一致 (いっち) = union
+      雅致 (がち) = artistry
+      拉致 (らち) = taking captive
+[911] 興
+      振興 (しんこう) = promotion
+      興味 (きょうみ) = interest (in something)
+      復興 (ふっこう) = revival
+[912] 舌
+      猫舌 (ねこじた) = dislike of very hot food or drink
+      舌 (した) = tongue
+      弁舌 (べんぜつ) = speech
+[913] 舎
+      庁舎 (ちょうしゃ) = government office building
+      宿舎 (しゅくしゃ) = housing (for government employees)
+      校舎 (こうしゃ) = school building
+[914] 舗
+      店舗 (てんぽ) = shop
+      老舗 (しにせ) = long-established shop
+      舗装 (ほそう) = paving (a road)
+[915] 舜
+[916] 舶
+      船舶 (せんぱく) = vessel
+      舶来 (はくらい) = imported
+      舶 (つむ) = large ship
+[917] 艇
+      艦艇 (かんてい) = naval vessels
+      競艇 (きょうてい) = kyōtei
+      漕艇 (そうてい) = rowing
+[918] 艦
+      艦 (かん) = warship
+      艦隊 (かんたい) = (naval) fleet
+      潜水艦 (せんすいかん) = submarine
+[919] 艶
+      艶々 (つやつや) = glossy
+      艶歌 (えんか) = troubadour
+      艶 (つや) = mellowness (of a voice)
+[920] 芋
+      焼き芋 (やきいも) = roasted sweet potato
+      ジャガ芋 (じゃがいも) = potato (Solanum tuberosum)
+      さつま芋 (さつまいも) = sweet potato (Ipomoea batatas)
+[921] 芙
+      芙蓉 (ふよう) = lotus blossom
+      芙蓉峰 (ふようほう) = Mount Fuji
+      唐芙蓉 (とうふよう) = Okinawan-style fermented tofu
+[922] 芝
+      芝 (しば) = lawn
+      芝居 (しばい) = play
+      芝生 (しばふ) = lawn
+[923] 芳
+      芳ばしい (こうばしい) = aromatic (roasted beans, roasted tea, etc.)
+      芳香 (ほうこう) = perfume
+      芳しい (かんばしい) = good (reputation, condition, results, etc.)
+[924] 芹
+      芹科 (せりか) = Apiaceae (parsley family of plants)
+      浜芹 (はまぜり) = Cnidium japonicum (species of umbellifer)
+      毒芹 (どくぜり) = Mackenzie's water hemlock (Cicuta virosa)
