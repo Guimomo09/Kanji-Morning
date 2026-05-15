@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **15 Mai 2026** · Vocab Reels script + edge-tts + 5 slides ✅
+> Dernière mise à jour: **15 Mai 2026** · Vocab Reels — VOCAB_SENTENCE_OVERRIDE + formes dictionnaire ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -342,7 +342,10 @@ kanji.guimo-prod.com {
   - Output : `vocab-cards/reels/{word}.mp4` (flat)
 - [x] VPS : kanji reels déplacés dans `/reels/n5/` (79 MP4)
 - [x] Génération 80 reels vocab lancée → `vocab-cards/reels/` (`vocab-gen.log`)
-- [ ] Génération vocab N4/N3/N2/N1 à lancer
+- [x] **VOCAB_SENTENCE_OVERRIDE** — 80 phrases desu/masu curatées (voyage/quotidien) · priorité sur Tatoeba
+- [x] **WORD_DICT_FORM** — 22 stems → formes dictionnaire (分か→分かる, 食べ→食べる, 行け→行く…)
+- [x] Lecture + définition + TTS basés sur la forme dictionnaire (plus de `わか` ni `分か` dans les slides)
+- [ ] Génération 80 reels complète à terminer (8/80 faits)
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)

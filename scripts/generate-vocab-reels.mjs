@@ -236,6 +236,117 @@ function applyFadeOut(inp, out, videoDur, fadeDur = 1.5) {
   if (r.status !== 0) throw new Error('applyFadeOut failed');
 }
 
+// ── Dictionary forms for verb/adj stems from FREQ_MAP ───────────────────────
+const WORD_DICT_FORM = {
+  '分か':   '分かる',
+  '出来':   '出来る',
+  '教え':   '教える',
+  '入れ':   '入れる',
+  '行け':   '行く',
+  '生き':   '生きる',
+  '止め':   '止める',
+  '連れ':   '連れる',
+  '起き':   '起きる',
+  '起こ':   '起こる',
+  '食べ':   '食べる',
+  '続け':   '続ける',
+  '始め':   '始める',
+  '調べ':   '調べる',
+  '下さ':   'ください',
+  '楽し':   '楽しい',
+  '感じ':   '感じる',
+  '変わ':   '変わる',
+  '聞こえ': '聞こえる',
+  '与え':   '与える',
+  '開け':   '開ける',
+  '離れ':   '離れる',
+};
+
+// ── Curated desu/masu sentences (priority over Tatoeba) ─────────────────────
+const VOCAB_SENTENCE_OVERRIDE = {
+  '彼女':   { jp: '彼女は私の友達です。',           en: 'She is my friend.' },
+  'お前':   { jp: 'お前のことが心配です。',           en: "I'm worried about you." },
+  '分か':   { jp: '少し分かります。',                en: 'I understand a little.' },
+  '必要':   { jp: 'パスポートが必要です。',           en: 'A passport is necessary.' },
+  '大丈夫': { jp: '大丈夫ですか。',                  en: 'Are you alright?' },
+  '自分':   { jp: '自分でやります。',                en: "I'll do it myself." },
+  '本当':   { jp: '本当ですか。',                    en: 'Really?' },
+  '時間':   { jp: '時間がありますか。',              en: 'Do you have time?' },
+  '我々':   { jp: '我々は一緒に行きます。',           en: "We'll go together." },
+  '仕事':   { jp: '仕事で日本に来ました。',           en: 'I came to Japan for work.' },
+  '一緒':   { jp: '一緒に行きましょう。',            en: "Let's go together." },
+  '出来':   { jp: '予約が出来ます。',                en: 'A reservation is possible.' },
+  '電話':   { jp: '電話してもいいですか。',           en: 'May I call you?' },
+  '同じ':   { jp: '同じものをください。',            en: 'Please give me the same thing.' },
+  '場所':   { jp: 'この場所は静かです。',            en: 'This place is quiet.' },
+  '問題':   { jp: '問題ありません。',                en: 'No problem.' },
+  '子供':   { jp: '子供が二人います。',              en: 'I have two children.' },
+  '名前':   { jp: 'お名前は何ですか。',              en: 'What is your name?' },
+  '少し':   { jp: '少し待ってください。',            en: 'Please wait a little.' },
+  '全て':   { jp: '全てわかりました。',              en: 'I understand everything.' },
+  '世界':   { jp: '世界中を旅したいです。',           en: 'I want to travel the whole world.' },
+  '教え':   { jp: '道を教えてください。',            en: 'Please tell me the way.' },
+  '通り':   { jp: 'この通りを真っ直ぐ行きます。',    en: 'Go straight down this street.' },
+  '来る':   { jp: '友達が来ます。',                  en: 'My friend is coming.' },
+  '入れ':   { jp: '荷物をここに入れてください。',    en: 'Please put your luggage here.' },
+  '人間':   { jp: '人間は言葉を使います。',          en: 'Humans use language.' },
+  '行け':   { jp: '今すぐ行けますか。',              en: 'Can you go right now?' },
+  '今日':   { jp: '今日はいい天気です。',            en: 'The weather is nice today.' },
+  '生き':   { jp: '毎日楽しく生きています。',        en: "I'm living happily every day." },
+  '止め':   { jp: 'ここで止めてください。',          en: 'Please stop here.' },
+  '心配':   { jp: '心配しないでください。',          en: "Please don't worry." },
+  '連れ':   { jp: '友達を連れてきます。',            en: "I'll bring a friend along." },
+  '関係':   { jp: '私たちはいい関係です。',          en: 'We have a good relationship.' },
+  '家族':   { jp: '家族と旅行します。',              en: "I'm traveling with my family." },
+  '起き':   { jp: '毎朝六時に起きます。',            en: 'I wake up at six every morning.' },
+  '意味':   { jp: 'この言葉の意味は何ですか。',      en: 'What does this word mean?' },
+  '警察':   { jp: '警察に連絡します。',              en: "I'll contact the police." },
+  '最後':   { jp: '最後の電車に乗ります。',          en: "I'll take the last train." },
+  '息子':   { jp: '息子は学校に行っています。',      en: 'My son is at school.' },
+  '全部':   { jp: '全部でいくらですか。',            en: 'How much is it in total?' },
+  '捜査':   { jp: '警察が捜査しています。',          en: 'The police are investigating.' },
+  '起こ':   { jp: '朝、私を起こしてください。',      en: 'Please wake me up in the morning.' },
+  '感じ':   { jp: 'いい感じです。',                  en: 'It feels good.' },
+  '情報':   { jp: '情報をありがとうございます。',    en: 'Thank you for the information.' },
+  '理由':   { jp: '理由を教えてください。',          en: 'Please tell me the reason.' },
+  '一人':   { jp: '一人で来ました。',                en: 'I came alone.' },
+  '部屋':   { jp: '部屋はきれいです。',              en: 'The room is clean.' },
+  '以上':   { jp: '説明は以上です。',                en: "That's all for the explanation." },
+  '人生':   { jp: '人生は短いです。',                en: 'Life is short.' },
+  '食べ':   { jp: '毎日ご飯を食べます。',            en: 'I eat rice every day.' },
+  '女性':   { jp: 'あの女性は先生です。',            en: 'That woman is a teacher.' },
+  '続け':   { jp: '毎日練習を続けます。',            en: "I'll keep practicing every day." },
+  '事件':   { jp: '事件が起きました。',              en: 'An incident occurred.' },
+  '始め':   { jp: '日本語の勉強を始めました。',      en: 'I started studying Japanese.' },
+  '最初':   { jp: '最初はむずかしいです。',          en: "It's difficult at first." },
+  '連絡':   { jp: '後で連絡します。',                en: "I'll contact you later." },
+  '調べ':   { jp: 'インターネットで調べます。',      en: "I'll look it up on the internet." },
+  '安全':   { jp: 'ここは安全です。',                en: "It's safe here." },
+  '下さ':   { jp: 'もう少し待って下さい。',          en: 'Please wait a little longer.' },
+  '楽し':   { jp: '旅行はとても楽しかったです。',    en: 'The trip was very enjoyable.' },
+  '殺人':   { jp: '殺人事件のニュースを見ました。',  en: 'I saw news of a murder case.' },
+  '友達':   { jp: '友達と話しています。',            en: "I'm talking with a friend." },
+  '約束':   { jp: '約束を守ります。',                en: "I'll keep my promise." },
+  '結婚':   { jp: '来年結婚します。',                en: "I'll get married next year." },
+  '無理':   { jp: '無理はしないでください。',        en: "Please don't overdo it." },
+  '感じ':   { jp: 'いい感じです。',                  en: 'It feels good.' },
+  '最高':   { jp: 'この景色は最高です。',            en: 'This view is the best.' },
+  '計画':   { jp: '旅行の計画を立てました。',        en: 'I made travel plans.' },
+  '仲間':   { jp: '仲間と一緒に働きます。',          en: 'I work together with my colleagues.' },
+  '可能':   { jp: '予約は可能ですか。',              en: 'Is a reservation possible?' },
+  '明日':   { jp: '明日、また来ます。',              en: "I'll come again tomorrow." },
+  '変わ':   { jp: '計画が変わりました。',            en: 'The plan has changed.' },
+  '聞こえ': { jp: 'よく聞こえません。',              en: "I can't hear well." },
+  '確認':   { jp: '予約を確認してください。',        en: 'Please confirm the reservation.' },
+  '与え':   { jp: '子供に本を与えます。',            en: 'I give a book to the child.' },
+  '全員':   { jp: '全員が集まりました。',            en: 'Everyone gathered.' },
+  '理解':   { jp: 'よく理解できました。',            en: 'I understood well.' },
+  '二人':   { jp: '二人で旅行します。',              en: "We're traveling together." },
+  '開け':   { jp: 'ドアを開けてください。',          en: 'Please open the door.' },
+  '友人':   { jp: '友人に会いました。',              en: 'I met a friend.' },
+  '離れ':   { jp: '少し離れてください。',            en: 'Please step back a little.' },
+};
+
 // ── Tatoeba ───────────────────────────────────────────────────────────────────
 // Patterns suggestifs/crus à exclure
 const BLOCKLIST = /寝た|寝る|殺|死ん|殴|暴力|セックス|裸|下着|酔っ|クソ|バカ|馬鹿|ふざけ/;
@@ -244,21 +355,18 @@ const POLITE_END = /(ます|ました|ません|ませんでした|です|でし
 
 async function fetchExample(word) {
   try {
-    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=50&sort=relevance`;
+    const url = `https://tatoeba.org/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=100&sort=relevance`;
     const res = await fetch(url);
     if (!res.ok) return null;
     const data = await res.json();
-    const candidates = [];
     for (const s of (data.results || [])) {
       const jp = s.text?.trim(), en = s.translations?.[0]?.[0]?.text?.trim();
       if (!jp || !en || !jp.includes(word)) continue;
       if (jp.length > 45 || jp.replace(/[。！？\s、]/g, '').length < 5) continue;
       if (BLOCKLIST.test(jp)) continue;
-      candidates.push({ jp, en, polite: POLITE_END.test(jp) });
+      if (!POLITE_END.test(jp)) continue; // ← polite only, no fallback
+      return { jp, en };
     }
-    // Priorité : desu/masu d'abord, puis n'importe quelle phrase valide
-    const polite = candidates.find(c => c.polite);
-    return polite || candidates[0] || null;
   } catch {}
   return null;
 }
@@ -419,13 +527,13 @@ for (const word of targetWords) {
 
   console.log(`Processing ${word}...`);
   try {
-    const reading = await getReading(word);
-    const def     = (JMDICT[word]?.en || word).split(',').slice(0, 3).join(', ');
+    const disp    = WORD_DICT_FORM[word] || word;
+    const reading = await getReading(disp);
+    const def     = (JMDICT[disp]?.en || JMDICT[word]?.en || disp).split(',').slice(0, 3).join(', ');
     console.log(`   ${reading}  —  ${def}`);
-
-    const example = await fetchExample(word);
-    const exJp = example?.jp || `${word}を使った文です。`;
-    const exEn = example?.en || '';
+    const example = VOCAB_SENTENCE_OVERRIDE[word] || await fetchExample(word);
+    const exJp = example?.jp || `${disp}はよく使われます。`;
+    const exEn = example?.en || `"${disp}" is commonly used.`;
     console.log(`   ex: ${exJp}`);
     const jpH = await toFuriganaHTML(exJp, word);
 
@@ -434,8 +542,8 @@ for (const word of targetWords) {
     const mp3w1 = join(TMP, `${word}_w1.mp3`);
     const mp3w2 = join(TMP, `${word}_w2.mp3`);
     const mp3ex = join(TMP, `${word}_ex.mp3`);
-    await tts(word, mp3w1);
-    await tts(word, mp3w2);
+    await tts(disp, mp3w1);
+    await tts(disp, mp3w2);
     await tts(exJp, mp3ex);
 
     // Audio per segment
@@ -456,7 +564,7 @@ for (const word of targetWords) {
     prependSilence(mp3ex, a4pre, 0.6); padAudio(a4pre, a4, BRUTS[4]);
 
     // Prog slide params (même layout, visibilité variable)
-    const progBase = { word, reading, def, jpH, exJp, exEn };
+    const progBase = { word: disp, reading, def, jpH, exJp, exEn };
 
     // Render slides
     console.log('   slides...');
