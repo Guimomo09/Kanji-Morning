@@ -262,6 +262,12 @@ const WORD_DICT_FORM = {
   '離れ':   '離れる',
 };
 
+// ── Definition overrides (fix bad/inappropriate JMDICT entries) ──────────────
+const WORD_DEF_OVERRIDE = {
+  '息子': 'son',
+  '仲間': 'companion, colleague, fellow',
+};
+
 // ── Curated desu/masu sentences (priority over Tatoeba) ─────────────────────
 const VOCAB_SENTENCE_OVERRIDE = {
   '彼女':   { jp: '彼女は私の友達です。',           en: 'She is my friend.' },
@@ -529,7 +535,7 @@ for (const word of targetWords) {
   try {
     const disp    = WORD_DICT_FORM[word] || word;
     const reading = await getReading(disp);
-    const def     = (JMDICT[disp]?.en || JMDICT[word]?.en || disp).split(',').slice(0, 3).join(', ');
+    const def     = WORD_DEF_OVERRIDE[word] || WORD_DEF_OVERRIDE[disp] || (JMDICT[disp]?.en || JMDICT[word]?.en || disp).split(',').slice(0, 3).join(', ');
     console.log(`   ${reading}  —  ${def}`);
     const example = VOCAB_SENTENCE_OVERRIDE[word] || await fetchExample(word);
     const exJp = example?.jp || `${disp}はよく使われます。`;
@@ -540,22 +546,20 @@ for (const word of targetWords) {
     // TTS
     console.log('   TTS...');
     const mp3w1 = join(TMP, `${word}_w1.mp3`);
-    const mp3w2 = join(TMP, `${word}_w2.mp3`);
     const mp3ex = join(TMP, `${word}_ex.mp3`);
     await tts(disp, mp3w1);
-    await tts(disp, mp3w2);
     await tts(exJp, mp3ex);
 
     // Audio per segment
     const a0 = join(TMP, `${word}_a0.mp3`); silence(a0, BRUTS[0]);
 
-    const a1pre = join(TMP, `${word}_a1pre.mp3`);
-    const a1    = join(TMP, `${word}_a1.mp3`);
-    prependSilence(mp3w1, a1pre, 0.3); padAudio(a1pre, a1, BRUTS[1]);
+    // ProgA (kanji only) — silent
+    const a1 = join(TMP, `${word}_a1.mp3`); silence(a1, BRUTS[1]);
 
+    // ProgB (reading revealed) — voice plays here
     const a2pre = join(TMP, `${word}_a2pre.mp3`);
     const a2    = join(TMP, `${word}_a2.mp3`);
-    prependSilence(mp3w2, a2pre, 0.3); padAudio(a2pre, a2, BRUTS[2]);
+    prependSilence(mp3w1, a2pre, 0.3); padAudio(a2pre, a2, BRUTS[2]);
 
     const a3 = join(TMP, `${word}_a3.mp3`); silence(a3, BRUTS[3]);
 
@@ -616,8 +620,8 @@ for (const word of targetWords) {
 
     // Cleanup
     for (const f of [
-      mp3w1, mp3w2, mp3ex,
-      a0, a1pre, a1, a2pre, a2, a3, a4pre, a4,
+      mp3w1, mp3ex,
+      a0, a1, a2pre, a2, a3, a4pre, a4,
       p(0), p(1), p(2), p(3), p(4),
       s(0), s(1), s(2), s(3), s(4), s(5),
     ]) { try { unlinkSync(f); } catch {} }
