@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **14 Mai 2026** · Reels 33s + BGM Chili Crisp + timings dynamiques ✅
+> Dernière mise à jour: **15 Mai 2026** · Vocab Reels script + edge-tts + 5 slides ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -326,6 +326,23 @@ kanji.guimo-prod.com {
 - [x] `generate-kanji-cards.mjs` : output portrait `tiktok/` → `reels/`
 - [x] `generate-reels.mjs` : lit depuis `reels/` (was `tiktok/`) · output MP4 dans `reels/` (was `real/`)
 - [x] 4 phrases trop longues N4 fixées (使/医/英/試 ≤ 20 chars) + 3 doublons EN corrigés (酒/衝/賀)
+
+**Vocab Reels — 15 Mai 2026**
+- [x] `scripts/generate-vocab-reels.mjs` — design progressif positions fixes (3ème version)
+  - **edge-tts** `ja-JP-NanamiNeural`
+  - **6 slides** xfade 0.5s : hook (3s) → ProgA mot (3s) → ProgB +lecture (3s) → ProgC +def (4s) → ProgD +exemple (6s) → CTA (7s) = **~26s** + fade out 1.5s
+  - `visibility:hidden` (espace réservé) → aucun déplacement lors des transitions
+  - Fond dégradé rouge `#c03a20 → #8b2510` · logo header centré sur chaque slide
+  - Mot prononcé ProgA (0.3s silence) + ProgB (0.3s silence) · exemple prononcé ProgD (0.6s silence)
+  - Exemple réel depuis **Tatoeba** API · mot surligné en `#ffe0b2`
+  - **Furigana kuromoji** sur la phrase exemple (ruby HTML) · lecture masquée sur le mot principal
+  - **CTA HTML** — slide rouge "Make Japanese part of your daily routine." + asanokanji.com
+  - Fade to black 1.5s sur la fin du CTA
+  - CLI : `--words`, `--from-kanji`, `--level`, `--count`, `--bgm-vol`, `--dry-run`
+  - Output : `vocab-cards/reels/{word}.mp4` (flat)
+- [x] VPS : kanji reels déplacés dans `/reels/n5/` (79 MP4)
+- [x] Génération 80 reels vocab lancée → `vocab-cards/reels/` (`vocab-gen.log`)
+- [ ] Génération vocab N4/N3/N2/N1 à lancer
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
