@@ -10,11 +10,12 @@ import {
 } from './biweekly.js';
 import { t } from './i18n.js';
 import { getStreakTileView } from './main.js';
+import { renderXPBarHTML, getCalendarBadge } from './xp.js';
 
 // ── Unified studied-dates set (vocab_daily keys + quiz_history dates) ────
 // vocab_daily keys can get evicted when localStorage is full, so we
 // supplement with quiz_history which is a single compact key.
-function getStudiedDatesSet() {
+export function getStudiedDatesSet() {
   const dates = new Set();
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
@@ -113,7 +114,10 @@ function renderActivityCalendar(containerId) {
       let cls = 'scal-cell';
       if (isStudied) cls += ' scal-studied';
       if (isToday)   cls += ' scal-today';
-      cellsHtml += `<div class="${cls}">${dayNum}</div>`;
+      const inner = isStudied
+        ? `<span class="scal-badge">${getCalendarBadge()}</span>`
+        : dayNum;
+      cellsHtml += `<div class="${cls}">${inner}</div>`;
     }
   }
 
@@ -626,6 +630,7 @@ export function renderStats() {
 
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
+      ${renderXPBarHTML()}
       ${missedHtml}
       <div class="kpi-grid kpi-grid-2col">
         <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('stats_kpi_streak')}</div><div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div></div>

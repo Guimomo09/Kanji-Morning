@@ -8,6 +8,7 @@ import { srsLoad, srsIntervalLabel } from './srs.js';
 import { getAllSavedWords, rebuildSavedWordsMirror } from './vocab.js';
 import { t, getLang } from './i18n.js';
 import { getMeaning } from './trans.js';
+import { syncXPBar } from './xp.js';
 
 // ── Question type helpers ─────────────────────────────────────────────────
 // Types: A = word→meaning, B = meaning→word, C = word→reading,
@@ -385,6 +386,7 @@ function renderRetryRound() {
     saveQuizResult(qs.baseScore, qs.baseTotal, qs.type, null);
     if (qs.type === 'biweekly') saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
     clearInterval(_quizTimerInterval); _quizTimerInterval = null; _quizStartTime = 0;
+    syncXPBar(); // award XP for today's study
   }
 
   document.getElementById('grid').innerHTML = `
@@ -436,6 +438,7 @@ export function renderQuizResults() {
   if (qs.baseScore === null) {
     saveQuizResult(score, total, type, examLevel);
     if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
+    syncXPBar(); // award XP for today's study
   }
 
   let emoji, msg;

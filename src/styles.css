@@ -378,6 +378,42 @@
     .quiz-retry-title  { font-size: 28px; font-weight: 900; color: var(--fg); margin-bottom: 8px; }
     .quiz-retry-sub    { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
 
+    /* ── XP bar ────────────────────────────────────────────────────────── */
+    .xp-bar-wrap     { display:flex; align-items:center; gap:10px; padding:14px 16px 10px; background:var(--surface); border-radius:14px; margin-bottom:16px; }
+    .xp-cup-icon     { font-size:26px; flex-shrink:0; }
+    .xp-bar-left     { flex:1; min-width:0; }
+    .xp-segs         { display:flex; gap:6px; margin-bottom:4px; }
+    .xp-seg          { flex:1; height:8px; border-radius:4px; background:var(--border); transition:background .3s; }
+    .xp-seg-filled   { background:#c8832e; }
+    .xp-bar-label    { font-size:11px; color:var(--muted); }
+    .xp-grains-wrap  { display:flex; align-items:center; gap:4px; flex-shrink:0; }
+    .xp-grain-icon   { font-size:18px; }
+    .xp-grain-count  { font-size:16px; font-weight:800; color:#c8832e; }
+
+    /* ── Calendar badge ────────────────────────────────────────────────── */
+    .scal-badge { font-size:13px; line-height:1; display:block; }
+
+    /* ── Profile / Shop ────────────────────────────────────────────────── */
+    .profile-wrap          { padding-bottom:16px; }
+    .profile-grains-row    { display:flex; align-items:center; gap:8px; padding:10px 0 14px; }
+    .profile-grains-count  { font-size:22px; font-weight:900; color:#c8832e; }
+    .profile-grains-label  { font-size:13px; color:var(--muted); }
+    .profile-section-title { font-size:12px; font-weight:700; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; margin:14px 0 8px; }
+    .shop-grid             { display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:10px; }
+    .shop-card             { background:var(--surface); border:1.5px solid var(--border); border-radius:12px; padding:12px 8px 10px; text-align:center; transition:border-color .2s; }
+    .shop-card-owned       { border-color:#c8832e44; }
+    .shop-card-active      { border-color:#c8832e; box-shadow:0 0 0 2px #c8832e33; }
+    .shop-card-icon        { font-size:28px; margin-bottom:6px; }
+    .shop-card-name        { font-size:12px; color:var(--fg); font-weight:600; margin-bottom:4px; }
+    .shop-card-cost        { font-size:11px; color:var(--muted); margin-bottom:8px; }
+    .shop-btn              { display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; border:none; cursor:pointer; line-height:1.6; }
+    .shop-btn-buy          { background:#c8832e; color:#fff; }
+    .shop-btn-buy:hover    { background:#b0711f; }
+    .shop-btn-locked       { background:var(--border); color:var(--muted); cursor:not-allowed; }
+    .shop-btn-equip        { background:var(--surface); color:#c8832e; border:1.5px solid #c8832e; }
+    .shop-btn-equip:hover  { background:#c8832e22; }
+    .shop-btn-equipped     { background:#c8832e22; color:#c8832e; border:1.5px solid #c8832e; cursor:default; }
+
     .quiz-tomorrow {
       margin: 32px auto 0; max-width: 380px;
       background: #fff8f2; border: 1.5px solid #f5d9c4;

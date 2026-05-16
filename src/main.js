@@ -6,7 +6,7 @@ import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremium
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror } from './vocab.js';
-import { renderStats, renderHome, setActivityView, navActivityCal } from './stats.js';
+import { renderStats, renderHome, setActivityView, navActivityCal, getStudiedDatesSet } from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
@@ -14,6 +14,7 @@ import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
 import { loadTrans } from './trans.js';
 import { speakJapanese } from './audio.js';
+import { syncXPBar, applyEquipped, renderProfileHTML } from './xp.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -740,6 +741,9 @@ function openSettings() {
   if (msg) msg.textContent = '';
   // Sync theme buttons
   _syncThemeButtons(localStorage.getItem('km_theme') || 'auto');
+  // Render profile/shop section
+  const profileEl = document.getElementById('profileContent');
+  if (profileEl) profileEl.innerHTML = renderProfileHTML();
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -812,6 +816,9 @@ window.addEventListener('DOMContentLoaded', function() {
   if (!localStorage.getItem('km_onboarding_done')) {
     setTimeout(showTutorial, 600);
   }
+  // Sync XP bar on app open
+  syncXPBar(getStudiedDatesSet());
+  applyEquipped();
   console.log('[debugAgent] All wiring and init done.');
 });
 
@@ -861,6 +868,8 @@ setPostAuthCallback(() => {
   else if (state.currentTab === 'stats')  renderStats();
   else if (state.currentTab === 'exam')   renderExamTab();
   else if (state.currentTab === 'home')   renderHome();
+  // Re-sync XP with potentially richer cloud data
+  syncXPBar();
 });
 
 initCloud();
