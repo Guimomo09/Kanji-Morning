@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **12 Mai 2026** · Stripe LIVE ✅
+> Dernière mise à jour: **17 Mai 2026** · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `bab3425` · main `405d561` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `14a5bbe` · main `405d561` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -259,6 +259,35 @@ kanji.guimo-prod.com {
 - [x] `scripts/scan-overrides.mjs` — QA scan automatique · 0 issues sur tous les niveaux
 - [x] 1232 kanji N1 couverts en 4 vagues
 
+**Quiz UX #1–#6 + XP/Grains** ← commits `(dev, 17 Mai 2026)`
+- [x] **#1** Quiz — définition affichée dans la reveal card après réponse
+- [x] **#2** Quiz — distracteurs intelligents (même niveau JLPT, POS similaire)
+- [x] **#3** Quiz — retry des mauvaises réponses en fin de session
+- [x] **#4** Système XP/Grains — barre de progression + grains 🌾 accumulés
+- [x] **#5** Stats — barre XP + badges calendrier
+- [x] **#6** Settings — profil utilisateur + Shop (items verrouillés)
+
+**Custom langue dropdown** ← commit `11b22c0` (dev, 17 Mai 2026)
+- [x] `<select>` natif remplacé par un dropdown custom (`.lang-dropdown`, `.lang-dropdown-list`)
+- [x] Portal pattern : `document.body.appendChild(list)` pour éviter le clipping du panel Settings
+- [x] z-index 1100 (> Settings panel 1000) · background `var(--card)` (fix `--surface` undefined)
+- [x] `applyI18nToDOM()` synchronise le label `#langDropdownLabel`
+
+**Vocab enrichi #7+#8+#9** ← commit `f8663bf` (dev, 17 Mai 2026)
+- [x] **#7** Kanji composants en bas de chaque carte vocab — lecture on/kun · signification · badge JLPT · enrichissement async
+- [x] **#8** Clic carte vocab → zoom modal (`#kanjiDetailBackdrop`) · mot 68px · lecture · sens · lien Jisho
+- [x] **#9** Bouton ☆ dans chaque composant kanji → sauvegarder / retirer de My List
+- [x] `_extractKanji()` · `_enrichKanjiComponents()` dans `src/vocab.js`
+- [x] `openVocabDetail()` exposé sur `window` via `main.js`
+
+**Normalisation cartes vocab** ← commit `14a5bbe` (dev, 17 Mai 2026)
+- [x] Grille `minmax(330px)` → `minmax(420px)` — 2 colonnes larges · gap 24px
+- [x] `min-height: 380px` sur `.card` — cartes normalisées visuellement
+- [x] `.vocab-kcomp { margin-top: auto }` — section composants toujours ancrée en bas
+- [x] Tailles augmentées : `vocab-word` 48→56px · `vocab-reading` 14→16px · `card-meaning` 16→17px
+- [x] Mobile : `min-height: 300px` · `vocab-word` 38→44px · padding agrandi
+- [x] `border-radius` cartes 12→16px
+
 **Fixes session 12 Mai 2026** ← commits `545f1ac` → `97a90b7` (main)
 - [x] More/Less incrémental — `loadAndRenderDelta(delta)` : +More appende seulement la nouvelle carte, -Less retire la dernière sans appel API ← `545f1ac`
 - [x] Race condition More/Less — flag `_deltaInProgress` bloque les clicks pendant un fetch en cours ← `97a90b7`
@@ -288,11 +317,14 @@ kanji.guimo-prod.com {
 
 **Priorité haute**
 - [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026 — Payment Link live · `sk_live` + `whsec_live` sur VPS · flow testé avec promo code `FRIENDFREE` ✅
+- [x] ~~Quiz UX #1–#6~~ — XP/Grains · distracteurs · retry · profil/shop ✅
+- [x] ~~Vocab enrichi #7+#8+#9~~ — Composants kanji · zoom + Jisho · save depuis vocab ✅
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
 - [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
+- [ ] Merger `dev` → `main` (prod) quand staging validé
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)
