@@ -492,9 +492,7 @@ export function renderQuizResults() {
     document.getElementById('grid').innerHTML = `
       <div class="quiz-screen quiz-results">
         <div class="quiz-result-emoji">${emoji}</div>
-        <div style="margin-bottom:6px">${typeBadge}</div>
-        <div class="quiz-result-score">${score}&nbsp;/&nbsp;${total}</div>
-        <div class="quiz-result-pct">${pct}%</div>
+        <div style="margin-bottom:12px">${typeBadge}</div>
         <div class="quiz-result-msg">${msg}</div>
         ${elapsed ? `<div class="quiz-result-time">⏱ Session: ${elapsed}</div>` : ''}
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px">

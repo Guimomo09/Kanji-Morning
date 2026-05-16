@@ -378,6 +378,19 @@
     .quiz-retry-title  { font-size: 28px; font-weight: 900; color: var(--fg); margin-bottom: 8px; }
     .quiz-retry-sub    { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
 
+    /* ── Stats user header row ────────────────────────────────────────── */
+    .stats-user-row      { display:flex; align-items:center; gap:10px; padding:0 0 16px; }
+    .stats-user-avatar   { width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid var(--border); flex-shrink:0; }
+    .stats-user-fallback { width:42px; height:42px; border-radius:50%; background:var(--red); color:#fff; font-size:17px; font-weight:800; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .stats-user-name     { font-size:16px; font-weight:700; color:var(--fg); }
+    .stats-user-grains   { font-size:13px; color:var(--muted); }
+
+    /* ── Settings profile card ───────────────────────────────────────── */
+    .settings-user-card  { display:flex; align-items:center; gap:14px; padding:14px 0 18px; border-bottom:1px solid var(--border); margin-bottom:4px; }
+    .settings-user-info  { flex:1; }
+    .settings-user-dname { font-size:15px; font-weight:700; color:var(--fg); }
+    .settings-user-email { font-size:12px; color:var(--muted); margin-top:2px; }
+
     /* ── XP bar ────────────────────────────────────────────────────────── */
     .xp-bar-wrap     { display:flex; align-items:center; gap:10px; padding:14px 16px 10px; background:var(--surface); border-radius:14px; margin-bottom:16px; }
     .xp-cup-icon     { font-size:26px; flex-shrink:0; }

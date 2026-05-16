@@ -744,6 +744,19 @@ function openSettings() {
   // Render profile/shop section
   const profileEl = document.getElementById('profileContent');
   if (profileEl) profileEl.innerHTML = renderProfileHTML();
+  // Render user profile card
+  const cardEl = document.getElementById('settingsUserCard');
+  if (cardEl) {
+    const user = state._fbUser;
+    if (user) {
+      const photoHTML = user.photoURL
+        ? `<img src="${user.photoURL}" class="stats-user-avatar" referrerpolicy="no-referrer" alt="">`
+        : `<span class="stats-user-fallback">${(user.displayName||'?')[0].toUpperCase()}</span>`;
+      cardEl.innerHTML = `<div class="settings-user-card">${photoHTML}<div class="settings-user-info"><div class="settings-user-dname">${user.displayName||''}</div><div class="settings-user-email">${user.email||''}</div></div></div>`;
+    } else {
+      cardEl.innerHTML = '';
+    }
+  }
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
