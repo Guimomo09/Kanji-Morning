@@ -345,6 +345,40 @@ kanji.guimo-prod.com {
 - `vocab-cards/` — MP4 vocab reels → non tracké
 - `.env` — BUFFER_TOKEN, BUFFER_TIKTOK_ID, BUFFER_INSTAGRAM_ID → **ne jamais commiter**
 - MP4s en prod sur le VPS : `/var/www/kanji/reels/`
+
+---
+
+## Setup nouvelle machine
+
+```bash
+# 1. Cloner le repo
+git clone https://github.com/Guimomo09/Kanji-Morning.git
+cd Kanji-Morning
+npm install
+
+# 2. Python (pour vocab reels)
+pip install edge-tts
+
+# 3. Outils système
+# macOS :
+brew install ffmpeg node
+# Windows :
+# → ffmpeg : https://ffmpeg.org/download.html (ajouter au PATH)
+# → Node.js : https://nodejs.org
+
+# 4. VOICEVOX (pour kanji reels — TTS japonais)
+# → https://voicevox.hiroshiba.jp/  (dispo Windows + Mac)
+# → Lancer l'app avant de générer des reels kanji
+
+# 5. Créer le fichier .env (clés dans password manager)
+```
+
+**Contenu du `.env` à recréer :**
+```
+BUFFER_TIKTOK_ID=<dans password manager>
+BUFFER_INSTAGRAM_ID=<dans password manager>
+BUFFER_TOKEN=<dans password manager>
+```
   - **edge-tts** `ja-JP-NanamiNeural`
   - **6 slides** xfade 0.5s : hook (3s) → ProgA mot (3s) → ProgB +lecture (3s) → ProgC +def (4s) → ProgD +exemple (6s) → CTA (7s) = **~26s** + fade out 1.5s
   - `visibility:hidden` (espace réservé) → aucun déplacement lors des transitions
