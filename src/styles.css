@@ -372,6 +372,11 @@
     .quiz-result-time  { font-size: 13px; color: var(--muted); margin-top: 6px; }
     .quiz-elapsed-wrap { color: var(--muted); font-size: 12px; }
     .quiz-elapsed      { font-variant-numeric: tabular-nums; }
+    /* Retry round screen */
+    .quiz-retry-screen { text-align: center; padding-top: 60px; }
+    .quiz-retry-icon   { font-size: 48px; margin-bottom: 12px; color: var(--red); }
+    .quiz-retry-title  { font-size: 28px; font-weight: 900; color: var(--fg); margin-bottom: 8px; }
+    .quiz-retry-sub    { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
 
     .quiz-tomorrow {
       margin: 32px auto 0; max-width: 380px;

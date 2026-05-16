@@ -112,21 +112,67 @@ export function startVocabQuiz(items, dayLabel, quizType, exactQuestions) {
   clearInterval(_quizTimerInterval);
   _quizTimerInterval = setInterval(_tickQuizTimer, 1000);
   state.quizState = {
-    questions: exactQuestions || buildQuestionList(items),
-    pool:      items,
-    current:   0,
-    score:     0,
-    dayLabel:  dayLabel || '',
-    type:      quizType || 'daily',
+    questions:   exactQuestions || buildQuestionList(items),
+    pool:        items,
+    current:     0,
+    score:       0,
+    dayLabel:    dayLabel || '',
+    type:        quizType || 'daily',
+    missed:      [],   // {item, type} pairs answered wrong this pass
+    retryRound:  0,    // 0 = first pass, 1+ = retry rounds
+    baseScore:   null, // locked after first pass
+    baseTotal:   null,
   };
   renderQuizQuestion();
+}
+
+// ── Distractor helpers ────────────────────────────────────────────────────
+function _kanjiSet(word) {
+  return new Set([...word].filter(c => c >= '\u4E00' && c <= '\u9FFF'));
+}
+function _moraCount(reading) {
+  if (!reading) return 0;
+  // Small kana (っ ゃ ゅ ょ ぁ-ぉ) don't count as separate morae
+  const small = new Set([...'ぁぃぅぇぉゃゅょっァィゥェォャュョッ']);
+  return [...reading].filter(c =>
+    ((c >= '\u3041' && c <= '\u3096') || (c >= '\u30A1' && c <= '\u30F6')) && !small.has(c)
+  ).length;
+}
+// Type C: prefer wrong readings of same mora length, exclude identical readings
+function _pickReadingDistractors(item, others, count = 3) {
+  const targetLen = _moraCount(item.reading);
+  const sameLen = others.filter(w => w.reading && w.reading !== item.reading && _moraCount(w.reading) === targetLen);
+  const result = shuffleArr(sameLen).slice(0, count);
+  if (result.length < count) {
+    const fallback = others.filter(w => w.reading && w.reading !== item.reading && !result.includes(w));
+    result.push(...shuffleArr(fallback).slice(0, count - result.length));
+  }
+  return result;
+}
+// Types B/D: exclude words sharing a kanji with the correct answer
+function _pickWordDistractors(item, others, count = 3) {
+  const ks = _kanjiSet(item.word);
+  const noShared = ks.size > 0
+    ? others.filter(w => ![..._kanjiSet(w.word)].some(k => ks.has(k)))
+    : others;
+  const pool = noShared.length >= count ? noShared : others;
+  return shuffleArr(pool).slice(0, count);
 }
 
 export function renderQuizQuestion() {
   if (!state.quizState) return;
   const { questions, pool, current, score } = state.quizState;
   const total = questions.length;
-  if (current >= total) { renderQuizResults(); return; }
+  if (current >= total) {
+    const qs = state.quizState;
+    const _retryEligible = qs.type !== 'exam' && qs.type !== 'srs';
+    if (_retryEligible && qs.missed.length > 0) {
+      renderRetryRound();
+    } else {
+      renderQuizResults();
+    }
+    return;
+  }
 
   const { item, type } = questions[current];
   const _isExam = state.quizState.type === 'exam';
@@ -136,7 +182,6 @@ export function renderQuizQuestion() {
     ? questions[current]._distractorPool
     : pool;
   const others = shuffleArr(distractorSrc.filter(p => p.word !== item.word));
-  const wrong3 = others.slice(0, 3);
 
   let questionLabel, promptHtml, correctText, wrongTexts;
 
@@ -149,41 +194,48 @@ export function renderQuizQuestion() {
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
         ${_speak(item.reading || item.word)}`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
-      wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
+      wrongTexts  = others.slice(0, 3).map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
 
-    case 'B':
+    case 'B': {
+      // Exclude words sharing a kanji → prevents guessing via partial kanji recognition
+      const wrongB = _pickWordDistractors(item, others);
       questionLabel = t('quiz_q_word');
       promptHtml = `
         <div class="quiz-prompt-meaning">${getMeaning(item.word, getLang()) || item.meaning}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
         ${_speak(item.word)}`;
       correctText = item.word;
-      wrongTexts  = wrong3.map(w => w.word);
+      wrongTexts  = wrongB.map(w => w.word);
       break;
+    }
 
-    case 'C':
+    case 'C': {
+      // Same mora count → prevents guessing via reading length or partial kanji knowledge
+      const wrongC = _pickReadingDistractors(item, others);
       questionLabel = t('quiz_q_reading');
       promptHtml = `
         <div class="quiz-prompt-word">${item.word}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
         ${_speak(item.word)}`;
       correctText = item.reading;
-      wrongTexts  = wrong3.filter(w => w.reading).map(w => w.reading);
-      while (wrongTexts.length < 3) {
-        wrongTexts.push(others[wrongTexts.length]?.reading || others[wrongTexts.length]?.word || '???');
-      }
+      wrongTexts  = wrongC.map(w => w.reading);
+      while (wrongTexts.length < 3) wrongTexts.push('???');
       break;
+    }
 
-    case 'D':
+    case 'D': {
+      // Exclude words sharing a kanji → prevents guessing via partial kanji recognition
+      const wrongD = _pickWordDistractors(item, others);
       questionLabel = t('quiz_q_kanji_reading');
       promptHtml = `
         <div class="quiz-prompt-word" style="font-size:42px">${item.reading}</div>
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
         ${_speak(item.reading)}`;
       correctText = item.word;
-      wrongTexts  = wrong3.map(w => w.word);
+      wrongTexts  = wrongD.map(w => w.word);
       break;
+    }
 
     case 'E':
       questionLabel = t('quiz_q_reading_meaning');
@@ -193,7 +245,7 @@ export function renderQuizQuestion() {
         <span class="badge badge-${item.level}" style="margin-top:6px">${item.level}</span>
         ${_speak(item.reading || item.word)}`;
       correctText = getMeaning(item.word, getLang()) || item.meaning;
-      wrongTexts  = wrong3.map(w => getMeaning(w.word, getLang()) || w.meaning);
+      wrongTexts  = others.slice(0, 3).map(w => getMeaning(w.word, getLang()) || w.meaning);
       break;
   }
 
@@ -230,8 +282,15 @@ export function handleQuizAnswer(btn, isCorrect) {
     b.disabled = true;
     if (b.dataset.correct === 'true') b.classList.add('correct');
   });
-  if (!isCorrect) btn.classList.add('wrong');
-  else state.quizState.score++;
+  if (!isCorrect) {
+    btn.classList.add('wrong');
+    // Track for retry (daily/biweekly only, not exam/srs)
+    const _qtype = state.quizState?.type;
+    if (_qtype !== 'exam' && _qtype !== 'srs') {
+      const _missed = state.quizState.questions[state.quizState.current];
+      state.quizState.missed.push({ item: _missed.item, type: _missed.type });
+    }
+  } else state.quizState.score++;
 
   const { item, type } = state.quizState.questions[state.quizState.current];
   if (state.quizState && state.quizState.type === 'srs') {
@@ -280,11 +339,17 @@ export function handleQuizAnswer(btn, isCorrect) {
       if (type === 'B') {
         // meaning shown, word was the answer → reading is the only new info
         minimalHtml = item.reading ? `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>` : '';
+      } else if (type === 'C') {
+        // word (kanji) shown, reading was the answer → meaning is new info
+        minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
       } else if (type === 'D') {
         // reading shown, word was the answer → meaning is new info
         minimalHtml = `<div class="quiz-reveal-meaning">${meaning}</div>`;
+      } else if (type === 'E') {
+        // reading shown, meaning was the answer → word (kanji form) is new info
+        minimalHtml = item.reading ? `<div class="quiz-reveal-word">${item.word} <span class="quiz-reveal-reading">${item.reading}</span></div>` : '';
       }
-      // Types A, C, E: answer already visible in selected button → just Next
+      // Type A: meaning already shown in answer → just Next
       reveal.innerHTML = `${minimalHtml}${nextBtn}`;
     } else {
       // Wrong: full card with everything
@@ -307,9 +372,56 @@ export function quizNextQuestion() {
   renderQuizQuestion();
 }
 
+// ── Retry round (re-test wrong answers until all correct) ─────────────────
+function renderRetryRound() {
+  const qs = state.quizState;
+  const missedCount = qs.missed.length;
+
+  // Lock first-pass score before retries
+  if (qs.retryRound === 0) {
+    qs.baseScore = qs.score;
+    qs.baseTotal = qs.questions.length;
+    // Save result now (based on first pass)
+    saveQuizResult(qs.baseScore, qs.baseTotal, qs.type, null);
+    if (qs.type === 'biweekly') saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
+    clearInterval(_quizTimerInterval); _quizTimerInterval = null; _quizStartTime = 0;
+  }
+
+  document.getElementById('grid').innerHTML = `
+    <div class="quiz-screen quiz-retry-screen">
+      <div class="quiz-retry-icon">↩</div>
+      <div class="quiz-retry-title">${missedCount} mot${missedCount > 1 ? 's' : ''} à revoir</div>
+      <div class="quiz-retry-sub">On continue jusqu'à zéro erreur.</div>
+      <button class="btn btn-primary" onclick="startRetryRound()">Continuer</button>
+      <button class="btn btn-ghost" onclick="skipRetryAndShowResults()">Passer</button>
+    </div>`;
+}
+
+export function startRetryRound() {
+  if (!state.quizState) return;
+  const qs = state.quizState;
+  qs.questions = [...qs.missed];
+  qs.missed    = [];
+  qs.current   = 0;
+  qs.score     = 0;
+  qs.retryRound++;
+  renderQuizQuestion();
+}
+window.startRetryRound = startRetryRound;
+
+export function skipRetryAndShowResults() {
+  if (!state.quizState) return;
+  state.quizState.missed = [];
+  renderQuizResults();
+}
+window.skipRetryAndShowResults = skipRetryAndShowResults;
+
 export function renderQuizResults() {
-  const { score, questions, type } = state.quizState;
-  const total   = questions.length;
+  const qs = state.quizState;
+  // Use first-pass score if we went through retries, else current score
+  const score = qs.baseScore !== null ? qs.baseScore : qs.score;
+  const total = qs.baseTotal !== null ? qs.baseTotal : qs.questions.length;
+  const { type } = qs;
   const pct     = Math.round((score / total) * 100);
   const isBiW   = type === 'biweekly';
   const isSrs   = type === 'srs';
@@ -318,10 +430,13 @@ export function renderQuizResults() {
   clearInterval(_quizTimerInterval); _quizTimerInterval = null; _quizStartTime = 0;
   clearInterval(_examCountdown); _examCountdown = null; _examTimeLeft = 0;
 
-  const examLevel = isExam ? (state.quizState?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3') : null;
+  const examLevel = isExam ? (qs?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3') : null;
   if (isExam) _examSectionOpen = true; // keep accordion open when user returns to exam tab
-  saveQuizResult(score, total, type, examLevel);
-  if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
+  // Only save if we haven't already (retry path saves on first pass)
+  if (qs.baseScore === null) {
+    saveQuizResult(score, total, type, examLevel);
+    if (isBiW) saveBiWeeklyDone(dateStr(getLastBiWeeklyMonday()));
+  }
 
   let emoji, msg;
   if (isExam) {
@@ -343,10 +458,10 @@ export function renderQuizResults() {
   const retryFn = isExam ? 'launchExamFromTab()' : isBiW ? 'launchBiWeeklyQuiz()' : 'launchDailyQuiz()';
 
   if (isExam) {
-    const examLevel   = state.quizState?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3';
+    const examLevel   = qs?.examLevel || localStorage.getItem('km_exam_target_level') || 'N3';
     const timeUsed    = elapsed || '?';
     const breakdown   = {};
-    (state.quizState?.questions || []).forEach(q => {
+    (qs?.questions || []).forEach(q => {
       const k = q.type; breakdown[k] = (breakdown[k] || 0) + 1;
     });
     document.getElementById('grid').innerHTML = `
