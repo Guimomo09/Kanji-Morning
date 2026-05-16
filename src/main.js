@@ -549,20 +549,29 @@ Object.assign(window, {
     const btn  = document.getElementById('langDropdownBtn');
     const list = document.getElementById('langDropdownList');
     if (!dd || !btn || !list) return;
+    // Portal: move list to body so it escapes overflow/transform constraints
+    if (list.parentElement !== document.body) document.body.appendChild(list);
     const isOpen = dd.classList.toggle('open');
     if (isOpen) {
       const rect = btn.getBoundingClientRect();
-      list.style.top   = (rect.bottom + 6) + 'px';
-      list.style.left  = rect.left + 'px';
-      list.style.width = rect.width + 'px';
-      const code = document.getElementById('langSelect')?.value || 'en';
-      dd.querySelectorAll('[data-code]').forEach(li => {
-        li.classList.toggle('lang-item-active', li.dataset.code === code);
+      Object.assign(list.style, {
+        display: 'block', position: 'fixed',
+        top: (rect.bottom + 6) + 'px',
+        left: rect.left + 'px',
+        width: rect.width + 'px',
       });
+      const code = document.getElementById('langSelect')?.value || 'en';
+      list.querySelectorAll('[data-code]').forEach(li =>
+        li.classList.toggle('lang-item-active', li.dataset.code === code)
+      );
+    } else {
+      list.style.display = 'none';
     }
   },
   pickLang(code) {
     document.getElementById('langDropdown')?.classList.remove('open');
+    const list = document.getElementById('langDropdownList');
+    if (list) list.style.display = 'none';
     const sel = document.getElementById('langSelect');
     if (sel) sel.value = code;
     const NAMES = { en:'English', fr:'Français', es:'Español', de:'Deutsch', ru:'Русский' };
@@ -854,8 +863,11 @@ window.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(e) {
     const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
     if (wrap && !wrap.contains(e.target)) closeMobileMenu();
-    if (!document.getElementById('langDropdown')?.contains(e.target)) {
-      document.getElementById('langDropdown')?.classList.remove('open');
+    const dd   = document.getElementById('langDropdown');
+    const list = document.getElementById('langDropdownList');
+    if (dd && !dd.contains(e.target) && list && !list.contains(e.target)) {
+      dd.classList.remove('open');
+      list.style.display = 'none';
     }
   });
   if (!localStorage.getItem('km_onboarding_done')) {
