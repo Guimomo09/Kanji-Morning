@@ -545,10 +545,16 @@ Object.assign(window, {
   // Custom language dropdown
   toggleLangDropdown(e) {
     e.stopPropagation();
-    const dd = document.getElementById('langDropdown');
-    if (!dd) return;
+    const dd   = document.getElementById('langDropdown');
+    const btn  = document.getElementById('langDropdownBtn');
+    const list = document.getElementById('langDropdownList');
+    if (!dd || !btn || !list) return;
     const isOpen = dd.classList.toggle('open');
     if (isOpen) {
+      const rect = btn.getBoundingClientRect();
+      list.style.top   = (rect.bottom + 6) + 'px';
+      list.style.left  = rect.left + 'px';
+      list.style.width = rect.width + 'px';
       const code = document.getElementById('langSelect')?.value || 'en';
       dd.querySelectorAll('[data-code]').forEach(li => {
         li.classList.toggle('lang-item-active', li.dataset.code === code);

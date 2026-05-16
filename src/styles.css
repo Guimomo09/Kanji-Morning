@@ -124,12 +124,12 @@
     .lang-dropdown.open .lang-dropdown-arrow { transform: rotate(180deg); }
     .lang-dropdown-list {
       display: none;
-      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      position: fixed;
       background: var(--surface);
       border: 1.5px solid var(--border); border-radius: 10px;
       box-shadow: 0 8px 24px rgba(0,0,0,.14);
       padding: 4px; margin: 0; list-style: none;
-      z-index: 500;
+      z-index: 900;
     }
     .lang-dropdown.open .lang-dropdown-list { display: block; }
     .lang-dropdown-list li {
