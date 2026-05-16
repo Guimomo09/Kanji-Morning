@@ -631,7 +631,7 @@ export function renderStats() {
           ? `<img src="${u.photoURL}" class="stats-user-avatar" referrerpolicy="no-referrer" alt="">`
           : `<span class="stats-user-fallback">${(u.displayName||'?')[0].toUpperCase()}</span>`;
         const grains = parseInt(localStorage.getItem('km_xp_grains')||'0',10);
-        return `<div class="stats-user-row"><div><div class="stats-user-name">${u.displayName?.split(' ')[0]||''}</div><div class="stats-user-grains">🫘 ${grains} grain${grains!==1?'s':''}</div></div>${av}</div>`;
+        return `<div class="stats-user-row"><div><div class="stats-user-name">${u.displayName?.split(' ')[0]||''}</div></div><div class="stats-user-grains">\ud83e\uded8 ${grains} grain${grains!==1?'s':''}</div>${av}</div>`;
       })()}
       ${renderXPBarHTML()}
       ${missedHtml}
