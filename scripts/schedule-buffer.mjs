@@ -33,10 +33,20 @@ const ROOT = join(__dirname, '..');
 // ── CLI args ──────────────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const DRY_RUN    = args.includes('--dry-run');
-const LEVEL      = (args.find(a => a.startsWith('--level='))?.split('=')[1]    || 'n5').toLowerCase();
-const COUNT_ARG  =  args.find(a => a.startsWith('--count='))?.split('=')[1];
-const START_ARG  =  args.find(a => a.startsWith('--start='))?.split('=')[1];
-const PLATFORM   = (args.find(a => a.startsWith('--platform='))?.split('=')[1] || 'both').toLowerCase();
+
+function getArg(name) {
+  // supports both --name=value and --name value
+  const eqIdx = args.findIndex(a => a.startsWith(`--${name}=`));
+  if (eqIdx !== -1) return args[eqIdx].split('=')[1];
+  const spIdx = args.indexOf(`--${name}`);
+  if (spIdx !== -1 && args[spIdx + 1] && !args[spIdx + 1].startsWith('--')) return args[spIdx + 1];
+  return undefined;
+}
+
+const LEVEL      = (getArg('level')    || 'n5').toLowerCase();
+const COUNT_ARG  =  getArg('count');
+const START_ARG  =  getArg('start');
+const PLATFORM   = (getArg('platform') || 'both').toLowerCase();
 
 // ── Load .env ─────────────────────────────────────────────────────────────────
 const env = {};
@@ -136,32 +146,64 @@ for (const post of schedule) {
   }
 
   for (const profile of profiles) {
-    const params = new URLSearchParams();
-    params.append('access_token',    TOKEN);
-    params.append('profile_ids[]',   profile.id);
-    params.append('text',            post.caption);
-    params.append('scheduled_at',    post.time.toISOString());
-    params.append('media[video]',    post.url);
+    const mutation = `
+      mutation CreatePost($input: CreatePostInput!) {
+        createPost(input: $input) {
+          ... on PostActionSuccess {
+            post { id dueAt }
+          }
+          ... on MutationError {
+            message
+          }
+        }
+      }
+    `;
+    const input = {
+      channelId     : profile.id,
+      text          : post.caption,
+      schedulingType: 'automatic',
+      mode          : 'customScheduled',
+      dueAt         : post.time.toISOString(),
+      assets        : [{ video: { url: post.url } }],
+    };
+    if (profile.name === 'Instagram') {
+      input.metadata = { instagram: { type: 'reel', shouldShareToFeed: true } };
+    }
+    const variables = { input };
 
     try {
-      const res  = await fetch('https://api.bufferapp.com/1/updates/create.json', {
+      const res  = await fetch('https://api.buffer.com/graphql', {
         method : 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body   : params.toString(),
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization': `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify({ query: mutation, variables }),
       });
-      const data = await res.json();
+      const json = await res.json();
+      const data = json?.data?.createPost;
+      const errMsg = data?.message || json?.errors?.[0]?.message || '';
 
-      if (res.ok && data.success !== false) {
+      if (data?.post?.id) {
         console.log(`  ✓ [${profile.name}] ${label}`);
         ok++;
+      } else if (errMsg.toLowerCase().includes('too many requests') || json?.errors?.[0]?.extensions?.code === 'RATE_LIMIT_EXCEEDED') {
+        console.error(`\n  ⛔ Rate limit hit at [${profile.name}] ${label}`);
+        console.error(`  Last successful date: ${post.time.toLocaleDateString('fr-FR')}`);
+        console.log(`\n${ok} scheduled, ${err} errors`);
+        console.log(`\nResume tomorrow with:`);
+        const resumeDate = post.time.toISOString().split('T')[0];
+        console.log(`  node scripts/schedule-buffer.mjs --platform both --start ${resumeDate}`);
+        process.exit(1);
       } else {
-        console.error(`  ✗ [${profile.name}] ${label} → ${data.message || JSON.stringify(data)}`);
+        console.error(`  ✗ [${profile.name}] ${label} → ${errMsg}`);
         err++;
       }
     } catch (e) {
       console.error(`  ✗ [${profile.name}] ${label} → ${e.message}`);
       err++;
     }
+    await new Promise(r => setTimeout(r, 2000));
   }
 }
 

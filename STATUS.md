@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **16 Mai 2026** · Vocab Reels — 80/80 générés ✅
+> Dernière mise à jour: **16 Mai 2026** · Buffer scheduling en cours (20/05→10/06 ✅ · 11/06→04/08 ⏳)
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -328,7 +328,23 @@ kanji.guimo-prod.com {
 - [x] 4 phrases trop longues N4 fixées (使/医/英/試 ≤ 20 chars) + 3 doublons EN corrigés (酒/衝/賀)
 
 **Vocab Reels — 15 Mai 2026**
-- [x] `scripts/generate-vocab-reels.mjs` — design progressif positions fixes (3ème version)
+- [x] **80/80 reels générés** → `vocab-cards/reels/` ✅
+- [x] VPS : `/var/www/kanji/reels/n5/` (79 kanji MP4) + `/var/www/kanji/reels/vocab/` (80 vocab MP4)
+
+**Buffer Scheduling — 16 Mai 2026**
+- [x] `scripts/schedule-buffer.mjs` — GraphQL v2 · kanji (minuit) + vocab (midi) · TikTok + Instagram
+- [x] `scripts/clear-buffer-queue.mjs` — vide la queue Buffer
+- [x] 17/05 → 19/05 : postés **manuellement** dans Buffer UI
+- [x] 20/05 → 10/06 : schedulés par le script (89 posts)
+- ⏳ 11/06 → ~04/08 : en attente reset rate limit Buffer (~24h)
+- **Next** : `node scripts/schedule-buffer.mjs --platform both --start 2026-06-11`
+- Batch suivants : 2026-07-03, puis 2026-07-25 (`--count 13`)
+
+**Assets locaux (non trackés dans git)**
+- `kanji-cards/` — PNG 1080×1080 (insta) + 1080×1920 (tiktok) + MP4 kanji reels → gitignored
+- `vocab-cards/` — MP4 vocab reels → non tracké
+- `.env` — BUFFER_TOKEN, BUFFER_TIKTOK_ID, BUFFER_INSTAGRAM_ID → **ne jamais commiter**
+- MP4s en prod sur le VPS : `/var/www/kanji/reels/`
   - **edge-tts** `ja-JP-NanamiNeural`
   - **6 slides** xfade 0.5s : hook (3s) → ProgA mot (3s) → ProgB +lecture (3s) → ProgC +def (4s) → ProgD +exemple (6s) → CTA (7s) = **~26s** + fade out 1.5s
   - `visibility:hidden` (espace réservé) → aucun déplacement lors des transitions

@@ -17,7 +17,7 @@
  *   node scripts/generate-reels.mjs --level n5 --count 10
  */
 
-import { readFileSync, mkdirSync, existsSync, unlinkSync, writeFileSync, rmSync } from 'fs';
+import { readFileSync, mkdirSync, existsSync, unlinkSync, writeFileSync, rmSync, statSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execFileSync, spawnSync } from 'child_process';
@@ -106,7 +106,7 @@ async function tts(text, outMp3) {
   ], { encoding: 'utf8', timeout: 30000 });
   if (r.status !== 0) throw new Error(`edge-tts failed: ${r.stderr}`);
   spawnSync(FFMPEG, ['-y', '-i', outWav, '-codec:a', 'libmp3lame', '-q:a', '2', outMp3],
-    { encoding: 'utf8' });
+    { stdio: 'ignore' });
   unlinkSync(outWav);
 }
 
@@ -127,7 +127,14 @@ function padAudio(inp, outFile, dur) {
     '-af', `apad=whole_dur=${dur}`,
     '-t', String(dur),
     outFile,
-  ], { encoding: 'utf8' });
+  ], { stdio: 'ignore' });
+  // Fallback: if output is empty/missing, generate silence of correct duration
+  try { if (statSync(outFile).size < 100) throw new Error('empty'); } catch {
+    spawnSync(FFMPEG, ['-y',
+      '-f', 'lavfi', '-t', String(dur), '-i', 'anullsrc=r=44100:cl=stereo',
+      outFile,
+    ], { stdio: 'ignore' });
+  }
 }
 
 // Get audio duration in seconds via ffprobe
@@ -162,7 +169,7 @@ function imageToVideo(img, audio, outFile) {
     '-vf', 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=#faf7f2',
     '-r', '30',
     outFile,
-  ], { encoding: 'utf8' });
+  ], { stdio: 'ignore' });
 }
 
 // Concatenate video segments with smooth xfade dissolve between each
@@ -213,8 +220,8 @@ function concatWithXFade(segments, durations, outFile, fadeDurs = 0.3) {
     '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
     '-movflags', '+faststart',
     outFile,
-  ], { encoding: 'utf8' });
-  if (r.status !== 0) throw new Error('concatWithXFade failed: ' + r.stderr);
+  ], { stdio: 'ignore' });
+  if (r.status !== 0) throw new Error(`concatWithXFade failed (status=${r.status})`);
 }
 
 // Prepend silence before audio (intro delay)
@@ -225,7 +232,7 @@ function prependSilence(inp, outFile, silenceSec) {
     '-filter_complex', '[0:a][1:a]concat=n=2:v=0:a=1[aout]',
     '-map', '[aout]',
     outFile,
-  ], { encoding: 'utf8' });
+  ], { stdio: 'ignore' });
 }
 
 // Blur intro: blurred card1 + optional text-intro.png overlay + optional audio
@@ -265,8 +272,8 @@ function blurIntroVideo(img, outFile, duration, audioFile = null) {
     '-movflags', '+faststart',
     '-r', '30',
     outFile,
-  ], { encoding: 'utf8' });
-  if (r.status !== 0) throw new Error('blurIntroVideo failed: ' + r.stderr.slice(-400));
+  ], { stdio: 'ignore' });
+  if (r.status !== 0) throw new Error(`blurIntroVideo failed (status=${r.status})`);
 }
 
 // CTA: 0→10s raw footage, 10s→end blurred + text-cta.png overlay centered
@@ -304,18 +311,19 @@ function ctaVideo(footageMp4, outFile, duration) {
       '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
       '-movflags', '+faststart', '-r', '30',
       outFile,
-    ], { encoding: 'utf8' });
-    if (r.status !== 0) throw new Error('ctaVideo (static) failed: ' + r.stderr.slice(-400));
+    ], { stdio: 'ignore' });
+    if (r.status !== 0) throw new Error(`ctaVideo (static) failed (status=${r.status})`);
   } else {
     // Fallback: vidéo de l'app floutée avec texte centré dès TEXT_DELAY
     console.log('⚠️  kanji-cards/CTA_Static.png absent — fallback vidéo');
-    const inputs = ['-i', footageMp4];
+    const inputs = ['-i', footageMp4,
+                    '-f', 'lavfi', '-i', 'anullsrc=r=44100:cl=stereo'];
     let fc;
     if (hasText) {
       inputs.push('-i', textPng);
       fc = [
         '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,gblur=sigma=25,eq=brightness=-0.2[base]',
-        `[1:v]scale=iw*0.8:ih*0.8[txt]`,
+        `[2:v]scale=iw*0.8:ih*0.8[txt]`,
         `[base][txt]overlay=(W-w)/2:(H-h)/2:enable='gte(t,${TEXT_DELAY})'[vout]`,
       ].join(';');
     } else {
@@ -325,14 +333,14 @@ function ctaVideo(footageMp4, outFile, duration) {
       ...inputs,
       '-t', String(duration),
       '-filter_complex', fc,
-      '-map', '[vout]', '-map', '0:a',
+      '-map', '[vout]', '-map', '1:a',
       '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
       '-profile:v', 'baseline', '-level', '4.0', '-pix_fmt', 'yuv420p',
       '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
       '-movflags', '+faststart', '-r', '30',
       outFile,
-    ], { encoding: 'utf8' });
-    if (r.status !== 0) throw new Error('ctaVideo (video) failed: ' + r.stderr.slice(-400));
+    ], { stdio: 'ignore' });
+    if (r.status !== 0) throw new Error(`ctaVideo (video) failed (status=${r.status})`);
   }
 }
 
@@ -360,7 +368,7 @@ function concatAudioWithGap(file1, file2, gapSec, outFile) {
     '-filter_complex', '[0:a][1:a][2:a]concat=n=3:v=0:a=1[aout]',
     '-map', '[aout]',
     outFile,
-  ], { encoding: 'utf8' });
+  ], { stdio: 'ignore' });
 }
 
 // Assemble audio files with dynamic equal gaps: | gap | f1 | gap | f2 | ... | fN | gap |
@@ -388,7 +396,7 @@ function assembleWithDynamicGaps(files, totalDur, minGap, outFile) {
     '-filter_complex', `${labels.join('')}concat=n=${labels.length}:v=0:a=1[aout]`,
     '-map', '[aout]',
     outFile,
-  ], { encoding: 'utf8' });
+  ], { stdio: 'ignore' });
 }
 
 // ── Target kanji ─────────────────────────────────────────────────────────────
@@ -518,7 +526,7 @@ for (const kanji of targetKanji) {
       if (tts3bText && existsSync(mp3_3b)) {
         concatAudioWithGap(mp3_3pre, mp3_3b, gap3, mp3_3raw);
       } else {
-        spawnSync(FFMPEG, ['-y', '-i', mp3_3pre, '-c', 'copy', mp3_3raw], { encoding: 'utf8' });
+        spawnSync(FFMPEG, ['-y', '-i', mp3_3pre, '-c', 'copy', mp3_3raw], { stdio: 'ignore' });
       }
     }
 
@@ -570,8 +578,8 @@ for (const kanji of targetKanji) {
         '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k', '-ar', '44100', '-ac', '2',
         '-movflags', '+faststart',
         outFile,
-      ], { encoding: 'utf8' });
-      if (r.status !== 0) throw new Error('BGM mix failed: ' + r.stderr.slice(-400));
+      ], { stdio: 'ignore' });
+      if (r.status !== 0) throw new Error(`BGM mix failed (status=${r.status})`);
       try { unlinkSync(rawFile); } catch {}
     }
 
@@ -582,12 +590,17 @@ for (const kanji of targetKanji) {
     try { unlinkSync(pad1 + '.pre.mp3'); } catch {}
 
     // Delete staging subfolder — PNGs no longer needed after MP4 is created
-    try { rmSync(stagingDir, { recursive: true, force: true }); } catch {}
+    try {
+      const { readdirSync: rd, rmdirSync: rmd } = await import('fs');
+      for (const f of rd(stagingDir)) { try { unlinkSync(join(stagingDir, f)); } catch {} }
+      rmd(stagingDir);
+    } catch {}
 
     console.log(`✅ ${kanji} → reels/${kanji}.mp4`);
     ok++;
   } catch (e) {
     console.error(`❌ ${kanji}: ${e.message}`);
+    if (e.stack) console.error(e.stack);
   }
 }
 

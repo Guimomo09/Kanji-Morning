@@ -19,8 +19,9 @@ _wikt_progress.json
 _wordnet_log.txt
 _enpivot_log.txt
 
-# Generated kanji cards (local only — not tracked in git)
+# Generated media (local only — not tracked in git)
 kanji-cards/
+vocab-cards/
 .reels-tmp/
 
 # Script output files
