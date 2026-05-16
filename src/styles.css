@@ -129,7 +129,7 @@
       border: 1.5px solid var(--border); border-radius: 10px;
       box-shadow: 0 8px 24px rgba(0,0,0,.14);
       padding: 4px; margin: 0; list-style: none;
-      z-index: 900;
+      z-index: 1100;
     }
     .lang-dropdown.open .lang-dropdown-list { display: block; }
     .lang-dropdown-list li {
