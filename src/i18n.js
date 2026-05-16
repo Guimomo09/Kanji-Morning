@@ -1210,6 +1210,12 @@ export function applyI18nToDOM() {
   // Sync language selector if present
   const sel = document.getElementById('langSelect');
   if (sel) sel.value = getLang();
+  // Sync custom dropdown visual label
+  const lbl = document.getElementById('langDropdownLabel');
+  if (lbl) {
+    const NAMES = { en:'English', fr:'Français', es:'Español', de:'Deutsch', ru:'Русский' };
+    lbl.textContent = NAMES[getLang()] || getLang();
+  }
 }
 
 export function getSupportedLangs() {

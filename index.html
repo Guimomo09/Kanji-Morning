@@ -230,7 +230,21 @@
     </div>
     <div class="settings-section-title" style="margin-top:20px" data-i18n="settings_language">Language</div>
     <div class="settings-row">
-      <select id="langSelect" aria-label="Language" onchange="changeLanguage(this.value)" class="lang-select">
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-dropdown-btn" id="langDropdownBtn" type="button" onclick="toggleLangDropdown(event)">
+          <span id="langDropdownLabel">English</span>
+          <svg class="lang-dropdown-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <ul class="lang-dropdown-list" id="langDropdownList" role="listbox">
+          <li data-code="en" onclick="pickLang('en')" role="option">English</li>
+          <li data-code="fr" onclick="pickLang('fr')" role="option">Français</li>
+          <li data-code="es" onclick="pickLang('es')" role="option">Español</li>
+          <li data-code="de" onclick="pickLang('de')" role="option">Deutsch</li>
+          <li data-code="ru" onclick="pickLang('ru')" role="option">Русский</li>
+        </ul>
+      </div>
+      <!-- hidden for i18n.js compat -->
+      <select id="langSelect" aria-hidden="true" style="display:none">
         <option value="en">English</option>
         <option value="fr">Français</option>
         <option value="es">Español</option>

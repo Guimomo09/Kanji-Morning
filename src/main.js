@@ -541,6 +541,29 @@ Object.assign(window, {
     // Re-render current tab to apply translated strings
     switchTab(state.currentTab || 'home');
   },
+
+  // Custom language dropdown
+  toggleLangDropdown(e) {
+    e.stopPropagation();
+    const dd = document.getElementById('langDropdown');
+    if (!dd) return;
+    const isOpen = dd.classList.toggle('open');
+    if (isOpen) {
+      const code = document.getElementById('langSelect')?.value || 'en';
+      dd.querySelectorAll('[data-code]').forEach(li => {
+        li.classList.toggle('lang-item-active', li.dataset.code === code);
+      });
+    }
+  },
+  pickLang(code) {
+    document.getElementById('langDropdown')?.classList.remove('open');
+    const sel = document.getElementById('langSelect');
+    if (sel) sel.value = code;
+    const NAMES = { en:'English', fr:'Français', es:'Español', de:'Deutsch', ru:'Русский' };
+    const lbl = document.getElementById('langDropdownLabel');
+    if (lbl) lbl.textContent = NAMES[code] || code;
+    window.changeLanguage(code);
+  },
 });
 
 function openMobileMenu() {
@@ -825,6 +848,9 @@ window.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(e) {
     const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
     if (wrap && !wrap.contains(e.target)) closeMobileMenu();
+    if (!document.getElementById('langDropdown')?.contains(e.target)) {
+      document.getElementById('langDropdown')?.classList.remove('open');
+    }
   });
   if (!localStorage.getItem('km_onboarding_done')) {
     setTimeout(showTutorial, 600);
