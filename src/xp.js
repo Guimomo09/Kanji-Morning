@@ -226,8 +226,10 @@ export function renderProfileHTML() {
     }).join('');
 
     return `
-      <div class="profile-section-title">${label}</div>
-      <div class="shop-grid">${cards}</div>`;
+      <details class="shop-section" open>
+        <summary class="shop-section-summary">${label} <span class="shop-section-count">${items.length}</span></summary>
+        <div class="shop-grid">${cards}</div>
+      </details>`;
   }).join('');
 
   return `

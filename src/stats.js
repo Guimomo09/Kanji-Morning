@@ -638,7 +638,7 @@ export function renderStats() {
           ? `<img src="${u.photoURL}" class="stats-user-avatar" referrerpolicy="no-referrer" alt="">`
           : `<span class="stats-user-fallback">${(u.displayName||'?')[0].toUpperCase()}</span>`;
         const grains = parseInt(localStorage.getItem('km_xp_grains')||'0',10);
-        return `<div class="stats-user-row">${av}<div><div class="stats-user-name">${u.displayName?.split(' ')[0]||''}</div><div class="stats-user-grains">🫘 ${grains} grain${grains!==1?'s':''}</div></div></div>`;
+        return `<div class="stats-user-row"><div><div class="stats-user-name">${u.displayName?.split(' ')[0]||''}</div><div class="stats-user-grains">🫘 ${grains} grain${grains!==1?'s':''}</div></div>${av}</div>`;
       })()}
       ${renderXPBarHTML()}
       ${missedHtml}
@@ -654,11 +654,10 @@ export function renderStats() {
         </div>
       </div>
 
-      ${history.length ? `
       <div class="chart-block">
         <div class="chart-title">${t('stats_chart_scores')}</div>
-        <canvas id="scoreCanvas" class="chart-canvas"></canvas>
-      </div>` : ''}
+        ${history.length ? `<canvas id="scoreCanvas" class="chart-canvas"></canvas>` : `<div class="stats-empty-chart"><span>📊</span>${t('stats_no_quiz_title')}</div>`}
+      </div>
 
       <div class="chart-block" id="activityChartBlock">
         <div class="streak-cal-header">
@@ -672,10 +671,9 @@ export function renderStats() {
         <div id="activityViewContent"></div>
       </div>
 
-      ${history.length ? `
       <div class="chart-block">
         <div class="chart-title">${t('stats_chart_recent')}</div>
-        <div class="qh-list">
+        ${history.length ? `<div class="qh-list">
           ${[...history].sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).reverse().slice(0, 15).map(h => {
             const qtype = h.type || 'daily';
             const badge = qtype === 'biweekly'
@@ -690,15 +688,8 @@ export function renderStats() {
               <span class="qh-score">${h.score}/${h.total} <span class="qh-pct">(${h.pct}%)</span></span>
             </div>`;
           }).join('')}
-        </div>
-      </div>` : `
-      <div class="chart-block" style="text-align:center;padding:48px 20px;color:var(--muted)">
-        <div style="font-size:48px;margin-bottom:14px">📊</div>
-        <div style="font-size:16px;font-weight:700;color:var(--sub)">${t('stats_no_quiz_title')}</div>
-        <div style="font-size:13px;margin-top:8px;line-height:1.6">
-          ${t('stats_no_quiz_body')}
-        </div>
-      </div>`}
+        </div>` : `<div class="stats-empty-chart"><span>📅</span>${t('stats_no_quiz_body')}</div>`}
+      </div>
 
       ${lastBiweekly ? `
       <div class="chart-block">
