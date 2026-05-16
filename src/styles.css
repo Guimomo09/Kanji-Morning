@@ -192,16 +192,16 @@
       margin: 20px auto 48px;
       padding: 0 24px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+      gap: 24px;
     }
 
     /* ���� Card ���������������������������������������������������������������������� */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 26px 24px 22px;
+      border-radius: 16px;
+      padding: 32px 28px 26px;
       box-shadow: 0 2px 14px rgba(0,0,0,.05);
       transition: transform .18s, box-shadow .18s;
       opacity: 0;
@@ -209,6 +209,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
+      min-height: 380px;
     }
     .card-body { flex: 1; display: flex; flex-direction: column; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,.1); }
@@ -248,7 +249,7 @@
     .badge-N1 { background: var(--n1-bg); color: var(--n1); }
 
     .card-meaning {
-      font-size: 16px; font-weight: 700; line-height: 1.4; color: #1a1a1a;
+      font-size: 17px; font-weight: 700; line-height: 1.4; color: #1a1a1a;
       word-break: break-word; overflow-wrap: break-word;
     }
 
@@ -532,38 +533,38 @@
     .tab-sub { font-size: 9px; opacity: 1; }
 
     /* ── Vocab Kanji Components ──────────────────────────────────────── */
-    .vocab-kcomp { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
-    .vocab-kcomp:empty { display: none; }
-    .vkc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
-    .vkc-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+    .vocab-kcomp { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
+    .vocab-kcomp:empty { display: none; margin-top: auto; }
+    .vkc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
+    .vkc-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
     .vkc-row + .vkc-row { border-top: 1px solid var(--border); }
-    .vkc-char { font-size: 26px; font-weight: 900; color: var(--fg); min-width: 34px; text-align: center; }
+    .vkc-char { font-size: 30px; font-weight: 900; color: var(--text); min-width: 38px; text-align: center; }
     .vkc-info { flex: 1; min-width: 0; }
-    .vkc-meaning { font-size: 13px; font-weight: 600; color: var(--fg); }
+    .vkc-meaning { font-size: 14px; font-weight: 600; color: var(--text); }
     .vkc-lvl { font-size: 10px; font-weight: 700; color: var(--red); margin-left: 4px; vertical-align: middle; }
-    .vkc-readings { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .vkc-readings { font-size: 12px; color: var(--muted); margin-top: 3px; }
     .vkc-save {
       background: none; border: none; cursor: pointer;
-      font-size: 18px; color: var(--muted); padding: 6px;
-      border-radius: 6px; transition: color .15s; flex-shrink: 0;
+      font-size: 20px; color: var(--muted); padding: 8px;
+      border-radius: 8px; transition: color .15s; flex-shrink: 0;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
     .vkc-save:hover { color: var(--red); }
     .vkc-save.saved { color: #c8832e; }
 
     /* ── Vocab card extras ───────────────────────────────────────────────── */
-    .vocab-header { margin-bottom: 10px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+    .vocab-header { margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
     .vocab-word {
-      font-size: 48px; line-height: 1.15; font-weight: 900; color: #111;
+      font-size: 56px; line-height: 1.1; font-weight: 900; color: #111;
       user-select: none; word-break: break-word;
     }
     .vocab-reading {
-      font-size: 14px; font-weight: 700; color: #6d4c41;
-      letter-spacing: 1px; margin-top: 3px;
+      font-size: 16px; font-weight: 700; color: #6d4c41;
+      letter-spacing: 1px; margin-top: 4px;
     }
     .vocab-meta {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     .vocab-meta .badge { margin-bottom: 0; }
     .source-kanji-tag {
@@ -1289,19 +1290,20 @@
 
       /* ── Grid ── */
       .grid {
-        padding: 0 12px;
+        padding: 0 14px;
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 16px;
         margin-top: 12px;
       }
 
       /* ── Cards ── */
       .card {
-        padding: 16px 14px 14px;
-        border-radius: 12px;
+        padding: 22px 20px 18px;
+        border-radius: 14px;
+        min-height: 300px;
       }
-      .vocab-word { font-size: 38px; }
-      .card-meaning { font-size: 15px; }
+      .vocab-word { font-size: 44px; }
+      .card-meaning { font-size: 16px; }
       .kanji-char { font-size: 58px; width: 66px; min-width: 66px; }
 
       /* ── Quiz interactive ── */
