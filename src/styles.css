@@ -531,6 +531,26 @@
     .tab.active { background: var(--red); color: #fff; }
     .tab-sub { font-size: 9px; opacity: 1; }
 
+    /* ── Vocab Kanji Components ──────────────────────────────────────── */
+    .vocab-kcomp { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+    .vocab-kcomp:empty { display: none; }
+    .vkc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+    .vkc-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+    .vkc-row + .vkc-row { border-top: 1px solid var(--border); }
+    .vkc-char { font-size: 26px; font-weight: 900; color: var(--fg); min-width: 34px; text-align: center; }
+    .vkc-info { flex: 1; min-width: 0; }
+    .vkc-meaning { font-size: 13px; font-weight: 600; color: var(--fg); }
+    .vkc-lvl { font-size: 10px; font-weight: 700; color: var(--red); margin-left: 4px; vertical-align: middle; }
+    .vkc-readings { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .vkc-save {
+      background: none; border: none; cursor: pointer;
+      font-size: 18px; color: var(--muted); padding: 6px;
+      border-radius: 6px; transition: color .15s; flex-shrink: 0;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+    .vkc-save:hover { color: var(--red); }
+    .vkc-save.saved { color: #c8832e; }
+
     /* ── Vocab card extras ───────────────────────────────────────────────── */
     .vocab-header { margin-bottom: 10px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
     .vocab-word {

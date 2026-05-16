@@ -2,18 +2,63 @@ import { VOCAB_COUNT, LEVEL_LABEL } from './config.js';
 import { normMeaning, setStatus, todayStr, sortMeanings, pickBestGloss } from './utils.js';
 import { FREQ } from './freq.js';
 import { state } from './state.js';
-import { getWords, buildPool, pickVocabChars } from './api.js';
+import { getWords, buildPool, pickVocabChars, getKanjiDetail } from './api.js';
 import { loadLearnedWords, isLearned, forgetWord } from './learned.js';
 import { CLOUD_ENABLED } from './config.js';
 import { cloudUpdate, cloudSavedWordAdd, cloudSavedWordRemove } from './cloud.js';
 import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
-import { showSkeletons, getAllSavedKanjis, ensureKanjiCards } from './kanji.js';
+import { showSkeletons, getAllSavedKanjis, ensureKanjiCards, isKanjiSaved, toggleSaveKanji } from './kanji.js';
 import { getMeaning } from './trans.js';
 import { getLang, t } from './i18n.js';
 import { speakJapanese } from './audio.js';
 
 // ── JLPT level overrides for words misclassified by kanjiapi.dev ─────────
+
+// ── Kanji component helpers ───────────────────────────────────────────────
+function _extractKanji(str) {
+  return [...str].filter(c => (c >= '\u4E00' && c <= '\u9FFF') || (c >= '\u3400' && c <= '\u4DBF'));
+}
+async function _enrichKanjiComponents(card, word) {
+  const chars = _extractKanji(word);
+  if (!chars.length) return;
+  const placeholder = card.querySelector('.vocab-kcomp');
+  if (!placeholder) return;
+  try {
+    const details = await Promise.all(chars.map(c => getKanjiDetail(c).catch(() => null)));
+    const rows = chars.map((c, i) => {
+      const d = details[i];
+      if (!d) return '';
+      const on      = (d.on_readings  || []).slice(0, 2).join('、') || '—';
+      const kun     = (d.kun_readings || []).slice(0, 2).join('、') || '—';
+      const meaning = (d.meanings    || []).slice(0, 2).join(', ') || '?';
+      const lvl     = d.jlpt ? LEVEL_LABEL[d.jlpt] || '' : '';
+      const saved   = isKanjiSaved(c);
+      return `<div class="vkc-row" data-char="${c}">
+        <div class="vkc-char">${c}</div>
+        <div class="vkc-info">
+          <div class="vkc-meaning">${meaning}${lvl ? ` <span class="vkc-lvl">${lvl}</span>` : ''}</div>
+          <div class="vkc-readings">音 ${on} · 訓 ${kun}</div>
+        </div>
+        <button class="vkc-save${saved ? ' saved' : ''}" title="${saved ? 'Saved' : 'Save to My List'}">${saved ? '★' : '☆'}</button>
+      </div>`;
+    }).join('');
+    if (!rows.trim()) return;
+    placeholder.innerHTML = `<div class="vkc-label">Kanji</div>${rows}`;
+    placeholder.querySelectorAll('.vkc-save').forEach(btn => {
+      const char = btn.closest('.vkc-row').dataset.char;
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const d = details[chars.indexOf(char)];
+        toggleSaveKanji({ kanji: char, level: d?.jlpt ? LEVEL_LABEL[d.jlpt] : '?', meaning: (d?.meanings || [])[0] || '' });
+        const nowSaved = isKanjiSaved(char);
+        btn.textContent = nowSaved ? '★' : '☆';
+        btn.classList.toggle('saved', nowSaved);
+        btn.title = nowSaved ? 'Saved' : 'Save to My List';
+      });
+    });
+  } catch { /* silently skip */ }
+}
 // Key = word (written form), value = correct JLPT number (5=N5, 4=N4, etc.)
 const JLPT_OVERRIDES = {
   '夜':4, '朝':5, '昼':5, '夕':4, '春':5, '夏':5, '秋':5, '冬':5,
@@ -335,9 +380,18 @@ export function renderVocabCard(item, delay) {
       </div>
       ${extraDefs ? `<div>${extraDefs}</div>` : ''}
       ${relatedHtml}
+      <div class="vocab-kcomp"></div>
     </div>`;
   card.querySelector('.vocab-speak-btn')
       ?.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(reading || word); });
+  if (!state.quizMode) {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', e => {
+      if (e.target.closest('button')) return;
+      window.openVocabDetail?.(item);
+    });
+  }
+  _enrichKanjiComponents(card, word);
   return card;
 }
 

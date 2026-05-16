@@ -11,8 +11,8 @@ import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
 import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js';
-import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
-import { loadTrans } from './trans.js';
+import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM, getLang } from './i18n.js';
+import { loadTrans, getMeaning } from './trans.js';
 import { speakJapanese } from './audio.js';
 import { syncXPBar, applyEquipped, renderProfileHTML } from './xp.js';
 
@@ -218,6 +218,33 @@ function closeKanjiDetail() {
   document.body.style.overflow = '';
 }
 
+function openVocabDetail(item) {
+  const backdrop = document.getElementById('kanjiDetailBackdrop');
+  const content  = document.getElementById('kanjiDetailContent');
+  const { word, reading, pos, level, extraMeanings, sourceKanji } = item;
+  const meaning  = getMeaning(word, getLang()) || item.meaning;
+  const jishoUrl = `https://jisho.org/search/${encodeURIComponent(word)}`;
+  const extras   = (extraMeanings || []).slice(0, 2);
+  content.innerHTML = `
+    <div style="margin-bottom:20px">
+      <div style="font-size:clamp(36px,10vw,68px);font-weight:900;line-height:1;color:var(--ink);word-break:break-word;margin-bottom:10px">${word}</div>
+      ${reading ? `<div style="font-size:20px;color:var(--red);font-weight:700;margin-bottom:8px">${reading}</div>` : ''}
+      <div style="font-size:17px;color:var(--text);font-weight:600;line-height:1.4">${meaning}</div>
+      ${extras.length ? `<div style="font-size:13px;color:var(--sub);margin-top:6px">${extras.join(' \u00b7 ')}</div>` : ''}
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+      <span class="badge badge-${level}">${level}</span>
+      ${pos ? `<span style="font-size:12px;color:var(--muted)">${pos}</span>` : ''}
+      ${sourceKanji ? `<span style="font-size:13px;color:var(--sub)">from <strong>${sourceKanji}</strong></span>` : ''}
+    </div>
+    <a href="${jishoUrl}" target="_blank" rel="noopener noreferrer"
+       style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none">
+      🔍 View on Jisho
+    </a>`;
+  backdrop.style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
 function openWordDetail(wordStr) {
   const backdrop = document.getElementById('kanjiDetailBackdrop');
   const content  = document.getElementById('kanjiDetailContent');
@@ -382,6 +409,7 @@ Object.assign(window, {
   openKanjiDetail,
   closeKanjiDetail,
   openWordDetail,
+  openVocabDetail,
   handleKanjiChipClick,
   handleWordRowClick,
   saveWotd,
