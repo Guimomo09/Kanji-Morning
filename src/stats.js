@@ -606,13 +606,6 @@ export function renderStats() {
     studyLbls.push(`${d.getMonth() + 1}/${d.getDate()}`);
   }
 
-  const recent    = [...history].sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).slice(-20);
-  const scoreVals = recent.map(h => h.pct);
-  const scoreLbls = recent.map(h => {
-    const d = new Date(h.date + 'T12:00:00');
-    return `${d.getMonth() + 1}/${d.getDate()}`;
-  });
-
   const nextMon       = nextBiWeeklyMonday();
   const todayIsBiW    = isBiWeeklyMonday();
   const todayDone     = isBiWeeklyDone(todayStr());
@@ -654,11 +647,6 @@ export function renderStats() {
         </div>
       </div>
 
-      <div class="chart-block">
-        <div class="chart-title">${t('stats_chart_scores')}</div>
-        ${history.length ? `<canvas id="scoreCanvas" class="chart-canvas"></canvas>` : `<div class="stats-empty-chart"><span>📊</span>${t('stats_no_quiz_title')}</div>`}
-      </div>
-
       <div class="chart-block" id="activityChartBlock">
         <div class="streak-cal-header">
           <span class="chart-title" style="margin:0">${_activityTitle(av)}</span>
@@ -669,26 +657,6 @@ export function renderStats() {
           </div>
         </div>
         <div id="activityViewContent"></div>
-      </div>
-
-      <div class="chart-block">
-        <div class="chart-title">${t('stats_chart_recent')}</div>
-        ${history.length ? `<div class="qh-list">
-          ${[...history].sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).reverse().slice(0, 15).map(h => {
-            const qtype = h.type || 'daily';
-            const badge = qtype === 'biweekly'
-              ? '<span class="qh-type qh-type-biweekly">Bi-Weekly</span>'
-              : qtype === 'srs'
-              ? '<span class="qh-type qh-type-srs">SRS</span>'
-              : '<span class="qh-type qh-type-daily">Daily</span>';
-            return `
-            <div class="qh-row">
-              <span class="qh-date">${h.date}${badge}</span>
-              <div class="qh-bar-wrap"><div class="qh-bar" style="width:${h.pct}%"></div></div>
-              <span class="qh-score">${h.score}/${h.total} <span class="qh-pct">(${h.pct}%)</span></span>
-            </div>`;
-          }).join('')}
-        </div>` : `<div class="stats-empty-chart"><span>📅</span>${t('stats_no_quiz_body')}</div>`}
       </div>
 
       ${lastBiweekly ? `
@@ -717,8 +685,6 @@ export function renderStats() {
   });
 
   requestAnimationFrame(() => {
-    const sc = document.getElementById('scoreCanvas');
-    if (sc) drawLineChart(sc, scoreVals, scoreLbls);
     _renderActivityContent(av);
   });
 }
