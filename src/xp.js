@@ -226,7 +226,7 @@ export function renderProfileHTML() {
     }).join('');
 
     return `
-      <details class="shop-section" open>
+      <details class="shop-section">
         <summary class="shop-section-summary">${label} <span class="shop-section-count">${items.length}</span></summary>
         <div class="shop-grid">${cards}</div>
       </details>`;
