@@ -27,3 +27,4 @@ _enpivot_log.txt
 # OS
 .DS_Store
 Thumbs.db
+.env
