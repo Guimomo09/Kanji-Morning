@@ -542,7 +542,8 @@
     .tab br { display: none; }
     .tab:hover  { background: #e0d5c8; }
     .tab.active { background: var(--red); color: #fff; }
-    .tab-sub { font-size: 9px; opacity: 1; }
+    .tab-sub  { font-size: 9px; opacity: 1; }
+    .tab-icon { font-size: 20px; line-height: 20px; height: 20px; display: flex; align-items: center; font-weight: 900; }
 
     /* ── Vocab Kanji Components ──────────────────────────────────────── */
     .vocab-kcomp { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
