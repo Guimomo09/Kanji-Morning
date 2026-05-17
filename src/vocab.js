@@ -45,13 +45,13 @@ export async function _enrichKanjiComponents(card, word) {
       </div>`;
     }).join('');
     if (!cards.trim()) return;
-    // Example sentence: Tatoeba first, then SENTENCE_OVERRIDE for any component kanji
+    // Example sentence: Tatoeba proxy first.
+    // ONLY fall back to SENTENCE_OVERRIDE for single-kanji words (to avoid using a
+    // component kanji's sentence for a compound — e.g. showing 話 sentence for 神話).
     let sent = vocabSent;
-    if (!sent) {
-      for (const c of chars) {
-        const sents = SENTENCE_OVERRIDE[c];
-        if (sents?.length) { sent = sents[0]; break; }
-      }
+    if (!sent && chars.length === 1) {
+      const sents = SENTENCE_OVERRIDE[chars[0]];
+      if (sents?.length) sent = sents[0];
     }
     const sentHtml = sent
       ? `<div class="vkc-label vkc-ex-label">例文</div>

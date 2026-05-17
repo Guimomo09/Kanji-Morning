@@ -3783,8 +3783,10 @@ export function renderCard(k, delay) {
           <span class="reading-kana">${kun}</span>
         </div>
       </div>
-      <div class="examples-label">Examples</div>
-      ${exHtml}
+      <div class="card-examples">
+        <div class="examples-label">Examples</div>
+        ${exHtml}
+      </div>
     </div>`);
 
   return card;

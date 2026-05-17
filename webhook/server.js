@@ -85,6 +85,24 @@ app.post(
 // Health check
 app.get('/health', (req, res) => res.json({ ok: true }));
 
+// ── Sentence proxy (Tatoeba, no CORS issue server-side) ──────────────────
+app.get('/api/sentence', async (req, res) => {
+  const word = (req.query.word || '').trim();
+  if (!word || word.length > 20) return res.json(null);
+  try {
+    const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=15`;
+    const upstream = await fetch(url, { signal: AbortSignal.timeout(5000) });
+    if (!upstream.ok) return res.json(null);
+    const data = await upstream.json();
+    for (const r of (data.results || [])) {
+      if (r.text?.includes(word) && r.translations?.[0]?.[0]?.text) {
+        return res.json({ jp: r.text.trim(), en: r.translations[0][0].text.trim() });
+      }
+    }
+    res.json(null);
+  } catch { res.json(null); }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, '127.0.0.1', () => {
   console.log(`[webhook] Server listening on 127.0.0.1:${PORT}`);

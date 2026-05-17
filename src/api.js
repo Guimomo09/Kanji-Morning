@@ -75,24 +75,19 @@ export function pickVocabChars(n) {
 export async function getVocabSentence(word) {
   const key = `vsent_${word}`;
   const cached = cacheGet(key);
-  if (cached !== null) return cached;
+  if (cached !== null && cached !== undefined) return cached;
   try {
     const res = await fetch(
-      `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=10&is_orphan=no`,
-      { signal: AbortSignal.timeout(4000) }
+      `/api/sentence?word=${encodeURIComponent(word)}`,
+      { signal: AbortSignal.timeout(5000) }
     );
-    if (!res.ok) throw new Error('tatoeba error');
-    const data = await res.json();
-    for (const r of (data.results || [])) {
-      if (r.text?.includes(word) && r.translations?.[0]?.[0]?.text) {
-        const s = { jp: r.text.trim(), en: r.translations[0][0].text.trim() };
-        cacheSet(key, s);
-        return s;
-      }
-    }
-  } catch { /* CORS or timeout — fall through */ }
-  cacheSet(key, null);
-  return null;
+    if (!res.ok) throw new Error('sentence api error');
+    const s = await res.json();
+    cacheSet(key, s); // s can be null (miss) — cached to avoid re-fetching
+    return s;
+  } catch {
+    return null; // don't cache on network error, allow retry
+  }
 }
 
 export function pickChars(n) {

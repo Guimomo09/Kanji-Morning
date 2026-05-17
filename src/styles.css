@@ -262,27 +262,31 @@
 
     /* ���� Readings �������������������������������������������������������������� */
     .readings { display: flex; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--border); padding-top: 14px; margin-bottom: 16px; }
-    .reading-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); display: block; margin-bottom: 4px; }
-    .reading-kana  { font-size: 14px; font-weight: 700; color: #6d4c41; letter-spacing: 1px; word-break: break-all; }
+    /* ── Kanji card: reading labels/kana ──────────────────────────── */
+    .reading-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); display: block; margin-bottom: 5px; }
+    .reading-kana  { font-size: 17px; font-weight: 700; color: #6d4c41; letter-spacing: 1px; word-break: break-all; }
 
     /* ���� Examples �������������������������������������������������������������� */
-    .examples-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    /* ── Kanji card: examples section (flex:1 fills bottom space) ── */
+    .card-examples { flex: 1; display: flex; flex-direction: column; padding-top: 16px; border-top: 1px solid var(--border); margin-top: 16px; }
+    .examples-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
     .example {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      padding: 8px 10px;
+      gap: 5px;
+      padding: 12px 14px;
       background: var(--bg);
       border-radius: 8px;
       border-left: 3px solid var(--border);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       overflow: hidden;
+      flex: 1;
     }
     .example:last-child { margin-bottom: 0; }
     .ex-top     { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-    .ex-word    { font-size: 15px; font-weight: 800; color: #111; }
-    .ex-reading { font-size: 11px; color: var(--muted); }
-    .ex-meaning { font-size: 12px; color: var(--sub); word-break: break-word; overflow-wrap: break-word; }
+    .ex-word    { font-size: 17px; font-weight: 800; color: #111; }
+    .ex-reading { font-size: 12px; color: var(--muted); }
+    .ex-meaning { font-size: 14px; color: var(--sub); word-break: break-word; overflow-wrap: break-word; }
 
     /* ���� Quiz mode ������������������������������������������������������������ */
     .btn-quiz         { background: #fff3e0; color: #e65100; border: 1.5px solid #ffcc80; }
@@ -515,6 +519,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,.06);
     }
     .tab {
+      min-height: 54px;
       padding: 7px 16px;
       border: none;
       border-radius: 8px 8px 0 0;

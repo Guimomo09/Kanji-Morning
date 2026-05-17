@@ -969,7 +969,7 @@ setPostAuthCallback(() => {
       window.$crisp.push(['set', 'user:nickname', [state._fbUser.displayName]]);
     }
   }
-  if      (state.currentTab === 'vocab')  renderVocab();
+  if      (state.currentTab === 'vocab')  { if (state.currentVocabItems.length === 0) renderVocab(); }
   else if (state.currentTab === 'mylist') renderMyList();
   else if (state.currentTab === 'stats')  renderStats();
   else if (state.currentTab === 'exam')   renderExamTab();
