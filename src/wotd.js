@@ -69,6 +69,13 @@ const WORDS = [
 
 const SEASON_EMOJIS = { spring: '🌸', summer: '🌊', autumn: '🍂', winter: '❄️', all: '✨' };
 
+// Mots exclus du WOTD — termes irrespectueux ou pouvant être mal interprétés
+const WOTD_BLACKLIST = new Set([
+  'お前', 'おまえ', '貴様', '手前',
+  '馬鹿', 'バカ', 'ばか', 'アホ', 'あほ',
+  'クソ', 'くそ', '死ね', '殺す', '野郎',
+]);
+
 function getSeason(month) {
   if (month <= 2 || month === 12) return 'winter';
   if (month <= 5)  return 'spring';
@@ -81,7 +88,7 @@ export function getWordOfDay(dateStr) {
   const month  = d.getMonth() + 1;
   const season = getSeason(month);
 
-  const pool = WORDS.filter(w => w.season === season || w.season === 'all');
+  const pool = WORDS.filter(w => (w.season === season || w.season === 'all') && !WOTD_BLACKLIST.has(w.word));
 
   // Deterministic daily shuffle using date as seed (mulberry32)
   const seed = parseInt(d.toISOString().slice(0, 10).replace(/-/g, ''), 10);

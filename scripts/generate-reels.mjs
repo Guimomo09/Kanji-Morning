@@ -22,6 +22,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execFileSync, spawnSync } from 'child_process';
 import { createRequire } from 'module';
+import { isBlacklisted } from './content-blacklist.mjs';
 const require = createRequire(import.meta.url);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -454,7 +455,7 @@ for (const kanji of targetKanji) {
   const tts1Items = [...cleanKun, ...cleanOn].slice(0, 6); // max 6 lectures
 
   // Card 2: vocab words — 3 TTS séparés pour spacing chirurgical
-  const vocabWords = (EXAMPLE_OVERRIDE[kanji] || []).slice(0, 3);
+  const vocabWords = (EXAMPLE_OVERRIDE[kanji] || []).filter(w => !isBlacklisted(w.w)).slice(0, 3);
   const vocabTtsTexts = vocabWords.length
     ? vocabWords.map(w => w.w)
     : [`${kanji}`];
