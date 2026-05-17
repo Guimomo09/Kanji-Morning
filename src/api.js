@@ -72,18 +72,22 @@ export function pickVocabChars(n) {
   return chosen;
 }
 
-export async function getVocabSentence(word) {
+export async function getVocabSentence(word, reading) {
   const key = `vsent_${word}`;
   const cached = cacheGet(key);
   if (cached !== null && cached !== undefined) return cached;
   try {
+    const params = new URLSearchParams({ word });
+    // Pass kana reading as fallback so the server can search by reading
+    // when the kanji form isn't found in Tatoeba (e.g. 他所 → よそ)
+    if (reading && reading !== word) params.set('reading', reading);
     const res = await fetch(
-      `/api/sentence?word=${encodeURIComponent(word)}`,
-      { signal: AbortSignal.timeout(5000) }
+      `/api/sentence?${params}`,
+      { signal: AbortSignal.timeout(6000) }
     );
     if (!res.ok) throw new Error('sentence api error');
     const s = await res.json();
-    cacheSet(key, s); // s can be null (miss) — cached to avoid re-fetching
+    if (s?.jp && s?.en) { cacheSet(key, s); }  // only cache hits
     return s;
   } catch {
     return null; // don't cache on network error, allow retry

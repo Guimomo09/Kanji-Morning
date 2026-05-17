@@ -86,18 +86,31 @@ app.post(
 app.get('/health', (req, res) => res.json({ ok: true }));
 
 // ── Sentence proxy (Tatoeba, no CORS issue server-side) ──────────────────
+async function searchTatoeba(query) {
+  const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(query)}&from=jpn&to=eng&limit=20`;
+  const upstream = await fetch(url, { signal: AbortSignal.timeout(5000) });
+  if (!upstream.ok) return null;
+  const data = await upstream.json();
+  for (const r of (data.results || [])) {
+    if (r.text?.includes(query) && r.translations?.[0]?.[0]?.text) {
+      return { jp: r.text.trim(), en: r.translations[0][0].text.trim() };
+    }
+  }
+  return null;
+}
+
 app.get('/api/sentence', async (req, res) => {
-  const word = (req.query.word || '').trim();
+  const word    = (req.query.word    || '').trim();
+  const reading = (req.query.reading || '').trim();
   if (!word || word.length > 20) return res.json(null);
   try {
-    const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=15`;
-    const upstream = await fetch(url, { signal: AbortSignal.timeout(5000) });
-    if (!upstream.ok) return res.json(null);
-    const data = await upstream.json();
-    for (const r of (data.results || [])) {
-      if (r.text?.includes(word) && r.translations?.[0]?.[0]?.text) {
-        return res.json({ jp: r.text.trim(), en: r.translations[0][0].text.trim() });
-      }
+    // 1) Search by kanji form
+    const byKanji = await searchTatoeba(word);
+    if (byKanji) return res.json(byKanji);
+    // 2) Fallback: search by kana reading (e.g. 他所 → よそ)
+    if (reading && reading !== word && reading.length <= 20) {
+      const byReading = await searchTatoeba(reading);
+      if (byReading) return res.json(byReading);
     }
     res.json(null);
   } catch { res.json(null); }

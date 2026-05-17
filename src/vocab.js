@@ -19,7 +19,7 @@ import { speakJapanese } from './audio.js';
 function _extractKanji(str) {
   return [...str].filter(c => (c >= '\u4E00' && c <= '\u9FFF') || (c >= '\u3400' && c <= '\u4DBF'));
 }
-export async function _enrichKanjiComponents(card, word) {
+export async function _enrichKanjiComponents(card, word, reading) {
   const chars = _extractKanji(word);
   if (!chars.length) return;
   const placeholder = card.querySelector('.vocab-kcomp');
@@ -27,7 +27,7 @@ export async function _enrichKanjiComponents(card, word) {
   try {
     const [details, vocabSent] = await Promise.all([
       Promise.all(chars.map(c => getKanjiDetail(c).catch(() => null))),
-      getVocabSentence(word),
+      getVocabSentence(word, reading),
     ]);
     const cards = chars.map((c, i) => {
       const d = details[i];
@@ -438,7 +438,7 @@ export function renderVocabCard(item, delay) {
       window.openVocabDetail?.(item);
     });
   }
-  _enrichKanjiComponents(card, word);
+  _enrichKanjiComponents(card, word, reading);
   return card;
 }
 
