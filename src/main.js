@@ -394,6 +394,9 @@ Object.assign(window, {
 
   // Navigation
   switchTab,
+  toggleVocabKanjiMode() {
+    switchTab(state.currentTab === 'kanji' ? 'vocab' : 'kanji');
+  },
   setJlptGoal(level) {
     localStorage.setItem('km_jlpt_goal', level);
     renderHome();

@@ -31,11 +31,18 @@ export function switchTab(tab) {
   localStorage.setItem('km_tab', tab);
   state.currentTab = tab;
   document.getElementById('tabHome')  .classList.toggle('active', tab === 'home');
-  document.getElementById('tabKanji') .classList.toggle('active', tab === 'kanji');
-  document.getElementById('tabVocab') .classList.toggle('active', tab === 'vocab');
+  document.getElementById('tabKanji') .classList.remove('active'); // merged into tabVocab
+  document.getElementById('tabVocab') .classList.toggle('active', tab === 'vocab' || tab === 'kanji');
   document.getElementById('tabMyList').classList.toggle('active', tab === 'mylist');
   document.getElementById('tabExam')  .classList.toggle('active', tab === 'exam');
   document.getElementById('tabStats') .classList.toggle('active', tab === 'stats');
+  // Update tabVocab icon/label to reflect current mode
+  const _tabVocabBtn = document.getElementById('tabVocab');
+  if (tab === 'kanji') {
+    _tabVocabBtn.innerHTML = '漢<br><span class="tab-sub">Kanji</span>';
+  } else if (tab === 'vocab') {
+    _tabVocabBtn.innerHTML = '語<br><span class="tab-sub">Vocab</span>';
+  }
 
   // Update the level-filter ⓘ button (shown only for kanji/vocab tabs)
   const infoBtn = document.getElementById('levelInfoBtn');
@@ -125,10 +132,14 @@ export function switchTab(tab) {
     document.getElementById('btnSave').style.display         = 'none';
     document.getElementById('btnDailyQuiz').style.display    = 'none';
     document.getElementById('btnBiweeklyQuiz').style.display = 'none';
-    document.getElementById('btnFromKanji').style.display    = 'none';
     document.getElementById('btnExam').style.display         = 'none';
     document.getElementById('btnMore').style.display         = '';
     document.getElementById('btnLess').style.display         = '';
+    // Show toggle button pointing back to vocab mode
+    const _fkBtn = document.getElementById('btnFromKanji');
+    _fkBtn.style.display = '';
+    _fkBtn.classList.remove('active');
+    _fkBtn.textContent = '語彙';
     applyKanjiLevelFilterUI();
     loadAndRender(state.count);
     return;
@@ -147,8 +158,11 @@ export function switchTab(tab) {
   document.getElementById('btnSave').textContent            = t('btn_save_quiz');
   document.getElementById('btnSave').disabled               = false;
   applyLevelFilterUI();
-  document.getElementById('btnFromKanji').style.display = '';
-  document.getElementById('btnFromKanji').classList.toggle('active', state.vocabFromKanjiMode);
+  // Toggle button: always visible in vocab tab, points to kanji mode
+  const _fk = document.getElementById('btnFromKanji');
+  _fk.style.display = '';
+  _fk.classList.remove('active');
+  _fk.textContent = '漢字';
   renderVocab();
 }
 

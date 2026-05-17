@@ -72,6 +72,29 @@ export function pickVocabChars(n) {
   return chosen;
 }
 
+export async function getVocabSentence(word) {
+  const key = `vsent_${word}`;
+  const cached = cacheGet(key);
+  if (cached !== null) return cached;
+  try {
+    const res = await fetch(
+      `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(word)}&from=jpn&to=eng&limit=10&is_orphan=no`,
+      { signal: AbortSignal.timeout(4000) }
+    );
+    if (!res.ok) throw new Error('tatoeba error');
+    const data = await res.json();
+    for (const r of (data.results || [])) {
+      if (r.text?.includes(word) && r.translations?.[0]?.[0]?.text) {
+        const s = { jp: r.text.trim(), en: r.translations[0][0].text.trim() };
+        cacheSet(key, s);
+        return s;
+      }
+    }
+  } catch { /* CORS or timeout — fall through */ }
+  cacheSet(key, null);
+  return null;
+}
+
 export function pickChars(n) {
   const filteredPool = state.kanjiLevelFilter === 'all'
     ? state.POOL
