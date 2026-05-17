@@ -38,6 +38,7 @@ async function fetchDetail(char) {
       m: (d.meanings ?? []).slice(0, 4).join(', ') || '',
       o: (d.on_readings  ?? []).map(r => r.toLowerCase()),
       k: (d.kun_readings ?? []).map(r => r.replace(/-$/, '').toLowerCase()),
+      j: d.jlpt || null, // JLPT level (5-1) for vocab card display
     };
   } catch {
     return null;

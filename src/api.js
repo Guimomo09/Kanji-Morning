@@ -2,6 +2,22 @@ import { API, LEVEL_WEIGHT, VOCAB_LEVEL_WEIGHT } from './config.js';
 import { cacheGet, cacheSet } from './cache.js';
 import { state } from './state.js';
 
+// ── Pre-load static kanji index for instant vocab card kanji display ──────
+let KANJI_INDEX = null;
+let KANJI_INDEX_PROMISE = null;
+
+function loadKanjiIndex() {
+  if (KANJI_INDEX_PROMISE) return KANJI_INDEX_PROMISE;
+  KANJI_INDEX_PROMISE = fetch('/kanji_index.json')
+    .then(r => r.ok ? r.json() : {})
+    .then(data => { KANJI_INDEX = data; })
+    .catch(() => { KANJI_INDEX = {}; });
+  return KANJI_INDEX_PROMISE;
+}
+
+// Kick off load immediately (non-blocking)
+loadKanjiIndex();
+
 // ── HTTP helpers ──────────────────────────────────────────────────────────
 async function apiFetch(path) {
   const res = await fetch(API + path);
@@ -17,9 +33,27 @@ export async function getJLPTList(num) {
 }
 
 export async function getKanjiDetail(char) {
+  // Priority 1: Static pre-loaded index (0 latency, instant vocab cards)
+  await loadKanjiIndex();
+  if (KANJI_INDEX && KANJI_INDEX[char]) {
+    const k = KANJI_INDEX[char];
+    // Convert compact format to API format expected by vocab.js
+    return {
+      meanings: k.m ? k.m.split(', ') : [],
+      on_readings: k.o || [],
+      kun_readings: k.k || [],
+      jlpt: k.j || null,
+    };
+  }
+
+  // Priority 2: Cache from previous API calls
   const key = `kanji_${char}`;
   let   d   = cacheGet(key);
-  if (!d) { d = await apiFetch(`/kanji/${encodeURIComponent(char)}`); cacheSet(key, d); }
+  if (d) return d;
+
+  // Priority 3: Live API fallback (for non-JLPT kanji)
+  d = await apiFetch(`/kanji/${encodeURIComponent(char)}`);
+  cacheSet(key, d);
   return d;
 }
 

@@ -1,12 +1,13 @@
 // ── Cache name — bump this string to force a hard refresh on all clients ──
-const CACHE = 'kanji-morning-v11';
+const CACHE = 'kanji-morning-v12';
 
 // ── Install: pre-cache the app shell + static data ────────────────────────
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll([
       '/',
-      '/sentences.json'
+      '/sentences.json',
+      '/kanji_index.json'
     ]))
   );
   self.skipWaiting();
