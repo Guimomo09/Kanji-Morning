@@ -32,8 +32,8 @@ kanji.guimo-prod.com {
     # Tatoeba sentence proxy (same port 3001 runs on the same VPS)
     reverse_proxy /api/sentence localhost:3001
 
-    # Basic auth — staging only (exclude /api/* so JS fetch can reach the proxy)
-    @restricted not path /api/*
+    # Basic auth — staging only (exclude /api/* and static data files so JS can fetch)
+    @restricted not path /api/* /sentences.json
     basic_auth @restricted {
         GuimoProd $2a$14$Z5AdSS5MAfg1d34QFEKcqeIo7g1nLIefbvKAEYlHh8bxaJTytgUOq
     }
