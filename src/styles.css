@@ -538,11 +538,11 @@
     .vkc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
     .vkc-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
     .vkc-row + .vkc-row { border-top: 1px solid var(--border); }
-    .vkc-char { font-size: 30px; font-weight: 900; color: var(--text); min-width: 38px; text-align: center; }
+    .vkc-char { font-size: 36px; font-weight: 900; color: var(--text); min-width: 44px; text-align: center; }
     .vkc-info { flex: 1; min-width: 0; }
-    .vkc-meaning { font-size: 14px; font-weight: 600; color: var(--text); }
+    .vkc-meaning { font-size: 15px; font-weight: 600; color: var(--text); }
     .vkc-lvl { font-size: 10px; font-weight: 700; color: var(--red); margin-left: 4px; vertical-align: middle; }
-    .vkc-readings { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .vkc-readings { font-size: 13px; color: var(--muted); margin-top: 3px; }
     .vkc-save {
       background: none; border: none; cursor: pointer;
       font-size: 20px; color: var(--muted); padding: 8px;
@@ -589,6 +589,16 @@
     }
     .kanji-save-btn:hover { color: var(--red); transform: scale(1.2); }
     .kanji-save-btn.saved { color: var(--red); }
+
+    /* ── Vocab word save button (top-right of card) ───────────────────────── */
+    .vocab-save-btn {
+      position: absolute; top: 12px; right: 14px; z-index: 3;
+      background: none; border: none; cursor: pointer;
+      font-size: 22px; color: var(--muted); line-height: 1;
+      padding: 4px; transition: color .15s, transform .1s;
+    }
+    .vocab-save-btn:hover { color: var(--red); transform: scale(1.2); }
+    .vocab-save-btn.saved { color: var(--red); }
 
     /* ── Speak (TTS) button ───────────────────────────────────────────────── */
     .speak-btn {

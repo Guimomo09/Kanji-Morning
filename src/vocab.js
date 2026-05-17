@@ -19,7 +19,7 @@ import { speakJapanese } from './audio.js';
 function _extractKanji(str) {
   return [...str].filter(c => (c >= '\u4E00' && c <= '\u9FFF') || (c >= '\u3400' && c <= '\u4DBF'));
 }
-async function _enrichKanjiComponents(card, word) {
+export async function _enrichKanjiComponents(card, word) {
   const chars = _extractKanji(word);
   if (!chars.length) return;
   const placeholder = card.querySelector('.vocab-kcomp');
@@ -70,6 +70,23 @@ const JLPT_OVERRIDES = {
   '学':5, '校':5, '先':5, '生':5, '人':5, '男':5, '女':5,
   '今':5, '昨':5, '明':5,
 };
+
+// ── Vocab word save helpers ───────────────────────────────────────────────
+export function isVocabWordSaved(word) {
+  return getAllSavedWords().some(w => w.word === word);
+}
+
+export function toggleSaveVocabWord(item) {
+  if (isVocabWordSaved(item.word)) {
+    removeFromMyList(item.word);
+    return false;
+  }
+  const date = todayStr();
+  updateSavedWordsMirror([item], date);
+  cloudSavedWordAdd(_compact(item, date)).catch(() => {});
+  renderMyList();
+  return true;
+}
 
 // ── Vocab quality filters ─────────────────────────────────────────────────
 function isAllKatakana(str) {
@@ -364,6 +381,7 @@ export function renderVocabCard(item, delay) {
 
   card.innerHTML = `
     ${coverHtml}
+    ${!state.quizMode ? `<button class="vocab-save-btn" title="Save to My List">☆</button>` : ''}
     <div class="card-body">
       <div class="vocab-header">
         <div class="vocab-word">${word}</div>
@@ -384,6 +402,18 @@ export function renderVocabCard(item, delay) {
     </div>`;
   card.querySelector('.vocab-speak-btn')
       ?.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(reading || word); });
+  const saveBtn = card.querySelector('.vocab-save-btn');
+  if (saveBtn) {
+    const initSaved = isVocabWordSaved(word);
+    saveBtn.textContent = initSaved ? '★' : '☆';
+    saveBtn.classList.toggle('saved', initSaved);
+    saveBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      const nowSaved = toggleSaveVocabWord(item);
+      saveBtn.textContent = nowSaved ? '★' : '☆';
+      saveBtn.classList.toggle('saved', nowSaved);
+    });
+  }
   if (!state.quizMode) {
     card.style.cursor = 'pointer';
     card.addEventListener('click', e => {

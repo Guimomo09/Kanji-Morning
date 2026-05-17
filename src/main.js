@@ -5,7 +5,7 @@ import { todayStr }                                            from './utils.js'
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus, cloudUpdate } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
-import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror } from './vocab.js';
+import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror, _enrichKanjiComponents, isVocabWordSaved, toggleSaveVocabWord } from './vocab.js';
 import { renderStats, renderHome, setActivityView, navActivityCal, getStudiedDatesSet } from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
@@ -218,31 +218,49 @@ function closeKanjiDetail() {
   document.body.style.overflow = '';
 }
 
-function openVocabDetail(item) {
+async function openVocabDetail(item) {
   const backdrop = document.getElementById('kanjiDetailBackdrop');
   const content  = document.getElementById('kanjiDetailContent');
   const { word, reading, pos, level, extraMeanings, sourceKanji } = item;
   const meaning  = getMeaning(word, getLang()) || item.meaning;
   const jishoUrl = `https://jisho.org/search/${encodeURIComponent(word)}`;
   const extras   = (extraMeanings || []).slice(0, 2);
+  const initSaved = isVocabWordSaved(word);
   content.innerHTML = `
-    <div style="margin-bottom:20px">
+    <div style="margin-bottom:16px">
       <div style="font-size:clamp(36px,10vw,68px);font-weight:900;line-height:1;color:var(--ink);word-break:break-word;margin-bottom:10px">${word}</div>
       ${reading ? `<div style="font-size:20px;color:var(--red);font-weight:700;margin-bottom:8px">${reading}</div>` : ''}
       <div style="font-size:17px;color:var(--text);font-weight:600;line-height:1.4">${meaning}</div>
       ${extras.length ? `<div style="font-size:13px;color:var(--sub);margin-top:6px">${extras.join(' \u00b7 ')}</div>` : ''}
     </div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
       <span class="badge badge-${level}">${level}</span>
       ${pos ? `<span style="font-size:12px;color:var(--muted)">${pos}</span>` : ''}
       ${sourceKanji ? `<span style="font-size:13px;color:var(--sub)">from <strong>${sourceKanji}</strong></span>` : ''}
+      <button class="vd-save-btn" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:24px;padding:4px 6px;border-radius:8px;color:${initSaved ? 'var(--red)' : 'var(--muted)'};transition:color .15s" title="${initSaved ? 'Saved' : 'Save to My List'}">${initSaved ? '★' : '☆'}</button>
     </div>
+    <div class="vocab-kcomp" style="margin-top:0;margin-bottom:16px"></div>
     <a href="${jishoUrl}" target="_blank" rel="noopener noreferrer"
        style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none">
       🔍 View on Jisho
     </a>`;
+  const vdSaveBtn = content.querySelector('.vd-save-btn');
+  if (vdSaveBtn) {
+    vdSaveBtn.addEventListener('click', () => {
+      const nowSaved = toggleSaveVocabWord(item);
+      vdSaveBtn.textContent = nowSaved ? '★' : '☆';
+      vdSaveBtn.style.color = nowSaved ? 'var(--red)' : 'var(--muted)';
+      vdSaveBtn.title = nowSaved ? 'Saved' : 'Save to My List';
+      // sync card button if visible
+      document.querySelectorAll('.vocab-save-btn').forEach(btn => {
+        const w = btn.closest('.card')?.querySelector('.vocab-word')?.textContent;
+        if (w === word) { btn.textContent = nowSaved ? '★' : '☆'; btn.classList.toggle('saved', nowSaved); }
+      });
+    });
+  }
   backdrop.style.display = '';
   document.body.style.overflow = 'hidden';
+  _enrichKanjiComponents(content, word);
 }
 
 function openWordDetail(wordStr) {
