@@ -145,18 +145,60 @@ async function getWords(char) {
   }
 }
 
-// ── Tatoeba sentence search (mirrors webhook/server.js) ───────────────────
-async function searchTatoeba(query) {
+// ── Tatoeba sentence search (enhanced for quality) ────────────────────────
+// NOTE: Tatoeba API doesn't provide furigana — client-side libraries like kuroshiro
+//       or wanakana can add furigana display from the raw Japanese text.
+async function searchTatoeba(query, jlptLevel = 1) {
   try {
-    const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(query)}&from=jpn&to=eng&limit=20`;
+    const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(query)}&from=jpn&to=eng&limit=50`;
     const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
     if (!res.ok) return null;
     const data = await res.json();
+    
+    // Max sentence length by JLPT level (to keep sentences appropriate to word difficulty)
+    const MAX_LENGTH = { 5: 25, 4: 30, 3: 40, 2: 50, 1: 60 };
+    const maxLen = MAX_LENGTH[jlptLevel] || 60;
+    
+    const candidates = [];
     for (const r of (data.results || [])) {
-      if (r.text?.includes(query) && r.translations?.[0]?.[0]?.text) {
-        return { jp: r.text.trim(), en: r.translations[0][0].text.trim() };
+      if (!r.text?.includes(query) || !r.translations?.[0]?.[0]?.text) continue;
+      const jp = r.text.trim();
+      const en = r.translations[0][0].text.trim();
+      
+      // Score sentence quality
+      let score = 0;
+      
+      // Priority 1: Polite form (です/ます/でした/ました) +100
+      if (/[でだ]す[。？！]?$|ます[。？！]?$|でした[。？！]?$|ました[。？！]?$/.test(jp)) {
+        score += 100;
       }
+      
+      // Priority 2: Appropriate length for level +50
+      if (jp.length <= maxLen) {
+        score += 50;
+      } else {
+        score -= (jp.length - maxLen); // penalize overlength
+      }
+      
+      // Priority 3: Contains punctuation (complete sentence) +20
+      if (/[。！？]$/.test(jp)) {
+        score += 20;
+      }
+      
+      // Priority 4: Shorter is better for learners +bonus
+      score += Math.max(0, 30 - jp.length);
+      
+      // Deprioritize very long or complex sentences
+      if (jp.length > maxLen * 1.5) score -= 50;
+      
+      candidates.push({ jp, en, score });
     }
+    
+    // Return best scoring sentence
+    if (candidates.length === 0) return null;
+    candidates.sort((a, b) => b.score - a.score);
+    const best = candidates[0];
+    return { jp: best.jp, en: best.en };
   } catch {}
   return null;
 }
@@ -314,12 +356,12 @@ if (FETCH_SENTENCES) {
 
   for (let i = 0; i < topWords.length; i++) {
     const w = topWords[i];
-    const byKanji = await searchTatoeba(w.word);
+    const byKanji = await searchTatoeba(w.word, w.jlptNum);
     if (byKanji) {
       sentences[w.word] = byKanji;
       found++;
     } else if (w.reading && w.reading !== w.word) {
-      const byReading = await searchTatoeba(w.reading);
+      const byReading = await searchTatoeba(w.reading, w.jlptNum);
       if (byReading) {
         sentences[w.word] = byReading;
         found++;
