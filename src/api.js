@@ -72,10 +72,33 @@ export function pickVocabChars(n) {
   return chosen;
 }
 
+// ── Pre-generated sentences database (top 500 words from Tatoeba) ────────
+let SENTENCES_DB = null;
+let SENTENCES_LOAD_PROMISE = null;
+
+function loadSentencesDB() {
+  if (SENTENCES_LOAD_PROMISE) return SENTENCES_LOAD_PROMISE;
+  SENTENCES_LOAD_PROMISE = fetch('/sentences.json')
+    .then(r => r.ok ? r.json() : {})
+    .then(data => { SENTENCES_DB = data; })
+    .catch(() => { SENTENCES_DB = {}; });
+  return SENTENCES_LOAD_PROMISE;
+}
+
+// Kick off load immediately (non-blocking)
+loadSentencesDB();
+
 export async function getVocabSentence(word, reading) {
+  // Priority 1: Static pre-generated sentences (top 500 words, 0 latency)
+  await loadSentencesDB();
+  if (SENTENCES_DB && SENTENCES_DB[word]) return SENTENCES_DB[word];
+
+  // Priority 2: Cache from previous proxy calls
   const key = `vsent_${word}`;
   const cached = cacheGet(key);
   if (cached !== null && cached !== undefined) return cached;
+
+  // Priority 3: Live Tatoeba proxy (fallback for words outside top 500)
   try {
     const params = new URLSearchParams({ word });
     // Pass kana reading as fallback so the server can search by reading

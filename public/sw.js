@@ -1,10 +1,13 @@
 // ── Cache name — bump this string to force a hard refresh on all clients ──
-const CACHE = 'kanji-morning-v10';
+const CACHE = 'kanji-morning-v11';
 
-// ── Install: pre-cache the app shell root so offline load works ───────────
+// ── Install: pre-cache the app shell + static data ────────────────────────
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.add('/'))
+    caches.open(CACHE).then(c => c.addAll([
+      '/',
+      '/sentences.json'
+    ]))
   );
   self.skipWaiting();
 });

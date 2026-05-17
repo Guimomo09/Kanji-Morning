@@ -1,0 +1,202 @@
+=== Top 200 mots par score (QA manuel) ===
+
+ 2274  N5  時間          じかん           hour
+ 2270  N4  仕事          しごと           work
+ 2264  N5  電話          でんわ           telephone (device)
+ 2258  N4  問題          もんだい          question (i.e. doubt)
+ 2248  N4  世界          せかい           world-renowned
+ 2244  N4  通り          どおり           Street
+ 2240  N5  一人          ひとり           one person
+ 2238  N5  人間          にんげん          character (of a person)
+ 2236  N5  お前          おまえ           you
+ 2222  N4  家族          かぞく           family
+ 2218  N4  意味          いみ            meaning
+ 2196  N4  教え          おしえ           teaching
+ 2194  N5  人生          じんせい          (one's) life
+ 2166  N5  出来          しゅったい         completion
+ 2156  N4  計画          けいかく          plan
+ 2146  N4  以上          いじょう          that's all
+ 2136  N5  二人          ふたり           two persons
+ 2132  N5  友人          ゆうじん          friend
+ 2128  N5  先生          せんせい          intimate or teasing form of address
+ 2127  N4  同じ          おなじ           anyway
+ 2124  N4  質問          しつもん          question
+ 2108  N4  写真          しゃしん          moving picture
+ 2088  N4  元気          げんき           healthy
+ 2080  N4  父親          ちちおや          father
+ 2066  N4  会社          かいしゃ          workplace
+ 2056  N4  一体          いったい          one Buddhist image (or carving, etc.)
+ 2054  N5  人々          ひとびと          each person
+ 2044  N5  今日          きょう           today
+ 2042  N5  学校          がっこう          school
+ 2032  N4  週間          しゅうかん         week
+ 2028  N4  母親          ははおや          mother
+ 2012  N4  病院          びょういん         hospital
+ 2006  N4  行動          こうどう          action
+ 1980  N4  研究          けんきゅう         study
+ 1976  N4  発見          はっけん          discovery
+ 1974  N4  大事          だいじ           safe
+ 1966  N4  運転          うんてん          driving (a vehicle)
+ 1960  N4  明日          あした           near future
+ 1948  N4  今度          こんど           this time
+ 1932  N4  特別          とくべつ          special
+ 1922  N4  医者          いしゃ           doctor
+ 1916  N4  不明          ふめい           unknown
+ 1908  N4  用意          ようい           preparation
+ 1904  N5  大きな         おおきな          big
+ 1904  N4  上手          じょうず          flattery
+ 1902  N4  映画          えいが           movie
+ 1880  N4  多く          おおく           majority (of)
+ 1848  N4  人物          じんぶつ          able person
+ 1846  N4  以外          いがい           with the exception of
+ 1842  N4  以前          いぜん           before
+ 1834  N4  銀行          ぎんこう          bank
+ 1826  N5  大学          だいがく          the Great Learning (one of the Four Books)
+ 1820  N4  本物          ほんもの          genuine article
+ 1814  N5  年間          ねんかん          (period of) a year
+ 1808  N4  病気          びょうき          illness (usu. excluding minor ailments, e.g. common cold)
+ 1792  N5  本気          ほんき           seriousness
+ 1768  N4  少年          しょうねん         boy
+ 1760  N4  地下          ちか            underground
+ 1758  N4  別れ          わかれ           parting
+ 1756  N4  時代          じだい           the times
+ 1752  N4  近く          ちかく           nearly (e.g. "it took nearly one year")
+ 1748  N4  動物          どうぶつ          animal
+ 1732  N4  主人          しゅじん          one's husband
+ 1730  N5  毎日          まいにち          every day
+ 1710  N4  世話          せわ            trouble
+ 1700  N4  食事          しょくじ          diet
+ 1678  N4  特に          とくに           particularly
+ 1674  N4  今朝          けさ            this morning
+ 1660  N4  大切          たいせつ          careful
+ 1656  N5  生まれ         うまれ           birth
+ 1654  N4  夕食          ゆうしょく         evening meal
+ 1650  N4  手紙          てがみ           letter
+ 1614  N4  料理          りょうり          (easily) dealing with something
+ 1604  N4  音楽          おんがく          music
+ 1596  N4  開始          かいし           start
+ 1588  N5  小さな         ちいさな          small
+ 1576  N4  出発          しゅっぱつ         departure
+ 1538  N4  教会          きょうかい         church
+ 1532  N4  以来          いらい           since
+ 1526  N4  集中          しゅうちゅう        within a collection of works
+ 1502  N5  上げ          あげ            rise (e.g. in price)
+ 1483  N4  色々          いろいろ          various colors (colours)
+ 1470  N4  安心          あんしん          peace of mind
+ 1464  N4  動き          うごき           movement
+ 1462  N5  時々          ときどき          seasonal
+ 1458  N4  会話          かいわ           conversation
+ 1442  N4  旅行          りょこう          travel
+ 1430  N4  建物          たてもの          building
+ 1424  N4  使用          しよう           use
+ 1422  N4  社会          しゃかい          social studies
+ 1392  N4  有名          ゆうめい          fame
+ 1366  N5  大人          おとな           adult
+ 1366  N4  出会          であい           confluence
+ 1364  N4  同意          どうい           same meaning
+ 1350  N4  味方          みかた           friend
+ 1346  N4  新聞          しんぶん          newspaper
+ 1340  N5  一生          いっしょう         (the only, the greatest, etc.) of one's life
+ 1334  N5  中国          ちゅうごく         China
+ 1316  N4  物語          ものがたり         story
+ 1298  N4  天使          てんし           angel
+ 1292  N5  高校          こうこう          senior high school
+ 1274  N4  親友          しんゆう          close friend
+ 1270  N4  勉強          べんきょう         study
+ 1264  N4  社長          しゃちょう         company president
+ 1258  N4  手がかり        てがかり          handhold
+ 1234  N4  発生          はっせい          generation (of power, heat, etc.)
+ 1230  N4  立場          たちば           position
+ 1228  N5  電気          でんき           (electric) light
+ 1214  N4  土地          とち            locality
+ 1194  N4  不安          ふあん           anxiety
+ 1194  N4  正体          しょうたい         consciousness
+ 1164  N5  子ども         こども           child
+ 1150  N4  空気          くうき           air
+ 1144  N4  地図          ちず            map
+ 1108  N4  作業          さぎょう          work
+ 1076  N4  食料          しょくりょう        food
+ 1051  N4  起動          きどう           startup
+ 1032  N4  開発          かいはつ          development
+ 1024  N4  国家          こっか           state
+ 1022  N4  大使          たいし           ambassador
+ 1018  N4  生物          せいぶつ          biology
+ 1008  N4  人質          ひとじち          hostage
+ 1004  N4  中止          ちゅうし          cancellation (of a planned event)
+  986  N4  小屋          こや            one's own house
+  966  N4  注文          ちゅうもん         order (for an item)
+  964  N4  物質          ぶっしつ          matter
+  936  N5  大した         たいした          considerable
+  916  N5  学生          がくせい          student (esp. a university student)
+  912  N4  注目          ちゅうもく         notice
+  904  N4  工場          こうば           factory
+  902  N5  休み          やすみ           dormancy (of a silkworm prior to moulting)
+  898  N4  仕業          しわざ           deed (esp. negative)
+  889  N3  彼女          かのじょ          girlfriend
+  883  N3  本当          ほんとう          proper
+  878  N4  地元          じもと           local
+  875  N3  場所          ばしょ           basho
+  859  N3  心配          しんぱい          care
+  857  N3  関係          かんけい          influence
+  856  N5  今後          こんご           from now on
+  853  N3  警察          けいさつ          police
+  852  N3  最後          さいご           one's final moments
+  850  N3  全部          ぜんぶ           all
+  849  N2  捜査          そうさ           search (esp. in criminal investigations)
+  848  N4  自ら          みずから          oneself
+  847  N3  情報          じょうほう         information (data contained in characters, signals, code, etc.)
+  846  N4  死者          ししゃ           dead person
+  846  N3  理由          りゆう           reason
+  844  N3  部屋          へや            stable
+  840  N3  女性          じょせい          feminine gender
+  838  N3  事件          じけん           event
+  836  N4  先週          せんしゅう         last week
+  836  N3  最初          さいしょ          beginning
+  834  N3  調べ          しらべ           investigation
+  833  N3  安全          あんぜん          safety
+  830  N3  殺人          さつじん          murder
+  828  N3  約束          やくそく          convention
+  827  N1  結婚          けっこん          marriage
+  826  N4  強力          きょうりょく        powerful
+  825  N3  感じ          かんじ           feeling
+  824  N4  同時          どうじ           simultaneous
+  824  N3  最高          さいこう          best
+  822  N2  仲間          なかま           member of the same category (family, class)
+  818  N4  出口          でぐち           exit
+  817  N3  確認          かくにん          confirmation
+  815  N3  全員          ぜんいん          all members
+  814  N3  理解          りかい           sympathy
+  808  N3  連れ          つれ            companion
+  806  N3  犯人          はんにん          offender
+  802  N1  感謝          かんしゃ          thanks
+  800  N3  言葉          ことば           language
+  797  N3  説明          せつめい          explanation
+  796  N1  博士          はかせ           pitch and length marks (to accompany a Buddhist liturgical chant, etc.)
+  795  N3  絶対          ぜったい          absoluteness
+  794  N4  一方          いっぽう          on the one hand
+  792  N3  一番          いちばん          best
+  791  N3  重要          じゅうよう         important
+  784  N3  間違い         まちがい          improper conduct (e.g. between man and woman)
+  783  N2  了解          りょうかい         roger
+  782  N3  相手          あいて           opponent (sports, etc.)
+  777  N2  簡単          かんたん          brief
+  776  N3  残念          ざんねん          regrettable
+  775  N3  自由          じゆう           freedom
+  774  N4  朝食          ちょうしょく        breakfast
+  771  N3  報告          ほうこく          report
+  770  N3  過ぎ          すぎ            past
+  769  N2  命令          めいれい          (software) instruction
+  768  N5  午前          ごぜん           morning
+  768  N2  大統領         だいとうりょう       president (of a nation)
+  767  N3  警官          けいかん          police officer
+  764  N3  真実          しんじつ          absolute truth
+  761  N3  戦争          せんそう          war
+  760  N2  武器          ぶき            weapon (something used to gain an advantage)
+  758  N1  刑事          けいじ           (police) detective
+  752  N3  存在          そんざい          existence
+  750  N3  責任          せきにん          duty
+  749  N2  普通          ふつう           local train
+  746  N1  監視          かんし           monitoring
+  744  N4  地上          ちじょう          this world
+  743  N3  実際          じっさい          bhutakoti (limit of reality)
+  742  N3  地球          ちきゅう          Earth
