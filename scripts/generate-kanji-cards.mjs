@@ -21,6 +21,7 @@ import { readFileSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
+import { isBlacklisted } from './content-blacklist.mjs';
 const require = createRequire(import.meta.url);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -394,7 +395,7 @@ function pickLevelWords(wordEntries, targetChar, targetJlptNum, max = 3) {
   const GLOSS_SKIP = /^(?:\w{2,3}:|\(|\[|to be |see )/i;
   const candidates = [];
   for (const entry of wordEntries) {
-    const variants = (entry.variants ?? []).filter(v => v.written?.includes(targetChar));
+    const variants = (entry.variants ?? []).filter(v => v.written?.includes(targetChar) && !isBlacklisted(v.written));
     if (!variants.length) continue;
     const variant = variants.find(v => v.priorities?.length > 0) ?? variants[0];
     let gloss = null;
@@ -430,7 +431,7 @@ function pickLevelWords(wordEntries, targetChar, targetJlptNum, max = 3) {
 async function fetchVocab(kanji, levelNum) {
   // 1. EXAMPLE_OVERRIDE — données curées de l'app (priorité max)
   if (EXAMPLE_OVERRIDE[kanji]?.length > 0) {
-    return EXAMPLE_OVERRIDE[kanji].slice(0, 3);
+    return EXAMPLE_OVERRIDE[kanji].filter(e => !isBlacklisted(e.w)).slice(0, 3);
   }
   // 2. Fallback : kanjiapi.dev
   try {

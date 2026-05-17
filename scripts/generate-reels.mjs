@@ -22,6 +22,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execFileSync, spawnSync } from 'child_process';
 import { createRequire } from 'module';
+import { isBlacklisted } from './content-blacklist.mjs';
 const require = createRequire(import.meta.url);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -284,7 +285,7 @@ for (const kanji of targetKanji) {
   const tts1Text = `${kanji}。${readings ? readings + '。' : ''}${meanings}.`;
 
   // Card 2: vocab words
-  const vocabWords = (EXAMPLE_OVERRIDE[kanji] || []).slice(0, 3);
+  const vocabWords = (EXAMPLE_OVERRIDE[kanji] || []).filter(w => !isBlacklisted(w.w)).slice(0, 3);
   const tts2Text = vocabWords.length
     ? vocabWords.map(w => `${w.w}。`).join(' ')
     : `${kanji}の言葉。`;
