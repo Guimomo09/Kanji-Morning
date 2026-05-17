@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `8fbcf9f` · main `d393cf8` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `2cfac6e` · main `d393cf8` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -289,6 +289,21 @@ kanji.guimo-prod.com {
 - [x] Label `例文` + bloc `vocab-example` avec `.vkc-label.vkc-ex-label` · SENTENCE_OVERRIDE conservé pour kanji simples uniquement
 - [x] Onglets — `語`/`試験` wrappés dans `.tab-icon` (20px uniform, même hauteur que icônes SVG)
 - [ ] **À faire** : couverture N1/N2 limitée — envisager JMdict-examples (dataset pré-indexé JP+EN, ~200k phrases)
+
+**Phrases vocab statiques + kanji display fix** ← commits `5e17e2f` → `2cfac6e` (dev, 18 Mai 2026)
+- [x] `public/sentences.json` — pre-generated Tatoeba sentences pour top 4522 mots (en cours — 250/4522)
+- [x] Priority cascade : static DB → localStorage cache → live proxy (fallback)
+- [x] Scoring priorité : formes polies (です/ます) +100pts · longueur JLPT +50pts · ponctuation +20pts
+- [x] Résultat top 500 : 73.1% formes polies (365/499) · 10.5 chars moyenne · 99.8% coverage
+- [x] `public/kanji_index.json` — régénéré avec champ `j` (JLPT level) pour éliminer network delay
+- [x] `scripts/build-kanji-index.mjs` — ajout champ JLPT dans extraction kanjiapi.dev
+- [x] `src/api.js` — `getKanjiDetail()` utilise KANJI_INDEX en priorité (0 latency)
+  * Priority 1: Static pre-loaded index (instant) ← **FIX 4-5 sec delay**
+  * Priority 2: localStorage cache
+  * Priority 3: Live API fallback (non-JLPT kanji)
+- [x] `public/sw.js` — cache v12, pre-cache kanji_index.json + sentences.json
+- [x] Impact : Affichage instantané des détails kanji sous vocab cards (4-5 sec → 0 sec)
+- [ ] **En cours** : Génération 4522 phrases complètes (ETA ~70 min) pour 100% coverage + réutilisation reels
 
 **Normalisation cartes vocab** ← commit `14a5bbe` (dev, 17 Mai 2026)
 - [x] Grille `minmax(330px)` → `minmax(420px)` — 2 colonnes larges · gap 24px
