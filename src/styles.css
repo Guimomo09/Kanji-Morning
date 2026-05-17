@@ -209,7 +209,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      min-height: 380px;
+      min-height: 480px;
     }
     .card-body { flex: 1; display: flex; flex-direction: column; }
     .card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,.1); }
@@ -536,21 +536,38 @@
     .vocab-kcomp { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border); }
     .vocab-kcomp:empty { display: none; margin-top: auto; }
     .vkc-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
-    .vkc-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
-    .vkc-row + .vkc-row { border-top: 1px solid var(--border); }
-    .vkc-char { font-size: 36px; font-weight: 900; color: var(--text); min-width: 44px; text-align: center; }
-    .vkc-info { flex: 1; min-width: 0; }
-    .vkc-meaning { font-size: 15px; font-weight: 600; color: var(--text); }
+    /* ── Vertical kanji mini-cards ──────────────────────────────────────────── */
+    .vkc-grid { display: grid; gap: 10px; margin-top: 4px; }
+    .vkc-grid[data-cols="1"] { grid-template-columns: 1fr; max-width: 160px; margin-left: auto; margin-right: auto; }
+    .vkc-grid[data-cols="2"] { grid-template-columns: 1fr 1fr; }
+    .vkc-grid[data-cols="3"] { grid-template-columns: repeat(3, 1fr); }
+    .vkc-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 10px 12px; text-align: center; position: relative;
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+    }
+    .vkc-char { font-size: 40px; font-weight: 900; color: var(--text); line-height: 1.1; }
+    .vkc-meaning { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
     .vkc-lvl { font-size: 10px; font-weight: 700; color: var(--red); margin-left: 4px; vertical-align: middle; }
-    .vkc-readings { font-size: 13px; color: var(--muted); margin-top: 3px; }
+    .vkc-readings { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .vkc-r-label { font-weight: 700; color: var(--sub); }
     .vkc-save {
+      position: absolute; top: 6px; right: 8px;
       background: none; border: none; cursor: pointer;
-      font-size: 20px; color: var(--muted); padding: 8px;
-      border-radius: 8px; transition: color .15s; flex-shrink: 0;
+      font-size: 16px; color: var(--muted); padding: 4px;
+      border-radius: 6px; transition: color .15s;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
     .vkc-save:hover { color: var(--red); }
     .vkc-save.saved { color: #c8832e; }
+    /* ── Example sentence ───────────────────────────────────────────────────── */
+    .vocab-example {
+      margin-top: 12px; padding: 10px 14px;
+      background: var(--bg); border-radius: 10px;
+      border-left: 3px solid var(--red);
+    }
+    .vocab-example-jp { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.5; }
+    .vocab-example-en { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
     /* ── Vocab card extras ───────────────────────────────────────────────── */
     .vocab-header { margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
@@ -1310,7 +1327,7 @@
       .card {
         padding: 22px 20px 18px;
         border-radius: 14px;
-        min-height: 300px;
+        min-height: 380px;
       }
       .vocab-word { font-size: 44px; }
       .card-meaning { font-size: 16px; }

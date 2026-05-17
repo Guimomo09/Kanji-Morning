@@ -8,7 +8,7 @@ import { CLOUD_ENABLED } from './config.js';
 import { cloudUpdate, cloudSavedWordAdd, cloudSavedWordRemove } from './cloud.js';
 import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
-import { showSkeletons, getAllSavedKanjis, ensureKanjiCards, isKanjiSaved, toggleSaveKanji } from './kanji.js';
+import { showSkeletons, getAllSavedKanjis, ensureKanjiCards, isKanjiSaved, toggleSaveKanji, SENTENCE_OVERRIDE } from './kanji.js';
 import { getMeaning } from './trans.js';
 import { getLang, t } from './i18n.js';
 import { speakJapanese } from './audio.js';
@@ -26,7 +26,7 @@ export async function _enrichKanjiComponents(card, word) {
   if (!placeholder) return;
   try {
     const details = await Promise.all(chars.map(c => getKanjiDetail(c).catch(() => null)));
-    const rows = chars.map((c, i) => {
+    const cards = chars.map((c, i) => {
       const d = details[i];
       if (!d) return '';
       const on      = (d.on_readings  || []).slice(0, 2).join('、') || '—';
@@ -34,19 +34,31 @@ export async function _enrichKanjiComponents(card, word) {
       const meaning = (d.meanings    || []).slice(0, 2).join(', ') || '?';
       const lvl     = d.jlpt ? LEVEL_LABEL[d.jlpt] || '' : '';
       const saved   = isKanjiSaved(c);
-      return `<div class="vkc-row" data-char="${c}">
-        <div class="vkc-char">${c}</div>
-        <div class="vkc-info">
-          <div class="vkc-meaning">${meaning}${lvl ? ` <span class="vkc-lvl">${lvl}</span>` : ''}</div>
-          <div class="vkc-readings">音 ${on} · 訓 ${kun}</div>
-        </div>
+      return `<div class="vkc-card" data-char="${c}">
         <button class="vkc-save${saved ? ' saved' : ''}" title="${saved ? 'Saved' : 'Save to My List'}">${saved ? '★' : '☆'}</button>
+        <div class="vkc-char">${c}</div>
+        <div class="vkc-meaning">${meaning}${lvl ? ` <span class="vkc-lvl">${lvl}</span>` : ''}</div>
+        <div class="vkc-readings"><span class="vkc-r-label">On</span> ${on} · <span class="vkc-r-label">Kun</span> ${kun}</div>
       </div>`;
     }).join('');
-    if (!rows.trim()) return;
-    placeholder.innerHTML = `<div class="vkc-label">Kanji</div>${rows}`;
+    if (!cards.trim()) return;
+    // Example sentence: first SENTENCE_OVERRIDE entry for any component kanji
+    let sentHtml = '';
+    for (const c of chars) {
+      const sents = SENTENCE_OVERRIDE[c];
+      if (sents?.length) {
+        const s = sents[0];
+        sentHtml = `<div class="vocab-example">
+          <div class="vocab-example-jp">${s.jp}</div>
+          <div class="vocab-example-en">${s.en}</div>
+        </div>`;
+        break;
+      }
+    }
+    const colCount = Math.min(chars.length, 3);
+    placeholder.innerHTML = `<div class="vkc-label">Kanji</div><div class="vkc-grid" data-cols="${colCount}">${cards}</div>${sentHtml}`;
     placeholder.querySelectorAll('.vkc-save').forEach(btn => {
-      const char = btn.closest('.vkc-row').dataset.char;
+      const char = btn.closest('.vkc-card').dataset.char;
       btn.addEventListener('click', e => {
         e.stopPropagation();
         const d = details[chars.indexOf(char)];
