@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **17 Mai 2026** · Stripe LIVE ✅
+> Dernière mise à jour: **18 Mai 2026** · Stripe LIVE ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `14a5bbe` · main `405d561` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `8fbcf9f` · main `d393cf8` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -279,6 +279,16 @@ kanji.guimo-prod.com {
 - [x] **#9** Bouton ☆ dans chaque composant kanji → sauvegarder / retirer de My List
 - [x] `_extractKanji()` · `_enrichKanjiComponents()` dans `src/vocab.js`
 - [x] `openVocabDetail()` exposé sur `window` via `main.js`
+
+**Phrases exemple vocab (Tatoeba proxy)** ← commits `e01319a` → `913be72` → `8fbcf9f` (dev, 18 Mai 2026)
+- [x] `webhook/server.js` — endpoint `/api/sentence?word=X&reading=Y` · proxy Tatoeba server-side (pas de CORS)
+- [x] Fallback kana : si kanji form introuvable sur Tatoeba, cherche avec la lecture hiragana (ex: 他所→よそ)
+- [x] `src/api.js` — `getVocabSentence(word, reading)` · cache uniquement les hits (pas les null) · timeout 6s
+- [x] `src/vocab.js` — `_enrichKanjiComponents(card, word, reading)` passe la lecture au proxy
+- [x] `caddy/Caddyfile` — `@restricted not path /api/*` : exclut `/api/*` de la basic_auth staging (fix fetch JS 401)
+- [x] Label `例文` + bloc `vocab-example` avec `.vkc-label.vkc-ex-label` · SENTENCE_OVERRIDE conservé pour kanji simples uniquement
+- [x] Onglets — `語`/`試験` wrappés dans `.tab-icon` (20px uniform, même hauteur que icônes SVG)
+- [ ] **À faire** : couverture N1/N2 limitée — envisager JMdict-examples (dataset pré-indexé JP+EN, ~200k phrases)
 
 **Normalisation cartes vocab** ← commit `14a5bbe` (dev, 17 Mai 2026)
 - [x] Grille `minmax(330px)` → `minmax(420px)` — 2 colonnes larges · gap 24px
