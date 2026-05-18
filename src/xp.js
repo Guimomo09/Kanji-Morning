@@ -17,25 +17,24 @@ function _getStudiedDates() {
 }
 
 // ── Rewards catalog ───────────────────────────────────────────────────────
-// cost: 0 on all items → free unlock for testing. Set real costs before launch.
 export const REWARDS = [
   // Profile frames (PNG overlay on avatar)
-  { id: 'frame_red',    type: 'frame', name: 'Autumn',  cost: 0, img: '/assets/Frame/Leaf_Frame.png',   emoji: '🍂' },
-  { id: 'frame_gold',   type: 'frame', name: 'Sun',     cost: 0, img: '/assets/Frame/Sun_Frame.png',    emoji: '✨' },
-  { id: 'frame_blue',   type: 'frame', name: 'Bean',    cost: 0, img: '/assets/Frame/Bean_Frame.png',   emoji: '☕' },
-  { id: 'frame_sakura', type: 'frame', name: 'Sakura',  cost: 0, img: '/assets/Frame/Sakura_Frame.png', emoji: '🌸' },
+  { id: 'frame_red',    type: 'frame', name: 'Autumn',  cost: 25, img: '/assets/Frame/Leaf_Frame.png',   emoji: '🍂' },
+  { id: 'frame_gold',   type: 'frame', name: 'Sun',     cost: 35, img: '/assets/Frame/Sun_Frame.png',    emoji: '✨' },
+  { id: 'frame_blue',   type: 'frame', name: 'Bean',    cost: 50, img: '/assets/Frame/Bean_Frame.png',   emoji: '☕' },
+  { id: 'frame_sakura', type: 'frame', name: 'Sakura',  cost: 90, img: '/assets/Frame/Sakura_Frame.png', emoji: '🌸' },
 
   // Background themes (accent colors only — only changes the header/red)
-  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',   cost: 0, emoji: '🌅', accent: '#c47828', accentDark: '#8b5010' },
-  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',  cost: 0, emoji: '🌊', accent: '#2e7db3', accentDark: '#1a5980' },
-  { id: 'theme_forest', type: 'theme', name: 'Forest', cost: 0, emoji: '🌲', accent: '#22c55e', accentDark: '#15803d' },
-  { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 0, emoji: '🪨', accent: '#2a6a58', accentDark: '#1a4a3a' },
+  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',   cost: 15, emoji: '🌅', accent: '#c47828', accentDark: '#8b5010' },
+  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',  cost: 20, emoji: '🌊', accent: '#2e7db3', accentDark: '#1a5980' },
+  { id: 'theme_forest', type: 'theme', name: 'Forest', cost: 30, emoji: '🌲', accent: '#22c55e', accentDark: '#15803d' },
+  { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 40, emoji: '🪨', accent: '#2a6a58', accentDark: '#1a4a3a' },
 
   // Calendar badges (PNG shown on studied days)
-  { id: 'badge_star',   type: 'badge', name: 'Sun',    cost: 0, img: '/assets/Badge/Sun_Badge.png',     emoji: '☀️' },
-  { id: 'badge_cherry', type: 'badge', name: 'Sakura', cost: 0, img: '/assets/Badge/Sakura_Badge.png',  emoji: '🌸' },
-  { id: 'badge_bolt',   type: 'badge', name: 'Bloom',  cost: 0, img: '/assets/Badge/Sakura_Badge2.png', emoji: '🌺' },
-  { id: 'badge_trophy', type: 'badge', name: 'Coffee', cost: 0, img: '/assets/Badge/Coffee_Badge.png',  emoji: '☕' },
+  { id: 'badge_star',   type: 'badge', name: 'Sun',    cost:  5, img: '/assets/Badge/Sun_Badge.png',     emoji: '☀️' },
+  { id: 'badge_cherry', type: 'badge', name: 'Sakura', cost:  8, img: '/assets/Badge/Sakura_Badge.png',  emoji: '🌸' },
+  { id: 'badge_bolt',   type: 'badge', name: 'Bloom',  cost: 12, img: '/assets/Badge/Sakura_Badge2.png', emoji: '🌺' },
+  { id: 'badge_trophy', type: 'badge', name: 'Coffee', cost: 18, img: '/assets/Badge/Coffee_Badge.png',  emoji: '☕' },
 ];
 
 // ── Storage helpers ───────────────────────────────────────────────────────

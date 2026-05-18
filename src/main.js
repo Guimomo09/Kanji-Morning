@@ -239,7 +239,8 @@ function handleKanjiChipClick(chip, kanji, event) {
 
 function handleWordRowClick(row, event) {
   if (_selectMode) { window.toggleWordSelect(row, event); return; }
-  openWordDetail(row.dataset.word);
+  const it = getAllSavedWords().find(w => w.word === row.dataset.word);
+  if (it) openVocabDetail(it);
 }
 
 // ── Save Word of the Day to My List ──────────────────────────────────────
