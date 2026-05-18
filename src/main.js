@@ -14,7 +14,7 @@ import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM, getLang } from './i18n.js';
 import { loadTrans, getMeaning } from './trans.js';
 import { speakJapanese } from './audio.js';
-import { syncXPBar, applyEquipped, renderProfileHTML } from './xp.js';
+import { syncXPBar, applyEquipped, renderShopHTML, renderAppearancesHTML } from './xp.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -775,9 +775,11 @@ function openSettings() {
   if (msg) msg.textContent = '';
   // Sync theme buttons
   _syncThemeButtons(localStorage.getItem('km_theme') || 'auto');
-  // Render profile/shop section
+  // Render shop + appearances sections
   const profileEl = document.getElementById('profileContent');
-  if (profileEl) profileEl.innerHTML = renderProfileHTML();
+  if (profileEl) profileEl.innerHTML = renderShopHTML();
+  const appearEl = document.getElementById('appearancesContent');
+  if (appearEl) appearEl.innerHTML = renderAppearancesHTML();
   // Render user profile card
   const cardEl = document.getElementById('settingsUserCard');
   if (cardEl) {

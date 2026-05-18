@@ -243,6 +243,8 @@ const TRANSLATIONS = {
     shop_btn_equip:      'Equip',
     shop_btn_equipped:   'Equipped ✓',
     shop_no_beans:       'Not enough beans ☕ Keep your streak going!',
+    shop_title:          'Shop',
+    appearances_title:   'Appearances',
 
     // ── Tab hints (ⓘ per-tab explainer) ──────────────────────────────────
     tab_hints: {
@@ -495,6 +497,8 @@ const TRANSLATIONS = {
     shop_btn_equip:      'Équiper',
     shop_btn_equipped:   'Équipé ✓',
     shop_no_beans:       'Pas assez de grains ☕ Continue ta série !',
+    shop_title:          'Boutique',
+    appearances_title:   'Apparences',
 
     // ── Infobulles onglets (ⓘ) ──────────────────────────────────────────
     tab_hints: {
@@ -747,6 +751,8 @@ const TRANSLATIONS = {
     shop_btn_equip:      'Equipar',
     shop_btn_equipped:   'Equipado ✓',
     shop_no_beans:       '¡No hay suficientes granos ☕ Sigue con tu racha!',
+    shop_title:          'Tienda',
+    appearances_title:   'Apariencias',
 
     // ── Pistas de pestañas (ⓘ) ───────────────────────────────────────
     tab_hints: {
@@ -999,6 +1005,8 @@ const TRANSLATIONS = {
     shop_btn_equip:      'Anlegen',
     shop_btn_equipped:   'Aktiv ✓',
     shop_no_beans:       'Nicht genug Bohnen ☕ Halte deine Serie aufrecht!',
+    shop_title:          'Shop',
+    appearances_title:   'Erscheinungsbild',
 
     // ── Tab-Hinweise (ⓘ) ────────────────────────────────────────────
     tab_hints: {
@@ -1255,6 +1263,8 @@ const TRANSLATIONS = {
     shop_btn_equip:      'Надеть',
     shop_btn_equipped:   'Надето ✓',
     shop_no_beans:       'Недостаточно зёрен ☕ Не прерывай серию!',
+    shop_title:          'Магазин',
+    appearances_title:   'Внешний вид',
 
     // ── Подсказки вкладок (ⓘ) ───────────────────────────────────
     tab_hints: {

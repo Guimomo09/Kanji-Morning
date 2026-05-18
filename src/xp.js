@@ -24,11 +24,15 @@ export const REWARDS = [
   { id: 'frame_blue',   type: 'frame', name: 'Ocean',    cost: 0,  border: '3px solid #2563eb',       emoji: '🔵' },
   { id: 'frame_sakura', type: 'frame', name: 'Sakura',   cost: 0,  border: '3px dashed #f472b6',      emoji: '🌸' },
 
-  // Background themes (CSS var --bg + --red accent override)
-  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',     cost: 0,  bg: '#1a0f0f',  accent: '#e05b3a', accentDark: '#a03020', emoji: '🌅' },
-  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',    cost: 0,  bg: '#0a1628',  accent: '#3b82f6', accentDark: '#1d4ed8', emoji: '🌊' },
-  { id: 'theme_forest', type: 'theme', name: 'Forest',   cost: 0,  bg: '#0a1a0f',  accent: '#22c55e', accentDark: '#15803d', emoji: '🌲' },
-  { id: 'theme_stone',  type: 'theme', name: 'Stone',    cost: 0,  bg: '#18181b',  accent: '#8b5cf6', accentDark: '#6d28d9', emoji: '🪨' },
+  // Background themes (full CSS palette — dark UI)
+  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',   cost: 0, emoji: '🌅',
+    bg: '#1a0f0f', card: '#261510', border: '#3d2218', text: '#f5e8df', ink: '#f5e8df', sub: '#c49080', muted: '#906050', skel: '#3d2218', accent: '#e05b3a', accentDark: '#a03020' },
+  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',  cost: 0, emoji: '🌊',
+    bg: '#0a1628', card: '#0f1e38', border: '#1e3060', text: '#e0f0ff', ink: '#e0f0ff', sub: '#90b0d0', muted: '#6090b0', skel: '#1e3060', accent: '#3b82f6', accentDark: '#1d4ed8' },
+  { id: 'theme_forest', type: 'theme', name: 'Forest', cost: 0, emoji: '🌲',
+    bg: '#0a1a0f', card: '#102018', border: '#1e3828', text: '#e0f5e0', ink: '#e0f5e0', sub: '#90c090', muted: '#60a060', skel: '#1e3828', accent: '#22c55e', accentDark: '#15803d' },
+  { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 0, emoji: '🪨',
+    bg: '#18181b', card: '#222226', border: '#38383e', text: '#f0f0f5', ink: '#f0f0f5', sub: '#a0a0b0', muted: '#707080', skel: '#38383e', accent: '#8b5cf6', accentDark: '#6d28d9' },
 
   // Calendar badges (emoji shown on studied days)
   { id: 'badge_star',   type: 'badge', name: 'Star',     cost: 0,  emoji: '⭐' },
@@ -94,16 +98,20 @@ window.equipReward = equipReward;
 export function applyEquipped() {
   const { frame, theme } = getEquipped();
 
-  // Theme → CSS variables on :root
+  // Theme → full CSS palette on :root
+  const THEME_CSS = [
+    ['--bg','bg'], ['--card','card'], ['--border','border'],
+    ['--text','text'], ['--ink','ink'], ['--sub','sub'],
+    ['--muted','muted'], ['--skel','skel'],
+    ['--red','accent'], ['--red-dark','accentDark'],
+  ];
   const themeReward = theme ? REWARDS.find(r => r.id === theme) : null;
   if (themeReward) {
-    document.documentElement.style.setProperty('--bg', themeReward.bg);
-    document.documentElement.style.setProperty('--red', themeReward.accent);
-    document.documentElement.style.setProperty('--red-dark', themeReward.accentDark);
+    THEME_CSS.forEach(([cssVar, prop]) => {
+      if (themeReward[prop]) document.documentElement.style.setProperty(cssVar, themeReward[prop]);
+    });
   } else {
-    document.documentElement.style.removeProperty('--bg');
-    document.documentElement.style.removeProperty('--red');
-    document.documentElement.style.removeProperty('--red-dark');
+    THEME_CSS.forEach(([cssVar]) => document.documentElement.style.removeProperty(cssVar));
   }
 
   // Frame → border on all avatar elements
@@ -196,9 +204,57 @@ export function renderXPBarHTML() {
     </div>`;
 }
 
-// ── Render Profile / Shop HTML ────────────────────────────────────────────
-export function renderProfileHTML() {
+// ── Render Shop HTML (unowned items only — buy) ───────────────────────────
+export function renderShopHTML() {
   const grains   = getGrains();
+  const unlocked = getUnlocked();
+
+  const types = [
+    { key: 'frame', label: t('shop_section_frames') },
+    { key: 'theme', label: t('shop_section_themes') },
+    { key: 'badge', label: t('shop_section_badges') },
+  ];
+
+  let hasAny = false;
+  const sections = types.map(({ key, label }) => {
+    const items = REWARDS.filter(r => r.type === key && !unlocked.includes(r.id));
+    if (!items.length) return '';
+    hasAny = true;
+    const cards = items.map(r => {
+      const canAfford = grains >= r.cost;
+      const action = canAfford
+        ? `<button class="shop-btn shop-btn-buy" onclick="window.shopBuy('${r.id}')">🫘 ${r.cost}</button>`
+        : `<button class="shop-btn shop-btn-locked" disabled>🫘 ${r.cost}</button>`;
+      return `
+        <div class="shop-card">
+          <div class="shop-card-icon">${r.emoji}</div>
+          <div class="shop-card-name">${r.name}</div>
+          ${action}
+        </div>`;
+    }).join('');
+
+    return `
+      <details class="shop-section" open>
+        <summary class="shop-section-summary">${label} <span class="shop-section-count">${items.length}</span></summary>
+        <div class="shop-grid">${cards}</div>
+      </details>`;
+  }).join('');
+
+  const beansRow = `
+    <div class="profile-grains-row">
+      <span class="xp-grain-icon">🫘</span>
+      <span class="profile-grains-count">${grains}</span>
+      <span class="profile-grains-label">${t('shop_grains_label')}</span>
+    </div>`;
+
+  if (!hasAny) {
+    return `<div class="profile-wrap">${beansRow}<p class="shop-empty">🎉 All items unlocked!</p></div>`;
+  }
+  return `<div class="profile-wrap">${beansRow}${sections}</div>`;
+}
+
+// ── Render Appearances HTML (owned items only — equip) ────────────────────
+export function renderAppearancesHTML() {
   const unlocked = getUnlocked();
   const equipped = getEquipped();
 
@@ -208,24 +264,16 @@ export function renderProfileHTML() {
     { key: 'badge', label: t('shop_section_badges') },
   ];
 
+  let hasAny = false;
   const sections = types.map(({ key, label }) => {
-    const items = REWARDS.filter(r => r.type === key);
+    const items = REWARDS.filter(r => r.type === key && unlocked.includes(r.id));
+    if (!items.length) return '';
+    hasAny = true;
     const cards = items.map(r => {
-      const owned    = unlocked.includes(r.id);
       const equippedThis = equipped[key] === r.id;
-      const canAfford = grains >= r.cost;
-
-      let action;
-      if (!owned) {
-        action = canAfford
-          ? `<button class="shop-btn shop-btn-buy" onclick="window.shopBuy('${r.id}')">🫘 ${r.cost}</button>`
-          : `<button class="shop-btn shop-btn-locked" disabled>🫘 ${r.cost}</button>`;
-      } else {
-        action = `<button class="shop-btn ${equippedThis ? 'shop-btn-equipped' : 'shop-btn-equip'}" onclick="window.shopEquip('${r.id}')">${equippedThis ? t('shop_btn_equipped') : t('shop_btn_equip')}</button>`;
-      }
-
+      const action = `<button class="shop-btn ${equippedThis ? 'shop-btn-equipped' : 'shop-btn-equip'}" onclick="window.shopEquip('${r.id}')">${equippedThis ? t('shop_btn_equipped') : t('shop_btn_equip')}</button>`;
       return `
-        <div class="shop-card ${owned ? 'shop-card-owned' : ''} ${equippedThis ? 'shop-card-active' : ''}">
+        <div class="shop-card shop-card-owned ${equippedThis ? 'shop-card-active' : ''}">
           <div class="shop-card-icon">${r.emoji}</div>
           <div class="shop-card-name">${r.name}</div>
           ${action}
@@ -233,31 +281,36 @@ export function renderProfileHTML() {
     }).join('');
 
     return `
-      <details class="shop-section">
+      <details class="shop-section" open>
         <summary class="shop-section-summary">${label} <span class="shop-section-count">${items.length}</span></summary>
         <div class="shop-grid">${cards}</div>
       </details>`;
   }).join('');
 
-  return `
-    <div class="profile-wrap">
-      <div class="profile-grains-row">
-        <span class="xp-grain-icon">🫘</span>
-        <span class="profile-grains-count">${grains}</span>
-        <span class="profile-grains-label">${t('shop_grains_label')}</span>
-      </div>
-      ${sections}
-    </div>`;
+  if (!hasAny) {
+    return `<p class="shop-empty" style="color:var(--muted);font-size:13px;padding:8px 0">Unlock items in the shop to customise your profile.</p>`;
+  }
+  return `<div class="profile-wrap">${sections}</div>`;
+}
+
+// ── Compat wrapper (kept for any legacy call sites) ───────────────────────
+export function renderProfileHTML() {
+  return renderShopHTML();
 }
 
 // ── Shop actions (called from inline onclick) ─────────────────────────────
+function _refreshShopPanels() {
+  const shopEl = document.getElementById('profileContent');
+  if (shopEl) shopEl.innerHTML = renderShopHTML();
+  const appEl = document.getElementById('appearancesContent');
+  if (appEl) appEl.innerHTML = renderAppearancesHTML();
+}
+
 window.shopBuy = function(id) {
   const result = spendAndUnlock(id);
   if (result.ok) {
     applyEquipped();
-    // Re-render profile section
-    const el = document.getElementById('profileContent');
-    if (el) el.innerHTML = renderProfileHTML();
+    _refreshShopPanels();
   } else if (result.err === 'insufficient') {
     alert(t('shop_no_beans'));
   }
@@ -265,6 +318,5 @@ window.shopBuy = function(id) {
 
 window.shopEquip = function(id) {
   equipReward(id);
-  const el = document.getElementById('profileContent');
-  if (el) el.innerHTML = renderProfileHTML();
+  _refreshShopPanels();
 };
