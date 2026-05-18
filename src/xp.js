@@ -46,8 +46,8 @@ export function getSpentGrains() {
   return Math.max(0, parseInt(localStorage.getItem('km_xp_grains_spent') || '0'));
 }
 export function getXPBar() {
-  // 0, 1, or 2 segments currently filled (3 = full, triggers grain + reset immediately)
-  return Math.min(2, Math.max(0, parseInt(localStorage.getItem('km_xp_bar') || '0')));
+  // 0–3 segments filled. 3 = full → earn 1 bean/day. Miss a day → -1.
+  return Math.min(3, Math.max(0, parseInt(localStorage.getItem('km_xp_bar') || '0')));
 }
 export function getEquipped() {
   return {
@@ -205,10 +205,10 @@ export function syncXPBar(studiedDatesSet) {
       const ds = dateStr(d);
 
       if (studied.has(ds)) {
-        bar++;
-        if (bar >= 3) { grains++; bar = 0; earned = true; }
+        bar = Math.min(3, bar + 1);
+        if (bar >= 3) { grains++; earned = true; } // bar stays at 3, earn a bean
       } else {
-        bar = Math.max(0, bar - 1);
+        bar = Math.max(0, bar - 1);               // miss a day → lose 1/3
       }
     }
     localStorage.setItem('km_xp_last_check', today);
@@ -217,8 +217,8 @@ export function syncXPBar(studiedDatesSet) {
 
   // ── 2. Process today if studied and not yet awarded ──
   if (!todayDone && studied.has(today)) {
-    bar++;
-    if (bar >= 3) { grains++; bar = 0; earned = true; }
+    bar = Math.min(3, bar + 1);
+    if (bar >= 3) { grains++; earned = true; } // bar stays at 3, earn a bean
     localStorage.setItem('km_xp_today_awarded', today);
   }
 
