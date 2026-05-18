@@ -86,14 +86,23 @@ app.post(
 app.get('/health', (req, res) => res.json({ ok: true }));
 
 // ── Sentence proxy (Tatoeba, no CORS issue server-side) ──────────────────
-async function searchTatoeba(query) {
-  const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(query)}&from=jpn&to=eng&limit=20`;
+// Maps app lang codes → Tatoeba ISO 639-3 codes
+const TATOEBA_LANG = { en: 'eng', fr: 'fra', es: 'spa', de: 'deu', ru: 'rus' };
+
+async function searchTatoeba(query, lang = 'en') {
+  const tatLang = TATOEBA_LANG[lang] || 'eng';
+  const url = `https://tatoeba.org/en/api_v0/search?query=${encodeURIComponent(query)}&from=jpn&to=${tatLang}&limit=20`;
   const upstream = await fetch(url, { signal: AbortSignal.timeout(5000) });
   if (!upstream.ok) return null;
   const data = await upstream.json();
   for (const r of (data.results || [])) {
     if (r.text?.includes(query) && r.translations?.[0]?.[0]?.text) {
-      return { jp: r.text.trim(), en: r.translations[0][0].text.trim() };
+      const translation = r.translations[0][0].text.trim();
+      const result = { jp: r.text.trim() };
+      result[lang] = translation;
+      // Always include English as fallback (re-fetch only if lang != en)
+      if (lang !== 'en') result.en = translation; // overwritten below if available
+      return result;
     }
   }
   return null;
@@ -102,15 +111,25 @@ async function searchTatoeba(query) {
 app.get('/api/sentence', async (req, res) => {
   const word    = (req.query.word    || '').trim();
   const reading = (req.query.reading || '').trim();
+  const lang    = (req.query.lang    || 'en').trim().toLowerCase();
   if (!word || word.length > 20) return res.json(null);
   try {
-    // 1) Search by kanji form
-    const byKanji = await searchTatoeba(word);
+    // 1) Search by kanji form in requested language
+    const byKanji = await searchTatoeba(word, lang);
     if (byKanji) return res.json(byKanji);
-    // 2) Fallback: search by kana reading (e.g. 他所 → よそ)
+    // 2) Fallback: search by kana reading
     if (reading && reading !== word && reading.length <= 20) {
-      const byReading = await searchTatoeba(reading);
+      const byReading = await searchTatoeba(reading, lang);
       if (byReading) return res.json(byReading);
+    }
+    // 3) Last resort: try English if non-English lang had no results
+    if (lang !== 'en') {
+      const byKanjiEn = await searchTatoeba(word, 'en');
+      if (byKanjiEn) return res.json(byKanjiEn);
+      if (reading && reading !== word && reading.length <= 20) {
+        const byReadingEn = await searchTatoeba(reading, 'en');
+        if (byReadingEn) return res.json(byReadingEn);
+      }
     }
     res.json(null);
   } catch { res.json(null); }

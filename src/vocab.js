@@ -10,6 +10,7 @@ import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
 import { showSkeletons, getAllSavedKanjis, ensureKanjiCards, isKanjiSaved, toggleSaveKanji, SENTENCE_OVERRIDE } from './kanji.js';
 import { getMeaning } from './trans.js';
+import { getLang } from './i18n.js';
 import { getLang, t } from './i18n.js';
 import { speakJapanese } from './audio.js';
 
@@ -57,7 +58,7 @@ export async function _enrichKanjiComponents(card, word, reading) {
       ? `<div class="vkc-label vkc-ex-label">例文</div>
          <div class="vocab-example">
            <div class="vocab-example-jp">${sent.ruby || sent.jp}</div>
-           <div class="vocab-example-en">${sent.en}</div>
+           <div class="vocab-example-en">${sent[getLang()] || sent.en}</div>
          </div>`
       : '';
     const colCount = Math.min(chars.length, 3);
