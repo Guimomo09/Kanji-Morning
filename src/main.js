@@ -875,7 +875,7 @@ window.addEventListener('DOMContentLoaded', function() {
     setTimeout(showTutorial, 600);
   }
   // Auto-unlock all cost:0 items so they're directly equippable
-  unlockAllFree();
+  try { unlockAllFree(); } catch (e) { console.warn('[init] unlockAllFree failed:', e.name); }
   // Sync XP bar on app open — push to cloud if a grain was just earned
   const _xpGrainEarned = syncXPBar(getStudiedDatesSet());
   if (_xpGrainEarned && CLOUD_ENABLED && state._fbUser) {

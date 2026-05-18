@@ -63,11 +63,15 @@ export function isUnlocked(id) { return getUnlocked().includes(id); }
 // ── Spend / unlock / equip ────────────────────────────────────────────────
 /** Auto-unlock every item whose cost is 0. Call at app startup. */
 export function unlockAllFree() {
-  const unlocked = getUnlocked();
-  const free     = REWARDS.filter(r => r.cost === 0).map(r => r.id);
-  const merged   = [...new Set([...unlocked, ...free])];
-  if (merged.length !== unlocked.length) {
-    localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
+  try {
+    const unlocked = getUnlocked();
+    const free     = REWARDS.filter(r => r.cost === 0).map(r => r.id);
+    const merged   = [...new Set([...unlocked, ...free])];
+    if (merged.length !== unlocked.length) {
+      localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
+    }
+  } catch (e) {
+    console.warn('[unlockAllFree] localStorage write failed:', e.name);
   }
 }
 
@@ -344,29 +348,37 @@ export function getXPCloudData() {
 
 export function applyXPCloudData(data) {
   if (!data) return;
-  // Unlocked: union local + cloud
-  const local  = getUnlocked();
-  const merged = [...new Set([...local, ...(data.unlocked || [])])];
-  localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
-  // Equipped: cloud wins (has explicit null for unequipped)
-  if (data.equipped) {
-    const { frame, theme, badge } = data.equipped;
-    if (frame) localStorage.setItem('km_equipped_frame', frame);
-    else       localStorage.removeItem('km_equipped_frame');
-    if (theme) localStorage.setItem('km_equipped_theme', theme);
-    else       localStorage.removeItem('km_equipped_theme');
-    if (badge) localStorage.setItem('km_equipped_badge', badge);
-    else       localStorage.removeItem('km_equipped_badge');
+  try {
+    // Unlocked: union local + cloud
+    const local  = getUnlocked();
+    const merged = [...new Set([...local, ...(data.unlocked || [])])];
+    localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
+  } catch (e) {
+    console.warn('[applyXPCloudData] localStorage quota full, skipping unlocked write:', e.name);
   }
-  // Grains: take max so offline progress is never lost
-  const cg = parseInt(data.grains || 0);
-  if (cg > getGrains()) localStorage.setItem('km_xp_grains', cg);
-  const cs = parseInt(data.spent || 0);
-  if (cs > getSpentGrains()) localStorage.setItem('km_xp_grains_spent', cs);
-  // Bar / timestamps
-  if (data.bar          !== undefined) localStorage.setItem('km_xp_bar',           data.bar);
-  if (data.lastCheck)                  localStorage.setItem('km_xp_last_check',    data.lastCheck);
-  if (data.todayAwarded)               localStorage.setItem('km_xp_today_awarded', data.todayAwarded);
+  try {
+    // Equipped: cloud wins (has explicit null for unequipped)
+    if (data.equipped) {
+      const { frame, theme, badge } = data.equipped;
+      if (frame) localStorage.setItem('km_equipped_frame', frame);
+      else       localStorage.removeItem('km_equipped_frame');
+      if (theme) localStorage.setItem('km_equipped_theme', theme);
+      else       localStorage.removeItem('km_equipped_theme');
+      if (badge) localStorage.setItem('km_equipped_badge', badge);
+      else       localStorage.removeItem('km_equipped_badge');
+    }
+    // Grains: take max so offline progress is never lost
+    const cg = parseInt(data.grains || 0);
+    if (cg > getGrains()) localStorage.setItem('km_xp_grains', cg);
+    const cs = parseInt(data.spent || 0);
+    if (cs > getSpentGrains()) localStorage.setItem('km_xp_grains_spent', cs);
+    // Bar / timestamps
+    if (data.bar          !== undefined) localStorage.setItem('km_xp_bar',           data.bar);
+    if (data.lastCheck)                  localStorage.setItem('km_xp_last_check',    data.lastCheck);
+    if (data.todayAwarded)               localStorage.setItem('km_xp_today_awarded', data.todayAwarded);
+  } catch (e) {
+    console.warn('[applyXPCloudData] localStorage quota full, skipping some writes:', e.name);
+  }
 }
 
 // ── Shop actions (called from inline onclick) ─────────────────────────────
