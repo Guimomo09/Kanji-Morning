@@ -1,5 +1,6 @@
 import { dateStr, todayStr } from './utils.js';
 import { t } from './i18n.js';
+import { evictAllCache } from './cache.js';
 
 // ── Studied-dates helper (mirrors stats.js — avoids circular import) ──────
 function _getStudiedDates() {
@@ -63,15 +64,22 @@ export function isUnlocked(id) { return getUnlocked().includes(id); }
 // ── Spend / unlock / equip ────────────────────────────────────────────────
 /** Auto-unlock every item whose cost is 0. Call at app startup. */
 export function unlockAllFree() {
+  const unlocked = getUnlocked();
+  const free     = REWARDS.filter(r => r.cost === 0).map(r => r.id);
+  const merged   = [...new Set([...unlocked, ...free])];
+  if (merged.length === unlocked.length) return; // nothing to write
   try {
-    const unlocked = getUnlocked();
-    const free     = REWARDS.filter(r => r.cost === 0).map(r => r.id);
-    const merged   = [...new Set([...unlocked, ...free])];
-    if (merged.length !== unlocked.length) {
-      localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
-    }
+    localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
   } catch (e) {
-    console.warn('[unlockAllFree] localStorage write failed:', e.name);
+    if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+      console.warn('[unlockAllFree] localStorage full, evicting cache and retrying…');
+      evictAllCache();
+      try {
+        localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
+      } catch (e2) {
+        console.warn('[unlockAllFree] still full after eviction:', e2.name);
+      }
+    }
   }
 }
 
@@ -81,12 +89,27 @@ export function spendAndUnlock(id) {
   if (isUnlocked(id)) return { ok: false, err: 'already' };
   const grains = getGrains();
   if (grains < reward.cost) return { ok: false, err: 'insufficient' };
-  localStorage.setItem('km_xp_grains', grains - reward.cost);
-  const spent = getSpentGrains();
-  localStorage.setItem('km_xp_grains_spent', spent + reward.cost);
-  const unlocked = getUnlocked();
-  unlocked.push(id);
-  localStorage.setItem('km_xp_unlocked', JSON.stringify(unlocked));
+  try {
+    localStorage.setItem('km_xp_grains', grains - reward.cost);
+    localStorage.setItem('km_xp_grains_spent', getSpentGrains() + reward.cost);
+    const unlocked = getUnlocked();
+    unlocked.push(id);
+    localStorage.setItem('km_xp_unlocked', JSON.stringify(unlocked));
+  } catch (e) {
+    if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+      console.warn('[spendAndUnlock] localStorage full, evicting cache and retrying…');
+      evictAllCache();
+      try {
+        localStorage.setItem('km_xp_grains', grains - reward.cost);
+        localStorage.setItem('km_xp_grains_spent', getSpentGrains() + reward.cost);
+        const unlocked = getUnlocked();
+        unlocked.push(id);
+        localStorage.setItem('km_xp_unlocked', JSON.stringify(unlocked));
+      } catch (e2) {
+        console.warn('[spendAndUnlock] still full after eviction:', e2.name);
+      }
+    }
+  }
   return { ok: true };
 }
 
@@ -94,11 +117,20 @@ export function equipReward(id) {
   const reward = REWARDS.find(r => r.id === id);
   if (!reward || !isUnlocked(id)) return;
   const equipped = getEquipped();
-  if (equipped[reward.type] === id) {
-    // Toggle off
-    localStorage.removeItem(`km_equipped_${reward.type}`);
-  } else {
-    localStorage.setItem(`km_equipped_${reward.type}`, id);
+  const _write = () => {
+    if (equipped[reward.type] === id) {
+      localStorage.removeItem(`km_equipped_${reward.type}`);
+    } else {
+      localStorage.setItem(`km_equipped_${reward.type}`, id);
+    }
+  };
+  try {
+    _write();
+  } catch (e) {
+    if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+      evictAllCache();
+      try { _write(); } catch (e2) { console.warn('[equipReward] still full:', e2.name); }
+    }
   }
   applyEquipped();
 }
