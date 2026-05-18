@@ -10,7 +10,7 @@ import {
 } from './biweekly.js';
 import { t } from './i18n.js';
 import { getStreakTileView } from './main.js';
-import { renderXPBarHTML, getCalendarBadge } from './xp.js';
+import { renderXPBarHTML, getCalendarBadge, applyEquipped } from './xp.js';
 
 // ── Unified studied-dates set (vocab_daily keys + quiz_history dates) ────
 // vocab_daily keys can get evicted when localStorage is full, so we
@@ -588,6 +588,7 @@ export function renderHome() {
       <button class="upgrade-card-btn" onclick="openUpgradeModal()">${t('upgrade_card_btn')}</button>
     </div>` : ''}
   `;
+  applyEquipped();
 }
 
 // ── Stats panel ───────────────────────────────────────────────────────────
@@ -697,6 +698,7 @@ export function renderStats() {
     btn.addEventListener('click', () => setActivityView(btn.dataset.view));
   });
 
+  applyEquipped();
   requestAnimationFrame(() => {
     _renderActivityContent(av);
   });

@@ -14,7 +14,7 @@ import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM, getLang } from './i18n.js';
 import { loadTrans, getMeaning } from './trans.js';
 import { speakJapanese } from './audio.js';
-import { syncXPBar, applyEquipped, renderShopHTML, renderAppearancesHTML } from './xp.js';
+import { syncXPBar, applyEquipped, renderShopHTML, renderAppearancesHTML, getXPCloudData, unlockAllFree } from './xp.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -775,6 +775,8 @@ function openSettings() {
   if (msg) msg.textContent = '';
   // Sync theme buttons
   _syncThemeButtons(localStorage.getItem('km_theme') || 'auto');
+  // Unlock all cost:0 items before rendering so UI is always in sync
+  unlockAllFree();
   // Render shop + appearances sections
   const profileEl = document.getElementById('profileContent');
   if (profileEl) profileEl.innerHTML = renderShopHTML();
@@ -793,6 +795,7 @@ function openSettings() {
       cardEl.innerHTML = '';
     }
   }
+  applyEquipped();
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -871,8 +874,13 @@ window.addEventListener('DOMContentLoaded', function() {
   if (!localStorage.getItem('km_onboarding_done')) {
     setTimeout(showTutorial, 600);
   }
-  // Sync XP bar on app open
-  syncXPBar(getStudiedDatesSet());
+  // Auto-unlock all cost:0 items so they're directly equippable
+  unlockAllFree();
+  // Sync XP bar on app open — push to cloud if a grain was just earned
+  const _xpGrainEarned = syncXPBar(getStudiedDatesSet());
+  if (_xpGrainEarned && CLOUD_ENABLED && state._fbUser) {
+    cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+  }
   applyEquipped();
   console.log('[debugAgent] All wiring and init done.');
 });
@@ -923,9 +931,30 @@ setPostAuthCallback(() => {
   else if (state.currentTab === 'stats')  renderStats();
   else if (state.currentTab === 'exam')   renderExamTab();
   else if (state.currentTab === 'home')   renderHome();
-  // Re-sync XP with potentially richer cloud data
+  // Re-sync XP with cloud data now merged; push back so cloud is up to date
   syncXPBar();
+  if (CLOUD_ENABLED && state._fbUser) {
+    cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+  }
+  applyEquipped();
 });
+
+// ── Wrap shop actions to push XP/cosmetics to cloud after each change ────
+const _origShopBuy = window.shopBuy;
+window.shopBuy = function(id) {
+  _origShopBuy(id);
+  if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+};
+const _origShopEquip = window.shopEquip;
+window.shopEquip = function(id) {
+  _origShopEquip(id);
+  if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+};
+const _origEquipReward = window.equipReward;
+window.equipReward = function(id) {
+  _origEquipReward(id);
+  if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+};
 
 initCloud();
 srsUpdateReviewCount();
@@ -949,7 +978,7 @@ applyI18nToDOM();
 loadTrans();
 
 const _savedTab = localStorage.getItem('km_tab') || 'home';
-switchTab(_savedTab);
+switchTab('home');
 requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
 
 

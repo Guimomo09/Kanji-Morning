@@ -61,6 +61,16 @@ export function getUnlocked() {
 export function isUnlocked(id) { return getUnlocked().includes(id); }
 
 // ── Spend / unlock / equip ────────────────────────────────────────────────
+/** Auto-unlock every item whose cost is 0. Call at app startup. */
+export function unlockAllFree() {
+  const unlocked = getUnlocked();
+  const free     = REWARDS.filter(r => r.cost === 0).map(r => r.id);
+  const merged   = [...new Set([...unlocked, ...free])];
+  if (merged.length !== unlocked.length) {
+    localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
+  }
+}
+
 export function spendAndUnlock(id) {
   const reward = REWARDS.find(r => r.id === id);
   if (!reward) return { ok: false, err: 'unknown' };
@@ -104,18 +114,23 @@ export function applyEquipped() {
     document.documentElement.style.removeProperty('--red-dark');
   }
 
-  // Frame → PNG overlay on header avatar
+  // Frame → PNG overlay on all avatar elements (header, home, stats, settings)
   const frameReward = frame ? REWARDS.find(r => r.id === frame) : null;
-  // Remove any previous overlay
+  // Remove any previous overlays and unwrap
   document.querySelectorAll('.km-frame-overlay').forEach(el => el.remove());
   document.querySelectorAll('.km-avatar-wrap').forEach(wrap => {
     const parent = wrap.parentElement;
-    wrap.querySelectorAll('.auth-avatar, .auth-avatar-fallback').forEach(av => parent.insertBefore(av, wrap));
+    Array.from(wrap.children).forEach(child => {
+      if (!child.classList.contains('km-frame-overlay')) parent.insertBefore(child, wrap);
+    });
     wrap.remove();
   });
   if (frameReward) {
-    const avatarEl = document.querySelector('.auth-user .auth-avatar, .auth-user .auth-avatar-fallback');
-    if (avatarEl) {
+    document.querySelectorAll(
+      '.auth-user .auth-avatar, .auth-user .auth-avatar-fallback, ' +
+      '.home-today-avatar, .home-today-fallback, ' +
+      '.stats-user-avatar, .stats-user-fallback'
+    ).forEach(avatarEl => {
       const wrap = document.createElement('div');
       wrap.className = 'km-avatar-wrap';
       avatarEl.parentNode.insertBefore(wrap, avatarEl);
@@ -125,7 +140,7 @@ export function applyEquipped() {
       overlay.src = frameReward.img;
       overlay.alt = '';
       wrap.appendChild(overlay);
-    }
+    });
   }
 }
 
@@ -247,7 +262,7 @@ export function renderShopHTML() {
     }).join('');
 
     return `
-      <details class="shop-section" open>
+      <details class="shop-section">
         <summary class="shop-section-summary">${label} <span class="shop-section-count">${items.length}</span></summary>
         <div class="shop-grid">${cards}</div>
       </details>`;
@@ -297,7 +312,7 @@ export function renderAppearancesHTML() {
     }).join('');
 
     return `
-      <details class="shop-section" open>
+      <details class="shop-section">
         <summary class="shop-section-summary">${label} <span class="shop-section-count">${items.length}</span></summary>
         <div class="shop-grid">${cards}</div>
       </details>`;
@@ -314,6 +329,46 @@ export function renderProfileHTML() {
   return renderShopHTML();
 }
 
+// ── Cloud sync helpers ────────────────────────────────────────────────────
+export function getXPCloudData() {
+  return {
+    grains:       getGrains(),
+    spent:        getSpentGrains(),
+    bar:          getXPBar(),
+    lastCheck:    localStorage.getItem('km_xp_last_check') || '',
+    todayAwarded: localStorage.getItem('km_xp_today_awarded') || '',
+    unlocked:     getUnlocked(),
+    equipped:     getEquipped(),
+  };
+}
+
+export function applyXPCloudData(data) {
+  if (!data) return;
+  // Unlocked: union local + cloud
+  const local  = getUnlocked();
+  const merged = [...new Set([...local, ...(data.unlocked || [])])];
+  localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
+  // Equipped: cloud wins (has explicit null for unequipped)
+  if (data.equipped) {
+    const { frame, theme, badge } = data.equipped;
+    if (frame) localStorage.setItem('km_equipped_frame', frame);
+    else       localStorage.removeItem('km_equipped_frame');
+    if (theme) localStorage.setItem('km_equipped_theme', theme);
+    else       localStorage.removeItem('km_equipped_theme');
+    if (badge) localStorage.setItem('km_equipped_badge', badge);
+    else       localStorage.removeItem('km_equipped_badge');
+  }
+  // Grains: take max so offline progress is never lost
+  const cg = parseInt(data.grains || 0);
+  if (cg > getGrains()) localStorage.setItem('km_xp_grains', cg);
+  const cs = parseInt(data.spent || 0);
+  if (cs > getSpentGrains()) localStorage.setItem('km_xp_grains_spent', cs);
+  // Bar / timestamps
+  if (data.bar          !== undefined) localStorage.setItem('km_xp_bar',           data.bar);
+  if (data.lastCheck)                  localStorage.setItem('km_xp_last_check',    data.lastCheck);
+  if (data.todayAwarded)               localStorage.setItem('km_xp_today_awarded', data.todayAwarded);
+}
+
 // ── Shop actions (called from inline onclick) ─────────────────────────────
 function _refreshShopPanels() {
   const shopEl = document.getElementById('profileContent');
@@ -324,7 +379,7 @@ function _refreshShopPanels() {
 
 window.shopBuy = function(id) {
   const result = spendAndUnlock(id);
-  if (result.ok) {
+  if (result.ok || result.err === 'already') {
     applyEquipped();
     _refreshShopPanels();
   } else if (result.err === 'insufficient') {
