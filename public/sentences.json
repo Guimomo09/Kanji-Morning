@@ -18738,5 +18738,3855 @@
     "jp": "日本語を毎日勉強しています。",
     "en": "I study Japanese every day.",
     "ruby": "<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>しています。"
+  },
+  "お前": {
+    "jp": "お前は学生です。",
+    "en": "You are a student.",
+    "ruby": "<ruby>お前<rt>おまえ</rt></ruby>は<ruby>学生<rt>がくせい</rt></ruby>です。"
+  },
+  "仕業": {
+    "jp": "彼の仕業だと思います。",
+    "en": "I think it is his doing.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>仕業<rt>しわざ</rt></ruby>だと<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "強力": {
+    "jp": "この薬は強力です。",
+    "en": "This medicine is powerful.",
+    "ruby": "この<ruby>薬<rt>くすり</rt></ruby>は<ruby>強力<rt>きょうりょく</rt></ruby>です。"
+  },
+  "博士": {
+    "jp": "彼は物理学の博士です。",
+    "en": "He is a doctor of physics.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>物理<rt>ぶつり</rt></ruby><ruby>学<rt>がく</rt></ruby>の<ruby>博士<rt>はかせ</rt></ruby>です。"
+  },
+  "世間": {
+    "jp": "世間の人々は優しいです。",
+    "en": "People in the world are kind.",
+    "ruby": "<ruby>世間<rt>せけん</rt></ruby>の<ruby>人々<rt>ひとびと</rt></ruby>は<ruby>優しい<rt>やさしい</rt></ruby>です。"
+  },
+  "将軍": {
+    "jp": "将軍は国を守るために戦いました。",
+    "en": "The general fought to protect the country.",
+    "ruby": "<ruby>将軍<rt>しょうぐん</rt></ruby>は<ruby>国<rt>くに</rt></ruby>を<ruby>守る<rt>まもる</rt></ruby>ために<ruby>戦い<rt>たたかい</rt></ruby>ました。"
+  },
+  "司令": {
+    "jp": "彼は新しい司令を受け取りました。",
+    "en": "He received a new command.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>司令<rt>しれい</rt></ruby>を<ruby>受け取り<rt>うけとり</rt></ruby>ました。"
+  },
+  "国外": {
+    "jp": "私は国外に行きます。",
+    "en": "I will go abroad.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>は<ruby>国外<rt>こくがい</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。"
+  },
+  "店員": {
+    "jp": "店員は親切でした。",
+    "en": "The shop assistant was kind.",
+    "ruby": "<ruby>店員<rt>てんいん</rt></ruby>は<ruby>親切<rt>しんせつ</rt></ruby>でした。"
+  },
+  "前夜": {
+    "jp": "彼の誕生日は前夜でした。",
+    "en": "His birthday was the night before.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>誕生<rt>たんじょう</rt></ruby><ruby>日<rt>び</rt></ruby>は<ruby>前夜<rt>ぜんや</rt></ruby>でした。"
+  },
+  "手前": {
+    "jp": "手前の席に座ってもいいです。",
+    "en": "You can sit in the seat in front.",
+    "ruby": "<ruby>手前<rt>てまえ</rt></ruby>の<ruby>席<rt>せき</rt></ruby>に<ruby>座っ<rt>すわっ</rt></ruby>てもいいです。"
+  },
+  "共存": {
+    "jp": "人間と動物は共存できます。",
+    "en": "Humans and animals can coexist.",
+    "ruby": "<ruby>人間<rt>にんげん</rt></ruby>と<ruby>動物<rt>どうぶつ</rt></ruby>は<ruby>共存<rt>きょうぞん</rt></ruby>できます。"
+  },
+  "制約": {
+    "jp": "このプロジェクトには制約があります。",
+    "en": "There are constraints in this project.",
+    "ruby": "このプロジェクトには<ruby>制約<rt>せいやく</rt></ruby>があります。"
+  },
+  "対決": {
+    "jp": "彼らは試合で対決します。",
+    "en": "They will face off in the match.",
+    "ruby": "<ruby>彼ら<rt>かれら</rt></ruby>は<ruby>試合<rt>しあい</rt></ruby>で<ruby>対決<rt>たいけつ</rt></ruby>します。"
+  },
+  "支局": {
+    "jp": "彼は地方の支局で働いています。",
+    "en": "He works at a local branch office.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>地方<rt>ちほう</rt></ruby>の<ruby>支局<rt>しきょく</rt></ruby>で<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "主役": {
+    "jp": "彼が映画の主役です。",
+    "en": "He is the main character of the movie.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>が<ruby>映画<rt>えいが</rt></ruby>の<ruby>主役<rt>しゅやく</rt></ruby>です。"
+  },
+  "必用": {
+    "jp": "この仕事には時間が必用です。",
+    "en": "This job requires time.",
+    "ruby": "この<ruby>仕事<rt>しごと</rt></ruby>には<ruby>時間<rt>じかん</rt></ruby>が<ruby>必用<rt>ひつよう</rt></ruby>です。"
+  },
+  "理念": {
+    "jp": "私たちの理念は、平和です。",
+    "en": "Our philosophy is peace.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちの<ruby>理念<rt>りねん</rt></ruby>は、<ruby>平和<rt>へいわ</rt></ruby>です。"
+  },
+  "終戦": {
+    "jp": "日本は終戦から平和を守っています。",
+    "en": "Japan has been maintaining peace since the end of the war.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>は<ruby>終戦<rt>しゅうせん</rt></ruby>から<ruby>平和<rt>へいわ</rt></ruby>を<ruby>守っ<rt>まもっ</rt></ruby>ています。"
+  },
+  "同期": {
+    "jp": "彼とは大学の同期です。",
+    "en": "He is my classmate from university.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>とは<ruby>大学<rt>だいがく</rt></ruby>の<ruby>同期<rt>どうき</rt></ruby>です。"
+  },
+  "法学": {
+    "jp": "彼は大学で法学を勉強しています。",
+    "en": "He is studying law at university.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大学<rt>だいがく</rt></ruby>で<ruby>法学<rt>ほうがく</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>しています。"
+  },
+  "窓口": {
+    "jp": "駅の窓口で切符を買います。",
+    "en": "I will buy a ticket at the station's ticket window.",
+    "ruby": "<ruby>駅<rt>えき</rt></ruby>の<ruby>窓口<rt>まどぐち</rt></ruby>で<ruby>切符<rt>きっぷ</rt></ruby>を<ruby>買い<rt>かい</rt></ruby>ます。"
+  },
+  "書記": {
+    "jp": "彼は会議の書記をしています。",
+    "en": "He is serving as the secretary of the meeting.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会議<rt>かいぎ</rt></ruby>の<ruby>書記<rt>しょき</rt></ruby>をしています。"
+  },
+  "通達": {
+    "jp": "新しい通達が届きました。",
+    "en": "A new notification has arrived.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>通達<rt>つうたつ</rt></ruby>が<ruby>届き<rt>とどき</rt></ruby>ました。"
+  },
+  "調停": {
+    "jp": "私たちは調停を通じて問題を解決します。",
+    "en": "We will resolve the issue through mediation.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>調停<rt>ちょうてい</rt></ruby><ruby>を通じて<rt>をつうじて</rt></ruby><ruby>問題<rt>もんだい</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>します。"
+  },
+  "月刊": {
+    "jp": "彼は月刊誌を毎月購読しています。",
+    "en": "He subscribes to a monthly magazine.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>月刊<rt>げっかん</rt></ruby><ruby>誌<rt>し</rt></ruby>を<ruby>毎月<rt>まいつき</rt></ruby><ruby>購読<rt>こうどく</rt></ruby>しています。"
+  },
+  "罰則": {
+    "jp": "この法律には厳しい罰則があります。",
+    "en": "This law has strict penalties.",
+    "ruby": "この<ruby>法律<rt>ほうりつ</rt></ruby>には<ruby>厳しい<rt>きびしい</rt></ruby><ruby>罰則<rt>ばっそく</rt></ruby>があります。"
+  },
+  "周辺": {
+    "jp": "公園の周辺にはカフェがあります。",
+    "en": "There is a cafe around the park.",
+    "ruby": "<ruby>公園<rt>こうえん</rt></ruby>の<ruby>周辺<rt>しゅうへん</rt></ruby>にはカフェがあります。"
+  },
+  "国営": {
+    "jp": "国営の鉄道は多くの人に利用されています。",
+    "en": "The national railway is used by many people.",
+    "ruby": "<ruby>国営<rt>こくえい</rt></ruby>の<ruby>鉄道<rt>てつどう</rt></ruby>は<ruby>多く<rt>おおく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>に<ruby>利用<rt>りよう</rt></ruby>されています。"
+  },
+  "領域": {
+    "jp": "この研究は新しい領域に入ります。",
+    "en": "This research will enter a new domain.",
+    "ruby": "この<ruby>研究<rt>けんきゅう</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>領域<rt>りょういき</rt></ruby>に<ruby>入り<rt>はいり</rt></ruby>ます。"
+  },
+  "官庁": {
+    "jp": "官庁の仕事はとても重要です。",
+    "en": "The work of government agencies is very important.",
+    "ruby": "<ruby>官庁<rt>かんちょう</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>はとても<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "発掘": {
+    "jp": "考古学者は遺跡を発掘しています。",
+    "en": "The archaeologist is excavating the ruins.",
+    "ruby": "<ruby>考古<rt>こうこ</rt></ruby><ruby>学者<rt>がくしゃ</rt></ruby>は<ruby>遺跡<rt>いせき</rt></ruby>を<ruby>発掘<rt>はっくつ</rt></ruby>しています。"
+  },
+  "入札": {
+    "jp": "新しいプロジェクトの入札が始まりました。",
+    "en": "The bidding for the new project has started.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>プロジェクトの<ruby>入札<rt>にゅうさつ</rt></ruby>が<ruby>始まり<rt>はじまり</rt></ruby>ました。"
+  },
+  "取材": {
+    "jp": "彼は新しい映画の取材をしました。",
+    "en": "He conducted an interview for the new movie.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>映画<rt>えいが</rt></ruby>の<ruby>取材<rt>しゅざい</rt></ruby>をしました。"
+  },
+  "巡査": {
+    "jp": "巡査は町の安全を守っています。",
+    "en": "The police officer is protecting the safety of the town.",
+    "ruby": "<ruby>巡査<rt>じゅんさ</rt></ruby>は<ruby>町<rt>まち</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>を<ruby>守っ<rt>まもっ</rt></ruby>ています。"
+  },
+  "西欧": {
+    "jp": "西欧の文化はとても興味深いです。",
+    "en": "Western European culture is very interesting.",
+    "ruby": "<ruby>西欧<rt>せいおう</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>はとても<ruby>興味深い<rt>きょうみぶかい</rt></ruby>です。"
+  },
+  "情況": {
+    "jp": "この情況はとても難しいです。",
+    "en": "This situation is very difficult.",
+    "ruby": "この<ruby>情況<rt>じょうきょう</rt></ruby>はとても<ruby>難しい<rt>むずかしい</rt></ruby>です。"
+  },
+  "減速": {
+    "jp": "車は信号の前で減速します。",
+    "en": "The car slows down in front of the traffic signal.",
+    "ruby": "<ruby>車<rt>くるま</rt></ruby>は<ruby>信号<rt>しんごう</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>で<ruby>減速<rt>げんそく</rt></ruby>します。"
+  },
+  "総数": {
+    "jp": "クラスの総数は三十人です。",
+    "en": "The total number of students in the class is thirty.",
+    "ruby": "クラスの<ruby>総数<rt>そうすう</rt></ruby>は<ruby>三<rt>さん</rt></ruby><ruby>十<rt>じゅう</rt></ruby><ruby>人<rt>にん</rt></ruby>です。"
+  },
+  "線維": {
+    "jp": "筋肉には多くの線維が含まれています。",
+    "en": "Muscles contain many fibers.",
+    "ruby": "<ruby>筋肉<rt>きんにく</rt></ruby>には<ruby>多く<rt>おおく</rt></ruby>の<ruby>線維<rt>せんい</rt></ruby>が<ruby>含ま<rt>ふくま</rt></ruby>れています。"
+  },
+  "文芸": {
+    "jp": "彼は文芸に興味があります。",
+    "en": "He is interested in literature.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>文芸<rt>ぶんげい</rt></ruby>に<ruby>興味<rt>きょうみ</rt></ruby>があります。"
+  },
+  "衣料": {
+    "jp": "衣料品は毎年新しいデザインが出ます。",
+    "en": "Clothing items come out with new designs every year.",
+    "ruby": "<ruby>衣料<rt>いりょう</rt></ruby><ruby>品<rt>ひん</rt></ruby>は<ruby>毎年<rt>まいとし</rt></ruby><ruby>新しい<rt>あたらしい</rt></ruby>デザインが<ruby>出<rt>で</rt></ruby>ます。"
+  },
+  "補佐": {
+    "jp": "彼は社長の補佐をしています。",
+    "en": "He is assisting the president.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>社長<rt>しゃちょう</rt></ruby>の<ruby>補佐<rt>ほさ</rt></ruby>をしています。"
+  },
+  "多角": {
+    "jp": "多角的な視点が大切です。",
+    "en": "A multifaceted perspective is important.",
+    "ruby": "<ruby>多角<rt>たかく</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>視点<rt>してん</rt></ruby>が<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "運輸": {
+    "jp": "運輸業は経済にとても大切です。",
+    "en": "The transportation industry is very important to the economy.",
+    "ruby": "<ruby>運輸<rt>うんゆ</rt></ruby><ruby>業<rt>ぎょう</rt></ruby>は<ruby>経済<rt>けいざい</rt></ruby>にとても<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "国防": {
+    "jp": "国防は国の安全にとって重要です。",
+    "en": "National defense is important for the safety of the country.",
+    "ruby": "<ruby>国防<rt>こくぼう</rt></ruby>は<ruby>国<rt>くに</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>にとって<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "執行": {
+    "jp": "新しい法律の執行が始まりました。",
+    "en": "The enforcement of the new law has started.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby>の<ruby>執行<rt>しっこう</rt></ruby>が<ruby>始まり<rt>はじまり</rt></ruby>ました。"
+  },
+  "中堅": {
+    "jp": "彼は会社の中堅社員として活躍しています。",
+    "en": "He is active as a mid-level employee in the company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>中堅<rt>ちゅうけん</rt></ruby><ruby>社員<rt>しゃいん</rt></ruby>として<ruby>活躍<rt>かつやく</rt></ruby>しています。"
+  },
+  "幹事": {
+    "jp": "来週のパーティーの幹事を引き受けました。",
+    "en": "I have taken on the role of organizer for next week's party.",
+    "ruby": "<ruby>来週<rt>らいしゅう</rt></ruby>のパーティーの<ruby>幹事<rt>かんじ</rt></ruby>を<ruby>引き受け<rt>ひきうけ</rt></ruby>ました。"
+  },
+  "色彩": {
+    "jp": "この絵は色彩がとても美しいです。",
+    "en": "The colors in this painting are very beautiful.",
+    "ruby": "この<ruby>絵<rt>え</rt></ruby>は<ruby>色彩<rt>しきさい</rt></ruby>がとても<ruby>美しい<rt>うつくしい</rt></ruby>です。"
+  },
+  "批評": {
+    "jp": "彼の映画に対する批評はとても興味深いです。",
+    "en": "His critique of the movie is very interesting.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>映画<rt>えいが</rt></ruby><ruby>に対する<rt>にたいする</rt></ruby><ruby>批評<rt>ひひょう</rt></ruby>はとても<ruby>興味深い<rt>きょうみぶかい</rt></ruby>です。"
+  },
+  "推進": {
+    "jp": "環境保護のために推進活動を行います。",
+    "en": "We will conduct promotion activities for environmental protection.",
+    "ruby": "<ruby>環境<rt>かんきょう</rt></ruby><ruby>保護<rt>ほご</rt></ruby>のために<ruby>推進<rt>すいしん</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>ます。"
+  },
+  "前提": {
+    "jp": "この議論の前提は明確です。",
+    "en": "The premise of this discussion is clear.",
+    "ruby": "この<ruby>議論<rt>ぎろん</rt></ruby>の<ruby>前提<rt>ぜんてい</rt></ruby>は<ruby>明確<rt>めいかく</rt></ruby>です。"
+  },
+  "摘発": {
+    "jp": "警察は詐欺事件を摘発しました。",
+    "en": "The police uncovered a fraud case.",
+    "ruby": "<ruby>警察<rt>けいさつ</rt></ruby>は<ruby>詐欺<rt>さぎ</rt></ruby><ruby>事件<rt>じけん</rt></ruby>を<ruby>摘発<rt>てきはつ</rt></ruby>しました。"
+  },
+  "斜面": {
+    "jp": "斜面を登るのは少し大変です。",
+    "en": "Climbing the slope is a bit difficult.",
+    "ruby": "<ruby>斜面<rt>しゃめん</rt></ruby>を<ruby>登る<rt>のぼる</rt></ruby>のは<ruby>少し<rt>すこし</rt></ruby><ruby>大変<rt>たいへん</rt></ruby>です。"
+  },
+  "暫定": {
+    "jp": "この計画は暫定のもので、変更される可能性があります。",
+    "en": "This plan is provisional and may be subject to change.",
+    "ruby": "この<ruby>計画<rt>けいかく</rt></ruby>は<ruby>暫定<rt>ざんてい</rt></ruby>のもので、<ruby>変更<rt>へんこう</rt></ruby>される<ruby>可能<rt>かのう</rt></ruby><ruby>性<rt>せい</rt></ruby>があります。"
+  },
+  "中核": {
+    "jp": "このプロジェクトの中核はチームワークです。",
+    "en": "The core of this project is teamwork.",
+    "ruby": "このプロジェクトの<ruby>中核<rt>ちゅうかく</rt></ruby>はチームワークです。"
+  },
+  "棄権": {
+    "jp": "彼は試合を棄権しました。",
+    "en": "He forfeited the match.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>試合<rt>しあい</rt></ruby>を<ruby>棄権<rt>きけん</rt></ruby>しました。"
+  },
+  "強烈": {
+    "jp": "この映画は強烈な印象を与えました。",
+    "en": "This movie left a strong impression.",
+    "ruby": "この<ruby>映画<rt>えいが</rt></ruby>は<ruby>強烈<rt>きょうれつ</rt></ruby>な<ruby>印象<rt>いんしょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ました。"
+  },
+  "系列": {
+    "jp": "この会社は多くの系列を持っています。",
+    "en": "This company has many series.",
+    "ruby": "この<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>多く<rt>おおく</rt></ruby>の<ruby>系列<rt>けいれつ</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>ています。"
+  },
+  "統制": {
+    "jp": "政府は経済の統制を強化しています。",
+    "en": "The government is strengthening control over the economy.",
+    "ruby": "<ruby>政府<rt>せいふ</rt></ruby>は<ruby>経済<rt>けいざい</rt></ruby>の<ruby>統制<rt>とうせい</rt></ruby>を<ruby>強化<rt>きょうか</rt></ruby>しています。"
+  },
+  "統合": {
+    "jp": "会社のシステムを統合することが重要です。",
+    "en": "It is important to integrate the company's systems.",
+    "ruby": "<ruby>会社<rt>かいしゃ</rt></ruby>のシステムを<ruby>統合<rt>とうごう</rt></ruby>することが<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "横綱": {
+    "jp": "彼は横綱としての責任を果たしています。",
+    "en": "He is fulfilling his responsibilities as a yokozuna.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>横綱<rt>よこづな</rt></ruby>としての<ruby>責任<rt>せきにん</rt></ruby>を<ruby>果たし<rt>はたし</rt></ruby>ています。"
+  },
+  "取り締まり": {
+    "jp": "交通の取り締まりが強化されています。",
+    "en": "Traffic enforcement is being strengthened.",
+    "ruby": "<ruby>交通<rt>こうつう</rt></ruby>の<ruby>取り締まり<rt>とりしまり</rt></ruby>が<ruby>強化<rt>きょうか</rt></ruby>されています。"
+  },
+  "名義": {
+    "jp": "この契約は私の名義で締結されました。",
+    "en": "This contract was concluded in my name.",
+    "ruby": "この<ruby>契約<rt>けいやく</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>名義<rt>めいぎ</rt></ruby>で<ruby>締結<rt>ていけつ</rt></ruby>されました。"
+  },
+  "虐殺": {
+    "jp": "歴史の中で虐殺は悲惨な出来事です。",
+    "en": "Massacres are tragic events in history.",
+    "ruby": "<ruby>歴史<rt>れきし</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>虐殺<rt>ぎゃくさつ</rt></ruby>は<ruby>悲惨<rt>ひさん</rt></ruby>な<ruby>出来事<rt>できごと</rt></ruby>です。"
+  },
+  "迫力": {
+    "jp": "この映画は迫力があって、とても感動しました。",
+    "en": "This movie was powerful and very moving.",
+    "ruby": "この<ruby>映画<rt>えいが</rt></ruby>は<ruby>迫力<rt>はくりょく</rt></ruby>があって、とても<ruby>感動<rt>かんどう</rt></ruby>しました。"
+  },
+  "主席": {
+    "jp": "彼は会議の主席です。",
+    "en": "He is the chairperson of the meeting.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会議<rt>かいぎ</rt></ruby>の<ruby>主席<rt>しゅせき</rt></ruby>です。"
+  },
+  "別名": {
+    "jp": "この花は別名、桜です。",
+    "en": "This flower is also called cherry blossom.",
+    "ruby": "この<ruby>花<rt>はな</rt></ruby>は<ruby>別名<rt>べつめい</rt></ruby>、<ruby>桜<rt>さくら</rt></ruby>です。"
+  },
+  "動員": {
+    "jp": "多くの人が動員されました。",
+    "en": "Many people were mobilized.",
+    "ruby": "<ruby>多く<rt>おおく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>が<ruby>動員<rt>どういん</rt></ruby>されました。"
+  },
+  "交互": {
+    "jp": "私たちは交互に話します。",
+    "en": "We will talk alternately.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>交互<rt>こうご</rt></ruby>に<ruby>話し<rt>はなし</rt></ruby>ます。"
+  },
+  "先例": {
+    "jp": "この問題には先例があります。",
+    "en": "There is a precedent for this issue.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>には<ruby>先例<rt>せんれい</rt></ruby>があります。"
+  },
+  "絵の具": {
+    "jp": "絵の具を使って絵を描きます。",
+    "en": "I will paint a picture using paint.",
+    "ruby": "<ruby>絵の具<rt>えのぐ</rt></ruby>を<ruby>使っ<rt>つかっ</rt></ruby>て<ruby>絵<rt>え</rt></ruby>を<ruby>描き<rt>えがき</rt></ruby>ます。"
+  },
+  "単一": {
+    "jp": "この問題には単一の答えがあります。",
+    "en": "There is a single answer to this problem.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>には<ruby>単一<rt>たんいつ</rt></ruby>の<ruby>答え<rt>こたえ</rt></ruby>があります。"
+  },
+  "反動": {
+    "jp": "運動の後に反動がありました。",
+    "en": "There was a reaction after exercising.",
+    "ruby": "<ruby>運動<rt>うんどう</rt></ruby>の<ruby>後<rt>のち</rt></ruby>に<ruby>反動<rt>はんどう</rt></ruby>がありました。"
+  },
+  "聞き取り": {
+    "jp": "日本語の聞き取りが難しいです。",
+    "en": "Listening comprehension in Japanese is difficult.",
+    "ruby": "<ruby>日本語<rt>にほんご</rt></ruby>の<ruby>聞き取り<rt>ききとり</rt></ruby>が<ruby>難しい<rt>むずかしい</rt></ruby>です。"
+  },
+  "風向き": {
+    "jp": "今日は風向きが変わりました。",
+    "en": "The wind direction has changed today.",
+    "ruby": "<ruby>今日<rt>きょう</rt></ruby>は<ruby>風向き<rt>かざむき</rt></ruby>が<ruby>変わり<rt>かわり</rt></ruby>ました。"
+  },
+  "否決": {
+    "jp": "その提案は否決されました。",
+    "en": "The proposal was rejected.",
+    "ruby": "その<ruby>提案<rt>ていあん</rt></ruby>は<ruby>否決<rt>ひけつ</rt></ruby>されました。"
+  },
+  "呼び名": {
+    "jp": "彼の呼び名はとても面白いです。",
+    "en": "His nickname is very interesting.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>呼び名<rt>よびな</rt></ruby>はとても<ruby>面白い<rt>おもしろい</rt></ruby>です。"
+  },
+  "商人": {
+    "jp": "彼は優れた商人です。",
+    "en": "He is an excellent merchant.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>優れ<rt>すぐれ</rt></ruby>た<ruby>商人<rt>しょうにん</rt></ruby>です。"
+  },
+  "変容": {
+    "jp": "彼の考え方は変容しました。",
+    "en": "His way of thinking has changed.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>考え方<rt>かんがえかた</rt></ruby>は<ruby>変容<rt>へんよう</rt></ruby>しました。"
+  },
+  "変形": {
+    "jp": "この図形は変形できます。",
+    "en": "This shape can be transformed.",
+    "ruby": "この<ruby>図形<rt>づけい</rt></ruby>は<ruby>変形<rt>へんけい</rt></ruby>できます。"
+  },
+  "断定": {
+    "jp": "彼の意見を断定するのは難しいです。",
+    "en": "It is difficult to make a definite conclusion about his opinion.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>を<ruby>断定<rt>だんてい</rt></ruby>するのは<ruby>難しい<rt>むずかしい</rt></ruby>です。"
+  },
+  "対等": {
+    "jp": "私たちは対等な関係です。",
+    "en": "We have an equal relationship.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>対等<rt>たいとう</rt></ruby>な<ruby>関係<rt>かんけい</rt></ruby>です。"
+  },
+  "対談": {
+    "jp": "彼と対談をしました。",
+    "en": "I had a discussion with him.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>と<ruby>対談<rt>たいだん</rt></ruby>をしました。"
+  },
+  "手形": {
+    "jp": "手形を使ってお金を借ります。",
+    "en": "I will borrow money using a promissory note.",
+    "ruby": "<ruby>手形<rt>てがた</rt></ruby>を<ruby>使っ<rt>つかっ</rt></ruby>て<ruby>お金<rt>おかね</rt></ruby>を<ruby>借り<rt>かり</rt></ruby>ます。"
+  },
+  "最期": {
+    "jp": "彼は静かに最期を迎えました。",
+    "en": "He quietly faced his last moments.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>静か<rt>しずか</rt></ruby>に<ruby>最期<rt>さいご</rt></ruby>を<ruby>迎え<rt>むかえ</rt></ruby>ました。"
+  },
+  "未然": {
+    "jp": "問題を未然に防ぐことが大切です。",
+    "en": "It is important to prevent problems in advance.",
+    "ruby": "<ruby>問題<rt>もんだい</rt></ruby>を<ruby>未然<rt>みぜん</rt></ruby>に<ruby>防ぐ<rt>ふせぐ</rt></ruby>ことが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "時機": {
+    "jp": "成功するための時機は大切です。",
+    "en": "The timing for success is important.",
+    "ruby": "<ruby>成功<rt>せいこう</rt></ruby>するための<ruby>時機<rt>じき</rt></ruby>は<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "下流": {
+    "jp": "この川は下流に行くほど広いです。",
+    "en": "This river becomes wider as it goes downstream.",
+    "ruby": "この<ruby>川<rt>かわ</rt></ruby>は<ruby>下流<rt>かりゅう</rt></ruby>に<ruby>行く<rt>いく</rt></ruby>ほど<ruby>広い<rt>ひろい</rt></ruby>です。"
+  },
+  "公然": {
+    "jp": "彼は公然と意見を言いました。",
+    "en": "He openly expressed his opinion.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>公然<rt>こうぜん</rt></ruby>と<ruby>意見<rt>いけん</rt></ruby>を<ruby>言い<rt>いい</rt></ruby>ました。"
+  },
+  "工程": {
+    "jp": "この工程はとても大切です。",
+    "en": "This process is very important.",
+    "ruby": "この<ruby>工程<rt>こうてい</rt></ruby>はとても<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "行程": {
+    "jp": "旅行の行程を確認しました。",
+    "en": "I confirmed the travel itinerary.",
+    "ruby": "<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>行程<rt>こうてい</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>しました。"
+  },
+  "新米": {
+    "jp": "彼は新米の教師です。",
+    "en": "He is a new teacher.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新米<rt>しんまい</rt></ruby>の<ruby>教師<rt>きょうし</rt></ruby>です。"
+  },
+  "解約": {
+    "jp": "このサービスを解約したいです。",
+    "en": "I would like to cancel this service.",
+    "ruby": "このサービスを<ruby>解約<rt>かいやく</rt></ruby>したいです。"
+  },
+  "薬品": {
+    "jp": "この薬品はとても効果的です。",
+    "en": "This medicine is very effective.",
+    "ruby": "この<ruby>薬品<rt>やくひん</rt></ruby>はとても<ruby>効果<rt>こうか</rt></ruby><ruby>的<rt>てき</rt></ruby>です。"
+  },
+  "返上": {
+    "jp": "賞金を返上することにしました。",
+    "en": "I decided to return the prize money.",
+    "ruby": "<ruby>賞金<rt>しょうきん</rt></ruby>を<ruby>返上<rt>へんじょう</rt></ruby>することにしました。"
+  },
+  "際限": {
+    "jp": "この問題には際限がありません。",
+    "en": "There is no limit to this problem.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>には<ruby>際限<rt>さいげん</rt></ruby>がありません。"
+  },
+  "並行": {
+    "jp": "二つのプロジェクトは並行して進めます。",
+    "en": "The two projects will proceed in parallel.",
+    "ruby": "<ruby>二つ<rt>ふたつ</rt></ruby>のプロジェクトは<ruby>並行<rt>へいこう</rt></ruby>して<ruby>進め<rt>すすめ</rt></ruby>ます。"
+  },
+  "乳児": {
+    "jp": "乳児の世話はとても大変です。",
+    "en": "Taking care of an infant is very challenging.",
+    "ruby": "<ruby>乳児<rt>にゅうじ</rt></ruby>の<ruby>世話<rt>せわ</rt></ruby>はとても<ruby>大変<rt>たいへん</rt></ruby>です。"
+  },
+  "法令": {
+    "jp": "法令を守ることは大切です。",
+    "en": "It is important to obey the laws and regulations.",
+    "ruby": "<ruby>法令<rt>ほうれい</rt></ruby>を<ruby>守る<rt>まもる</rt></ruby>ことは<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "日刊": {
+    "jp": "彼は日刊新聞を毎日読んでいます。",
+    "en": "He reads the daily newspaper every day.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>日刊<rt>にっかん</rt></ruby><ruby>新聞<rt>しんぶん</rt></ruby>を<ruby>毎日<rt>まいにち</rt></ruby><ruby>読ん<rt>よん</rt></ruby>でいます。"
+  },
+  "反則": {
+    "jp": "サッカーの試合で反則をしました。",
+    "en": "I committed a foul in the soccer match.",
+    "ruby": "サッカーの<ruby>試合<rt>しあい</rt></ruby>で<ruby>反則<rt>はんそく</rt></ruby>をしました。"
+  },
+  "各自": {
+    "jp": "各自の意見を発表しましょう。",
+    "en": "Let's present each person's opinion.",
+    "ruby": "<ruby>各自<rt>かくじ</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>を<ruby>発表<rt>はっぴょう</rt></ruby>しましょう。"
+  },
+  "公営": {
+    "jp": "この公営の図書館はとても便利です。",
+    "en": "This public library is very convenient.",
+    "ruby": "この<ruby>公営<rt>こうえい</rt></ruby>の<ruby>図書館<rt>としょかん</rt></ruby>はとても<ruby>便利<rt>べんり</rt></ruby>です。"
+  },
+  "営利": {
+    "jp": "この会社は営利を目的としています。",
+    "en": "This company aims for profit.",
+    "ruby": "この<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>営利<rt>えいり</rt></ruby>を<ruby>目的<rt>もくてき</rt></ruby>としています。"
+  },
+  "均一": {
+    "jp": "この製品は均一な品質です。",
+    "en": "This product has uniform quality.",
+    "ruby": "この<ruby>製品<rt>せいひん</rt></ruby>は<ruby>均一<rt>きんいつ</rt></ruby>な<ruby>品質<rt>ひんしつ</rt></ruby>です。"
+  },
+  "委任": {
+    "jp": "彼に仕事を委任することにしました。",
+    "en": "I decided to delegate the work to him.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>に<ruby>仕事<rt>しごと</rt></ruby>を<ruby>委任<rt>いにん</rt></ruby>することにしました。"
+  },
+  "国宝": {
+    "jp": "この寺には多くの国宝があります。",
+    "en": "This temple has many national treasures.",
+    "ruby": "この<ruby>寺<rt>てら</rt></ruby>には<ruby>多く<rt>おおく</rt></ruby>の<ruby>国宝<rt>こくほう</rt></ruby>があります。"
+  },
+  "川岸": {
+    "jp": "川岸を散歩するのが好きです。",
+    "en": "I like to take walks along the riverbank.",
+    "ruby": "<ruby>川岸<rt>かわぎし</rt></ruby>を<ruby>散歩<rt>さんぽ</rt></ruby>するのが<ruby>好き<rt>すき</rt></ruby>です。"
+  },
+  "公布": {
+    "jp": "新しい法律が公布されました。",
+    "en": "The new law has been promulgated.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby>が<ruby>公布<rt>こうふ</rt></ruby>されました。"
+  },
+  "旋律": {
+    "jp": "この曲の旋律はとても美しいです。",
+    "en": "The melody of this song is very beautiful.",
+    "ruby": "この<ruby>曲<rt>きょく</rt></ruby>の<ruby>旋律<rt>せんりつ</rt></ruby>はとても<ruby>美しい<rt>うつくしい</rt></ruby>です。"
+  },
+  "担任": {
+    "jp": "私の担任はとても優しい先生です。",
+    "en": "My homeroom teacher is a very kind teacher.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>担任<rt>たんにん</rt></ruby>はとても<ruby>優しい<rt>やさしい</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>です。"
+  },
+  "間接": {
+    "jp": "彼は間接的に私に助けを求めました。",
+    "en": "He indirectly asked me for help.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>間接<rt>かんせつ</rt></ruby><ruby>的<rt>てき</rt></ruby>に<ruby>私<rt>わたし</rt></ruby>に<ruby>助け<rt>たすけ</rt></ruby>を<ruby>求め<rt>もとめ</rt></ruby>ました。"
+  },
+  "接待": {
+    "jp": "彼はお客様の接待を担当しています。",
+    "en": "He is in charge of entertaining the guests.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>お客様<rt>おきゃくさま</rt></ruby>の<ruby>接待<rt>せったい</rt></ruby>を<ruby>担当<rt>たんとう</rt></ruby>しています。"
+  },
+  "旧式": {
+    "jp": "この機械は旧式です。",
+    "en": "This machine is old-fashioned.",
+    "ruby": "この<ruby>機械<rt>きかい</rt></ruby>は<ruby>旧式<rt>きゅうしき</rt></ruby>です。"
+  },
+  "星座": {
+    "jp": "夜空に美しい星座が見えます。",
+    "en": "You can see beautiful constellations in the night sky.",
+    "ruby": "<ruby>夜空<rt>よぞら</rt></ruby>に<ruby>美しい<rt>うつくしい</rt></ruby><ruby>星座<rt>せいざ</rt></ruby>が<ruby>見え<rt>みえ</rt></ruby>ます。"
+  },
+  "半減": {
+    "jp": "この商品は半減して、安くなりました。",
+    "en": "This product has halved in price and has become cheaper.",
+    "ruby": "この<ruby>商品<rt>しょうひん</rt></ruby>は<ruby>半減<rt>はんげん</rt></ruby>して、<ruby>安く<rt>やすく</rt></ruby>なりました。"
+  },
+  "秒読み": {
+    "jp": "試験の秒読みが始まりました。",
+    "en": "The countdown to the exam has started.",
+    "ruby": "<ruby>試験<rt>しけん</rt></ruby>の<ruby>秒読み<rt>びょうよみ</rt></ruby>が<ruby>始まり<rt>はじまり</rt></ruby>ました。"
+  },
+  "国税": {
+    "jp": "国税は国の重要な収入源です。",
+    "en": "National taxes are an important source of income for the country.",
+    "ruby": "<ruby>国税<rt>こくぜい</rt></ruby>は<ruby>国<rt>くに</rt></ruby>の<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>収入<rt>しゅうにゅう</rt></ruby><ruby>源<rt>げん</rt></ruby>です。"
+  },
+  "光線": {
+    "jp": "光線が窓から入ってきました。",
+    "en": "The light rays came in through the window.",
+    "ruby": "<ruby>光線<rt>こうせん</rt></ruby>が<ruby>窓<rt>まど</rt></ruby>から<ruby>入っ<rt>はいっ</rt></ruby>てきました。"
+  },
+  "本線": {
+    "jp": "本線はこの駅から始まります。",
+    "en": "The main line starts from this station.",
+    "ruby": "<ruby>本線<rt>ほんせん</rt></ruby>はこの<ruby>駅<rt>えき</rt></ruby>から<ruby>始まり<rt>はじまり</rt></ruby>ます。"
+  },
+  "編入": {
+    "jp": "彼は大学に編入することにしました。",
+    "en": "He decided to transfer to the university.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大学<rt>だいがく</rt></ruby>に<ruby>編入<rt>へんにゅう</rt></ruby>することにしました。"
+  },
+  "農耕": {
+    "jp": "日本では農耕が重要な文化です。",
+    "en": "In Japan, agriculture is an important culture.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>では<ruby>農耕<rt>のうこう</rt></ruby>が<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>文化<rt>ぶんか</rt></ruby>です。"
+  },
+  "航路": {
+    "jp": "この航路は安全だと言われています。",
+    "en": "This route is said to be safe.",
+    "ruby": "この<ruby>航路<rt>こうろ</rt></ruby>は<ruby>安全<rt>あんぜん</rt></ruby>だと<ruby>言わ<rt>いわ</rt></ruby>れています。"
+  },
+  "難航": {
+    "jp": "プロジェクトは難航しています。",
+    "en": "The project is facing difficulties.",
+    "ruby": "プロジェクトは<ruby>難航<rt>なんこう</rt></ruby>しています。"
+  },
+  "補正": {
+    "jp": "この写真は補正が必要です。",
+    "en": "This photo needs correction.",
+    "ruby": "この<ruby>写真<rt>しゃしん</rt></ruby>は<ruby>補正<rt>ほせい</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "補欠": {
+    "jp": "彼はサッカーチームの補欠です。",
+    "en": "He is a substitute on the soccer team.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はサッカーチームの<ruby>補欠<rt>ほけつ</rt></ruby>です。"
+  },
+  "贈与": {
+    "jp": "彼は友達に贈与をしました。",
+    "en": "He made a gift to his friend.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>友達<rt>ともだち</rt></ruby>に<ruby>贈与<rt>ぞうよ</rt></ruby>をしました。"
+  },
+  "質量": {
+    "jp": "物体の質量は重さに影響します。",
+    "en": "The mass of an object affects its weight.",
+    "ruby": "<ruby>物体<rt>ぶったい</rt></ruby>の<ruby>質量<rt>しつりょう</rt></ruby>は<ruby>重<rt>おも</rt></ruby>さに<ruby>影響<rt>えいきょう</rt></ruby>します。"
+  },
+  "製鉄": {
+    "jp": "日本の製鉄業は世界的に有名です。",
+    "en": "Japan's steel industry is famous worldwide.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>製鉄<rt>せいてつ</rt></ruby><ruby>業<rt>ぎょう</rt></ruby>は<ruby>世界<rt>せかい</rt></ruby><ruby>的<rt>てき</rt></ruby>に<ruby>有名<rt>ゆうめい</rt></ruby>です。"
+  },
+  "鉄筋": {
+    "jp": "この建物には鉄筋が使われています。",
+    "en": "Reinforced steel is used in this building.",
+    "ruby": "この<ruby>建物<rt>たてもの</rt></ruby>には<ruby>鉄筋<rt>てっきん</rt></ruby>が<ruby>使わ<rt>つかわ</rt></ruby>れています。"
+  },
+  "領空": {
+    "jp": "日本の領空は他国に侵入されません。",
+    "en": "Japan's airspace is not intruded by other countries.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>領空<rt>りょうくう</rt></ruby>は<ruby>他国<rt>たこく</rt></ruby>に<ruby>侵入<rt>しんにゅう</rt></ruby>されません。"
+  },
+  "亭主": {
+    "jp": "亭主はいつも家事を手伝っています。",
+    "en": "The husband always helps with the housework.",
+    "ruby": "<ruby>亭主<rt>ていしゅ</rt></ruby>はいつも<ruby>家事<rt>かじ</rt></ruby>を<ruby>手伝っ<rt>てつだっ</rt></ruby>ています。"
+  },
+  "真価": {
+    "jp": "彼の真価は困難な状況でこそ発揮されます。",
+    "en": "His true value is demonstrated precisely in difficult situations.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>真価<rt>しんか</rt></ruby>は<ruby>困難<rt>こんなん</rt></ruby>な<ruby>状況<rt>じょうきょう</rt></ruby>でこそ<ruby>発揮<rt>はっき</rt></ruby>されます。"
+  },
+  "偵察": {
+    "jp": "彼は敵の偵察を行いました。",
+    "en": "He conducted reconnaissance on the enemy.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>敵<rt>てき</rt></ruby>の<ruby>偵察<rt>ていさつ</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>ました。"
+  },
+  "通帳": {
+    "jp": "通帳を確認するのが大切です。",
+    "en": "It is important to check the bankbook.",
+    "ruby": "<ruby>通帳<rt>かよいちょう</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>するのが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "弁論": {
+    "jp": "彼は弁論大会で優勝しました。",
+    "en": "He won the debate competition.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>弁論<rt>べんろん</rt></ruby><ruby>大会<rt>たいかい</rt></ruby>で<ruby>優勝<rt>ゆうしょう</rt></ruby>しました。"
+  },
+  "無惨": {
+    "jp": "その映画の結末は無惨でした。",
+    "en": "The ending of that movie was tragic.",
+    "ruby": "その<ruby>映画<rt>えいが</rt></ruby>の<ruby>結末<rt>けつまつ</rt></ruby>は<ruby>無惨<rt>むざん</rt></ruby>でした。"
+  },
+  "運搬": {
+    "jp": "この会社は商品の運搬を専門としています。",
+    "en": "This company specializes in the transportation of goods.",
+    "ruby": "この<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>運搬<rt>うんぱん</rt></ruby>を<ruby>専門<rt>せんもん</rt></ruby>としています。"
+  },
+  "朗読": {
+    "jp": "彼は毎晩、朗読の練習をしています。",
+    "en": "He practices reading aloud every evening.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>毎晩<rt>まいばん</rt></ruby>、<ruby>朗読<rt>ろうどく</rt></ruby>の<ruby>練習<rt>れんしゅう</rt></ruby>をしています。"
+  },
+  "身柄": {
+    "jp": "彼は身柄を拘束されているようです。",
+    "en": "It seems that he is being detained.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>身柄<rt>みがら</rt></ruby>を<ruby>拘束<rt>こうそく</rt></ruby>されているようです。"
+  },
+  "標本": {
+    "jp": "この標本は非常に貴重です。",
+    "en": "This specimen is very valuable.",
+    "ruby": "この<ruby>標本<rt>ひょうほん</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>貴重<rt>きちょう</rt></ruby>です。"
+  },
+  "成熟": {
+    "jp": "果物は成熟するまで時間がかかります。",
+    "en": "Fruits take time to mature.",
+    "ruby": "<ruby>果物<rt>くだもの</rt></ruby>は<ruby>成熟<rt>せいじゅく</rt></ruby>するまで<ruby>時間<rt>じかん</rt></ruby>がかかります。"
+  },
+  "独断": {
+    "jp": "彼は独断で決定を下しました。",
+    "en": "He made the decision independently.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>独断<rt>どくだん</rt></ruby>で<ruby>決定<rt>けってい</rt></ruby>を<ruby>下し<rt>くだし</rt></ruby>ました。"
+  },
+  "文献": {
+    "jp": "この研究には多くの文献が参考になります。",
+    "en": "Many references in this research are useful.",
+    "ruby": "この<ruby>研究<rt>けんきゅう</rt></ruby>には<ruby>多く<rt>おおく</rt></ruby>の<ruby>文献<rt>ぶんけん</rt></ruby>が<ruby>参考<rt>さんこう</rt></ruby>になります。"
+  },
+  "指環": {
+    "jp": "彼女は美しい指環をプレゼントしてくれました。",
+    "en": "She gave me a beautiful ring as a present.",
+    "ruby": "<ruby>彼女<rt>かのじょ</rt></ruby>は<ruby>美しい<rt>うつくしい</rt></ruby><ruby>指<rt>ゆび</rt></ruby><ruby>環<rt>たまき</rt></ruby>をプレゼントしてくれました。"
+  },
+  "特異": {
+    "jp": "彼の特異な才能に感心しました。",
+    "en": "I was impressed by his unique talent.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>特異<rt>とくい</rt></ruby>な<ruby>才能<rt>さいのう</rt></ruby>に<ruby>感心<rt>かんしん</rt></ruby>しました。"
+  },
+  "神秘": {
+    "jp": "宇宙の神秘について学ぶことが大切です。",
+    "en": "It is important to learn about the mysteries of the universe.",
+    "ruby": "<ruby>宇宙<rt>うちゅう</rt></ruby>の<ruby>神秘<rt>しんぴ</rt></ruby>について<ruby>学ぶ<rt>まなぶ</rt></ruby>ことが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "使節": {
+    "jp": "彼は国の使節として海外に派遣されました。",
+    "en": "He was dispatched overseas as a diplomatic envoy.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>国<rt>くに</rt></ruby>の<ruby>使節<rt>しせつ</rt></ruby>として<ruby>海外<rt>かいがい</rt></ruby>に<ruby>派遣<rt>はけん</rt></ruby>されました。"
+  },
+  "規範": {
+    "jp": "社会の規範を理解することが大切です。",
+    "en": "It is important to understand the norms of society.",
+    "ruby": "<ruby>社会<rt>しゃかい</rt></ruby>の<ruby>規範<rt>きはん</rt></ruby>を<ruby>理解<rt>りかい</rt></ruby>することが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "納入": {
+    "jp": "新しい機械の納入が明日です。",
+    "en": "The delivery of the new machine is tomorrow.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>機械<rt>きかい</rt></ruby>の<ruby>納入<rt>のうにゅう</rt></ruby>が<ruby>明日<rt>あした</rt></ruby>です。"
+  },
+  "索引": {
+    "jp": "本の索引を使って情報を探します。",
+    "en": "I will use the index of the book to search for information.",
+    "ruby": "<ruby>本<rt>ほん</rt></ruby>の<ruby>索引<rt>さくいん</rt></ruby>を<ruby>使っ<rt>つかっ</rt></ruby>て<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>探し<rt>さがし</rt></ruby>ます。"
+  },
+  "結びつき": {
+    "jp": "人々の結びつきが大切だと思います。",
+    "en": "I think the connections between people are important.",
+    "ruby": "<ruby>人々<rt>ひとびと</rt></ruby>の<ruby>結び<rt>むすび</rt></ruby>つきが<ruby>大切<rt>たいせつ</rt></ruby>だと<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "義父": {
+    "jp": "私の義父はとても優しい人です。",
+    "en": "My father-in-law is a very kind person.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>義父<rt>ぎふ</rt></ruby>はとても<ruby>優しい<rt>やさしい</rt></ruby><ruby>人<rt>ひと</rt></ruby>です。"
+  },
+  "虚構": {
+    "jp": "この小説は虚構の世界を描いています。",
+    "en": "This novel depicts a world of fiction.",
+    "ruby": "この<ruby>小説<rt>しょうせつ</rt></ruby>は<ruby>虚構<rt>きょこう</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>を<ruby>描い<rt>えがい</rt></ruby>ています。"
+  },
+  "不可避": {
+    "jp": "この問題は不可避ですから、対策が必要です。",
+    "en": "This problem is unavoidable, so measures are necessary.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>は<ruby>不可避<rt>ふかひ</rt></ruby>ですから、<ruby>対策<rt>たいさく</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "雄大": {
+    "jp": "この山は雄大な景色を提供します。",
+    "en": "This mountain offers a magnificent view.",
+    "ruby": "この<ruby>山<rt>やま</rt></ruby>は<ruby>雄大<rt>ゆうだい</rt></ruby>な<ruby>景色<rt>けしき</rt></ruby>を<ruby>提供<rt>ていきょう</rt></ruby>します。"
+  },
+  "受精": {
+    "jp": "受精は新しい命の始まりです。",
+    "en": "Fertilization is the beginning of a new life.",
+    "ruby": "<ruby>受精<rt>じゅせい</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>命<rt>いのち</rt></ruby>の<ruby>始まり<rt>はじまり</rt></ruby>です。"
+  },
+  "雇い主": {
+    "jp": "彼は私の雇い主です。",
+    "en": "He is my employer.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>雇い主<rt>やといぬし</rt></ruby>です。"
+  },
+  "先住": {
+    "jp": "先住民族の文化は大切です。",
+    "en": "The culture of indigenous peoples is important.",
+    "ruby": "<ruby>先住民<rt>せんじゅうみん</rt></ruby><ruby>族<rt>ぞく</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>は<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "生体": {
+    "jp": "生体の研究は大切です。",
+    "en": "Research on living organisms is important.",
+    "ruby": "<ruby>生体<rt>せいたい</rt></ruby>の<ruby>研究<rt>けんきゅう</rt></ruby>は<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "院長": {
+    "jp": "院長はとても優しいです。",
+    "en": "The director is very kind.",
+    "ruby": "<ruby>院長<rt>いんちょう</rt></ruby>はとても<ruby>優しい<rt>やさしい</rt></ruby>です。"
+  },
+  "供与": {
+    "jp": "政府は教育に資金を供与します。",
+    "en": "The government provides funding for education.",
+    "ruby": "<ruby>政府<rt>せいふ</rt></ruby>は<ruby>教育<rt>きょういく</rt></ruby>に<ruby>資金<rt>しきん</rt></ruby>を<ruby>供与<rt>きょうよ</rt></ruby>します。"
+  },
+  "件数": {
+    "jp": "今月の件数は増えました。",
+    "en": "The number of cases has increased this month.",
+    "ruby": "<ruby>今月<rt>こんげつ</rt></ruby>の<ruby>件数<rt>けんすう</rt></ruby>は<ruby>増え<rt>ふえ</rt></ruby>ました。"
+  },
+  "要件": {
+    "jp": "会議の要件を確認しました。",
+    "en": "I confirmed the requirements for the meeting.",
+    "ruby": "<ruby>会議<rt>かいぎ</rt></ruby>の<ruby>要件<rt>ようけん</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>しました。"
+  },
+  "後任": {
+    "jp": "彼の後任はまだ決まっていません。",
+    "en": "His successor has not been decided yet.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>後任<rt>こうにん</rt></ruby>はまだ<ruby>決まっ<rt>きまっ</rt></ruby>ていません。"
+  },
+  "解任": {
+    "jp": "彼は社長を解任されました。",
+    "en": "He was dismissed as president.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>社長<rt>しゃちょう</rt></ruby>を<ruby>解任<rt>かいにん</rt></ruby>されました。"
+  },
+  "信任": {
+    "jp": "彼は私の信任を得ました。",
+    "en": "He has gained my trust.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>信任<rt>しんにん</rt></ruby>を<ruby>得<rt>え</rt></ruby>ました。"
+  },
+  "優位": {
+    "jp": "彼は優位な立場にいます。",
+    "en": "He is in a superior position.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>優位<rt>ゆうい</rt></ruby>な<ruby>立場<rt>たちば</rt></ruby>にいます。"
+  },
+  "前倒し": {
+    "jp": "プロジェクトを前倒しで進めます。",
+    "en": "We will advance the project ahead of schedule.",
+    "ruby": "プロジェクトを<ruby>前倒し<rt>まえだおし</rt></ruby>で<ruby>進め<rt>すすめ</rt></ruby>ます。"
+  },
+  "側近": {
+    "jp": "彼は大統領の側近です。",
+    "en": "He is the president's close aide.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大統領<rt>だいとうりょう</rt></ruby>の<ruby>側近<rt>そっきん</rt></ruby>です。"
+  },
+  "月光": {
+    "jp": "月光が美しい夜でした。",
+    "en": "It was a beautiful night with moonlight.",
+    "ruby": "<ruby>月光<rt>げっこう</rt></ruby>が<ruby>美しい<rt>うつくしい</rt></ruby><ruby>夜<rt>よる</rt></ruby>でした。"
+  },
+  "全容": {
+    "jp": "事件の全容が明らかになりました。",
+    "en": "The full details of the incident have been revealed.",
+    "ruby": "<ruby>事件<rt>じけん</rt></ruby>の<ruby>全容<rt>ぜんよう</rt></ruby>が<ruby>明らか<rt>あきらか</rt></ruby>になりました。"
+  },
+  "全土": {
+    "jp": "日本の全土で桜が咲きます。",
+    "en": "Cherry blossoms bloom all over Japan.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>全土<rt>ぜんど</rt></ruby>で<ruby>桜<rt>さくら</rt></ruby>が<ruby>咲き<rt>さき</rt></ruby>ます。"
+  },
+  "内戦": {
+    "jp": "その国は内戦が続いています。",
+    "en": "That country is experiencing a civil war.",
+    "ruby": "その<ruby>国<rt>くに</rt></ruby>は<ruby>内戦<rt>ないせん</rt></ruby>が<ruby>続い<rt>つづい</rt></ruby>ています。"
+  },
+  "内務": {
+    "jp": "内務の仕事はとても大切です。",
+    "en": "The work of internal affairs is very important.",
+    "ruby": "<ruby>内務<rt>ないむ</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>はとても<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "内定": {
+    "jp": "彼は大手企業から内定をもらいました。",
+    "en": "He received a job offer from a major company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大手<rt>おおて</rt></ruby><ruby>企業<rt>きぎょう</rt></ruby>から<ruby>内定<rt>ないてい</rt></ruby>をもらいました。"
+  },
+  "初戦": {
+    "jp": "彼は初戦に勝ちました。",
+    "en": "He won the first match.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>初戦<rt>しょせん</rt></ruby>に<ruby>勝ち<rt>かち</rt></ruby>ました。"
+  },
+  "公判": {
+    "jp": "公判は来週始まります。",
+    "en": "The trial will start next week.",
+    "ruby": "<ruby>公判<rt>こうはん</rt></ruby>は<ruby>来週<rt>らいしゅう</rt></ruby><ruby>始まり<rt>はじまり</rt></ruby>ます。"
+  },
+  "先制": {
+    "jp": "先制攻撃は避けるべきです。",
+    "en": "Preemptive attacks should be avoided.",
+    "ruby": "<ruby>先制<rt>せんせい</rt></ruby><ruby>攻撃<rt>こうげき</rt></ruby>は<ruby>避ける<rt>さける</rt></ruby>べきです。"
+  },
+  "助成": {
+    "jp": "このプロジェクトには助成があります。",
+    "en": "This project has funding.",
+    "ruby": "このプロジェクトには<ruby>助成<rt>じょせい</rt></ruby>があります。"
+  },
+  "常務": {
+    "jp": "彼は会社の常務です。",
+    "en": "He is the executive director of the company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>常務<rt>じょうむ</rt></ruby>です。"
+  },
+  "連勝": {
+    "jp": "彼は三回連勝しました。",
+    "en": "He won three times in a row.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>三<rt>さん</rt></ruby><ruby>回<rt>かい</rt></ruby><ruby>連勝<rt>れんしょう</rt></ruby>しました。"
+  },
+  "配合": {
+    "jp": "この薬は成分の配合が大切です。",
+    "en": "The combination of ingredients in this medicine is important.",
+    "ruby": "この<ruby>薬<rt>くすり</rt></ruby>は<ruby>成分<rt>せいぶん</rt></ruby>の<ruby>配合<rt>はいごう</rt></ruby>が<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "商工": {
+    "jp": "商工会議所で会議がありました。",
+    "en": "There was a meeting at the Chamber of Commerce.",
+    "ruby": "<ruby>商工<rt>しょうこう</rt></ruby><ruby>会議<rt>かいぎ</rt></ruby><ruby>所<rt>しょ</rt></ruby>で<ruby>会議<rt>かいぎ</rt></ruby>がありました。"
+  },
+  "一変": {
+    "jp": "彼の態度が一変しました。",
+    "en": "His attitude changed completely.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>態度<rt>たいど</rt></ruby>が<ruby>一変<rt>いっぺん</rt></ruby>しました。"
+  },
+  "次官": {
+    "jp": "次官は会議に出席しました。",
+    "en": "The deputy minister attended the meeting.",
+    "ruby": "<ruby>次官<rt>じかん</rt></ruby>は<ruby>会議<rt>かいぎ</rt></ruby>に<ruby>出席<rt>しゅっせき</rt></ruby>しました。"
+  },
+  "定数": {
+    "jp": "数学では定数が重要です。",
+    "en": "In mathematics, constants are important.",
+    "ruby": "<ruby>数学<rt>すうがく</rt></ruby>では<ruby>定数<rt>ていすう</rt></ruby>が<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "対外": {
+    "jp": "対外的な活動が重要です。",
+    "en": "External activities are important.",
+    "ruby": "<ruby>対外<rt>たいがい</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>活動<rt>かつどう</rt></ruby>が<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "対米": {
+    "jp": "対米政策は重要です。",
+    "en": "The policy towards the United States is important.",
+    "ruby": "<ruby>対<rt>たい</rt></ruby><ruby>米<rt>べい</rt></ruby><ruby>政策<rt>せいさく</rt></ruby>は<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "市議会": {
+    "jp": "市議会は毎月開かれます。",
+    "en": "The city council meets every month.",
+    "ruby": "<ruby>市議会<rt>しぎかい</rt></ruby>は<ruby>毎月<rt>まいつき</rt></ruby><ruby>開か<rt>ひらか</rt></ruby>れます。"
+  },
+  "感性": {
+    "jp": "彼の感性はとても豊かです。",
+    "en": "His sensitivity is very rich.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>感性<rt>かんせい</rt></ruby>はとても<ruby>豊か<rt>ゆたか</rt></ruby>です。"
+  },
+  "連打": {
+    "jp": "ゲームで連打が必要です。",
+    "en": "You need to tap repeatedly in the game.",
+    "ruby": "ゲームで<ruby>連打<rt>れんだ</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "選抜": {
+    "jp": "彼は選抜チームに選ばれました。",
+    "en": "He was selected for the representative team.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>選抜<rt>せんばつ</rt></ruby>チームに<ruby>選ば<rt>えらば</rt></ruby>れました。"
+  },
+  "次期": {
+    "jp": "次期の会議は来週です。",
+    "en": "The next meeting is next week.",
+    "ruby": "<ruby>次期<rt>じき</rt></ruby>の<ruby>会議<rt>かいぎ</rt></ruby>は<ruby>来週<rt>らいしゅう</rt></ruby>です。"
+  },
+  "規格": {
+    "jp": "この製品は国際規格に合っています。",
+    "en": "This product meets international standards.",
+    "ruby": "この<ruby>製品<rt>せいひん</rt></ruby>は<ruby>国際<rt>こくさい</rt></ruby><ruby>規格<rt>きかく</rt></ruby>に<ruby>合っ<rt>あっ</rt></ruby>ています。"
+  },
+  "構図": {
+    "jp": "この絵の構図はとても美しいです。",
+    "en": "The composition of this painting is very beautiful.",
+    "ruby": "この<ruby>絵<rt>え</rt></ruby>の<ruby>構図<rt>こうず</rt></ruby>はとても<ruby>美しい<rt>うつくしい</rt></ruby>です。"
+  },
+  "次長": {
+    "jp": "次長は会議に出席します。",
+    "en": "The deputy manager will attend the meeting.",
+    "ruby": "<ruby>次長<rt>じちょう</rt></ruby>は<ruby>会議<rt>かいぎ</rt></ruby>に<ruby>出席<rt>しゅっせき</rt></ruby>します。"
+  },
+  "民事": {
+    "jp": "民事の問題は専門家に相談します。",
+    "en": "I will consult an expert about civil matters.",
+    "ruby": "<ruby>民事<rt>みんじ</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>は<ruby>専門<rt>せんもん</rt></ruby><ruby>家<rt>か</rt></ruby>に<ruby>相談<rt>そうだん</rt></ruby>します。"
+  },
+  "三流": {
+    "jp": "彼の映画は三流だと思います。",
+    "en": "I think his movie is third-rate.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>映画<rt>えいが</rt></ruby>は<ruby>三流<rt>さんりゅう</rt></ruby>だと<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "同点": {
+    "jp": "試合は同点で終わりました。",
+    "en": "The match ended in a tie.",
+    "ruby": "<ruby>試合<rt>しあい</rt></ruby>は<ruby>同点<rt>どうてん</rt></ruby>で<ruby>終わり<rt>おわり</rt></ruby>ました。"
+  },
+  "申し立て": {
+    "jp": "彼は申し立てをしました。",
+    "en": "He made a statement.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>申し立て<rt>もうしたて</rt></ruby>をしました。"
+  },
+  "番手": {
+    "jp": "彼はチームの番手として頑張っています。",
+    "en": "He is working hard as the team's second player.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はチームの<ruby>番手<rt>ばんて</rt></ruby>として<ruby>頑張っ<rt>がんばっ</rt></ruby>ています。"
+  },
+  "質疑": {
+    "jp": "質疑の時間は三十分です。",
+    "en": "The question-and-answer session is thirty minutes.",
+    "ruby": "<ruby>質疑<rt>しつぎ</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>は<ruby>三<rt>さん</rt></ruby><ruby>十<rt>じゅう</rt></ruby><ruby>分<rt>ふん</rt></ruby>です。"
+  },
+  "公示": {
+    "jp": "選挙の公示がありました。",
+    "en": "The election announcement has been made.",
+    "ruby": "<ruby>選挙<rt>せんきょ</rt></ruby>の<ruby>公示<rt>こうじ</rt></ruby>がありました。"
+  },
+  "開示": {
+    "jp": "会社は情報を開示しました。",
+    "en": "The company disclosed the information.",
+    "ruby": "<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>開示<rt>かいじ</rt></ruby>しました。"
+  },
+  "要員": {
+    "jp": "新しい要員が必要です。",
+    "en": "We need new personnel.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>要員<rt>よういん</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "調書": {
+    "jp": "警察は調書を作成しました。",
+    "en": "The police prepared the report.",
+    "ruby": "<ruby>警察<rt>けいさつ</rt></ruby>は<ruby>調書<rt>ちょうしょ</rt></ruby>を<ruby>作成<rt>さくせい</rt></ruby>しました。"
+  },
+  "不調": {
+    "jp": "最近、体調が不調です。",
+    "en": "Recently, my physical condition is not good.",
+    "ruby": "<ruby>最近<rt>さいきん</rt></ruby>、<ruby>体調<rt>たいちょう</rt></ruby>が<ruby>不調<rt>ふちょう</rt></ruby>です。"
+  },
+  "公選": {
+    "jp": "次の選挙は公選です。",
+    "en": "The next election is a public election.",
+    "ruby": "<ruby>次<rt>つぎ</rt></ruby>の<ruby>選挙<rt>せんきょ</rt></ruby>は<ruby>公選<rt>こうせん</rt></ruby>です。"
+  },
+  "出馬": {
+    "jp": "彼は来年の選挙に出馬します。",
+    "en": "He will run in next year's election.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>来年<rt>らいねん</rt></ruby>の<ruby>選挙<rt>せんきょ</rt></ruby>に<ruby>出馬<rt>しゅつば</rt></ruby>します。"
+  },
+  "並列": {
+    "jp": "この二つのアイデアは並列です。",
+    "en": "These two ideas are parallel.",
+    "ruby": "この<ruby>二つ<rt>ふたつ</rt></ruby>のアイデアは<ruby>並列<rt>へいれつ</rt></ruby>です。"
+  },
+  "低音": {
+    "jp": "この曲は低音がとても響きます。",
+    "en": "This song has a very resonant bass.",
+    "ruby": "この<ruby>曲<rt>きょく</rt></ruby>は<ruby>低音<rt>ていおん</rt></ruby>がとても<ruby>響き<rt>ひびき</rt></ruby>ます。"
+  },
+  "個展": {
+    "jp": "彼の個展は来月開かれます。",
+    "en": "His solo exhibition will be held next month.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>個展<rt>こてん</rt></ruby>は<ruby>来月<rt>らいげつ</rt></ruby><ruby>開か<rt>ひらか</rt></ruby>れます。"
+  },
+  "派兵": {
+    "jp": "政府は国際的な問題に派兵しました。",
+    "en": "The government dispatched troops for international issues.",
+    "ruby": "<ruby>政府<rt>せいふ</rt></ruby>は<ruby>国際<rt>こくさい</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>問題<rt>もんだい</rt></ruby>に<ruby>派兵<rt>はへい</rt></ruby>しました。"
+  },
+  "兵力": {
+    "jp": "国の兵力は年々増えています。",
+    "en": "The country's military strength is increasing year by year.",
+    "ruby": "<ruby>国<rt>くに</rt></ruby>の<ruby>兵力<rt>へいりょく</rt></ruby>は<ruby>年々<rt>ねんねん</rt></ruby><ruby>増え<rt>ふえ</rt></ruby>ています。"
+  },
+  "再編": {
+    "jp": "会社の再編が進んでいます。",
+    "en": "The company's reorganization is progressing.",
+    "ruby": "<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>再編<rt>さいへん</rt></ruby>が<ruby>進ん<rt>すすん</rt></ruby>でいます。"
+  },
+  "劇団": {
+    "jp": "彼は有名な劇団に所属しています。",
+    "en": "He belongs to a famous theater company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>劇団<rt>げきだん</rt></ruby>に<ruby>所属<rt>しょぞく</rt></ruby>しています。"
+  },
+  "発効": {
+    "jp": "新しい法律は来月発効します。",
+    "en": "The new law will take effect next month.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>法律<rt>ほうりつ</rt></ruby>は<ruby>来月<rt>らいげつ</rt></ruby><ruby>発効<rt>はっこう</rt></ruby>します。"
+  },
+  "女史": {
+    "jp": "彼女は有名な女史です。",
+    "en": "She is a famous woman scholar.",
+    "ruby": "<ruby>彼女<rt>かのじょ</rt></ruby>は<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>女史<rt>じょし</rt></ruby>です。"
+  },
+  "民営": {
+    "jp": "この会社は民営の学校です。",
+    "en": "This company is a private school.",
+    "ruby": "この<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>民営<rt>みんえい</rt></ruby>の<ruby>学校<rt>がっこう</rt></ruby>です。"
+  },
+  "団長": {
+    "jp": "私たちの団体の団長はとても優しいです。",
+    "en": "The leader of our group is very kind.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちの<ruby>団体<rt>だんたい</rt></ruby>の<ruby>団長<rt>だんちょう</rt></ruby>はとても<ruby>優しい<rt>やさしい</rt></ruby>です。"
+  },
+  "財団": {
+    "jp": "この財団は教育支援を行っています。",
+    "en": "This foundation provides educational support.",
+    "ruby": "この<ruby>財団<rt>ざいだん</rt></ruby>は<ruby>教育<rt>きょういく</rt></ruby><ruby>支援<rt>しえん</rt></ruby>を<ruby>行っ<rt>おこなっ</rt></ruby>ています。"
+  },
+  "全域": {
+    "jp": "このサービスは全域で利用できます。",
+    "en": "This service is available throughout the entire area.",
+    "ruby": "このサービスは<ruby>全域<rt>ぜんいき</rt></ruby>で<ruby>利用<rt>りよう</rt></ruby>できます。"
+  },
+  "王将": {
+    "jp": "王将の餃子はとても美味しいです。",
+    "en": "The gyoza at Ousho is very delicious.",
+    "ruby": "<ruby>王将<rt>おうしょう</rt></ruby>の<ruby>餃子<rt>ぎょうざ</rt></ruby>はとても<ruby>美味しい<rt>おいしい</rt></ruby>です。"
+  },
+  "小島": {
+    "jp": "小島には美しい景色があります。",
+    "en": "There are beautiful views on the small island.",
+    "ruby": "<ruby>小島<rt>こじま</rt></ruby>には<ruby>美しい<rt>うつくしい</rt></ruby><ruby>景色<rt>けしき</rt></ruby>があります。"
+  },
+  "省庁": {
+    "jp": "日本の省庁は多くの仕事をしています。",
+    "en": "Japan's ministries are doing a lot of work.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>省庁<rt>しょうちょう</rt></ruby>は<ruby>多く<rt>おおく</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>をしています。"
+  },
+  "弱音": {
+    "jp": "彼は弱音を吐かない人です。",
+    "en": "He is a person who doesn't complain.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>弱音<rt>よわね</rt></ruby>を<ruby>吐か<rt>はか</rt></ruby>ない<ruby>人<rt>ひと</rt></ruby>です。"
+  },
+  "復興": {
+    "jp": "地域の復興には時間がかかります。",
+    "en": "The recovery of the region takes time.",
+    "ruby": "<ruby>地域<rt>ちいき</rt></ruby>の<ruby>復興<rt>ふっこう</rt></ruby>には<ruby>時間<rt>じかん</rt></ruby>がかかります。"
+  },
+  "特捜": {
+    "jp": "特捜班は新しい事件を捜査しています。",
+    "en": "The special investigation team is investigating a new case.",
+    "ruby": "<ruby>特捜<rt>とくそう</rt></ruby><ruby>班<rt>はん</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>事件<rt>じけん</rt></ruby>を<ruby>捜査<rt>そうさ</rt></ruby>しています。"
+  },
+  "損得": {
+    "jp": "損得を考えてから決めましょう。",
+    "en": "Let's decide after considering the pros and cons.",
+    "ruby": "<ruby>損得<rt>そんとく</rt></ruby>を<ruby>考え<rt>かんがえ</rt></ruby>てから<ruby>決め<rt>きめ</rt></ruby>ましょう。"
+  },
+  "暴行": {
+    "jp": "暴行は許されない行為です。",
+    "en": "Assault is an unacceptable act.",
+    "ruby": "<ruby>暴行<rt>ぼうこう</rt></ruby>は<ruby>許さ<rt>ゆるさ</rt></ruby>れない<ruby>行為<rt>こうい</rt></ruby>です。"
+  },
+  "資材": {
+    "jp": "新しいプロジェクトには資材が必要です。",
+    "en": "The new project requires materials.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>プロジェクトには<ruby>資材<rt>しざい</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "登板": {
+    "jp": "彼は明日の試合に登板します。",
+    "en": "He will pitch in tomorrow's game.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>明日<rt>あした</rt></ruby>の<ruby>試合<rt>しあい</rt></ruby>に<ruby>登板<rt>とうばん</rt></ruby>します。"
+  },
+  "査察": {
+    "jp": "工場は定期的に査察を受けます。",
+    "en": "The factory undergoes regular inspections.",
+    "ruby": "<ruby>工場<rt>こうじょう</rt></ruby>は<ruby>定期<rt>ていき</rt></ruby><ruby>的<rt>てき</rt></ruby>に<ruby>査察<rt>ささつ</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ます。"
+  },
+  "殿下": {
+    "jp": "殿下はいつも優しい笑顔です。",
+    "en": "His Highness always has a kind smile.",
+    "ruby": "<ruby>殿下<rt>でんか</rt></ruby>はいつも<ruby>優しい<rt>やさしい</rt></ruby><ruby>笑顔<rt>えがお</rt></ruby>です。"
+  },
+  "不毛": {
+    "jp": "この議論は不毛だと思います。",
+    "en": "I think this discussion is unproductive.",
+    "ruby": "この<ruby>議論<rt>ぎろん</rt></ruby>は<ruby>不毛<rt>ふもう</rt></ruby>だと<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "減点": {
+    "jp": "テストで減点されないように頑張ります。",
+    "en": "I will do my best not to lose points on the test.",
+    "ruby": "テストで<ruby>減点<rt>げんてん</rt></ruby>されないように<ruby>頑張り<rt>がんばり</rt></ruby>ます。"
+  },
+  "強硬": {
+    "jp": "彼は強硬な態度で交渉に臨みました。",
+    "en": "He approached the negotiations with a firm attitude.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>強硬<rt>きょうこう</rt></ruby>な<ruby>態度<rt>たいど</rt></ruby>で<ruby>交渉<rt>こうしょう</rt></ruby>に<ruby>臨み<rt>のぞみ</rt></ruby>ました。"
+  },
+  "試算": {
+    "jp": "来月の予算を試算しました。",
+    "en": "I calculated the budget for next month.",
+    "ruby": "<ruby>来月<rt>らいげつ</rt></ruby>の<ruby>予算<rt>よさん</rt></ruby>を<ruby>試算<rt>しさん</rt></ruby>しました。"
+  },
+  "築地": {
+    "jp": "築地市場は新鮮な魚で有名です。",
+    "en": "Tsukiji Market is famous for its fresh fish.",
+    "ruby": "<ruby>築地<rt>つきじ</rt></ruby><ruby>市場<rt>しじょう</rt></ruby>は<ruby>新鮮<rt>しんせん</rt></ruby>な<ruby>魚<rt>さかな</rt></ruby>で<ruby>有名<rt>ゆうめい</rt></ruby>です。"
+  },
+  "書簡": {
+    "jp": "彼からの書簡を読みました。",
+    "en": "I read the letter from him.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>からの<ruby>書簡<rt>しょかん</rt></ruby>を<ruby>読み<rt>よみ</rt></ruby>ました。"
+  },
+  "総務": {
+    "jp": "総務の仕事はとても大切です。",
+    "en": "The work of the general affairs department is very important.",
+    "ruby": "<ruby>総務<rt>そうむ</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>はとても<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "総長": {
+    "jp": "彼は大学の総長です。",
+    "en": "He is the president of the university.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大学<rt>だいがく</rt></ruby>の<ruby>総長<rt>そうちょう</rt></ruby>です。"
+  },
+  "回線": {
+    "jp": "インターネットの回線が遅いです。",
+    "en": "The internet connection is slow.",
+    "ruby": "インターネットの<ruby>回線<rt>かいせん</rt></ruby>が<ruby>遅い<rt>おそい</rt></ruby>です。"
+  },
+  "流血": {
+    "jp": "彼は流血の傷を手当てしました。",
+    "en": "He treated the bleeding wound.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>流血<rt>りゅうけつ</rt></ruby>の<ruby>傷<rt>きず</rt></ruby>を<ruby>手当て<rt>てあて</rt></ruby>しました。"
+  },
+  "複写": {
+    "jp": "この書類は複写が必要です。",
+    "en": "A copy of this document is necessary.",
+    "ruby": "この<ruby>書類<rt>しょるい</rt></ruby>は<ruby>複写<rt>ふくしゃ</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "新設": {
+    "jp": "この学校は新設された図書館があります。",
+    "en": "This school has a newly established library.",
+    "ruby": "この<ruby>学校<rt>がっこう</rt></ruby>は<ruby>新設<rt>しんせつ</rt></ruby>された<ruby>図書館<rt>としょかん</rt></ruby>があります。"
+  },
+  "大賞": {
+    "jp": "彼は映画祭で大賞を受賞しました。",
+    "en": "He won the grand prize at the film festival.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>映画<rt>えいが</rt></ruby><ruby>祭<rt>さい</rt></ruby>で<ruby>大賞<rt>たいしょう</rt></ruby>を<ruby>受賞<rt>じゅしょう</rt></ruby>しました。"
+  },
+  "軍部": {
+    "jp": "軍部は国の安全を守る役割です。",
+    "en": "The military plays a role in protecting the country's security.",
+    "ruby": "<ruby>軍部<rt>ぐんぶ</rt></ruby>は<ruby>国<rt>くに</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>を<ruby>守る<rt>まもる</rt></ruby><ruby>役割<rt>やくわり</rt></ruby>です。"
+  },
+  "農政": {
+    "jp": "日本の農政は環境に配慮しています。",
+    "en": "Japan's agricultural policy takes the environment into consideration.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>農政<rt>のうせい</rt></ruby>は<ruby>環境<rt>かんきょう</rt></ruby>に<ruby>配慮<rt>はいりょ</rt></ruby>しています。"
+  },
+  "造反": {
+    "jp": "彼は会社に造反するつもりです。",
+    "en": "He intends to rebel against the company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>に<ruby>造反<rt>ぞうはん</rt></ruby>するつもりです。"
+  },
+  "防護": {
+    "jp": "この防護服はとても安全です。",
+    "en": "This protective suit is very safe.",
+    "ruby": "この<ruby>防護<rt>ぼうご</rt></ruby><ruby>服<rt>ふく</rt></ruby>はとても<ruby>安全<rt>あんぜん</rt></ruby>です。"
+  },
+  "震源": {
+    "jp": "震源は地震の発生場所です。",
+    "en": "The epicenter is the location where an earthquake occurs.",
+    "ruby": "<ruby>震源<rt>しんげん</rt></ruby>は<ruby>地震<rt>じしん</rt></ruby>の<ruby>発生<rt>はっせい</rt></ruby><ruby>場所<rt>ばしょ</rt></ruby>です。"
+  },
+  "順次": {
+    "jp": "新しいプロジェクトは順次進めます。",
+    "en": "The new project will be carried out sequentially.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>プロジェクトは<ruby>順次<rt>じゅんじ</rt></ruby><ruby>進め<rt>すすめ</rt></ruby>ます。"
+  },
+  "額面": {
+    "jp": "この株の額面は一万円です。",
+    "en": "The face value of this stock is ten thousand yen.",
+    "ruby": "この<ruby>株<rt>かぶ</rt></ruby>の<ruby>額面<rt>がくめん</rt></ruby>は<ruby>一<rt>いち</rt></ruby><ruby>万<rt>まん</rt></ruby><ruby>円<rt>えん</rt></ruby>です。"
+  },
+  "全額": {
+    "jp": "旅行の費用は全額私が払います。",
+    "en": "I will pay the full amount for the trip.",
+    "ruby": "<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>費用<rt>ひよう</rt></ruby>は<ruby>全額<rt>ぜんがく</rt></ruby><ruby>私<rt>わたし</rt></ruby>が<ruby>払い<rt>はらい</rt></ruby>ます。"
+  },
+  "駐在": {
+    "jp": "彼は海外に駐在しています。",
+    "en": "He is stationed overseas.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>海外<rt>かいがい</rt></ruby>に<ruby>駐在<rt>ちゅうざい</rt></ruby>しています。"
+  },
+  "遺骨": {
+    "jp": "遺骨は大切に供養されます。",
+    "en": "The remains are treated with great respect.",
+    "ruby": "<ruby>遺骨<rt>いこつ</rt></ruby>は<ruby>大切<rt>たいせつ</rt></ruby>に<ruby>供養<rt>くよう</rt></ruby>されます。"
+  },
+  "時価": {
+    "jp": "この商品の時価は最近上昇しました。",
+    "en": "The market price of this product has recently increased.",
+    "ruby": "この<ruby>商品<rt>しょうひん</rt></ruby>の<ruby>時価<rt>じか</rt></ruby>は<ruby>最近<rt>さいきん</rt></ruby><ruby>上昇<rt>じょうしょう</rt></ruby>しました。"
+  },
+  "安保": {
+    "jp": "安保政策は国際関係に影響を与えます。",
+    "en": "Security policies affect international relations.",
+    "ruby": "<ruby>安保<rt>あんぽ</rt></ruby><ruby>政策<rt>せいさく</rt></ruby>は<ruby>国際<rt>こくさい</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ます。"
+  },
+  "年俸": {
+    "jp": "彼の年俸は非常に高いです。",
+    "en": "His annual salary is very high.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>年俸<rt>ねんぽう</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>高い<rt>たかい</rt></ruby>です。"
+  },
+  "師匠": {
+    "jp": "私の師匠はいつも優しいアドバイスをくれます。",
+    "en": "My mentor always gives me kind advice.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>師匠<rt>ししょう</rt></ruby>はいつも<ruby>優しい<rt>やさしい</rt></ruby>アドバイスをくれます。"
+  },
+  "即時": {
+    "jp": "即時の対応が求められています。",
+    "en": "Immediate response is required.",
+    "ruby": "<ruby>即時<rt>そくじ</rt></ruby>の<ruby>対応<rt>たいおう</rt></ruby>が<ruby>求め<rt>もとめ</rt></ruby>られています。"
+  },
+  "喚問": {
+    "jp": "彼は議会で喚問されることになりました。",
+    "en": "He will be summoned for questioning at the parliament.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>議会<rt>ぎかい</rt></ruby>で<ruby>喚問<rt>かんもん</rt></ruby>されることになりました。"
+  },
+  "二塁": {
+    "jp": "彼は二塁に進んだ後、ホームを狙います。",
+    "en": "He aims for home after advancing to second base.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>二塁<rt>にるい</rt></ruby>に<ruby>進ん<rt>すすん</rt></ruby>だ<ruby>後<rt>のち</rt></ruby>、ホームを<ruby>狙い<rt>ねらい</rt></ruby>ます。"
+  },
+  "従属": {
+    "jp": "彼は会社に従属することを選びました。",
+    "en": "He chose to be subordinate to the company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>に<ruby>従属<rt>じゅうぞく</rt></ruby>することを<ruby>選び<rt>えらび</rt></ruby>ました。"
+  },
+  "代弁": {
+    "jp": "彼は私の気持ちを代弁してくれました。",
+    "en": "He spoke on my behalf.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>気持ち<rt>きもち</rt></ruby>を<ruby>代弁<rt>だいべん</rt></ruby>してくれました。"
+  },
+  "多彩": {
+    "jp": "彼の趣味は多彩です。",
+    "en": "His hobbies are diverse.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>趣味<rt>しゅみ</rt></ruby>は<ruby>多彩<rt>たさい</rt></ruby>です。"
+  },
+  "志向": {
+    "jp": "彼は常に成長志向です。",
+    "en": "He always has a growth mindset.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>常に<rt>つねに</rt></ruby><ruby>成長<rt>せいちょう</rt></ruby><ruby>志向<rt>しこう</rt></ruby>です。"
+  },
+  "慰安": {
+    "jp": "彼は慰安旅行に参加することにしました。",
+    "en": "He decided to participate in the comfort trip.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>慰安<rt>いあん</rt></ruby><ruby>旅行<rt>りょこう</rt></ruby>に<ruby>参加<rt>さんか</rt></ruby>することにしました。"
+  },
+  "抗争": {
+    "jp": "地域の抗争は長年続いています。",
+    "en": "The regional conflict has been ongoing for many years.",
+    "ruby": "<ruby>地域<rt>ちいき</rt></ruby>の<ruby>抗争<rt>こうそう</rt></ruby>は<ruby>長年<rt>ながねん</rt></ruby><ruby>続い<rt>つづい</rt></ruby>ています。"
+  },
+  "拠点": {
+    "jp": "私たちは新しい拠点を東京に設立しました。",
+    "en": "We established a new base in Tokyo.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>新しい<rt>あたらしい</rt></ruby><ruby>拠点<rt>きょてん</rt></ruby>を<ruby>東京<rt>とうきょう</rt></ruby>に<ruby>設立<rt>せつりつ</rt></ruby>しました。"
+  },
+  "三振": {
+    "jp": "彼は試合で三振を三回しました。",
+    "en": "He struck out three times in the game.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>試合<rt>しあい</rt></ruby>で<ruby>三振<rt>さんしん</rt></ruby>を<ruby>三<rt>さん</rt></ruby><ruby>回<rt>かい</rt></ruby>しました。"
+  },
+  "提言": {
+    "jp": "彼は新しい政策について提言しました。",
+    "en": "He made a proposal regarding the new policy.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>政策<rt>せいさく</rt></ruby>について<ruby>提言<rt>ていげん</rt></ruby>しました。"
+  },
+  "操業": {
+    "jp": "この工場は年中無休で操業しています。",
+    "en": "This factory operates year-round without休.",
+    "ruby": "この<ruby>工場<rt>こうじょう</rt></ruby>は<ruby>年中<rt>ねんじゅう</rt></ruby><ruby>無休<rt>むきゅう</rt></ruby>で<ruby>操業<rt>そうぎょう</rt></ruby>しています。"
+  },
+  "既存": {
+    "jp": "このプロジェクトは既存の技術を利用します。",
+    "en": "This project utilizes existing technology.",
+    "ruby": "このプロジェクトは<ruby>既存<rt>きそん</rt></ruby>の<ruby>技術<rt>ぎじゅつ</rt></ruby>を<ruby>利用<rt>りよう</rt></ruby>します。"
+  },
+  "洞察": {
+    "jp": "彼の洞察は非常に貴重です。",
+    "en": "His insight is very valuable.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>洞察<rt>どうさつ</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>貴重<rt>きちょう</rt></ruby>です。"
+  },
+  "左派": {
+    "jp": "左派の政策は社会的平等を重視しています。",
+    "en": "The leftist policies emphasize social equality.",
+    "ruby": "<ruby>左派<rt>さは</rt></ruby>の<ruby>政策<rt>せいさく</rt></ruby>は<ruby>社会<rt>しゃかい</rt></ruby><ruby>的<rt>てき</rt></ruby><ruby>平等<rt>びょうどう</rt></ruby>を<ruby>重視<rt>じゅうし</rt></ruby>しています。"
+  },
+  "風潮": {
+    "jp": "最近の風潮は、環境保護に関心を持つことです。",
+    "en": "The recent trend is to be concerned about environmental protection.",
+    "ruby": "<ruby>最近<rt>さいきん</rt></ruby>の<ruby>風潮<rt>ふうちょう</rt></ruby>は、<ruby>環境<rt>かんきょう</rt></ruby><ruby>保護<rt>ほご</rt></ruby>に<ruby>関心<rt>かんしん</rt></ruby>を<ruby>持つ<rt>もつ</rt></ruby>ことです。"
+  },
+  "狂言": {
+    "jp": "狂言は日本の伝統的な演劇です。",
+    "en": "Kyogen is a traditional form of Japanese theater.",
+    "ruby": "<ruby>狂言<rt>きょうげん</rt></ruby>は<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>伝統<rt>でんとう</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>演劇<rt>えんげき</rt></ruby>です。"
+  },
+  "一環": {
+    "jp": "このプロジェクトは地域振興の一環です。",
+    "en": "This project is part of regional promotion.",
+    "ruby": "このプロジェクトは<ruby>地域<rt>ちいき</rt></ruby><ruby>振興<rt>しんこう</rt></ruby>の<ruby>一環<rt>いっかん</rt></ruby>です。"
+  },
+  "中盤": {
+    "jp": "試合は中盤に差し掛かりました。",
+    "en": "The match has reached the middle stage.",
+    "ruby": "<ruby>試合<rt>しあい</rt></ruby>は<ruby>中盤<rt>ちゅうばん</rt></ruby>に<ruby>差し掛かり<rt>さしかかり</rt></ruby>ました。"
+  },
+  "地盤": {
+    "jp": "この地域の地盤は非常に安定しています。",
+    "en": "The ground in this area is very stable.",
+    "ruby": "この<ruby>地域<rt>ちいき</rt></ruby>の<ruby>地盤<rt>じばん</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>安定<rt>あんてい</rt></ruby>しています。"
+  },
+  "盲点": {
+    "jp": "彼の計画には大きな盲点がありました。",
+    "en": "There was a significant blind spot in his plan.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>計画<rt>けいかく</rt></ruby>には<ruby>大きな<rt>おおきな</rt></ruby><ruby>盲点<rt>もうてん</rt></ruby>がありました。"
+  },
+  "通称": {
+    "jp": "彼の通称は「天才プログラマー」です。",
+    "en": "His nickname is 'Genius Programmer.'",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>通称<rt>つうしょう</rt></ruby>は「<ruby>天才<rt>てんさい</rt></ruby>プログラマー」です。"
+  },
+  "方策": {
+    "jp": "新しい方策を考える必要があります。",
+    "en": "We need to think of a new strategy.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>方策<rt>ほうさく</rt></ruby>を<ruby>考える<rt>かんがえる</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があります。"
+  },
+  "節目": {
+    "jp": "人生の節目を大切にしたいです。",
+    "en": "I want to cherish the milestones in my life.",
+    "ruby": "<ruby>人生<rt>じんせい</rt></ruby>の<ruby>節目<rt>ふしめ</rt></ruby>を<ruby>大切<rt>たいせつ</rt></ruby>にしたいです。"
+  },
+  "結集": {
+    "jp": "多くの意見が結集して新しい方針が決まりました。",
+    "en": "Many opinions were gathered, and a new policy was decided.",
+    "ruby": "<ruby>多く<rt>おおく</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>が<ruby>結集<rt>けっしゅう</rt></ruby>して<ruby>新しい<rt>あたらしい</rt></ruby><ruby>方針<rt>ほうしん</rt></ruby>が<ruby>決まり<rt>きまり</rt></ruby>ました。"
+  },
+  "結束": {
+    "jp": "私たちは結束を強める必要があります。",
+    "en": "We need to strengthen our unity.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>結束<rt>けっそく</rt></ruby>を<ruby>強める<rt>つよめる</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があります。"
+  },
+  "後継": {
+    "jp": "彼は会社の後継者として選ばれました。",
+    "en": "He was chosen as the successor of the company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>後継<rt>こうけい</rt></ruby><ruby>者<rt>しゃ</rt></ruby>として<ruby>選ば<rt>えらば</rt></ruby>れました。"
+  },
+  "聴取": {
+    "jp": "彼はインタビューの聴取を行いました。",
+    "en": "He conducted a listening session for the interview.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はインタビューの<ruby>聴取<rt>ちょうしゅ</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>ました。"
+  },
+  "脚色": {
+    "jp": "この映画は実話を脚色しています。",
+    "en": "This movie is a dramatization of a true story.",
+    "ruby": "この<ruby>映画<rt>えいが</rt></ruby>は<ruby>実話<rt>じつわ</rt></ruby>を<ruby>脚色<rt>きゃくしょく</rt></ruby>しています。"
+  },
+  "艦隊": {
+    "jp": "艦隊の演習は来週行われます。",
+    "en": "The fleet exercise will take place next week.",
+    "ruby": "<ruby>艦隊<rt>かんたい</rt></ruby>の<ruby>演習<rt>えんしゅう</rt></ruby>は<ruby>来週<rt>らいしゅう</rt></ruby><ruby>行わ<rt>おこなわ</rt></ruby>れます。"
+  },
+  "決裂": {
+    "jp": "二国間の交渉は決裂しました。",
+    "en": "The negotiations between the two countries ended in a breakdown.",
+    "ruby": "<ruby>二<rt>に</rt></ruby><ruby>国<rt>こく</rt></ruby><ruby>間<rt>かん</rt></ruby>の<ruby>交渉<rt>こうしょう</rt></ruby>は<ruby>決裂<rt>けつれつ</rt></ruby>しました。"
+  },
+  "信託": {
+    "jp": "信託を利用して資産を管理しています。",
+    "en": "I am managing my assets using a trust.",
+    "ruby": "<ruby>信託<rt>しんたく</rt></ruby>を<ruby>利用<rt>りよう</rt></ruby>して<ruby>資産<rt>しさん</rt></ruby>を<ruby>管理<rt>かんり</rt></ruby>しています。"
+  },
+  "諮問": {
+    "jp": "彼は委員会に諮問を提出しました。",
+    "en": "He submitted an inquiry to the committee.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>委員<rt>いいん</rt></ruby><ruby>会<rt>かい</rt></ruby>に<ruby>諮問<rt>しもん</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>しました。"
+  },
+  "掩護": {
+    "jp": "彼は仲間を掩護するために行動しました。",
+    "en": "He acted to provide cover for his companions.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>仲間<rt>なかま</rt></ruby>を<ruby>掩護<rt>えんご</rt></ruby>するために<ruby>行動<rt>こうどう</rt></ruby>しました。"
+  },
+  "優遇": {
+    "jp": "彼は優遇されるべき人です。",
+    "en": "He is a person who should be favored.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>優遇<rt>ゆうぐう</rt></ruby>されるべき<ruby>人<rt>ひと</rt></ruby>です。"
+  },
+  "遺族": {
+    "jp": "遺族は故人の思い出を大切にします。",
+    "en": "The bereaved cherish the memories of the deceased.",
+    "ruby": "<ruby>遺族<rt>いぞく</rt></ruby>は<ruby>故人<rt>こじん</rt></ruby>の<ruby>思い出<rt>おもいで</rt></ruby>を<ruby>大切<rt>たいせつ</rt></ruby>にします。"
+  },
+  "公邸": {
+    "jp": "彼は大使の公邸に招待されました。",
+    "en": "He was invited to the ambassador's official residence.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大使<rt>たいし</rt></ruby>の<ruby>公邸<rt>こうてい</rt></ruby>に<ruby>招待<rt>しょうたい</rt></ruby>されました。"
+  },
+  "隊員": {
+    "jp": "彼は優秀な隊員です。",
+    "en": "He is an excellent team member.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>優秀<rt>ゆうしゅう</rt></ruby>な<ruby>隊員<rt>たいいん</rt></ruby>です。"
+  },
+  "悪用": {
+    "jp": "この情報を悪用してはいけません。",
+    "en": "You must not misuse this information.",
+    "ruby": "この<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>悪用<rt>あくよう</rt></ruby>してはいけません。"
+  },
+  "受け持ち": {
+    "jp": "私の受け持ちは数学です。",
+    "en": "My responsibility is mathematics.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>受け持ち<rt>うけもち</rt></ruby>は<ruby>数学<rt>すうがく</rt></ruby>です。"
+  },
+  "暗示": {
+    "jp": "彼の言葉は暗示がありました。",
+    "en": "His words had an implication.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>は<ruby>暗示<rt>あんじ</rt></ruby>がありました。"
+  },
+  "相殺": {
+    "jp": "借金と貯金を相殺しました。",
+    "en": "I offset my debt with my savings.",
+    "ruby": "<ruby>借金<rt>しゃっきん</rt></ruby>と<ruby>貯金<rt>ちょきん</rt></ruby>を<ruby>相殺<rt>そうさい</rt></ruby>しました。"
+  },
+  "二流": {
+    "jp": "彼は二流の選手だと思います。",
+    "en": "I think he is a second-rate athlete.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>二流<rt>にりゅう</rt></ruby>の<ruby>選手<rt>せんしゅ</rt></ruby>だと<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "満場": {
+    "jp": "満場の拍手が響きました。",
+    "en": "The applause filled the entire venue.",
+    "ruby": "<ruby>満場<rt>まんじょう</rt></ruby>の<ruby>拍手<rt>はくしゅ</rt></ruby>が<ruby>響き<rt>ひびき</rt></ruby>ました。"
+  },
+  "落し物": {
+    "jp": "駅で落し物を見つけました。",
+    "en": "I found a lost item at the station.",
+    "ruby": "<ruby>駅<rt>えき</rt></ruby>で<ruby>落し物<rt>おとしもの</rt></ruby>を<ruby>見つけ<rt>みつけ</rt></ruby>ました。"
+  },
+  "下調べ": {
+    "jp": "旅行の前に下調べをします。",
+    "en": "I will do some research before the trip.",
+    "ruby": "<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に<ruby>下調べ<rt>したしらべ</rt></ruby>をします。"
+  },
+  "頭金": {
+    "jp": "家を買うために頭金が必要です。",
+    "en": "You need a down payment to buy a house.",
+    "ruby": "<ruby>家<rt>いえ</rt></ruby>を<ruby>買う<rt>かう</rt></ruby>ために<ruby>頭金<rt>あたまきん</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "乱雑": {
+    "jp": "彼の部屋はいつも乱雑です。",
+    "en": "His room is always messy.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>部屋<rt>へや</rt></ruby>はいつも<ruby>乱雑<rt>らんざつ</rt></ruby>です。"
+  },
+  "一介": {
+    "jp": "彼は一介の教師です。",
+    "en": "He is just an ordinary teacher.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>一介<rt>いっかい</rt></ruby>の<ruby>教師<rt>きょうし</rt></ruby>です。"
+  },
+  "各位": {
+    "jp": "各位にお知らせがあります。",
+    "en": "I have an announcement for everyone.",
+    "ruby": "<ruby>各位<rt>かくい</rt></ruby>に<ruby>お知らせ<rt>おしらせ</rt></ruby>があります。"
+  },
+  "陸橋": {
+    "jp": "駅の近くに新しい陸橋ができました。",
+    "en": "A new overpass has been built near the station.",
+    "ruby": "<ruby>駅<rt>えき</rt></ruby>の<ruby>近く<rt>ちかく</rt></ruby>に<ruby>新しい<rt>あたらしい</rt></ruby><ruby>陸橋<rt>りっきょう</rt></ruby>ができました。"
+  },
+  "発汗": {
+    "jp": "運動すると発汗が増えます。",
+    "en": "When you exercise, sweating increases.",
+    "ruby": "<ruby>運動<rt>うんどう</rt></ruby>すると<ruby>発汗<rt>はっかん</rt></ruby>が<ruby>増え<rt>ふえ</rt></ruby>ます。"
+  },
+  "清らか": {
+    "jp": "彼女の声はとても清らかです。",
+    "en": "Her voice is very pure.",
+    "ruby": "<ruby>彼女<rt>かのじょ</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>はとても<ruby>清らか<rt>きよらか</rt></ruby>です。"
+  },
+  "不純": {
+    "jp": "この水は不純な成分が含まれています。",
+    "en": "This water contains impure substances.",
+    "ruby": "この<ruby>水<rt>みず</rt></ruby>は<ruby>不純<rt>ふじゅん</rt></ruby>な<ruby>成分<rt>せいぶん</rt></ruby>が<ruby>含ま<rt>ふくま</rt></ruby>れています。"
+  },
+  "白線": {
+    "jp": "駅のホームに白線があります。",
+    "en": "There is a white line on the train platform.",
+    "ruby": "<ruby>駅<rt>えき</rt></ruby>のホームに<ruby>白線<rt>はくせん</rt></ruby>があります。"
+  },
+  "肌着": {
+    "jp": "肌着はとても柔らかいです。",
+    "en": "The undershirt is very soft.",
+    "ruby": "<ruby>肌着<rt>はだぎ</rt></ruby>はとても<ruby>柔らかい<rt>やわらかい</rt></ruby>です。"
+  },
+  "大脳": {
+    "jp": "大脳は人間の思考を司る部分です。",
+    "en": "The cerebrum is the part that controls human thought.",
+    "ruby": "<ruby>大脳<rt>だいのう</rt></ruby>は<ruby>人間<rt>にんげん</rt></ruby>の<ruby>思考<rt>しこう</rt></ruby>を<ruby>司る<rt>つかさどる</rt></ruby><ruby>部分<rt>ぶぶん</rt></ruby>です。"
+  },
+  "正装": {
+    "jp": "結婚式には正装が必要です。",
+    "en": "Formal attire is necessary for the wedding.",
+    "ruby": "<ruby>結婚式<rt>けっこんしき</rt></ruby>には<ruby>正装<rt>せいそう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "超越": {
+    "jp": "彼は自分の限界を超越しました。",
+    "en": "He has transcended his own limits.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>自分<rt>じぶん</rt></ruby>の<ruby>限界<rt>げんかい</rt></ruby>を<ruby>超越<rt>ちょうえつ</rt></ruby>しました。"
+  },
+  "人造": {
+    "jp": "人造の素材は環境に優しいです。",
+    "en": "Synthetic materials are environmentally friendly.",
+    "ruby": "<ruby>人造<rt>じんぞう</rt></ruby>の<ruby>素材<rt>そざい</rt></ruby>は<ruby>環境<rt>かんきょう</rt></ruby>に<ruby>優しい<rt>やさしい</rt></ruby>です。"
+  },
+  "傍観": {
+    "jp": "彼は問題を傍観しているだけです。",
+    "en": "He is just observing the problem.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>問題<rt>もんだい</rt></ruby>を<ruby>傍観<rt>ぼうかん</rt></ruby>しているだけです。"
+  },
+  "投射": {
+    "jp": "このプロジェクターは高精度の投射です。",
+    "en": "This projector has high-precision projection.",
+    "ruby": "このプロジェクターは<ruby>高<rt>こう</rt></ruby><ruby>精度<rt>せいど</rt></ruby>の<ruby>投射<rt>とうしゃ</rt></ruby>です。"
+  },
+  "投影": {
+    "jp": "このグラフはデータの投影です。",
+    "en": "This graph is a projection of the data.",
+    "ruby": "このグラフはデータの<ruby>投影<rt>とうえい</rt></ruby>です。"
+  },
+  "抹消": {
+    "jp": "彼は契約を抹消しました。",
+    "en": "He canceled the contract.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>契約<rt>けいやく</rt></ruby>を<ruby>抹消<rt>まっしょう</rt></ruby>しました。"
+  },
+  "整列": {
+    "jp": "生徒たちは整列して先生を待っています。",
+    "en": "The students are lined up waiting for the teacher.",
+    "ruby": "<ruby>生徒<rt>せいと</rt></ruby>たちは<ruby>整列<rt>せいれつ</rt></ruby>して<ruby>先生<rt>せんせい</rt></ruby>を<ruby>待っ<rt>まっ</rt></ruby>ています。"
+  },
+  "既製": {
+    "jp": "彼は既製の服を好んで着ています。",
+    "en": "He prefers to wear ready-made clothes.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>既製<rt>きせい</rt></ruby>の<ruby>服<rt>ふく</rt></ruby>を<ruby>好ん<rt>このん</rt></ruby>で<ruby>着<rt>き</rt></ruby>ています。"
+  },
+  "安泰": {
+    "jp": "彼の会社は安泰だと言われています。",
+    "en": "It is said that his company is stable.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>安泰<rt>あんたい</rt></ruby>だと<ruby>言わ<rt>いわ</rt></ruby>れています。"
+  },
+  "全滅": {
+    "jp": "そのチームは試合で全滅しました。",
+    "en": "That team was completely defeated in the match.",
+    "ruby": "そのチームは<ruby>試合<rt>しあい</rt></ruby>で<ruby>全滅<rt>ぜんめつ</rt></ruby>しました。"
+  },
+  "不潔": {
+    "jp": "この場所は不潔なので、掃除が必要です。",
+    "en": "This place is dirty, so it needs cleaning.",
+    "ruby": "この<ruby>場所<rt>ばしょ</rt></ruby>は<ruby>不潔<rt>ふけつ</rt></ruby>なので、<ruby>掃除<rt>そうじ</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "虚無": {
+    "jp": "彼は虚無を感じて、何もしたくないです。",
+    "en": "He feels a sense of emptiness and doesn't want to do anything.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>虚無<rt>きょむ</rt></ruby>を<ruby>感じ<rt>かんじ</rt></ruby>て、<ruby>何<rt>なに</rt></ruby>もしたくないです。"
+  },
+  "空虚": {
+    "jp": "彼の言葉には空虚な響きがありました。",
+    "en": "His words had an empty resonance.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>には<ruby>空虚<rt>くうきょ</rt></ruby>な<ruby>響き<rt>ひびき</rt></ruby>がありました。"
+  },
+  "守衛": {
+    "jp": "守衛は建物の安全を守っています。",
+    "en": "The guard is ensuring the safety of the building.",
+    "ruby": "<ruby>守衛<rt>しゅえい</rt></ruby>は<ruby>建物<rt>たてもの</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>を<ruby>守っ<rt>まもっ</rt></ruby>ています。"
+  },
+  "陰気": {
+    "jp": "彼の陰気な態度が周囲に影響を与えています。",
+    "en": "His gloomy attitude is affecting those around him.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>陰気<rt>いんき</rt></ruby>な<ruby>態度<rt>たいど</rt></ruby>が<ruby>周囲<rt>しゅうい</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ています。"
+  },
+  "行い": {
+    "jp": "良い行いをしましょう。",
+    "en": "Let's do good deeds.",
+    "ruby": "<ruby>良い<rt>よい</rt></ruby><ruby>行い<rt>おこない</rt></ruby>をしましょう。"
+  },
+  "店主": {
+    "jp": "店主はとても優しいです。",
+    "en": "The shop owner is very kind.",
+    "ruby": "<ruby>店主<rt>てんしゅ</rt></ruby>はとても<ruby>優しい<rt>やさしい</rt></ruby>です。"
+  },
+  "試作": {
+    "jp": "新しい製品の試作が始まりました。",
+    "en": "The prototype of the new product has started.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>製品<rt>せいひん</rt></ruby>の<ruby>試作<rt>しさく</rt></ruby>が<ruby>始まり<rt>はじまり</rt></ruby>ました。"
+  },
+  "手動": {
+    "jp": "この機械は手動で動きます。",
+    "en": "This machine operates manually.",
+    "ruby": "この<ruby>機械<rt>きかい</rt></ruby>は<ruby>手動<rt>しゅどう</rt></ruby>で<ruby>動き<rt>うごき</rt></ruby>ます。"
+  },
+  "安らぎ": {
+    "jp": "彼の声は安らぎを与えます。",
+    "en": "His voice gives me peace.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>は<ruby>安らぎ<rt>やすらぎ</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ます。"
+  },
+  "強度": {
+    "jp": "この材料の強度は高いです。",
+    "en": "The strength of this material is high.",
+    "ruby": "この<ruby>材料<rt>ざいりょう</rt></ruby>の<ruby>強度<rt>きょうど</rt></ruby>は<ruby>高い<rt>たかい</rt></ruby>です。"
+  },
+  "私有": {
+    "jp": "この土地は私有です。",
+    "en": "This land is private property.",
+    "ruby": "この<ruby>土地<rt>とち</rt></ruby>は<ruby>私有<rt>しゆう</rt></ruby>です。"
+  },
+  "注入": {
+    "jp": "新しい薬を注入します。",
+    "en": "I will inject the new medicine.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>薬<rt>くすり</rt></ruby>を<ruby>注入<rt>ちゅうにゅう</rt></ruby>します。"
+  },
+  "小物": {
+    "jp": "この店には小物がたくさんあります。",
+    "en": "This store has many small items.",
+    "ruby": "この<ruby>店<rt>みせ</rt></ruby>には<ruby>小物<rt>こもの</rt></ruby>がたくさんあります。"
+  },
+  "送電": {
+    "jp": "送電は大切な仕事です。",
+    "en": "Power transmission is an important job.",
+    "ruby": "<ruby>送電<rt>そうでん</rt></ruby>は<ruby>大切<rt>たいせつ</rt></ruby>な<ruby>仕事<rt>しごと</rt></ruby>です。"
+  },
+  "水銀": {
+    "jp": "水銀は体に良くないです。",
+    "en": "Mercury is not good for the body.",
+    "ruby": "<ruby>水銀<rt>すいぎん</rt></ruby>は<ruby>体<rt>からだ</rt></ruby>に<ruby>良く<rt>よく</rt></ruby>ないです。"
+  },
+  "付与": {
+    "jp": "このプロジェクトに付与された時間は十分です。",
+    "en": "The time allocated to this project is sufficient.",
+    "ruby": "このプロジェクトに<ruby>付与<rt>ふよ</rt></ruby>された<ruby>時間<rt>じかん</rt></ruby>は<ruby>十分<rt>じゅうぶん</rt></ruby>です。"
+  },
+  "上乗せ": {
+    "jp": "この料理にはチーズの上乗せがあります。",
+    "en": "This dish has cheese on top.",
+    "ruby": "この<ruby>料理<rt>りょうり</rt></ruby>にはチーズの<ruby>上乗せ<rt>うわのせ</rt></ruby>があります。"
+  },
+  "存亡": {
+    "jp": "この会社の存亡が危ぶまれています。",
+    "en": "The survival of this company is in jeopardy.",
+    "ruby": "この<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>存亡<rt>そんぼう</rt></ruby>が<ruby>危ぶま<rt>あやぶま</rt></ruby>れています。"
+  },
+  "交易": {
+    "jp": "日本は多くの国と交易をしています。",
+    "en": "Japan engages in trade with many countries.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>は<ruby>多く<rt>おおく</rt></ruby>の<ruby>国<rt>くに</rt></ruby>と<ruby>交易<rt>こうえき</rt></ruby>をしています。"
+  },
+  "親交": {
+    "jp": "私たちは親交を深めたいです。",
+    "en": "We want to deepen our friendship.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>親交<rt>しんこう</rt></ruby>を<ruby>深め<rt>ふかめ</rt></ruby>たいです。"
+  },
+  "交戦": {
+    "jp": "二国は長い間、交戦でした。",
+    "en": "The two countries were in conflict for a long time.",
+    "ruby": "<ruby>二<rt>に</rt></ruby><ruby>国<rt>こく</rt></ruby>は<ruby>長い<rt>ながい</rt></ruby><ruby>間<rt>ま</rt></ruby>、<ruby>交戦<rt>こうせん</rt></ruby>でした。"
+  },
+  "交友": {
+    "jp": "彼は新しい交友を大切にしています。",
+    "en": "He values his new friendships.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>交友<rt>こうゆう</rt></ruby>を<ruby>大切<rt>たいせつ</rt></ruby>にしています。"
+  },
+  "新任": {
+    "jp": "新任の先生はとても優しいです。",
+    "en": "The new teacher is very kind.",
+    "ruby": "<ruby>新任<rt>しんにん</rt></ruby>の<ruby>先生<rt>せんせい</rt></ruby>はとても<ruby>優しい<rt>やさしい</rt></ruby>です。"
+  },
+  "伝道": {
+    "jp": "彼は宗教の伝道をしています。",
+    "en": "He is engaged in religious preaching.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>宗教<rt>しゅうきょう</rt></ruby>の<ruby>伝道<rt>でんどう</rt></ruby>をしています。"
+  },
+  "品位": {
+    "jp": "彼はいつも品位を保っています。",
+    "en": "He always maintains his dignity.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はいつも<ruby>品位<rt>ひんい</rt></ruby>を<ruby>保っ<rt>たもっ</rt></ruby>ています。"
+  },
+  "背信": {
+    "jp": "彼は背信行為をしてしまいました。",
+    "en": "He committed an act of betrayal.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>背信<rt>はいしん</rt></ruby><ruby>行為<rt>こうい</rt></ruby>をしてしまいました。"
+  },
+  "安値": {
+    "jp": "この店は安値で商品を売っています。",
+    "en": "This store sells products at a low price.",
+    "ruby": "この<ruby>店<rt>みせ</rt></ruby>は<ruby>安値<rt>やすね</rt></ruby>で<ruby>商品<rt>しょうひん</rt></ruby>を<ruby>売っ<rt>うっ</rt></ruby>ています。"
+  },
+  "南側": {
+    "jp": "私の部屋は南側にあります。",
+    "en": "My room is on the south side.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>部屋<rt>へや</rt></ruby>は<ruby>南側<rt>みなみがわ</rt></ruby>にあります。"
+  },
+  "偶発": {
+    "jp": "偶発的な事故が起きました。",
+    "en": "An accidental incident occurred.",
+    "ruby": "<ruby>偶発<rt>ぐうはつ</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>事故<rt>じこ</rt></ruby>が<ruby>起き<rt>おき</rt></ruby>ました。"
+  },
+  "光学": {
+    "jp": "光学の勉強はとても面白いです。",
+    "en": "Studying optics is very interesting.",
+    "ruby": "<ruby>光学<rt>こうがく</rt></ruby>の<ruby>勉強<rt>べんきょう</rt></ruby>はとても<ruby>面白い<rt>おもしろい</rt></ruby>です。"
+  },
+  "発光": {
+    "jp": "この虫は夜に発光します。",
+    "en": "This insect glows at night.",
+    "ruby": "この<ruby>虫<rt>むし</rt></ruby>は<ruby>夜<rt>よる</rt></ruby>に<ruby>発光<rt>はっこう</rt></ruby>します。"
+  },
+  "全校": {
+    "jp": "全校の生徒が集まりました。",
+    "en": "All the students of the school gathered.",
+    "ruby": "<ruby>全校<rt>ぜんこう</rt></ruby>の<ruby>生徒<rt>せいと</rt></ruby>が<ruby>集まり<rt>あつまり</rt></ruby>ました。"
+  },
+  "全権": {
+    "jp": "彼は全権を持って会議に参加します。",
+    "en": "He will participate in the meeting with full authority.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>全権<rt>ぜんけん</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>て<ruby>会議<rt>かいぎ</rt></ruby>に<ruby>参加<rt>さんか</rt></ruby>します。"
+  },
+  "共学": {
+    "jp": "私の学校は共学です。",
+    "en": "My school is co-educational.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>学校<rt>がっこう</rt></ruby>は<ruby>共学<rt>きょうがく</rt></ruby>です。"
+  },
+  "共犯": {
+    "jp": "彼はその事件の共犯です。",
+    "en": "He is an accomplice in that incident.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はその<ruby>事件<rt>じけん</rt></ruby>の<ruby>共犯<rt>きょうはん</rt></ruby>です。"
+  },
+  "共演": {
+    "jp": "彼と共演するのが楽しみです。",
+    "en": "I am looking forward to co-starring with him.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>と<ruby>共演<rt>きょうえん</rt></ruby>するのが<ruby>楽しみ<rt>たのしみ</rt></ruby>です。"
+  },
+  "共鳴": {
+    "jp": "彼の歌に共鳴しました。",
+    "en": "I resonated with his song.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>歌<rt>うた</rt></ruby>に<ruby>共鳴<rt>きょうめい</rt></ruby>しました。"
+  },
+  "金具": {
+    "jp": "この金具はとても丈夫です。",
+    "en": "This metal fitting is very strong.",
+    "ruby": "この<ruby>金具<rt>かなぐ</rt></ruby>はとても<ruby>丈夫<rt>じょうぶ</rt></ruby>です。"
+  },
+  "内情": {
+    "jp": "その会社の内情はよく知りません。",
+    "en": "I don't know much about the internal situation of that company.",
+    "ruby": "その<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>内情<rt>ないじょう</rt></ruby>はよく<ruby>知り<rt>しり</rt></ruby>ません。"
+  },
+  "初頭": {
+    "jp": "この本は初頭に面白い話があります。",
+    "en": "This book has an interesting story at the beginning.",
+    "ruby": "この<ruby>本<rt>ほん</rt></ruby>は<ruby>初頭<rt>しょとう</rt></ruby>に<ruby>面白い<rt>おもしろい</rt></ruby><ruby>話<rt>はなし</rt></ruby>があります。"
+  },
+  "初演": {
+    "jp": "この映画の初演は来週です。",
+    "en": "The premiere of this movie is next week.",
+    "ruby": "この<ruby>映画<rt>えいが</rt></ruby>の<ruby>初演<rt>しょえん</rt></ruby>は<ruby>来週<rt>らいしゅう</rt></ruby>です。"
+  },
+  "利権": {
+    "jp": "彼は利権を守るために働いています。",
+    "en": "He is working to protect the interests.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>利権<rt>りけん</rt></ruby>を<ruby>守る<rt>まもる</rt></ruby>ために<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "加重": {
+    "jp": "この問題には加重が必要です。",
+    "en": "This problem requires weighting.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>には<ruby>加重<rt>かじゅう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "戦勝": {
+    "jp": "彼は戦勝を祝うパーティーを開きました。",
+    "en": "He held a party to celebrate the victory.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>戦勝<rt>せんしょう</rt></ruby>を<ruby>祝う<rt>いわう</rt></ruby>パーティーを<ruby>開き<rt>ひらき</rt></ruby>ました。"
+  },
+  "勤続": {
+    "jp": "彼はこの会社で勤続十年です。",
+    "en": "He has been with this company for ten years.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はこの<ruby>会社<rt>かいしゃ</rt></ruby>で<ruby>勤続<rt>きんぞく</rt></ruby><ruby>十<rt>じゅう</rt></ruby><ruby>年<rt>ねん</rt></ruby>です。"
+  },
+  "常勤": {
+    "jp": "彼は常勤の仕事を探しています。",
+    "en": "He is looking for a full-time job.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>常勤<rt>じょうきん</rt></ruby>の<ruby>仕事<rt>しごと</rt></ruby>を<ruby>探し<rt>さがし</rt></ruby>ています。"
+  },
+  "参戦": {
+    "jp": "彼は大会に参戦します。",
+    "en": "He will participate in the tournament.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大会<rt>たいかい</rt></ruby>に<ruby>参戦<rt>さんせん</rt></ruby>します。"
+  },
+  "読み取": {
+    "jp": "この文章を読み取るのは難しいです。",
+    "en": "It is difficult to read this text.",
+    "ruby": "この<ruby>文章<rt>ぶんしょう</rt></ruby>を<ruby>読み取る<rt>よみとる</rt></ruby>のは<ruby>難しい<rt>むずかしい</rt></ruby>です。"
+  },
+  "取り込み": {
+    "jp": "データの取り込みが完了しました。",
+    "en": "The data import has been completed.",
+    "ruby": "データの<ruby>取り込み<rt>とりこみ</rt></ruby>が<ruby>完了<rt>かんりょう</rt></ruby>しました。"
+  },
+  "受け渡し": {
+    "jp": "この書類の受け渡しは明日です。",
+    "en": "The handover of this document is tomorrow.",
+    "ruby": "この<ruby>書類<rt>しょるい</rt></ruby>の<ruby>受け渡し<rt>うけわたし</rt></ruby>は<ruby>明日<rt>あした</rt></ruby>です。"
+  },
+  "引き合い": {
+    "jp": "彼はその商品を引き合いに出しました。",
+    "en": "He referred to that product as an example.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はその<ruby>商品<rt>しょうひん</rt></ruby>を<ruby>引き合い<rt>ひきあい</rt></ruby>に<ruby>出し<rt>だし</rt></ruby>ました。"
+  },
+  "真っ向": {
+    "jp": "彼は真っ向から問題に挑みます。",
+    "en": "He confronts the problem head-on.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>真っ向<rt>まっこう</rt></ruby>から<ruby>問題<rt>もんだい</rt></ruby>に<ruby>挑み<rt>いどみ</rt></ruby>ます。"
+  },
+  "君子": {
+    "jp": "君子は常に正しい行動をします。",
+    "en": "A gentleman always acts correctly.",
+    "ruby": "<ruby>君子<rt>くんし</rt></ruby>は<ruby>常に<rt>つねに</rt></ruby><ruby>正しい<rt>ただしい</rt></ruby><ruby>行動<rt>こうどう</rt></ruby>をします。"
+  },
+  "通告": {
+    "jp": "彼は会議の通告をしました。",
+    "en": "He made a notice for the meeting.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会議<rt>かいぎ</rt></ruby>の<ruby>通告<rt>つうこく</rt></ruby>をしました。"
+  },
+  "命運": {
+    "jp": "私たちの命運は自分次第です。",
+    "en": "Our fate depends on ourselves.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちの<ruby>命運<rt>めいうん</rt></ruby>は<ruby>自分<rt>じぶん</rt></ruby><ruby>次第<rt>しだい</rt></ruby>です。"
+  },
+  "本命": {
+    "jp": "彼は私の本命です。",
+    "en": "He is my first choice.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>本命<rt>ほんめい</rt></ruby>です。"
+  },
+  "商会": {
+    "jp": "彼は大きな商会で働いています。",
+    "en": "He works at a large trading company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大きな<rt>おおきな</rt></ruby><ruby>商会<rt>しょうかい</rt></ruby>で<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "因果": {
+    "jp": "因果関係を理解することが大切です。",
+    "en": "It is important to understand the cause-and-effect relationship.",
+    "ruby": "<ruby>因果<rt>いんが</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>を<ruby>理解<rt>りかい</rt></ruby>することが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "増員": {
+    "jp": "会社は来月、増員します。",
+    "en": "The company will increase its staff next month.",
+    "ruby": "<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>来月<rt>らいげつ</rt></ruby>、<ruby>増員<rt>ぞういん</rt></ruby>します。"
+  },
+  "失速": {
+    "jp": "飛行機が急に失速しました。",
+    "en": "The airplane suddenly lost speed.",
+    "ruby": "<ruby>飛行機<rt>ひこうき</rt></ruby>が<ruby>急<rt>きゅう</rt></ruby>に<ruby>失速<rt>しっそく</rt></ruby>しました。"
+  },
+  "教官": {
+    "jp": "教官は私たちに教えています。",
+    "en": "The instructor is teaching us.",
+    "ruby": "<ruby>教官<rt>きょうかん</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>たちに<ruby>教え<rt>おしえ</rt></ruby>ています。"
+  },
+  "法定": {
+    "jp": "法定の休日は大切です。",
+    "en": "Legal holidays are important.",
+    "ruby": "<ruby>法定<rt>ほうてい</rt></ruby>の<ruby>休日<rt>きゅうじつ</rt></ruby>は<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "定住": {
+    "jp": "彼はアメリカに定住しています。",
+    "en": "He is residing permanently in America.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はアメリカに<ruby>定住<rt>ていじゅう</rt></ruby>しています。"
+  },
+  "所定": {
+    "jp": "所定の場所に行きましょう。",
+    "en": "Let's go to the designated place.",
+    "ruby": "<ruby>所定<rt>しょてい</rt></ruby>の<ruby>場所<rt>ばしょ</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ましょう。"
+  },
+  "実権": {
+    "jp": "彼は会社の実権を持っています。",
+    "en": "He has control of the company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>実権<rt>じっけん</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>ています。"
+  },
+  "実地": {
+    "jp": "実地で学ぶことが大切です。",
+    "en": "It is important to learn in practice.",
+    "ruby": "<ruby>実地<rt>じっち</rt></ruby>で<ruby>学ぶ<rt>まなぶ</rt></ruby>ことが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "対地": {
+    "jp": "対地の情報を確認しました。",
+    "en": "I have confirmed the information regarding the ground.",
+    "ruby": "<ruby>対地<rt>たいち</rt></ruby>の<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>しました。"
+  },
+  "医局": {
+    "jp": "医局で先生と話しました。",
+    "en": "I talked with the doctor in the medical office.",
+    "ruby": "<ruby>医局<rt>いきょく</rt></ruby>で<ruby>先生<rt>せんせい</rt></ruby>と<ruby>話し<rt>はなし</rt></ruby>ました。"
+  },
+  "部局": {
+    "jp": "彼は新しい部局で働いています。",
+    "en": "He is working in a new department.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>部局<rt>ぶきょく</rt></ruby>で<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "法師": {
+    "jp": "法師は山で修行しています。",
+    "en": "The monk is training in the mountains.",
+    "ruby": "<ruby>法師<rt>ほうし</rt></ruby>は<ruby>山<rt>やま</rt></ruby>で<ruby>修行<rt>しゅぎょう</rt></ruby>しています。"
+  },
+  "次席": {
+    "jp": "彼は試験で次席でした。",
+    "en": "He was second in the exam.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>試験<rt>しけん</rt></ruby>で<ruby>次席<rt>じせき</rt></ruby>でした。"
+  },
+  "平地": {
+    "jp": "この町は平地が多いです。",
+    "en": "This town has a lot of flat land.",
+    "ruby": "この<ruby>町<rt>まち</rt></ruby>は<ruby>平地<rt>ひらち</rt></ruby>が<ruby>多い<rt>おおい</rt></ruby>です。"
+  },
+  "式場": {
+    "jp": "結婚式は式場で行います。",
+    "en": "The wedding will be held at the venue.",
+    "ruby": "<ruby>結婚式<rt>けっこんしき</rt></ruby>は<ruby>式場<rt>しきじょう</rt></ruby>で<ruby>行い<rt>おこない</rt></ruby>ます。"
+  },
+  "引き渡し": {
+    "jp": "契約が終わったら引き渡しです。",
+    "en": "The handover will be after the contract is completed.",
+    "ruby": "<ruby>契約<rt>けいやく</rt></ruby>が<ruby>終わっ<rt>おわっ</rt></ruby>たら<ruby>引き渡し<rt>ひきわたし</rt></ruby>です。"
+  },
+  "悪役": {
+    "jp": "映画の悪役はとても面白いです。",
+    "en": "The villain in the movie is very interesting.",
+    "ruby": "<ruby>映画<rt>えいが</rt></ruby>の<ruby>悪役<rt>あくやく</rt></ruby>はとても<ruby>面白い<rt>おもしろい</rt></ruby>です。"
+  },
+  "感度": {
+    "jp": "このカメラの感度は高いです。",
+    "en": "The sensitivity of this camera is high.",
+    "ruby": "このカメラの<ruby>感度<rt>かんど</rt></ruby>は<ruby>高い<rt>たかい</rt></ruby>です。"
+  },
+  "戦地": {
+    "jp": "彼は戦地での経験を話しました。",
+    "en": "He talked about his experiences in the war zone.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>戦地<rt>せんち</rt></ruby>での<ruby>経験<rt>けいけん</rt></ruby>を<ruby>話し<rt>はなし</rt></ruby>ました。"
+  },
+  "戦法": {
+    "jp": "彼の戦法はとても効果的です。",
+    "en": "His strategy is very effective.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>戦法<rt>せんぽう</rt></ruby>はとても<ruby>効果<rt>こうか</rt></ruby><ruby>的<rt>てき</rt></ruby>です。"
+  },
+  "戦友": {
+    "jp": "彼は私の戦友です。",
+    "en": "He is my comrade.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>戦友<rt>せんゆう</rt></ruby>です。"
+  },
+  "決戦": {
+    "jp": "来週、決戦の日が来ます。",
+    "en": "Next week, the day of the decisive battle will come.",
+    "ruby": "<ruby>来週<rt>らいしゅう</rt></ruby>、<ruby>決戦<rt>けっせん</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>が<ruby>来<rt>き</rt></ruby>ます。"
+  },
+  "戦犯": {
+    "jp": "彼は戦犯として裁判を受けました。",
+    "en": "He was tried as a war criminal.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>戦犯<rt>せんぱん</rt></ruby>として<ruby>裁判<rt>さいばん</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ました。"
+  },
+  "所見": {
+    "jp": "彼の所見はとても参考になります。",
+    "en": "His observations are very helpful.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>所見<rt>しょけん</rt></ruby>はとても<ruby>参考<rt>さんこう</rt></ruby>になります。"
+  },
+  "入所": {
+    "jp": "彼は新しい病院に入所しました。",
+    "en": "He was admitted to the new hospital.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>病院<rt>びょういん</rt></ruby>に<ruby>入所<rt>にゅうしょ</rt></ruby>しました。"
+  },
+  "強打": {
+    "jp": "彼はボールを強打しました。",
+    "en": "He hit the ball hard.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はボールを<ruby>強打<rt>きょうだ</rt></ruby>しました。"
+  },
+  "投降": {
+    "jp": "彼は敵に投降しました。",
+    "en": "He surrendered to the enemy.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>敵<rt>てき</rt></ruby>に<ruby>投降<rt>とうこう</rt></ruby>しました。"
+  },
+  "掛け金": {
+    "jp": "毎月の掛け金は大切です。",
+    "en": "The monthly premium is important.",
+    "ruby": "<ruby>毎月<rt>まいつき</rt></ruby>の<ruby>掛け金<rt>かけきん</rt></ruby>は<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "野放し": {
+    "jp": "彼は犬を野放しにしました。",
+    "en": "He let the dog roam free.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>犬<rt>いぬ</rt></ruby>を<ruby>野放し<rt>のばなし</rt></ruby>にしました。"
+  },
+  "敗者": {
+    "jp": "敗者にも学ぶことがあります。",
+    "en": "Even losers have things to learn.",
+    "ruby": "<ruby>敗者<rt>はいしゃ</rt></ruby>にも<ruby>学ぶ<rt>まなぶ</rt></ruby>ことがあります。"
+  },
+  "景品": {
+    "jp": "このゲームの景品はとても面白いです。",
+    "en": "The prize for this game is very interesting.",
+    "ruby": "このゲームの<ruby>景品<rt>けいひん</rt></ruby>はとても<ruby>面白い<rt>おもしろい</rt></ruby>です。"
+  },
+  "歌曲": {
+    "jp": "この歌曲はとても感動的です。",
+    "en": "This song is very moving.",
+    "ruby": "この<ruby>歌曲<rt>かきょく</rt></ruby>はとても<ruby>感動<rt>かんどう</rt></ruby><ruby>的<rt>てき</rt></ruby>です。"
+  },
+  "更生": {
+    "jp": "彼は更生するために努力しています。",
+    "en": "He is making an effort to rehabilitate.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>更生<rt>こうせい</rt></ruby>するために<ruby>努力<rt>どりょく</rt></ruby>しています。"
+  },
+  "最少": {
+    "jp": "最少人数で会議を始めます。",
+    "en": "We will start the meeting with the minimum number of people.",
+    "ruby": "<ruby>最少<rt>さいしょう</rt></ruby><ruby>人数<rt>にんずう</rt></ruby>で<ruby>会議<rt>かいぎ</rt></ruby>を<ruby>始め<rt>はじめ</rt></ruby>ます。"
+  },
+  "望月": {
+    "jp": "望月さんは優しい人です。",
+    "en": "Ms. Mochizuki is a kind person.",
+    "ruby": "<ruby>望月<rt>もちづき</rt></ruby>さんは<ruby>優しい<rt>やさしい</rt></ruby><ruby>人<rt>ひと</rt></ruby>です。"
+  },
+  "今期": {
+    "jp": "今期の授業はとても面白いです。",
+    "en": "This term's classes are very interesting.",
+    "ruby": "<ruby>今期<rt>こんき</rt></ruby>の<ruby>授業<rt>じゅぎょう</rt></ruby>はとても<ruby>面白い<rt>おもしろい</rt></ruby>です。"
+  },
+  "降格": {
+    "jp": "彼は降格されてしまいました。",
+    "en": "He was demoted.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>降格<rt>こうかく</rt></ruby>されてしまいました。"
+  },
+  "横行": {
+    "jp": "最近、悪質な詐欺が横行しています。",
+    "en": "Recently, malicious scams are rampant.",
+    "ruby": "<ruby>最近<rt>さいきん</rt></ruby>、<ruby>悪質<rt>あくしつ</rt></ruby>な<ruby>詐欺<rt>さぎ</rt></ruby>が<ruby>横行<rt>おうこう</rt></ruby>しています。"
+  },
+  "機首": {
+    "jp": "飛行機の機首は前方にあります。",
+    "en": "The nose of the airplane is at the front.",
+    "ruby": "<ruby>飛行機<rt>ひこうき</rt></ruby>の<ruby>機首<rt>きしゅ</rt></ruby>は<ruby>前方<rt>ぜんぽう</rt></ruby>にあります。"
+  },
+  "転機": {
+    "jp": "この仕事は私の転機でした。",
+    "en": "This job was a turning point for me.",
+    "ruby": "この<ruby>仕事<rt>しごと</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>転機<rt>てんき</rt></ruby>でした。"
+  },
+  "欠場": {
+    "jp": "彼は怪我のため欠場しました。",
+    "en": "He was absent due to an injury.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>怪我<rt>けが</rt></ruby>のため<ruby>欠場<rt>けつじょう</rt></ruby>しました。"
+  },
+  "欠員": {
+    "jp": "この会社には欠員があります。",
+    "en": "There is a vacancy in this company.",
+    "ruby": "この<ruby>会社<rt>かいしゃ</rt></ruby>には<ruby>欠員<rt>けついん</rt></ruby>があります。"
+  },
+  "治験": {
+    "jp": "治験は新しい薬のテストです。",
+    "en": "Clinical trials are tests for new drugs.",
+    "ruby": "<ruby>治験<rt>ちけん</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>薬<rt>くすり</rt></ruby>のテストです。"
+  },
+  "流用": {
+    "jp": "この資料は流用できます。",
+    "en": "This material can be reused.",
+    "ruby": "この<ruby>資料<rt>しりょう</rt></ruby>は<ruby>流用<rt>りゅうよう</rt></ruby>できます。"
+  },
+  "水深": {
+    "jp": "この湖の水深はとても深いです。",
+    "en": "The depth of this lake is very deep.",
+    "ruby": "この<ruby>湖<rt>みずうみ</rt></ruby>の<ruby>水深<rt>すいしん</rt></ruby>はとても<ruby>深い<rt>ふかい</rt></ruby>です。"
+  },
+  "演目": {
+    "jp": "今夜の演目はとても面白いです。",
+    "en": "Tonight's performance is very interesting.",
+    "ruby": "<ruby>今夜<rt>こんや</rt></ruby>の<ruby>演目<rt>えんもく</rt></ruby>はとても<ruby>面白い<rt>おもしろい</rt></ruby>です。"
+  },
+  "演歌": {
+    "jp": "演歌は日本の伝統的な音楽です。",
+    "en": "Enka is a traditional Japanese music.",
+    "ruby": "<ruby>演歌<rt>えんか</rt></ruby>は<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>伝統<rt>でんとう</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>音楽<rt>おんがく</rt></ruby>です。"
+  },
+  "主犯": {
+    "jp": "彼はその事件の主犯です。",
+    "en": "He is the main perpetrator of that incident.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はその<ruby>事件<rt>じけん</rt></ruby>の<ruby>主犯<rt>しゅはん</rt></ruby>です。"
+  },
+  "王朝": {
+    "jp": "日本の王朝はとても歴史的です。",
+    "en": "The Japanese dynasties are very historical.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>王朝<rt>おうちょう</rt></ruby>はとても<ruby>歴史<rt>れきし</rt></ruby><ruby>的<rt>てき</rt></ruby>です。"
+  },
+  "王立": {
+    "jp": "彼は王立の学校に通っています。",
+    "en": "He is attending a royal school.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>王立<rt>おうりつ</rt></ruby>の<ruby>学校<rt>がっこう</rt></ruby>に<ruby>通っ<rt>かよっ</rt></ruby>ています。"
+  },
+  "王族": {
+    "jp": "王族は国を代表する存在です。",
+    "en": "The royal family represents the country.",
+    "ruby": "<ruby>王族<rt>おうぞく</rt></ruby>は<ruby>国<rt>くに</rt></ruby>を<ruby>代表<rt>だいひょう</rt></ruby>する<ruby>存在<rt>そんざい</rt></ruby>です。"
+  },
+  "大破": {
+    "jp": "彼の車は事故で大破しました。",
+    "en": "His car was severely damaged in the accident.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>車<rt>くるま</rt></ruby>は<ruby>事故<rt>じこ</rt></ruby>で<ruby>大破<rt>たいは</rt></ruby>しました。"
+  },
+  "示談": {
+    "jp": "示談が成立しました。",
+    "en": "The settlement has been reached.",
+    "ruby": "<ruby>示談<rt>じだん</rt></ruby>が<ruby>成立<rt>せいりつ</rt></ruby>しました。"
+  },
+  "火種": {
+    "jp": "火種を大切に育てます。",
+    "en": "I will take care of the fire seed.",
+    "ruby": "<ruby>火種<rt>ひだね</rt></ruby>を<ruby>大切<rt>たいせつ</rt></ruby>に<ruby>育て<rt>そだて</rt></ruby>ます。"
+  },
+  "発給": {
+    "jp": "新しいパスポートが発給されました。",
+    "en": "A new passport has been issued.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>パスポートが<ruby>発給<rt>はっきゅう</rt></ruby>されました。"
+  },
+  "美学": {
+    "jp": "彼は独自の美学を持っています。",
+    "en": "He has his own aesthetic.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>独自<rt>どくじ</rt></ruby>の<ruby>美学<rt>びがく</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>ています。"
+  },
+  "休職": {
+    "jp": "彼は病気のために休職しました。",
+    "en": "He took a leave of absence due to illness.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>病気<rt>びょうき</rt></ruby>のために<ruby>休職<rt>きゅうしょく</rt></ruby>しました。"
+  },
+  "本職": {
+    "jp": "彼の本職は教師です。",
+    "en": "His main job is a teacher.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>本職<rt>ほんしょく</rt></ruby>は<ruby>教師<rt>きょうし</rt></ruby>です。"
+  },
+  "船体": {
+    "jp": "船体はとても大きいです。",
+    "en": "The hull is very large.",
+    "ruby": "<ruby>船体<rt>せんたい</rt></ruby>はとても<ruby>大きい<rt>おおきい</rt></ruby>です。"
+  },
+  "船員": {
+    "jp": "彼は船員として働いています。",
+    "en": "He works as a sailor.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>船員<rt>せんいん</rt></ruby>として<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "医薬": {
+    "jp": "医薬の研究はとても重要です。",
+    "en": "Research in medicine and pharmaceuticals is very important.",
+    "ruby": "<ruby>医薬<rt>いやく</rt></ruby>の<ruby>研究<rt>けんきゅう</rt></ruby>はとても<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "意表": {
+    "jp": "彼の意表をつく発言に驚きました。",
+    "en": "I was surprised by his unexpected remark.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>意表<rt>いひょう</rt></ruby>をつく<ruby>発言<rt>はつげん</rt></ruby>に<ruby>驚き<rt>おどろき</rt></ruby>ました。"
+  },
+  "静観": {
+    "jp": "問題を静観することが大切です。",
+    "en": "It is important to observe the problem calmly.",
+    "ruby": "<ruby>問題<rt>もんだい</rt></ruby>を<ruby>静観<rt>せいかん</rt></ruby>することが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "来訪": {
+    "jp": "友達の来訪を楽しみにしています。",
+    "en": "I am looking forward to my friend's visit.",
+    "ruby": "<ruby>友達<rt>ともだち</rt></ruby>の<ruby>来訪<rt>らいほう</rt></ruby>を<ruby>楽しみ<rt>たのしみ</rt></ruby>にしています。"
+  },
+  "誤認": {
+    "jp": "彼は誤認されて困っていました。",
+    "en": "He was troubled by being misidentified.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>誤認<rt>ごにん</rt></ruby>されて<ruby>困っ<rt>こまっ</rt></ruby>ていました。"
+  },
+  "論説": {
+    "jp": "彼の論説はとても分かりやすいです。",
+    "en": "His essay is very easy to understand.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>論説<rt>ろんせつ</rt></ruby>はとても<ruby>分かり<rt>わかり</rt></ruby>やすいです。"
+  },
+  "空調": {
+    "jp": "この部屋の空調はとても快適です。",
+    "en": "The air conditioning in this room is very comfortable.",
+    "ruby": "この<ruby>部屋<rt>へや</rt></ruby>の<ruby>空調<rt>くうちょう</rt></ruby>はとても<ruby>快適<rt>かいてき</rt></ruby>です。"
+  },
+  "調教": {
+    "jp": "彼は馬の調教が得意です。",
+    "en": "He is skilled at training horses.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>馬<rt>うま</rt></ruby>の<ruby>調教<rt>ちょうきょう</rt></ruby>が<ruby>得意<rt>とくい</rt></ruby>です。"
+  },
+  "動議": {
+    "jp": "会議で動議が出されました。",
+    "en": "A motion was presented at the meeting.",
+    "ruby": "<ruby>会議<rt>かいぎ</rt></ruby>で<ruby>動議<rt>どうぎ</rt></ruby>が<ruby>出さ<rt>ださ</rt></ruby>れました。"
+  },
+  "売り込み": {
+    "jp": "新しい商品を売り込みます。",
+    "en": "I will promote the new product.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>商品<rt>しょうひん</rt></ruby>を<ruby>売り込み<rt>うりこみ</rt></ruby>ます。"
+  },
+  "退場": {
+    "jp": "試合が終わったので退場しました。",
+    "en": "I exited because the match has ended.",
+    "ruby": "<ruby>試合<rt>しあい</rt></ruby>が<ruby>終わっ<rt>おわっ</rt></ruby>たので<ruby>退場<rt>たいじょう</rt></ruby>しました。"
+  },
+  "後進": {
+    "jp": "後進を支援することが大切です。",
+    "en": "It is important to support the younger generation.",
+    "ruby": "<ruby>後進<rt>こうしん</rt></ruby>を<ruby>支援<rt>しえん</rt></ruby>することが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "遊び場": {
+    "jp": "子供たちは遊び場で遊びます。",
+    "en": "The children play at the playground.",
+    "ruby": "<ruby>子供<rt>こども</rt></ruby>たちは<ruby>遊び場<rt>あそびば</rt></ruby>で<ruby>遊び<rt>あそび</rt></ruby>ます。"
+  },
+  "前部": {
+    "jp": "車の前部はとても大きいです。",
+    "en": "The front part of the car is very big.",
+    "ruby": "<ruby>車<rt>くるま</rt></ruby>の<ruby>前部<rt>ぜんぶ</rt></ruby>はとても<ruby>大きい<rt>おおきい</rt></ruby>です。"
+  },
+  "酒場": {
+    "jp": "友達と酒場で楽しく話しました。",
+    "en": "I had a fun conversation with my friends at the tavern.",
+    "ruby": "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>酒場<rt>さかば</rt></ruby>で<ruby>楽しく<rt>たのしく</rt></ruby><ruby>話し<rt>はなし</rt></ruby>ました。"
+  },
+  "開閉": {
+    "jp": "このドアは自動で開閉します。",
+    "en": "This door opens and closes automatically.",
+    "ruby": "このドアは<ruby>自動<rt>じどう</rt></ruby>で<ruby>開閉<rt>かいへい</rt></ruby>します。"
+  },
+  "降雨": {
+    "jp": "明日は降雨が予想されています。",
+    "en": "Rain is expected tomorrow.",
+    "ruby": "<ruby>明日<rt>あした</rt></ruby>は<ruby>降雨<rt>こうう</rt></ruby>が<ruby>予想<rt>よそう</rt></ruby>されています。"
+  },
+  "面々": {
+    "jp": "面々が集まって話し合いました。",
+    "en": "Everyone gathered and had a discussion.",
+    "ruby": "<ruby>面々<rt>めんめん</rt></ruby>が<ruby>集まっ<rt>あつまっ</rt></ruby>て<ruby>話し合い<rt>はなしあい</rt></ruby>ました。"
+  },
+  "前頭": {
+    "jp": "彼は前頭が広いです。",
+    "en": "He has a wide forehead.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>前頭<rt>まえがしら</rt></ruby>が<ruby>広い<rt>ひろい</rt></ruby>です。"
+  },
+  "教頭": {
+    "jp": "教頭は学校の大切な役割です。",
+    "en": "The vice-principal has an important role in the school.",
+    "ruby": "<ruby>教頭<rt>きょうとう</rt></ruby>は<ruby>学校<rt>がっこう</rt></ruby>の<ruby>大切<rt>たいせつ</rt></ruby>な<ruby>役割<rt>やくわり</rt></ruby>です。"
+  },
+  "鳥類": {
+    "jp": "鳥類は空を飛ぶことができます。",
+    "en": "Birds can fly in the sky.",
+    "ruby": "<ruby>鳥類<rt>ちょうるい</rt></ruby>は<ruby>空<rt>そら</rt></ruby>を<ruby>飛ぶ<rt>とぶ</rt></ruby>ことができます。"
+  },
+  "馬主": {
+    "jp": "彼は有名な馬主です。",
+    "en": "He is a famous horse owner.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>馬主<rt>ばしゅ</rt></ruby>です。"
+  },
+  "白馬": {
+    "jp": "白馬は美しい動物です。",
+    "en": "The white horse is a beautiful animal.",
+    "ruby": "<ruby>白馬<rt>はくば</rt></ruby>は<ruby>美しい<rt>うつくしい</rt></ruby><ruby>動物<rt>どうぶつ</rt></ruby>です。"
+  },
+  "持久": {
+    "jp": "持久力を高めるために運動します。",
+    "en": "I will exercise to improve my endurance.",
+    "ruby": "<ruby>持久<rt>じきゅう</rt></ruby><ruby>力<rt>りょく</rt></ruby>を<ruby>高める<rt>たかめる</rt></ruby>ために<ruby>運動<rt>うんどう</rt></ruby>します。"
+  },
+  "騒乱": {
+    "jp": "騒乱が起きたため、学校は休校でした。",
+    "en": "Because of the turmoil, the school was closed.",
+    "ruby": "<ruby>騒乱<rt>そうらん</rt></ruby>が<ruby>起き<rt>おき</rt></ruby>たため、<ruby>学校<rt>がっこう</rt></ruby>は<ruby>休校<rt>きゅうこう</rt></ruby>でした。"
+  },
+  "内乱": {
+    "jp": "国の内乱は長い間続いています。",
+    "en": "The civil unrest in the country has been ongoing for a long time.",
+    "ruby": "<ruby>国<rt>くに</rt></ruby>の<ruby>内乱<rt>ないらん</rt></ruby>は<ruby>長い<rt>ながい</rt></ruby><ruby>間<rt>ま</rt></ruby><ruby>続い<rt>つづい</rt></ruby>ています。"
+  },
+  "狂乱": {
+    "jp": "彼は狂乱の中で大声で叫びました。",
+    "en": "He shouted loudly in a frenzy.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>狂乱<rt>きょうらん</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>大声<rt>おおごえ</rt></ruby>で<ruby>叫び<rt>さけび</rt></ruby>ました。"
+  },
+  "介在": {
+    "jp": "彼の意見は議論に介在しました。",
+    "en": "His opinion intervened in the discussion.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>は<ruby>議論<rt>ぎろん</rt></ruby>に<ruby>介在<rt>かいざい</rt></ruby>しました。"
+  },
+  "辞令": {
+    "jp": "彼は新しい辞令を受け取りました。",
+    "en": "He received a new appointment letter.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>辞令<rt>じれい</rt></ruby>を<ruby>受け取り<rt>うけとり</rt></ruby>ました。"
+  },
+  "号令": {
+    "jp": "彼は号令を出して、みんなを集めました。",
+    "en": "He gave the command and gathered everyone.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>号令<rt>ごうれい</rt></ruby>を<ruby>出し<rt>だし</rt></ruby>て、みんなを<ruby>集め<rt>あつめ</rt></ruby>ました。"
+  },
+  "不仲": {
+    "jp": "彼らは長い間不仲でした。",
+    "en": "They have been on bad terms for a long time.",
+    "ruby": "<ruby>彼ら<rt>かれら</rt></ruby>は<ruby>長い<rt>ながい</rt></ruby><ruby>間<rt>ま</rt></ruby><ruby>不仲<rt>ふなか</rt></ruby>でした。"
+  },
+  "民兵": {
+    "jp": "民兵は地域の安全を守る役割です。",
+    "en": "Militia plays a role in protecting local safety.",
+    "ruby": "<ruby>民兵<rt>みんぺい</rt></ruby>は<ruby>地域<rt>ちいき</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>を<ruby>守る<rt>まもる</rt></ruby><ruby>役割<rt>やくわり</rt></ruby>です。"
+  },
+  "工兵": {
+    "jp": "彼は工兵として働いています。",
+    "en": "He works as a engineer.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>工兵<rt>こうへい</rt></ruby>として<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "再考": {
+    "jp": "この問題について再考する必要があります。",
+    "en": "We need to reconsider this issue.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>について<ruby>再考<rt>さいこう</rt></ruby>する<ruby>必要<rt>ひつよう</rt></ruby>があります。"
+  },
+  "再燃": {
+    "jp": "彼の興味は再燃しました。",
+    "en": "His interest has been rekindled.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>興味<rt>きょうみ</rt></ruby>は<ruby>再燃<rt>さいねん</rt></ruby>しました。"
+  },
+  "再演": {
+    "jp": "この劇は来月再演されます。",
+    "en": "This play will be re-staged next month.",
+    "ruby": "この<ruby>劇<rt>げき</rt></ruby>は<ruby>来月<rt>らいげつ</rt></ruby><ruby>再演<rt>さいえん</rt></ruby>されます。"
+  },
+  "変則": {
+    "jp": "この文法は変則ですから、注意が必要です。",
+    "en": "This grammar is irregular, so you need to be careful.",
+    "ruby": "この<ruby>文法<rt>ぶんぽう</rt></ruby>は<ruby>変則<rt>へんそく</rt></ruby>ですから、<ruby>注意<rt>ちゅうい</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "正則": {
+    "jp": "この問題は正則な方法で解決します。",
+    "en": "We will solve this problem using a regular method.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>は<ruby>正則<rt>せいそく</rt></ruby>な<ruby>方法<rt>ほうほう</rt></ruby>で<ruby>解決<rt>かいけつ</rt></ruby>します。"
+  },
+  "管区": {
+    "jp": "この地域は新しい管区に属しています。",
+    "en": "This area belongs to a new district.",
+    "ruby": "この<ruby>地域<rt>ちいき</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>管区<rt>かんく</rt></ruby>に<ruby>属し<rt>ぞくし</rt></ruby>ています。"
+  },
+  "区切り": {
+    "jp": "この本には区切りがあります。",
+    "en": "This book has divisions.",
+    "ruby": "この<ruby>本<rt>ほん</rt></ruby>には<ruby>区切り<rt>くぎり</rt></ruby>があります。"
+  },
+  "高卒": {
+    "jp": "彼は高卒ですが、仕事を頑張っています。",
+    "en": "He is a high school graduate, but he is working hard.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>高卒<rt>こうそつ</rt></ruby>ですが、<ruby>仕事<rt>しごと</rt></ruby>を<ruby>頑張っ<rt>がんばっ</rt></ruby>ています。"
+  },
+  "卵子": {
+    "jp": "卵子は女性の体に重要な役割があります。",
+    "en": "Egg cells play an important role in a woman's body.",
+    "ruby": "<ruby>卵子<rt>らんし</rt></ruby>は<ruby>女性<rt>じょせい</rt></ruby>の<ruby>体<rt>からだ</rt></ruby>に<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>役割<rt>やくわり</rt></ruby>があります。"
+  },
+  "史料": {
+    "jp": "この本には多くの史料が含まれています。",
+    "en": "This book contains many historical documents.",
+    "ruby": "この<ruby>本<rt>ほん</rt></ruby>には<ruby>多く<rt>おおく</rt></ruby>の<ruby>史料<rt>しりょう</rt></ruby>が<ruby>含ま<rt>ふくま</rt></ruby>れています。"
+  },
+  "周知": {
+    "jp": "この情報は全員に周知されています。",
+    "en": "This information is known to everyone.",
+    "ruby": "この<ruby>情報<rt>じょうほう</rt></ruby>は<ruby>全員<rt>ぜんいん</rt></ruby>に<ruby>周知<rt>しゅうち</rt></ruby>されています。"
+  },
+  "営み": {
+    "jp": "彼の営みはとても大切です。",
+    "en": "His activities are very important.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>営み<rt>いとなみ</rt></ruby>はとても<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "旅団": {
+    "jp": "彼は新しい旅団に参加しました。",
+    "en": "He joined a new brigade.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>旅団<rt>りょだん</rt></ruby>に<ruby>参加<rt>さんか</rt></ruby>しました。"
+  },
+  "軍団": {
+    "jp": "彼は新しい軍団を作りたいです。",
+    "en": "He wants to create a new army.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>軍団<rt>ぐんだん</rt></ruby>を<ruby>作り<rt>つくり</rt></ruby>たいです。"
+  },
+  "入団": {
+    "jp": "彼は新しいチームに入団しました。",
+    "en": "He joined the new team.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby>チームに<ruby>入団<rt>にゅうだん</rt></ruby>しました。"
+  },
+  "加圧": {
+    "jp": "この機械は加圧を行います。",
+    "en": "This machine performs pressure application.",
+    "ruby": "この<ruby>機械<rt>きかい</rt></ruby>は<ruby>加<rt>か</rt></ruby>圧を<ruby>行い<rt>おこない</rt></ruby>ます。"
+  },
+  "重圧": {
+    "jp": "試験の重圧がとても大きいです。",
+    "en": "The pressure of the exam is very high.",
+    "ruby": "<ruby>試験<rt>しけん</rt></ruby>の<ruby>重圧<rt>じゅうあつ</rt></ruby>がとても<ruby>大きい<rt>おおきい</rt></ruby>です。"
+  },
+  "原型": {
+    "jp": "この単語の原型を覚えましょう。",
+    "en": "Let's remember the base form of this word.",
+    "ruby": "この<ruby>単語<rt>たんご</rt></ruby>の<ruby>原型<rt>げんけい</rt></ruby>を<ruby>覚え<rt>おぼえ</rt></ruby>ましょう。"
+  },
+  "空域": {
+    "jp": "空域の管理はとても重要です。",
+    "en": "The management of airspace is very important.",
+    "ruby": "<ruby>空域<rt>くういき</rt></ruby>の<ruby>管理<rt>かんり</rt></ruby>はとても<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "水域": {
+    "jp": "この水域には多くの魚がいます。",
+    "en": "There are many fish in this water area.",
+    "ruby": "この<ruby>水域<rt>すいいき</rt></ruby>には<ruby>多く<rt>おおく</rt></ruby>の<ruby>魚<rt>さかな</rt></ruby>がいます。"
+  },
+  "広域": {
+    "jp": "この広域には多くの観光地があります。",
+    "en": "There are many tourist spots in this wide area.",
+    "ruby": "この<ruby>広域<rt>こういき</rt></ruby>には<ruby>多く<rt>おおく</rt></ruby>の<ruby>観光<rt>かんこう</rt></ruby><ruby>地<rt>ち</rt></ruby>があります。"
+  },
+  "塗料": {
+    "jp": "この塗料は水に強いです。",
+    "en": "This paint is resistant to water.",
+    "ruby": "この<ruby>塗料<rt>とりょう</rt></ruby>は<ruby>水<rt>みず</rt></ruby>に<ruby>強い<rt>つよい</rt></ruby>です。"
+  },
+  "塩基": {
+    "jp": "塩基はDNAの構成要素です。",
+    "en": "Bases are components of DNA.",
+    "ruby": "<ruby>塩基<rt>えんき</rt></ruby>はDNAの<ruby>構成<rt>こうせい</rt></ruby><ruby>要素<rt>ようそ</rt></ruby>です。"
+  },
+  "塩化": {
+    "jp": "塩化は水に溶けやすい物質です。",
+    "en": "Chloride is a substance that dissolves easily in water.",
+    "ruby": "<ruby>塩化<rt>えんか</rt></ruby>は<ruby>水<rt>みず</rt></ruby>に<ruby>溶け<rt>とけ</rt></ruby>やすい<ruby>物質<rt>ぶっしつ</rt></ruby>です。"
+  },
+  "越境": {
+    "jp": "越境することは新しい経験です。",
+    "en": "Crossing borders is a new experience.",
+    "ruby": "<ruby>越境<rt>えっきょう</rt></ruby>することは<ruby>新しい<rt>あたらしい</rt></ruby><ruby>経験<rt>けいけん</rt></ruby>です。"
+  },
+  "辺境": {
+    "jp": "彼は辺境の村に住んでいます。",
+    "en": "He lives in a village in the frontier.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>辺境<rt>へんきょう</rt></ruby>の<ruby>村<rt>むら</rt></ruby>に<ruby>住ん<rt>すん</rt></ruby>でいます。"
+  },
+  "旧姓": {
+    "jp": "彼女は結婚後も旧姓を使っています。",
+    "en": "She continues to use her maiden name after marriage.",
+    "ruby": "<ruby>彼女<rt>かのじょ</rt></ruby>は<ruby>結婚<rt>けっこん</rt></ruby><ruby>後<rt>ご</rt></ruby>も<ruby>旧姓<rt>きゅうせい</rt></ruby>を<ruby>使っ<rt>つかっ</rt></ruby>ています。"
+  },
+  "専属": {
+    "jp": "彼は専属のアドバイザーです。",
+    "en": "He is a dedicated advisor.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>専属<rt>せんぞく</rt></ruby>のアドバイザーです。"
+  },
+  "将校": {
+    "jp": "彼は優れた将校として知られています。",
+    "en": "He is known as an excellent officer.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>優れ<rt>すぐれ</rt></ruby>た<ruby>将校<rt>しょうこう</rt></ruby>として<ruby>知ら<rt>しら</rt></ruby>れています。"
+  },
+  "中将": {
+    "jp": "彼は陸軍の中将です。",
+    "en": "He is a lieutenant general in the army.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>陸軍<rt>りくぐん</rt></ruby>の<ruby>中将<rt>ちゅうじょう</rt></ruby>です。"
+  },
+  "少将": {
+    "jp": "彼は少将として部隊を指揮しています。",
+    "en": "He is commanding the unit as a major general.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>少将<rt>しょうしょう</rt></ruby>として<ruby>部隊<rt>ぶたい</rt></ruby>を<ruby>指揮<rt>しき</rt></ruby>しています。"
+  },
+  "深層": {
+    "jp": "彼の心の深層には秘密があります。",
+    "en": "There are secrets in the depths of his heart.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>心<rt>こころ</rt></ruby>の<ruby>深層<rt>しんそう</rt></ruby>には<ruby>秘密<rt>ひみつ</rt></ruby>があります。"
+  },
+  "上層": {
+    "jp": "ビルの上層にはレストランがあります。",
+    "en": "There is a restaurant on the upper floors of the building.",
+    "ruby": "ビルの<ruby>上層<rt>じょうそう</rt></ruby>にはレストランがあります。"
+  },
+  "岩盤": {
+    "jp": "この地域には硬い岩盤があります。",
+    "en": "There is a hard bedrock in this area.",
+    "ruby": "この<ruby>地域<rt>ちいき</rt></ruby>には<ruby>硬い<rt>かたい</rt></ruby><ruby>岩盤<rt>がんばん</rt></ruby>があります。"
+  },
+  "岩山": {
+    "jp": "岩山を登るのは楽しいです。",
+    "en": "Climbing the rocky mountain is enjoyable.",
+    "ruby": "<ruby>岩山<rt>いわやま</rt></ruby>を<ruby>登る<rt>のぼる</rt></ruby>のは<ruby>楽しい<rt>たのしい</rt></ruby>です。"
+  },
+  "巨体": {
+    "jp": "彼は巨体の選手として有名です。",
+    "en": "He is famous as a player with a giant physique.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>巨体<rt>きょたい</rt></ruby>の<ruby>選手<rt>せんしゅ</rt></ruby>として<ruby>有名<rt>ゆうめい</rt></ruby>です。"
+  },
+  "布陣": {
+    "jp": "大会では強力な布陣が必要です。",
+    "en": "A strong formation is necessary for the tournament.",
+    "ruby": "<ruby>大会<rt>たいかい</rt></ruby>では<ruby>強力<rt>きょうりょく</rt></ruby>な<ruby>布陣<rt>ふじん</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "底力": {
+    "jp": "彼は試験で底力を見せました。",
+    "en": "He showed his true strength in the exam.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>試験<rt>しけん</rt></ruby>で<ruby>底力<rt>そこぢから</rt></ruby>を<ruby>見せ<rt>みせ</rt></ruby>ました。"
+  },
+  "延命": {
+    "jp": "彼は健康のために延命を考えています。",
+    "en": "He is considering life extension for his health.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>健康<rt>けんこう</rt></ruby>のために<ruby>延命<rt>えんめい</rt></ruby>を<ruby>考え<rt>かんがえ</rt></ruby>ています。"
+  },
+  "弱体": {
+    "jp": "経済の弱体は社会に影響を与えます。",
+    "en": "The weakening of the economy affects society.",
+    "ruby": "<ruby>経済<rt>けいざい</rt></ruby>の<ruby>弱体<rt>じゃくたい</rt></ruby>は<ruby>社会<rt>しゃかい</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ます。"
+  },
+  "復員": {
+    "jp": "彼は戦争が終わった後に復員しました。",
+    "en": "He was repatriated after the war ended.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>戦争<rt>せんそう</rt></ruby>が<ruby>終わっ<rt>おわっ</rt></ruby>た<ruby>後<rt>のち</rt></ruby>に<ruby>復員<rt>ふくいん</rt></ruby>しました。"
+  },
+  "復元": {
+    "jp": "この絵は復元されたものです。",
+    "en": "This painting has been restored.",
+    "ruby": "この<ruby>絵<rt>え</rt></ruby>は<ruby>復元<rt>ふくげん</rt></ruby>されたものです。"
+  },
+  "快調": {
+    "jp": "今日は体調が快調です。",
+    "en": "I am feeling great today.",
+    "ruby": "<ruby>今日<rt>きょう</rt></ruby>は<ruby>体調<rt>たいちょう</rt></ruby>が<ruby>快調<rt>かいちょう</rt></ruby>です。"
+  },
+  "実技": {
+    "jp": "彼は実技のテストを受けました。",
+    "en": "He took the practical skills test.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>実技<rt>じつぎ</rt></ruby>のテストを<ruby>受け<rt>うけ</rt></ruby>ました。"
+  },
+  "加担": {
+    "jp": "彼はそのプロジェクトに加担しました。",
+    "en": "He participated in that project.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はそのプロジェクトに<ruby>加担<rt>かたん</rt></ruby>しました。"
+  },
+  "溶接": {
+    "jp": "彼は溶接の技術を学んでいます。",
+    "en": "He is learning the skill of welding.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>溶接<rt>ようせつ</rt></ruby>の<ruby>技術<rt>ぎじゅつ</rt></ruby>を<ruby>学ん<rt>まなん</rt></ruby>でいます。"
+  },
+  "換金": {
+    "jp": "旅行のために換金をしました。",
+    "en": "I exchanged money for my trip.",
+    "ruby": "<ruby>旅行<rt>りょこう</rt></ruby>のために<ruby>換金<rt>かんきん</rt></ruby>をしました。"
+  },
+  "新旧": {
+    "jp": "この店では新旧の本が売っています。",
+    "en": "This store sells both new and old books.",
+    "ruby": "この<ruby>店<rt>みせ</rt></ruby>では<ruby>新旧<rt>しんきゅう</rt></ruby>の<ruby>本<rt>ほん</rt></ruby>が<ruby>売っ<rt>うっ</rt></ruby>ています。"
+  },
+  "新星": {
+    "jp": "彼は音楽界の新星として注目されています。",
+    "en": "He is being noticed as a new star in the music world.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>音楽<rt>おんがく</rt></ruby><ruby>界<rt>かい</rt></ruby>の<ruby>新星<rt>しんせい</rt></ruby>として<ruby>注目<rt>ちゅうもく</rt></ruby>されています。"
+  },
+  "暴挙": {
+    "jp": "彼の暴挙はみんなを驚かせました。",
+    "en": "His reckless act surprised everyone.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>暴挙<rt>ぼうきょ</rt></ruby>はみんなを<ruby>驚か<rt>おどろか</rt></ruby>せました。"
+  },
+  "横暴": {
+    "jp": "彼の横暴な態度は許されません。",
+    "en": "His tyrannical attitude is unacceptable.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>横暴<rt>おうぼう</rt></ruby>な<ruby>態度<rt>たいど</rt></ruby>は<ruby>許さ<rt>ゆるさ</rt></ruby>れません。"
+  },
+  "器材": {
+    "jp": "新しい器材が届きました。",
+    "en": "The new equipment has arrived.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>器材<rt>きざい</rt></ruby>が<ruby>届き<rt>とどき</rt></ruby>ました。"
+  },
+  "村長": {
+    "jp": "村長は村の行事を計画しています。",
+    "en": "The village chief is planning the village events.",
+    "ruby": "<ruby>村長<rt>そんちょう</rt></ruby>は<ruby>村<rt>むら</rt></ruby>の<ruby>行事<rt>ぎょうじ</rt></ruby>を<ruby>計画<rt>けいかく</rt></ruby>しています。"
+  },
+  "支柱": {
+    "jp": "この支柱は建物を支えています。",
+    "en": "This pillar supports the building.",
+    "ruby": "この<ruby>支柱<rt>しちゅう</rt></ruby>は<ruby>建物<rt>たてもの</rt></ruby>を<ruby>支え<rt>ささえ</rt></ruby>ています。"
+  },
+  "査定": {
+    "jp": "この家の査定はとても高いです。",
+    "en": "The appraisal of this house is very high.",
+    "ruby": "この<ruby>家<rt>いえ</rt></ruby>の<ruby>査定<rt>さてい</rt></ruby>はとても<ruby>高い<rt>たかい</rt></ruby>です。"
+  },
+  "探査": {
+    "jp": "宇宙の探査は新しい発見をもたらします。",
+    "en": "Space exploration brings new discoveries.",
+    "ruby": "<ruby>宇宙<rt>うちゅう</rt></ruby>の<ruby>探査<rt>たんさ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>発見<rt>はっけん</rt></ruby>をもたらします。"
+  },
+  "根元": {
+    "jp": "木の根元には小さな花が咲いています。",
+    "en": "At the base of the tree, small flowers are blooming.",
+    "ruby": "<ruby>木<rt>き</rt></ruby>の<ruby>根元<rt>ねもと</rt></ruby>には<ruby>小さな<rt>ちいさな</rt></ruby><ruby>花<rt>はな</rt></ruby>が<ruby>咲い<rt>さい</rt></ruby>ています。"
+  },
+  "用心棒": {
+    "jp": "彼は私の用心棒として働いています。",
+    "en": "He works as my bodyguard.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>の<ruby>用心棒<rt>ようじんぼう</rt></ruby>として<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "電極": {
+    "jp": "電極を使って電気を測定します。",
+    "en": "I will measure electricity using electrodes.",
+    "ruby": "<ruby>電極<rt>でんきょく</rt></ruby>を<ruby>使っ<rt>つかっ</rt></ruby>て<ruby>電気<rt>でんき</rt></ruby>を<ruby>測定<rt>そくてい</rt></ruby>します。"
+  },
+  "氷河": {
+    "jp": "氷河は地球の気候変動に影響します。",
+    "en": "Glaciers influence the Earth's climate change.",
+    "ruby": "<ruby>氷河<rt>ひょうが</rt></ruby>は<ruby>地球<rt>ちきゅう</rt></ruby>の<ruby>気候<rt>きこう</rt></ruby><ruby>変動<rt>へんどう</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>します。"
+  },
+  "汚水": {
+    "jp": "汚水は環境に悪影響を与えます。",
+    "en": "Wastewater has a negative impact on the environment.",
+    "ruby": "<ruby>汚水<rt>おすい</rt></ruby>は<ruby>環境<rt>かんきょう</rt></ruby>に<ruby>悪影響<rt>あくえいきょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ます。"
+  },
+  "汚名": {
+    "jp": "彼は汚名を晴らすために努力しています。",
+    "en": "He is making an effort to clear his name.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>汚名<rt>おめい</rt></ruby>を<ruby>晴らす<rt>はらす</rt></ruby>ために<ruby>努力<rt>どりょく</rt></ruby>しています。"
+  },
+  "沈着": {
+    "jp": "彼は沈着な性格で、冷静に対処します。",
+    "en": "He has a calm personality and handles things calmly.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>沈着<rt>ちんちゃく</rt></ruby>な<ruby>性格<rt>せいかく</rt></ruby>で、<ruby>冷静<rt>れいせい</rt></ruby>に<ruby>対処<rt>たいしょ</rt></ruby>します。"
+  },
+  "油井": {
+    "jp": "油井の管理はとても大切です。",
+    "en": "Managing oil wells is very important.",
+    "ruby": "<ruby>油井<rt>ゆせい</rt></ruby>の<ruby>管理<rt>かんり</rt></ruby>はとても<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "現況": {
+    "jp": "現況について詳しく説明します。",
+    "en": "I will explain the current situation in detail.",
+    "ruby": "<ruby>現況<rt>げんきょう</rt></ruby>について<ruby>詳しく<rt>くわしく</rt></ruby><ruby>説明<rt>せつめい</rt></ruby>します。"
+  },
+  "催涙": {
+    "jp": "催涙ガスは危険な物質です。",
+    "en": "Tear gas is a dangerous substance.",
+    "ruby": "<ruby>催涙<rt>さいるい</rt></ruby>ガスは<ruby>危険<rt>きけん</rt></ruby>な<ruby>物質<rt>ぶっしつ</rt></ruby>です。"
+  },
+  "液化": {
+    "jp": "このガスは液化すると便利です。",
+    "en": "This gas is convenient when it is liquefied.",
+    "ruby": "このガスは<ruby>液化<rt>えきか</rt></ruby>すると<ruby>便利<rt>べんり</rt></ruby>です。"
+  },
+  "混成": {
+    "jp": "このプロジェクトは混成チームで進めます。",
+    "en": "This project will be carried out by a mixed team.",
+    "ruby": "このプロジェクトは<ruby>混成<rt>こんせい</rt></ruby>チームで<ruby>進め<rt>すすめ</rt></ruby>ます。"
+  },
+  "温存": {
+    "jp": "エネルギーを温存するために休みます。",
+    "en": "I will take a break to conserve energy.",
+    "ruby": "エネルギーを<ruby>温存<rt>おんぞん</rt></ruby>するために<ruby>休み<rt>やすみ</rt></ruby>ます。"
+  },
+  "計測": {
+    "jp": "この機械は距離を計測します。",
+    "en": "This machine measures distance.",
+    "ruby": "この<ruby>機械<rt>きかい</rt></ruby>は<ruby>距離<rt>きょり</rt></ruby>を<ruby>計測<rt>けいそく</rt></ruby>します。"
+  },
+  "港湾": {
+    "jp": "この港湾は多くの船が入ります。",
+    "en": "This port has many ships coming in.",
+    "ruby": "この<ruby>港湾<rt>こうわん</rt></ruby>は<ruby>多く<rt>おおく</rt></ruby>の<ruby>船<rt>ふね</rt></ruby>が<ruby>入り<rt>はいり</rt></ruby>ます。"
+  },
+  "照準": {
+    "jp": "新しいプロジェクトの照準を決めました。",
+    "en": "I have set the focus for the new project.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>プロジェクトの<ruby>照準<rt>しょうじゅん</rt></ruby>を<ruby>決め<rt>きめ</rt></ruby>ました。"
+  },
+  "爆音": {
+    "jp": "コンサートで爆音が響きました。",
+    "en": "The loud sound echoed at the concert.",
+    "ruby": "コンサートで<ruby>爆音<rt>ばくおん</rt></ruby>が<ruby>響き<rt>ひびき</rt></ruby>ました。"
+  },
+  "初版": {
+    "jp": "この本の初版は去年発売されました。",
+    "en": "The first edition of this book was released last year.",
+    "ruby": "この<ruby>本<rt>ほん</rt></ruby>の<ruby>初版<rt>しょはん</rt></ruby>は<ruby>去年<rt>きょねん</rt></ruby><ruby>発売<rt>はつばい</rt></ruby>されました。"
+  },
+  "略式": {
+    "jp": "この会議は略式で行われます。",
+    "en": "This meeting will be conducted in an informal manner.",
+    "ruby": "この<ruby>会議<rt>かいぎ</rt></ruby>は<ruby>略式<rt>りゃくしき</rt></ruby>で<ruby>行わ<rt>おこなわ</rt></ruby>れます。"
+  },
+  "簡略": {
+    "jp": "この説明は簡略で分かりやすいです。",
+    "en": "This explanation is simple and easy to understand.",
+    "ruby": "この<ruby>説明<rt>せつめい</rt></ruby>は<ruby>簡略<rt>かんりゃく</rt></ruby>で<ruby>分かり<rt>わかり</rt></ruby>やすいです。"
+  },
+  "攻略": {
+    "jp": "ゲームの攻略はとても楽しいです。",
+    "en": "攻略 of the game is very enjoyable.",
+    "ruby": "ゲームの<ruby>攻略<rt>こうりゃく</rt></ruby>はとても<ruby>楽しい<rt>たのしい</rt></ruby>です。"
+  },
+  "短調": {
+    "jp": "この曲は短調でとても悲しいです。",
+    "en": "This song is in a minor key and very sad.",
+    "ruby": "この<ruby>曲<rt>きょく</rt></ruby>は<ruby>短調<rt>たんちょう</rt></ruby>でとても<ruby>悲しい<rt>かなしい</rt></ruby>です。"
+  },
+  "硬直": {
+    "jp": "彼は緊張して硬直していました。",
+    "en": "He was tense and stiff.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>緊張<rt>きんちょう</rt></ruby>して<ruby>硬直<rt>こうちょく</rt></ruby>していました。"
+  },
+  "移籍": {
+    "jp": "彼は新しいチームに移籍しました。",
+    "en": "He transferred to a new team.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby>チームに<ruby>移籍<rt>いせき</rt></ruby>しました。"
+  },
+  "楽章": {
+    "jp": "この楽章はとても美しいです。",
+    "en": "This movement is very beautiful.",
+    "ruby": "この<ruby>楽章<rt>がくしょう</rt></ruby>はとても<ruby>美しい<rt>うつくしい</rt></ruby>です。"
+  },
+  "競売": {
+    "jp": "彼は競売で絵を買いました。",
+    "en": "He bought a painting at the auction.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>競売<rt>きょうばい</rt></ruby>で<ruby>絵<rt>え</rt></ruby>を<ruby>買い<rt>かい</rt></ruby>ました。"
+  },
+  "競り合い": {
+    "jp": "彼らは試合で競り合いをしました。",
+    "en": "They competed closely in the match.",
+    "ruby": "<ruby>彼ら<rt>かれら</rt></ruby>は<ruby>試合<rt>しあい</rt></ruby>で<ruby>競り合い<rt>せりあい</rt></ruby>をしました。"
+  },
+  "特筆": {
+    "jp": "この本には特筆すべき点があります。",
+    "en": "This book has points worth mentioning.",
+    "ruby": "この<ruby>本<rt>ほん</rt></ruby>には<ruby>特筆<rt>とくひつ</rt></ruby>すべき<ruby>点<rt>てん</rt></ruby>があります。"
+  },
+  "自筆": {
+    "jp": "彼は自筆の手紙を送ってくれました。",
+    "en": "He sent me a handwritten letter.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>自筆<rt>じひつ</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>を<ruby>送っ<rt>おくっ</rt></ruby>てくれました。"
+  },
+  "気筒": {
+    "jp": "エンジンの気筒が壊れました。",
+    "en": "The engine's cylinder is broken.",
+    "ruby": "エンジンの<ruby>気筒<rt>きとう</rt></ruby>が<ruby>壊れ<rt>こわれ</rt></ruby>ました。"
+  },
+  "管制": {
+    "jp": "空港の管制はとても重要です。",
+    "en": "Airport control is very important.",
+    "ruby": "<ruby>空港<rt>くうこう</rt></ruby>の<ruby>管制<rt>かんせい</rt></ruby>はとても<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "純度": {
+    "jp": "この金属の純度はとても高いです。",
+    "en": "The purity of this metal is very high.",
+    "ruby": "この<ruby>金属<rt>きんぞく</rt></ruby>の<ruby>純度<rt>じゅんど</rt></ruby>はとても<ruby>高い<rt>たかい</rt></ruby>です。"
+  },
+  "総監": {
+    "jp": "彼は新しい総監として就任しました。",
+    "en": "He has taken office as the new superintendent.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>総監<rt>そうかん</rt></ruby>として<ruby>就任<rt>しゅうにん</rt></ruby>しました。"
+  },
+  "総力": {
+    "jp": "私たちは総力を結集して問題を解決します。",
+    "en": "We will combine our efforts to solve the problem.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>総力<rt>そうりょく</rt></ruby>を<ruby>結集<rt>けっしゅう</rt></ruby>して<ruby>問題<rt>もんだい</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>します。"
+  },
+  "総帥": {
+    "jp": "彼はその団体の総帥です。",
+    "en": "He is the leader of that organization.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はその<ruby>団体<rt>だんたい</rt></ruby>の<ruby>総帥<rt>そうすい</rt></ruby>です。"
+  },
+  "総督": {
+    "jp": "彼は新しい総督として任命されました。",
+    "en": "He was appointed as the new governor.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>総督<rt>そうとく</rt></ruby>として<ruby>任命<rt>にんめい</rt></ruby>されました。"
+  },
+  "総統": {
+    "jp": "彼は国の総統として選ばれました。",
+    "en": "He was elected as the country's leader.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>国<rt>くに</rt></ruby>の<ruby>総統<rt>そうとう</rt></ruby>として<ruby>選ば<rt>えらば</rt></ruby>れました。"
+  },
+  "一直線": {
+    "jp": "彼は一直線にゴールに向かいました。",
+    "en": "He headed straight for the goal.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>一直線<rt>いっちょくせん</rt></ruby>にゴールに<ruby>向かい<rt>むかい</rt></ruby>ました。"
+  },
+  "有線": {
+    "jp": "この地域では有線のインターネットが普及しています。",
+    "en": "Wired internet is widespread in this area.",
+    "ruby": "この<ruby>地域<rt>ちいき</rt></ruby>では<ruby>有線<rt>ゆうせん</rt></ruby>のインターネットが<ruby>普及<rt>ふきゅう</rt></ruby>しています。"
+  },
+  "戦績": {
+    "jp": "彼の戦績は素晴らしいです。",
+    "en": "His record is wonderful.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>戦績<rt>せんせき</rt></ruby>は<ruby>素晴らしい<rt>すばらしい</rt></ruby>です。"
+  },
+  "巡航": {
+    "jp": "船は巡航速度で進んでいます。",
+    "en": "The ship is moving at cruising speed.",
+    "ruby": "<ruby>船<rt>ふね</rt></ruby>は<ruby>巡航<rt>じゅんこう</rt></ruby><ruby>速度<rt>そくど</rt></ruby>で<ruby>進ん<rt>すすん</rt></ruby>でいます。"
+  },
+  "航法": {
+    "jp": "航法は船の安全に重要です。",
+    "en": "Navigation is important for the safety of ships.",
+    "ruby": "<ruby>航法<rt>こうほう</rt></ruby>は<ruby>船<rt>ふね</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>に<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "密航": {
+    "jp": "彼は密航を試みたことがあります。",
+    "en": "He has tried to stow away.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>密航<rt>みっこう</rt></ruby>を<ruby>試み<rt>こころみ</rt></ruby>たことがあります。"
+  },
+  "芸名": {
+    "jp": "彼は新しい芸名を決めました。",
+    "en": "He decided on a new stage name.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>芸名<rt>げいめい</rt></ruby>を<ruby>決め<rt>きめ</rt></ruby>ました。"
+  },
+  "芸者": {
+    "jp": "芸者は日本の伝統的な職業です。",
+    "en": "Geisha is a traditional profession in Japan.",
+    "ruby": "<ruby>芸者<rt>げいしゃ</rt></ruby>は<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>伝統<rt>でんとう</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>職業<rt>しょくぎょう</rt></ruby>です。"
+  },
+  "芸人": {
+    "jp": "彼は有名な芸人です。",
+    "en": "He is a famous comedian.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>芸人<rt>げいにん</rt></ruby>です。"
+  },
+  "内蔵": {
+    "jp": "このコンピュータには内蔵のカメラがあります。",
+    "en": "This computer has a built-in camera.",
+    "ruby": "このコンピュータには<ruby>内蔵<rt>ないぞう</rt></ruby>のカメラがあります。"
+  },
+  "手薄": {
+    "jp": "このプロジェクトは手薄な人員です。",
+    "en": "This project has a shortage of personnel.",
+    "ruby": "このプロジェクトは<ruby>手薄<rt>てうす</rt></ruby>な<ruby>人員<rt>じんいん</rt></ruby>です。"
+  },
+  "装着": {
+    "jp": "新しいヘルメットを装着しました。",
+    "en": "I put on a new helmet.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>ヘルメットを<ruby>装着<rt>そうちゃく</rt></ruby>しました。"
+  },
+  "裏金": {
+    "jp": "彼は裏金を使わないと約束しました。",
+    "en": "He promised not to use any under-the-table money.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>裏金<rt>うらがね</rt></ruby>を<ruby>使わ<rt>つかわ</rt></ruby>ないと<ruby>約束<rt>やくそく</rt></ruby>しました。"
+  },
+  "裏面": {
+    "jp": "このカードの裏面には情報が書いてあります。",
+    "en": "There is information written on the back of this card.",
+    "ruby": "このカードの<ruby>裏面<rt>りめん</rt></ruby>には<ruby>情報<rt>じょうほう</rt></ruby>が<ruby>書い<rt>かい</rt></ruby>てあります。"
+  },
+  "裏目": {
+    "jp": "計画が裏目に出てしまいました。",
+    "en": "The plan backfired.",
+    "ruby": "<ruby>計画<rt>けいかく</rt></ruby>が<ruby>裏目<rt>うらめ</rt></ruby>に<ruby>出<rt>で</rt></ruby>てしまいました。"
+  },
+  "補修": {
+    "jp": "この教室は補修が必要です。",
+    "en": "This classroom needs repairs.",
+    "ruby": "この<ruby>教室<rt>きょうしつ</rt></ruby>は<ruby>補修<rt>ほしゅう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "私設": {
+    "jp": "私設の図書館が近くにあります。",
+    "en": "There is a private library nearby.",
+    "ruby": "<ruby>私設<rt>しせつ</rt></ruby>の<ruby>図書館<rt>としょかん</rt></ruby>が<ruby>近く<rt>ちかく</rt></ruby>にあります。"
+  },
+  "仮設": {
+    "jp": "仮設の橋が完成しました。",
+    "en": "The temporary bridge has been completed.",
+    "ruby": "<ruby>仮設<rt>かせつ</rt></ruby>の<ruby>橋<rt>はし</rt></ruby>が<ruby>完成<rt>かんせい</rt></ruby>しました。"
+  },
+  "行き詰まり": {
+    "jp": "彼は行き詰まりを感じています。",
+    "en": "He feels that he has reached a deadlock.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>行き詰まり<rt>いきづまり</rt></ruby>を<ruby>感じ<rt>かんじ</rt></ruby>ています。"
+  },
+  "渓谷": {
+    "jp": "この渓谷は美しい景色です。",
+    "en": "This canyon has a beautiful view.",
+    "ruby": "この<ruby>渓谷<rt>けいこく</rt></ruby>は<ruby>美しい<rt>うつくしい</rt></ruby><ruby>景色<rt>けしき</rt></ruby>です。"
+  },
+  "象牙": {
+    "jp": "象牙は高価な材料です。",
+    "en": "Ivory is an expensive material.",
+    "ruby": "<ruby>象牙<rt>ぞうげ</rt></ruby>は<ruby>高価<rt>こうか</rt></ruby>な<ruby>材料<rt>ざいりょう</rt></ruby>です。"
+  },
+  "通販": {
+    "jp": "通販で本を買うことが好きです。",
+    "en": "I like buying books through online shopping.",
+    "ruby": "<ruby>通販<rt>つうはん</rt></ruby>で<ruby>本<rt>ほん</rt></ruby>を<ruby>買う<rt>かう</rt></ruby>ことが<ruby>好き<rt>すき</rt></ruby>です。"
+  },
+  "賞状": {
+    "jp": "彼は大会で賞状をもらいました。",
+    "en": "He received a certificate at the competition.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大会<rt>たいかい</rt></ruby>で<ruby>賞状<rt>しょうじょう</rt></ruby>をもらいました。"
+  },
+  "踊り子": {
+    "jp": "踊り子は美しい衣装を着ています。",
+    "en": "The dancer is wearing a beautiful costume.",
+    "ruby": "<ruby>踊り子<rt>おどりこ</rt></ruby>は<ruby>美しい<rt>うつくしい</rt></ruby><ruby>衣装<rt>いしょう</rt></ruby>を<ruby>着<rt>き</rt></ruby>ています。"
+  },
+  "軍用": {
+    "jp": "この車は軍用のために設計されています。",
+    "en": "This vehicle is designed for military use.",
+    "ruby": "この<ruby>車<rt>くるま</rt></ruby>は<ruby>軍用<rt>ぐんよう</rt></ruby>のために<ruby>設計<rt>せっけい</rt></ruby>されています。"
+  },
+  "軍医": {
+    "jp": "彼は戦争中に軍医として働きました。",
+    "en": "He worked as a military doctor during the war.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>戦争<rt>せんそう</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>に<ruby>軍医<rt>ぐんい</rt></ruby>として<ruby>働き<rt>はたらき</rt></ruby>ました。"
+  },
+  "輸出入": {
+    "jp": "日本の輸出入は年々増えています。",
+    "en": "Japan's imports and exports are increasing year by year.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>輸出入<rt>ゆしゅつにゅう</rt></ruby>は<ruby>年々<rt>ねんねん</rt></ruby><ruby>増え<rt>ふえ</rt></ruby>ています。"
+  },
+  "身辺": {
+    "jp": "身辺の安全を確認することが大切です。",
+    "en": "It is important to check your personal safety.",
+    "ruby": "<ruby>身辺<rt>しんぺん</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>することが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "逆手": {
+    "jp": "彼は逆手でボールを投げました。",
+    "en": "He threw the ball with a reverse grip.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>逆手<rt>さかて</rt></ruby>でボールを<ruby>投げ<rt>なげ</rt></ruby>ました。"
+  },
+  "量産": {
+    "jp": "この工場では新しい製品を量産します。",
+    "en": "This factory will mass-produce new products.",
+    "ruby": "この<ruby>工場<rt>こうじょう</rt></ruby>では<ruby>新しい<rt>あたらしい</rt></ruby><ruby>製品<rt>せいひん</rt></ruby>を<ruby>量産<rt>りょうさん</rt></ruby>します。"
+  },
+  "微量": {
+    "jp": "この薬は微量で効果があります。",
+    "en": "This medicine is effective in small amounts.",
+    "ruby": "この<ruby>薬<rt>くすり</rt></ruby>は<ruby>微量<rt>びりょう</rt></ruby>で<ruby>効果<rt>こうか</rt></ruby>があります。"
+  },
+  "裁量": {
+    "jp": "彼は裁量を持って仕事をしています。",
+    "en": "He works with discretion.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>裁量<rt>さいりょう</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>て<ruby>仕事<rt>しごと</rt></ruby>をしています。"
+  },
+  "収録": {
+    "jp": "この映画は新しい音楽を収録しました。",
+    "en": "This movie has recorded new music.",
+    "ruby": "この<ruby>映画<rt>えいが</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>音楽<rt>おんがく</rt></ruby>を<ruby>収録<rt>しゅうろく</rt></ruby>しました。"
+  },
+  "防空": {
+    "jp": "防空の訓練が必要です。",
+    "en": "Training for air defense is necessary.",
+    "ruby": "<ruby>防空<rt>ぼうくう</rt></ruby>の<ruby>訓練<rt>くんれん</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "順当": {
+    "jp": "彼の意見は順当だと思います。",
+    "en": "I think his opinion is reasonable.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>意見<rt>いけん</rt></ruby>は<ruby>順当<rt>じゅんとう</rt></ruby>だと<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "受領": {
+    "jp": "この書類の受領を確認しました。",
+    "en": "I have confirmed the receipt of this document.",
+    "ruby": "この<ruby>書類<rt>しょるい</rt></ruby>の<ruby>受領<rt>じゅりょう</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>しました。"
+  },
+  "常駐": {
+    "jp": "この会社には常駐のスタッフがいます。",
+    "en": "This company has staff who are stationed here.",
+    "ruby": "この<ruby>会社<rt>かいしゃ</rt></ruby>には<ruby>常駐<rt>じょうちゅう</rt></ruby>のスタッフがいます。"
+  },
+  "人骨": {
+    "jp": "博物館で人骨の展示を見ました。",
+    "en": "I saw an exhibit of human bones at the museum.",
+    "ruby": "<ruby>博物館<rt>はくぶつかん</rt></ruby>で<ruby>人骨<rt>じんこつ</rt></ruby>の<ruby>展示<rt>てんじ</rt></ruby>を<ruby>見<rt>み</rt></ruby>ました。"
+  },
+  "丹念": {
+    "jp": "彼は丹念に研究を続けています。",
+    "en": "He is continuing his research meticulously.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>丹念<rt>たんねん</rt></ruby>に<ruby>研究<rt>けんきゅう</rt></ruby>を<ruby>続け<rt>つづけ</rt></ruby>ています。"
+  },
+  "早乙女": {
+    "jp": "早乙女は日本の伝説に登場する存在です。",
+    "en": "The Saotome appears in Japanese legends.",
+    "ruby": "<ruby>早乙女<rt>さおとめ</rt></ruby>は<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>伝説<rt>でんせつ</rt></ruby>に<ruby>登場<rt>とうじょう</rt></ruby>する<ruby>存在<rt>そんざい</rt></ruby>です。"
+  },
+  "少佐": {
+    "jp": "彼は少佐として部隊を指揮しています。",
+    "en": "He is commanding the unit as a major.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>少佐<rt>しょうさ</rt></ruby>として<ruby>部隊<rt>ぶたい</rt></ruby>を<ruby>指揮<rt>しき</rt></ruby>しています。"
+  },
+  "併合": {
+    "jp": "日本は明治時代に台湾を併合しました。",
+    "en": "Japan annexed Taiwan during the Meiji era.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>は<ruby>明治<rt>めいじ</rt></ruby><ruby>時代<rt>じだい</rt></ruby>に<ruby>台湾<rt>たいわん</rt></ruby>を<ruby>併合<rt>へいごう</rt></ruby>しました。"
+  },
+  "保養": {
+    "jp": "健康のために、定期的に保養に行きます。",
+    "en": "For my health, I regularly go for a retreat.",
+    "ruby": "<ruby>健康<rt>けんこう</rt></ruby>のために、<ruby>定期<rt>ていき</rt></ruby><ruby>的<rt>てき</rt></ruby>に<ruby>保養<rt>ほよう</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。"
+  },
+  "外傷": {
+    "jp": "外傷がある場合は、すぐに医者に行きましょう。",
+    "en": "If there is an injury, let's go to the doctor immediately.",
+    "ruby": "<ruby>外傷<rt>がいしょう</rt></ruby>がある<ruby>場合<rt>ばあい</rt></ruby>は、すぐに<ruby>医者<rt>いしゃ</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ましょう。"
+  },
+  "殺傷": {
+    "jp": "この薬は殺傷効果がありませんでした。",
+    "en": "This medicine does not have any lethal effects.",
+    "ruby": "この<ruby>薬<rt>くすり</rt></ruby>は<ruby>殺傷<rt>さっしょう</rt></ruby><ruby>効果<rt>こうか</rt></ruby>がありませんでした。"
+  },
+  "実刑": {
+    "jp": "彼は実刑を受けることになりました。",
+    "en": "He has been sentenced to actual imprisonment.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>実刑<rt>じっけい</rt></ruby>を<ruby>受ける<rt>うける</rt></ruby>ことになりました。"
+  },
+  "喚起": {
+    "jp": "彼の話は私たちの関心を喚起しました。",
+    "en": "His story sparked our interest.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>たちの<ruby>関心<rt>かんしん</rt></ruby>を<ruby>喚起<rt>かんき</rt></ruby>しました。"
+  },
+  "計器": {
+    "jp": "飛行機の計器は非常に重要です。",
+    "en": "The instruments of the airplane are very important.",
+    "ruby": "<ruby>飛行機<rt>ひこうき</rt></ruby>の<ruby>計器<rt>けいき</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "石器": {
+    "jp": "石器は古代の人々の重要な道具でした。",
+    "en": "Stone tools were important implements for ancient people.",
+    "ruby": "<ruby>石器<rt>せっき</rt></ruby>は<ruby>古代<rt>こだい</rt></ruby>の<ruby>人々<rt>ひとびと</rt></ruby>の<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>道具<rt>どうぐ</rt></ruby>でした。"
+  },
+  "器物": {
+    "jp": "この博物館には貴重な器物が展示されています。",
+    "en": "This museum has valuable artifacts on display.",
+    "ruby": "この<ruby>博物館<rt>はくぶつかん</rt></ruby>には<ruby>貴重<rt>きちょう</rt></ruby>な<ruby>器物<rt>きぶつ</rt></ruby>が<ruby>展示<rt>てんじ</rt></ruby>されています。"
+  },
+  "基幹": {
+    "jp": "このプロジェクトの基幹は、データ分析です。",
+    "en": "The core of this project is data analysis.",
+    "ruby": "このプロジェクトの<ruby>基幹<rt>きかん</rt></ruby>は、データ<ruby>分析<rt>ぶんせき</rt></ruby>です。"
+  },
+  "堅持": {
+    "jp": "私たちは信念を堅持するべきです。",
+    "en": "We should uphold our beliefs.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>信念<rt>しんねん</rt></ruby>を<ruby>堅持<rt>けんじ</rt></ruby>するべきです。"
+  },
+  "墓石": {
+    "jp": "墓石は故人を偲ぶ大切なものです。",
+    "en": "Tombstones are important items to remember the deceased.",
+    "ruby": "<ruby>墓石<rt>はかいし</rt></ruby>は<ruby>故人<rt>こじん</rt></ruby>を<ruby>偲ぶ<rt>しのぶ</rt></ruby><ruby>大切<rt>たいせつ</rt></ruby>なものです。"
+  },
+  "外壁": {
+    "jp": "この建物の外壁は新しく塗り直されました。",
+    "en": "The exterior wall of this building has been repainted.",
+    "ruby": "この<ruby>建物<rt>たてもの</rt></ruby>の<ruby>外壁<rt>がいへき</rt></ruby>は<ruby>新しく<rt>あたらしく</rt></ruby><ruby>塗り<rt>ぬり</rt></ruby><ruby>直さ<rt>なおさ</rt></ruby>れました。"
+  },
+  "壇上": {
+    "jp": "壇上でスピーチをするのは緊張します。",
+    "en": "Giving a speech on the stage is nerve-wracking.",
+    "ruby": "<ruby>壇上<rt>だんじょう</rt></ruby>でスピーチをするのは<ruby>緊張<rt>きんちょう</rt></ruby>します。"
+  },
+  "奉行": {
+    "jp": "江戸時代の奉行は重要な役割を果たしました。",
+    "en": "The magistrates during the Edo period played an important role.",
+    "ruby": "<ruby>江戸<rt>えど</rt></ruby><ruby>時代<rt>じだい</rt></ruby>の<ruby>奉行<rt>ぶぎょう</rt></ruby>は<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>役割<rt>やくわり</rt></ruby>を<ruby>果たし<rt>はたし</rt></ruby>ました。"
+  },
+  "奉公": {
+    "jp": "彼は奉公を通じて多くのことを学びました。",
+    "en": "He learned many things through his service.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>奉公<rt>ほうこう</rt></ruby><ruby>を通じて<rt>をつうじて</rt></ruby><ruby>多く<rt>おおく</rt></ruby>のことを<ruby>学び<rt>まなび</rt></ruby>ました。"
+  },
+  "推奨": {
+    "jp": "この本は専門家が推奨しています。",
+    "en": "This book is recommended by experts.",
+    "ruby": "この<ruby>本<rt>ほん</rt></ruby>は<ruby>専門<rt>せんもん</rt></ruby><ruby>家<rt>か</rt></ruby>が<ruby>推奨<rt>すいしょう</rt></ruby>しています。"
+  },
+  "奪回": {
+    "jp": "彼は失った信頼を奪回したいです。",
+    "en": "He wants to regain the trust he lost.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>失っ<rt>うしなっ</rt></ruby>た<ruby>信頼<rt>しんらい</rt></ruby>を<ruby>奪回<rt>だっかい</rt></ruby>したいです。"
+  },
+  "奪取": {
+    "jp": "彼は優勝を奪取するために努力しました。",
+    "en": "He worked hard to seize the championship.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>優勝<rt>ゆうしょう</rt></ruby>を<ruby>奪取<rt>だっしゅ</rt></ruby>するために<ruby>努力<rt>どりょく</rt></ruby>しました。"
+  },
+  "奮起": {
+    "jp": "彼は奮起して新しい挑戦に取り組みます。",
+    "en": "He will rise to the occasion and tackle new challenges.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>奮起<rt>ふんき</rt></ruby>して<ruby>新しい<rt>あたらしい</rt></ruby><ruby>挑戦<rt>ちょうせん</rt></ruby>に<ruby>取り組み<rt>とりくみ</rt></ruby>ます。"
+  },
+  "神妙": {
+    "jp": "彼の神妙な態度に、みんな驚きました。",
+    "en": "Everyone was surprised by his solemn demeanor.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>神妙<rt>しんみょう</rt></ruby>な<ruby>態度<rt>たいど</rt></ruby>に、みんな<ruby>驚き<rt>おどろき</rt></ruby>ました。"
+  },
+  "主宰": {
+    "jp": "彼は国際会議の主宰を務めています。",
+    "en": "He is serving as the host of the international conference.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>国際<rt>こくさい</rt></ruby><ruby>会議<rt>かいぎ</rt></ruby>の<ruby>主宰<rt>しゅさい</rt></ruby>を<ruby>務め<rt>つとめ</rt></ruby>ています。"
+  },
+  "射程": {
+    "jp": "この弓の射程は非常に長いです。",
+    "en": "The range of this bow is very long.",
+    "ruby": "この<ruby>弓<rt>ゆみ</rt></ruby>の<ruby>射程<rt>しゃてい</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>長い<rt>ながい</rt></ruby>です。"
+  },
+  "中尉": {
+    "jp": "彼は中尉として新しい任務に就きました。",
+    "en": "He has taken on a new mission as a lieutenant.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>中尉<rt>ちゅうい</rt></ruby>として<ruby>新しい<rt>あたらしい</rt></ruby><ruby>任務<rt>にんむ</rt></ruby>に<ruby>就き<rt>つき</rt></ruby>ました。"
+  },
+  "大尉": {
+    "jp": "彼は新しい部隊の大尉です。",
+    "en": "He is a captain of the new unit.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>部隊<rt>ぶたい</rt></ruby>の<ruby>大尉<rt>たいい</rt></ruby>です。"
+  },
+  "直属": {
+    "jp": "彼は直属の上司から指示を受けました。",
+    "en": "He received instructions from his direct supervisor.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>直属<rt>ちょくぞく</rt></ruby>の<ruby>上司<rt>じょうし</rt></ruby>から<ruby>指示<rt>しじ</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>ました。"
+  },
+  "帰属": {
+    "jp": "彼は自分の文化に帰属を感じています。",
+    "en": "He feels a sense of belonging to his culture.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>自分<rt>じぶん</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>に<ruby>帰属<rt>きぞく</rt></ruby>を<ruby>感じ<rt>かんじ</rt></ruby>ています。"
+  },
+  "履行": {
+    "jp": "契約の履行は重要な責任です。",
+    "en": "The fulfillment of the contract is an important responsibility.",
+    "ruby": "<ruby>契約<rt>けいやく</rt></ruby>の<ruby>履行<rt>りこう</rt></ruby>は<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>責任<rt>せきにん</rt></ruby>です。"
+  },
+  "巡視": {
+    "jp": "警察は毎晩、街の巡視を行っています。",
+    "en": "The police conduct patrols in the city every night.",
+    "ruby": "<ruby>警察<rt>けいさつ</rt></ruby>は<ruby>毎晩<rt>まいばん</rt></ruby>、<ruby>街<rt>まち</rt></ruby>の<ruby>巡視<rt>じゅんし</rt></ruby>を<ruby>行っ<rt>おこなっ</rt></ruby>ています。"
+  },
+  "巡業": {
+    "jp": "彼は全国を巡業して新しいファンを増やしました。",
+    "en": "He traveled around the country on tour and gained new fans.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>全国<rt>ぜんこく</rt></ruby>を<ruby>巡業<rt>じゅんぎょう</rt></ruby>して<ruby>新しい<rt>あたらしい</rt></ruby>ファンを<ruby>増やし<rt>ふやし</rt></ruby>ました。"
+  },
+  "元帥": {
+    "jp": "彼は歴史上の有名な元帥です。",
+    "en": "He is a famous marshal in history.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>歴史<rt>れきし</rt></ruby><ruby>上<rt>じょう</rt></ruby>の<ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>元帥<rt>げんすい</rt></ruby>です。"
+  },
+  "台帳": {
+    "jp": "会社の台帳を毎月更新しています。",
+    "en": "I update the company's ledger every month.",
+    "ruby": "<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>台帳<rt>だいちょう</rt></ruby>を<ruby>毎月<rt>まいつき</rt></ruby><ruby>更新<rt>こうしん</rt></ruby>しています。"
+  },
+  "帳消し": {
+    "jp": "彼のミスは帳消しにしました。",
+    "en": "I made his mistake null and void.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>のミスは<ruby>帳消し<rt>ちょうけし</rt></ruby>にしました。"
+  },
+  "廃業": {
+    "jp": "彼は経営不振のため廃業しました。",
+    "en": "He closed his business due to poor management.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>経営<rt>けいえい</rt></ruby><ruby>不振<rt>ふしん</rt></ruby>のため<ruby>廃業<rt>はいぎょう</rt></ruby>しました。"
+  },
+  "回廊": {
+    "jp": "古い寺院には美しい回廊があります。",
+    "en": "There is a beautiful corridor in the old temple.",
+    "ruby": "<ruby>古い<rt>ふるい</rt></ruby><ruby>寺院<rt>じいん</rt></ruby>には<ruby>美しい<rt>うつくしい</rt></ruby><ruby>回廊<rt>かいろう</rt></ruby>があります。"
+  },
+  "実弾": {
+    "jp": "実弾を使う訓練は非常に重要です。",
+    "en": "Training with live ammunition is very important.",
+    "ruby": "<ruby>実弾<rt>じつだん</rt></ruby>を<ruby>使う<rt>つかう</rt></ruby><ruby>訓練<rt>くんれん</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "往来": {
+    "jp": "この道は往来が多いです。",
+    "en": "This road has a lot of traffic.",
+    "ruby": "この<ruby>道<rt>みち</rt></ruby>は<ruby>往来<rt>おうらい</rt></ruby>が<ruby>多い<rt>おおい</rt></ruby>です。"
+  },
+  "微小": {
+    "jp": "微小な生物が水中にたくさんいます。",
+    "en": "There are many microscopic organisms in the water.",
+    "ruby": "<ruby>微小<rt>びしょう</rt></ruby>な<ruby>生物<rt>せいぶつ</rt></ruby>が<ruby>水中<rt>すいちゅう</rt></ruby>にたくさんいます。"
+  },
+  "懇親": {
+    "jp": "懇親会で新しい友達ができました。",
+    "en": "I made new friends at the social gathering.",
+    "ruby": "<ruby>懇親<rt>こんしん</rt></ruby><ruby>会<rt>かい</rt></ruby>で<ruby>新しい<rt>あたらしい</rt></ruby><ruby>友達<rt>ともだち</rt></ruby>ができました。"
+  },
+  "工房": {
+    "jp": "彼は自分の工房で家具を作っています。",
+    "en": "He is making furniture in his workshop.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>自分<rt>じぶん</rt></ruby>の<ruby>工房<rt>こうぼう</rt></ruby>で<ruby>家具<rt>かぐ</rt></ruby>を<ruby>作っ<rt>つくっ</rt></ruby>ています。"
+  },
+  "統括": {
+    "jp": "彼はプロジェクトの統括を担当しています。",
+    "en": "He is in charge of the overall management of the project.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はプロジェクトの<ruby>統括<rt>とうかつ</rt></ruby>を<ruby>担当<rt>たんとう</rt></ruby>しています。"
+  },
+  "空振り": {
+    "jp": "彼は空振りをしてしまいました。",
+    "en": "He ended up swinging and missing.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>空振り<rt>からぶり</rt></ruby>をしてしまいました。"
+  },
+  "声援": {
+    "jp": "彼は声援を受けて、試合に勝ちました。",
+    "en": "He won the match with the support of cheers.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>声援<rt>せいえん</rt></ruby>を<ruby>受け<rt>うけ</rt></ruby>て、<ruby>試合<rt>しあい</rt></ruby>に<ruby>勝ち<rt>かち</rt></ruby>ました。"
+  },
+  "進撃": {
+    "jp": "彼の進撃は多くの人々に感動を与えました。",
+    "en": "His advance inspired many people.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>進撃<rt>しんげき</rt></ruby>は<ruby>多く<rt>おおく</rt></ruby>の<ruby>人々<rt>ひとびと</rt></ruby>に<ruby>感動<rt>かんどう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ました。"
+  },
+  "電撃": {
+    "jp": "彼の電撃的な発表に驚きました。",
+    "en": "I was surprised by his shocking announcement.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>電撃<rt>でんげき</rt></ruby><ruby>的<rt>てき</rt></ruby>な<ruby>発表<rt>はっぴょう</rt></ruby>に<ruby>驚き<rt>おどろき</rt></ruby>ました。"
+  },
+  "進攻": {
+    "jp": "彼はチームの進攻を指揮しました。",
+    "en": "He led the team's advance.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はチームの<ruby>進攻<rt>しんこう</rt></ruby>を<ruby>指揮<rt>しき</rt></ruby>しました。"
+  },
+  "整合": {
+    "jp": "データの整合を確認する必要があります。",
+    "en": "It is necessary to check the consistency of the data.",
+    "ruby": "データの<ruby>整合<rt>せいごう</rt></ruby>を<ruby>確認<rt>かくにん</rt></ruby>する<ruby>必要<rt>ひつよう</rt></ruby>があります。"
+  },
+  "旋風": {
+    "jp": "彼の登場は、会場に旋風を巻き起こしました。",
+    "en": "His appearance stirred up a whirlwind in the venue.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>登場<rt>とうじょう</rt></ruby>は、<ruby>会場<rt>かいじょう</rt></ruby>に<ruby>旋風<rt>せんぷう</rt></ruby>を<ruby>巻き起こし<rt>まきおこし</rt></ruby>ました。"
+  },
+  "反旗": {
+    "jp": "彼は反旗を翻して新しい運動を始めました。",
+    "en": "He raised the banner of rebellion and started a new movement.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>反旗<rt>はんき</rt></ruby>を<ruby>翻し<rt>ひるがえし</rt></ruby>て<ruby>新しい<rt>あたらしい</rt></ruby><ruby>運動<rt>うんどう</rt></ruby>を<ruby>始め<rt>はじめ</rt></ruby>ました。"
+  },
+  "旗手": {
+    "jp": "彼は大会の旗手として選ばれました。",
+    "en": "He was chosen as the flag bearer for the tournament.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大会<rt>たいかい</rt></ruby>の<ruby>旗手<rt>きしゅ</rt></ruby>として<ruby>選ば<rt>えらば</rt></ruby>れました。"
+  },
+  "役柄": {
+    "jp": "彼女はこの映画で重要な役柄を演じます。",
+    "en": "She plays an important role in this movie.",
+    "ruby": "<ruby>彼女<rt>かのじょ</rt></ruby>はこの<ruby>映画<rt>えいが</rt></ruby>で<ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>役柄<rt>やくがら</rt></ruby>を<ruby>演じ<rt>えんじ</rt></ruby>ます。"
+  },
+  "立案": {
+    "jp": "新しいプロジェクトの立案が始まりました。",
+    "en": "The planning of the new project has started.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>プロジェクトの<ruby>立案<rt>りつあん</rt></ruby>が<ruby>始まり<rt>はじまり</rt></ruby>ました。"
+  },
+  "発案": {
+    "jp": "彼の発案はとても革新的でした。",
+    "en": "His proposal was very innovative.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>発案<rt>はつあん</rt></ruby>はとても<ruby>革新<rt>かくしん</rt></ruby><ruby>的<rt>てき</rt></ruby>でした。"
+  },
+  "遺棄": {
+    "jp": "遺棄された財産は法律で保護されています。",
+    "en": "Abandoned property is protected by law.",
+    "ruby": "<ruby>遺棄<rt>いき</rt></ruby>された<ruby>財産<rt>ざいさん</rt></ruby>は<ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>保護<rt>ほご</rt></ruby>されています。"
+  },
+  "送検": {
+    "jp": "彼は警察に送検されました。",
+    "en": "He was sent to the police for prosecution.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>警察<rt>けいさつ</rt></ruby>に<ruby>送検<rt>そうけん</rt></ruby>されました。"
+  },
+  "検視": {
+    "jp": "事件のために検視が行われました。",
+    "en": "An autopsy was conducted for the incident.",
+    "ruby": "<ruby>事件<rt>じけん</rt></ruby>のために<ruby>検視<rt>けんし</rt></ruby>が<ruby>行わ<rt>おこなわ</rt></ruby>れました。"
+  },
+  "氏族": {
+    "jp": "彼は古代の氏族について研究しています。",
+    "en": "He is researching ancient clans.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>古代<rt>こだい</rt></ruby>の<ruby>氏族<rt>しぞく</rt></ruby>について<ruby>研究<rt>けんきゅう</rt></ruby>しています。"
+  },
+  "空洞": {
+    "jp": "この山には大きな空洞があります。",
+    "en": "There is a large cavity in this mountain.",
+    "ruby": "この<ruby>山<rt>やま</rt></ruby>には<ruby>大きな<rt>おおきな</rt></ruby><ruby>空洞<rt>くうどう</rt></ruby>があります。"
+  },
+  "渦中": {
+    "jp": "彼は渦中の問題に直面しています。",
+    "en": "He is facing the issue at the center of the storm.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>渦中<rt>かちゅう</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>に<ruby>直面<rt>ちょくめん</rt></ruby>しています。"
+  },
+  "原潜": {
+    "jp": "原潜は海中での活動が重要です。",
+    "en": "The activities of submarines are important underwater.",
+    "ruby": "<ruby>原潜<rt>げんせん</rt></ruby>は<ruby>海中<rt>かいちゅう</rt></ruby>での<ruby>活動<rt>かつどう</rt></ruby>が<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "激化": {
+    "jp": "競争が激化しています。",
+    "en": "The competition is intensifying.",
+    "ruby": "<ruby>競争<rt>きょうそう</rt></ruby>が<ruby>激化<rt>げきか</rt></ruby>しています。"
+  },
+  "人為": {
+    "jp": "人為的なミスが原因で、問題が発生しました。",
+    "en": "A problem occurred due to a human error.",
+    "ruby": "<ruby>人為<rt>じんい</rt></ruby><ruby>的<rt>てき</rt></ruby>なミスが<ruby>原因<rt>げんいん</rt></ruby>で、<ruby>問題<rt>もんだい</rt></ruby>が<ruby>発生<rt>はっせい</rt></ruby>しました。"
+  },
+  "牧野": {
+    "jp": "牧野さんは毎朝ジョギングをしています。",
+    "en": "Mr. Makino jogs every morning.",
+    "ruby": "<ruby>牧野<rt>まきの</rt></ruby>さんは<ruby>毎朝<rt>まいあさ</rt></ruby>ジョギングをしています。"
+  },
+  "獄中": {
+    "jp": "彼は獄中で多くの本を読みました。",
+    "en": "He read many books in prison.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>獄中<rt>ごくちゅう</rt></ruby>で<ruby>多く<rt>おおく</rt></ruby>の<ruby>本<rt>ほん</rt></ruby>を<ruby>読み<rt>よみ</rt></ruby>ました。"
+  },
+  "環状": {
+    "jp": "環状道路は交通渋滞を緩和します。",
+    "en": "The circular road alleviates traffic congestion.",
+    "ruby": "<ruby>環状<rt>かんじょう</rt></ruby><ruby>道路<rt>どうろ</rt></ruby>は<ruby>交通<rt>こうつう</rt></ruby><ruby>渋滞<rt>じゅうたい</rt></ruby>を<ruby>緩和<rt>かんわ</rt></ruby>します。"
+  },
+  "異変": {
+    "jp": "最近、町で異変が起きているようです。",
+    "en": "It seems that strange occurrences are happening in the town recently.",
+    "ruby": "<ruby>最近<rt>さいきん</rt></ruby>、<ruby>町<rt>まち</rt></ruby>で<ruby>異変<rt>いへん</rt></ruby>が<ruby>起き<rt>おき</rt></ruby>ているようです。"
+  },
+  "異物": {
+    "jp": "異物が混入している可能性があります。",
+    "en": "There is a possibility that foreign substances have been mixed in.",
+    "ruby": "<ruby>異物<rt>いぶつ</rt></ruby>が<ruby>混入<rt>こんにゅう</rt></ruby>している<ruby>可能<rt>かのう</rt></ruby><ruby>性<rt>せい</rt></ruby>があります。"
+  },
+  "疎開": {
+    "jp": "戦争の影響で、多くの人が疎開しました。",
+    "en": "Due to the impact of the war, many people evacuated.",
+    "ruby": "<ruby>戦争<rt>せんそう</rt></ruby>の<ruby>影響<rt>えいきょう</rt></ruby>で、<ruby>多く<rt>おおく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>が<ruby>疎開<rt>そかい</rt></ruby>しました。"
+  },
+  "治癒": {
+    "jp": "彼の病気は治癒しました。",
+    "en": "His illness has been cured.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>病気<rt>びょうき</rt></ruby>は<ruby>治癒<rt>ちゆ</rt></ruby>しました。"
+  },
+  "皇族": {
+    "jp": "日本の皇族は、伝統を大切にしています。",
+    "en": "The Japanese imperial family values tradition.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>皇族<rt>こうぞく</rt></ruby>は、<ruby>伝統<rt>でんとう</rt></ruby>を<ruby>大切<rt>たいせつ</rt></ruby>にしています。"
+  },
+  "公益": {
+    "jp": "公益に貢献する活動が重要です。",
+    "en": "Activities that contribute to the public good are important.",
+    "ruby": "<ruby>公益<rt>こうえき</rt></ruby>に<ruby>貢献<rt>こうけん</rt></ruby>する<ruby>活動<rt>かつどう</rt></ruby>が<ruby>重要<rt>じゅうよう</rt></ruby>です。"
+  },
+  "監察": {
+    "jp": "彼はプロジェクトの監察を行いました。",
+    "en": "He conducted an inspection of the project.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はプロジェクトの<ruby>監察<rt>かんさつ</rt></ruby>を<ruby>行い<rt>おこない</rt></ruby>ました。"
+  },
+  "看過": {
+    "jp": "彼の行動を看過することはできませんでした。",
+    "en": "I could not overlook his actions.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>行動<rt>こうどう</rt></ruby>を<ruby>看過<rt>かんか</rt></ruby>することはできませんでした。"
+  },
+  "砲火": {
+    "jp": "彼は砲火の中で冷静さを保ちました。",
+    "en": "He maintained his composure amidst the gunfire.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>砲火<rt>ほうか</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>冷静<rt>れいせい</rt></ruby>さを<ruby>保ち<rt>たもち</rt></ruby>ました。"
+  },
+  "主砲": {
+    "jp": "この艦の主砲は非常に強力です。",
+    "en": "The main gun of this ship is very powerful.",
+    "ruby": "この<ruby>艦<rt>かん</rt></ruby>の<ruby>主砲<rt>しゅほう</rt></ruby>は<ruby>非常<rt>ひじょう</rt></ruby>に<ruby>強力<rt>きょうりょく</rt></ruby>です。"
+  },
+  "秘話": {
+    "jp": "彼は家族にだけ秘話を話しました。",
+    "en": "He only shared the secret story with his family.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>家族<rt>かぞく</rt></ruby>にだけ<ruby>秘話<rt>ひわ</rt></ruby>を<ruby>話し<rt>はなし</rt></ruby>ました。"
+  },
+  "愛称": {
+    "jp": "彼の愛称はみんなに親しまれています。",
+    "en": "His nickname is loved by everyone.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>愛称<rt>あいしょう</rt></ruby>はみんなに<ruby>親しま<rt>したしま</rt></ruby>れています。"
+  },
+  "称号": {
+    "jp": "彼は世界チャンピオンの称号を持っています。",
+    "en": "He holds the title of world champion.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>世界<rt>せかい</rt></ruby>チャンピオンの<ruby>称号<rt>しょうごう</rt></ruby>を<ruby>持っ<rt>もっ</rt></ruby>ています。"
+  },
+  "風穴": {
+    "jp": "山の中に風穴がありました。",
+    "en": "There was a wind hole in the mountain.",
+    "ruby": "<ruby>山<rt>やま</rt></ruby>の<ruby>中<rt>なか</rt></ruby>に<ruby>風穴<rt>かざあな</rt></ruby>がありました。"
+  },
+  "失策": {
+    "jp": "彼の失策がプロジェクトに影響しました。",
+    "en": "His mistake affected the project.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>失策<rt>しっさく</rt></ruby>がプロジェクトに<ruby>影響<rt>えいきょう</rt></ruby>しました。"
+  },
+  "節度": {
+    "jp": "生活には節度が大切です。",
+    "en": "Moderation is important in life.",
+    "ruby": "<ruby>生活<rt>せいかつ</rt></ruby>には<ruby>節度<rt>せつど</rt></ruby>が<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "師範": {
+    "jp": "彼は武道の師範です。",
+    "en": "He is a master of martial arts.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>武道<rt>ぶどう</rt></ruby>の<ruby>師範<rt>しはん</rt></ruby>です。"
+  },
+  "直系": {
+    "jp": "彼は直系の親族が多いです。",
+    "en": "He has many direct relatives.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>直系<rt>ちょっけい</rt></ruby>の<ruby>親族<rt>しんぞく</rt></ruby>が<ruby>多い<rt>おおい</rt></ruby>です。"
+  },
+  "結社": {
+    "jp": "彼は新しい結社に参加することにしました。",
+    "en": "He decided to join a new association.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>結社<rt>けっしゃ</rt></ruby>に<ruby>参加<rt>さんか</rt></ruby>することにしました。"
+  },
+  "完結": {
+    "jp": "この物語は見事に完結しました。",
+    "en": "This story concluded beautifully.",
+    "ruby": "この<ruby>物語<rt>ものがたり</rt></ruby>は<ruby>見事<rt>みごと</rt></ruby>に<ruby>完結<rt>かんけつ</rt></ruby>しました。"
+  },
+  "信義": {
+    "jp": "彼は信義を重んじる人です。",
+    "en": "He is a person who values integrity.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>信義<rt>しんぎ</rt></ruby>を<ruby>重んじる<rt>おもんじる</rt></ruby><ruby>人<rt>ひと</rt></ruby>です。"
+  },
+  "大義": {
+    "jp": "彼の行動には大義があると思います。",
+    "en": "I believe there is a great cause behind his actions.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>行動<rt>こうどう</rt></ruby>には<ruby>大義<rt>たいぎ</rt></ruby>があると<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "聖戦": {
+    "jp": "彼は聖戦についての本を読みました。",
+    "en": "He read a book about the holy war.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>聖戦<rt>せいせん</rt></ruby>についての<ruby>本<rt>ほん</rt></ruby>を<ruby>読み<rt>よみ</rt></ruby>ました。"
+  },
+  "同胞": {
+    "jp": "私たちは同胞として助け合うべきです。",
+    "en": "We should help each other as compatriots.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>同胞<rt>どうほう</rt></ruby>として<ruby>助け合う<rt>たすけあう</rt></ruby>べきです。"
+  },
+  "脚光": {
+    "jp": "彼は最近、脚光を浴びるようになりました。",
+    "en": "He has recently started to be in the spotlight.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>最近<rt>さいきん</rt></ruby>、<ruby>脚光<rt>きゃっこう</rt></ruby>を<ruby>浴びる<rt>あびる</rt></ruby>ようになりました。"
+  },
+  "臨界": {
+    "jp": "臨界点を超えると、反応が始まります。",
+    "en": "When the critical point is exceeded, the reaction begins.",
+    "ruby": "<ruby>臨界<rt>りんかい</rt></ruby><ruby>点<rt>てん</rt></ruby>を<ruby>超える<rt>こえる</rt></ruby>と、<ruby>反応<rt>はんのう</rt></ruby>が<ruby>始まり<rt>はじまり</rt></ruby>ます。"
+  },
+  "興業": {
+    "jp": "彼は新しい興業を始める予定です。",
+    "en": "He plans to start a new venture.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>興業<rt>こうぎょう</rt></ruby>を<ruby>始める<rt>はじめる</rt></ruby><ruby>予定<rt>よてい</rt></ruby>です。"
+  },
+  "興行": {
+    "jp": "この興行は多くの人に支持されています。",
+    "en": "This performance is supported by many people.",
+    "ruby": "この<ruby>興行<rt>こうぎょう</rt></ruby>は<ruby>多く<rt>おおく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>に<ruby>支持<rt>しじ</rt></ruby>されています。"
+  },
+  "戦艦": {
+    "jp": "戦艦の歴史について学びました。",
+    "en": "I learned about the history of battleships.",
+    "ruby": "<ruby>戦艦<rt>せんかん</rt></ruby>の<ruby>歴史<rt>れきし</rt></ruby>について<ruby>学び<rt>まなび</rt></ruby>ました。"
+  },
+  "艦船": {
+    "jp": "艦船の運用について学ぶことが大切です。",
+    "en": "It is important to learn about the operation of naval vessels.",
+    "ruby": "<ruby>艦船<rt>かんせん</rt></ruby>の<ruby>運用<rt>うんよう</rt></ruby>について<ruby>学ぶ<rt>まなぶ</rt></ruby>ことが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "親衛": {
+    "jp": "彼は親衛隊の一員として働いています。",
+    "en": "He works as a member of the honor guard.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>親衛隊<rt>しんえいたい</rt></ruby>の<ruby>一員<rt>いちいん</rt></ruby>として<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "裁定": {
+    "jp": "裁定が下されるまで、結果を待ちます。",
+    "en": "I will wait for the decision to be made.",
+    "ruby": "<ruby>裁定<rt>さいてい</rt></ruby>が<ruby>下さ<rt>くださ</rt></ruby>れるまで、<ruby>結果<rt>けっか</rt></ruby>を<ruby>待ち<rt>まち</rt></ruby>ます。"
+  },
+  "製紙": {
+    "jp": "製紙業は環境に優しい技術が必要です。",
+    "en": "The paper manufacturing industry requires environmentally friendly technologies.",
+    "ruby": "<ruby>製紙<rt>せいし</rt></ruby><ruby>業<rt>ぎょう</rt></ruby>は<ruby>環境<rt>かんきょう</rt></ruby>に<ruby>優しい<rt>やさしい</rt></ruby><ruby>技術<rt>ぎじゅつ</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "精製": {
+    "jp": "水の精製は重要なプロセスです。",
+    "en": "The purification of water is an important process.",
+    "ruby": "<ruby>水<rt>みず</rt></ruby>の<ruby>精製<rt>せいせい</rt></ruby>は<ruby>重要<rt>じゅうよう</rt></ruby>なプロセスです。"
+  },
+  "褐色": {
+    "jp": "彼女の肌は褐色でとても美しいです。",
+    "en": "Her skin is brown and very beautiful.",
+    "ruby": "<ruby>彼女<rt>かのじょ</rt></ruby>の<ruby>肌<rt>はだ</rt></ruby>は<ruby>褐色<rt>かっしょく</rt></ruby>でとても<ruby>美しい<rt>うつくしい</rt></ruby>です。"
+  },
+  "空襲": {
+    "jp": "第二次世界大戦中に空襲がありました。",
+    "en": "There were air raids during World War II.",
+    "ruby": "<ruby>第<rt>だい</rt></ruby><ruby>二<rt>に</rt></ruby><ruby>次<rt>じ</rt></ruby><ruby>世界<rt>せかい</rt></ruby><ruby>大戦<rt>たいせん</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>に<ruby>空襲<rt>くうしゅう</rt></ruby>がありました。"
+  },
+  "警視": {
+    "jp": "彼は優秀な警視として知られています。",
+    "en": "He is known as an excellent police inspector.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>優秀<rt>ゆうしゅう</rt></ruby>な<ruby>警視<rt>けいし</rt></ruby>として<ruby>知ら<rt>しら</rt></ruby>れています。"
+  },
+  "受託": {
+    "jp": "このプロジェクトは私たちが受託しました。",
+    "en": "We have accepted this project.",
+    "ruby": "このプロジェクトは<ruby>私<rt>わたし</rt></ruby>たちが<ruby>受託<rt>じゅたく</rt></ruby>しました。"
+  },
+  "訴状": {
+    "jp": "訴状を提出する期限は明日です。",
+    "en": "The deadline to submit the complaint is tomorrow.",
+    "ruby": "<ruby>訴状<rt>そじょう</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>する<ruby>期限<rt>きげん</rt></ruby>は<ruby>明日<rt>あした</rt></ruby>です。"
+  },
+  "物証": {
+    "jp": "事件を解決するために、物証が必要です。",
+    "en": "Evidence is necessary to solve the case.",
+    "ruby": "<ruby>事件<rt>じけん</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>するために、<ruby>物証<rt>ぶっしょう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です。"
+  },
+  "実証": {
+    "jp": "この理論は実証されました。",
+    "en": "This theory has been proven.",
+    "ruby": "この<ruby>理論<rt>りろん</rt></ruby>は<ruby>実証<rt>じっしょう</rt></ruby>されました。"
+  },
+  "不詳": {
+    "jp": "彼の年齢は不詳ですが、経験は豊富です。",
+    "en": "His age is unknown, but he has extensive experience.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>年齢<rt>ねんれい</rt></ruby>は<ruby>不詳<rt>ふしょう</rt></ruby>ですが、<ruby>経験<rt>けいけん</rt></ruby>は<ruby>豊富<rt>ほうふ</rt></ruby>です。"
+  },
+  "共謀": {
+    "jp": "彼らは共謀して計画を立てました。",
+    "en": "They conspired and made a plan.",
+    "ruby": "<ruby>彼ら<rt>かれら</rt></ruby>は<ruby>共謀<rt>きょうぼう</rt></ruby>して<ruby>計画<rt>けいかく</rt></ruby>を<ruby>立て<rt>たて</rt></ruby>ました。"
+  },
+  "警護": {
+    "jp": "彼は大使の警護を担当しています。",
+    "en": "He is in charge of the ambassador's security.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>大使<rt>たいし</rt></ruby>の<ruby>警護<rt>けいご</rt></ruby>を<ruby>担当<rt>たんとう</rt></ruby>しています。"
+  },
+  "来賓": {
+    "jp": "来賓の方々が会場に到着しました。",
+    "en": "The guests have arrived at the venue.",
+    "ruby": "<ruby>来賓<rt>らいひん</rt></ruby>の<ruby>方々<rt>かたがた</rt></ruby>が<ruby>会場<rt>かいじょう</rt></ruby>に<ruby>到着<rt>とうちゃく</rt></ruby>しました。"
+  },
+  "趣向": {
+    "jp": "このイベントは趣向が凝らされています。",
+    "en": "This event is thoughtfully designed.",
+    "ruby": "このイベントは<ruby>趣向<rt>しゅこう</rt></ruby>が<ruby>凝らさ<rt>こらさ</rt></ruby>れています。"
+  },
+  "躍進": {
+    "jp": "彼の会社は最近躍進しています。",
+    "en": "His company has been making remarkable progress recently.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>最近<rt>さいきん</rt></ruby><ruby>躍進<rt>やくしん</rt></ruby>しています。"
+  },
+  "躍起": {
+    "jp": "彼は成功するために躍起になっています。",
+    "en": "He is eager to succeed.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>成功<rt>せいこう</rt></ruby>するために<ruby>躍起<rt>やっき</rt></ruby>になっています。"
+  },
+  "積載": {
+    "jp": "トラックの積載量は法律で決まっています。",
+    "en": "The load capacity of the truck is determined by law.",
+    "ruby": "トラックの<ruby>積載<rt>せきさい</rt></ruby><ruby>量<rt>りょう</rt></ruby>は<ruby>法律<rt>ほうりつ</rt></ruby>で<ruby>決まっ<rt>きまっ</rt></ruby>ています。"
+  },
+  "気迫": {
+    "jp": "彼の演説には強い気迫がありました。",
+    "en": "His speech had a strong presence.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>演説<rt>えんぜつ</rt></ruby>には<ruby>強い<rt>つよい</rt></ruby><ruby>気迫<rt>きはく</rt></ruby>がありました。"
+  },
+  "処遇": {
+    "jp": "彼の処遇について、上司と話し合いました。",
+    "en": "I discussed his treatment with my boss.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>処遇<rt>しょぐう</rt></ruby>について、<ruby>上司<rt>じょうし</rt></ruby>と<ruby>話し合い<rt>はなしあい</rt></ruby>ました。"
+  },
+  "先遣": {
+    "jp": "先遣隊が無事に目的地に到着しました。",
+    "en": "The advance party has safely arrived at the destination.",
+    "ruby": "<ruby>先遣<rt>せんけん</rt></ruby><ruby>隊<rt>たい</rt></ruby>が<ruby>無事<rt>ぶじ</rt></ruby>に<ruby>目的<rt>もくてき</rt></ruby><ruby>地<rt>ち</rt></ruby>に<ruby>到着<rt>とうちゃく</rt></ruby>しました。"
+  },
+  "遺物": {
+    "jp": "この遺物は古代の文化を示しています。",
+    "en": "This artifact indicates the culture of ancient times.",
+    "ruby": "この<ruby>遺物<rt>いぶつ</rt></ruby>は<ruby>古代<rt>こだい</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>を<ruby>示し<rt>しめし</rt></ruby>ています。"
+  },
+  "送還": {
+    "jp": "彼は故郷に送還されることになりました。",
+    "en": "He has been decided to be repatriated to his hometown.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>故郷<rt>こきょう</rt></ruby>に<ruby>送還<rt>そうかん</rt></ruby>されることになりました。"
+  },
+  "生還": {
+    "jp": "彼は厳しい状況から生還しました。",
+    "en": "He returned safely from a difficult situation.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>厳しい<rt>きびしい</rt></ruby><ruby>状況<rt>じょうきょう</rt></ruby>から<ruby>生還<rt>せいかん</rt></ruby>しました。"
+  },
+  "同郷": {
+    "jp": "彼とは同郷なので、親近感があります。",
+    "en": "Since we are from the same hometown, I feel a sense of closeness.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>とは<ruby>同郷<rt>どうきょう</rt></ruby>なので、<ruby>親近<rt>しんきん</rt></ruby><ruby>感<rt>かん</rt></ruby>があります。"
+  },
+  "小銃": {
+    "jp": "小銃の使い方を学ぶことが大切です。",
+    "en": "It is important to learn how to use a rifle.",
+    "ruby": "<ruby>小銃<rt>しょうじゅう</rt></ruby>の<ruby>使い方<rt>つかいかた</rt></ruby>を<ruby>学ぶ<rt>まなぶ</rt></ruby>ことが<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "警鐘": {
+    "jp": "環境問題について警鐘を鳴らす必要があります。",
+    "en": "We need to sound the alarm about environmental issues.",
+    "ruby": "<ruby>環境<rt>かんきょう</rt></ruby><ruby>問題<rt>もんだい</rt></ruby>について<ruby>警鐘<rt>けいしょう</rt></ruby>を<ruby>鳴らす<rt>ならす</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があります。"
+  },
+  "共闘": {
+    "jp": "私たちは共闘してこの問題を解決します。",
+    "en": "We will work together to solve this problem.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>共闘<rt>きょうとう</rt></ruby>してこの<ruby>問題<rt>もんだい</rt></ruby>を<ruby>解決<rt>かいけつ</rt></ruby>します。"
+  },
+  "先陣": {
+    "jp": "彼はプロジェクトの先陣を切りました。",
+    "en": "He took the lead in the project.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>はプロジェクトの<ruby>先陣<rt>せんじん</rt></ruby>を<ruby>切り<rt>きり</rt></ruby>ました。"
+  },
+  "陣地": {
+    "jp": "彼らは新しい陣地を守るために戦っています。",
+    "en": "They are fighting to defend the new position.",
+    "ruby": "<ruby>彼ら<rt>かれら</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>陣地<rt>じんち</rt></ruby>を<ruby>守る<rt>まもる</rt></ruby>ために<ruby>戦っ<rt>たたかっ</rt></ruby>ています。"
+  },
+  "中隊": {
+    "jp": "彼は中隊の指揮官として働いています。",
+    "en": "He works as the commander of the squad.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>中隊<rt>ちゅうたい</rt></ruby>の<ruby>指揮<rt>しき</rt></ruby><ruby>官<rt>かん</rt></ruby>として<ruby>働い<rt>はたらい</rt></ruby>ています。"
+  },
+  "本隊": {
+    "jp": "本隊は無事に任務を終えました。",
+    "en": "The main unit has completed the mission safely.",
+    "ruby": "<ruby>本隊<rt>ほんたい</rt></ruby>は<ruby>無事<rt>ぶじ</rt></ruby>に<ruby>任務<rt>にんむ</rt></ruby>を<ruby>終え<rt>おえ</rt></ruby>ました。"
+  },
+  "随一": {
+    "jp": "彼の才能は随一だと思います。",
+    "en": "I believe his talent is unparalleled.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>才能<rt>さいのう</rt></ruby>は<ruby>随一<rt>ずいいち</rt></ruby>だと<ruby>思い<rt>おもい</rt></ruby>ます。"
+  },
+  "離反": {
+    "jp": "彼は会社から離反したようです。",
+    "en": "It seems that he has defected from the company.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>から<ruby>離反<rt>りはん</rt></ruby>したようです。"
+  },
+  "飼料": {
+    "jp": "この農場では新鮮な飼料を使っています。",
+    "en": "This farm uses fresh feed.",
+    "ruby": "この<ruby>農場<rt>のうじょう</rt></ruby>では<ruby>新鮮<rt>しんせん</rt></ruby>な<ruby>飼料<rt>しりょう</rt></ruby>を<ruby>使っ<rt>つかっ</rt></ruby>ています。"
+  },
+  "養育": {
+    "jp": "子どもの養育はとても大切です。",
+    "en": "Raising children is very important.",
+    "ruby": "<ruby>子ども<rt>こども</rt></ruby>の<ruby>養育<rt>よういく</rt></ruby>はとても<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "駆動": {
+    "jp": "この車は電気駆動です。",
+    "en": "This car is electric-driven.",
+    "ruby": "この<ruby>車<rt>くるま</rt></ruby>は<ruby>電気<rt>でんき</rt></ruby><ruby>駆動<rt>くどう</rt></ruby>です。"
+  },
+  "先駆け": {
+    "jp": "彼は新しい技術の先駆けです。",
+    "en": "He is a pioneer of new technology.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>先駆け<rt>さきがけ</rt></ruby>です。"
+  },
+  "騒然": {
+    "jp": "会場は騒然としていました。",
+    "en": "The venue was in an uproar.",
+    "ruby": "<ruby>会場<rt>かいじょう</rt></ruby>は<ruby>騒然<rt>そうぜん</rt></ruby>としていました。"
+  },
+  "共々": {
+    "jp": "私たち共々、参加します。",
+    "en": "We will participate together.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たち<ruby>共々<rt>ともども</rt></ruby>、<ruby>参加<rt>さんか</rt></ruby>します。"
+  },
+  "感化": {
+    "jp": "彼の言葉は私に感化しました。",
+    "en": "His words inspired me.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>に<ruby>感化<rt>かんか</rt></ruby>しました。"
+  },
+  "太もも": {
+    "jp": "太ももが痛いので、休みます。",
+    "en": "My thigh hurts, so I will take a rest.",
+    "ruby": "<ruby>太もも<rt>ふともも</rt></ruby>が<ruby>痛い<rt>いたい</rt></ruby>ので、<ruby>休み<rt>やすみ</rt></ruby>ます。"
+  },
+  "念力": {
+    "jp": "彼は念力を使って物を動かします。",
+    "en": "He moves objects using telekinesis.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>念力<rt>ねんりき</rt></ruby>を<ruby>使っ<rt>つかっ</rt></ruby>て<ruby>物<rt>もの</rt></ruby>を<ruby>動かし<rt>うごかし</rt></ruby>ます。"
+  },
+  "逃げ足": {
+    "jp": "彼は逃げ足が速いです。",
+    "en": "He is quick on his feet.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>逃げ足<rt>にげあし</rt></ruby>が<ruby>速い<rt>はやい</rt></ruby>です。"
+  },
+  "捨て子": {
+    "jp": "彼は捨て子として育てられました。",
+    "en": "He was raised as an abandoned child.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>捨て子<rt>すてご</rt></ruby>として<ruby>育て<rt>そだて</rt></ruby>られました。"
+  },
+  "欧米": {
+    "jp": "欧米の文化は日本に影響を与えています。",
+    "en": "Western culture has influenced Japan.",
+    "ruby": "<ruby>欧米<rt>おうべい</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>は<ruby>日本<rt>にっぽん</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>を<ruby>与え<rt>あたえ</rt></ruby>ています。"
+  },
+  "畜生": {
+    "jp": "畜生は私たちの生活に大切です。",
+    "en": "Livestock is important for our lives.",
+    "ruby": "<ruby>畜生<rt>ちくしょう</rt></ruby>は<ruby>私<rt>わたし</rt></ruby>たちの<ruby>生活<rt>せいかつ</rt></ruby>に<ruby>大切<rt>たいせつ</rt></ruby>です。"
+  },
+  "裏門": {
+    "jp": "学校の裏門はいつも静かです。",
+    "en": "The back gate of the school is always quiet.",
+    "ruby": "<ruby>学校<rt>がっこう</rt></ruby>の<ruby>裏門<rt>うらもん</rt></ruby>はいつも<ruby>静か<rt>しずか</rt></ruby>です。"
+  },
+  "ねつ造": {
+    "jp": "彼はねつ造の証拠を隠しました。",
+    "en": "He hid the evidence of forgery.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>ねつ造<rt>ねつぞう</rt></ruby>の<ruby>証拠<rt>しょうこ</rt></ruby>を<ruby>隠し<rt>かくし</rt></ruby>ました。"
+  },
+  "推量": {
+    "jp": "彼の気持ちは推量できませんでした。",
+    "en": "I couldn't speculate about his feelings.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>気持ち<rt>きもち</rt></ruby>は<ruby>推量<rt>すいりょう</rt></ruby>できませんでした。"
+  },
+  "企む": {
+    "jp": "彼は成功を企むために努力しています。",
+    "en": "He is working hard to scheme for success.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>成功<rt>せいこう</rt></ruby>を<ruby>企む<rt>たくらむ</rt></ruby>ために<ruby>努力<rt>どりょく</rt></ruby>しています。"
+  },
+  "博学": {
+    "jp": "彼は博学で、様々な分野に詳しいです。",
+    "en": "He is knowledgeable and well-versed in various fields.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>博学<rt>はくがく</rt></ruby>で、<ruby>様々<rt>さまざま</rt></ruby>な<ruby>分野<rt>ぶんや</rt></ruby>に<ruby>詳しい<rt>くわしい</rt></ruby>です。"
+  },
+  "整数": {
+    "jp": "整数の計算は、数学の基礎です。",
+    "en": "Calculating integers is fundamental to mathematics.",
+    "ruby": "<ruby>整数<rt>せいすう</rt></ruby>の<ruby>計算<rt>けいさん</rt></ruby>は、<ruby>数学<rt>すうがく</rt></ruby>の<ruby>基礎<rt>きそ</rt></ruby>です。"
+  },
+  "発症": {
+    "jp": "彼は病気の発症を早期に察知しました。",
+    "en": "He detected the onset of the illness early.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>病気<rt>びょうき</rt></ruby>の<ruby>発症<rt>はっしょう</rt></ruby>を<ruby>早期<rt>そうき</rt></ruby>に<ruby>察知<rt>さっち</rt></ruby>しました。"
+  },
+  "理系": {
+    "jp": "彼は理系の大学に進学する予定です。",
+    "en": "He plans to enter a university in the science field.",
+    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>理系<rt>りけい</rt></ruby>の<ruby>大学<rt>だいがく</rt></ruby>に<ruby>進学<rt>しんがく</rt></ruby>する<ruby>予定<rt>よてい</rt></ruby>です。"
   }
 }
