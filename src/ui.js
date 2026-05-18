@@ -139,7 +139,7 @@ export function switchTab(tab) {
     const _fkBtn = document.getElementById('btnFromKanji');
     _fkBtn.style.display = '';
     _fkBtn.classList.remove('active');
-    _fkBtn.textContent = '語彙';
+    _fkBtn.textContent = '語 Vocab';
     applyKanjiLevelFilterUI();
     loadAndRender(state.count);
     return;
@@ -162,7 +162,7 @@ export function switchTab(tab) {
   const _fk = document.getElementById('btnFromKanji');
   _fk.style.display = '';
   _fk.classList.remove('active');
-  _fk.textContent = '漢字';
+  _fk.textContent = '漢 Kanji';
   renderVocab();
 }
 
