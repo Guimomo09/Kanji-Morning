@@ -16,26 +16,25 @@ function _getStudiedDates() {
 }
 
 // ── Rewards catalog ───────────────────────────────────────────────────────
-// Placeholders — replace `preview` CSS / `img` paths with real assets later.
+// cost: 0 on all items → free unlock for testing. Set real costs before launch.
 export const REWARDS = [
   // Profile frames (border style applied to avatar)
-  { id: 'frame_red',    type: 'frame', name: 'Flame',    cost: 3,  border: '3px solid #c03a20',       emoji: '🔴' },
-  { id: 'frame_gold',   type: 'frame', name: 'Gold',     cost: 5,  border: '3px solid #d4a017',       emoji: '🟡' },
-  { id: 'frame_blue',   type: 'frame', name: 'Ocean',    cost: 7,  border: '3px solid #2563eb',       emoji: '🔵' },
-  { id: 'frame_sakura', type: 'frame', name: 'Sakura',   cost: 10, border: '3px dashed #f472b6',      emoji: '🌸' },
+  { id: 'frame_red',    type: 'frame', name: 'Flame',    cost: 0,  border: '3px solid #c03a20',       emoji: '🔴' },
+  { id: 'frame_gold',   type: 'frame', name: 'Gold',     cost: 0,  border: '3px solid #d4a017',       emoji: '🟡' },
+  { id: 'frame_blue',   type: 'frame', name: 'Ocean',    cost: 0,  border: '3px solid #2563eb',       emoji: '🔵' },
+  { id: 'frame_sakura', type: 'frame', name: 'Sakura',   cost: 0,  border: '3px dashed #f472b6',      emoji: '🌸' },
 
-  // Background themes (CSS var --bg + --red override)
-  // cost: 0 → free for testing, set real cost later
+  // Background themes (CSS var --bg + --red accent override)
   { id: 'theme_dusk',   type: 'theme', name: 'Dusk',     cost: 0,  bg: '#1a0f0f',  accent: '#e05b3a', accentDark: '#a03020', emoji: '🌅' },
   { id: 'theme_ocean',  type: 'theme', name: 'Ocean',    cost: 0,  bg: '#0a1628',  accent: '#3b82f6', accentDark: '#1d4ed8', emoji: '🌊' },
   { id: 'theme_forest', type: 'theme', name: 'Forest',   cost: 0,  bg: '#0a1a0f',  accent: '#22c55e', accentDark: '#15803d', emoji: '🌲' },
   { id: 'theme_stone',  type: 'theme', name: 'Stone',    cost: 0,  bg: '#18181b',  accent: '#8b5cf6', accentDark: '#6d28d9', emoji: '🪨' },
 
   // Calendar badges (emoji shown on studied days)
-  { id: 'badge_star',   type: 'badge', name: 'Star',     cost: 8,  emoji: '⭐' },
-  { id: 'badge_cherry', type: 'badge', name: 'Sakura',   cost: 10, emoji: '🌸' },
-  { id: 'badge_bolt',   type: 'badge', name: 'Lightning',cost: 12, emoji: '⚡' },
-  { id: 'badge_trophy', type: 'badge', name: 'Trophy',   cost: 20, emoji: '🏆' },
+  { id: 'badge_star',   type: 'badge', name: 'Star',     cost: 0,  emoji: '⭐' },
+  { id: 'badge_cherry', type: 'badge', name: 'Sakura',   cost: 0,  emoji: '🌸' },
+  { id: 'badge_bolt',   type: 'badge', name: 'Lightning',cost: 0,  emoji: '⚡' },
+  { id: 'badge_trophy', type: 'badge', name: 'Trophy',   cost: 0,  emoji: '🏆' },
 ];
 
 // ── Storage helpers ───────────────────────────────────────────────────────
