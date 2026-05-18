@@ -24,11 +24,12 @@ export const REWARDS = [
   { id: 'frame_blue',   type: 'frame', name: 'Ocean',    cost: 7,  border: '3px solid #2563eb',       emoji: '🔵' },
   { id: 'frame_sakura', type: 'frame', name: 'Sakura',   cost: 10, border: '3px dashed #f472b6',      emoji: '🌸' },
 
-  // Background themes (CSS var --bg override)
-  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',     cost: 5,  bg: '#1a0f0f',  emoji: '🌅' },
-  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',    cost: 5,  bg: '#0a1628',  emoji: '🌊' },
-  { id: 'theme_forest', type: 'theme', name: 'Forest',   cost: 5,  bg: '#0a1a0f',  emoji: '🌲' },
-  { id: 'theme_stone',  type: 'theme', name: 'Stone',    cost: 8,  bg: '#18181b',  emoji: '🪨' },
+  // Background themes (CSS var --bg + --red override)
+  // cost: 0 → free for testing, set real cost later
+  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',     cost: 0,  bg: '#1a0f0f',  accent: '#e05b3a', accentDark: '#a03020', emoji: '🌅' },
+  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',    cost: 0,  bg: '#0a1628',  accent: '#3b82f6', accentDark: '#1d4ed8', emoji: '🌊' },
+  { id: 'theme_forest', type: 'theme', name: 'Forest',   cost: 0,  bg: '#0a1a0f',  accent: '#22c55e', accentDark: '#15803d', emoji: '🌲' },
+  { id: 'theme_stone',  type: 'theme', name: 'Stone',    cost: 0,  bg: '#18181b',  accent: '#8b5cf6', accentDark: '#6d28d9', emoji: '🪨' },
 
   // Calendar badges (emoji shown on studied days)
   { id: 'badge_star',   type: 'badge', name: 'Star',     cost: 8,  emoji: '⭐' },
@@ -94,12 +95,16 @@ window.equipReward = equipReward;
 export function applyEquipped() {
   const { frame, theme } = getEquipped();
 
-  // Theme → CSS variable on :root
-  if (theme) {
-    const t = REWARDS.find(r => r.id === theme);
-    if (t) document.documentElement.style.setProperty('--bg', t.bg);
+  // Theme → CSS variables on :root
+  const themeReward = theme ? REWARDS.find(r => r.id === theme) : null;
+  if (themeReward) {
+    document.documentElement.style.setProperty('--bg', themeReward.bg);
+    document.documentElement.style.setProperty('--red', themeReward.accent);
+    document.documentElement.style.setProperty('--red-dark', themeReward.accentDark);
   } else {
     document.documentElement.style.removeProperty('--bg');
+    document.documentElement.style.removeProperty('--red');
+    document.documentElement.style.removeProperty('--red-dark');
   }
 
   // Frame → border on all avatar elements
