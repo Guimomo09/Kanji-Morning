@@ -24,15 +24,11 @@ export const REWARDS = [
   { id: 'frame_blue',   type: 'frame', name: 'Ocean',    cost: 0,  border: '3px solid #2563eb',       emoji: '🔵' },
   { id: 'frame_sakura', type: 'frame', name: 'Sakura',   cost: 0,  border: '3px dashed #f472b6',      emoji: '🌸' },
 
-  // Background themes (full CSS palette — dark UI)
-  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',   cost: 0, emoji: '🌅',
-    bg: '#1a0f0f', card: '#261510', border: '#3d2218', text: '#f5e8df', ink: '#f5e8df', sub: '#c49080', muted: '#906050', skel: '#3d2218', accent: '#e05b3a', accentDark: '#a03020' },
-  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',  cost: 0, emoji: '🌊',
-    bg: '#0a1628', card: '#0f1e38', border: '#1e3060', text: '#e0f0ff', ink: '#e0f0ff', sub: '#90b0d0', muted: '#6090b0', skel: '#1e3060', accent: '#3b82f6', accentDark: '#1d4ed8' },
-  { id: 'theme_forest', type: 'theme', name: 'Forest', cost: 0, emoji: '🌲',
-    bg: '#0a1a0f', card: '#102018', border: '#1e3828', text: '#e0f5e0', ink: '#e0f5e0', sub: '#90c090', muted: '#60a060', skel: '#1e3828', accent: '#22c55e', accentDark: '#15803d' },
-  { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 0, emoji: '🪨',
-    bg: '#18181b', card: '#222226', border: '#38383e', text: '#f0f0f5', ink: '#f0f0f5', sub: '#a0a0b0', muted: '#707080', skel: '#38383e', accent: '#8b5cf6', accentDark: '#6d28d9' },
+  // Background themes (accent colors only — only changes the header/red)
+  { id: 'theme_dusk',   type: 'theme', name: 'Dusk',   cost: 0, emoji: '🌅', accent: '#e05b3a', accentDark: '#a03020' },
+  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',  cost: 0, emoji: '🌊', accent: '#3b82f6', accentDark: '#1d4ed8' },
+  { id: 'theme_forest', type: 'theme', name: 'Forest', cost: 0, emoji: '🌲', accent: '#22c55e', accentDark: '#15803d' },
+  { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 0, emoji: '🪨', accent: '#8b5cf6', accentDark: '#6d28d9' },
 
   // Calendar badges (emoji shown on studied days)
   { id: 'badge_star',   type: 'badge', name: 'Star',     cost: 0,  emoji: '⭐' },
@@ -98,20 +94,14 @@ window.equipReward = equipReward;
 export function applyEquipped() {
   const { frame, theme } = getEquipped();
 
-  // Theme → full CSS palette on :root
-  const THEME_CSS = [
-    ['--bg','bg'], ['--card','card'], ['--border','border'],
-    ['--text','text'], ['--ink','ink'], ['--sub','sub'],
-    ['--muted','muted'], ['--skel','skel'],
-    ['--red','accent'], ['--red-dark','accentDark'],
-  ];
+  // Theme → only accent color (header/banner), does not touch light/dark mode
   const themeReward = theme ? REWARDS.find(r => r.id === theme) : null;
   if (themeReward) {
-    THEME_CSS.forEach(([cssVar, prop]) => {
-      if (themeReward[prop]) document.documentElement.style.setProperty(cssVar, themeReward[prop]);
-    });
+    document.documentElement.style.setProperty('--red', themeReward.accent);
+    document.documentElement.style.setProperty('--red-dark', themeReward.accentDark);
   } else {
-    THEME_CSS.forEach(([cssVar]) => document.documentElement.style.removeProperty(cssVar));
+    document.documentElement.style.removeProperty('--red');
+    document.documentElement.style.removeProperty('--red-dark');
   }
 
   // Frame → border on all avatar elements
