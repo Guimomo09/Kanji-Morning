@@ -1000,11 +1000,6 @@ document.addEventListener('click', function(e) {
   if (wrap && !wrap.contains(e.target)) closeMobileMenu();
 });
 
-// Show tutorial on first ever visit
-if (!localStorage.getItem('km_onboarding_done')) {
-  setTimeout(showTutorial, 600);
-}
-
 // ── PWA service worker ────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
