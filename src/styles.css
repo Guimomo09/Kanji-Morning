@@ -1252,7 +1252,7 @@
     /* Frame PNG overlay on avatar */
     .km-avatar-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .km-avatar-wrap:has(.stats-user-avatar, .stats-user-fallback) { justify-self: end; }
-    .km-frame-overlay { position: absolute; width: 130%; height: 130%; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; object-fit: contain; z-index: 1; }
+    .km-frame-overlay { position: absolute; width: 110%; height: 110%; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; object-fit: contain; z-index: 1; }
 
     /* ════════════════════════════════════════════════════════════════
        📱 MOBILE — max-width: 640px
