@@ -179,8 +179,10 @@ export function renderXPBarHTML() {
     <div class="xp-bar-wrap">
       <div class="xp-bar-left">
         <div class="xp-cup-icon">☕</div>
-        <div class="xp-segs">${segs}</div>
-        <div class="xp-bar-label">${bar}/3</div>
+        <div class="xp-bar-main">
+          <div class="xp-segs">${segs}</div>
+          <div class="xp-bar-label">${bar}/3</div>
+        </div>
       </div>
       <div class="xp-grains-wrap" title="Coffee beans earned">
         <span class="xp-grain-icon">🫘</span>

@@ -292,20 +292,29 @@ kanji.guimo-prod.com {
 
 **Phrases vocab statiques + kanji display fix** ← commits `5e17e2f` → `2cfac6e` (dev, 18 Mai 2026)
 - [x] `public/sentences.json` — pre-generated Tatoeba sentences pour 4522 mots
-  * **3813 phrases générées** (84.3% coverage) · 460 KB
+  * **3795 phrases générées** (84.0% coverage) · ~460 KB
   * Priority cascade : static DB → localStorage cache → live proxy (fallback)
   * Scoring priorité : formes polies (です/ます) +100pts · longueur JLPT +50pts · ponctuation +20pts
   * Top 500 : 73.1% formes polies (365/499) · 10.5 chars moyenne · 99.8% coverage
   * Génération : ~5h (rate limit Tatoeba 1 req/sec)
+  * **Corrections données 18 Mai 2026** : 人生 "Life is good." → "Life is long." · 外見 mauvaise phrase remplacée → "外見より中身が大切です。" · 日本語 ajouté
+  * Furigana (`ruby` HTML) sur toutes les phrases — kuromoji · affiché dans vocab cards via `sent.ruby || sent.jp`
 - [x] `public/kanji_index.json` — régénéré avec champ `j` (JLPT level) pour éliminer network delay
 - [x] `scripts/build-kanji-index.mjs` — ajout champ JLPT dans extraction kanjiapi.dev
 - [x] `src/api.js` — `getKanjiDetail()` utilise KANJI_INDEX en priorité (0 latency)
   * Priority 1: Static pre-loaded index (instant) ← **FIX 4-5 sec delay**
   * Priority 2: localStorage cache
   * Priority 3: Live API fallback (non-JLPT kanji)
-- [x] `public/sw.js` — cache v12, pre-cache kanji_index.json + sentences.json
+- [x] `public/sw.js` — cache v13, pre-cache kanji_index.json + sentences.json
 - [x] Impact : Affichage instantané des détails kanji sous vocab cards (4-5 sec → 0 sec)
 - [x] **3813 phrases réutilisables** pour vocab cards + génération reels (pierre 2 coups)
+
+**Fixes UI XP bar + contexte utilisateur** ← (dev, 18 Mai 2026)
+- [x] XP bar layout : ☕ cup icon aligné en ligne avec les segments (flex row) — plus d'icône flottante au-dessus
+- [x] Home (`.home-today`) : avatar + prénom affiché au-dessus de la barre XP quand connecté
+- [x] Stats section : row "Guest" affichée quand pas connecté (plus de XP bar nue sans contexte)
+- [x] CSS `.home-today-user`, `.home-today-avatar`, `.home-today-fallback`, `.home-today-username` ajoutés
+- [x] `.xp-bar-main` wrappeur pour segs + label (cohérence layout)
 
 **Normalisation cartes vocab** ← commit `14a5bbe` (dev, 17 Mai 2026)
 - [x] Grille `minmax(330px)` → `minmax(420px)` — 2 colonnes larges · gap 24px

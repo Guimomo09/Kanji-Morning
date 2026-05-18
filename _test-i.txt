@@ -1,0 +1,10 @@
+﻿笨・EXAMPLE_OVERRIDE: 610 kanji  |  SENTENCE_OVERRIDE: 2211 kanji
+
+雫 1 kanji 窶・N4
+   諢・
+笨・諢・(N4) 窶・vocab [override]: 諢丞袖, 諢剰ｦ・ 豕ｨ諢・窶・phrases: 2/2
+
+脂 1 kanji gﾃｩnﾃｩrﾃｩs ﾃ・2 formats ﾃ・3 cartes
+   kanji-cards/n4/cards/{kanji}/  竊・ 1080ﾃ・080px (insta square)
+   kanji-cards/n4/tiktok/{kanji}/ 竊・ 1080ﾃ・920px (portrait)
+

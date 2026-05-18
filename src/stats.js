@@ -511,6 +511,16 @@ export function renderHome() {
     </div>
 
     <div class="home-today">
+      ${(() => {
+        const u = state._fbUser;
+        if (u) {
+          const av = u.photoURL
+            ? `<img src="${u.photoURL}" class="home-today-avatar" referrerpolicy="no-referrer" alt="">`
+            : `<span class="home-today-fallback">${(u.displayName||'?')[0].toUpperCase()}</span>`;
+          return `<div class="home-today-user">${av}<span class="home-today-username">${u.displayName?.split(' ')[0] || ''}</span></div>`;
+        }
+        return '';
+      })()}
       ${renderXPBarHTML()}
       <div class="home-today-title" style="display:flex;align-items:center;gap:8px">${t('today_title')} <button class="section-hint-btn" onclick="showTabHint('home')" aria-label="How to use Home">i</button></div>
       <div class="home-today-row">
@@ -626,7 +636,10 @@ export function renderStats() {
     <div class="stats-container">
       ${(() => {
         const u = state._fbUser;
-        if (!u) return '';
+        if (!u) {
+          const grains = parseInt(localStorage.getItem('km_xp_grains')||'0',10);
+          return `<div class="stats-user-row"><div><div class="stats-user-name" style="color:var(--muted)">Guest</div></div><div class="stats-user-grains">\ud83e\uded8 ${grains} grain${grains!==1?'s':''}</div><span class="stats-user-fallback" style="opacity:0.4">?</span></div>`;
+        }
         const av = u.photoURL
           ? `<img src="${u.photoURL}" class="stats-user-avatar" referrerpolicy="no-referrer" alt="">`
           : `<span class="stats-user-fallback">${(u.displayName||'?')[0].toUpperCase()}</span>`;

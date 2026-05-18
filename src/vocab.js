@@ -56,7 +56,7 @@ export async function _enrichKanjiComponents(card, word, reading) {
     const sentHtml = sent
       ? `<div class="vkc-label vkc-ex-label">例文</div>
          <div class="vocab-example">
-           <div class="vocab-example-jp">${sent.jp}</div>
+           <div class="vocab-example-jp">${sent.ruby || sent.jp}</div>
            <div class="vocab-example-en">${sent.en}</div>
          </div>`
       : '';
