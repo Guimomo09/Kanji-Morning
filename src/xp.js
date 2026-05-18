@@ -18,11 +18,11 @@ function _getStudiedDates() {
 // ── Rewards catalog ───────────────────────────────────────────────────────
 // cost: 0 on all items → free unlock for testing. Set real costs before launch.
 export const REWARDS = [
-  // Profile frames (border style applied to avatar)
-  { id: 'frame_red',    type: 'frame', name: 'Flame',    cost: 0,  border: '3px solid #c03a20',       emoji: '🔴' },
-  { id: 'frame_gold',   type: 'frame', name: 'Gold',     cost: 0,  border: '3px solid #d4a017',       emoji: '🟡' },
-  { id: 'frame_blue',   type: 'frame', name: 'Ocean',    cost: 0,  border: '3px solid #2563eb',       emoji: '🔵' },
-  { id: 'frame_sakura', type: 'frame', name: 'Sakura',   cost: 0,  border: '3px dashed #f472b6',      emoji: '🌸' },
+  // Profile frames (PNG overlay on avatar)
+  { id: 'frame_red',    type: 'frame', name: 'Autumn',  cost: 0, img: '/assets/Frame/Leaf_Frame.png',   emoji: '🍂' },
+  { id: 'frame_gold',   type: 'frame', name: 'Sun',     cost: 0, img: '/assets/Frame/Sun_Frame.png',    emoji: '✨' },
+  { id: 'frame_blue',   type: 'frame', name: 'Bean',    cost: 0, img: '/assets/Frame/Bean_Frame.png',   emoji: '☕' },
+  { id: 'frame_sakura', type: 'frame', name: 'Sakura',  cost: 0, img: '/assets/Frame/Sakura_Frame.png', emoji: '🌸' },
 
   // Background themes (accent colors only — only changes the header/red)
   { id: 'theme_dusk',   type: 'theme', name: 'Dusk',   cost: 0, emoji: '🌅', accent: '#c47828', accentDark: '#8b5010' },
@@ -30,11 +30,11 @@ export const REWARDS = [
   { id: 'theme_forest', type: 'theme', name: 'Forest', cost: 0, emoji: '🌲', accent: '#22c55e', accentDark: '#15803d' },
   { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 0, emoji: '🪨', accent: '#2a6a58', accentDark: '#1a4a3a' },
 
-  // Calendar badges (emoji shown on studied days)
-  { id: 'badge_star',   type: 'badge', name: 'Star',     cost: 0,  emoji: '⭐' },
-  { id: 'badge_cherry', type: 'badge', name: 'Sakura',   cost: 0,  emoji: '🌸' },
-  { id: 'badge_bolt',   type: 'badge', name: 'Lightning',cost: 0,  emoji: '⚡' },
-  { id: 'badge_trophy', type: 'badge', name: 'Trophy',   cost: 0,  emoji: '🏆' },
+  // Calendar badges (PNG shown on studied days)
+  { id: 'badge_star',   type: 'badge', name: 'Sun',    cost: 0, img: '/assets/Badge/Sun_Badge.png',     emoji: '☀️' },
+  { id: 'badge_cherry', type: 'badge', name: 'Sakura', cost: 0, img: '/assets/Badge/Sakura_Badge.png',  emoji: '🌸' },
+  { id: 'badge_bolt',   type: 'badge', name: 'Bloom',  cost: 0, img: '/assets/Badge/Sakura_Badge2.png', emoji: '🌺' },
+  { id: 'badge_trophy', type: 'badge', name: 'Coffee', cost: 0, img: '/assets/Badge/Coffee_Badge.png',  emoji: '☕' },
 ];
 
 // ── Storage helpers ───────────────────────────────────────────────────────
@@ -104,12 +104,29 @@ export function applyEquipped() {
     document.documentElement.style.removeProperty('--red-dark');
   }
 
-  // Frame → border on all avatar elements
-  const avatars = document.querySelectorAll('.auth-avatar, .profile-avatar');
+  // Frame → PNG overlay on header avatar
   const frameReward = frame ? REWARDS.find(r => r.id === frame) : null;
-  avatars.forEach(el => {
-    el.style.border = frameReward ? frameReward.border : '';
+  // Remove any previous overlay
+  document.querySelectorAll('.km-frame-overlay').forEach(el => el.remove());
+  document.querySelectorAll('.km-avatar-wrap').forEach(wrap => {
+    const parent = wrap.parentElement;
+    wrap.querySelectorAll('.auth-avatar, .auth-avatar-fallback').forEach(av => parent.insertBefore(av, wrap));
+    wrap.remove();
   });
+  if (frameReward) {
+    const avatarEl = document.querySelector('.auth-user .auth-avatar, .auth-user .auth-avatar-fallback');
+    if (avatarEl) {
+      const wrap = document.createElement('div');
+      wrap.className = 'km-avatar-wrap';
+      avatarEl.parentNode.insertBefore(wrap, avatarEl);
+      wrap.appendChild(avatarEl);
+      const overlay = document.createElement('img');
+      overlay.className = 'km-frame-overlay';
+      overlay.src = frameReward.img;
+      overlay.alt = '';
+      wrap.appendChild(overlay);
+    }
+  }
 }
 
 // ── XP bar sync ───────────────────────────────────────────────────────────
@@ -165,7 +182,10 @@ export function getCalendarBadge() {
   const { badge } = getEquipped();
   if (badge) {
     const b = REWARDS.find(r => r.id === badge);
-    if (b && isUnlocked(badge)) return b.emoji;
+    if (b && isUnlocked(badge)) {
+      if (b.img) return `<img src="${b.img}" class="scal-badge-img" alt="${b.name}">`;
+      return b.emoji;
+    }
   }
   return '☕';
 }
@@ -215,9 +235,12 @@ export function renderShopHTML() {
       const action = canAfford
         ? `<button class="shop-btn shop-btn-buy" onclick="window.shopBuy('${r.id}')">🫘 ${r.cost}</button>`
         : `<button class="shop-btn shop-btn-locked" disabled>🫘 ${r.cost}</button>`;
+      const iconHTML = r.img
+        ? `<img src="${r.img}" class="shop-card-img" alt="${r.name}">`
+        : r.emoji;
       return `
         <div class="shop-card">
-          <div class="shop-card-icon">${r.emoji}</div>
+          <div class="shop-card-icon">${iconHTML}</div>
           <div class="shop-card-name">${r.name}</div>
           ${action}
         </div>`;
@@ -262,9 +285,12 @@ export function renderAppearancesHTML() {
     const cards = items.map(r => {
       const equippedThis = equipped[key] === r.id;
       const action = `<button class="shop-btn ${equippedThis ? 'shop-btn-equipped' : 'shop-btn-equip'}" onclick="window.shopEquip('${r.id}')">${equippedThis ? t('shop_btn_equipped') : t('shop_btn_equip')}</button>`;
+      const iconHTML = r.img
+        ? `<img src="${r.img}" class="shop-card-img" alt="${r.name}">`
+        : r.emoji;
       return `
         <div class="shop-card shop-card-owned ${equippedThis ? 'shop-card-active' : ''}">
-          <div class="shop-card-icon">${r.emoji}</div>
+          <div class="shop-card-icon">${iconHTML}</div>
           <div class="shop-card-name">${r.name}</div>
           ${action}
         </div>`;

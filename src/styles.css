@@ -464,6 +464,7 @@
 
     /* ── Calendar badge ────────────────────────────────────────────────── */
     .scal-badge { font-size:20px; line-height:1; display:block; }
+    .scal-badge-img { width:20px; height:20px; object-fit:contain; display:block; }
 
     /* ── Profile / Shop ────────────────────────────────────────────────── */
     .profile-wrap          { padding-bottom:16px; }
@@ -476,6 +477,7 @@
     .shop-card-owned       { border-color:#c8832e44; }
     .shop-card-active      { border-color:#c8832e; box-shadow:0 0 0 2px #c8832e33; }
     .shop-card-icon        { font-size:28px; margin-bottom:6px; }
+    .shop-card-img          { width:44px; height:44px; object-fit:contain; display:block; margin-bottom:6px; }
     .shop-card-name        { font-size:12px; color:var(--fg); font-weight:600; margin-bottom:4px; }
     .shop-card-cost        { font-size:11px; color:var(--muted); margin-bottom:8px; }
     .shop-btn              { display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; border:none; cursor:pointer; line-height:1.6; }
@@ -1247,6 +1249,9 @@
     }
     .auth-name   { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.9); }
     .auth-syncing { font-size: 11px; color: rgba(255,255,255,.6); margin-left: 4px; }
+    /* Frame PNG overlay on avatar */
+    .km-avatar-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; }
+    .km-frame-overlay { position: absolute; inset: -6px; width: calc(100% + 12px); height: calc(100% + 12px); pointer-events: none; object-fit: contain; }
 
     /* ════════════════════════════════════════════════════════════════
        📱 MOBILE — max-width: 640px
