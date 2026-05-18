@@ -64,78 +64,25 @@ function closeTutorial() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// TAB HINTS (ⓘ per-tab explainer)
+// TAB HINTS (ⓘ per-tab explainer) — titles/bodies live in i18n.js tab_hints
 // ════════════════════════════════════════════════════════════════════════════
-const TAB_HINTS = {
-  home: {
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
-    title: 'Home — Your Dashboard',
-    body: `<p>Your daily study hub. Everything at a glance.</p><ul>
-      <li><b>Streak</b> — consecutive days you studied. Don't break the chain!</li>
-      <li><b>Daily Quiz</b> — 15 new words + 5 review. Only available after saving words from the Vocab tab.</li>
-      <li><b>Weekly Challenge</b> — every Monday, covers the last 2 weeks of vocabulary.</li>
-      <li><b>JLPT tile</b> — tracks how many words you've saved toward your current goal. Tap to change level.</li>
-    </ul>`,
-  },
-  kanji: {
-    icon: '漢',
-    title: 'Kanji — Browse & Discover',
-    body: `<p>Explore kanji organised by JLPT level (N5 = easiest, N1 = hardest).</p><ul>
-      <li><b>New Selection</b> — shuffle a new batch of kanji at the same level.</li>
-      <li><b>Save a kanji</b> — tap the star button on a card to bookmark it in My List and unlock its vocabulary.</li>
-      <li><b>More / Less</b> — adjust how many cards are shown at once.</li>
-      <li><b>Search bar</b> — find any kanji by character, reading, or meaning.</li>
-    </ul>`,
-  },
-  vocab: {
-    icon: '語',
-    title: 'Vocab — Daily Word Cards',
-    body: `<p>Vocabulary built from the kanji you've bookmarked.</p><ul>
-      <li><b>New Selection</b> — shuffle a fresh batch of vocab from your saved kanji.</li>
-      <li><b>Save for Quiz</b> — adds today's words to your daily quiz pool.</li>
-      <li><b>From Kanji</b> — when active, vocab is filtered to match only the kanji visible in the Kanji tab.</li>
-      <li><b>Level filter</b> — focus on a specific JLPT level or mix all levels.</li>
-    </ul>`,
-  },
-  mylist: {
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
-    title: 'My List — Saved Words & Kanji',
-    body: `<p>All your bookmarked kanji and vocabulary in one place.</p><ul>
-      <li><b>Tap a kanji chip</b> — opens the kanji detail popup with readings and examples.</li>
-      <li><b>Select</b> — enables multi-select mode for bulk deletion.</li>
-      <li><b>SRS Review</b> — spaced-repetition practice of your saved words (toolbar button).</li>
-      <li><b>Sign in</b> — syncs your list across devices via Google account.</li>
-    </ul>`,
-  },
-  stats: {
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
-    title: 'Stats — Your Progress',
-    body: `<p>Charts and history tracking your study journey.</p><ul>
-      <li><b>Streak calendar</b> — each square = one study day. Darker = more words studied.</li>
-      <li><b>Score chart</b> — your quiz results over time (last 20 sessions).</li>
-      <li><b>Activity chart</b> — words studied per day over the last 2 weeks.</li>
-      <li><b>JLPT progress</b> — how close you are to your target level vocabulary count.</li>
-    </ul>`,
-  },
-  exam: {
-    icon: '試験',
-    title: 'Exam Mode — JLPT Simulation',
-    body: `<p>A timed quiz that simulates a real JLPT test using your saved vocabulary.</p><ul>
-      <li><b>10 minutes</b> — strictly timed. Unanswered questions count as wrong.</li>
-      <li><b>40 questions</b> — mix of reading, meaning, and recognition question types.</li>
-      <li><b>60% to pass</b> — score 24/40 or better.</li>
-      <li><b>Cumulative levels</b> — each exam includes all vocabulary up to that level (e.g. N3 includes N5, N4 and N3; N2 adds N2 on top, etc.).</li>
-    </ul>`,
-  },
+const TAB_HINT_ICONS = {
+  home:   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+  kanji:  '漢',
+  vocab:  '語',
+  mylist: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+  stats:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  exam:   '試験',
 };
 
 let _currentTabForHint = 'home';
 
 function showTabHint(tab) {
   const key  = tab || _currentTabForHint;
-  const hint = TAB_HINTS[key];
-  if (!hint) return;
-  document.getElementById('tabHintIcon').innerHTML  = hint.icon;
+  const icon = TAB_HINT_ICONS[key];
+  const hint = (t('tab_hints') || {})[key];
+  if (!icon || !hint) return;
+  document.getElementById('tabHintIcon').innerHTML  = icon;
   document.getElementById('tabHintTitle').textContent = hint.title;
   document.getElementById('tabHintBody').innerHTML  = hint.body;
   document.getElementById('tabHintModal').style.display = '';

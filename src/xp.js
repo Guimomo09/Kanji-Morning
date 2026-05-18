@@ -1,4 +1,5 @@
 import { dateStr, todayStr } from './utils.js';
+import { t } from './i18n.js';
 
 // ── Studied-dates helper (mirrors stats.js — avoids circular import) ──────
 function _getStudiedDates() {
@@ -184,7 +185,7 @@ export function renderXPBarHTML() {
           <div class="xp-bar-label">${bar}/3</div>
         </div>
       </div>
-      <div class="xp-grains-wrap" title="Coffee beans earned">
+      <div class="xp-grains-wrap" title="${t('xp_beans_title')}">
         <span class="xp-grain-icon">🫘</span>
         <span class="xp-grain-count">${grains}</span>
       </div>
@@ -198,9 +199,9 @@ export function renderProfileHTML() {
   const equipped = getEquipped();
 
   const types = [
-    { key: 'frame', label: 'Profile Frames' },
-    { key: 'theme', label: 'Themes' },
-    { key: 'badge', label: 'Calendar Badges' },
+    { key: 'frame', label: t('shop_section_frames') },
+    { key: 'theme', label: t('shop_section_themes') },
+    { key: 'badge', label: t('shop_section_badges') },
   ];
 
   const sections = types.map(({ key, label }) => {
@@ -216,7 +217,7 @@ export function renderProfileHTML() {
           ? `<button class="shop-btn shop-btn-buy" onclick="window.shopBuy('${r.id}')">🫘 ${r.cost}</button>`
           : `<button class="shop-btn shop-btn-locked" disabled>🫘 ${r.cost}</button>`;
       } else {
-        action = `<button class="shop-btn ${equippedThis ? 'shop-btn-equipped' : 'shop-btn-equip'}" onclick="window.shopEquip('${r.id}')">${equippedThis ? 'Equipped ✓' : 'Equip'}</button>`;
+        action = `<button class="shop-btn ${equippedThis ? 'shop-btn-equipped' : 'shop-btn-equip'}" onclick="window.shopEquip('${r.id}')">${equippedThis ? t('shop_btn_equipped') : t('shop_btn_equip')}</button>`;
       }
 
       return `
@@ -239,7 +240,7 @@ export function renderProfileHTML() {
       <div class="profile-grains-row">
         <span class="xp-grain-icon">🫘</span>
         <span class="profile-grains-count">${grains}</span>
-        <span class="profile-grains-label">coffee beans</span>
+        <span class="profile-grains-label">${t('shop_grains_label')}</span>
       </div>
       ${sections}
     </div>`;
@@ -254,7 +255,7 @@ window.shopBuy = function(id) {
     const el = document.getElementById('profileContent');
     if (el) el.innerHTML = renderProfileHTML();
   } else if (result.err === 'insufficient') {
-    alert('Not enough beans ☕ Keep your streak going!');
+    alert(t('shop_no_beans'));
   }
 };
 

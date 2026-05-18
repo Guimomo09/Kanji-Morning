@@ -233,6 +233,26 @@ const TRANSLATIONS = {
     exam_history_title: 'RECENT RESULTS',
     exam_history_empty: 'No exams taken yet',
     exam_cumulative_tip: 'N4 includes N5+N4 words, N3 includes N5+N4+N3, etc.',
+
+    // ── Shop & XP bar ──────────────────────────────────────────────────
+    xp_beans_title:      'Coffee beans earned',
+    shop_section_frames: 'Profile Frames',
+    shop_section_themes: 'Themes',
+    shop_section_badges: 'Calendar Badges',
+    shop_grains_label:   'coffee beans',
+    shop_btn_equip:      'Equip',
+    shop_btn_equipped:   'Equipped ✓',
+    shop_no_beans:       'Not enough beans ☕ Keep your streak going!',
+
+    // ── Tab hints (ⓘ per-tab explainer) ──────────────────────────────────
+    tab_hints: {
+      home:   { title: 'Home — Your Dashboard',               body: `<p>Your daily study hub. Everything at a glance.</p><ul><li><b>Streak</b> — consecutive days you studied. Don't break the chain! Tap to switch between streak days and this month's count.</li><li><b>Daily Quiz</b> — practice the words you've saved. Come back every day for new vocabulary.</li><li><b>Weekly Challenge</b> — every Monday, a quiz covering the last 2 weeks of vocabulary.</li><li><b>JLPT tile</b> — tracks how many words you've saved toward your current goal. Tap to change level.</li><li><b>☕ XP bar</b> — study 3 days in a row to earn a coffee bean �ae. Spend beans in the Shop (Profile tab).</li></ul>` },
+      kanji:  { title: 'Kanji — Browse & Discover',           body: `<p>Explore kanji organised by JLPT level (N5 = easiest, N1 = hardest).</p><ul><li><b>New Selection</b> — shuffle a new batch of kanji at the same level.</li><li><b>Save a kanji</b> — tap the star ☆ on a card to bookmark it in My List and unlock its vocabulary.</li><li><b>More / Less</b> — adjust how many cards are shown at once.</li><li><b>Search bar</b> — find any kanji by character, reading, or meaning.</li><li><b>🔊 Audio</b> — tap the speaker icon on any card to hear the pronunciation.</li></ul>` },
+      vocab:  { title: 'Vocab — Daily Word Cards',             body: `<p>Vocabulary built from the kanji you've bookmarked.</p><ul><li><b>New Selection</b> — shuffle a fresh batch of vocab from your saved kanji.</li><li><b>Save</b> — saves today's words to your quiz pool so you can practice them.</li><li><b>From Kanji</b> — when active, vocab is filtered to match only the kanji visible in the Kanji tab.</li><li><b>Level filter</b> — focus on a specific JLPT level or mix all levels.</li><li><b>🔊 Audio</b> — tap the speaker icon on any word card to hear the pronunciation.</li></ul>` },
+      mylist: { title: 'My List — Saved Words & Kanji',       body: `<p>All your bookmarked kanji and vocabulary in one place.</p><ul><li><b>Tap a kanji chip</b> — opens the kanji detail popup with readings, examples and related vocab.</li><li><b>Select</b> — enables multi-select mode for bulk deletion.</li><li><b>Spaced repetition</b> — words due for review are automatically mixed into your Daily Quiz.</li><li><b>Sign in</b> — syncs your list across all your devices via Google account.</li></ul>` },
+      stats:  { title: 'Stats — Your Progress',               body: `<p>Charts and history tracking your study journey.</p><ul><li><b>Streak tile</b> — tap to switch between your current streak and total days this month.</li><li><b>Streak calendar</b> — each square = one study day. Darker = more words studied. Switch between 1W / 2W / full calendar.</li><li><b>Score chart</b> — your quiz results over time (last 20 sessions).</li><li><b>Activity chart</b> — words studied per day. Switch between 1W / 2W / monthly calendar.</li><li><b>JLPT progress</b> — how close you are to your target level vocabulary count.</li></ul>` },
+      exam:   { title: 'Exam Hub — Quizzes & JLPT Simulation', body: `<p>All your quiz modes in one place.</p><ul><li><b>Daily Quiz</b> — practice the words you saved today. Spaced-repetition cards are included automatically.</li><li><b>Weekly Challenge</b> — available every Monday: covers the last 2 weeks of vocabulary.</li><li><b>Exam Mode</b> — 20 questions · 7 minutes · 60% to pass. Simulates a real JLPT test using your saved words. Cumulative: N3 includes N5+N4+N3 vocabulary. <em>Premium feature.</em></li></ul>` },
+    },
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -465,6 +485,26 @@ const TRANSLATIONS = {
     exam_history_title: 'RÉSULTATS RÉCENTS',
     exam_history_empty: 'Aucun examen passé',
     exam_cumulative_tip: 'N4 inclut N5+N4, N3 inclut N5+N4+N3, etc.',
+
+    // ── Boutique & XP bar ──────────────────────────────────────────────
+    xp_beans_title:      'Grains de café gagnés',
+    shop_section_frames: 'Cadres de profil',
+    shop_section_themes: 'Thèmes',
+    shop_section_badges: 'Badges calendrier',
+    shop_grains_label:   'grains de café',
+    shop_btn_equip:      'Équiper',
+    shop_btn_equipped:   'Équipé ✓',
+    shop_no_beans:       'Pas assez de grains ☕ Continue ta série !',
+
+    // ── Infobulles onglets (ⓘ) ──────────────────────────────────────────
+    tab_hints: {
+      home:   { title: 'Accueil — Ton tableau de bord',            body: `<p>Ton tableau de bord quotidien. Tout en un coup d'œil.</p><ul><li><b>Série</b> — jours consécutifs d'étude. Ne brise pas la chaîne ! Appuie pour basculer entre série et jours du mois.</li><li><b>Quiz quotidien</b> — révise les mots sauvegardés. Reviens chaque jour pour du nouveau vocabulaire.</li><li><b>Défi hebdomadaire</b> — chaque lundi, un quiz sur les 2 dernières semaines.</li><li><b>Tuile JLPT</b> — suit les mots sauvegardés vers ton objectif. Appuie pour changer de niveau.</li><li><b>☕ Barre XP</b> — étudie 3 jours de suite pour gagner un grain de café �ae. Dépense tes grains dans la Boutique (onglet Profil).</li></ul>` },
+      kanji:  { title: 'Kanji — Parcourir & Découvrir',          body: `<p>Explore les kanji par niveau JLPT (N5 = plus facile, N1 = plus difficile).</p><ul><li><b>Nouvelle sélection</b> — mélange un nouveau lot au même niveau.</li><li><b>Sauvegarder un kanji</b> — appuie sur ☆ pour l'ajouter à Ma Liste et débloquer son vocabulaire.</li><li><b>Plus / Moins</b> — ajuste le nombre de cartes affichées.</li><li><b>Recherche</b> — trouve un kanji par caractère, lecture ou sens.</li><li><b>🔊 Audio</b> — appuie sur le haut-parleur pour entendre la prononciation.</li></ul>` },
+      vocab:  { title: 'Vocabulaire — Cartes du jour',             body: `<p>Vocabulaire issu des kanji que tu as mis en favori.</p><ul><li><b>Nouvelle sélection</b> — mélange un nouveau lot depuis tes kanji sauvegardés.</li><li><b>Sauvegarder</b> — ajoute les mots du jour à ton pool de quiz.</li><li><b>Depuis Kanji</b> — quand actif, le vocab est filtré selon les kanji visibles dans l'onglet Kanji.</li><li><b>Filtre niveau</b> — concentre-toi sur un niveau JLPT ou mélange tout.</li><li><b>🔊 Audio</b> — appuie sur le haut-parleur sur une carte pour entendre la prononciation.</li></ul>` },
+      mylist: { title: 'Ma Liste — Mots & Kanji sauvegardés',    body: `<p>Tous tes kanji et vocabulaire en favoris en un seul endroit.</p><ul><li><b>Appuie sur une puce kanji</b> — ouvre le popup détail avec lectures, exemples et vocab associé.</li><li><b>Sélectionner</b> — active le mode multi-sélection pour suppression groupée.</li><li><b>Répétition espacée</b> — les mots à réviser sont automatiquement intégrés dans ton Quiz quotidien.</li><li><b>Se connecter</b> — synchronise ta liste sur tous tes appareils via Google.</li></ul>` },
+      stats:  { title: 'Stats — Ta Progression',                   body: `<p>Graphiques et historique de ton parcours d'étude.</p><ul><li><b>Tuile série</b> — appuie pour basculer entre série actuelle et jours totaux ce mois.</li><li><b>Calendrier de série</b> — chaque carré = un jour d'étude. Plus sombre = plus de mots. Bascule 1S / 2S / calendrier complet.</li><li><b>Graphique des scores</b> — tes résultats au fil du temps (20 dernières sessions).</li><li><b>Graphique d'activité</b> — mots par jour. Bascule 1S / 2S / calendrier mensuel.</li><li><b>Progression JLPT</b> — combien il te reste pour atteindre ton objectif.</li></ul>` },
+      exam:   { title: 'Espace Quiz — Quizzes & Simulation JLPT',  body: `<p>Tous tes modes de quiz en un seul endroit.</p><ul><li><b>Quiz quotidien</b> — pratique les mots sauvegardés aujourd'hui. Les cartes de répétition espacée sont incluses automatiquement.</li><li><b>Défi hebdomadaire</b> — disponible chaque lundi : couvre les 2 dernières semaines.</li><li><b>Mode Examen</b> — 20 questions · 7 minutes · 60 % pour réussir. Simule un vrai test JLPT avec ton vocabulaire. Cumulatif : N3 inclut N5+N4+N3. <em>Fonctionnalité Premium.</em></li></ul>` },
+    },
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -697,6 +737,26 @@ const TRANSLATIONS = {
     exam_history_title: 'RESULTADOS RECIENTES',
     exam_history_empty: 'Ningún examen realizado',
     exam_cumulative_tip: 'N4 incluye N5+N4, N3 incluye N5+N4+N3, etc.',
+
+    // ── Tienda & barra XP ─────────────────────────────────────────────
+    xp_beans_title:      'Granos de café ganados',
+    shop_section_frames: 'Marcos de perfil',
+    shop_section_themes: 'Temas',
+    shop_section_badges: 'Insignias de calendario',
+    shop_grains_label:   'granos de café',
+    shop_btn_equip:      'Equipar',
+    shop_btn_equipped:   'Equipado ✓',
+    shop_no_beans:       '¡No hay suficientes granos ☕ Sigue con tu racha!',
+
+    // ── Pistas de pestañas (ⓘ) ───────────────────────────────────────
+    tab_hints: {
+      home:   { title: 'Inicio — Tu Panel',                       body: `<p>Tu centro de estudio diario. Todo de un vistazo.</p><ul><li><b>Racha</b> — días consecutivos de estudio. ¡No rompas la cadena! Toca para alternar entre días de racha y el recuento de este mes.</li><li><b>Quiz diario</b> — practica las palabras que has guardado. Vuelve cada día para nuevo vocabulario.</li><li><b>Desafío semanal</b> — cada lunes, un quiz sobre las 2 últimas semanas.</li><li><b>Tarjeta JLPT</b> — registra palabras guardadas hacia tu objetivo. Toca para cambiar nivel.</li><li><b>☕ Barra XP</b> — estudia 3 días seguidos para ganar un grano de café 🫘. Gasta tus granos en la Tienda (pestaña Perfil).</li></ul>` },
+      kanji:  { title: 'Kanji — Explorar & Descubrir',             body: `<p>Explora kanji organizados por nivel JLPT (N5 = más fácil, N1 = más difícil).</p><ul><li><b>Nueva selección</b> — mezcla un nuevo lote al mismo nivel.</li><li><b>Guardar un kanji</b> — toca ☆ en una tarjeta para marcarlo en Mi Lista y desbloquear su vocabulario.</li><li><b>Más / Menos</b> — ajusta cuántas tarjetas se muestran.</li><li><b>Barra de búsqueda</b> — encuentra cualquier kanji por carácter, lectura o significado.</li><li><b>🔊 Audio</b> — toca el altavoz para escuchar la pronunciación.</li></ul>` },
+      vocab:  { title: 'Vocabulario — Tarjetas del día',           body: `<p>Vocabulario basado en los kanji que has marcado.</p><ul><li><b>Nueva selección</b> — mezcla nuevo vocab desde tus kanji guardados.</li><li><b>Guardar</b> — guarda las palabras de hoy en tu pool de quiz.</li><li><b>Desde Kanji</b> — filtra el vocab según los kanji visibles en la pestaña Kanji.</li><li><b>Filtro de nivel</b> — concéntrate en un nivel JLPT o mezcla todos.</li><li><b>🔊 Audio</b> — toca el altavoz en cualquier tarjeta para escuchar la pronunciación.</li></ul>` },
+      mylist: { title: 'Mi Lista — Palabras y Kanji guardados',    body: `<p>Todos tus kanji y vocabulario marcados en un solo lugar.</p><ul><li><b>Toca un chip de kanji</b> — abre el popup de detalle con lecturas, ejemplos y vocab relacionado.</li><li><b>Seleccionar</b> — activa el modo multi-selección para borrado masivo.</li><li><b>Repetición espaciada</b> — las palabras para repasar se mezclan automáticamente en tu Quiz diario.</li><li><b>Iniciar sesión</b> — sincroniza tu lista en todos tus dispositivos vía Google.</li></ul>` },
+      stats:  { title: 'Stats — Tu Progreso',                      body: `<p>Gráficas e historial de tu aprendizaje.</p><ul><li><b>Tarjeta de racha</b> — toca para alternar entre racha actual y días totales este mes.</li><li><b>Calendario de racha</b> — cada cuadrado = un día de estudio. Más oscuro = más palabras. Alterna 1S / 2S / calendario completo.</li><li><b>Gráfica de puntuaciones</b> — tus resultados a lo largo del tiempo (20 últimas sesiones).</li><li><b>Gráfica de actividad</b> — palabras por día. Alterna 1S / 2S / calendario mensual.</li><li><b>Progreso JLPT</b> — qué tan cerca estás del vocabulario de tu nivel objetivo.</li></ul>` },
+      exam:   { title: 'Zona Quiz — Quizzes & Simulación JLPT',    body: `<p>Todos tus modos de quiz en un solo lugar.</p><ul><li><b>Quiz diario</b> — practica las palabras guardadas hoy. Las tarjetas SRS se incluyen automáticamente.</li><li><b>Desafío semanal</b> — disponible cada lunes: cubre las 2 últimas semanas.</li><li><b>Modo Examen</b> — 20 preguntas · 7 minutos · 60 % para pasar. Simula un JLPT real con tu vocabulario. Acumulativo: N3 incluye N5+N4+N3. <em>Función Premium.</em></li></ul>` },
+    },
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -929,6 +989,26 @@ const TRANSLATIONS = {
     exam_history_title: 'LETZTE ERGEBNISSE',
     exam_history_empty: 'Noch keine Prüfungen abgelegt',
     exam_cumulative_tip: 'N4 enthält N5+N4, N3 enthält N5+N4+N3, usw.',
+
+    // ── Shop & XP-Leiste ─────────────────────────────────────────────
+    xp_beans_title:      'Verdiente Kaffeebohnen',
+    shop_section_frames: 'Profilrahmen',
+    shop_section_themes: 'Themes',
+    shop_section_badges: 'Kalender-Abzeichen',
+    shop_grains_label:   'Kaffeebohnen',
+    shop_btn_equip:      'Anlegen',
+    shop_btn_equipped:   'Aktiv ✓',
+    shop_no_beans:       'Nicht genug Bohnen ☕ Halte deine Serie aufrecht!',
+
+    // ── Tab-Hinweise (ⓘ) ────────────────────────────────────────────
+    tab_hints: {
+      home:   { title: 'Start — Dein Dashboard',                  body: `<p>Dein tägliches Lern-Hub. Alles auf einen Blick.</p><ul><li><b>Serie</b> — aufeinanderfolgende Lerntage. Durchhalte! Tippe zum Wechseln zwischen Serienlänge und Monatstagen.</li><li><b>Tagesquiz</b> — übe gespeicherte Wörter. Komm jeden Tag für neues Vokabular wieder.</li><li><b>Wochenchallenge</b> — jeden Montag ein Quiz über die letzten 2 Wochen.</li><li><b>JLPT-Kachel</b> — zeigt Fortschritt zum Ziel. Tippe zum Wechseln.</li><li><b>☕ XP-Leiste</b> — lerne 3 Tage in Folge, um eine Kaffeebohne �ae zu verdienen. Bohnen im Shop ausgeben (Tab Profil).</li></ul>` },
+      kanji:  { title: 'Kanji — Entdecken & Stöbern',              body: `<p>Entdecke Kanji nach JLPT-Niveau (N5 = leicht, N1 = schwer).</p><ul><li><b>Neue Auswahl</b> — mische eine neue Kanji-Auswahl auf gleichem Niveau.</li><li><b>Kanji speichern</b> — tippe auf ☆ auf einer Karte, um sie in Meine Liste zu bookmarken.</li><li><b>Mehr / Weniger</b> — passe die Anzahl angezeigter Karten an.</li><li><b>Suchleiste</b> — finde Kanji nach Zeichen, Lesung oder Bedeutung.</li><li><b>🔊 Audio</b> — tippe das Lautsprecher-Symbol für die Aussprache.</li></ul>` },
+      vocab:  { title: 'Vokabeln — Tägliche Karten',               body: `<p>Vokabular aus deinen markierten Kanji.</p><ul><li><b>Neue Auswahl</b> — mische neues Vokabular aus deinen gespeicherten Kanji.</li><li><b>Speichern</b> — fügt heutige Wörter dem Quiz-Pool hinzu.</li><li><b>Aus Kanji</b> — filtert Vokabular auf Kanji des aktuellen Kanji-Tabs.</li><li><b>Niveau-Filter</b> — konzentriere dich auf ein JLPT-Niveau oder mische alle.</li><li><b>🔊 Audio</b> — tippe das Lautsprecher-Symbol für die Aussprache.</li></ul>` },
+      mylist: { title: 'Meine Liste — Wörter & Kanji',              body: `<p>Alle gespeicherten Kanji und Wörter an einem Ort.</p><ul><li><b>Kanji-Chip antippen</b> — öffnet das Detail-Popup mit Lesungen, Beispielen und Vokabular.</li><li><b>Auswählen</b> — Mehrfachauswahl für Massenlöschung aktivieren.</li><li><b>Wiederholung</b> — fällige Karten werden automatisch in dein Tagesquiz eingemischt.</li><li><b>Anmelden</b> — synchronisiert deine Liste geräteübergreifend per Google.</li></ul>` },
+      stats:  { title: 'Stats — Dein Fortschritt',                   body: `<p>Diagramme und Verlauf deines Lernwegs.</p><ul><li><b>Serien-Kachel</b> — tippen zum Wechseln zwischen Serienanzahl und Monatstagen.</li><li><b>Serienkalender</b> — jedes Kästchen = ein Lerntag. Dunkler = mehr Wörter. Wechsel 1W / 2W / Vollkalender.</li><li><b>Punkte-Diagramm</b> — Quizresultate im Zeitverlauf (letzte 20).</li><li><b>Aktivitäts-Diagramm</b> — Wörter pro Tag. Wechsel 1W / 2W / Monatskalender.</li><li><b>JLPT-Fortschritt</b> — wie nah du dem Vokabular deines Ziellevels bist.</li></ul>` },
+      exam:   { title: 'Quiz-Hub — Quizze & JLPT-Simulation',      body: `<p>Alle Quiz-Modi an einem Ort.</p><ul><li><b>Tagesquiz</b> — übe heutige Wörter. SRS-Karten werden automatisch eingemischt.</li><li><b>Wochenchallenge</b> — jeden Montag: umfasst die letzten 2 Wochen.</li><li><b>Prüfungsmodus</b> — 20 Fragen · 7 Minuten · 60 % zum Bestehen. Simuliert echten JLPT mit deinem Vokabular. Kumulativ: N3 enthält N5+N4+N3. <em>Premium-Funktion.</em></li></ul>` },
+    },
   },
 
   // ──────────────────────────────────────────────────────────────────────
@@ -1165,6 +1245,26 @@ const TRANSLATIONS = {
     exam_history_title: 'ПОСЛЕДНИЕ РЕЗУЛЬТАТЫ',
     exam_history_empty: 'Экзаменов ещё не было',
     exam_cumulative_tip: 'N4 включает N5+N4, N3 включает N5+N4+N3 и т.д.',
+
+    // ── Магазин & шкала XP ───────────────────────────────────────────
+    xp_beans_title:      'Заработанные кофейные зёрна',
+    shop_section_frames: 'Рамки профиля',
+    shop_section_themes: 'Темы',
+    shop_section_badges: 'Значки календаря',
+    shop_grains_label:   'кофейных зёрен',
+    shop_btn_equip:      'Надеть',
+    shop_btn_equipped:   'Надето ✓',
+    shop_no_beans:       'Недостаточно зёрен ☕ Не прерывай серию!',
+
+    // ── Подсказки вкладок (ⓘ) ───────────────────────────────────
+    tab_hints: {
+      home:   { title: 'Главная — Твоя панель',                 body: `<p>Твой ежедневный учебный центр. Всё на виду.</p><ul><li><b>Серия</b> — дни подряд с занятиями. Не прерывай! Нажми для переключения между серией и днями месяца.</li><li><b>Ежедневный тест</b> — практикуй сохранённые слова. Возвращайся каждый день за новым словарём.</li><li><b>Еженедельный вызов</b> — каждый понедельник тест по словарю последних 2 недель.</li><li><b>Плитка JLPT</b> — показывает прогресс к цели. Нажми для смены уровня.</li><li><b>☕ Шкала XP</b> — занимайся 3 дня подряд, чтобы заработать кофейное зёрнышко �ae. Трать зёрна в Магазине (вкладка Профиль).</li></ul>` },
+      kanji:  { title: 'Кандзи — Обзор и Открытия',           body: `<p>Изучай кандзи по уровням JLPT (N5 = проще, N1 = сложнее).</p><ul><li><b>Новая подборка</b> — перемешай кандзи того же уровня.</li><li><b>Сохранить кандзи</b> — нажми ☆ на карточке, чтобы добавить в Мой список и разблокировать словарь.</li><li><b>Больше / Меньше</b> — настрой количество карточек.</li><li><b>Поиск</b> — найди любой кандзи по символу, чтению или значению.</li><li><b>🔊 Аудио</b> — нажми на значок динамика для прослушивания произношения.</li></ul>` },
+      vocab:  { title: 'Словарь — Карточки дня',              body: `<p>Словарь на основе твоих сохранённых кандзи.</p><ul><li><b>Новая подборка</b> — перемешай слова из твоих кандзи.</li><li><b>Сохранить</b> — добавляет сегодняшние слова в пул теста.</li><li><b>По кандзи</b> — фильтрует слова по текущим кандзи во вкладке Кандзи.</li><li><b>Фильтр уровня</b> — сосредоточься на одном уровне JLPT или смешай все.</li><li><b>🔊 Аудио</b> — нажми на динамик для прослушивания произношения.</li></ul>` },
+      mylist: { title: 'Мой список — Слова и Кандзи',        body: `<p>Все твои сохранённые кандзи и слова в одном месте.</p><ul><li><b>Нажми на чип кандзи</b> — открывает подробное окно с чтениями, примерами и словарём.</li><li><b>Выбрать</b> — режим множественного выбора для массового удаления.</li><li><b>Интервальное повторение</b> — карточки для повторения автоматически включаются в ежедневный тест.</li><li><b>Войти</b> — синхронизирует список на всех устройствах через Google.</li></ul>` },
+      stats:  { title: 'Статистика — Твой прогресс',         body: `<p>Графики и история твоего обучения.</p><ul><li><b>Плитка серии</b> — нажми для переключения между серией и днями месяца.</li><li><b>Календарь серии</b> — каждый квадрат = день занятий. Темнее = больше слов. Переключай 1Н / 2Н / полный календарь.</li><li><b>График баллов</b> — результаты тестов (последние 20).</li><li><b>График активности</b> — слова в день. Переключай 1Н / 2Н / месяц.</li><li><b>Прогресс JLPT</b> — насколько ты близок к нужному словарному запасу.</li></ul>` },
+      exam:   { title: 'Центр Тестов — Тесты & Симуляция JLPT', body: `<p>Все режимы тестирования в одном месте.</p><ul><li><b>Ежедневный тест</b> — практикуй слова сегодня. Карточки SRS включаются автоматически.</li><li><b>Еженедельный вызов</b> — каждый понедельник: охватывает последние 2 недели.</li><li><b>Режим экзамена</b> — 20 вопросов · 7 минут · 60 % для сдачи. Симулирует настоящий JLPT. Кумулятивно: N3 включает N5+N4+N3. <em>Функция Premium.</em></li></ul>` },
+    },
   },
 };
 
