@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **18 Mai 2026** · Stripe LIVE ✅ · SW v19
+> Dernière mise à jour: **19 Mai 2026** · Stripe LIVE ✅ · SW v19
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `2cfac6e` · main `d393cf8` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `f2f354e` · main `d393cf8` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -322,6 +322,17 @@ kanji.guimo-prod.com {
 - [x] `public/sw.js` — cache v13, pre-cache kanji_index.json + sentences.json
 - [x] Impact : Affichage instantané des détails kanji sous vocab cards (4-5 sec → 0 sec)
 - [x] **3813 phrases réutilisables** pour vocab cards + génération reels (pierre 2 coups)
+
+**Shop prices + Tab hints + My List design** ← commit `f2f354e` (dev, 19 Mai 2026)
+- [x] `src/xp.js` — prix réels sur les 12 REWARDS : badges 5/8/12/18 🫘 · thèmes 15/20/30/40 · frames 25/35/50/90
+  - Modèle actuel : **dépense et réduit** (56 beans - achat 30 = 26 restants · total pour tout = 348 beans)
+  - Alternative envisagée : modèle palier (atteindre 90 débloque tout ≤ 90) — **non implémenté, à décider**
+- [x] `src/i18n.js` — hints (i) `vocab`/`kanji`/`stats` mis à jour en 5 langues
+  - `vocab` : ajouté "tap carte → popup Jisho + composants kanji" · remplacé "From Kanji" par "bouton 漢 Kanji"
+  - `kanji` : ajouté "tap carte → popup détail" · ajouté "bouton 語 Vocab pour revenir"
+  - `stats` : supprimé "Score chart" + "Streak calendar" (retirés de l'app) · ajouté XP bar + Study Activity + Weekly Challenge
+- [x] `src/main.js` — `handleWordRowClick` appelle `openVocabDetail()` (design complet) au lieu de `openWordDetail()` (ancien popup basique)
+- Note : refresh cartes vocab/kanji sur switch tab déjà géré — `renderVocab(forceNew=false)` + `loadAndRender(n, forceNew=false)` servent depuis le cache
 
 **Fixes UI XP bar + contexte utilisateur** ← (dev, 18 Mai 2026)
 - [x] XP bar layout : ☕ cup icon aligné en ligne avec les segments (flex row) — plus d'icône flottante au-dessus
