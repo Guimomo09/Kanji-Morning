@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **18 Mai 2026** · Stripe LIVE ✅
+> Dernière mise à jour: **18 Mai 2026** · Stripe LIVE ✅ · SW v19
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -290,6 +290,20 @@ kanji.guimo-prod.com {
 - [x] Onglets — `語`/`試験` wrappés dans `.tab-icon` (20px uniform, même hauteur que icônes SVG)
 - [ ] **À faire** : couverture N1/N2 limitée — envisager JMdict-examples (dataset pré-indexé JP+EN, ~200k phrases)
 
+**Furigana audit & corrections** ← commits `bd76ea2` → `25f5e98` (dev, 18 Mai 2026)
+- [x] Audit complet des 4518 phrases — toutes les lectures kuromoji vérifiées
+- [x] 7 erreurs corrigées : 方×4 (ほう→かた: 近所/株主/婚約/近親), 後 (こう→あと: 分岐), 道 (どう→みち: 砂利), 形 (がた→けい: 動作)
+- [x] Phrase 反転 bizarre remplacée (argot internet → phrase normale)
+- [x] SW v18 → v19
+
+**Pipeline phrases unifié — source unique sentences.json** ← commits `33ebf08` → `a1330af` (dev, 18 Mai 2026)
+- [x] `scripts/build-kanji-sentences.mjs` — index kanji→phrases depuis sentences.json (1636/2211 kanji couverts)
+- [x] `public/kanji-sentences.json` — pré-calculé, n5:77 n4:164 n3:367 n2:339 n1:689
+- [x] `generate-kanji-cards.mjs` — charge kanji-sentences.json comme step 1.5 (après SENTENCE_OVERRIDE, avant Tatoeba)
+- [x] `generate-reels.mjs` — idem
+- [x] `generate-vocab-reels.mjs` — restauré depuis main, branché sur sentences.json (step 1.5 avant Tatoeba)
+- **Source unique** : sentences.json AI → app in-app + kanji reels + vocab reels
+
 **Phrases vocab statiques + kanji display fix** ← commits `5e17e2f` → `2cfac6e` (dev, 18 Mai 2026)
 - [x] `public/sentences.json` — pre-generated Tatoeba sentences pour 4522 mots
   * **3795 phrases générées** (84.0% coverage) · ~460 KB
@@ -355,6 +369,8 @@ kanji.guimo-prod.com {
 - [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026 — Payment Link live · `sk_live` + `whsec_live` sur VPS · flow testé avec promo code `FRIENDFREE` ✅
 - [x] ~~Quiz UX #1–#6~~ — XP/Grains · distracteurs · retry · profil/shop ✅
 - [x] ~~Vocab enrichi #7+#8+#9~~ — Composants kanji · zoom + Jisho · save depuis vocab ✅
+- [x] ~~Phrases unifiées~~ — sentences.json AI → app + reels kanji + reels vocab ✅
+- [ ] **Rétention** — Notifications push · Daily reminder · Re-engagement streak at risk
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
