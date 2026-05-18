@@ -10,7 +10,6 @@ import { loadDailyVocab } from './daily.js';
 import { srsLoad, srsSave } from './srs.js';
 import { showSkeletons, getAllSavedKanjis, ensureKanjiCards, isKanjiSaved, toggleSaveKanji, SENTENCE_OVERRIDE } from './kanji.js';
 import { getMeaning } from './trans.js';
-import { getLang } from './i18n.js';
 import { getLang, t } from './i18n.js';
 import { speakJapanese } from './audio.js';
 

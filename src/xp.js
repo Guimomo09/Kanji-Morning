@@ -82,31 +82,22 @@ export function unlockAllFree() {
   }
 }
 
-export function spendAndUnlock(id) {
-  const reward = REWARDS.find(r => r.id === id);
-  if (!reward) return { ok: false, err: 'unknown' };
-  if (isUnlocked(id)) return { ok: false, err: 'already' };
-  const grains = getGrains();
-  if (grains < reward.cost) return { ok: false, err: 'insufficient' };
+// Threshold model: items auto-unlock when total grains >= item cost. Grains are never spent.
+export function checkAndUnlockByThreshold() {
+  const grains   = getGrains();
+  const current  = getUnlocked();
+  const toUnlock = REWARDS
+    .filter(r => !current.includes(r.id) && grains >= r.cost)
+    .map(r => r.id);
+  if (!toUnlock.length) return false;
+  const merged = [...new Set([...current, ...toUnlock])];
+  const _write = () => localStorage.setItem('km_xp_unlocked', JSON.stringify(merged));
   try {
-    localStorage.setItem('km_xp_grains', grains - reward.cost);
-    localStorage.setItem('km_xp_grains_spent', getSpentGrains() + reward.cost);
-    const unlocked = getUnlocked();
-    unlocked.push(id);
-    localStorage.setItem('km_xp_unlocked', JSON.stringify(unlocked));
+    _write();
   } catch (e) {
     if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
-      console.warn('[spendAndUnlock] localStorage full, evicting cache and retrying…');
       evictAllCache();
-      try {
-        localStorage.setItem('km_xp_grains', grains - reward.cost);
-        localStorage.setItem('km_xp_grains_spent', getSpentGrains() + reward.cost);
-        const unlocked = getUnlocked();
-        unlocked.push(id);
-        localStorage.setItem('km_xp_unlocked', JSON.stringify(unlocked));
-      } catch (e2) {
-        console.warn('[spendAndUnlock] still full after eviction:', e2.name);
-      }
+      try { _write(); } catch (e2) { console.warn('[checkAndUnlockByThreshold] still full:', e2.name); }
     }
   }
   return { ok: true };
@@ -223,6 +214,7 @@ export function syncXPBar(studiedDatesSet) {
 
   localStorage.setItem('km_xp_bar', bar);
   localStorage.setItem('km_xp_grains', grains);
+  checkAndUnlockByThreshold();
 
   return earned;
 }
@@ -264,7 +256,7 @@ export function renderXPBarHTML() {
     </div>`;
 }
 
-// ── Render Shop HTML (unowned items only — buy) ───────────────────────────
+// ── Render Shop HTML — threshold model (items unlock automatically) ───────
 export function renderShopHTML() {
   const grains   = getGrains();
   const unlocked = getUnlocked();
@@ -281,10 +273,7 @@ export function renderShopHTML() {
     if (!items.length) return '';
     hasAny = true;
     const cards = items.map(r => {
-      const canAfford = grains >= r.cost;
-      const action = canAfford
-        ? `<button class="shop-btn shop-btn-buy" onclick="window.shopBuy('${r.id}')">🫘 ${r.cost}</button>`
-        : `<button class="shop-btn shop-btn-locked" disabled>🫘 ${r.cost}</button>`;
+      const pct      = Math.min(100, Math.round((grains / r.cost) * 100));
       const iconHTML = r.img
         ? `<img src="${r.img}" class="shop-card-img" alt="${r.name}">`
         : r.emoji;
@@ -292,7 +281,10 @@ export function renderShopHTML() {
         <div class="shop-card">
           <div class="shop-card-icon">${iconHTML}</div>
           <div class="shop-card-name">${r.name}</div>
-          ${action}
+          <div class="shop-threshold">
+            <div class="shop-progress-bar"><div class="shop-progress-fill" style="width:${pct}%"></div></div>
+            <div class="shop-progress-label">${grains} / ${r.cost} 🫘</div>
+          </div>
         </div>`;
     }).join('');
 
@@ -420,15 +412,8 @@ function _refreshShopPanels() {
   if (appEl) appEl.innerHTML = renderAppearancesHTML();
 }
 
-window.shopBuy = function(id) {
-  const result = spendAndUnlock(id);
-  if (result.ok || result.err === 'already') {
-    applyEquipped();
-    _refreshShopPanels();
-  } else if (result.err === 'insufficient') {
-    alert(t('shop_no_beans'));
-  }
-};
+// Threshold model: no manual purchase — items unlock automatically via checkAndUnlockByThreshold().
+window.shopBuy = function(_id) { /* no-op */ };
 
 window.shopEquip = function(id) {
   equipReward(id);

@@ -941,11 +941,6 @@ setPostAuthCallback(() => {
 });
 
 // ── Wrap shop actions to push XP/cosmetics to cloud after each change ────
-const _origShopBuy = window.shopBuy;
-window.shopBuy = function(id) {
-  _origShopBuy(id);
-  if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
-};
 const _origShopEquip = window.shopEquip;
 window.shopEquip = function(id) {
   _origShopEquip(id);

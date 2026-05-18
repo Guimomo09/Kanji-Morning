@@ -484,6 +484,10 @@
     .shop-btn-buy          { background:#c8832e; color:#fff; }
     .shop-btn-buy:hover    { background:#b0711f; }
     .shop-btn-locked       { background:var(--border); color:var(--muted); cursor:not-allowed; }
+    .shop-threshold        { margin-top:6px; }
+    .shop-progress-bar     { height:4px; background:var(--border); border-radius:4px; overflow:hidden; margin-bottom:4px; }
+    .shop-progress-fill    { height:100%; background:#c8832e; border-radius:4px; transition:width .3s; }
+    .shop-progress-label   { font-size:11px; color:var(--muted); }
     .shop-btn-equip        { background:var(--surface); color:#c8832e; border:1.5px solid #c8832e; }
     .shop-btn-equip:hover  { background:#c8832e22; }
     .shop-btn-equipped     { background:#c8832e22; color:#c8832e; border:1.5px solid #c8832e; cursor:default; }
