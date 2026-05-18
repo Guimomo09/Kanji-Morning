@@ -4487,7 +4487,7 @@
   "近所": {
     "jp": "ご近所の方を招待しました。",
     "en": "I invited the neighbours.",
-    "ruby": "ご<ruby>近所<rt>きんじょ</rt></ruby>の<ruby>方<rt>ほう</rt></ruby>を<ruby>招待<rt>しょうたい</rt></ruby>しました。"
+    "ruby": "ご<ruby>近所<rt>きんじょ</rt></ruby>の<ruby>方<rt>かた</rt></ruby>を<ruby>招待<rt>しょうたい</rt></ruby>しました。"
   },
   "台所": {
     "jp": "台所にいます。",
@@ -7587,7 +7587,7 @@
   "株主": {
     "jp": "ご質問のある株主の方は、挙手をお願いいたします。",
     "en": "Shareholders with questions, please raise your hands.",
-    "ruby": "ご<ruby>質問<rt>しつもん</rt></ruby>のある<ruby>株主<rt>かぶぬし</rt></ruby>の<ruby>方<rt>ほう</rt></ruby>は、<ruby>挙手<rt>きょしゅ</rt></ruby>を<ruby>お願い<rt>おねがい</rt></ruby>いたします。"
+    "ruby": "ご<ruby>質問<rt>しつもん</rt></ruby>のある<ruby>株主<rt>かぶぬし</rt></ruby>の<ruby>方<rt>かた</rt></ruby>は、<ruby>挙手<rt>きょしゅ</rt></ruby>を<ruby>お願い<rt>おねがい</rt></ruby>いたします。"
   },
   "検事": {
     "jp": "検事は誘導尋問をした。",
@@ -9187,7 +9187,7 @@
   "婚約": {
     "jp": "あの方は彼の婚約者です。",
     "en": "That’s his fiancée.",
-    "ruby": "あの<ruby>方<rt>ほう</rt></ruby>は<ruby>彼<rt>かれ</rt></ruby>の<ruby>婚約<rt>こんやく</rt></ruby><ruby>者<rt>しゃ</rt></ruby>です。"
+    "ruby": "あの<ruby>方<rt>かた</rt></ruby>は<ruby>彼<rt>かれ</rt></ruby>の<ruby>婚約<rt>こんやく</rt></ruby><ruby>者<rt>しゃ</rt></ruby>です。"
   },
   "定食": {
     "jp": "日替わり定食にしませんか。",
@@ -15022,7 +15022,7 @@
   "近親": {
     "jp": "近親者に高血圧の方はいらっしゃいますか？",
     "en": "Does anyone in your close family have high blood pressure?",
-    "ruby": "<ruby>近親<rt>きんしん</rt></ruby><ruby>者<rt>しゃ</rt></ruby>に<ruby>高<rt>こう</rt></ruby><ruby>血圧<rt>けつあつ</rt></ruby>の<ruby>方<rt>ほう</rt></ruby>はいらっしゃいますか？"
+    "ruby": "<ruby>近親<rt>きんしん</rt></ruby><ruby>者<rt>しゃ</rt></ruby>に<ruby>高<rt>こう</rt></ruby><ruby>血圧<rt>けつあつ</rt></ruby>の<ruby>方<rt>かた</rt></ruby>はいらっしゃいますか？"
   },
   "近々": {
     "jp": "近々お会いできるのを楽しみにしています。",
@@ -15230,9 +15230,9 @@
     "ruby": "これは<ruby>原本<rt>げんぽん</rt></ruby>です。"
   },
   "反転": {
-    "jp": "この先ネタバレ♪大丈夫な方はドラッグ（反転）して読んでね♪",
-    "en": "Spoilers ahead! If you don't mind that then read after highlighting (colour inverting).",
-    "ruby": "この<ruby>先<rt>さき</rt></ruby>ネタバレ♪<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>な<ruby>方<rt>ほう</rt></ruby>はドラッグ（<ruby>反転<rt>はんてん</rt></ruby>）して<ruby>読ん<rt>よん</rt></ruby>でね♪"
+    "jp": "白と黒の色が反転して表示されています。",
+    "en": "The colors black and white are displayed in reverse.",
+    "ruby": "<ruby>白<rt>しろ</rt></ruby>と<ruby>黒<rt>くろ</rt></ruby>の<ruby>色<rt>いろ</rt></ruby>が<ruby>反転<rt>はんてん</rt></ruby>して<ruby>表示<rt>ひょうじ</rt></ruby>されています。"
   },
   "取り下げ": {
     "jp": "その検事は裁判の証拠を取り下げた。",

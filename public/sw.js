@@ -1,5 +1,5 @@
 // ── Cache name — bump this string to force a hard refresh on all clients ──
-const CACHE = 'kanji-morning-v17';
+const CACHE = 'kanji-morning-v18';
 
 // ── Install: pre-cache the app shell + static data ────────────────────────
 self.addEventListener('install', e => {
