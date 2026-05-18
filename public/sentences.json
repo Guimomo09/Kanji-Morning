@@ -1,28 +1,28 @@
 {
   "時間": {
-    "jp": "毎日、時間が足りません。",
-    "en": "I don't have enough time every day.",
-    "ruby": "<ruby>毎日<rt>まいにち</rt></ruby>、<ruby>時間<rt>じかん</rt></ruby>が<ruby>足り<rt>たり</rt></ruby>ません。"
+    "jp": "母は時間を守ります。",
+    "en": "My mother keeps time.",
+    "ruby": "<ruby>母<rt>はは</rt></ruby>は<ruby>時間<rt>じかん</rt></ruby>を<ruby>守り<rt>まもり</rt></ruby>ます。"
   },
   "仕事": {
-    "jp": "学生は仕事を探しています。",
-    "en": "The student is looking for a job.",
-    "ruby": "<ruby>学生<rt>がくせい</rt></ruby>は<ruby>仕事<rt>しごと</rt></ruby>を<ruby>探し<rt>さがし</rt></ruby>ています。"
+    "jp": "明日、仕事がたくさんあります。",
+    "en": "I have a lot of work tomorrow.",
+    "ruby": "<ruby>明日<rt>あした</rt></ruby>、<ruby>仕事<rt>しごと</rt></ruby>がたくさんあります。"
   },
   "電話": {
-    "jp": "電話が鳴りました。",
-    "en": "The phone rang.",
-    "ruby": "<ruby>電話<rt>でんわ</rt></ruby>が<ruby>鳴り<rt>なり</rt></ruby>ました。"
+    "jp": "電話をかけます。",
+    "en": "I will make a phone call.",
+    "ruby": "<ruby>電話<rt>でんわ</rt></ruby>をかけます。"
   },
   "問題": {
-    "jp": "この問題は難しいです。",
-    "en": "This problem is difficult.",
-    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>は<ruby>難しい<rt>むずかしい</rt></ruby>です。"
+    "jp": "数学の問題が難しいです。",
+    "en": "The math problem is difficult.",
+    "ruby": "<ruby>数学<rt>すうがく</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>が<ruby>難しい<rt>むずかしい</rt></ruby>です。"
   },
   "世界": {
-    "jp": "田中さんは世界を旅します。",
-    "en": "Mr. Tanaka travels the world.",
-    "ruby": "<ruby>田中<rt>たなか</rt></ruby>さんは<ruby>世界<rt>せかい</rt></ruby>を<ruby>旅<rt>たび</rt></ruby>します。"
+    "jp": "世界にはたくさんの文化があります。",
+    "en": "There are many cultures in the world.",
+    "ruby": "<ruby>世界<rt>せかい</rt></ruby>にはたくさんの<ruby>文化<rt>ぶんか</rt></ruby>があります。"
   },
   "通り": {
     "jp": "田中さんは説明通りにしました。",
@@ -30,19 +30,19 @@
     "ruby": "<ruby>田中<rt>たなか</rt></ruby>さんは<ruby>説明<rt>せつめい</rt></ruby><ruby>通り<rt>どおり</rt></ruby>にしました。"
   },
   "一人": {
-    "jp": "母は一人で行きます。",
-    "en": "My mother will go alone.",
-    "ruby": "<ruby>母<rt>はは</rt></ruby>は<ruby>一<rt>いち</rt></ruby><ruby>人<rt>にん</rt></ruby>で<ruby>行き<rt>いき</rt></ruby>ます。"
+    "jp": "母は一人で買い物に行きます。",
+    "en": "My mother goes shopping by herself.",
+    "ruby": "<ruby>母<rt>はは</rt></ruby>は<ruby>一<rt>いち</rt></ruby><ruby>人<rt>にん</rt></ruby>で<ruby>買い物<rt>かいもの</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。"
   },
   "人間": {
     "jp": "人間はみんな友達です。",
-    "en": "Humans are all friends.",
+    "en": "All humans are friends.",
     "ruby": "<ruby>人間<rt>にんげん</rt></ruby>はみんな<ruby>友達<rt>ともだち</rt></ruby>です。"
   },
   "家族": {
-    "jp": "私の家族はとても仲がいいです。",
-    "en": "My family gets along very well.",
-    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>家族<rt>かぞく</rt></ruby>はとても<ruby>仲<rt>なか</rt></ruby>がいいです。"
+    "jp": "私の家族は毎週日曜日に集まります。",
+    "en": "My family gathers every Sunday.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>家族<rt>かぞく</rt></ruby>は<ruby>毎週<rt>まいしゅう</rt></ruby><ruby>日曜日<rt>にちようび</rt></ruby>に<ruby>集まり<rt>あつまり</rt></ruby>ます。"
   },
   "意味": {
     "jp": "この言葉の意味は大切です。",
@@ -65,14 +65,14 @@
     "ruby": "<ruby>宿題<rt>しゅくだい</rt></ruby>が<ruby>出来<rt>でき</rt></ruby>ました。"
   },
   "計画": {
-    "jp": "来週の旅行の計画を立てます。",
-    "en": "I will make a plan for next week's trip.",
-    "ruby": "<ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>計画<rt>けいかく</rt></ruby>を<ruby>立て<rt>たて</rt></ruby>ます。"
+    "jp": "来週の旅行の計画を立てました。",
+    "en": "I made a plan for next week's trip.",
+    "ruby": "<ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>計画<rt>けいかく</rt></ruby>を<ruby>立て<rt>たて</rt></ruby>ました。"
   },
   "以上": {
-    "jp": "この仕事は、二時間以上かかります。",
-    "en": "This job will take more than two hours.",
-    "ruby": "この<ruby>仕事<rt>しごと</rt></ruby>は、<ruby>二<rt>に</rt></ruby><ruby>時間<rt>じかん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>かかります。"
+    "jp": "この問題は三つ以上あります。",
+    "en": "There are more than three problems.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>は<ruby>三つ<rt>みっつ</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>あります。"
   },
   "二人": {
     "jp": "公園に二人がいます。",
@@ -90,9 +90,9 @@
     "ruby": "<ruby>母<rt>はは</rt></ruby>は<ruby>先生<rt>せんせい</rt></ruby>です。"
   },
   "同じ": {
-    "jp": "山田さんと同じ趣味です。",
-    "en": "I have the same hobby as Mr. Yamada.",
-    "ruby": "<ruby>山田<rt>やまだ</rt></ruby>さんと<ruby>同じ<rt>おなじ</rt></ruby><ruby>趣味<rt>しゅみ</rt></ruby>です。"
+    "jp": "私たちは同じ学校にいます。",
+    "en": "We are in the same school.",
+    "ruby": "<ruby>私<rt>わたし</rt></ruby>たちは<ruby>同じ<rt>おなじ</rt></ruby><ruby>学校<rt>がっこう</rt></ruby>にいます。"
   },
   "質問": {
     "jp": "先生に質問があります。",
@@ -100,19 +100,19 @@
     "ruby": "<ruby>先生<rt>せんせい</rt></ruby>に<ruby>質問<rt>しつもん</rt></ruby>があります。"
   },
   "写真": {
-    "jp": "兄は新しい写真を撮りました。",
-    "en": "My brother took a new photo.",
-    "ruby": "<ruby>兄<rt>あに</rt></ruby>は<ruby>新しい<rt>あたらしい</rt></ruby><ruby>写真<rt>しゃしん</rt></ruby>を<ruby>撮り<rt>とり</rt></ruby>ました。"
+    "jp": "兄は旅行の写真を見せました。",
+    "en": "My older brother showed me the travel photos.",
+    "ruby": "<ruby>兄<rt>あに</rt></ruby>は<ruby>旅行<rt>りょこう</rt></ruby>の<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>見せ<rt>みせ</rt></ruby>ました。"
   },
   "元気": {
-    "jp": "彼は毎日元気に運動します。",
-    "en": "He exercises energetically every day.",
-    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>毎日<rt>まいにち</rt></ruby><ruby>元気<rt>げんき</rt></ruby>に<ruby>運動<rt>うんどう</rt></ruby>します。"
+    "jp": "最近、私はとても元気です。",
+    "en": "Recently, I am very well.",
+    "ruby": "<ruby>最近<rt>さいきん</rt></ruby>、<ruby>私<rt>わたし</rt></ruby>はとても<ruby>元気<rt>げんき</rt></ruby>です。"
   },
   "父親": {
-    "jp": "私の父親は毎日働いています。",
-    "en": "My father works every day.",
-    "ruby": "<ruby>私<rt>わたし</rt></ruby>の<ruby>父親<rt>ちちおや</rt></ruby>は<ruby>毎日<rt>まいにち</rt></ruby><ruby>働い<rt>はたらい</rt></ruby>ています。"
+    "jp": "父親と一緒に映画を見ました。",
+    "en": "I watched a movie with my father.",
+    "ruby": "<ruby>父親<rt>ちちおや</rt></ruby>と<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ました。"
   },
   "会社": {
     "jp": "田中さんは会社に行きます。",
@@ -125,49 +125,49 @@
     "ruby": "<ruby>一体<rt>いったい</rt></ruby><ruby>誰<rt>だれ</rt></ruby>かしら？"
   },
   "人々": {
-    "jp": "人々は公園にいます。",
-    "en": "People are in the park.",
-    "ruby": "<ruby>人々<rt>ひとびと</rt></ruby>は<ruby>公園<rt>こうえん</rt></ruby>にいます。"
+    "jp": "人々は公園で遊びます。",
+    "en": "People play in the park.",
+    "ruby": "<ruby>人々<rt>ひとびと</rt></ruby>は<ruby>公園<rt>こうえん</rt></ruby>で<ruby>遊び<rt>あそび</rt></ruby>ます。"
   },
   "今日": {
-    "jp": "今日はいい天気です。",
-    "en": "The weather is nice today.",
-    "ruby": "<ruby>今日<rt>きょう</rt></ruby>はいい<ruby>天気<rt>てんき</rt></ruby>です。"
+    "jp": "今日、友達と映画を見ます。",
+    "en": "Today, I will watch a movie with my friend.",
+    "ruby": "<ruby>今日<rt>きょう</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。"
   },
   "学校": {
-    "jp": "母は学校へ行きます。",
+    "jp": "母は学校に行きます。",
     "en": "My mother goes to school.",
-    "ruby": "<ruby>母<rt>はは</rt></ruby>は<ruby>学校<rt>がっこう</rt></ruby>へ<ruby>行き<rt>いき</rt></ruby>ます。"
+    "ruby": "<ruby>母<rt>はは</rt></ruby>は<ruby>学校<rt>がっこう</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。"
   },
   "週間": {
-    "jp": "毎週、運動をする週間です。",
-    "en": "It's a week where I exercise every week.",
-    "ruby": "<ruby>毎週<rt>まいしゅう</rt></ruby>、<ruby>運動<rt>うんどう</rt></ruby>をする<ruby>週間<rt>しゅうかん</rt></ruby>です。"
+    "jp": "毎週、ジョギングをしています。週間に一回です。",
+    "en": "I go jogging every week. It's once a week.",
+    "ruby": "<ruby>毎週<rt>まいしゅう</rt></ruby>、ジョギングをしています。<ruby>週間<rt>しゅうかん</rt></ruby>に<ruby>一<rt>いち</rt></ruby><ruby>回<rt>かい</rt></ruby>です。"
   },
   "母親": {
-    "jp": "母親は子供たちを愛しています。",
-    "en": "The mother loves her children.",
-    "ruby": "<ruby>母親<rt>ははおや</rt></ruby>は<ruby>子供<rt>こども</rt></ruby>たちを<ruby>愛し<rt>あいし</rt></ruby>ています。"
+    "jp": "母親は毎日お弁当を作ります。",
+    "en": "My mother makes a bento every day.",
+    "ruby": "<ruby>母親<rt>ははおや</rt></ruby>は<ruby>毎日<rt>まいにち</rt></ruby>お<ruby>弁当<rt>べんとう</rt></ruby>を<ruby>作り<rt>つくり</rt></ruby>ます。"
   },
   "病院": {
-    "jp": "明日、病院に行きます。",
-    "en": "I will go to the hospital tomorrow.",
-    "ruby": "<ruby>明日<rt>あした</rt></ruby>、<ruby>病院<rt>びょういん</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。"
+    "jp": "兄は病院で働いています。",
+    "en": "My brother works at a hospital.",
+    "ruby": "<ruby>兄<rt>あに</rt></ruby>は<ruby>病院<rt>びょういん</rt></ruby>で<ruby>働い<rt>はたらい</rt></ruby>ています。"
   },
   "行動": {
-    "jp": "社員は良い行動をします。",
-    "en": "The employee behaves well.",
-    "ruby": "<ruby>社員<rt>しゃいん</rt></ruby>は<ruby>良い<rt>よい</rt></ruby><ruby>行動<rt>こうどう</rt></ruby>をします。"
+    "jp": "社員は良い行動をしました。",
+    "en": "The employee took good action.",
+    "ruby": "<ruby>社員<rt>しゃいん</rt></ruby>は<ruby>良い<rt>よい</rt></ruby><ruby>行動<rt>こうどう</rt></ruby>をしました。"
   },
   "研究": {
     "jp": "田中さんは新しい研究をしています。",
-    "en": "Mr. Tanaka is conducting new research.",
+    "en": "Mr. Tanaka is doing new research.",
     "ruby": "<ruby>田中<rt>たなか</rt></ruby>さんは<ruby>新しい<rt>あたらしい</rt></ruby><ruby>研究<rt>けんきゅう</rt></ruby>をしています。"
   },
   "発見": {
-    "jp": "新しい星を発見しました。",
-    "en": "I discovered a new star.",
-    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby><ruby>星<rt>ほし</rt></ruby>を<ruby>発見<rt>はっけん</rt></ruby>しました。"
+    "jp": "新しいレストランを発見しました。",
+    "en": "I discovered a new restaurant.",
+    "ruby": "<ruby>新しい<rt>あたらしい</rt></ruby>レストランを<ruby>発見<rt>はっけん</rt></ruby>しました。"
   },
   "大事": {
     "jp": "健康は大事です。",
@@ -175,19 +175,19 @@
     "ruby": "<ruby>健康<rt>けんこう</rt></ruby>は<ruby>大事<rt>だいじ</rt></ruby>です。"
   },
   "運転": {
-    "jp": "兄は車を運転します。",
-    "en": "My older brother drives a car.",
-    "ruby": "<ruby>兄<rt>あに</rt></ruby>は<ruby>車<rt>くるま</rt></ruby>を<ruby>運転<rt>うんてん</rt></ruby>します。"
+    "jp": "兄は毎日運転します。",
+    "en": "My brother drives every day.",
+    "ruby": "<ruby>兄<rt>あに</rt></ruby>は<ruby>毎日<rt>まいにち</rt></ruby><ruby>運転<rt>うんてん</rt></ruby>します。"
   },
   "明日": {
-    "jp": "明日は友達と映画を見ます。",
-    "en": "I will watch a movie with my friends tomorrow.",
-    "ruby": "<ruby>明日<rt>あした</rt></ruby>は<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。"
+    "jp": "明日、友達と映画を見ます。",
+    "en": "Tomorrow, I will watch a movie with my friend.",
+    "ruby": "<ruby>明日<rt>あした</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。"
   },
   "今度": {
-    "jp": "今度、友達と映画を見ます。",
-    "en": "Next time, I will watch a movie with my friends.",
-    "ruby": "<ruby>今度<rt>こんど</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ます。"
+    "jp": "今度、友達と映画に行きます。",
+    "en": "Next time, I will go to the movies with my friends.",
+    "ruby": "<ruby>今度<rt>こんど</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>ます。"
   },
   "特別": {
     "jp": "今日は特別な日です。",
@@ -200,9 +200,9 @@
     "ruby": "<ruby>医者<rt>いしゃ</rt></ruby>に<ruby>行く<rt>いく</rt></ruby><ruby>必要<rt>ひつよう</rt></ruby>があります。"
   },
   "不明": {
-    "jp": "その問題の答えは不明です。",
-    "en": "The answer to that question is unclear.",
-    "ruby": "その<ruby>問題<rt>もんだい</rt></ruby>の<ruby>答え<rt>こたえ</rt></ruby>は<ruby>不明<rt>ふめい</rt></ruby>です。"
+    "jp": "この問題の答えは不明です。",
+    "en": "The answer to this question is unclear.",
+    "ruby": "この<ruby>問題<rt>もんだい</rt></ruby>の<ruby>答え<rt>こたえ</rt></ruby>は<ruby>不明<rt>ふめい</rt></ruby>です。"
   },
   "用意": {
     "jp": "会議のために用意しました。",
@@ -215,9 +215,9 @@
     "ruby": "<ruby>公園<rt>こうえん</rt></ruby>に<ruby>大きな<rt>おおきな</rt></ruby><ruby>木<rt>き</rt></ruby>があります。"
   },
   "上手": {
-    "jp": "彼の絵はとても上手です。",
-    "en": "His drawings are very skillful.",
-    "ruby": "<ruby>彼<rt>かれ</rt></ruby>の<ruby>絵<rt>え</rt></ruby>はとても<ruby>上手<rt>じょうず</rt></ruby>です。"
+    "jp": "母は料理が上手です。",
+    "en": "My mother is good at cooking.",
+    "ruby": "<ruby>母<rt>はは</rt></ruby>は<ruby>料理<rt>りょうり</rt></ruby>が<ruby>上手<rt>じょうず</rt></ruby>です。"
   },
   "映画": {
     "jp": "友達と映画を見ました。",
@@ -225,24 +225,24 @@
     "ruby": "<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ました。"
   },
   "多く": {
-    "jp": "多くの人が来ました。",
-    "en": "Many people came.",
-    "ruby": "<ruby>多く<rt>おおく</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>が<ruby>来<rt>き</rt></ruby>ました。"
+    "jp": "田中さんは多くの本を読みます。",
+    "en": "Mr. Tanaka reads many books.",
+    "ruby": "<ruby>田中<rt>たなか</rt></ruby>さんは<ruby>多く<rt>おおく</rt></ruby>の<ruby>本<rt>ほん</rt></ruby>を<ruby>読み<rt>よみ</rt></ruby>ます。"
   },
   "人物": {
-    "jp": "彼は面白い人物です。",
-    "en": "He is an interesting person.",
-    "ruby": "<ruby>彼<rt>かれ</rt></ruby>は<ruby>面白い<rt>おもしろい</rt></ruby><ruby>人物<rt>じんぶつ</rt></ruby>です。"
+    "jp": "この映画の人物は面白いです。",
+    "en": "The characters in this movie are interesting.",
+    "ruby": "この<ruby>映画<rt>えいが</rt></ruby>の<ruby>人物<rt>じんぶつ</rt></ruby>は<ruby>面白い<rt>おもしろい</rt></ruby>です。"
   },
   "以外": {
-    "jp": "彼以外の人は来ませんでした。",
-    "en": "No one other than him came.",
-    "ruby": "<ruby>彼<rt>かれ</rt></ruby><ruby>以外<rt>いがい</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>は<ruby>来<rt>き</rt></ruby>ませんでした。"
+    "jp": "日本以外の国に行きたいです。",
+    "en": "I want to go to countries other than Japan.",
+    "ruby": "<ruby>日本<rt>にっぽん</rt></ruby><ruby>以外<rt>いがい</rt></ruby>の<ruby>国<rt>くに</rt></ruby>に<ruby>行き<rt>いき</rt></ruby>たいです。"
   },
   "以前": {
-    "jp": "以前、友達と旅行しました。",
-    "en": "I traveled with my friends before.",
-    "ruby": "<ruby>以前<rt>いぜん</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>旅行<rt>りょこう</rt></ruby>しました。"
+    "jp": "以前、友達と映画を見ました。",
+    "en": "I watched a movie with my friend before.",
+    "ruby": "<ruby>以前<rt>いぜん</rt></ruby>、<ruby>友達<rt>ともだち</rt></ruby>と<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ました。"
   },
   "銀行": {
     "jp": "友達と銀行に行きました。",
@@ -4615,8 +4615,8 @@
     "ruby": "かのローマの<ruby>偉大<rt>いだい</rt></ruby>な<ruby>英雄<rt>えいゆう</rt></ruby>、ジュリアス・シーザーは<ruby>暗殺<rt>あんさつ</rt></ruby>されたのです。"
   },
   "作曲": {
-    "jp": "このレーベルはケモナー作曲家たちに専念しています。",
-    "en": "This record label is dedicated to furry musicians.",
+    "jp": "田中さんは新しい曲を作曲しました。",
+    "en": "Tanaka composed a new song.",
     "ruby": "このレーベルはケモナー<ruby>作曲<rt>さっきょく</rt></ruby><ruby>家<rt>か</rt></ruby>たちに<ruby>専念<rt>せんねん</rt></ruby>しています。"
   },
   "要望": {
@@ -11340,18 +11340,18 @@
     "ruby": "<ruby>掲示板<rt>けいじばん</rt></ruby>を<ruby>新しい<rt>あたらしい</rt></ruby>サーバーに<ruby>移転<rt>いてん</rt></ruby>しました。"
   },
   "描写": {
-    "jp": "熱狂的なケモナーは、ケモナーが集まるコミュニティに対する人気メディアの描写が、多くの誤解を招いていると主張しています。",
-    "en": "Furry enthusiasts assert that popular media portrayals have told a very misleading story about their fandom.",
-    "ruby": "<ruby>熱狂<rt>ねっきょう</rt></ruby><ruby>的<rt>てき</rt></ruby>なケモナーは、ケモナーが<ruby>集まる<rt>あつまる</rt></ruby>コミュニティ<ruby>に対する<rt>にたいする</rt></ruby><ruby>人気<rt>にんき</rt></ruby>メディアの<ruby>描写<rt>びょうしゃ</rt></ruby>が、<ruby>多く<rt>おおく</rt></ruby>の<ruby>誤解<rt>ごかい</rt></ruby>を<ruby>招い<rt>まねい</rt></ruby>ていると<ruby>主張<rt>しゅちょう</rt></ruby>しています。"
+    "jp": "この小説の描写はとても美しいです。",
+    "en": "The descriptions in this novel are very beautiful.",
+    "ruby": "この<ruby>小説<rt>しょうせつ</rt></ruby>の<ruby>描写<rt>びょうしゃ</rt></ruby>はとても<ruby>美しい<rt>うつくしい</rt></ruby>です。"
   },
   "提起": {
-    "jp": "駅まで歩いていきます。",
-    "en": "I will walk to the train station.",
-    "ruby": "<ruby>駅<rt>えき</rt></ruby>まで<ruby>歩い<rt>あるい</rt></ruby>ていきます。"
+    "jp": "田中さんは会議で問題を提起しました。",
+    "en": "Tanaka raised an issue at the meeting.",
+    "ruby": "<ruby>田中<rt>たなか</rt></ruby>さんは<ruby>会議<rt>かいぎ</rt></ruby>で<ruby>問題<rt>もんだい</rt></ruby>を<ruby>提起<rt>ていき</rt></ruby>しました。"
   },
   "握手": {
-    "jp": "握手しようぜ！",
-    "en": "Give me some skin!",
+    "jp": "初めて会う人と握手をします。",
+    "en": "I shake hands with people I meet for the first time.",
     "ruby": "<ruby>握手<rt>あくしゅ</rt></ruby>しようぜ！"
   },
   "発揮": {
