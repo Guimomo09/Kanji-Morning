@@ -26,9 +26,9 @@ export const REWARDS = [
 
   // Background themes (accent colors only — only changes the header/red)
   { id: 'theme_dusk',   type: 'theme', name: 'Dusk',   cost: 0, emoji: '🌅', accent: '#e05b3a', accentDark: '#a03020' },
-  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',  cost: 0, emoji: '🌊', accent: '#3b82f6', accentDark: '#1d4ed8' },
+  { id: 'theme_ocean',  type: 'theme', name: 'Ocean',  cost: 0, emoji: '🌊', accent: '#2e7db3', accentDark: '#1a5980' },
   { id: 'theme_forest', type: 'theme', name: 'Forest', cost: 0, emoji: '🌲', accent: '#22c55e', accentDark: '#15803d' },
-  { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 0, emoji: '🪨', accent: '#8b5cf6', accentDark: '#6d28d9' },
+  { id: 'theme_stone',  type: 'theme', name: 'Stone',  cost: 0, emoji: '🪨', accent: '#6b5f8a', accentDark: '#4d4468' },
 
   // Calendar badges (emoji shown on studied days)
   { id: 'badge_star',   type: 'badge', name: 'Star',     cost: 0,  emoji: '⭐' },
