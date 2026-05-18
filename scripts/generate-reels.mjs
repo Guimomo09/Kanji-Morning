@@ -61,6 +61,12 @@ const kjText = readFileSync(join(ROOT, 'src', 'kanji.js'), 'utf8');
 const EXAMPLE_OVERRIDE  = loadObj(kjText, 'EXAMPLE_OVERRIDE');
 const SENTENCE_OVERRIDE = loadObj(kjText, 'SENTENCE_OVERRIDE');
 
+// ── KANJI_SENTENCES (pre-built from sentences.json, furigana-verified) ────────
+let KANJI_SENTENCES = {};
+try {
+  KANJI_SENTENCES = JSON.parse(readFileSync(join(ROOT, 'public', 'kanji-sentences.json'), 'utf8'));
+} catch { /* optional */ }
+
 // ── Detect Python / edge-tts ─────────────────────────────────────────────────
 function findPython() {
   // Windows Store Python 3.13 (known location)
@@ -291,7 +297,11 @@ for (const kanji of targetKanji) {
     : `${kanji}の言葉。`;
 
   // Card 3: example sentences (2 TTS séparés pour le gap 1s)
-  const sentences  = (SENTENCE_OVERRIDE[kanji] || []).slice(0, 2);
+  // Priority: SENTENCE_OVERRIDE → kanji-sentences.json → fallback
+  const sentences  = (SENTENCE_OVERRIDE[kanji]?.length > 0
+    ? SENTENCE_OVERRIDE[kanji]
+    : KANJI_SENTENCES[kanji] || []
+  ).slice(0, 2);
   const tts3aText  = sentences[0]?.jp || `${kanji}を使った文です。`;
   const tts3bText  = sentences[1]?.jp || null;
 

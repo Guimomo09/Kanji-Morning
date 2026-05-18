@@ -144,6 +144,12 @@ function realLevel(kanji) {
 // ── EXAMPLE_OVERRIDE + SENTENCE_OVERRIDE (app curated data) ──────────────────
 let EXAMPLE_OVERRIDE = {};
 let SENTENCE_OVERRIDE = {};
+// ── KANJI_SENTENCES (pre-built from sentences.json) ──────────────────────────
+let KANJI_SENTENCES = {};
+try {
+  KANJI_SENTENCES = JSON.parse(readFileSync(join(ROOT, 'public', 'kanji-sentences.json'), 'utf8'));
+  console.log(`✅ kanji-sentences.json: ${Object.keys(KANJI_SENTENCES).length} kanji`);
+} catch { /* optional file — no warning */ }
 try {
   const kjText = readFileSync(join(ROOT, 'src', 'kanji.js'), 'utf8');
 
@@ -521,6 +527,12 @@ async function fetchSentences(kanji, levelNum, words, count = 2) {
   if (SENTENCE_OVERRIDE[kanji]?.length > 0) {
     console.log(`   [sentences] override`);
     return SENTENCE_OVERRIDE[kanji].slice(0, count);
+  }
+
+  // 1.5. kanji-sentences.json — pre-built from sentences.json (AI-generated, furigana-verified)
+  if (KANJI_SENTENCES[kanji]?.length > 0) {
+    console.log(`   [sentences] kanji-sentences.json`);
+    return KANJI_SENTENCES[kanji].slice(0, count);
   }
 
   const maxLen = { 5: 20, 4: 34, 3: 48, 2: 62, 1: 82 }[levelNum] || 34;
