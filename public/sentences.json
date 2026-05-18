@@ -8387,7 +8387,7 @@
   "動作": {
     "jp": "過去の動作については過去形を用います。",
     "en": "\"Past tense\" is used in connection with actions in the past.",
-    "ruby": "<ruby>過去<rt>かこ</rt></ruby>の<ruby>動作<rt>どうさ</rt></ruby>については<ruby>過去<rt>かこ</rt></ruby><ruby>形<rt>がた</rt></ruby>を<ruby>用い<rt>もちい</rt></ruby>ます。"
+    "ruby": "<ruby>過去<rt>かこ</rt></ruby>の<ruby>動作<rt>どうさ</rt></ruby>については<ruby>過去<rt>かこ</rt></ruby><ruby>形<rt>けい</rt></ruby>を<ruby>用い<rt>もちい</rt></ruby>ます。"
   },
   "別々": {
     "jp": "別々でお願いします。",
@@ -14742,7 +14742,7 @@
   "分岐": {
     "jp": "後数秒で私は絶望の分岐点を越えるのだ。",
     "en": "In a few seconds I would have overcome the desperation threshold.",
-    "ruby": "<ruby>後<rt>こう</rt></ruby><ruby>数<rt>すう</rt></ruby><ruby>秒<rt>びょう</rt></ruby>で<ruby>私<rt>わたし</rt></ruby>は<ruby>絶望<rt>ぜつぼう</rt></ruby>の<ruby>分岐<rt>ぶんき</rt></ruby><ruby>点<rt>てん</rt></ruby>を<ruby>越える<rt>こえる</rt></ruby>のだ。"
+    "ruby": "<ruby>後<rt>あと</rt></ruby><ruby>数<rt>すう</rt></ruby><ruby>秒<rt>びょう</rt></ruby>で<ruby>私<rt>わたし</rt></ruby>は<ruby>絶望<rt>ぜつぼう</rt></ruby>の<ruby>分岐<rt>ぶんき</rt></ruby><ruby>点<rt>てん</rt></ruby>を<ruby>越える<rt>こえる</rt></ruby>のだ。"
   },
   "誇張": {
     "jp": "誇張しないでください。",
@@ -16732,7 +16732,7 @@
   "砂利": {
     "jp": "この砂利道は来年舗装されるだろう。",
     "en": "Next year, this gravel road will be paved.",
-    "ruby": "この<ruby>砂利<rt>じゃり</rt></ruby><ruby>道<rt>どう</rt></ruby>は<ruby>来年<rt>らいねん</rt></ruby><ruby>舗装<rt>ほそう</rt></ruby>されるだろう。"
+    "ruby": "この<ruby>砂利<rt>じゃり</rt></ruby><ruby>道<rt>みち</rt></ruby>は<ruby>来年<rt>らいねん</rt></ruby><ruby>舗装<rt>ほそう</rt></ruby>されるだろう。"
   },
   "秒速": {
     "jp": "最も速い流れ星は、秒速約40キロです。",
