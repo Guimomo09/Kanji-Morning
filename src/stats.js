@@ -8,13 +8,15 @@ import {
   getMissedBiWeeklyMonday, nextBiWeeklyMonday, isBiWeeklyMonday,
   isBiWeeklyDone, getLastBiWeeklyMonday,
 } from './biweekly.js';
-import { t } from './i18n.js';
+import { t, getLang } from './i18n.js';
+import { getMeaning } from './trans.js';
 import { getStreakTileView } from './main.js';
+import { renderXPBarHTML, getCalendarBadge, applyEquipped } from './xp.js';
 
 // ── Unified studied-dates set (vocab_daily keys + quiz_history dates) ────
 // vocab_daily keys can get evicted when localStorage is full, so we
 // supplement with quiz_history which is a single compact key.
-function getStudiedDatesSet() {
+export function getStudiedDatesSet() {
   const dates = new Set();
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
@@ -33,23 +35,45 @@ export function computeStreak() {
   const today = new Date();
   const hasTodayData = studied.has(dateStr(today));
   let streak = 0;
+  let graceUsed = false;
   for (let i = hasTodayData ? 0 : 1; i < 366; i++) {
     const d = new Date(today); d.setDate(today.getDate() - i);
     if (studied.has(dateStr(d))) streak++;
+    else if (!graceUsed) graceUsed = true; // 1 grace day: skip without breaking
     else break;
   }
   return streak;
 }
 
+export function isGraceActive() {
+  const studied = getStudiedDatesSet();
+  const today = new Date();
+  const hasTodayData = studied.has(dateStr(today));
+  let graceUsed = false;
+  for (let i = hasTodayData ? 0 : 1; i < 30; i++) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    if (studied.has(dateStr(d))) { if (graceUsed) return true; }
+    else if (!graceUsed) graceUsed = true;
+    else return false;
+  }
+  return false;
+}
+
 export function computeBestStreak() {
   const dates = [...getStudiedDatesSet()].sort();
   if (!dates.length) return 0;
-  let best = 1, cur = 1;
+  let best = 1, cur = 1, graceUsed = false;
   for (let i = 1; i < dates.length; i++) {
     const diff = Math.round(
       (new Date(dates[i] + 'T12:00:00') - new Date(dates[i - 1] + 'T12:00:00')) / 86400000
     );
-    if (diff === 1) { cur++; if (cur > best) best = cur; } else cur = 1;
+    if (diff === 1) {
+      cur++; graceUsed = false; if (cur > best) best = cur;
+    } else if (diff === 2 && !graceUsed) {
+      graceUsed = true; cur++; if (cur > best) best = cur; // 1 grace day
+    } else {
+      cur = 1; graceUsed = false;
+    }
   }
   return best;
 }
@@ -113,7 +137,10 @@ function renderActivityCalendar(containerId) {
       let cls = 'scal-cell';
       if (isStudied) cls += ' scal-studied';
       if (isToday)   cls += ' scal-today';
-      cellsHtml += `<div class="${cls}">${dayNum}</div>`;
+      const inner = isStudied
+        ? `<span class="scal-badge">${getCalendarBadge()}</span>`
+        : dayNum;
+      cellsHtml += `<div class="${cls}">${inner}</div>`;
     }
   }
 
@@ -423,6 +450,7 @@ function drawBarChart(canvas, values, labels) {
 export function renderHome() {
   const stv         = getStreakTileView();
   const streak      = computeStreak();
+  const graceActive = isGraceActive();
   const best        = computeBestStreak();
   const total       = computeTotalWords();
   const monthlyCount = stv === 'month' ? computeMonthlyCount() : 0;
@@ -479,7 +507,7 @@ export function renderHome() {
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('kpi_streak')}</div>${stv === 'streak' ? `<div class="streak-dots">${streakDots}</div>` : ''}<div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
+      <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('kpi_streak')}</div>${stv === 'streak' ? `<div class="streak-dots">${streakDots}</div>` : ''}${graceActive && stv === 'streak' ? `<div class="kpi-grace-hint">${t('grace_hint')}</div>` : ''}<div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('kpi_words')}</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">
@@ -489,7 +517,7 @@ export function renderHome() {
         <div class="kpi-wotd-body">
           <div class="kpi-wotd-kanji">${wotd.word}</div>
           <div class="kpi-wotd-reading">${wotd.reading}</div>
-          <div class="kpi-wotd-meaning">${wotd.meaning}</div>
+          <div class="kpi-wotd-meaning">${getMeaning(wotd.word, getLang()) || wotd.meaning}</div>
           ${savedWords.some(w => w.word === wotd.word)
             ? `<div class="kpi-wotd-saved">✓ ${t('today_done').replace(' ✓','')}</div>`
             : `<button class="kpi-wotd-save-btn" onclick="saveWotd()">＋ ${t('today_done').replace('✓','').trim() || 'Save this word'}</button>`
@@ -507,6 +535,17 @@ export function renderHome() {
     </div>
 
     <div class="home-today">
+      ${(() => {
+        const u = state._fbUser;
+        if (u) {
+          const av = u.photoURL
+            ? `<img src="${u.photoURL}" class="home-today-avatar" referrerpolicy="no-referrer" alt="">`
+            : `<span class="home-today-fallback">${(u.displayName||'?')[0].toUpperCase()}</span>`;
+          return `<div class="home-today-user">${av}<span class="home-today-username">${u.displayName?.split(' ')[0] || ''}</span></div>`;
+        }
+        return '';
+      })()}
+      ${renderXPBarHTML()}
       <div class="home-today-title" style="display:flex;align-items:center;gap:8px">${t('today_title')} <button class="section-hint-btn" onclick="showTabHint('home')" aria-label="How to use Home">i</button></div>
       <div class="home-today-row">
         <span>${t('today_words_loaded')} <span style="color:var(--muted);font-weight:400;font-size:12px">${t('today_words_sub')}</span></span>
@@ -573,6 +612,7 @@ export function renderHome() {
       <button class="upgrade-card-btn" onclick="openUpgradeModal()">${t('upgrade_card_btn')}</button>
     </div>` : ''}
   `;
+  applyEquipped();
 }
 
 // ── Stats panel ───────────────────────────────────────────────────────────
@@ -601,13 +641,6 @@ export function renderStats() {
     studyLbls.push(`${d.getMonth() + 1}/${d.getDate()}`);
   }
 
-  const recent    = [...history].sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).slice(-20);
-  const scoreVals = recent.map(h => h.pct);
-  const scoreLbls = recent.map(h => {
-    const d = new Date(h.date + 'T12:00:00');
-    return `${d.getMonth() + 1}/${d.getDate()}`;
-  });
-
   const nextMon       = nextBiWeeklyMonday();
   const todayIsBiW    = isBiWeeklyMonday();
   const todayDone     = isBiWeeklyDone(todayStr());
@@ -626,6 +659,19 @@ export function renderStats() {
 
   document.getElementById('statsSection').innerHTML = `
     <div class="stats-container">
+      ${(() => {
+        const u = state._fbUser;
+        if (!u) {
+          const grains = parseInt(localStorage.getItem('km_xp_grains')||'0',10);
+          return `<div class="stats-user-row"><div><div class="stats-user-name" style="color:var(--muted)">Guest</div></div><div class="stats-user-grains"><img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt=""> ${grains} grain${grains!==1?'s':''}</div><span class="stats-user-fallback" style="opacity:0.4">?</span></div>`;
+        }
+        const av = u.photoURL
+          ? `<img src="${u.photoURL}" class="stats-user-avatar" referrerpolicy="no-referrer" alt="">`
+          : `<span class="stats-user-fallback">${(u.displayName||'?')[0].toUpperCase()}</span>`;
+        const grains = parseInt(localStorage.getItem('km_xp_grains')||'0',10);
+        return `<div class="stats-user-row"><div><div class="stats-user-name">${u.displayName?.split(' ')[0]||''}</div></div><div class="stats-user-grains"><img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt=""> ${grains} grain${grains!==1?'s':''}</div>${av}</div>`;
+      })()}
+      ${renderXPBarHTML()}
       ${missedHtml}
       <div class="kpi-grid kpi-grid-2col">
         <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('stats_kpi_streak')}</div><div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div></div>
@@ -639,12 +685,6 @@ export function renderStats() {
         </div>
       </div>
 
-      ${history.length ? `
-      <div class="chart-block">
-        <div class="chart-title">${t('stats_chart_scores')}</div>
-        <canvas id="scoreCanvas" class="chart-canvas"></canvas>
-      </div>` : ''}
-
       <div class="chart-block" id="activityChartBlock">
         <div class="streak-cal-header">
           <span class="chart-title" style="margin:0">${_activityTitle(av)}</span>
@@ -656,34 +696,6 @@ export function renderStats() {
         </div>
         <div id="activityViewContent"></div>
       </div>
-
-      ${history.length ? `
-      <div class="chart-block">
-        <div class="chart-title">${t('stats_chart_recent')}</div>
-        <div class="qh-list">
-          ${[...history].sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0).reverse().slice(0, 15).map(h => {
-            const qtype = h.type || 'daily';
-            const badge = qtype === 'biweekly'
-              ? '<span class="qh-type qh-type-biweekly">Bi-Weekly</span>'
-              : qtype === 'srs'
-              ? '<span class="qh-type qh-type-srs">SRS</span>'
-              : '<span class="qh-type qh-type-daily">Daily</span>';
-            return `
-            <div class="qh-row">
-              <span class="qh-date">${h.date}${badge}</span>
-              <div class="qh-bar-wrap"><div class="qh-bar" style="width:${h.pct}%"></div></div>
-              <span class="qh-score">${h.score}/${h.total} <span class="qh-pct">(${h.pct}%)</span></span>
-            </div>`;
-          }).join('')}
-        </div>
-      </div>` : `
-      <div class="chart-block" style="text-align:center;padding:48px 20px;color:var(--muted)">
-        <div style="font-size:48px;margin-bottom:14px">📊</div>
-        <div style="font-size:16px;font-weight:700;color:var(--sub)">${t('stats_no_quiz_title')}</div>
-        <div style="font-size:13px;margin-top:8px;line-height:1.6">
-          ${t('stats_no_quiz_body')}
-        </div>
-      </div>`}
 
       ${lastBiweekly ? `
       <div class="chart-block">
@@ -710,9 +722,8 @@ export function renderStats() {
     btn.addEventListener('click', () => setActivityView(btn.dataset.view));
   });
 
+  applyEquipped();
   requestAnimationFrame(() => {
-    const sc = document.getElementById('scoreCanvas');
-    if (sc) drawLineChart(sc, scoreVals, scoreLbls);
     _renderActivityContent(av);
   });
 }

@@ -2,6 +2,7 @@ import { state } from './state.js';
 import { CLOUD_ENABLED, FIREBASE_CONFIG } from './config.js';
 import { loadQuizHistory } from './quiz.js';
 import { _cloudPullSrs } from './srs.js';
+import { applyXPCloudData } from './xp.js';
 
 let _postAuthCallback = null;
 
@@ -139,6 +140,12 @@ async function _cloudPull() {
 
     // Pull SRS cards
     await _cloudPullSrs(data);
+
+    // Pull XP / cosmetics
+    if (data.xp) {
+      applyXPCloudData(data.xp);
+      console.log('[_cloudPull] XP/cosmetics restored from cloud.');
+    }
 
     // Pull premium status
     if (data.premium === true) {

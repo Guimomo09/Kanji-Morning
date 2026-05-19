@@ -6,6 +6,14 @@ asanokanji.com, www.asanokanji.com {
     # Stripe webhook proxy
     reverse_proxy /stripe-webhook localhost:3001
 
+    # Tatoeba sentence proxy (CORS-free)
+    reverse_proxy /api/sentence localhost:3001
+
+    # Push notification endpoints
+    reverse_proxy /push-subscribe localhost:3001
+    reverse_proxy /push-unsubscribe localhost:3001
+    reverse_proxy /push-send-daily localhost:3001
+
     # JS/CSS sources : toujours revalider (pas de cache stale)
     @sources {
         path /src/*.js /src/*.css /sw.js
@@ -26,8 +34,12 @@ kanji.guimo-prod.com {
     file_server
     encode gzip
 
-    # Basic auth — staging only
-    basic_auth {
+    # Tatoeba sentence proxy (same port 3001 runs on the same VPS)
+    reverse_proxy /api/sentence localhost:3001
+
+    # Basic auth — staging only (exclude /api/* and static data files so JS can fetch)
+    @restricted not path /api/* /sentences.json
+    basic_auth @restricted {
         GuimoProd $2a$14$Z5AdSS5MAfg1d34QFEKcqeIo7g1nLIefbvKAEYlHh8bxaJTytgUOq
     }
 

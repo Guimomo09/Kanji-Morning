@@ -1,0 +1,14 @@
+﻿笨・EXAMPLE_OVERRIDE: 610 kanji  |  SENTENCE_OVERRIDE: 2211 kanji
+
+雫 5 kanji 窶・N5
+   諢・鬟・陦・隕・隱・
+笨・諢・(N4) 窶・vocab [override]: 諢丞袖, 諢剰ｦ・ 豕ｨ諢・窶・phrases: 2/2
+笨・鬟・(N5) 窶・vocab [override]: 鬟溘∋繧・ 鬟滉ｺ・ 譛晞｣・窶・phrases: 2/2
+笨・陦・(N5) 窶・vocab [override]: 陦後￥, 譌・｡・ 陦後ｋ 窶・phrases: 2/2
+笨・隕・(N5) 窶・vocab [override]: 隕九ｋ, 隕狗黄, 隕区婿 窶・phrases: 2/2
+笨・隱・(N5) 窶・vocab [override]: 隱槭ｉ縺・ 譌･譛ｬ隱・ 隱槭ｋ 窶・phrases: 2/2
+
+脂 5 kanji gﾃｩnﾃｩrﾃｩs ﾃ・2 formats ﾃ・3 cartes
+   kanji-cards/n5/cards/{kanji}/  竊・ 1080ﾃ・080px (insta square)
+   kanji-cards/n5/tiktok/{kanji}/ 竊・ 1080ﾃ・920px (portrait)
+

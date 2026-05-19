@@ -9,6 +9,7 @@ _extracted_css.txt
 _extracted_js.txt
 
 # Script caches & logs
+scripts/.cache-words/
 _wordnet_cache/
 _enpivot_cache/
 _kaikki_cache/
@@ -39,3 +40,5 @@ _test-vocab.txt
 # OS
 .DS_Store
 Thumbs.db
+.env
+.env*

@@ -5,15 +5,16 @@ import { todayStr }                                            from './utils.js'
 import { initCloud, setPostAuthCallback, cloudSignIn, cloudSignOut, checkPremiumStatus, cloudUpdate, cloudSavedWordAdd } from './cloud.js';
 import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
-import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror } from './vocab.js';
-import { renderStats, renderHome, setActivityView, navActivityCal } from './stats.js';
+import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror, _enrichKanjiComponents, isVocabWordSaved, toggleSaveVocabWord } from './vocab.js';
+import { renderStats, renderHome, setActivityView, navActivityCal, getStudiedDatesSet } from './stats.js';
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
-import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js';
-import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM } from './i18n.js';
-import { loadTrans } from './trans.js';
+import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED, VAPID_PUBLIC_KEY, PUSH_ENDPOINT } from './config.js';
+import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM, getLang } from './i18n.js';
+import { loadTrans, getMeaning } from './trans.js';
 import { speakJapanese } from './audio.js';
+import { syncXPBar, applyEquipped, renderShopHTML, renderAppearancesHTML, getXPCloudData, unlockAllFree } from './xp.js';
 
 // ── Wire mobile menu items helper (defined first for global access) ────────
 function _wireMenuBtn(id, action) {
@@ -63,78 +64,25 @@ function closeTutorial() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-// TAB HINTS (ⓘ per-tab explainer)
+// TAB HINTS (ⓘ per-tab explainer) — titles/bodies live in i18n.js tab_hints
 // ════════════════════════════════════════════════════════════════════════════
-const TAB_HINTS = {
-  home: {
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
-    title: 'Home — Your Dashboard',
-    body: `<p>Your daily study hub. Everything at a glance.</p><ul>
-      <li><b>Streak</b> — consecutive days you studied. Don't break the chain!</li>
-      <li><b>Daily Quiz</b> — 15 new words + 5 review. Only available after saving words from the Vocab tab.</li>
-      <li><b>Weekly Challenge</b> — every Monday, covers the last 2 weeks of vocabulary.</li>
-      <li><b>JLPT tile</b> — tracks how many words you've saved toward your current goal. Tap to change level.</li>
-    </ul>`,
-  },
-  kanji: {
-    icon: '漢',
-    title: 'Kanji — Browse & Discover',
-    body: `<p>Explore kanji organised by JLPT level (N5 = easiest, N1 = hardest).</p><ul>
-      <li><b>New Selection</b> — shuffle a new batch of kanji at the same level.</li>
-      <li><b>Save a kanji</b> — tap the star button on a card to bookmark it in My List and unlock its vocabulary.</li>
-      <li><b>More / Less</b> — adjust how many cards are shown at once.</li>
-      <li><b>Search bar</b> — find any kanji by character, reading, or meaning.</li>
-    </ul>`,
-  },
-  vocab: {
-    icon: '語',
-    title: 'Vocab — Daily Word Cards',
-    body: `<p>Vocabulary built from the kanji you've bookmarked.</p><ul>
-      <li><b>New Selection</b> — shuffle a fresh batch of vocab from your saved kanji.</li>
-      <li><b>Save for Quiz</b> — adds today's words to your daily quiz pool.</li>
-      <li><b>From Kanji</b> — when active, vocab is filtered to match only the kanji visible in the Kanji tab.</li>
-      <li><b>Level filter</b> — focus on a specific JLPT level or mix all levels.</li>
-    </ul>`,
-  },
-  mylist: {
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
-    title: 'My List — Saved Words & Kanji',
-    body: `<p>All your bookmarked kanji and vocabulary in one place.</p><ul>
-      <li><b>Tap a kanji chip</b> — opens the kanji detail popup with readings and examples.</li>
-      <li><b>Select</b> — enables multi-select mode for bulk deletion.</li>
-      <li><b>SRS Review</b> — spaced-repetition practice of your saved words (toolbar button).</li>
-      <li><b>Sign in</b> — syncs your list across devices via Google account.</li>
-    </ul>`,
-  },
-  stats: {
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
-    title: 'Stats — Your Progress',
-    body: `<p>Charts and history tracking your study journey.</p><ul>
-      <li><b>Streak calendar</b> — each square = one study day. Darker = more words studied.</li>
-      <li><b>Score chart</b> — your quiz results over time (last 20 sessions).</li>
-      <li><b>Activity chart</b> — words studied per day over the last 2 weeks.</li>
-      <li><b>JLPT progress</b> — how close you are to your target level vocabulary count.</li>
-    </ul>`,
-  },
-  exam: {
-    icon: '試験',
-    title: 'Exam Mode — JLPT Simulation',
-    body: `<p>A timed quiz that simulates a real JLPT test using your saved vocabulary.</p><ul>
-      <li><b>10 minutes</b> — strictly timed. Unanswered questions count as wrong.</li>
-      <li><b>40 questions</b> — mix of reading, meaning, and recognition question types.</li>
-      <li><b>60% to pass</b> — score 24/40 or better.</li>
-      <li><b>Cumulative levels</b> — each exam includes all vocabulary up to that level (e.g. N3 includes N5, N4 and N3; N2 adds N2 on top, etc.).</li>
-    </ul>`,
-  },
+const TAB_HINT_ICONS = {
+  home:   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+  kanji:  '漢',
+  vocab:  '語',
+  mylist: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+  stats:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  exam:   '試験',
 };
 
 let _currentTabForHint = 'home';
 
 function showTabHint(tab) {
   const key  = tab || _currentTabForHint;
-  const hint = TAB_HINTS[key];
-  if (!hint) return;
-  document.getElementById('tabHintIcon').innerHTML  = hint.icon;
+  const icon = TAB_HINT_ICONS[key];
+  const hint = (t('tab_hints') || {})[key];
+  if (!icon || !hint) return;
+  document.getElementById('tabHintIcon').innerHTML  = icon;
   document.getElementById('tabHintTitle').textContent = hint.title;
   document.getElementById('tabHintBody').innerHTML  = hint.body;
   document.getElementById('tabHintModal').style.display = '';
@@ -206,7 +154,8 @@ async function openKanjiDetail(char) {
         </div>
       </div>
       <div class="examples-label">${t('kanji_examples')}</div>
-      ${exHtml}`;
+      ${exHtml}
+      <a href="https://jisho.org/search/${encodeURIComponent(char)}%20%23kanji" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:14px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:8px 14px">🔍 Jisho</a>`;
   } catch {
     content.innerHTML = '<div class="kanji-detail-loading">' + t('kanji_load_error') + '</div>';
   }
@@ -215,6 +164,51 @@ async function openKanjiDetail(char) {
 function closeKanjiDetail() {
   document.getElementById('kanjiDetailBackdrop').style.display = 'none';
   document.body.style.overflow = '';
+}
+
+async function openVocabDetail(item) {
+  const backdrop = document.getElementById('kanjiDetailBackdrop');
+  const content  = document.getElementById('kanjiDetailContent');
+  const { word, reading, pos, level, extraMeanings, sourceKanji } = item;
+  const meaning  = getMeaning(word, getLang()) || item.meaning;
+  const jishoUrl = `https://jisho.org/search/${encodeURIComponent(word)}`;
+  const extras   = (extraMeanings || []).slice(0, 2);
+  const initSaved = isVocabWordSaved(word);
+  content.innerHTML = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:clamp(36px,10vw,68px);font-weight:900;line-height:1;color:var(--ink);word-break:break-word;margin-bottom:10px">${word}</div>
+      ${reading ? `<div style="font-size:20px;color:var(--red);font-weight:700;margin-bottom:8px">${reading}</div>` : ''}
+      <div style="font-size:17px;color:var(--text);font-weight:600;line-height:1.4">${meaning}</div>
+      ${extras.length ? `<div style="font-size:13px;color:var(--sub);margin-top:6px">${extras.join(' \u00b7 ')}</div>` : ''}
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+      <span class="badge badge-${level}">${level}</span>
+      ${pos ? `<span style="font-size:12px;color:var(--muted)">${pos}</span>` : ''}
+      ${sourceKanji ? `<span style="font-size:13px;color:var(--sub)">from <strong>${sourceKanji}</strong></span>` : ''}
+      <button class="vd-save-btn" style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:24px;padding:4px 6px;border-radius:8px;color:${initSaved ? 'var(--red)' : 'var(--muted)'};transition:color .15s" title="${initSaved ? 'Saved' : 'Save to My List'}">${initSaved ? '★' : '☆'}</button>
+    </div>
+    <div class="vocab-kcomp" style="margin-top:0;margin-bottom:16px"></div>
+    <a href="${jishoUrl}" target="_blank" rel="noopener noreferrer"
+       style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none">
+      🔍 View on Jisho
+    </a>`;
+  const vdSaveBtn = content.querySelector('.vd-save-btn');
+  if (vdSaveBtn) {
+    vdSaveBtn.addEventListener('click', () => {
+      const nowSaved = toggleSaveVocabWord(item);
+      vdSaveBtn.textContent = nowSaved ? '★' : '☆';
+      vdSaveBtn.style.color = nowSaved ? 'var(--red)' : 'var(--muted)';
+      vdSaveBtn.title = nowSaved ? 'Saved' : 'Save to My List';
+      // sync card button if visible
+      document.querySelectorAll('.vocab-save-btn').forEach(btn => {
+        const w = btn.closest('.card')?.querySelector('.vocab-word')?.textContent;
+        if (w === word) { btn.textContent = nowSaved ? '★' : '☆'; btn.classList.toggle('saved', nowSaved); }
+      });
+    });
+  }
+  backdrop.style.display = '';
+  document.body.style.overflow = 'hidden';
+  _enrichKanjiComponents(content, word);
 }
 
 function openWordDetail(wordStr) {
@@ -246,7 +240,8 @@ function handleKanjiChipClick(chip, kanji, event) {
 
 function handleWordRowClick(row, event) {
   if (_selectMode) { window.toggleWordSelect(row, event); return; }
-  openWordDetail(row.dataset.word);
+  const it = getAllSavedWords().find(w => w.word === row.dataset.word);
+  if (it) openVocabDetail(it);
 }
 
 // ── Save Word of the Day to My List ──────────────────────────────────────
@@ -348,6 +343,9 @@ Object.assign(window, {
 
   // Navigation
   switchTab,
+  toggleVocabKanjiMode() {
+    switchTab(state.currentTab === 'kanji' ? 'vocab' : 'kanji');
+  },
   setJlptGoal(level) {
     localStorage.setItem('km_jlpt_goal', level);
     renderHome();
@@ -381,6 +379,7 @@ Object.assign(window, {
   openKanjiDetail,
   closeKanjiDetail,
   openWordDetail,
+  openVocabDetail,
   handleKanjiChipClick,
   handleWordRowClick,
   saveWotd,
@@ -539,6 +538,44 @@ Object.assign(window, {
     setHeader();
     // Re-render current tab to apply translated strings
     switchTab(state.currentTab || 'home');
+  },
+
+  // Custom language dropdown
+  toggleLangDropdown(e) {
+    e.stopPropagation();
+    const dd   = document.getElementById('langDropdown');
+    const btn  = document.getElementById('langDropdownBtn');
+    const list = document.getElementById('langDropdownList');
+    if (!dd || !btn || !list) return;
+    // Portal: move list to body so it escapes overflow/transform constraints
+    if (list.parentElement !== document.body) document.body.appendChild(list);
+    const isOpen = dd.classList.toggle('open');
+    if (isOpen) {
+      const rect = btn.getBoundingClientRect();
+      Object.assign(list.style, {
+        display: 'block', position: 'fixed',
+        top: (rect.bottom + 6) + 'px',
+        left: rect.left + 'px',
+        width: rect.width + 'px',
+      });
+      const code = document.getElementById('langSelect')?.value || 'en';
+      list.querySelectorAll('[data-code]').forEach(li =>
+        li.classList.toggle('lang-item-active', li.dataset.code === code)
+      );
+    } else {
+      list.style.display = 'none';
+    }
+  },
+  pickLang(code) {
+    document.getElementById('langDropdown')?.classList.remove('open');
+    const list = document.getElementById('langDropdownList');
+    if (list) list.style.display = 'none';
+    const sel = document.getElementById('langSelect');
+    if (sel) sel.value = code;
+    const NAMES = { en:'English', fr:'Français', es:'Español', de:'Deutsch', ru:'Русский' };
+    const lbl = document.getElementById('langDropdownLabel');
+    if (lbl) lbl.textContent = NAMES[code] || code;
+    window.changeLanguage(code);
   },
 });
 
@@ -744,6 +781,43 @@ function openSettings() {
   if (msg) msg.textContent = '';
   // Sync theme buttons
   _syncThemeButtons(localStorage.getItem('km_theme') || 'auto');
+  // Unlock all cost:0 items before rendering so UI is always in sync
+  unlockAllFree();
+  // Render shop + appearances sections
+  const profileEl = document.getElementById('profileContent');
+  if (profileEl) profileEl.innerHTML = renderShopHTML();
+  const appearEl = document.getElementById('appearancesContent');
+  if (appearEl) appearEl.innerHTML = renderAppearancesHTML();
+  // Render user profile card
+  const cardEl = document.getElementById('settingsUserCard');
+  if (cardEl) {
+    const user = state._fbUser;
+    if (user) {
+      const photoHTML = user.photoURL
+        ? `<img src="${user.photoURL}" class="stats-user-avatar" referrerpolicy="no-referrer" alt="">`
+        : `<span class="stats-user-fallback">${(user.displayName||'?')[0].toUpperCase()}</span>`;
+      cardEl.innerHTML = `<div class="settings-user-card">${photoHTML}<div class="settings-user-info"><div class="settings-user-dname">${user.displayName||''}</div><div class="settings-user-email">${user.email||''}</div></div></div>`;
+    } else {
+      cardEl.innerHTML = '';
+    }
+  }
+  applyEquipped();
+  // Init push toggle
+  const pushToggle = document.getElementById('pushToggle');
+  if (pushToggle) pushToggle.checked = !!localStorage.getItem('km_push_subscribed');
+  // Init push time select
+  const pushSel = document.getElementById('pushTimeSelect');
+  if (pushSel) {
+    if (pushSel.options.length === 0) {
+      for (let h = 4; h <= 23; h++) {
+        const val = `${String(h).padStart(2, '0')}:00`;
+        const opt = document.createElement('option');
+        opt.value = val; opt.textContent = val;
+        pushSel.appendChild(opt);
+      }
+    }
+    pushSel.value = localStorage.getItem('km_push_hour') || '08:00';
+  }
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -812,10 +886,32 @@ window.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(e) {
     const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
     if (wrap && !wrap.contains(e.target)) closeMobileMenu();
+    const dd   = document.getElementById('langDropdown');
+    const list = document.getElementById('langDropdownList');
+    if (dd && !dd.contains(e.target) && list && !list.contains(e.target)) {
+      dd.classList.remove('open');
+      list.style.display = 'none';
+    }
   });
   if (!localStorage.getItem('km_onboarding_done')) {
     setTimeout(showTutorial, 600);
   }
+  // Auto-unlock all cost:0 items so they're directly equippable
+  try { unlockAllFree(); } catch (e) { console.warn('[init] unlockAllFree failed:', e.name); }
+  // Visit counter — used to decide when to show the install banner
+  try {
+    const visits = parseInt(localStorage.getItem('km_visit_count') || '0', 10) + 1;
+    localStorage.setItem('km_visit_count', String(visits));
+    if (visits >= 2) _maybeShowInstallBanner();
+  } catch {}
+  // Push notification prompt — after first quiz completion
+  setTimeout(_maybeAskPush, 3000);
+  // Sync XP bar on app open — push to cloud if a grain was just earned
+  const _xpGrainEarned = syncXPBar(getStudiedDatesSet());
+  if (_xpGrainEarned && CLOUD_ENABLED && state._fbUser) {
+    cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+  }
+  applyEquipped();
   console.log('[debugAgent] All wiring and init done.');
 });
 
@@ -844,6 +940,210 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// ── Add to Home Screen (A2HS) ─────────────────────────────────────────────
+let _installPromptEvent = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _installPromptEvent = e;
+  _maybeShowInstallBanner();
+});
+
+function _maybeShowInstallBanner() {
+  if (!_installPromptEvent) return;
+  if (localStorage.getItem('km_install_dismissed')) return;
+  if (document.getElementById('km-install-banner')) return;
+  const visits = parseInt(localStorage.getItem('km_visit_count') || '0', 10);
+  if (visits < 2) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'km-install-banner';
+  banner.innerHTML = `
+    <span>📲 Add to your home screen for the best experience</span>
+    <button id="km-install-ok">Add</button>
+    <button id="km-install-no" aria-label="Dismiss">✕</button>
+  `;
+  document.body.appendChild(banner);
+
+  document.getElementById('km-install-ok').addEventListener('click', () => {
+    _installPromptEvent.prompt();
+    _installPromptEvent.userChoice.then(() => { banner.remove(); });
+    _installPromptEvent = null;
+  });
+  document.getElementById('km-install-no').addEventListener('click', () => {
+    banner.remove();
+    localStorage.setItem('km_install_dismissed', '1');
+  });
+}
+
+// ── Push notifications ────────────────────────────────────────────────────
+function _urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const raw     = atob(base64);
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+}
+
+function _getPreferredUtcHour() {
+  const time = localStorage.getItem('km_push_hour') || '08:00';
+  const h = parseInt(time.split(':')[0], 10);
+  const d = new Date();
+  d.setHours(h, 0, 0, 0);
+  return d.getUTCHours();
+}
+
+export async function subscribePush() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly:      true,
+      applicationServerKey: _urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+    });
+    await fetch(PUSH_ENDPOINT, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        subscription: sub,
+        lang:    getLang(),
+        uid:     state._fbUser?.uid || null,
+        utcHour: _getPreferredUtcHour(),
+      }),
+    });
+    localStorage.setItem('km_push_subscribed', '1');
+    return true;
+  } catch (err) {
+    console.warn('[push] subscribe failed:', err);
+    return false;
+  }
+}
+
+async function unsubscribePush() {
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    if (sub) {
+      await sub.unsubscribe();
+      const unsubUrl = PUSH_ENDPOINT.replace('/push-subscribe', '/push-unsubscribe');
+      fetch(unsubUrl, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ endpoint: sub.endpoint }),
+      }).catch(() => {});
+    }
+  } catch (err) {
+    console.warn('[push] unsubscribe failed:', err);
+  }
+  localStorage.removeItem('km_push_subscribed');
+  localStorage.removeItem('km_push_asked');
+}
+
+window.onPushToggleChange = async function(cb) {
+  if (cb.checked) {
+    if (!('PushManager' in window)) { cb.checked = false; return; }
+    const granted = await Notification.requestPermission();
+    if (granted !== 'granted') { cb.checked = false; return; }
+    const ok = await subscribePush();
+    if (!ok) cb.checked = false;
+  } else {
+    await unsubscribePush();
+  }
+};
+
+window.onPushTimeChange = async function(value) {
+  localStorage.setItem('km_push_hour', value);
+  if (localStorage.getItem('km_push_subscribed')) {
+    await subscribePush();
+  }
+};
+
+window.showA2HSGuide = function() {
+  document.getElementById('km-a2hs-guide')?.remove();
+  const isIOS     = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+
+  const step = (n, text) =>
+    `<li><span class="km-a2hs-step-num">${n}</span><span>${text}</span></li>`;
+
+  const iosBlock = `
+    <p class="km-a2hs-section-title">🍎 iPhone / iPad (Safari)</p>
+    <ol class="km-a2hs-steps">
+      ${step(1, 'Open this page in <strong>Safari</strong> (not Chrome or Firefox)')}
+      ${step(2, 'Tap the <strong>Share button</strong> (box with arrow pointing up ↑) at the bottom of the screen')}
+      ${step(3, 'Scroll down and tap <strong>« Add to Home Screen »</strong>')}
+      ${step(4, 'Tap <strong>Add</strong> — the app icon appears on your home screen')}
+    </ol>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px">⚠️ On iOS, push notifications require adding to Home Screen first.</p>`;
+
+  const androidBlock = `
+    <p class="km-a2hs-section-title">🤖 Android (Chrome)</p>
+    <ol class="km-a2hs-steps">
+      ${step(1, 'Open this page in <strong>Chrome</strong>')}
+      ${step(2, 'Tap the <strong>⋮ menu</strong> in the top-right corner')}
+      ${step(3, 'Tap <strong>« Add to Home Screen »</strong> or <strong>« Install App »</strong>')}
+    </ol>`;
+
+  const desktopBlock = `
+    <p class="km-a2hs-section-title">💻 Desktop (Chrome / Edge)</p>
+    <ol class="km-a2hs-steps">
+      ${step(1, 'Look for the <strong>⊕ install icon</strong> in the address bar (right side)')}
+      ${step(2, 'Click it and confirm — the app opens in its own window')}
+    </ol>`;
+
+  const divider = '<hr class="km-a2hs-divider">';
+  const content = isIOS
+    ? iosBlock
+    : isAndroid
+      ? androidBlock + divider + iosBlock
+      : desktopBlock + divider + iosBlock + divider + androidBlock;
+
+  const guide = document.createElement('div');
+  guide.id = 'km-a2hs-guide';
+  guide.innerHTML = `
+    <div class="km-a2hs-inner">
+      <div class="km-a2hs-header">
+        <span class="km-a2hs-title">${t('a2hs_guide_title') || 'Add to Home Screen'}</span>
+        <button class="km-a2hs-close" onclick="document.getElementById('km-a2hs-guide').remove()">✕</button>
+      </div>
+      ${content}
+    </div>`;
+  guide.addEventListener('click', e => { if (e.target === guide) guide.remove(); });
+  document.body.appendChild(guide);
+};
+
+function _maybeAskPush() {
+  if (!('PushManager' in window)) return;
+  if (localStorage.getItem('km_push_asked')) return;
+  if (localStorage.getItem('km_push_subscribed')) return;
+  const visits = parseInt(localStorage.getItem('km_visit_count') || '0', 10);
+  if (visits < 2) return;
+  localStorage.setItem('km_push_asked', '1');
+
+  const modal = document.createElement('div');
+  modal.id = 'km-push-modal';
+  modal.innerHTML = `
+    <div class="km-push-inner">
+      <div class="km-push-icon">🌅</div>
+      <div class="km-push-title">${t('push_prompt_title') || 'Daily reminders'}</div>
+      <div class="km-push-body">${t('push_prompt_body') || 'Get a gentle nudge when your daily quiz is ready.'}</div>
+      <div class="km-push-actions">
+        <button id="km-push-yes" class="btn btn-primary">${t('push_prompt_yes') || 'Yes, remind me'}</button>
+        <button id="km-push-no" class="btn btn-ghost">${t('push_prompt_no') || 'No thanks'}</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('km-push-yes').addEventListener('click', async () => {
+    modal.remove();
+    const granted = await Notification.requestPermission();
+    if (granted === 'granted') await subscribePush();
+  });
+  document.getElementById('km-push-no').addEventListener('click', () => modal.remove());
+}
+
+// Expose so quiz score screen can trigger it after first completion
+window._maybeAskPush = _maybeAskPush;
+
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
   // Cloud pull already merged km_saved_words (local+cloud). No push needed here —
@@ -857,12 +1157,30 @@ setPostAuthCallback(() => {
       window.$crisp.push(['set', 'user:nickname', [state._fbUser.displayName]]);
     }
   }
-  if      (state.currentTab === 'vocab')  renderVocab();
+  if      (state.currentTab === 'vocab')  { if (state.currentVocabItems.length === 0) renderVocab(); }
   else if (state.currentTab === 'mylist') renderMyList();
   else if (state.currentTab === 'stats')  renderStats();
   else if (state.currentTab === 'exam')   renderExamTab();
   else if (state.currentTab === 'home')   renderHome();
+  // Re-sync XP with cloud data now merged; push back so cloud is up to date
+  syncXPBar();
+  if (CLOUD_ENABLED && state._fbUser) {
+    cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+  }
+  applyEquipped();
 });
+
+// ── Wrap shop actions to push XP/cosmetics to cloud after each change ────
+const _origShopEquip = window.shopEquip;
+window.shopEquip = function(id) {
+  _origShopEquip(id);
+  if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+};
+const _origEquipReward = window.equipReward;
+window.equipReward = function(id) {
+  _origEquipReward(id);
+  if (CLOUD_ENABLED && state._fbUser) cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
+};
 
 initCloud();
 srsUpdateReviewCount();
@@ -899,7 +1217,7 @@ applyI18nToDOM();
 loadTrans();
 
 const _savedTab = localStorage.getItem('km_tab') || 'home';
-switchTab(_savedTab);
+switchTab('home');
 requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'instant' }));
 
 
@@ -920,16 +1238,3 @@ document.addEventListener('click', function(e) {
   const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
   if (wrap && !wrap.contains(e.target)) closeMobileMenu();
 });
-
-// Show tutorial on first ever visit
-if (!localStorage.getItem('km_onboarding_done')) {
-  setTimeout(showTutorial, 600);
-}
-
-// ── PWA service worker ────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .catch(err => console.warn('[SW] Registration failed:', err));
-  });
-}

@@ -1,10 +1,14 @@
 // ── Cache name — bump this string to force a hard refresh on all clients ──
-const CACHE = 'kanji-morning-v10';
+const CACHE = 'kanji-morning-v21';
 
-// ── Install: pre-cache the app shell root so offline load works ───────────
+// ── Install: pre-cache the app shell + static data ────────────────────────
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.add('/'))
+    caches.open(CACHE).then(c => c.addAll([
+      '/',
+      '/sentences.json',
+      '/kanji_index.json'
+    ]))
   );
   self.skipWaiting();
 });
@@ -50,5 +54,30 @@ self.addEventListener('fetch', e => {
         return r;
       })
       .catch(() => caches.match(e.request).then(c => c || caches.match('/')))  // offline fallback
+  );
+});
+
+// ── Push notifications ────────────────────────────────────────────────────
+self.addEventListener('push', e => {
+  const data = e.data?.json() ?? {};
+  e.waitUntil(
+    self.registration.showNotification(data.title || '朝の漢字', {
+      body:  data.body  || 'Your daily quiz is ready 🍵',
+      icon:  '/icons/icon-192.png',
+      badge: '/icons/icon-192.png',
+      data:  { url: data.url || '/' },
+    })
+  );
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cls => {
+      const target = e.notification.data?.url || '/';
+      const found  = cls.find(c => c.url.startsWith(self.location.origin));
+      if (found) return found.focus();
+      return clients.openWindow(target);
+    })
   );
 });

@@ -12479,6 +12479,10 @@ export function renderCard(k, delay) {
   speakBtn.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(k.kanji); });
   card.appendChild(speakBtn);
 
+  card.addEventListener('click', () => {
+    if (window.openKanjiDetail) window.openKanjiDetail(k.kanji);
+  });
+
   card.insertAdjacentHTML('beforeend', `
     <div class="card-body">
       <div class="card-top">
@@ -12498,8 +12502,10 @@ export function renderCard(k, delay) {
           <span class="reading-kana">${kun}</span>
         </div>
       </div>
-      <div class="examples-label">Examples</div>
-      ${exHtml}
+      <div class="card-examples">
+        <div class="examples-label">Examples</div>
+        ${exHtml}
+      </div>
     </div>`);
 
   return card;

@@ -1,6 +1,23 @@
 import { API, LEVEL_WEIGHT, VOCAB_LEVEL_WEIGHT } from './config.js';
 import { cacheGet, cacheSet } from './cache.js';
 import { state } from './state.js';
+import { getLang } from './i18n.js';
+
+// ── Pre-load static kanji index for instant vocab card kanji display ──────
+let KANJI_INDEX = null;
+let KANJI_INDEX_PROMISE = null;
+
+function loadKanjiIndex() {
+  if (KANJI_INDEX_PROMISE) return KANJI_INDEX_PROMISE;
+  KANJI_INDEX_PROMISE = fetch('/kanji_index.json')
+    .then(r => r.ok ? r.json() : {})
+    .then(data => { KANJI_INDEX = data; })
+    .catch(() => { KANJI_INDEX = {}; });
+  return KANJI_INDEX_PROMISE;
+}
+
+// Kick off load immediately (non-blocking)
+loadKanjiIndex();
 
 // ── HTTP helpers ──────────────────────────────────────────────────────────
 async function apiFetch(path) {
@@ -17,9 +34,27 @@ export async function getJLPTList(num) {
 }
 
 export async function getKanjiDetail(char) {
+  // Priority 1: Static pre-loaded index (0 latency, instant vocab cards)
+  await loadKanjiIndex();
+  if (KANJI_INDEX && KANJI_INDEX[char]) {
+    const k = KANJI_INDEX[char];
+    // Convert compact format to API format expected by vocab.js
+    return {
+      meanings: k.m ? k.m.split(', ') : [],
+      on_readings: k.o || [],
+      kun_readings: k.k || [],
+      jlpt: k.j || null,
+    };
+  }
+
+  // Priority 2: Cache from previous API calls
   const key = `kanji_${char}`;
   let   d   = cacheGet(key);
-  if (!d) { d = await apiFetch(`/kanji/${encodeURIComponent(char)}`); cacheSet(key, d); }
+  if (d) return d;
+
+  // Priority 3: Live API fallback (for non-JLPT kanji)
+  d = await apiFetch(`/kanji/${encodeURIComponent(char)}`);
+  cacheSet(key, d);
   return d;
 }
 
@@ -70,6 +105,56 @@ export function pickVocabChars(n) {
     }
   }
   return chosen;
+}
+
+// ── Pre-generated sentences database (top 500 words from Tatoeba) ────────
+let SENTENCES_DB = null;
+let SENTENCES_LOAD_PROMISE = null;
+
+function loadSentencesDB() {
+  if (SENTENCES_LOAD_PROMISE) return SENTENCES_LOAD_PROMISE;
+  SENTENCES_LOAD_PROMISE = fetch('/sentences.json')
+    .then(r => r.ok ? r.json() : {})
+    .then(data => { SENTENCES_DB = data; })
+    .catch(() => { SENTENCES_DB = {}; });
+  return SENTENCES_LOAD_PROMISE;
+}
+
+// Kick off load immediately (non-blocking)
+loadSentencesDB();
+
+export async function getVocabSentence(word, reading) {
+  const lang = getLang();
+  // Priority 1: Static pre-generated sentences (top 500 words, 0 latency)
+  await loadSentencesDB();
+  if (SENTENCES_DB && SENTENCES_DB[word]) {
+    const s = SENTENCES_DB[word];
+    // Return with the user's language field if available, else keep en
+    return (lang !== 'en' && s[lang]) ? s : s;
+  }
+
+  // Priority 2: Cache from previous proxy calls (per-language)
+  const key = `vsent_${word}_${lang}`;
+  const cached = cacheGet(key);
+  if (cached !== null && cached !== undefined) return cached;
+
+  // Priority 3: Live Tatoeba proxy (fallback for words outside top 500)
+  try {
+    const params = new URLSearchParams({ word, lang });
+    // Pass kana reading as fallback so the server can search by reading
+    // when the kanji form isn't found in Tatoeba (e.g. 他所 → よそ)
+    if (reading && reading !== word) params.set('reading', reading);
+    const res = await fetch(
+      `/api/sentence?${params}`,
+      { signal: AbortSignal.timeout(6000) }
+    );
+    if (!res.ok) throw new Error('sentence api error');
+    const s = await res.json();
+    if (s?.jp) { cacheSet(key, s); }  // cache any hit (may have en or lang field)
+    return s;
+  } catch {
+    return null; // don't cache on network error, allow retry
+  }
 }
 
 export function pickChars(n) {
