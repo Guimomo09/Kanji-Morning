@@ -34,7 +34,7 @@ export const REWARDS = [
   { id: 'badge_star',   type: 'badge', name: 'Sun',    cost:  5, img: '/assets/Badge/Sun_Badge.png',     emoji: '☀️' },
   { id: 'badge_cherry', type: 'badge', name: 'Sakura', cost:  8, img: '/assets/Badge/Sakura_Badge.png',  emoji: '🌸' },
   { id: 'badge_bolt',   type: 'badge', name: 'Bloom',  cost: 12, img: '/assets/Badge/Sakura_Badge2.png', emoji: '🌺' },
-  { id: 'badge_trophy', type: 'badge', name: 'Coffee', cost: 18, img: '/assets/Badge/Coffee_Badge.png',  emoji: '☕' },
+  { id: 'badge_trophy', type: 'badge', name: 'Coffee', cost: 18, img: '/assets/Badge/Coffee_bean_Badge.png', emoji: '☕' },
 ];
 
 // ── Storage helpers ───────────────────────────────────────────────────────
@@ -229,7 +229,7 @@ export function getCalendarBadge() {
       return b.emoji;
     }
   }
-  return '☕';
+  return '<img src="/assets/Badge/Coffee_Badge.png" class="scal-badge-img" alt="☕">';
 }
 
 // ── Render XP bar HTML ────────────────────────────────────────────────────
@@ -243,14 +243,14 @@ export function renderXPBarHTML() {
   return `
     <div class="xp-bar-wrap">
       <div class="xp-bar-left">
-        <div class="xp-cup-icon">☕</div>
+        <img src="/assets/Badge/Coffee_Badge.png" class="xp-cup-icon" alt="☕">
         <div class="xp-bar-main">
           <div class="xp-segs">${segs}</div>
           <div class="xp-bar-label">${bar}/3</div>
         </div>
       </div>
       <div class="xp-grains-wrap" title="${t('xp_beans_title')}">
-        <span class="xp-grain-icon">🫘</span>
+        <img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt="">
         <span class="xp-grain-count">${grains}</span>
       </div>
     </div>`;
@@ -283,7 +283,7 @@ export function renderShopHTML() {
           <div class="shop-card-name">${r.name}</div>
           <div class="shop-threshold">
             <div class="shop-progress-bar"><div class="shop-progress-fill" style="width:${pct}%"></div></div>
-            <div class="shop-progress-label">${grains} / ${r.cost} 🫘</div>
+            <div class="shop-progress-label">${grains} / ${r.cost} <img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt=""></div>
           </div>
         </div>`;
     }).join('');
@@ -297,7 +297,7 @@ export function renderShopHTML() {
 
   const beansRow = `
     <div class="profile-grains-row">
-      <span class="xp-grain-icon">🫘</span>
+      <img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt="">
       <span class="profile-grains-count">${grains}</span>
       <span class="profile-grains-label">${t('shop_grains_label')}</span>
     </div>`;
