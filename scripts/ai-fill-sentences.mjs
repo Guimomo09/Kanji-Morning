@@ -101,7 +101,7 @@ if (!targets.length) { console.log('  Nothing to do.'); process.exit(0); }
 
 // ── Max length by JLPT level ──────────────────────────────────────────────────
 const MAX_LEN = { 5: 22, 4: 28, 3: 35, 2: 42, 1: 50 };
-const POLITE_RE = /(です|ます|ました|でした|ません|ませんでした|でしょう|ましょう)[。？！]?$/u;
+const POLITE_RE = /(です|ます|ました|でした|ません|ませんでした|でしょう|ましょう|ください)[ねよか]?[。？！]$/u;
 
 // ── OpenAI call ───────────────────────────────────────────────────────────────
 async function generateSentence(word, reading, jlptNum, attempt = 1) {
@@ -119,7 +119,7 @@ Write ONE natural Japanese sentence using the word「${word}」(reading: ${readi
 STRICT rules:
 - Maximum ${maxLen} Japanese characters
 - Must end in polite form: です・ます・ました・でした・ません・でしょう・ましょう (followed by 。)
-- Must contain the exact word「${word}」
+- Must contain the exact word「${word}」as a STANDALONE word — NOT embedded inside a longer compound. If the target word is 動, use 動く/動かす, NOT 運動 or 活動.
 - Vary the subject — consider using: ${subjectHint}、or a situation/general statement
 - Avoid always using 彼/彼女/この — show the word in a real-life context
 - Show the word being *used*, not just defined (avoid "〜は〜です" as the only pattern)
@@ -127,7 +127,8 @@ STRICT rules:
 - No slang, violence, or inappropriate content
 - Everyday realistic situations ONLY: school, work, family, shopping, travel, food, hobbies, weather, health
 - Avoid niche internet culture, fandoms, subcultures, or anything that would confuse a language learner
-- Keep vocabulary simple — use only words a ${level} student would know
+- ALL words in the sentence must be JLPT ${level} vocabulary or easier — do NOT use vocabulary harder than ${level}
+- English translation must be DIRECT and LITERAL — translate exactly what the Japanese says. Do NOT use idioms, figurative expressions, or paraphrases that change the meaning.
 
 Return ONLY valid JSON:
 {"jp": "sentence。", "en": "English translation."}`;

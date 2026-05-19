@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **19 Mai 2026** · Stripe LIVE ✅ · SW v19
+> Dernière mise à jour: **19 Mai 2026** · Stripe LIVE ✅ · SW v21
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `f2f354e` · main `d393cf8` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `(en cours)` · main `d393cf8` · branche active : `dev`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -323,6 +323,24 @@ kanji.guimo-prod.com {
 - [x] Impact : Affichage instantané des détails kanji sous vocab cards (4-5 sec → 0 sec)
 - [x] **3813 phrases réutilisables** pour vocab cards + génération reels (pierre 2 coups)
 
+**Push notifications + A2HS** ← commit `098bff7` (dev, 19 Mai 2026)
+- [x] Settings panel — section Notifications : toggle Daily reminder + sélecteur heure locale (04:00–23:00)
+- [x] Bouton ℹ → guide modal Add to Home Screen (iOS / Android / Desktop, détection auto)
+- [x] `subscribePush()` envoie `utcHour` (heure locale → UTC) au backend
+- [x] `unsubscribePush()` : désabonnement navigateur + DELETE Firestore via `/push-unsubscribe`
+- [x] Backend `/push-subscribe` stocke `utcHour` · `/push-unsubscribe` supprime le doc
+- [x] `/push-send-daily` filtre par `currentUtcHour === sub.utcHour` (envoi à l'heure choisie)
+- [x] Cron VPS mis à jour : `0 8 * * *` → `0 * * * *` (toutes les heures)
+- [x] Caddy : route `/push-unsubscribe` → `localhost:3001`
+- [x] PM2 `asa-webhook` redémarré · Caddy rechargé
+- [x] i18n : `settings_notifications`, `push_setting_label`, `push_setting_time`, `a2hs_guide_title`, `a2hs_guide_close` × 5 langues
+
+**Streak grace day** ← commit `(en cours)` (dev, 19 Mai 2026)
+- [x] `computeStreak()` — 1 jour manqué toléré (grace), 2 jours consécutifs = streak cassé
+- [x] `computeBestStreak()` — même logique (diff === 2 avec une seule grace par séquence)
+- [x] `isGraceActive()` — détecte si la grace est actuellement utilisée
+- [x] Badge `🛡️ Jour de grâce — ton streak est protégé` affiché sur la tile streak (5 langues) uniquement quand grace active
+
 **Shop prices + Tab hints + My List design** ← commit `f2f354e` (dev, 19 Mai 2026)
 - [x] `src/xp.js` — prix réels sur les 12 REWARDS : badges 5/8/12/18 🫘 · thèmes 15/20/30/40 · frames 25/35/50/90
   - Modèle actuel : **dépense et réduit** (56 beans - achat 30 = 26 restants · total pour tout = 348 beans)
@@ -381,12 +399,12 @@ kanji.guimo-prod.com {
 - [x] ~~Quiz UX #1–#6~~ — XP/Grains · distracteurs · retry · profil/shop ✅
 - [x] ~~Vocab enrichi #7+#8+#9~~ — Composants kanji · zoom + Jisho · save depuis vocab ✅
 - [x] ~~Phrases unifiées~~ — sentences.json AI → app + reels kanji + reels vocab ✅
-- [ ] **Rétention** — Notifications push · Daily reminder · Re-engagement streak at risk
+- [x] ~~**Rétention**~~ — Notifications push · Daily reminder · Re-engagement streak ✅ (commit `098bff7`)
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
-- [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
+- [x] ~~**Notifications push background**~~ — Push API serveur · opt-in + heure par utilisateur · grace day streak ✅
 - [ ] Merger `dev` → `main` (prod) quand staging validé
 
 **Priorité basse**

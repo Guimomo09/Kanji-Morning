@@ -35,23 +35,45 @@ export function computeStreak() {
   const today = new Date();
   const hasTodayData = studied.has(dateStr(today));
   let streak = 0;
+  let graceUsed = false;
   for (let i = hasTodayData ? 0 : 1; i < 366; i++) {
     const d = new Date(today); d.setDate(today.getDate() - i);
     if (studied.has(dateStr(d))) streak++;
+    else if (!graceUsed) graceUsed = true; // 1 grace day: skip without breaking
     else break;
   }
   return streak;
 }
 
+export function isGraceActive() {
+  const studied = getStudiedDatesSet();
+  const today = new Date();
+  const hasTodayData = studied.has(dateStr(today));
+  let graceUsed = false;
+  for (let i = hasTodayData ? 0 : 1; i < 30; i++) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    if (studied.has(dateStr(d))) { if (graceUsed) return true; }
+    else if (!graceUsed) graceUsed = true;
+    else return false;
+  }
+  return false;
+}
+
 export function computeBestStreak() {
   const dates = [...getStudiedDatesSet()].sort();
   if (!dates.length) return 0;
-  let best = 1, cur = 1;
+  let best = 1, cur = 1, graceUsed = false;
   for (let i = 1; i < dates.length; i++) {
     const diff = Math.round(
       (new Date(dates[i] + 'T12:00:00') - new Date(dates[i - 1] + 'T12:00:00')) / 86400000
     );
-    if (diff === 1) { cur++; if (cur > best) best = cur; } else cur = 1;
+    if (diff === 1) {
+      cur++; graceUsed = false; if (cur > best) best = cur;
+    } else if (diff === 2 && !graceUsed) {
+      graceUsed = true; cur++; if (cur > best) best = cur; // 1 grace day
+    } else {
+      cur = 1; graceUsed = false;
+    }
   }
   return best;
 }
@@ -428,6 +450,7 @@ function drawBarChart(canvas, values, labels) {
 export function renderHome() {
   const stv         = getStreakTileView();
   const streak      = computeStreak();
+  const graceActive = isGraceActive();
   const best        = computeBestStreak();
   const total       = computeTotalWords();
   const monthlyCount = stv === 'month' ? computeMonthlyCount() : 0;
@@ -484,7 +507,7 @@ export function renderHome() {
     </div>
 
     <div class="kpi-grid">
-      <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('kpi_streak')}</div>${stv === 'streak' ? `<div class="streak-dots">${streakDots}</div>` : ''}<div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
+      <div class="kpi-card kpi-streak" onclick="cycleStreakTile()"><div class="kpi-num">${stv === 'month' ? monthlyCount : streak}</div><div class="kpi-lbl">${stv === 'month' ? t('kpi_streak_month') : t('kpi_streak')}</div>${stv === 'streak' ? `<div class="streak-dots">${streakDots}</div>` : ''}${graceActive && stv === 'streak' ? `<div class="kpi-grace-hint">${t('grace_hint')}</div>` : ''}<div class="kpi-jlpt-hint">${t('kpi_streak_hint')}</div>${(state._fbAuthReady && !state._fbUser) ? `<div class="kpi-streak-nudge">${t('kpi_signin_sync')}</div>` : ''}</div>
       <div class="kpi-card"><div class="kpi-num">${total}</div><div class="kpi-lbl">${t('kpi_words')}</div></div>
       <div class="kpi-card kpi-wotd">
         <div class="kpi-wotd-banner">
