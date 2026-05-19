@@ -1306,18 +1306,19 @@
         bottom: 0; left: 0; right: 0;
         top: unset;
         margin: 0;
-        padding: 0;        padding-bottom: env(safe-area-inset-bottom);        gap: 0;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        padding: 0;
+        gap: 0;
+        display: flex;
         background: #fff;
         border-top: 1px solid var(--border);
         box-shadow: 0 -2px 12px rgba(0,0,0,.1);
         z-index: 200;
       }
       .tab {
+        flex: 1;
         border-radius: 0;
-        padding: 8px 1px 6px;
-        font-size: 17px;
+        padding: 10px 2px 8px;
+        font-size: 20px;
         letter-spacing: 0;
         line-height: 1.3;
       }
@@ -1335,6 +1336,11 @@
       .home-actions { grid-template-columns: 1fr 1fr; }
       .home-action-card { padding: 16px 10px; }
       footer { padding-bottom: calc(80px + env(safe-area-inset-bottom) + 16px); }
+
+    /* Safe area only in standalone (installed PWA) — no white gap in browser */
+    @media (display-mode: standalone) {
+      .tab { padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+    }
 
       /* ── Toolbar ── */
       .toolbar {
