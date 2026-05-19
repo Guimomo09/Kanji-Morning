@@ -1938,25 +1938,27 @@
 
 /* ── Info icon button ──────────────────────────────────────────────────── */
 .btn-icon-info {
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1.5px solid var(--border); background: var(--bg);
-  color: var(--sub); font-size: 14px; cursor: pointer;
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1.5px solid var(--border); background: var(--card);
+  color: var(--sub); font-size: 15px; font-weight: 700; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: border-color .2s, color .2s; line-height: 1;
+  flex-shrink: 0; transition: all .15s; line-height: 1;
 }
-.btn-icon-info:hover { border-color: var(--accent); color: var(--accent); }
+.btn-icon-info:hover { background: var(--border); border-color: var(--border); color: var(--text); }
 
 /* ── A2HS guide modal ─────────────────────────────────────────────────── */
 #km-a2hs-guide {
   position: fixed; inset: 0; z-index: 9200;
   display: flex; align-items: flex-end; justify-content: center;
-  background: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(4px);
 }
 .km-a2hs-inner {
-  background: var(--surface); border-radius: 20px 20px 0 0;
+  background: var(--card); border-radius: 20px 20px 0 0;
   padding: 24px 24px 44px;
   width: 100%; max-width: 480px;
   max-height: 82vh; overflow-y: auto;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.2);
 }
 .km-a2hs-header {
   display: flex; justify-content: space-between; align-items: center;
