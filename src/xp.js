@@ -276,7 +276,9 @@ export function renderShopHTML() {
       const pct      = Math.min(100, Math.round((grains / r.cost) * 100));
       const iconHTML = r.img
         ? `<img src="${r.img}" class="shop-card-img" alt="${r.name}">`
-        : r.emoji;
+        : r.accent
+          ? `<div class="shop-theme-swatch" style="background:linear-gradient(135deg,${r.accent} 50%,${r.accentDark} 50%)"></div>`
+          : r.emoji;
       return `
         <div class="shop-card">
           <div class="shop-card-icon">${iconHTML}</div>
@@ -329,7 +331,9 @@ export function renderAppearancesHTML() {
       const action = `<button class="shop-btn ${equippedThis ? 'shop-btn-equipped' : 'shop-btn-equip'}" onclick="window.shopEquip('${r.id}')">${equippedThis ? t('shop_btn_equipped') : t('shop_btn_equip')}</button>`;
       const iconHTML = r.img
         ? `<img src="${r.img}" class="shop-card-img" alt="${r.name}">`
-        : r.emoji;
+        : r.accent
+          ? `<div class="shop-theme-swatch" style="background:linear-gradient(135deg,${r.accent} 50%,${r.accentDark} 50%)"></div>`
+          : r.emoji;
       return `
         <div class="shop-card shop-card-owned ${equippedThis ? 'shop-card-active' : ''}">
           <div class="shop-card-icon">${iconHTML}</div>
