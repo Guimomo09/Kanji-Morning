@@ -2012,15 +2012,17 @@
 #km-push-modal {
   position: fixed; inset: 0; z-index: 9100;
   display: flex; align-items: flex-end; justify-content: center;
-  background: rgba(0,0,0,.35);
+  background: rgba(0,0,0,.65);
+  backdrop-filter: blur(4px);
 }
 .km-push-inner {
-  background: var(--surface); border-radius: 20px 20px 0 0;
+  background: var(--card); border-radius: 20px 20px 0 0;
   padding: 28px 24px 36px;
   width: 100%; max-width: 480px;
   text-align: center;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.2);
 }
-.km-push-icon   { font-size: 40px; margin-bottom: 12px; }
+.km-push-icon   { display: none; }
 .km-push-title  { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
 .km-push-body   { font-size: 14px; color: var(--sub); margin-bottom: 20px; }
 .km-push-actions { display: flex; flex-direction: column; gap: 10px; }

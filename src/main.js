@@ -1118,7 +1118,6 @@ function _maybeAskPush() {
   modal.id = 'km-push-modal';
   modal.innerHTML = `
     <div class="km-push-inner">
-      <div class="km-push-icon">🌅</div>
       <div class="km-push-title">${t('push_prompt_title') || 'Daily reminders'}</div>
       <div class="km-push-body">${t('push_prompt_body') || 'Get a gentle nudge when your daily quiz is ready.'}</div>
       <div class="km-push-actions">
