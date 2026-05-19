@@ -798,9 +798,22 @@ function openSettings() {
     }
   }
   applyEquipped();
-  // Init push toggle
+  // Init push toggle — sync with actual browser subscription state
   const pushToggle = document.getElementById('pushToggle');
-  if (pushToggle) pushToggle.checked = !!localStorage.getItem('km_push_subscribed');
+  if (pushToggle) {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      navigator.serviceWorker.ready.then(reg => {
+        reg.pushManager.getSubscription().then(sub => {
+          const active = !!sub;
+          pushToggle.checked = active;
+          if (!active) localStorage.removeItem('km_push_subscribed');
+          else localStorage.setItem('km_push_subscribed', '1');
+        });
+      });
+    } else {
+      pushToggle.checked = !!localStorage.getItem('km_push_subscribed');
+    }
+  }
   // Init push time select
   const pushSel = document.getElementById('pushTimeSelect');
   if (pushSel) {
@@ -1035,11 +1048,25 @@ async function unsubscribePush() {
 
 window.onPushToggleChange = async function(cb) {
   if (cb.checked) {
-    if (!('PushManager' in window)) { cb.checked = false; return; }
-    const granted = await Notification.requestPermission();
-    if (granted !== 'granted') { cb.checked = false; return; }
+    if (!('PushManager' in window) || !('Notification' in window)) {
+      cb.checked = false;
+      alert(t('push_not_supported') || 'Push notifications are not supported. Open this page in Safari and add it to your Home Screen first.');
+      return;
+    }
+    if (Notification.permission === 'denied') {
+      cb.checked = false;
+      alert(t('push_permission_blocked') || 'Notifications are blocked. Go to Settings > [App/Safari] > Notifications and enable them.');
+      return;
+    }
+    if (Notification.permission !== 'granted') {
+      const granted = await Notification.requestPermission();
+      if (granted !== 'granted') { cb.checked = false; return; }
+    }
     const ok = await subscribePush();
-    if (!ok) cb.checked = false;
+    if (!ok) {
+      cb.checked = false;
+      alert(t('push_subscribe_failed') || 'Could not activate notifications. Please try again.');
+    }
   } else {
     await unsubscribePush();
   }
@@ -1061,7 +1088,7 @@ window.showA2HSGuide = function() {
     `<li><span class="km-a2hs-step-num">${n}</span><span>${text}</span></li>`;
 
   const iosBlock = `
-    <p class="km-a2hs-section-title">🍎 iPhone / iPad (Safari)</p>
+    <p class="km-a2hs-section-title">iPhone / iPad (Safari)</p>
     <ol class="km-a2hs-steps">
       ${step(1, 'Open this page in <strong>Safari</strong> (not Chrome or Firefox)')}
       ${step(2, 'Tap the <strong>Share button</strong> (box with arrow pointing up ↑) at the bottom of the screen')}
