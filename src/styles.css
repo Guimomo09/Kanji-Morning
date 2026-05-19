@@ -2,6 +2,7 @@
     :root {
       --red:     #c03a20;
       --red-dark:#8b2510;
+      --accent:  var(--red);
       --bg:      #faf7f2;
       --card:    #ffffff;
       --border:  #ede3d8;
