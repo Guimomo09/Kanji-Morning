@@ -3764,6 +3764,10 @@ export function renderCard(k, delay) {
   speakBtn.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(k.kanji); });
   card.appendChild(speakBtn);
 
+  card.addEventListener('click', () => {
+    if (window.openKanjiDetail) window.openKanjiDetail(k.kanji);
+  });
+
   card.insertAdjacentHTML('beforeend', `
     <div class="card-body">
       <div class="card-top">

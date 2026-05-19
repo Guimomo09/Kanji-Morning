@@ -154,7 +154,8 @@ async function openKanjiDetail(char) {
         </div>
       </div>
       <div class="examples-label">${t('kanji_examples')}</div>
-      ${exHtml}`;
+      ${exHtml}
+      <a href="https://jisho.org/search/${encodeURIComponent(char)}%20%23kanji" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:14px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:8px 14px">🔍 Jisho</a>`;
   } catch {
     content.innerHTML = '<div class="kanji-detail-loading">' + t('kanji_load_error') + '</div>';
   }
