@@ -1308,7 +1308,7 @@
         margin: 0;
         padding: 0;        padding-bottom: env(safe-area-inset-bottom);        gap: 0;
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         background: #fff;
         border-top: 1px solid var(--border);
         box-shadow: 0 -2px 12px rgba(0,0,0,.1);

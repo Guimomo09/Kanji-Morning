@@ -1110,8 +1110,8 @@ function _maybeAskPush() {
   if (!('PushManager' in window)) return;
   if (localStorage.getItem('km_push_asked')) return;
   if (localStorage.getItem('km_push_subscribed')) return;
-  const history = JSON.parse(localStorage.getItem('quiz_history') || '[]');
-  if (history.length < 1) return;
+  const visits = parseInt(localStorage.getItem('km_visit_count') || '0', 10);
+  if (visits < 2) return;
   localStorage.setItem('km_push_asked', '1');
 
   const modal = document.createElement('div');
