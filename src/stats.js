@@ -639,13 +639,13 @@ export function renderStats() {
         const u = state._fbUser;
         if (!u) {
           const grains = parseInt(localStorage.getItem('km_xp_grains')||'0',10);
-          return `<div class="stats-user-row"><div><div class="stats-user-name" style="color:var(--muted)">Guest</div></div><div class="stats-user-grains">\ud83e\uded8 ${grains} grain${grains!==1?'s':''}</div><span class="stats-user-fallback" style="opacity:0.4">?</span></div>`;
+          return `<div class="stats-user-row"><div><div class="stats-user-name" style="color:var(--muted)">Guest</div></div><div class="stats-user-grains"><img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt=""> ${grains} grain${grains!==1?'s':''}</div><span class="stats-user-fallback" style="opacity:0.4">?</span></div>`;
         }
         const av = u.photoURL
           ? `<img src="${u.photoURL}" class="stats-user-avatar" referrerpolicy="no-referrer" alt="">`
           : `<span class="stats-user-fallback">${(u.displayName||'?')[0].toUpperCase()}</span>`;
         const grains = parseInt(localStorage.getItem('km_xp_grains')||'0',10);
-        return `<div class="stats-user-row"><div><div class="stats-user-name">${u.displayName?.split(' ')[0]||''}</div></div><div class="stats-user-grains">\ud83e\uded8 ${grains} grain${grains!==1?'s':''}</div>${av}</div>`;
+        return `<div class="stats-user-row"><div><div class="stats-user-name">${u.displayName?.split(' ')[0]||''}</div></div><div class="stats-user-grains"><img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt=""> ${grains} grain${grains!==1?'s':''}</div>${av}</div>`;
       })()}
       ${renderXPBarHTML()}
       ${missedHtml}
