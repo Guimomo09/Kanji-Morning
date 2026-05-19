@@ -249,10 +249,6 @@ export function renderXPBarHTML() {
           <div class="xp-bar-label">${bar}/3</div>
         </div>
       </div>
-      <div class="xp-grains-wrap" title="${t('xp_beans_title')}">
-        <img src="/assets/Token/Token_Coffee.png" class="xp-grain-icon" alt="">
-        <span class="xp-grain-count">${grains}</span>
-      </div>
     </div>`;
 }
 
