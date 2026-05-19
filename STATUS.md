@@ -1,8 +1,8 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **19 Mai 2026** · Stripe LIVE ✅ · SW v21
+> Dernière mise à jour: **19 Mai 2026** · Stripe LIVE ✅ · SW v22
 
-> ⚠️ **Workflow** : toujours passer par `dev` avant `main`
+> **Workflow** : `dev` pour staging · `main` pour prod (merge direct autorisé)
 > ```
 > git checkout dev  →  tester sur kanji.guimo-prod.com  →  git checkout main && git merge dev && git push
 > ```
@@ -392,6 +392,17 @@ kanji.guimo-prod.com {
 - [x] Modal tuto welcome : kanji 朝 remplacé par le vrai logo SVG (5 langues)
 - [x] SW cache bumped v6 → v7 pour forcer invalidation clients
 
+**Fixes push modal + toggle + icônes — 19 Mai 2026** ← commits `dc82891` → `26ffb87` (main)
+- [x] Push reminder modal : backdrop `rgba(0,0,0,.65)` + `backdrop-filter: blur(4px)` · fond `var(--card)` + `box-shadow` · emoji 🌅 supprimé
+- [x] Push toggle : feedback visible sur permission bloquée / PushManager absent / subscribe échoué (alert i18n 5 langues)
+- [x] Push toggle : synchronisation avec l'abonnement réel du navigateur à l'ouverture des Settings (au lieu de localStorage seul)
+- [x] 🍎 supprimé du guide A2HS (section iPhone/iPad)
+- [x] `--accent` défini dans `:root` → `var(--red)` par défaut · toggle rouge sur thème par défaut · couleur thème sur Dusk/Ocean/Forest/Stone
+- [x] PWA icons remplacées par `Logo_Home.svg` (nouveau design) : `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180px)
+- [x] `apple-touch-icon-v2.png` — renommage pour forcer iOS à re-fetcher (contourne cache OS)
+- [x] SSH VPS sans mot de passe — clé `~/.ssh/kanji_vps` ajoutée · alias `vps-kanji` dans `~/.ssh/config`
+- [x] SW bumped v21 → v22
+
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
@@ -405,7 +416,7 @@ kanji.guimo-prod.com {
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
 - [x] ~~**Notifications push background**~~ — Push API serveur · opt-in + heure par utilisateur · grace day streak ✅
-- [ ] Merger `dev` → `main` (prod) quand staging validé
+- [ ] Merger `dev` → `main` (prod) quand staging validé ← ✅ merge direct en prod validé en session
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)
