@@ -1050,12 +1050,12 @@ window.onPushToggleChange = async function(cb) {
   if (cb.checked) {
     if (!('PushManager' in window) || !('Notification' in window)) {
       cb.checked = false;
-      alert(t('push_not_supported') || 'Push notifications are not supported. Open this page in Safari and add it to your Home Screen first.');
+      alert(t('push_not_supported'));
       return;
     }
     if (Notification.permission === 'denied') {
       cb.checked = false;
-      alert(t('push_permission_blocked') || 'Notifications are blocked. Go to Settings > [App/Safari] > Notifications and enable them.');
+      alert(t('push_permission_blocked'));
       return;
     }
     if (Notification.permission !== 'granted') {
@@ -1065,7 +1065,7 @@ window.onPushToggleChange = async function(cb) {
     const ok = await subscribePush();
     if (!ok) {
       cb.checked = false;
-      alert(t('push_subscribe_failed') || 'Could not activate notifications. Please try again.');
+      alert(t('push_subscribe_failed'));
     }
   } else {
     await unsubscribePush();
