@@ -151,7 +151,7 @@ app.get('/api/sentence', async (req, res) => {
 
 // ── Push: save subscription ───────────────────────────────────────────────
 app.post('/push-subscribe', express.json(), async (req, res) => {
-  const { subscription, lang, uid } = req.body || {};
+  const { subscription, lang, uid, utcHour } = req.body || {};
   if (!subscription?.endpoint) return res.status(400).json({ error: 'Missing subscription' });
 
   // Key by endpoint hash to avoid duplicates
@@ -159,13 +159,28 @@ app.post('/push-subscribe', express.json(), async (req, res) => {
   try {
     await db.collection('push_subscriptions').doc(hash).set({
       subscription,
-      lang:      lang || 'en',
-      uid:       uid  || null,
+      lang:      lang    || 'en',
+      uid:       uid     || null,
+      utcHour:   (utcHour !== undefined && utcHour !== null) ? utcHour : 8,
       updatedAt: new Date().toISOString(),
     }, { merge: true });
     res.json({ ok: true });
   } catch (err) {
     console.error('[push-subscribe] Firestore error:', err);
+    res.status(500).json({ error: 'DB error' });
+  }
+});
+
+// ── Push: remove subscription ─────────────────────────────────────────────
+app.post('/push-unsubscribe', express.json(), async (req, res) => {
+  const { endpoint } = req.body || {};
+  if (!endpoint) return res.status(400).json({ error: 'Missing endpoint' });
+  const hash = Buffer.from(endpoint).toString('base64').slice(0, 40);
+  try {
+    await db.collection('push_subscriptions').doc(hash).delete();
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('[push-unsubscribe] Firestore error:', err);
     res.status(500).json({ error: 'DB error' });
   }
 });
@@ -187,11 +202,17 @@ app.post('/push-send-daily', express.json(), async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  let sent = 0, failed = 0;
+  // Run hourly cron (0 * * * *) — only send to subscribers whose utcHour matches current UTC hour.
+  // Subscribers without utcHour stored default to 8 UTC.
+  const currentUtcHour = new Date().getUTCHours();
+
+  let sent = 0, failed = 0, skipped = 0;
   try {
     const snapshot = await db.collection('push_subscriptions').get();
     const sends = snapshot.docs.map(async doc => {
-      const { subscription, lang } = doc.data();
+      const { subscription, lang, utcHour } = doc.data();
+      const subHour = (utcHour !== undefined && utcHour !== null) ? utcHour : 8;
+      if (subHour !== currentUtcHour) { skipped++; return; }
       const msg = PUSH_MESSAGES[lang] || PUSH_MESSAGES.en;
       try {
         await webpush.sendNotification(subscription, JSON.stringify({ ...msg, url: '/' }));
@@ -203,8 +224,8 @@ app.post('/push-send-daily', express.json(), async (req, res) => {
       }
     });
     await Promise.all(sends);
-    console.log(`[push-send-daily] sent=${sent} failed=${failed}`);
-    res.json({ sent, failed });
+    console.log(`[push-send-daily] hour=${currentUtcHour} sent=${sent} skipped=${skipped} failed=${failed}`);
+    res.json({ sent, skipped, failed });
   } catch (err) {
     console.error('[push-send-daily] error:', err);
     res.status(500).json({ error: err.message });

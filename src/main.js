@@ -798,6 +798,22 @@ function openSettings() {
     }
   }
   applyEquipped();
+  // Init push toggle
+  const pushToggle = document.getElementById('pushToggle');
+  if (pushToggle) pushToggle.checked = !!localStorage.getItem('km_push_subscribed');
+  // Init push time select
+  const pushSel = document.getElementById('pushTimeSelect');
+  if (pushSel) {
+    if (pushSel.options.length === 0) {
+      for (let h = 4; h <= 23; h++) {
+        const val = `${String(h).padStart(2, '0')}:00`;
+        const opt = document.createElement('option');
+        opt.value = val; opt.textContent = val;
+        pushSel.appendChild(opt);
+      }
+    }
+    pushSel.value = localStorage.getItem('km_push_hour') || '08:00';
+  }
   document.getElementById('settingsPage').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -963,6 +979,14 @@ function _urlBase64ToUint8Array(base64String) {
   return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
 }
 
+function _getPreferredUtcHour() {
+  const time = localStorage.getItem('km_push_hour') || '08:00';
+  const h = parseInt(time.split(':')[0], 10);
+  const d = new Date();
+  d.setHours(h, 0, 0, 0);
+  return d.getUTCHours();
+}
+
 export async function subscribePush() {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
   try {
@@ -974,7 +998,12 @@ export async function subscribePush() {
     await fetch(PUSH_ENDPOINT, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ subscription: sub, lang: getLang(), uid: state._fbUser?.uid || null }),
+      body:    JSON.stringify({
+        subscription: sub,
+        lang:    getLang(),
+        uid:     state._fbUser?.uid || null,
+        utcHour: _getPreferredUtcHour(),
+      }),
     });
     localStorage.setItem('km_push_subscribed', '1');
     return true;
@@ -983,6 +1012,99 @@ export async function subscribePush() {
     return false;
   }
 }
+
+async function unsubscribePush() {
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.getSubscription();
+    if (sub) {
+      await sub.unsubscribe();
+      const unsubUrl = PUSH_ENDPOINT.replace('/push-subscribe', '/push-unsubscribe');
+      fetch(unsubUrl, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ endpoint: sub.endpoint }),
+      }).catch(() => {});
+    }
+  } catch (err) {
+    console.warn('[push] unsubscribe failed:', err);
+  }
+  localStorage.removeItem('km_push_subscribed');
+  localStorage.removeItem('km_push_asked');
+}
+
+window.onPushToggleChange = async function(cb) {
+  if (cb.checked) {
+    if (!('PushManager' in window)) { cb.checked = false; return; }
+    const granted = await Notification.requestPermission();
+    if (granted !== 'granted') { cb.checked = false; return; }
+    const ok = await subscribePush();
+    if (!ok) cb.checked = false;
+  } else {
+    await unsubscribePush();
+  }
+};
+
+window.onPushTimeChange = async function(value) {
+  localStorage.setItem('km_push_hour', value);
+  if (localStorage.getItem('km_push_subscribed')) {
+    await subscribePush();
+  }
+};
+
+window.showA2HSGuide = function() {
+  document.getElementById('km-a2hs-guide')?.remove();
+  const isIOS     = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+
+  const step = (n, text) =>
+    `<li><span class="km-a2hs-step-num">${n}</span><span>${text}</span></li>`;
+
+  const iosBlock = `
+    <p class="km-a2hs-section-title">🍎 iPhone / iPad (Safari)</p>
+    <ol class="km-a2hs-steps">
+      ${step(1, 'Open this page in <strong>Safari</strong> (not Chrome or Firefox)')}
+      ${step(2, 'Tap the <strong>Share button</strong> (box with arrow pointing up ↑) at the bottom of the screen')}
+      ${step(3, 'Scroll down and tap <strong>« Add to Home Screen »</strong>')}
+      ${step(4, 'Tap <strong>Add</strong> — the app icon appears on your home screen')}
+    </ol>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px">⚠️ On iOS, push notifications require adding to Home Screen first.</p>`;
+
+  const androidBlock = `
+    <p class="km-a2hs-section-title">🤖 Android (Chrome)</p>
+    <ol class="km-a2hs-steps">
+      ${step(1, 'Open this page in <strong>Chrome</strong>')}
+      ${step(2, 'Tap the <strong>⋮ menu</strong> in the top-right corner')}
+      ${step(3, 'Tap <strong>« Add to Home Screen »</strong> or <strong>« Install App »</strong>')}
+    </ol>`;
+
+  const desktopBlock = `
+    <p class="km-a2hs-section-title">💻 Desktop (Chrome / Edge)</p>
+    <ol class="km-a2hs-steps">
+      ${step(1, 'Look for the <strong>⊕ install icon</strong> in the address bar (right side)')}
+      ${step(2, 'Click it and confirm — the app opens in its own window')}
+    </ol>`;
+
+  const divider = '<hr class="km-a2hs-divider">';
+  const content = isIOS
+    ? iosBlock
+    : isAndroid
+      ? androidBlock + divider + iosBlock
+      : desktopBlock + divider + iosBlock + divider + androidBlock;
+
+  const guide = document.createElement('div');
+  guide.id = 'km-a2hs-guide';
+  guide.innerHTML = `
+    <div class="km-a2hs-inner">
+      <div class="km-a2hs-header">
+        <span class="km-a2hs-title">${t('a2hs_guide_title') || 'Add to Home Screen'}</span>
+        <button class="km-a2hs-close" onclick="document.getElementById('km-a2hs-guide').remove()">✕</button>
+      </div>
+      ${content}
+    </div>`;
+  guide.addEventListener('click', e => { if (e.target === guide) guide.remove(); });
+  document.body.appendChild(guide);
+};
 
 function _maybeAskPush() {
   if (!('PushManager' in window)) return;

@@ -11,6 +11,7 @@ asanokanji.com, www.asanokanji.com {
 
     # Push notification endpoints
     reverse_proxy /push-subscribe localhost:3001
+    reverse_proxy /push-unsubscribe localhost:3001
     reverse_proxy /push-send-daily localhost:3001
 
     # JS/CSS sources : toujours revalider (pas de cache stale)
