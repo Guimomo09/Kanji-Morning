@@ -1307,14 +1307,14 @@
         top: unset;
         margin: 0;
         padding: 0;        padding-bottom: env(safe-area-inset-bottom);        gap: 0;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        display: flex;
         background: #fff;
         border-top: 1px solid var(--border);
         box-shadow: 0 -2px 12px rgba(0,0,0,.1);
         z-index: 200;
       }
       .tab {
+        flex: 1;
         border-radius: 0;
         padding: 8px 1px 6px;
         font-size: 17px;
