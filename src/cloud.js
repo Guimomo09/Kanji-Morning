@@ -153,6 +153,11 @@ async function _cloudPull() {
       console.log('[cloud] Premium status: active');
     }
 
+    // Restore push hour preference (localStorage may be wiped on iOS under memory pressure)
+    if (data.pushHour && !localStorage.getItem('km_push_hour')) {
+      localStorage.setItem('km_push_hour', data.pushHour);
+    }
+
   } catch (e) {
     console.warn('[_cloudPull] Failed to pull from cloud:', e);
   }
