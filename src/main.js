@@ -10,7 +10,7 @@ import { renderStats, renderHome, setActivityView, navActivityCal, getStudiedDat
 import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
-import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED }                  from './config.js';
+import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED, VAPID_PUBLIC_KEY, PUSH_ENDPOINT } from './config.js';
 import { t, detectLang, setLang, getSupportedLangs, applyI18nToDOM, getLang } from './i18n.js';
 import { loadTrans, getMeaning } from './trans.js';
 import { speakJapanese } from './audio.js';
@@ -878,6 +878,14 @@ window.addEventListener('DOMContentLoaded', function() {
   }
   // Auto-unlock all cost:0 items so they're directly equippable
   try { unlockAllFree(); } catch (e) { console.warn('[init] unlockAllFree failed:', e.name); }
+  // Visit counter — used to decide when to show the install banner
+  try {
+    const visits = parseInt(localStorage.getItem('km_visit_count') || '0', 10) + 1;
+    localStorage.setItem('km_visit_count', String(visits));
+    if (visits >= 2) _maybeShowInstallBanner();
+  } catch {}
+  // Push notification prompt — after first quiz completion
+  setTimeout(_maybeAskPush, 3000);
   // Sync XP bar on app open — push to cloud if a grain was just earned
   const _xpGrainEarned = syncXPBar(getStudiedDatesSet());
   if (_xpGrainEarned && CLOUD_ENABLED && state._fbUser) {
@@ -911,6 +919,104 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.warn('[SW] Registration failed:', err));
   });
 }
+
+// ── Add to Home Screen (A2HS) ─────────────────────────────────────────────
+let _installPromptEvent = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _installPromptEvent = e;
+  _maybeShowInstallBanner();
+});
+
+function _maybeShowInstallBanner() {
+  if (!_installPromptEvent) return;
+  if (localStorage.getItem('km_install_dismissed')) return;
+  if (document.getElementById('km-install-banner')) return;
+  const visits = parseInt(localStorage.getItem('km_visit_count') || '0', 10);
+  if (visits < 2) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'km-install-banner';
+  banner.innerHTML = `
+    <span>📲 Add to your home screen for the best experience</span>
+    <button id="km-install-ok">Add</button>
+    <button id="km-install-no" aria-label="Dismiss">✕</button>
+  `;
+  document.body.appendChild(banner);
+
+  document.getElementById('km-install-ok').addEventListener('click', () => {
+    _installPromptEvent.prompt();
+    _installPromptEvent.userChoice.then(() => { banner.remove(); });
+    _installPromptEvent = null;
+  });
+  document.getElementById('km-install-no').addEventListener('click', () => {
+    banner.remove();
+    localStorage.setItem('km_install_dismissed', '1');
+  });
+}
+
+// ── Push notifications ────────────────────────────────────────────────────
+function _urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const raw     = atob(base64);
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+}
+
+export async function subscribePush() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly:      true,
+      applicationServerKey: _urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+    });
+    await fetch(PUSH_ENDPOINT, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ subscription: sub, lang: getLang(), uid: state._fbUser?.uid || null }),
+    });
+    localStorage.setItem('km_push_subscribed', '1');
+    return true;
+  } catch (err) {
+    console.warn('[push] subscribe failed:', err);
+    return false;
+  }
+}
+
+function _maybeAskPush() {
+  if (!('PushManager' in window)) return;
+  if (localStorage.getItem('km_push_asked')) return;
+  if (localStorage.getItem('km_push_subscribed')) return;
+  const history = JSON.parse(localStorage.getItem('quiz_history') || '[]');
+  if (history.length < 1) return;
+  localStorage.setItem('km_push_asked', '1');
+
+  const modal = document.createElement('div');
+  modal.id = 'km-push-modal';
+  modal.innerHTML = `
+    <div class="km-push-inner">
+      <div class="km-push-icon">🌅</div>
+      <div class="km-push-title">${t('push_prompt_title') || 'Daily reminders'}</div>
+      <div class="km-push-body">${t('push_prompt_body') || 'Get a gentle nudge when your daily quiz is ready.'}</div>
+      <div class="km-push-actions">
+        <button id="km-push-yes" class="btn btn-primary">${t('push_prompt_yes') || 'Yes, remind me'}</button>
+        <button id="km-push-no" class="btn btn-ghost">${t('push_prompt_no') || 'No thanks'}</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('km-push-yes').addEventListener('click', async () => {
+    modal.remove();
+    const granted = await Notification.requestPermission();
+    if (granted === 'granted') await subscribePush();
+  });
+  document.getElementById('km-push-no').addEventListener('click', () => modal.remove());
+}
+
+// Expose so quiz score screen can trigger it after first completion
+window._maybeAskPush = _maybeAskPush;
 
 // Re-render current tab after cloud login so pulled data is reflected
 setPostAuthCallback(() => {
@@ -996,11 +1102,3 @@ document.addEventListener('click', function(e) {
   const wrap = document.getElementById('mobileMenuBtn')?.closest('.h-hamburger-wrap');
   if (wrap && !wrap.contains(e.target)) closeMobileMenu();
 });
-
-// ── PWA service worker ────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .catch(err => console.warn('[SW] Registration failed:', err));
-  });
-}

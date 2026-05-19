@@ -8,6 +8,10 @@
  *   STRIPE_WEBHOOK_SECRET           — whsec_... (from Stripe Dashboard → Webhooks)
  *   FIREBASE_SERVICE_ACCOUNT_PATH   — absolute path to the service account JSON file
  *   PORT                            — (optional) defaults to 3001
+ *   VAPID_PUBLIC_KEY                — Web Push VAPID public key
+ *   VAPID_PRIVATE_KEY               — Web Push VAPID private key
+ *   VAPID_SUBJECT                   — mailto:you@domain.com
+ *   PUSH_DAILY_SECRET               — secret token for /push-send-daily endpoint
  *
  * On payment, writes { premium: true, premiumSince: ISO date } to
  * Firestore users/{client_reference_id} using merge.
@@ -17,6 +21,7 @@ const express = require('express');
 const fs      = require('fs');
 const stripe  = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const admin   = require('firebase-admin');
+const webpush = require('web-push');
 
 // ── Firebase Admin init ───────────────────────────────────────────────────
 const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
@@ -30,6 +35,15 @@ admin.initializeApp({
   ),
 });
 const db = admin.firestore();
+
+// ── Web Push (VAPID) ──────────────────────────────────────────────────────
+if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+  webpush.setVapidDetails(
+    process.env.VAPID_SUBJECT || 'mailto:contact@asanokanji.com',
+    process.env.VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
+  );
+}
 
 // ── Express ───────────────────────────────────────────────────────────────
 const app = express();
@@ -133,6 +147,68 @@ app.get('/api/sentence', async (req, res) => {
     }
     res.json(null);
   } catch { res.json(null); }
+});
+
+// ── Push: save subscription ───────────────────────────────────────────────
+app.post('/push-subscribe', express.json(), async (req, res) => {
+  const { subscription, lang, uid } = req.body || {};
+  if (!subscription?.endpoint) return res.status(400).json({ error: 'Missing subscription' });
+
+  // Key by endpoint hash to avoid duplicates
+  const hash = Buffer.from(subscription.endpoint).toString('base64').slice(0, 40);
+  try {
+    await db.collection('push_subscriptions').doc(hash).set({
+      subscription,
+      lang:      lang || 'en',
+      uid:       uid  || null,
+      updatedAt: new Date().toISOString(),
+    }, { merge: true });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('[push-subscribe] Firestore error:', err);
+    res.status(500).json({ error: 'DB error' });
+  }
+});
+
+// ── Push: send daily reminder (called by cron) ───────────────────────────
+// Protect with a secret token: call as POST /push-send-daily with header
+// Authorization: Bearer <PUSH_DAILY_SECRET>
+const PUSH_MESSAGES = {
+  en: { title: '朝の漢字', body: 'Your daily quiz is ready 🌅 来て！' },
+  fr: { title: '朝の漢字', body: 'Ton quiz du jour t\'attend 🌅' },
+  es: { title: '朝の漢字', body: 'Tu quiz diario está listo 🌅' },
+  de: { title: '朝の漢字', body: 'Dein tägliches Quiz wartet 🌅' },
+  ru: { title: '朝の漢字', body: 'Твоя ежедневная викторина готова 🌅' },
+};
+
+app.post('/push-send-daily', express.json(), async (req, res) => {
+  const secret = (req.headers.authorization || '').replace('Bearer ', '');
+  if (!process.env.PUSH_DAILY_SECRET || secret !== process.env.PUSH_DAILY_SECRET) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  let sent = 0, failed = 0;
+  try {
+    const snapshot = await db.collection('push_subscriptions').get();
+    const sends = snapshot.docs.map(async doc => {
+      const { subscription, lang } = doc.data();
+      const msg = PUSH_MESSAGES[lang] || PUSH_MESSAGES.en;
+      try {
+        await webpush.sendNotification(subscription, JSON.stringify({ ...msg, url: '/' }));
+        sent++;
+      } catch (err) {
+        failed++;
+        // 410 Gone = subscription expired → delete it
+        if (err.statusCode === 410) await doc.ref.delete();
+      }
+    });
+    await Promise.all(sends);
+    console.log(`[push-send-daily] sent=${sent} failed=${failed}`);
+    res.json({ sent, failed });
+  } catch (err) {
+    console.error('[push-send-daily] error:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 const PORT = process.env.PORT || 3001;

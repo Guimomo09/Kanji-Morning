@@ -157,7 +157,10 @@ const TRANSLATIONS = {
     premium_activating: '⏳ Activating… refresh in a moment if features are not unlocked yet.',
     premium_lets_go:    "Let's go! →",
 
-    kanji_loading:     '読み込み中…',
+    push_prompt_title: 'Daily reminders',
+    push_prompt_body:  'Get a gentle nudge when your daily quiz is ready 🌅',
+    push_prompt_yes:   'Yes, remind me',
+    push_prompt_no:    'No thanks',
     kanji_load_error:  'Could not load data.',
     kanji_on:          '音読み (On)',
     kanji_kun:         '訓読み (Kun)',
@@ -410,6 +413,11 @@ const TRANSLATIONS = {
     premium_msg:        'Ta liste de mots est maintenant illimitée.<br>Le mode examen et les stats complètes sont débloqués.',
     premium_activating: '⏳ Activation… rafraîchis si les fonctionnalités ne sont pas débloquées.',
     premium_lets_go:    "C'est parti ! →",
+
+    push_prompt_title: 'Rappels quotidiens',
+    push_prompt_body:  'Reçois une notification quand ton quiz du jour est prêt 🌅',
+    push_prompt_yes:   'Oui, rappelle-moi',
+    push_prompt_no:    'Non merci',
 
     kanji_loading:     '読み込み中…',
     kanji_load_error:  'Impossible de charger les données.',
@@ -665,6 +673,11 @@ const TRANSLATIONS = {
     premium_activating: '⏳ Activando… actualiza si las funciones no están desbloqueadas.',
     premium_lets_go:    '¡Vamos! →',
 
+    push_prompt_title: 'Recordatorios diarios',
+    push_prompt_body:  'Recibe una notificación cuando tu quiz diario esté listo 🌅',
+    push_prompt_yes:   'Sí, recuérdame',
+    push_prompt_no:    'No, gracias',
+
     kanji_loading:     '読み込み中…',
     kanji_load_error:  'No se pudieron cargar los datos.',
     kanji_on:          '音読み (On)',
@@ -919,6 +932,11 @@ const TRANSLATIONS = {
     premium_activating: '⏳ Aktivierung läuft… Seite neu laden falls Funktionen nicht verfügbar.',
     premium_lets_go:    "Los geht's! →",
 
+    push_prompt_title: 'Tägliche Erinnerungen',
+    push_prompt_body:  'Erhalte eine Benachrichtigung, wenn dein tägliches Quiz bereit ist 🌅',
+    push_prompt_yes:   'Ja, erinnere mich',
+    push_prompt_no:    'Nein danke',
+
     kanji_loading:     '読み込み中…',
     kanji_load_error:  'Daten konnten nicht geladen werden.',
     kanji_on:          '音読み (On)',
@@ -1172,6 +1190,11 @@ const TRANSLATIONS = {
     premium_msg:        'Ваш список слов теперь неограничен.<br>Режим экзамена и полная статистика разблокированы.',
     premium_activating: '⏳ Активация… обновите страницу если функции не разблокированы.',
     premium_lets_go:    'Начнём! →',
+
+    push_prompt_title: 'Ежедневные напоминания',
+    push_prompt_body:  'Получай уведомление, когда ежедневная викторина готова 🌅',
+    push_prompt_yes:   'Да, напомни мне',
+    push_prompt_no:    'Нет, спасибо',
 
     kanji_loading:     '読み込み中…',
     kanji_load_error:  'Не удалось загрузить данные.',

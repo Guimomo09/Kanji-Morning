@@ -8,7 +8,8 @@ import {
   getMissedBiWeeklyMonday, nextBiWeeklyMonday, isBiWeeklyMonday,
   isBiWeeklyDone, getLastBiWeeklyMonday,
 } from './biweekly.js';
-import { t } from './i18n.js';
+import { t, getLang } from './i18n.js';
+import { getMeaning } from './trans.js';
 import { getStreakTileView } from './main.js';
 import { renderXPBarHTML, getCalendarBadge, applyEquipped } from './xp.js';
 
@@ -493,7 +494,7 @@ export function renderHome() {
         <div class="kpi-wotd-body">
           <div class="kpi-wotd-kanji">${wotd.word}</div>
           <div class="kpi-wotd-reading">${wotd.reading}</div>
-          <div class="kpi-wotd-meaning">${wotd.meaning}</div>
+          <div class="kpi-wotd-meaning">${getMeaning(wotd.word, getLang()) || wotd.meaning}</div>
           ${savedWords.some(w => w.word === wotd.word)
             ? `<div class="kpi-wotd-saved">✓ ${t('today_done').replace(' ✓','')}</div>`
             : `<button class="kpi-wotd-save-btn" onclick="saveWotd()">＋ ${t('today_done').replace('✓','').trim() || 'Save this word'}</button>`

@@ -98,6 +98,14 @@ export function toggleSaveVocabWord(item) {
     removeFromMyList(item.word);
     return false;
   }
+  // Free tier: 30-word hard limit
+  if (!state.isPremium) {
+    const existing = getAllSavedWords();
+    if (existing.length >= 30) {
+      window.openUpgradeModal?.('limit');
+      return false;
+    }
+  }
   const date = todayStr();
   updateSavedWordsMirror([item], date);
   cloudSavedWordAdd(_compact(item, date)).catch(() => {});

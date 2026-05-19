@@ -29,3 +29,7 @@ export const CLOUD_ENABLED = FIREBASE_CONFIG.apiKey !== 'REPLACE_WITH_YOUR_API_K
 // 🟢 LIVE  — active
 //            VPS: update /etc/asa-no-kanji/.env with sk_live + whsec_live, then pm2 restart asa-webhook
 export const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/28E6oGcuBbDH5cP7g2cIE00';
+
+// ── Push notifications (VAPID) ─────────────────────────────────────────────
+export const VAPID_PUBLIC_KEY = 'BMCI9JhowPqG-EvSsIIOwUXwgDACWoEtbuwMJQj8GdAbijXcGdhid1RBgF62N1m2az2CFaHLZZZMHA78FfJC2mk';
+export const PUSH_ENDPOINT   = 'https://asanokanji.com/push-subscribe';
