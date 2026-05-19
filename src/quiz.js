@@ -91,7 +91,7 @@ let _examTimeLeft = 0;
 let _examCountdown = null;
 let _examSectionOpen = false; // set to true after exam completes → keeps accordion open on return
 let _sessionExamResults = []; // in-memory backup — survives even if localStorage quota fails
-const EXAM_DURATION  = 7 * 60; // 7 minutes
+const EXAM_DURATION  = 10 * 60; // 10 minutes
 const EXAM_QUESTIONS = 40;
 const EXAM_PASS_PCT  = 60;
 
