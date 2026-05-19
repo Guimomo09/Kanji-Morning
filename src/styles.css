@@ -469,6 +469,7 @@
     /* ── Profile / Shop ────────────────────────────────────────────────── */
     .profile-wrap          { padding-bottom:16px; }
     .profile-grains-row    { display:flex; align-items:center; gap:8px; padding:10px 0 14px; }
+    .profile-grains-row .xp-grain-icon { width:32px; height:32px; }
     .profile-grains-count  { font-size:22px; font-weight:900; color:#c8832e; }
     .profile-grains-label  { font-size:13px; color:var(--muted); }
     .profile-section-title { font-size:12px; font-weight:700; text-transform:uppercase; color:var(--muted); letter-spacing:.06em; margin:14px 0 8px; }

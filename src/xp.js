@@ -413,7 +413,11 @@ function _refreshShopPanels() {
   const shopEl = document.getElementById('profileContent');
   if (shopEl) shopEl.innerHTML = renderShopHTML();
   const appEl = document.getElementById('appearancesContent');
-  if (appEl) appEl.innerHTML = renderAppearancesHTML();
+  if (appEl) {
+    const openIdxs = [...appEl.querySelectorAll('details')].map((d, i) => d.open ? i : -1).filter(i => i >= 0);
+    appEl.innerHTML = renderAppearancesHTML();
+    appEl.querySelectorAll('details').forEach((d, i) => { if (openIdxs.includes(i)) d.open = true; });
+  }
 }
 
 // Threshold model: no manual purchase — items unlock automatically via checkAndUnlockByThreshold().
