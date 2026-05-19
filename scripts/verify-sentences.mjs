@@ -12,9 +12,11 @@
  *
  * Usage:
  *   node scripts/verify-sentences.mjs            # report only
- *   node scripts/verify-sentences.mjs --fix      # remove BLACKLIST entries only (safe)
+ *   node scripts/verify-sentences.mjs --fix         # remove BLACKLIST entries only (safe)
  *   node scripts/verify-sentences.mjs --fix --exact  # also remove exact-word fails
- *   node scripts/verify-sentences.mjs --fix --level  # also remove level-too-hard
+ *   node scripts/verify-sentences.mjs --fix --level  # also remove level-too-hard (any gap)
+ *   node scripts/verify-sentences.mjs --fix --level --gap 2  # only flag 2+ level violations
+ *   node scripts/verify-sentences.mjs --fix --polite # also remove informal (non-polite) sentences
  */
 
 import fs   from 'node:fs';
@@ -27,9 +29,15 @@ const SENT_PATH  = path.join(__dirname, '../public/sentences.json');
 const DB_PATH    = path.join(__dirname, 'vocab-db.json');
 const KANJI_PATH = path.join(__dirname, '../public/kanji_index.json');
 
-const FIX        = process.argv.includes('--fix');
+const FIX         = process.argv.includes('--fix');
 const WITH_EXACT  = process.argv.includes('--exact');
 const WITH_LEVEL  = process.argv.includes('--level');
+const WITH_POLITE = process.argv.includes('--polite');
+const GAP_IDX     = process.argv.indexOf('--gap');
+const LEVEL_GAP   = GAP_IDX !== -1 ? parseInt(process.argv[GAP_IDX + 1], 10) : 1; // min gap to flag
+
+// Polite form endings required by ai-fill-sentences.mjs
+const POLITE_RE = /(です|ます|ました|でした|ません|ませんでした|でしょう|ましょう|ください)[ねよか]?[。？！]$/u;
 
 const sentences  = JSON.parse(fs.readFileSync(SENT_PATH,  'utf8'));
 const db         = JSON.parse(fs.readFileSync(DB_PATH,    'utf8'));
@@ -84,14 +92,14 @@ function isWordLevelOk(sentence, jlptNum) {
     const cp = ch.codePointAt(0);
     if ((cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF)) {
       const lvl = charLevel.get(ch) ?? 3; // unknown → treat as N3
-      if (lvl < jlptNum) return false;    // harder than target level
+      if (lvl < jlptNum - (LEVEL_GAP - 1)) return false; // gap levels harder than target
     }
   }
   return true;
 }
 
 // ── Main verification loop ─────────────────────────────────────────────────────
-const issues = { blacklist: [], exactFail: [], levelFail: [] };
+const issues = { blacklist: [], exactFail: [], levelFail: [], politeFail: [] };
 
 for (const [word, sent] of Object.entries(sentences)) {
   const jp      = sent.jp;
@@ -113,6 +121,11 @@ for (const [word, sent] of Object.entries(sentences)) {
   // 3. Level-appropriate kanji
   if (!isWordLevelOk(jp, jlptNum)) {
     issues.levelFail.push({ word, jp, jlptNum });
+  }
+
+  // 4. Polite form ending
+  if (!POLITE_RE.test(jp)) {
+    issues.politeFail.push({ word, jp, jlptNum });
   }
 }
 
@@ -138,7 +151,13 @@ if (issues.levelFail.length) {
   console.log();
 }
 
-const totalIssues = issues.blacklist.length + issues.exactFail.length + issues.levelFail.length;
+if (issues.politeFail.length) {
+  console.log(`⚠  NOT-POLITE-FORM (${issues.politeFail.length})`);
+  for (const x of issues.politeFail) console.log(`   ${x.word} [N${x.jlptNum}]: "${x.jp}"`);
+  console.log();
+}
+
+const totalIssues = issues.blacklist.length + issues.exactFail.length + issues.levelFail.length + issues.politeFail.length;
 if (totalIssues === 0) {
   console.log('✅ All checks passed — no issues found!');
 } else {
@@ -149,8 +168,9 @@ if (totalIssues === 0) {
 if (FIX) {
   const toRemove = new Set([
     ...issues.blacklist.map(x => x.word),
-    ...(WITH_EXACT ? issues.exactFail.map(x => x.word) : []),
-    ...(WITH_LEVEL ? issues.levelFail.map(x => x.word) : []),
+    ...(WITH_EXACT  ? issues.exactFail.map(x => x.word)  : []),
+    ...(WITH_LEVEL  ? issues.levelFail.map(x => x.word)  : []),
+    ...(WITH_POLITE ? issues.politeFail.map(x => x.word) : []),
   ]);
 
   if (toRemove.size === 0) {
