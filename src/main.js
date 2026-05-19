@@ -913,6 +913,17 @@ window.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('km_visit_count', String(visits));
     if (visits >= 2) _maybeShowInstallBanner();
   } catch {}
+  // Sync push subscription state with real browser state before showing the modal
+  if ('serviceWorker' in navigator && 'PushManager' in window) {
+    navigator.serviceWorker.ready.then(reg => {
+      reg.pushManager.getSubscription().then(sub => {
+        if (sub) {
+          localStorage.setItem('km_push_subscribed', '1');
+          localStorage.setItem('km_push_asked', '1');
+        }
+      }).catch(() => {});
+    }).catch(() => {});
+  }
   // Push notification prompt — after first quiz completion
   setTimeout(_maybeAskPush, 3000);
   // Sync XP bar on app open — push to cloud if a grain was just earned
@@ -1019,6 +1030,10 @@ export async function subscribePush() {
       }),
     });
     localStorage.setItem('km_push_subscribed', '1');
+    // Persist push hour to Firestore so it survives localStorage wipes
+    if (CLOUD_ENABLED && state._fbUser) {
+      cloudUpdate({ pushHour: localStorage.getItem('km_push_hour') || '08:00' }).catch(() => {});
+    }
     return true;
   } catch (err) {
     console.warn('[push] subscribe failed:', err);
@@ -1074,6 +1089,9 @@ window.onPushToggleChange = async function(cb) {
 
 window.onPushTimeChange = async function(value) {
   localStorage.setItem('km_push_hour', value);
+  if (CLOUD_ENABLED && state._fbUser) {
+    cloudUpdate({ pushHour: value }).catch(() => {});
+  }
   if (localStorage.getItem('km_push_subscribed')) {
     await subscribePush();
   }
