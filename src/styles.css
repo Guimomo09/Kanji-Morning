@@ -1306,7 +1306,8 @@
         bottom: 0; left: 0; right: 0;
         top: unset;
         margin: 0;
-        padding: 0;        padding-bottom: env(safe-area-inset-bottom);        gap: 0;
+        padding: 0;
+        gap: 0;
         display: flex;
         background: #fff;
         border-top: 1px solid var(--border);
@@ -1316,7 +1317,7 @@
       .tab {
         flex: 1;
         border-radius: 0;
-        padding: 8px 1px 6px;
+        padding: 8px 1px calc(6px + env(safe-area-inset-bottom));
         font-size: 17px;
         letter-spacing: 0;
         line-height: 1.3;
