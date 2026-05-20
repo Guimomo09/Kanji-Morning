@@ -1,8 +1,8 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **19 Mai 2026** · Stripe LIVE ✅ · SW v22
+> Dernière mise à jour: **13 Mai 2026** · Reels TikTok ✅
 
-> **Workflow** : `dev` pour staging · `main` pour prod (merge direct autorisé)
+> ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
 > git checkout dev  →  tester sur kanji.guimo-prod.com  →  git checkout main && git merge dev && git push
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD dev `(en cours)` · main `d393cf8` · branche active : `dev`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `1851edc` · branche active : `main`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -259,127 +259,48 @@ kanji.guimo-prod.com {
 - [x] `scripts/scan-overrides.mjs` — QA scan automatique · 0 issues sur tous les niveaux
 - [x] 1232 kanji N1 couverts en 4 vagues
 
-**Quiz UX #1–#6 + XP/Grains** ← commits `(dev, 17 Mai 2026)`
-- [x] **#1** Quiz — définition affichée dans la reveal card après réponse
-- [x] **#2** Quiz — distracteurs intelligents (même niveau JLPT, POS similaire)
-- [x] **#3** Quiz — retry des mauvaises réponses en fin de session
-- [x] **#4** Système XP/Grains — barre de progression + grains 🌾 accumulés
-- [x] **#5** Stats — barre XP + badges calendrier
-- [x] **#6** Settings — profil utilisateur + Shop (items verrouillés)
-
-**Custom langue dropdown** ← commit `11b22c0` (dev, 17 Mai 2026)
-- [x] `<select>` natif remplacé par un dropdown custom (`.lang-dropdown`, `.lang-dropdown-list`)
-- [x] Portal pattern : `document.body.appendChild(list)` pour éviter le clipping du panel Settings
-- [x] z-index 1100 (> Settings panel 1000) · background `var(--card)` (fix `--surface` undefined)
-- [x] `applyI18nToDOM()` synchronise le label `#langDropdownLabel`
-
-**Vocab enrichi #7+#8+#9** ← commit `f8663bf` (dev, 17 Mai 2026)
-- [x] **#7** Kanji composants en bas de chaque carte vocab — lecture on/kun · signification · badge JLPT · enrichissement async
-- [x] **#8** Clic carte vocab → zoom modal (`#kanjiDetailBackdrop`) · mot 68px · lecture · sens · lien Jisho
-- [x] **#9** Bouton ☆ dans chaque composant kanji → sauvegarder / retirer de My List
-- [x] `_extractKanji()` · `_enrichKanjiComponents()` dans `src/vocab.js`
-- [x] `openVocabDetail()` exposé sur `window` via `main.js`
-
-**Phrases exemple vocab (Tatoeba proxy)** ← commits `e01319a` → `913be72` → `8fbcf9f` (dev, 18 Mai 2026)
-- [x] `webhook/server.js` — endpoint `/api/sentence?word=X&reading=Y` · proxy Tatoeba server-side (pas de CORS)
-- [x] Fallback kana : si kanji form introuvable sur Tatoeba, cherche avec la lecture hiragana (ex: 他所→よそ)
-- [x] `src/api.js` — `getVocabSentence(word, reading)` · cache uniquement les hits (pas les null) · timeout 6s
-- [x] `src/vocab.js` — `_enrichKanjiComponents(card, word, reading)` passe la lecture au proxy
-- [x] `caddy/Caddyfile` — `@restricted not path /api/*` : exclut `/api/*` de la basic_auth staging (fix fetch JS 401)
-- [x] Label `例文` + bloc `vocab-example` avec `.vkc-label.vkc-ex-label` · SENTENCE_OVERRIDE conservé pour kanji simples uniquement
-- [x] Onglets — `語`/`試験` wrappés dans `.tab-icon` (20px uniform, même hauteur que icônes SVG)
-- [ ] **À faire** : couverture N1/N2 limitée — envisager JMdict-examples (dataset pré-indexé JP+EN, ~200k phrases)
-
-**Furigana audit & corrections** ← commits `bd76ea2` → `25f5e98` (dev, 18 Mai 2026)
-- [x] Audit complet des 4518 phrases — toutes les lectures kuromoji vérifiées
-- [x] 7 erreurs corrigées : 方×4 (ほう→かた: 近所/株主/婚約/近親), 後 (こう→あと: 分岐), 道 (どう→みち: 砂利), 形 (がた→けい: 動作)
-- [x] Phrase 反転 bizarre remplacée (argot internet → phrase normale)
-- [x] SW v18 → v19
-
-**Pipeline phrases unifié — source unique sentences.json** ← commits `33ebf08` → `a1330af` (dev, 18 Mai 2026)
-- [x] `scripts/build-kanji-sentences.mjs` — index kanji→phrases depuis sentences.json (1636/2211 kanji couverts)
-- [x] `public/kanji-sentences.json` — pré-calculé, n5:77 n4:164 n3:367 n2:339 n1:689
-- [x] `generate-kanji-cards.mjs` — charge kanji-sentences.json comme step 1.5 (après SENTENCE_OVERRIDE, avant Tatoeba)
-- [x] `generate-reels.mjs` — idem
-- [x] `generate-vocab-reels.mjs` — restauré depuis main, branché sur sentences.json (step 1.5 avant Tatoeba)
-- **Source unique** : sentences.json AI → app in-app + kanji reels + vocab reels
-
-**Phrases vocab statiques + kanji display fix** ← commits `5e17e2f` → `2cfac6e` (dev, 18 Mai 2026)
-- [x] `public/sentences.json` — pre-generated Tatoeba sentences pour 4522 mots
-  * **3795 phrases générées** (84.0% coverage) · ~460 KB
-  * Priority cascade : static DB → localStorage cache → live proxy (fallback)
-  * Scoring priorité : formes polies (です/ます) +100pts · longueur JLPT +50pts · ponctuation +20pts
-  * Top 500 : 73.1% formes polies (365/499) · 10.5 chars moyenne · 99.8% coverage
-  * Génération : ~5h (rate limit Tatoeba 1 req/sec)
-  * **Corrections données 18 Mai 2026** : 人生 "Life is good." → "Life is long." · 外見 mauvaise phrase remplacée → "外見より中身が大切です。" · 日本語 ajouté
-  * Furigana (`ruby` HTML) sur toutes les phrases — kuromoji · affiché dans vocab cards via `sent.ruby || sent.jp`
-- [x] `public/kanji_index.json` — régénéré avec champ `j` (JLPT level) pour éliminer network delay
-- [x] `scripts/build-kanji-index.mjs` — ajout champ JLPT dans extraction kanjiapi.dev
-- [x] `src/api.js` — `getKanjiDetail()` utilise KANJI_INDEX en priorité (0 latency)
-  * Priority 1: Static pre-loaded index (instant) ← **FIX 4-5 sec delay**
-  * Priority 2: localStorage cache
-  * Priority 3: Live API fallback (non-JLPT kanji)
-- [x] `public/sw.js` — cache v13, pre-cache kanji_index.json + sentences.json
-- [x] Impact : Affichage instantané des détails kanji sous vocab cards (4-5 sec → 0 sec)
-- [x] **3813 phrases réutilisables** pour vocab cards + génération reels (pierre 2 coups)
-
-**Push notifications + A2HS** ← commit `098bff7` (dev, 19 Mai 2026)
-- [x] Settings panel — section Notifications : toggle Daily reminder + sélecteur heure locale (04:00–23:00)
-- [x] Bouton ℹ → guide modal Add to Home Screen (iOS / Android / Desktop, détection auto)
-- [x] `subscribePush()` envoie `utcHour` (heure locale → UTC) au backend
-- [x] `unsubscribePush()` : désabonnement navigateur + DELETE Firestore via `/push-unsubscribe`
-- [x] Backend `/push-subscribe` stocke `utcHour` · `/push-unsubscribe` supprime le doc
-- [x] `/push-send-daily` filtre par `currentUtcHour === sub.utcHour` (envoi à l'heure choisie)
-- [x] Cron VPS mis à jour : `0 8 * * *` → `0 * * * *` (toutes les heures)
-- [x] Caddy : route `/push-unsubscribe` → `localhost:3001`
-- [x] PM2 `asa-webhook` redémarré · Caddy rechargé
-- [x] i18n : `settings_notifications`, `push_setting_label`, `push_setting_time`, `a2hs_guide_title`, `a2hs_guide_close` × 5 langues
-
-**Streak grace day** ← commit `(en cours)` (dev, 19 Mai 2026)
-- [x] `computeStreak()` — 1 jour manqué toléré (grace), 2 jours consécutifs = streak cassé
-- [x] `computeBestStreak()` — même logique (diff === 2 avec une seule grace par séquence)
-- [x] `isGraceActive()` — détecte si la grace est actuellement utilisée
-- [x] Badge `🛡️ Jour de grâce — ton streak est protégé` affiché sur la tile streak (5 langues) uniquement quand grace active
-
-**Shop prices + Tab hints + My List design** ← commit `f2f354e` (dev, 19 Mai 2026)
-- [x] `src/xp.js` — prix réels sur les 12 REWARDS : badges 5/8/12/18 🫘 · thèmes 15/20/30/40 · frames 25/35/50/90
-  - Modèle actuel : **dépense et réduit** (56 beans - achat 30 = 26 restants · total pour tout = 348 beans)
-  - Alternative envisagée : modèle palier (atteindre 90 débloque tout ≤ 90) — **non implémenté, à décider**
-- [x] `src/i18n.js` — hints (i) `vocab`/`kanji`/`stats` mis à jour en 5 langues
-  - `vocab` : ajouté "tap carte → popup Jisho + composants kanji" · remplacé "From Kanji" par "bouton 漢 Kanji"
-  - `kanji` : ajouté "tap carte → popup détail" · ajouté "bouton 語 Vocab pour revenir"
-  - `stats` : supprimé "Score chart" + "Streak calendar" (retirés de l'app) · ajouté XP bar + Study Activity + Weekly Challenge
-- [x] `src/main.js` — `handleWordRowClick` appelle `openVocabDetail()` (design complet) au lieu de `openWordDetail()` (ancien popup basique)
-- Note : refresh cartes vocab/kanji sur switch tab déjà géré — `renderVocab(forceNew=false)` + `loadAndRender(n, forceNew=false)` servent depuis le cache
-
-**Fixes UI XP bar + contexte utilisateur** ← (dev, 18 Mai 2026)
-- [x] XP bar layout : ☕ cup icon aligné en ligne avec les segments (flex row) — plus d'icône flottante au-dessus
-- [x] Home (`.home-today`) : avatar + prénom affiché au-dessus de la barre XP quand connecté
-- [x] Stats section : row "Guest" affichée quand pas connecté (plus de XP bar nue sans contexte)
-- [x] CSS `.home-today-user`, `.home-today-avatar`, `.home-today-fallback`, `.home-today-username` ajoutés
-- [x] `.xp-bar-main` wrappeur pour segs + label (cohérence layout)
-
-**Normalisation cartes vocab** ← commit `14a5bbe` (dev, 17 Mai 2026)
-- [x] Grille `minmax(330px)` → `minmax(420px)` — 2 colonnes larges · gap 24px
-- [x] `min-height: 380px` sur `.card` — cartes normalisées visuellement
-- [x] `.vocab-kcomp { margin-top: auto }` — section composants toujours ancrée en bas
-- [x] Tailles augmentées : `vocab-word` 48→56px · `vocab-reading` 14→16px · `card-meaning` 16→17px
-- [x] Mobile : `min-height: 300px` · `vocab-word` 38→44px · padding agrandi
-- [x] `border-radius` cartes 12→16px
-
 **Fixes session 12 Mai 2026** ← commits `545f1ac` → `97a90b7` (main)
 - [x] More/Less incrémental — `loadAndRenderDelta(delta)` : +More appende seulement la nouvelle carte, -Less retire la dernière sans appel API ← `545f1ac`
 - [x] Race condition More/Less — flag `_deltaInProgress` bloque les clicks pendant un fetch en cours ← `97a90b7`
 - [x] Ordre onglets revenu à Kanji → Vocab → My List → Exam → Stats ← `97a90b7`
 
+**Atomic savedWords sync — fix critique 12 Mai 2026** ← commits `(main)`
+> Problème : `cloudUpdate({savedWords:[liste_locale]})` écrasait Firestore avec la liste locale (potentiellement < cloud). Un user a perdu 76 mots sauvegardés suite à un login sur un nouvel appareil.
+- [x] `cloudSavedWordAdd(wordObj)` — `arrayUnion(wordObj)` Firestore : ajout atomique, jamais d'écrasement ← `cloud.js`
+- [x] `cloudSavedWordRemove(wordOrSet)` — lit Firestore, filtre, `arrayRemove(...toRemove)` atomique ← `cloud.js`
+- [x] `_cloudPull` savedWords : **merge** cloud+local (dédoublonnage par clé, tri par date) — plus d'écrasement ← `cloud.js`
+- [x] `setPostAuthCallback` : ne pousse **plus** les savedWords vers Firestore après pull — ops atomiques gèrent la sync ← `main.js`
+- [x] `window.kmSync()` : lit Firestore d'abord → merge local+cloud → push merged (merged ≥ cloud toujours) ← `main.js`
+- [x] `vocab.js` : `updateSavedWordsMirror` / `removeFromSavedWordsMirror` utilisent les ops atomiques (plus de push complet)
+- [x] Testé : save/remove en déco/reco + switch staging↔prod → aucune perte ✅
+
 **Marketing & Promotion — 11 Mai 2026**
 - [x] `PRODUCTHUNT.md` — dossier de lancement complet (tagline, description, timing, checklist)
 - [x] `scripts/screenshot-producthunt.mjs` — génère 5 screenshots 1270×952 depuis asanokanji.com
 - [x] `screenshots/` — 5 captures prêtes pour ProductHunt (home, kanji, vocab, stats, jlpt-n5)
-- [x] `scripts/generate-kanji-cards.mjs` — génère des cartes kanji 1080×1080px pour Instagram/X/LinkedIn
-  - Bandeau rouge pleine largeur · logo PNG · titre centré · badge JLPT
-  - Tile blanche centrée · kanji 300px · signification · lectures 音/訓
-  - Options CLI : `--level n5/n4/n3/n2/n1` · `--count N` · `--kanji 火,水,木` · `--theme dark`
+- [x] `scripts/generate-kanji-cards.mjs` — génère des cartes kanji 1080×1080px (insta) et 1080×1920px (tiktok)
+  - Bandeau rouge `#c03a20` pleine largeur · logo PNG · titre centré · badge JLPT
+  - Tile blanche centrée · kanji · signification · lectures KUN (vert, grande) puis ON (rouge, petite), ordre popular-first
+  - Options CLI : `--level n5/n4/n3/n2/n1` · `--count N` · `--kanji 火,水,木`
+
+**Contenu cartes — 13 Mai 2026**
+- [x] `EXAMPLE_OVERRIDE` — vocab curé pour tous les niveaux N5→N1 (2211 kanji)
+- [x] `SENTENCE_OVERRIDE` — 2 phrases par kanji · N5→N1 · 100% couvert
+  - N5 (79) : phrases curées manuellement
+  - N4/N3/N2 (900) : Tatoeba réel (harvest 15h) + 53 manuelles pour gaps
+  - N1 (1232) : ~1032 Tatoeba réel + ~200 templates offline (fill-n1-gaps.mjs)
+  - Audit final : N5 ✅ N4 ✅ N3 ✅ N2 ✅ N1 ✅ (100% tous niveaux)
+- [x] Scripts utilitaires : `build-sentence-overrides.mjs` · `inject-sentences.mjs` · `fill-n1-gaps.mjs` · `repair-example-override.mjs` · `check-n1.mjs`
+
+**Reels TikTok — 13 Mai 2026**
+- [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 de 50s par kanji
+  - Structure : `3s intro` + `10s` × 3 cartes + `15s CTA` + `2s fondu noir`
+  - Intro : carte 1 floutée + overlay `kanji-cards/text-intro.png` (PNG transparent, centré) + TTS 「本日の漢字」
+  - Cartes 1–3 : slides PNG TikTok + voix Nanami (ja-JP, -10%) — lectures KUN puis ON, popular-first, sans kanji ni définitions
+  - CTA : `CTA_Footage.mp4` (0–10s brut, 10–15s flouté) + overlay `kanji-cards/text-cta.png` centré à t=10s
+  - Audio : xfade dissolve 0.3s + acrossfade, re-encodé aac 128k (fix silence concat)
+  - Overlays texte via PNG transparents (police libre, indépendant de ffmpeg drawtext)
+  - Output : `kanji-cards/{level}/reels/{kanji}.mp4`
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
@@ -392,31 +313,15 @@ kanji.guimo-prod.com {
 - [x] Modal tuto welcome : kanji 朝 remplacé par le vrai logo SVG (5 langues)
 - [x] SW cache bumped v6 → v7 pour forcer invalidation clients
 
-**Fixes push modal + toggle + icônes — 19 Mai 2026** ← commits `dc82891` → `26ffb87` (main)
-- [x] Push reminder modal : backdrop `rgba(0,0,0,.65)` + `backdrop-filter: blur(4px)` · fond `var(--card)` + `box-shadow` · emoji 🌅 supprimé
-- [x] Push toggle : feedback visible sur permission bloquée / PushManager absent / subscribe échoué (alert i18n 5 langues)
-- [x] Push toggle : synchronisation avec l'abonnement réel du navigateur à l'ouverture des Settings (au lieu de localStorage seul)
-- [x] 🍎 supprimé du guide A2HS (section iPhone/iPad)
-- [x] `--accent` défini dans `:root` → `var(--red)` par défaut · toggle rouge sur thème par défaut · couleur thème sur Dusk/Ocean/Forest/Stone
-- [x] PWA icons remplacées par `Logo_Home.svg` (nouveau design) : `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180px)
-- [x] `apple-touch-icon-v2.png` — renommage pour forcer iOS à re-fetcher (contourne cache OS)
-- [x] SSH VPS sans mot de passe — clé `~/.ssh/kanji_vps` ajoutée · alias `vps-kanji` dans `~/.ssh/config`
-- [x] SW bumped v21 → v22
-
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
 - [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026 — Payment Link live · `sk_live` + `whsec_live` sur VPS · flow testé avec promo code `FRIENDFREE` ✅
-- [x] ~~Quiz UX #1–#6~~ — XP/Grains · distracteurs · retry · profil/shop ✅
-- [x] ~~Vocab enrichi #7+#8+#9~~ — Composants kanji · zoom + Jisho · save depuis vocab ✅
-- [x] ~~Phrases unifiées~~ — sentences.json AI → app + reels kanji + reels vocab ✅
-- [x] ~~**Rétention**~~ — Notifications push · Daily reminder · Re-engagement streak ✅ (commit `098bff7`)
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
-- [x] ~~**Notifications push background**~~ — Push API serveur · opt-in + heure par utilisateur · grace day streak ✅
-- [ ] Merger `dev` → `main` (prod) quand staging validé ← ✅ merge direct en prod validé en session
+- [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)
