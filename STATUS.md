@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **13 Mai 2026** · Reels TikTok ✅
+> Dernière mise à jour: **20 Mai 2026** · Mobile scroll fix + Back-to-top ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `1851edc` · branche active : `main`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `4075634` · branche active : `main`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -66,6 +66,25 @@ kanji.guimo-prod.com {
 - [x] Settings drawer · hamburger menu mobile
 - [x] Hamburger menu mobile (Settings + Crisp Chat)
 - [x] Sign out avec confirmation · scroll-to-top · tab persistence
+
+**Push notifications** ← commits `dd0e4a6` → `4075634` (main, 20 Mai 2026)
+- [x] Modal push ne réapparaît plus après 1-2h (sync `pushManager.getSubscription()` au démarrage)
+- [x] Heure de notification persiste via Firestore (`pushHour` sauvegardé + restauré au login)
+- [x] Notifications arrivaient à 22h → corrigé (PM2 pointait sur mauvais `start.sh`, filtrage `utcHour` maintenant actif)
+- [x] Docs Firestore existants patchés avec `utcHour: 8`
+
+**Mobile scroll fix (iOS PWA)** ← commit `dd0e4a6` (main, 20 Mai 2026)
+- [x] Header et tabbar ne bougent plus pendant le scroll en standalone PWA
+- [x] `overscroll-behavior-y: none` — bloque le rubber band iOS 16+
+- [x] Header `position: fixed` sur mobile (était `sticky` — bougeait avec l'overscroll)
+- [x] `env(safe-area-inset-top)` sur le header — gère la status bar transparente en standalone
+- [x] `.toolbar` `padding-top: calc(66px + env(safe-area-inset-top))` — compense le header sorti du flux
+- [x] `.mylist-toolbar` sticky `top` mis à jour (`52px` → `calc(66px + env(safe-area-inset-top))`)
+
+**Back-to-top (My List)** ← commit `4075634` (main, 20 Mai 2026)
+- [x] Bouton `↑` flottant en bas à droite, visible après 300px de scroll dans l'onglet Ma Liste
+- [x] Se positionne au-dessus de la tabbar mobile (avec safe area)
+- [x] Masqué sur tous les autres onglets
 
 **Monétisation**
 - [x] Stripe Premium €7.99 one-time (**LIVE ✅ 7 Mai 2026**)
@@ -321,7 +340,7 @@ kanji.guimo-prod.com {
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
-- [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
+- [ ] ~~**Notifications push background**~~ — ✅ 20 Mai 2026 — Push API serveur · opt-in · heure personnalisée · utcHour filtrage cron horaire
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)
