@@ -321,6 +321,14 @@ if (_urlParams.get('premium') === 'success') {
   setTimeout(_checkAfterAuth, 1500);
 }
 
+// back-to-top button (mylist only)
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('btnBackToTop');
+  if (!btn) return;
+  const mylistVisible = document.getElementById('mylistSection').style.display !== 'none';
+  btn.classList.toggle('visible', mylistVisible && window.scrollY > 300);
+}, { passive: true });
+
 // close popup on Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
