@@ -645,14 +645,13 @@
 
     /* ── "I know it" buttons (vocab + kanji cards) ───────────────────────── */
     .vocab-know-btn, .kanji-know-btn {
-      position: absolute; bottom: 10px; right: 10px; z-index: 3;
-      background: none; border: 1px solid var(--border); border-radius: 20px;
-      cursor: pointer; font-size: 11px; color: var(--muted);
-      padding: 3px 9px; line-height: 1.4;
-      transition: background .15s, color .15s, border-color .15s;
+      position: absolute; top: 12px; right: 46px; z-index: 3;
+      background: none; border: none; cursor: pointer;
+      font-size: 16px; color: var(--muted); line-height: 1;
+      padding: 4px; transition: color .15s, transform .1s;
     }
     .vocab-know-btn:hover, .kanji-know-btn:hover {
-      background: var(--border); color: var(--fg); border-color: var(--muted);
+      color: var(--green, #4caf50); transform: scale(1.2);
     }
 
     /* ── Speak (TTS) button ───────────────────────────────────────────────── */
@@ -666,9 +665,9 @@
     .speak-btn:hover { opacity: 1; background: var(--border); transform: scale(1.15); }
     .speak-btn:active { transform: scale(0.95); opacity: 1; }
 
-    /* Positioned variant for kanji cards (top-left of save btn) */
+    /* Positioned variant for kanji cards (top-left of know btn) */
     .kanji-speak-btn {
-      position: absolute; top: 12px; right: 46px; z-index: 3;
+      position: absolute; top: 12px; right: 80px; z-index: 3;
       font-size: 16px; padding: 4px;
     }
 

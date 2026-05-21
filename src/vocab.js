@@ -407,7 +407,7 @@ export function renderVocabCard(item, delay) {
   card.innerHTML = `
     ${coverHtml}
     ${!state.quizMode ? `<button class="vocab-save-btn" title="Save to My List">☆</button>` : ''}
-    ${!state.quizMode ? `<button class="vocab-know-btn" title="${t('vocab_know_btn')}">${t('vocab_know_btn')}</button>` : ''}
+    ${!state.quizMode ? `<button class="vocab-know-btn" title="${t('vocab_know_btn')}">✓</button>` : ''}
     <div class="card-body">
       <div class="vocab-header">
         <div class="vocab-word">${word}</div>
