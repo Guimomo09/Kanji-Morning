@@ -1392,7 +1392,7 @@
       /* ── Toolbar ── */
       .toolbar {
         margin-top: 0;
-        padding: calc(66px + env(safe-area-inset-top)) 12px 0;
+        padding: calc(66px + env(safe-area-inset-top) + 14px) 12px 0;
         gap: 8px;
       }
       .btn {
