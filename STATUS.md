@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **20 Mai 2026** · Mobile scroll fix + Back-to-top ✅
+> Dernière mise à jour: **21 Mai 2026** · Tab hints · "I know it" button · Exam strict level · Bug fixes ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `4075634` · branche active : `main`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `5f3e017` · branche active : `main`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -271,6 +271,20 @@ kanji.guimo-prod.com {
 - [x] Exam tab re-render après pull premium au refresh (plus de vue locked) ← `cb4e206`
 - [x] Alt attribute sur logo tutorial img (5 langues) — SEO/accessibilité ← `e0dc990`
 - [x] `og:image` + JSON-LD `Organization` + `WebSite` dans index.html (logo Google Search) ← `48a181b`
+
+**Bug fixes + "I know it" + Exam strict level** ← commits `eb6b331` → `5f3e017` (main, 21 Mai 2026)
+- [x] Fix exam score NaN — `baseScore/baseTotal/missed/retryRound` initialisés dans `launchExamFromTab` + `launchExamMode`
+- [x] Fix écran retry hardcodé en français — remplacé par clés i18n `quiz_retry_title/sub/continue/skip` (5 langues)
+- [x] Bouton **✓ I know it** sur les cartes vocab + kanji — sauvegarde dans Ma Liste + remplace la carte par une nouvelle
+  - Position : top-right de la carte, à côté de l'étoile (`right: 46px`) · texte localisé (`vocab_know_btn`)
+  - `.kanji-speak-btn` décalé à `right: 80px` pour laisser la place
+- [x] **Exam strict level** — toggle "Ce niveau uniquement" dans l'onglet Exam (`km_exam_strict_level` localStorage)
+  - Activé : test exclusivement le niveau choisi (ex. N1 only) ; désactivé : cumulatif par défaut
+  - `setExamStrictLevel(bool)` exposé dans `window`
+- [x] **Tab hints (ⓘ)** mis à jour pour toutes les fonctionnalités dans les 5 langues (EN/FR/ES/DE/RU)
+  - Kanji hint : item "✓ I know it"
+  - Vocab hint : item "✓ I know it"
+  - Exam hint : item "Ce niveau uniquement" + description cumulative mise à jour
 
 **EXAMPLE_OVERRIDE — 12 Mai 2026** ← commits `39b2acd` → `7727908` (main)
 - [x] EXAMPLE_OVERRIDE 100% complet — N5 → N4 → N3 → N2 → N1 (tous les niveaux)
