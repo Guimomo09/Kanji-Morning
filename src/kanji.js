@@ -12482,8 +12482,7 @@ export function renderCard(k, delay) {
   // Know button ("I already know this")
   const knowBtn = document.createElement('button');
   knowBtn.className = 'kanji-know-btn';
-  knowBtn.textContent = '✓';
-  knowBtn.title = t('vocab_know_btn');
+  knowBtn.textContent = t('vocab_know_btn');
   knowBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     skipAndReplaceKanjiCard(k, card);

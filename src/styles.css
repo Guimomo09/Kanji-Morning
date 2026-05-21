@@ -645,13 +645,14 @@
 
     /* ── "I know it" buttons (vocab + kanji cards) ───────────────────────── */
     .vocab-know-btn, .kanji-know-btn {
-      position: absolute; top: 12px; right: 46px; z-index: 3;
-      background: none; border: none; cursor: pointer;
-      font-size: 16px; color: var(--muted); line-height: 1;
-      padding: 4px; transition: color .15s, transform .1s;
+      position: absolute; top: 10px; right: 46px; z-index: 3;
+      background: none; border: 1px solid var(--border); border-radius: 20px;
+      cursor: pointer; font-size: 11px; color: var(--muted);
+      padding: 3px 8px; line-height: 1.4; white-space: nowrap;
+      transition: background .15s, color .15s, border-color .15s;
     }
     .vocab-know-btn:hover, .kanji-know-btn:hover {
-      color: var(--green, #4caf50); transform: scale(1.2);
+      background: var(--border); color: var(--fg); border-color: var(--muted);
     }
 
     /* ── Speak (TTS) button ───────────────────────────────────────────────── */
