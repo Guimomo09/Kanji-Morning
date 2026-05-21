@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **21 Mai 2026** · Tab hints · "I know it" button · Exam strict level · Bug fixes ✅
+> Dernière mise à jour: **21 Mai 2026** · Toolbar mobile spacing fix ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `5f3e017` · branche active : `main`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `482b4ff` · branche active : `main`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -271,6 +271,9 @@ kanji.guimo-prod.com {
 - [x] Exam tab re-render après pull premium au refresh (plus de vue locked) ← `cb4e206`
 - [x] Alt attribute sur logo tutorial img (5 langues) — SEO/accessibilité ← `e0dc990`
 - [x] `og:image` + JSON-LD `Organization` + `WebSite` dans index.html (logo Google Search) ← `48a181b`
+
+**Toolbar mobile spacing** ← commit `482b4ff` (main, 21 Mai 2026)
+- [x] `.toolbar` mobile : `+14px` au `padding-top` — espace de respiration entre le header fixe et les boutons (Kanji + Vocab)
 
 **Bug fixes + "I know it" + Exam strict level** ← commits `eb6b331` → `5f3e017` (main, 21 Mai 2026)
 - [x] Fix exam score NaN — `baseScore/baseTotal/missed/retryRound` initialisés dans `launchExamFromTab` + `launchExamMode`
