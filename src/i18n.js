@@ -82,6 +82,10 @@ const TRANSLATIONS = {
     quiz_result_ok:        'まあまあ。Keep practicing!',
     quiz_result_keep:      '頑張って！Keep at it!',
     quiz_btn_retry:        '↺ Retry',
+    quiz_retry_title:      (n) => n === 1 ? '1 word to review' : `${n} words to review`,
+    quiz_retry_sub:        'Keep going until zero errors.',
+    quiz_retry_continue:   'Continue',
+    quiz_retry_skip:       'Skip',
     quiz_btn_back:         'Back to Words',
     quiz_btn_stats:        'See Stats',
     quiz_tomorrow_title:   'See you tomorrow!',
@@ -245,6 +249,8 @@ const TRANSLATIONS = {
     exam_history_title: 'RECENT RESULTS',
     exam_history_empty: 'No exams taken yet',
     exam_cumulative_tip: 'N4 includes N5+N4 words, N3 includes N5+N4+N3, etc.',
+    exam_strict_level_label: 'This level only',
+    vocab_know_btn:          '✓ I know it',
 
     // ── Shop & XP bar ──────────────────────────────────────────────────
     xp_beans_title:      'Coffee beans earned',
@@ -348,6 +354,10 @@ const TRANSLATIONS = {
     quiz_result_ok:        'まあまあ。Continue à pratiquer !',
     quiz_result_keep:      '頑張って！Persévère !',
     quiz_btn_retry:        '↺ Réessayer',
+    quiz_retry_title:      (n) => n === 1 ? '1 mot à revoir' : `${n} mots à revoir`,
+    quiz_retry_sub:        "On continue jusqu'à zéro erreur.",
+    quiz_retry_continue:   'Continuer',
+    quiz_retry_skip:       'Passer',
     quiz_btn_back:         'Retour aux mots',
     quiz_btn_stats:        'Voir les stats',
     quiz_tomorrow_title:   'À demain !',
@@ -513,6 +523,8 @@ const TRANSLATIONS = {
     exam_history_title: 'RÉSULTATS RÉCENTS',
     exam_history_empty: 'Aucun examen passé',
     exam_cumulative_tip: 'N4 inclut N5+N4, N3 inclut N5+N4+N3, etc.',
+    exam_strict_level_label: 'Ce niveau uniquement',
+    vocab_know_btn:          '✓ Je connais',
 
     // ── Boutique & XP bar ──────────────────────────────────────────────
     xp_beans_title:      'Grains de café gagnés',
@@ -616,6 +628,10 @@ const TRANSLATIONS = {
     quiz_result_ok:        'まあまあ。¡Sigue practicando!',
     quiz_result_keep:      '頑張って！¡Sigue así!',
     quiz_btn_retry:        '↺ Reintentar',
+    quiz_retry_title:      (n) => n === 1 ? '1 palabra para repasar' : `${n} palabras para repasar`,
+    quiz_retry_sub:        'Seguimos hasta cero errores.',
+    quiz_retry_continue:   'Continuar',
+    quiz_retry_skip:       'Omitir',
     quiz_btn_back:         'Volver a palabras',
     quiz_btn_stats:        'Ver estadísticas',
     quiz_tomorrow_title:   '¡Hasta mañana!',
@@ -781,6 +797,8 @@ const TRANSLATIONS = {
     exam_history_title: 'RESULTADOS RECIENTES',
     exam_history_empty: 'Ningún examen realizado',
     exam_cumulative_tip: 'N4 incluye N5+N4, N3 incluye N5+N4+N3, etc.',
+    exam_strict_level_label: 'Solo este nivel',
+    vocab_know_btn:          '✓ Ya lo conozco',
 
     // ── Tienda & barra XP ─────────────────────────────────────────────
     xp_beans_title:      'Granos de café ganados',
@@ -884,6 +902,10 @@ const TRANSLATIONS = {
     quiz_result_ok:        'まあまあ。Weiter üben!',
     quiz_result_keep:      '頑張って！Nicht aufgeben!',
     quiz_btn_retry:        '↺ Wiederholen',
+    quiz_retry_title:      (n) => n === 1 ? '1 Wort zu üben' : `${n} Wörter zu üben`,
+    quiz_retry_sub:        'Weiter bis null Fehler.',
+    quiz_retry_continue:   'Weiter',
+    quiz_retry_skip:       'Überspringen',
     quiz_btn_back:         'Zurück zu Wörtern',
     quiz_btn_stats:        'Statistiken ansehen',
     quiz_tomorrow_title:   'Bis morgen!',
@@ -1049,6 +1071,8 @@ const TRANSLATIONS = {
     exam_history_title: 'LETZTE ERGEBNISSE',
     exam_history_empty: 'Noch keine Prüfungen abgelegt',
     exam_cumulative_tip: 'N4 enthält N5+N4, N3 enthält N5+N4+N3, usw.',
+    exam_strict_level_label: 'Nur dieses Level',
+    vocab_know_btn:          '✓ Ich kenne es',
 
     // ── Shop & XP-Leiste ─────────────────────────────────────────────
     xp_beans_title:      'Verdiente Kaffeebohnen',
@@ -1152,6 +1176,10 @@ const TRANSLATIONS = {
     quiz_result_ok:        'まあまあ。Продолжай практиковаться!',
     quiz_result_keep:      '頑張って！Не сдавайся!',
     quiz_btn_retry:        '↺ Повторить',
+    quiz_retry_title:      (n) => n === 1 ? '1 слово на повтор' : `${n} слова на повтор`,
+    quiz_retry_sub:        'Продолжаем до нуля ошибок.',
+    quiz_retry_continue:   'Продолжить',
+    quiz_retry_skip:       'Пропустить',
     quiz_btn_back:         'Назад к словам',
     quiz_btn_stats:        'Посмотреть статистику',
     quiz_tomorrow_title:   'До завтра!',
@@ -1321,6 +1349,8 @@ const TRANSLATIONS = {
     exam_history_title: 'ПОСЛЕДНИЕ РЕЗУЛЬТАТЫ',
     exam_history_empty: 'Экзаменов ещё не было',
     exam_cumulative_tip: 'N4 включает N5+N4, N3 включает N5+N4+N3 и т.д.',
+    exam_strict_level_label: 'Только этот уровень',
+    vocab_know_btn:          '✓ Я знаю',
 
     // ── Магазин & шкала XP ───────────────────────────────────────────
     xp_beans_title:      'Заработанные кофейные зёрна',

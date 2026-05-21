@@ -7,7 +7,7 @@ import { srsUpdateReviewCount, rateSrsCard, srsAddWords } from './srs.js';
 import { switchTab, saveToday, refresh, changeCount, setHeader, filterGrid } from './ui.js';
 import { setVocabLevel, renderVocab, renderMyList, filterMyList, removeFromMyList, removeSelectedWords, toggleFromKanji, getAllSavedWords, toggleMyListSort, setMyListKanjiFilter, setMyListWordFilter, updateSavedWordsMirror, rebuildSavedWordsMirror, _enrichKanjiComponents, isVocabWordSaved, toggleSaveVocabWord } from './vocab.js';
 import { renderStats, renderHome, setActivityView, navActivityCal, getStudiedDatesSet } from './stats.js';
-import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel } from './quiz.js';
+import { launchDailyQuiz, launchBiWeeklyQuiz, handleQuizAnswer, quizNextQuestion, launchExamMode as _launchExamMode, renderExamTab, launchExamFromTab, setExamTargetLevel, setExamStrictLevel } from './quiz.js';
 import { setKanjiLevel, removeKanjiFromSaved, removeSelectedKanjis, bestExamples } from './kanji.js';
 import { getKanjiDetail, getWords }                             from './api.js';
 import { STRIPE_PAYMENT_LINK, CLOUD_ENABLED, VAPID_PUBLIC_KEY, PUSH_ENDPOINT } from './config.js';
@@ -412,6 +412,7 @@ Object.assign(window, {
   renderExamTab,
   launchExamFromTab,
   setExamTargetLevel,
+  setExamStrictLevel,
   toggleExamSection() {
     const s    = document.getElementById('examJlptSection');
     const tile = document.getElementById('examMainTile');
