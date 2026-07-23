@@ -398,10 +398,16 @@ export function applyXPCloudData(data) {
     if (cg > getGrains()) localStorage.setItem('km_xp_grains', cg);
     const cs = parseInt(data.spent || 0);
     if (cs > getSpentGrains()) localStorage.setItem('km_xp_grains_spent', cs);
-    // Bar / timestamps
-    if (data.bar          !== undefined) localStorage.setItem('km_xp_bar',           data.bar);
-    if (data.lastCheck)                  localStorage.setItem('km_xp_last_check',    data.lastCheck);
-    if (data.todayAwarded)               localStorage.setItem('km_xp_today_awarded', data.todayAwarded);
+    // Bar / timestamps: only trust cloud if it's not older than what we have locally,
+    // otherwise a stale cloud snapshot (e.g. from before a multi-day absence) would
+    // clobber a bar that local syncXPBar() has already correctly decayed.
+    const localLastCheck = localStorage.getItem('km_xp_last_check') || '';
+    const cloudIsNewer = !!data.lastCheck && data.lastCheck >= localLastCheck;
+    if (cloudIsNewer) {
+      if (data.bar          !== undefined) localStorage.setItem('km_xp_bar',           data.bar);
+      if (data.lastCheck)                  localStorage.setItem('km_xp_last_check',    data.lastCheck);
+      if (data.todayAwarded)               localStorage.setItem('km_xp_today_awarded', data.todayAwarded);
+    }
   } catch (e) {
     console.warn('[applyXPCloudData] localStorage quota full, skipping some writes:', e.name);
   }

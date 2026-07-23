@@ -1209,13 +1209,15 @@ setPostAuthCallback(() => {
       window.$crisp.push(['set', 'user:nickname', [state._fbUser.displayName]]);
     }
   }
+  // Re-sync XP with cloud data now merged, BEFORE rendering, so the UI never
+  // paints a stale cloud value (e.g. an XP bar that hasn't decayed after an absence).
+  syncXPBar();
   if      (state.currentTab === 'vocab')  { if (state.currentVocabItems.length === 0) renderVocab(); }
   else if (state.currentTab === 'mylist') renderMyList();
   else if (state.currentTab === 'stats')  renderStats();
   else if (state.currentTab === 'exam')   renderExamTab();
   else if (state.currentTab === 'home')   renderHome();
-  // Re-sync XP with cloud data now merged; push back so cloud is up to date
-  syncXPBar();
+  // Push corrected XP back so cloud is up to date
   if (CLOUD_ENABLED && state._fbUser) {
     cloudUpdate({ xp: getXPCloudData() }).catch(() => {});
   }
