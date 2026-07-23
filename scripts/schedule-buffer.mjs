@@ -43,10 +43,12 @@ function getArg(name) {
   return undefined;
 }
 
-const LEVEL      = (getArg('level')    || 'n5').toLowerCase();
-const COUNT_ARG  =  getArg('count');
-const START_ARG  =  getArg('start');
-const PLATFORM   = (getArg('platform') || 'both').toLowerCase();
+const LEVEL       = (getArg('level')    || 'n5').toLowerCase();
+const COUNT_ARG   =  getArg('count');
+const START_ARG   =  getArg('start');
+const PLATFORM    = (getArg('platform') || 'both').toLowerCase();
+const OFFSET      =  parseInt(getArg('offset') || '0');  // skip first N kanji
+const KANJI_ONLY  =  args.includes('--kanji-only');       // no vocab slot
 
 // ── Load .env ─────────────────────────────────────────────────────────────────
 const env = {};
@@ -66,6 +68,41 @@ if (!TOKEN) {
   process.exit(1);
 }
 
+async function gql(query, variables = {}) {
+  const res = await fetch('https://api.buffer.com/graphql', {
+    method : 'POST',
+    headers: {
+      'Content-Type' : 'application/json',
+      'Authorization': `Bearer ${TOKEN}`,
+    },
+    body: JSON.stringify({ query, variables }),
+  });
+
+  const text = await res.text();
+  let json;
+  try {
+    json = JSON.parse(text);
+  } catch {
+    throw new Error(`Buffer API non-JSON (${res.status}): ${text}`);
+  }
+
+  if (res.status === 401 || json?.errors?.some(e => e?.extensions?.code === 'UNAUTHENTICATED')) {
+    throw new Error('Buffer token invalide/expire (UNAUTHENTICATED). Regenerer BUFFER_TOKEN dans .env.');
+  }
+  if (json?.errors?.length) {
+    throw new Error(json.errors.map(e => e.message).join('; '));
+  }
+
+  return json.data;
+}
+
+try {
+  await gql('query { account { organizations { id } } }');
+} catch (e) {
+  console.error(`❌ Auth Buffer: ${e.message}`);
+  process.exit(1);
+}
+
 // ── Active profiles ───────────────────────────────────────────────────────────
 const profiles = [];
 if (PLATFORM !== 'instagram' && TIKTOK_ID)    profiles.push({ id: TIKTOK_ID,    name: 'TikTok' });
@@ -80,15 +117,21 @@ if (!profiles.length) {
 const kanjiDir = join(ROOT, 'kanji-cards', LEVEL, 'reels');
 const vocabDir = join(ROOT, 'vocab-cards', 'reels');
 
-let kanjiFiles, vocabFiles;
+let kanjiFiles, vocabFiles = [];
 try { kanjiFiles = readdirSync(kanjiDir).filter(f => f.endsWith('.mp4')).sort(); }
 catch { console.error(`❌ Cannot read ${kanjiDir}`); process.exit(1); }
-try { vocabFiles = readdirSync(vocabDir).filter(f => f.endsWith('.mp4')).sort(); }
-catch { console.error(`❌ Cannot read ${vocabDir}`); process.exit(1); }
+if (!KANJI_ONLY) {
+  try { vocabFiles = readdirSync(vocabDir).filter(f => f.endsWith('.mp4')).sort(); }
+  catch { console.error(`❌ Cannot read ${vocabDir}\n   (use --kanji-only to skip vocab)`); process.exit(1); }
+}
+
+// apply offset
+const kanjiSlice = kanjiFiles.slice(OFFSET);
+const vocabSlice = KANJI_ONLY ? [] : vocabFiles.slice(OFFSET);
 
 const pairCount = COUNT_ARG
   ? parseInt(COUNT_ARG)
-  : Math.min(kanjiFiles.length, vocabFiles.length);
+  : KANJI_ONLY ? kanjiSlice.length : Math.min(kanjiSlice.length, vocabSlice.length);
 
 // ── Base URLs on VPS ──────────────────────────────────────────────────────────
 const BASE = 'https://asanokanji.com/reels';
@@ -99,10 +142,12 @@ const startDate = START_ARG ? new Date(START_ARG + 'T00:00:00') : (() => {
 })();
 
 // ── Summary ───────────────────────────────────────────────────────────────────
-console.log(`\nBuffer Schedule ${DRY_RUN ? '[DRY RUN] ' : ''}— ${LEVEL.toUpperCase()} kanji + vocab`);
-console.log(`  ${pairCount} days × 2 posts = ${pairCount * 2 * profiles.length} total`);
+const slotsPerDay = KANJI_ONLY ? 1 : 2;
+console.log(`\nBuffer Schedule ${DRY_RUN ? '[DRY RUN] ' : ''}— ${LEVEL.toUpperCase()} ${KANJI_ONLY ? 'kanji only' : 'kanji + vocab'}`);
+console.log(`  ${pairCount} days × ${slotsPerDay} posts = ${pairCount * slotsPerDay * profiles.length} total`);
+if (OFFSET > 0) console.log(`  Offset   : skip first ${OFFSET} kanji`);
 console.log(`  Profiles : ${profiles.map(p => p.name).join(' + ')}`);
-console.log(`  Start    : ${startDate.toLocaleDateString('fr-FR')} (minuit kanji / midi vocab)`);
+console.log(`  Start    : ${startDate.toLocaleDateString('fr-FR')} (minuit kanji${KANJI_ONLY ? '' : ' / midi vocab'})`);
 console.log('');
 
 // ── Build schedule ────────────────────────────────────────────────────────────
@@ -111,11 +156,9 @@ for (let i = 0; i < pairCount; i++) {
   const day = new Date(startDate);
   day.setDate(day.getDate() + i);
 
-  const kanji = kanjiFiles[i % kanjiFiles.length].replace('.mp4', '');
-  const vocab = vocabFiles[i % vocabFiles.length].replace('.mp4', '');
+  const kanji = kanjiSlice[i % kanjiSlice.length].replace('.mp4', '');
 
   const midnight = new Date(day); midnight.setHours(0, 0, 0, 0);
-  const noon     = new Date(day); noon.setHours(12, 0, 0, 0);
 
   schedule.push({
     type   : 'kanji',
@@ -124,13 +167,18 @@ for (let i = 0; i < pairCount; i++) {
     time   : midnight,
     caption: `${kanji}\n\nLearn 2000+ kanji at asanokanji.com\n\n#japanese #kanji #jlpt #${LEVEL} #studyjapanese #日本語`,
   });
-  schedule.push({
-    type   : 'vocab',
-    word   : vocab,
-    url    : `${BASE}/vocab/${encodeURIComponent(vocab)}.mp4`,
-    time   : noon,
-    caption: `${vocab}\n\nLearn Japanese vocabulary at asanokanji.com\n\n#japanese #vocabulary #jlpt #studyjapanese #日本語学習`,
-  });
+
+  if (!KANJI_ONLY) {
+    const vocab = vocabSlice[i % vocabSlice.length].replace('.mp4', '');
+    const noon  = new Date(day); noon.setHours(12, 0, 0, 0);
+    schedule.push({
+      type   : 'vocab',
+      word   : vocab,
+      url    : `${BASE}/vocab/${encodeURIComponent(vocab)}.mp4`,
+      time   : noon,
+      caption: `${vocab}\n\nLearn Japanese vocabulary at asanokanji.com\n\n#japanese #vocabulary #jlpt #studyjapanese #日本語学習`,
+    });
+  }
 }
 
 // ── Post to Buffer ────────────────────────────────────────────────────────────
@@ -172,22 +220,14 @@ for (const post of schedule) {
     const variables = { input };
 
     try {
-      const res  = await fetch('https://api.buffer.com/graphql', {
-        method : 'POST',
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization': `Bearer ${TOKEN}`,
-        },
-        body: JSON.stringify({ query: mutation, variables }),
-      });
-      const json = await res.json();
-      const data = json?.data?.createPost;
-      const errMsg = data?.message || json?.errors?.[0]?.message || '';
+      const data = await gql(mutation, variables);
+      const result = data?.createPost;
+      const errMsg = result?.message || '';
 
-      if (data?.post?.id) {
+      if (result?.post?.id) {
         console.log(`  ✓ [${profile.name}] ${label}`);
         ok++;
-      } else if (errMsg.toLowerCase().includes('too many requests') || json?.errors?.[0]?.extensions?.code === 'RATE_LIMIT_EXCEEDED') {
+      } else if (errMsg.toLowerCase().includes('too many requests')) {
         console.error(`\n  ⛔ Rate limit hit at [${profile.name}] ${label}`);
         console.error(`  Last successful date: ${post.time.toLocaleDateString('fr-FR')}`);
         console.log(`\n${ok} scheduled, ${err} errors`);
@@ -200,6 +240,19 @@ for (const post of schedule) {
         err++;
       }
     } catch (e) {
+      if (String(e.message).includes('UNAUTHENTICATED') || String(e.message).includes('token invalide')) {
+        console.error(`\n❌ Auth Buffer: ${e.message}`);
+        process.exit(1);
+      }
+      if (String(e.message).toLowerCase().includes('too many requests')) {
+        console.error(`\n  ⛔ Rate limit hit at [${profile.name}] ${label}`);
+        console.error(`  Last successful date: ${post.time.toLocaleDateString('fr-FR')}`);
+        console.log(`\n${ok} scheduled, ${err} errors`);
+        console.log(`\nResume tomorrow with:`);
+        const resumeDate = post.time.toISOString().split('T')[0];
+        console.log(`  node scripts/schedule-buffer.mjs --platform both --start ${resumeDate}`);
+        process.exit(1);
+      }
       console.error(`  ✗ [${profile.name}] ${label} → ${e.message}`);
       err++;
     }

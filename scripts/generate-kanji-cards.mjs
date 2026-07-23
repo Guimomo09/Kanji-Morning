@@ -17,7 +17,7 @@
  *   node scripts/generate-kanji-cards.mjs --theme dark
  */
 
-import { readFileSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
+import { readFileSync, mkdirSync, writeFileSync, unlinkSync, existsSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
@@ -602,6 +602,14 @@ for (const kanji of targetKanji) {
   const data = KANJI_INDEX[kanji];
   if (!data) { console.log(`⚠️  Pas de données pour ${kanji}`); continue; }
 
+  // Skip si toutes les cartes tiktok existent déjà
+  const tiktokDir = join(TIKTOK_DIR, kanji);
+  if (existsSync(join(tiktokDir, '1-kanji.png')) &&
+      existsSync(join(tiktokDir, '2-vocab.png'))  &&
+      existsSync(join(tiktokDir, '3-phrases.png'))) {
+    console.log(`⏩ skip ${kanji}`); ok++; continue;
+  }
+
   const lvlStr = realLevel(kanji);
   const lvlNum = CHAR_LEVEL_MAP.get(kanji) ?? parseInt(LEVEL.replace('n', ''), 10);
 
@@ -619,7 +627,8 @@ for (const kanji of targetKanji) {
   const vocabSrc = EXAMPLE_OVERRIDE[kanji] ? 'override' : 'api';
 
   for (const [fmtKey, fmt] of Object.entries(FMT)) {
-    const baseDir  = fmtKey === 'insta' ? INSTA_DIR : TIKTOK_DIR;
+    if (fmtKey !== 'tiktok') continue;  // tiktok seulement
+    const baseDir  = TIKTOK_DIR;
     const kanjiDir = join(baseDir, kanji);
     mkdirSync(kanjiDir, { recursive: true });
 

@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **13 Mai 2026** · Reels TikTok ✅
+> Dernière mise à jour: **2 Juin 2026** · N4 reels en cours · Vocab reels N5 ✅
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -292,15 +292,17 @@ kanji.guimo-prod.com {
   - Audit final : N5 ✅ N4 ✅ N3 ✅ N2 ✅ N1 ✅ (100% tous niveaux)
 - [x] Scripts utilitaires : `build-sentence-overrides.mjs` · `inject-sentences.mjs` · `fill-n1-gaps.mjs` · `repair-example-override.mjs` · `check-n1.mjs`
 
-**Reels TikTok — 13 Mai 2026**
-- [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 de 50s par kanji
-  - Structure : `3s intro` + `10s` × 3 cartes + `15s CTA` + `2s fondu noir`
-  - Intro : carte 1 floutée + overlay `kanji-cards/text-intro.png` (PNG transparent, centré) + TTS 「本日の漢字」
-  - Cartes 1–3 : slides PNG TikTok + voix Nanami (ja-JP, -10%) — lectures KUN puis ON, popular-first, sans kanji ni définitions
-  - CTA : `CTA_Footage.mp4` (0–10s brut, 10–15s flouté) + overlay `kanji-cards/text-cta.png` centré à t=10s
-  - Audio : xfade dissolve 0.3s + acrossfade, re-encodé aac 128k (fix silence concat)
-  - Overlays texte via PNG transparents (police libre, indépendant de ffmpeg drawtext)
-  - Output : `kanji-cards/{level}/reels/{kanji}.mp4`
+**Reels TikTok — 13 Mai 2026** ← `da85cb7` + `bcc0e1f` (restructure + edge-tts)
+- [x] `scripts/generate-reels.mjs` — génère des reels 1080×1920 MP4 · **36s dynamique** par kanji
+  - Structure : `3s intro` + `8s kanji` + `8s vocab` + `9s phrases` + `8s CTA` = **36s total** (xfade 0.5s entre segments)
+  - Intro : carte 1 floutée (boxblur+darken) + overlay `kanji-cards/text-intro.png` · **silence** (hook visuel)
+  - Cartes 1–3 : PNG TikTok + voix **edge-tts Nanami** (ja-JP) · audio centré dynamiquement avec gaps équilibrés
+  - CTA : `kanji-cards/CTA_Static.png` (fallback `CTA_Footage.mp4`) + overlay `text-cta.png` centré à t=1.5s
+  - Concat via `concatWithXFade` — xfade dissolve + acrossfade · re-encodé H.264 baseline 30fps aac 128k
+  - Cards source : `kanji-cards/{level}/cards/{kanji}/` · Output : `kanji-cards/{level}/reels/{kanji}.mp4`
+  - Fix 2 Juin 2026 : chemins corrigés (`kanjicards/.staging` → `kanji-cards/{level}/cards`) · cards préservées après génération
+- [x] N5 kanji reels : **79/79** ✅ · format ~36s · ~470 kb/s · ~2MB
+- [x] N5 vocab reels (`scripts/generate-vocab-reels.mjs`) : **80/80** ✅ · voix Nanami · furigana ruby · CTA HTML · `vocab-cards/reels/` ← `b563979`
 
 **Tile streak switchable** ← commit `d29e0d4` (8 Mai 2026)
 - [x] Tile streak cliquable — cycle 🔥 Day Streak ↔ 📅 Days This Month (`computeMonthlyCount()`)
@@ -313,15 +315,98 @@ kanji.guimo-prod.com {
 - [x] Modal tuto welcome : kanji 朝 remplacé par le vrai logo SVG (5 langues)
 - [x] SW cache bumped v6 → v7 pour forcer invalidation clients
 
+**Push notifications — Mai 2026** ← commits `eaec03e` → `ce9d4d7`
+- [x] Modal opt-in : backdrop opaque · no emoji · texte localisé 5 langues
+- [x] Toggle feedback : état bloqué/non supporté · sync avec état réel subscription
+- [x] Heure de push persistée dans Firestore · sync au démarrage
+
+**XP / Grains — Mai 2026** ← commit `c288e71`
+- [x] Système XP avec barre de progression (home) · shop · badges calendrier · section profil stats
+
+**Quiz amélioré — Mai 2026** ← commit `0e6bd47`
+- [x] Définition au reveal · distracteurs intelligents · retry réponses fausses
+
+**Stats redesign — Mai 2026** ← commits `dbc4808` → `9885bc1`
+- [x] Avatar profil · graphiques toujours visibles · accordéons récompenses · calendrier épuré
+
+**Vocab cards UI — Mai 2026** ← commits `14a5bbe` + `f8663bf`
+- [x] Cartes vocab plus grandes (min-height · fonts agrandies) · composants kanji · zoom modal · lien Jisho · save kanji depuis vocab
+
+**My List — Juin 2026** ← commits `212d05d` → `4075634`
+- [x] Bouton back-to-top flottant (arrow → noir)
+
+**Fix mobile scroll — Juin 2026** ← commit `dd0e4a6`
+- [x] Stabilité header/tabbar sur iOS PWA (scroll)
+
+**Buffer auto-post — Mai 2026** ← commit `ec11be2` + `fa3f871`
+- [x] `scripts/schedule-buffer.mjs` — post kanji/vocab vers Buffer (minuit/midi alterné) · GraphQL v2
+- [x] Planifié 20/05 → 30/06 · vocab-cards gitignored
+
+**Buffer N5 reprise — 3 Juin 2026**
+- [x] TikTok : `--offset 25 --start 2026-06-11` — 100/108 posts envoyés (rate limit sur 雨 31/07)
+- [x] Instagram : 0/108 (rate limit immédiat — même session)
+- Cause : `--platform both` original = 2 API calls/post → rate limit à ~50 paires
+
+**4 Juin 2026 :**
+- [x] TikTok N5 : 8 restants ✅ (雨/電/食/高 → 31/07→03/08) — N5 TikTok **COMPLET**
+- [x] Instagram N5 : 91/108 ✅ (rate limit sur 車 27/07) · 1 erreur API (殺人 vocab 10/07)
+- [x] Instagram N5 fin : 8 restants ✅ (車/金/長/間 → 27/07→03/08) — N5 Instagram **COMPLET**
+- [x] N4 TikTok tenté → 0 schedulés · 84 erreurs 404 (reels N4 pas sur VPS) · rate limit brûlé
+
+**État Buffer — 9 Juin 2026**
+- ✅ N5 TikTok : 79/79 kanji + 79 vocab · jusqu'au 03/08/2026
+- ✅ N5 Instagram : 79/79 kanji + 79 vocab · jusqu'au 03/08/2026
+- ❌ N4 TikTok : 0/166 — bloqué, reels pas sur VPS
+- ❌ N4 Instagram : 0/166 — bloqué, reels pas sur VPS
+
+**⚠️ Prochaines étapes Buffer N4 :**
+1. **Uploader reels N4 sur VPS** (SSH/rsync vers `/var/www/kanji/reels/n4/`)
+   → 166 fichiers dans `kanji-cards/n4/reels/*.mp4`
+2. Vérifier : `curl -I https://asanokanji.com/reels/n4/%E4%B8%80.mp4` → doit retourner 200
+3. **TikTok N4** : `node scripts/schedule-buffer.mjs --level n4 --platform tiktok --kanji-only --start 2026-08-04`
+4. **Instagram N4** : `node scripts/schedule-buffer.mjs --level n4 --platform instagram --kanji-only --start 2026-08-04`
+   → Attention rate limit ~100 posts/session → 2 sessions par plateforme si 166 kanji
+
+**Debug Buffer — 24 Juin 2026**
+- ✅ Cause des échecs : BUFFER_TOKEN expiré (UNAUTHENTICATED) → nouveau token généré dans `.env`
+- ✅ Fix `scripts/post-reels.mjs` : endpoint corrigé (`/graphql` manquait) + fail-fast UNAUTHENTICATED
+- ✅ Fix `scripts/schedule-buffer.mjs` : vérification auth au démarrage + fail-fast clair
+- ✅ Planning N5 intact : 9 800 posts schedulés TikTok + Instagram jusqu'au **05/08/2026**
+- ✅ VPS up (ping bloqué par Hetzner = normal) · 79 kanji + 80 vocab MP4 en sync local/VPS
+- ⚠️ 4 posts en erreur (passé, non bloquants) :
+  - `息子` kanji (24/06) TikTok + Instagram → jamais généré, absent local ET VPS
+  - `学` vocab (23/06) Instagram → ancien vocab-cards avec kanji simples, disparu
+  - `四` vocab (15/06) TikTok → idem
+- ℹ️ `息子` optionnel à générer : `node scripts/generate-reels.mjs --kanji 息子 --level n5`
+  puis uploader sur VPS et poster manuellement
+
+---
+
+## Contenu N4 — État 9 Juin 2026
+
+| Contenu | État | Détail |
+|---------|------|--------|
+| N4 tiktok cards PNG | ✅ | 166/166 kanji · 3 PNG · `kanji-cards/n4/tiktok/` · 1080×1920px |
+| N4 kanji reels | ✅ | 166/166 · `kanji-cards/n4/reels/*.mp4` · 36s · locaux seulement |
+| N4 vocab reels | ❌ | `generate-vocab-reels.mjs` à fixer avant de lancer |
+| N4 reels sur VPS | ❌ | À uploader via SSH/rsync |
+
+---
+
 ### 🟡 Prochaines étapes
 
 **Priorité haute**
-- [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026 — Payment Link live · `sk_live` + `whsec_live` sur VPS · flow testé avec promo code `FRIENDFREE` ✅
+- [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026
+- [x] ~~Notifications push~~ — ✅ modal + toggle + Firestore sync
+- [x] ~~N4 kanji reels~~ — ✅ 166/166 générés localement
+- [ ] **Upload N4 reels sur VPS** → SSH/rsync `kanji-cards/n4/reels/` → `/var/www/kanji/reels/n4/`
+- [ ] **Schedule Buffer N4** → TikTok + Instagram · kanji-only · start 2026-08-04
+- [ ] **N4 vocab reels** — fixer `generate-vocab-reels.mjs` puis générer ~166 mots
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
-- [ ] **Notifications push background** — Push API serveur (opt-in local déjà OK)
+- [x] ~~Buffer auto-post~~ — planifié jusqu'au **05/08/2026** ✅ (token regénéré 24/06)
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)

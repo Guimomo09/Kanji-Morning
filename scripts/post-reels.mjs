@@ -56,7 +56,7 @@ if (!BUFFER_TOKEN) {
 }
 
 // ── Buffer GraphQL API ────────────────────────────────────────────────────────
-const BUFFER_API = 'https://api.buffer.com';
+const BUFFER_API = 'https://api.buffer.com/graphql';
 
 async function gql(query, variables = {}) {
   const res = await fetch(BUFFER_API, {
@@ -69,7 +69,10 @@ async function gql(query, variables = {}) {
   });
   const text = await res.text();
   let json;
-  try { json = JSON.parse(text); } catch { throw new Error(`Buffer API non-JSON: ${text}`); }
+  try { json = JSON.parse(text); } catch { throw new Error(`Buffer API non-JSON (${res.status}): ${text}`); }
+  if (res.status === 401 || json.errors?.some(e => e?.extensions?.code === 'UNAUTHENTICATED')) {
+    throw new Error('Buffer token invalide/expire (UNAUTHENTICATED). Regenerer BUFFER_TOKEN dans .env.');
+  }
   if (json.errors?.length) throw new Error(`Buffer API: ${json.errors.map(e => e.message).join('; ')}`);
   return json.data;
 }
