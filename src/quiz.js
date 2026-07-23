@@ -392,10 +392,10 @@ function renderRetryRound() {
   document.getElementById('grid').innerHTML = `
     <div class="quiz-screen quiz-retry-screen">
       <div class="quiz-retry-icon">↩</div>
-      <div class="quiz-retry-title">${missedCount} mot${missedCount > 1 ? 's' : ''} à revoir</div>
-      <div class="quiz-retry-sub">On continue jusqu'à zéro erreur.</div>
-      <button class="btn btn-primary" onclick="startRetryRound()">Continuer</button>
-      <button class="btn btn-ghost" onclick="skipRetryAndShowResults()">Passer</button>
+      <div class="quiz-retry-title">${t('quiz_retry_title')(missedCount)}</div>
+      <div class="quiz-retry-sub">${t('quiz_retry_sub')}</div>
+      <button class="btn btn-primary" onclick="startRetryRound()">${t('quiz_retry_continue')}</button>
+      <button class="btn btn-ghost" onclick="skipRetryAndShowResults()">${t('quiz_retry_skip')}</button>
     </div>`;
 }
 
@@ -688,6 +688,10 @@ export function launchExamMode() {
     pool,
     current: 0,
     score: 0,
+    missed: [],
+    retryRound: 0,
+    baseScore: null,
+    baseTotal: null,
     dayLabel: `${pool.length} words`,
     type: 'exam',
   };
@@ -705,6 +709,15 @@ export function launchExamMode() {
 export function setExamTargetLevel(level) {
   localStorage.setItem('km_exam_target_level', level);
   // Re-render but keep the exam section open
+  renderExamTab();
+  const s = document.getElementById('examJlptSection');
+  const tile = document.getElementById('examMainTile');
+  if (s) { s.style.display = 'block'; }
+  if (tile) tile.classList.add('exam-quiz-tile-exam-open');
+}
+
+export function setExamStrictLevel(strict) {
+  localStorage.setItem('km_exam_strict_level', strict ? '1' : '');
   renderExamTab();
   const s = document.getElementById('examJlptSection');
   const tile = document.getElementById('examMainTile');
@@ -745,7 +758,8 @@ export function renderExamTab() {
   const LEVEL_DESC = { N5: t('jlpt_n5'), N4: t('jlpt_n4'), N3: t('jlpt_n3'), N2: t('jlpt_n2'), N1: t('jlpt_n1') };
   const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
   const goalIdx    = LEVELS.indexOf(targetLevel);
-  const allowed    = new Set(LEVELS.slice(0, goalIdx + 1));
+  const strictOnly = localStorage.getItem('km_exam_strict_level') === '1';
+  const allowed    = strictOnly ? new Set([targetLevel]) : new Set(LEVELS.slice(0, goalIdx + 1));
   const available  = state.isPremium ? getAllSavedWords().filter(w => allowed.has(w.level)).length : 0;
   const examHistory = (() => {
     const stored = allHistory.filter(h => h.type === 'exam');
@@ -843,6 +857,10 @@ export function renderExamTab() {
           </div>
           <div class="exam-pills">${levelPills}</div>
           <div class="exam-level-desc">${t('exam_available')(LEVEL_DESC[targetLevel], available)}</div>
+          <label class="exam-strict-label">
+            <input type="checkbox" ${strictOnly ? 'checked' : ''} onchange="setExamStrictLevel(this.checked)">
+            <span>${t('exam_strict_level_label')}</span>
+          </label>
         </div>
         <div class="exam-info-row">
           <div class="exam-info-item"><span class="exam-info-num">40</span><span class="exam-info-lbl">${t('exam_questions')}</span></div>
@@ -866,7 +884,8 @@ export function launchExamFromTab() {
   const targetLevel = localStorage.getItem('km_exam_target_level') || 'N3';
   const LEVELS   = ['N5', 'N4', 'N3', 'N2', 'N1'];
   const goalIdx  = LEVELS.indexOf(targetLevel);
-  const allowed  = new Set(LEVELS.slice(0, goalIdx + 1));
+  const strictOnly = localStorage.getItem('km_exam_strict_level') === '1';
+  const allowed  = strictOnly ? new Set([targetLevel]) : new Set(LEVELS.slice(0, goalIdx + 1));
 
   const allWords = getAllSavedWords();
   const filtered = allWords.filter(w => allowed.has(w.level) && w.reading); // only words with readings (needed for C/D types)
@@ -887,6 +906,10 @@ export function launchExamFromTab() {
     pool,
     current: 0,
     score: 0,
+    missed: [],
+    retryRound: 0,
+    baseScore: null,
+    baseTotal: null,
     dayLabel: `${pool.length} words`,
     type: 'exam',
     examLevel: targetLevel,

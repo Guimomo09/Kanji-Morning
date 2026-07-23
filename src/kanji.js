@@ -12479,6 +12479,16 @@ export function renderCard(k, delay) {
   speakBtn.addEventListener('click', (e) => { e.stopPropagation(); speakJapanese(k.kanji); });
   card.appendChild(speakBtn);
 
+  // Know button ("I already know this")
+  const knowBtn = document.createElement('button');
+  knowBtn.className = 'kanji-know-btn';
+  knowBtn.textContent = t('vocab_know_btn');
+  knowBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    skipAndReplaceKanjiCard(k, card);
+  });
+  card.appendChild(knowBtn);
+
   card.addEventListener('click', () => {
     if (window.openKanjiDetail) window.openKanjiDetail(k.kanji);
   });
@@ -12534,6 +12544,47 @@ export async function ensureKanjiCards() {
   const cards = results.filter(r => r.status === 'fulfilled').map(r => r.value);
   state.currentKanjiCards = cards;
   return cards;
+}
+
+// ── Replace a single kanji card ("I know it" button) ─────────────────────
+export async function skipAndReplaceKanjiCard(k, cardEl) {
+  // Auto-save to My List if not already saved
+  if (!isKanjiSaved(k.kanji)) toggleSaveKanji(k);
+
+  // Remove from currentKanjiCards
+  const idx = state.currentKanjiCards.indexOf(k);
+  if (idx !== -1) state.currentKanjiCards.splice(idx, 1);
+
+  // Show skeleton placeholder
+  const skeleton = document.createElement('div');
+  skeleton.className = 'card skeleton';
+  skeleton.innerHTML = `<div class="skel-big"></div><div style="flex:1"><div class="skel-line" style="width:50%"></div><div class="skel-line" style="width:80%"></div><div class="skel-line" style="width:65%"></div></div>`;
+  cardEl.replaceWith(skeleton);
+
+  try {
+    if (!state.POOL.length) await buildPool();
+    const _idx = await getKanjiSearchIndex();
+    const lang = getLang();
+    const alreadyShown = new Set(state.currentKanjiCards.map(c => c.kanji));
+    const uniquePool = [...new Map(state.POOL.map(p => [p.char, p])).values()];
+    const candidates = uniquePool.filter(p => !alreadyShown.has(p.char));
+    if (!candidates.length) { skeleton.remove(); return; }
+    const pick = candidates[Math.floor(Math.random() * candidates.length)];
+    const [detail, words] = await Promise.all([getKanjiDetail(pick.char), getWords(pick.char)]);
+    const newK = {
+      kanji:   pick.char,
+      level:   LEVEL_LABEL[pick.jlptNum],
+      on:      detail.on_readings  ?? [],
+      kun:     detail.kun_readings ?? [],
+      meaning: bestKanjiMeaning(pick.char, detail.meanings, lang, _idx[pick.char]),
+      ex:      bestExamples(words, pick.char, 3, pick.jlptNum),
+    };
+    state.currentKanjiCards.push(newK);
+    const newCard = renderCard(newK, 0);
+    skeleton.replaceWith(newCard);
+  } catch {
+    skeleton.remove();
+  }
 }
 
 // ── Incremental add/remove cards (used by +More / −Less buttons) ──────────
