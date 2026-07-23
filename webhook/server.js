@@ -154,9 +154,21 @@ app.post('/push-subscribe', express.json(), async (req, res) => {
   const { subscription, lang, uid, utcHour } = req.body || {};
   if (!subscription?.endpoint) return res.status(400).json({ error: 'Missing subscription' });
 
-  // Key by endpoint hash to avoid duplicates
+  // Key by endpoint hash
   const hash = Buffer.from(subscription.endpoint).toString('base64').slice(0, 40);
   try {
+    // If a uid is provided, delete ALL previous subscriptions for this user first
+    // (avoids accumulation of stale iOS endpoints that Apple accepts but never delivers)
+    if (uid) {
+      const existing = await db.collection('push_subscriptions').where('uid', '==', uid).get();
+      const deletes = existing.docs
+        .filter(d => d.id !== hash)
+        .map(d => d.ref.delete());
+      if (deletes.length > 0) {
+        await Promise.all(deletes);
+        console.log(`[push-subscribe] Deleted ${deletes.length} stale sub(s) for uid ${uid}`);
+      }
+    }
     await db.collection('push_subscriptions').doc(hash).set({
       subscription,
       lang:      lang    || 'en',
@@ -164,6 +176,7 @@ app.post('/push-subscribe', express.json(), async (req, res) => {
       utcHour:   (utcHour !== undefined && utcHour !== null) ? utcHour : 8,
       updatedAt: new Date().toISOString(),
     }, { merge: true });
+    console.log(`[push-subscribe] Saved sub for uid=${uid || 'anon'} utcHour=${utcHour}`);
     res.json({ ok: true });
   } catch (err) {
     console.error('[push-subscribe] Firestore error:', err);

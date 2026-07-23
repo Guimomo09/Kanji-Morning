@@ -643,6 +643,18 @@
     .vocab-save-btn:hover { color: var(--red); transform: scale(1.2); }
     .vocab-save-btn.saved { color: var(--red); }
 
+    /* ── "I know it" buttons (vocab + kanji cards) ───────────────────────── */
+    .vocab-know-btn, .kanji-know-btn {
+      position: absolute; top: 10px; right: 46px; z-index: 3;
+      background: none; border: 1px solid var(--border); border-radius: 20px;
+      cursor: pointer; font-size: 11px; color: var(--muted);
+      padding: 3px 8px; line-height: 1.4; white-space: nowrap;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .vocab-know-btn:hover, .kanji-know-btn:hover {
+      background: var(--border); color: var(--fg); border-color: var(--muted);
+    }
+
     /* ── Speak (TTS) button ───────────────────────────────────────────────── */
     .speak-btn {
       background: none; border: none; cursor: pointer;
@@ -654,9 +666,9 @@
     .speak-btn:hover { opacity: 1; background: var(--border); transform: scale(1.15); }
     .speak-btn:active { transform: scale(0.95); opacity: 1; }
 
-    /* Positioned variant for kanji cards (top-left of save btn) */
+    /* Positioned variant for kanji cards (top-left of know btn) */
     .kanji-speak-btn {
-      position: absolute; top: 12px; right: 46px; z-index: 3;
+      position: absolute; top: 12px; right: 80px; z-index: 3;
       font-size: 16px; padding: 4px;
     }
 
@@ -792,6 +804,12 @@
     .exam-level-pill { font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 20px; }
     .exam-level-pill.active { background: var(--red); color: #fff; border-color: transparent; }
     .exam-level-desc { font-size: 12px; color: var(--sub); margin-top: 4px; }
+    .exam-strict-label {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 10px; font-size: 13px; color: var(--muted);
+      cursor: pointer; user-select: none;
+    }
+    .exam-strict-label input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
     .exam-info-tip {
       font-size: 13px; color: var(--muted); cursor: default;
       position: relative; display: inline-block;
@@ -1374,7 +1392,7 @@
       /* ── Toolbar ── */
       .toolbar {
         margin-top: 0;
-        padding: calc(66px + env(safe-area-inset-top)) 12px 0;
+        padding: calc(66px + env(safe-area-inset-top) + 14px) 12px 0;
         gap: 8px;
       }
       .btn {

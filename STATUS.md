@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `1851edc` · branche active : `main`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `482b4ff` · branche active : `main`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -66,6 +66,25 @@ kanji.guimo-prod.com {
 - [x] Settings drawer · hamburger menu mobile
 - [x] Hamburger menu mobile (Settings + Crisp Chat)
 - [x] Sign out avec confirmation · scroll-to-top · tab persistence
+
+**Push notifications** ← commits `dd0e4a6` → `4075634` (main, 20 Mai 2026)
+- [x] Modal push ne réapparaît plus après 1-2h (sync `pushManager.getSubscription()` au démarrage)
+- [x] Heure de notification persiste via Firestore (`pushHour` sauvegardé + restauré au login)
+- [x] Notifications arrivaient à 22h → corrigé (PM2 pointait sur mauvais `start.sh`, filtrage `utcHour` maintenant actif)
+- [x] Docs Firestore existants patchés avec `utcHour: 8`
+
+**Mobile scroll fix (iOS PWA)** ← commit `dd0e4a6` (main, 20 Mai 2026)
+- [x] Header et tabbar ne bougent plus pendant le scroll en standalone PWA
+- [x] `overscroll-behavior-y: none` — bloque le rubber band iOS 16+
+- [x] Header `position: fixed` sur mobile (était `sticky` — bougeait avec l'overscroll)
+- [x] `env(safe-area-inset-top)` sur le header — gère la status bar transparente en standalone
+- [x] `.toolbar` `padding-top: calc(66px + env(safe-area-inset-top))` — compense le header sorti du flux
+- [x] `.mylist-toolbar` sticky `top` mis à jour (`52px` → `calc(66px + env(safe-area-inset-top))`)
+
+**Back-to-top (My List)** ← commit `4075634` (main, 20 Mai 2026)
+- [x] Bouton `↑` flottant en bas à droite, visible après 300px de scroll dans l'onglet Ma Liste
+- [x] Se positionne au-dessus de la tabbar mobile (avec safe area)
+- [x] Masqué sur tous les autres onglets
 
 **Monétisation**
 - [x] Stripe Premium €7.99 one-time (**LIVE ✅ 7 Mai 2026**)
@@ -253,6 +272,23 @@ kanji.guimo-prod.com {
 - [x] Alt attribute sur logo tutorial img (5 langues) — SEO/accessibilité ← `e0dc990`
 - [x] `og:image` + JSON-LD `Organization` + `WebSite` dans index.html (logo Google Search) ← `48a181b`
 
+**Toolbar mobile spacing** ← commit `482b4ff` (main, 21 Mai 2026)
+- [x] `.toolbar` mobile : `+14px` au `padding-top` — espace de respiration entre le header fixe et les boutons (Kanji + Vocab)
+
+**Bug fixes + "I know it" + Exam strict level** ← commits `eb6b331` → `5f3e017` (main, 21 Mai 2026)
+- [x] Fix exam score NaN — `baseScore/baseTotal/missed/retryRound` initialisés dans `launchExamFromTab` + `launchExamMode`
+- [x] Fix écran retry hardcodé en français — remplacé par clés i18n `quiz_retry_title/sub/continue/skip` (5 langues)
+- [x] Bouton **✓ I know it** sur les cartes vocab + kanji — sauvegarde dans Ma Liste + remplace la carte par une nouvelle
+  - Position : top-right de la carte, à côté de l'étoile (`right: 46px`) · texte localisé (`vocab_know_btn`)
+  - `.kanji-speak-btn` décalé à `right: 80px` pour laisser la place
+- [x] **Exam strict level** — toggle "Ce niveau uniquement" dans l'onglet Exam (`km_exam_strict_level` localStorage)
+  - Activé : test exclusivement le niveau choisi (ex. N1 only) ; désactivé : cumulatif par défaut
+  - `setExamStrictLevel(bool)` exposé dans `window`
+- [x] **Tab hints (ⓘ)** mis à jour pour toutes les fonctionnalités dans les 5 langues (EN/FR/ES/DE/RU)
+  - Kanji hint : item "✓ I know it"
+  - Vocab hint : item "✓ I know it"
+  - Exam hint : item "Ce niveau uniquement" + description cumulative mise à jour
+
 **EXAMPLE_OVERRIDE — 12 Mai 2026** ← commits `39b2acd` → `7727908` (main)
 - [x] EXAMPLE_OVERRIDE 100% complet — N5 → N4 → N3 → N2 → N1 (tous les niveaux)
 - [x] Exemples offensants/erronés remplacés sur l'ensemble du JLPT (rufous hawk-cuckoo, sixty-nine, slur, salmon→ayu, etc.)
@@ -407,6 +443,7 @@ kanji.guimo-prod.com {
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
 - [x] ~~Buffer auto-post~~ — planifié jusqu'au **05/08/2026** ✅ (token regénéré 24/06)
+- [x] ~~Notifications push background~~ — ✅ 20 Mai 2026 — Push API serveur · opt-in · heure personnalisée · utcHour filtrage cron horaire
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)

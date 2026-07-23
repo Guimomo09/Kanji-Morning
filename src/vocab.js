@@ -407,6 +407,7 @@ export function renderVocabCard(item, delay) {
   card.innerHTML = `
     ${coverHtml}
     ${!state.quizMode ? `<button class="vocab-save-btn" title="Save to My List">☆</button>` : ''}
+    ${!state.quizMode ? `<button class="vocab-know-btn">${t('vocab_know_btn')}</button>` : ''}
     <div class="card-body">
       <div class="vocab-header">
         <div class="vocab-word">${word}</div>
@@ -437,6 +438,13 @@ export function renderVocabCard(item, delay) {
       const nowSaved = toggleSaveVocabWord(item);
       saveBtn.textContent = nowSaved ? '★' : '☆';
       saveBtn.classList.toggle('saved', nowSaved);
+    });
+  }
+  const knowBtn = card.querySelector('.vocab-know-btn');
+  if (knowBtn) {
+    knowBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      skipAndReplaceVocabCard(item, card);
     });
   }
   if (!state.quizMode) {
@@ -858,4 +866,35 @@ export async function renderVocab(forceNew = false) {
   }
 }
 
+// ── Replace a single vocab card ("I know it" button) ─────────────────────
+export async function skipAndReplaceVocabCard(item, cardEl) {
+  // Auto-save to My List if not already saved
+  if (!isVocabWordSaved(item.word)) toggleSaveVocabWord(item);
 
+  // Remove from currentVocabItems
+  const idx = state.currentVocabItems.indexOf(item);
+  if (idx !== -1) state.currentVocabItems.splice(idx, 1);
+
+  // Show skeleton placeholder
+  const skeleton = document.createElement('div');
+  skeleton.className = 'card skeleton';
+  skeleton.innerHTML = `<div class="skel-big"></div><div style="flex:1"><div class="skel-line" style="width:50%"></div><div class="skel-line" style="width:80%"></div><div class="skel-line" style="width:65%"></div></div>`;
+  cardEl.replaceWith(skeleton);
+
+  try {
+    if (!state.VOCAB_POOL.length) await buildPool();
+    const shownWords = new Set(state.currentVocabItems.map(it => it.word));
+    const picks = pickVocabChars(15);
+    const newItems = await buildVocabItems(picks);
+    const replacement = newItems.find(it => !shownWords.has(it.word));
+    if (replacement) {
+      state.currentVocabItems.push(replacement);
+      const newCard = renderVocabCard(replacement, 0);
+      skeleton.replaceWith(newCard);
+    } else {
+      skeleton.remove();
+    }
+  } catch {
+    skeleton.remove();
+  }
+}
