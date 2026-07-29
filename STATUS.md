@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **2 Juin 2026** · N4 reels en cours · Vocab reels N5 ✅
+> Dernière mise à jour: **29 Juillet 2026** · N4 reels 100% générés + sur VPS · Buffer N4 TikTok en cours
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -45,7 +45,7 @@ kanji.guimo-prod.com {
 
 **URL**: https://asanokanji.com  
 **Stack**: Vanilla JS ES modules · Firebase Auth + Firestore · kanjiapi.dev  
-**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `482b4ff` · branche active : `main`  
+**Git**: github.com/Guimomo09/Kanji-Morning · HEAD main `1851edc` · branche active : `main`  
 **Deploy**: GitHub Actions automatique
 - push `dev` → staging `kanji.guimo-prod.com` (protégé basic_auth)
 - push `main` → prod `asanokanji.com`
@@ -66,25 +66,6 @@ kanji.guimo-prod.com {
 - [x] Settings drawer · hamburger menu mobile
 - [x] Hamburger menu mobile (Settings + Crisp Chat)
 - [x] Sign out avec confirmation · scroll-to-top · tab persistence
-
-**Push notifications** ← commits `dd0e4a6` → `4075634` (main, 20 Mai 2026)
-- [x] Modal push ne réapparaît plus après 1-2h (sync `pushManager.getSubscription()` au démarrage)
-- [x] Heure de notification persiste via Firestore (`pushHour` sauvegardé + restauré au login)
-- [x] Notifications arrivaient à 22h → corrigé (PM2 pointait sur mauvais `start.sh`, filtrage `utcHour` maintenant actif)
-- [x] Docs Firestore existants patchés avec `utcHour: 8`
-
-**Mobile scroll fix (iOS PWA)** ← commit `dd0e4a6` (main, 20 Mai 2026)
-- [x] Header et tabbar ne bougent plus pendant le scroll en standalone PWA
-- [x] `overscroll-behavior-y: none` — bloque le rubber band iOS 16+
-- [x] Header `position: fixed` sur mobile (était `sticky` — bougeait avec l'overscroll)
-- [x] `env(safe-area-inset-top)` sur le header — gère la status bar transparente en standalone
-- [x] `.toolbar` `padding-top: calc(66px + env(safe-area-inset-top))` — compense le header sorti du flux
-- [x] `.mylist-toolbar` sticky `top` mis à jour (`52px` → `calc(66px + env(safe-area-inset-top))`)
-
-**Back-to-top (My List)** ← commit `4075634` (main, 20 Mai 2026)
-- [x] Bouton `↑` flottant en bas à droite, visible après 300px de scroll dans l'onglet Ma Liste
-- [x] Se positionne au-dessus de la tabbar mobile (avec safe area)
-- [x] Masqué sur tous les autres onglets
 
 **Monétisation**
 - [x] Stripe Premium €7.99 one-time (**LIVE ✅ 7 Mai 2026**)
@@ -272,23 +253,6 @@ kanji.guimo-prod.com {
 - [x] Alt attribute sur logo tutorial img (5 langues) — SEO/accessibilité ← `e0dc990`
 - [x] `og:image` + JSON-LD `Organization` + `WebSite` dans index.html (logo Google Search) ← `48a181b`
 
-**Toolbar mobile spacing** ← commit `482b4ff` (main, 21 Mai 2026)
-- [x] `.toolbar` mobile : `+14px` au `padding-top` — espace de respiration entre le header fixe et les boutons (Kanji + Vocab)
-
-**Bug fixes + "I know it" + Exam strict level** ← commits `eb6b331` → `5f3e017` (main, 21 Mai 2026)
-- [x] Fix exam score NaN — `baseScore/baseTotal/missed/retryRound` initialisés dans `launchExamFromTab` + `launchExamMode`
-- [x] Fix écran retry hardcodé en français — remplacé par clés i18n `quiz_retry_title/sub/continue/skip` (5 langues)
-- [x] Bouton **✓ I know it** sur les cartes vocab + kanji — sauvegarde dans Ma Liste + remplace la carte par une nouvelle
-  - Position : top-right de la carte, à côté de l'étoile (`right: 46px`) · texte localisé (`vocab_know_btn`)
-  - `.kanji-speak-btn` décalé à `right: 80px` pour laisser la place
-- [x] **Exam strict level** — toggle "Ce niveau uniquement" dans l'onglet Exam (`km_exam_strict_level` localStorage)
-  - Activé : test exclusivement le niveau choisi (ex. N1 only) ; désactivé : cumulatif par défaut
-  - `setExamStrictLevel(bool)` exposé dans `window`
-- [x] **Tab hints (ⓘ)** mis à jour pour toutes les fonctionnalités dans les 5 langues (EN/FR/ES/DE/RU)
-  - Kanji hint : item "✓ I know it"
-  - Vocab hint : item "✓ I know it"
-  - Exam hint : item "Ce niveau uniquement" + description cumulative mise à jour
-
 **EXAMPLE_OVERRIDE — 12 Mai 2026** ← commits `39b2acd` → `7727908` (main)
 - [x] EXAMPLE_OVERRIDE 100% complet — N5 → N4 → N3 → N2 → N1 (tous les niveaux)
 - [x] Exemples offensants/erronés remplacés sur l'ensemble du JLPT (rufous hawk-cuckoo, sixty-nine, slur, salmon→ayu, etc.)
@@ -416,16 +380,53 @@ kanji.guimo-prod.com {
 - ℹ️ `息子` optionnel à générer : `node scripts/generate-reels.mjs --kanji 息子 --level n5`
   puis uploader sur VPS et poster manuellement
 
+**Audit queue Buffer live — 28 Juillet 2026**
+- ⚠️ STATUS.md était périmé (dernière maj réelle : 24 juin) — vérif directe via l'API Buffer GraphQL
+- État réel de la queue N5 (sent + scheduled) :
+  - TikTok : 142 envoyés · **16 restants** · fin **05/08/2026**
+  - Instagram : 128 envoyés · **29 restants** · fin **11/08/2026** (créneau minuit seul ce jour-là)
+  - 8 erreurs TikTok + 1 erreur Instagram en attente d'audit (non bloquant)
+- Confirmé : aucun contenu N4 n'était encore programmé sur Buffer à cette date
+
 ---
 
-## Contenu N4 — État 9 Juin 2026
+## Contenu N4 — État 29 Juillet 2026
 
 | Contenu | État | Détail |
 |---------|------|--------|
 | N4 tiktok cards PNG | ✅ | 166/166 kanji · 3 PNG · `kanji-cards/n4/tiktok/` · 1080×1920px |
-| N4 kanji reels | ✅ | 166/166 · `kanji-cards/n4/reels/*.mp4` · 36s · locaux seulement |
-| N4 vocab reels | ❌ | `generate-vocab-reels.mjs` à fixer avant de lancer |
-| N4 reels sur VPS | ❌ | À uploader via SSH/rsync |
+| N4 kanji reels | ✅ | 166/166 · générés + **uploadés VPS** (`/var/www/kanji/reels/n4/`, 359 Mo) |
+| N4 vocab reels | ✅ | 236/236 (dérivés des 166 kanji, ~1.4 mot/kanji via `--from-kanji`) · générés + **uploadés VPS** (`/var/www/kanji/reels/vocab/`, 437 Mo) |
+| Buffer N4 TikTok | 🟡 | Kanji 1-93 programmés (jusqu'au 07/11/2026) · reste kanji 94-166 |
+| Buffer N4 Instagram | ❌ | Pas encore démarré (prévu 13/08/2026, après fin queue N5) |
+
+**Bug bloquant trouvé + fixé — 29 Juillet 2026**
+- 🐛 `scripts/generate-vocab-reels.mjs` était syntaxiquement cassé (encodage japonais corrompu dans `WORD_DICT_FORM`/`WORD_DEF_OVERRIDE`/`VOCAB_SENTENCE_OVERRIDE`) depuis le commit `a1330af` (18 mai, "restore...use sentences.json") — `node --check` échouait, impossible de générer le moindre reel vocab depuis cette date
+- ✅ Fix : restauré depuis le dernier commit sain `b563979` (celui qui avait produit les 80/80 N5) via `git checkout b563979 -- scripts/generate-vocab-reels.mjs` — syntaxe validée, feature "sentences.json primary source" de `a1330af` perdue au passage (non critique, N5 ne l'utilisait pas non plus)
+- ⚠️ Changement en local, pas encore commité
+
+**Découverte pipeline — `--level` non câblé pour la sélection de mots**
+- Dans `generate-vocab-reels.mjs`, le flag `--level` n'est **pas utilisé** pour choisir les mots quand ni `--words` ni `--from-kanji` ne sont passés (branche par défaut = fréquence globale, ignore le niveau JLPT)
+- Pour cibler un niveau précis : `--from-kanji <liste kanji du niveau>` (via `EXAMPLE_OVERRIDE[kanji]`, jusqu'à 2 mots/kanji) — c'est ce qui a servi pour générer les 236 mots N4
+- Le pairing jour-par-jour de `schedule-buffer.mjs` est strict 1 kanji ↔ 1 vocab (index cyclique) — avec 166 kanji vs 236 vocab, un premier passage complet (166 jours) n'utilisera que 166 des 236 vocab reels ; 70 resteront de côté, à programmer séparément plus tard
+
+**Programmation Buffer N4 TikTok — 29 Juillet 2026**
+- Découpage en lots de 45 jours (~90 posts) à cause du rate limit Buffer (voir ci-dessous)
+- Lot 1 (offset 0, kanji 1-45) : ✅ 90/90 · 06/08 → 19/09/2026
+- Lot 2 (offset 45, kanji 46-90) : ✅ 90/90 · 20/09 → 03/11/2026
+- Lot 3 (offset 90, kanji 91-135) : 🟡 partiel — rate limit atteint après 8 posts (4 jours, kanji 91-93 + début 94) · dernier jour programmé : **07/11/2026**
+  - Cumul appels API avant blocage : 90+90+8 = **188 posts/jour semble être le plafond réel** (plus haut que l'ancienne estimation ~100/session)
+  - Resume : `node scripts/schedule-buffer.mjs --level n4 --platform tiktok --start 2026-11-08 --offset 94 --count 45`
+- Lot 4 (offset 139, 27 derniers kanji) : ❌ pas encore lancé
+- ⚠️ Toujours faire **une plateforme à la fois** (`--platform tiktok` ou `--platform instagram`, jamais `both`) — confirmé de nouveau, `both` double les appels API et sature plus vite
+
+**⚠️ Prochaines étapes Buffer N4**
+1. Lot 3 TikTok (suite) : `--start 2026-11-08 --offset 94 --count 45`
+2. Lot 4 TikTok (fin) : `--offset 139 --count 27`
+3. Instagram N4 (4 lots, même découpage) : démarrer `--start 2026-08-13 --offset 0 --count 45`
+4. Une fois les 2 plateformes bouclées sur les 166 kanji : décider quoi faire des 70 vocab reels N4 non utilisés (extension du cycle ou lot dédié vocab-only)
+5. Auditer les 9 posts en erreur dans Buffer (8 TikTok + 1 Instagram, non bloquants)
+6. Commit du fix `scripts/generate-vocab-reels.mjs`
 
 ---
 
@@ -434,16 +435,16 @@ kanji.guimo-prod.com {
 **Priorité haute**
 - [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026
 - [x] ~~Notifications push~~ — ✅ modal + toggle + Firestore sync
-- [x] ~~N4 kanji reels~~ — ✅ 166/166 générés localement
-- [ ] **Upload N4 reels sur VPS** → SSH/rsync `kanji-cards/n4/reels/` → `/var/www/kanji/reels/n4/`
-- [ ] **Schedule Buffer N4** → TikTok + Instagram · kanji-only · start 2026-08-04
-- [ ] **N4 vocab reels** — fixer `generate-vocab-reels.mjs` puis générer ~166 mots
+- [x] ~~N4 kanji reels~~ — ✅ 166/166 générés + uploadés VPS (29/07)
+- [x] ~~N4 vocab reels~~ — ✅ 236/236 générés + uploadés VPS (29/07) · fix `generate-vocab-reels.mjs` (restauré `b563979`)
+- [ ] **Schedule Buffer N4 TikTok (suite)** → lot 3 `--start 2026-11-08 --offset 94 --count 45` puis lot 4 `--offset 139 --count 27`
+- [ ] **Schedule Buffer N4 Instagram** → 4 lots de 45, démarrer `--start 2026-08-13 --offset 0 --count 45`
+- [ ] **Commit** le fix de `scripts/generate-vocab-reels.mjs` (actuellement en modif locale non commitée)
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
 - [x] ~~i18n Phase 2~~ — EN 81% · FR 91% · DE 91% · ES 91% · RU 91% ✅
 - [x] ~~Buffer auto-post~~ — planifié jusqu'au **05/08/2026** ✅ (token regénéré 24/06)
-- [x] ~~Notifications push background~~ — ✅ 20 Mai 2026 — Push API serveur · opt-in · heure personnalisée · utcHour filtrage cron horaire
 
 **Priorité basse**
 - [ ] App Store / Play Store (via Capacitor ou Median.co)

@@ -1,21 +1,21 @@
-﻿/**
+/**
  * generate-vocab-reels.mjs
  *
- * Reels "Mot du jour" 窶・design progressif, positions FIXES :
- *   [0-3s]   Hook   窶・"A very common Japanese word..."
- *   [3-7s]   Prog A 窶・mot seul  (lecture/def/ex : visibility:hidden)
- *   [7-11s]  Prog B 窶・+ lecture  (def/ex : visibility:hidden)
- *   [11-17s] Prog C 窶・+ dﾃｩfinition  (ex : visibility:hidden)
- *   [17-27s] Prog D 窶・tout visible
- *   [27-34s] CTA    窶・identique kanji reels, fade out final
+ * Reels "Mot du jour" — design progressif, positions FIXES :
+ *   [0-3s]   Hook   — "A very common Japanese word..."
+ *   [3-7s]   Prog A — mot seul  (lecture/def/ex : visibility:hidden)
+ *   [7-11s]  Prog B — + lecture  (def/ex : visibility:hidden)
+ *   [11-17s] Prog C — + définition  (ex : visibility:hidden)
+ *   [17-27s] Prog D — tout visible
+ *   [27-34s] CTA    — identique kanji reels, fade out final
  *
- * Clﾃｩ du design : tous les prog slides partagent le Mﾃ凱E layout fixe.
- * Les ﾃｩlﾃｩments non encore rﾃｩvﾃｩlﾃｩs ont visibility:hidden (espace rﾃｩservﾃｩ).
- * 竊・aucun dﾃｩplacement lors des transitions.
+ * Clé du design : tous les prog slides partagent le MÊME layout fixe.
+ * Les éléments non encore révélés ont visibility:hidden (espace réservé).
+ * → aucun déplacement lors des transitions.
  *
  * Usage :
- *   node scripts/generate-vocab-reels.mjs --words 鬟溘∋迚ｩ
- *   node scripts/generate-vocab-reels.mjs --from-kanji 鬟・鬟ｲ,蟄ｦ
+ *   node scripts/generate-vocab-reels.mjs --words 食べ物
+ *   node scripts/generate-vocab-reels.mjs --from-kanji 食,飲,学
  *   node scripts/generate-vocab-reels.mjs --level n5 --count 10 --bgm-vol 0.07
  */
 
@@ -29,7 +29,7 @@ const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-// 笏笏 CLI 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── CLI ───────────────────────────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const get  = (f, d) => { const i = args.indexOf(f); return i !== -1 ? args[i+1] : d; };
 const has  = (f) => args.includes(f);
@@ -42,17 +42,17 @@ const BGM_VOL      = parseFloat(get('--bgm-vol', '0'));
 const DRY_RUN      = has('--dry-run');
 const VOICE        = get('--voice', 'ja-JP-NanamiNeural');
 
-// 笏笏 Paths 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Paths ─────────────────────────────────────────────────────────────────────
 const OUT_DIR = join(ROOT, 'vocab-cards', 'reels');
 const TMP     = join(ROOT, '.vocab-tmp');
 mkdirSync(OUT_DIR, { recursive: true });
 mkdirSync(TMP,     { recursive: true });
 
-// 笏笏 Data 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Data ──────────────────────────────────────────────────────────────────────
 const JMDICT   = JSON.parse(readFileSync(join(ROOT, 'public', 'jmdict_trans.json'), 'utf8'));
 const LOGO_B64 = `data:image/png;base64,${readFileSync(join(ROOT, 'SVG', 'Logo_192.png')).toString('base64')}`;
 
-// 笏笏 EXAMPLE_OVERRIDE 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── EXAMPLE_OVERRIDE ─────────────────────────────────────────────────────────
 function loadObj(text, varName) {
   const marker = `${varName} = {`;
   const start  = text.indexOf(marker);
@@ -73,13 +73,7 @@ for (const [, words] of Object.entries(EXAMPLE_OVERRIDE)) {
   for (const { w, r } of words) { if (!WORD_READING[w]) WORD_READING[w] = r; }
 }
 
-// ── sentences.json (AI-generated, furigana-verified) ─────────────────────────
-let SENTENCES_JSON = {};
-try {
-  SENTENCES_JSON = JSON.parse(readFileSync(join(ROOT, 'public', 'sentences.json'), 'utf8'));
-} catch { /* optional */ }
-
-// 笏笏 Kuromoji 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Kuromoji ──────────────────────────────────────────────────────────────────
 const kuromoji     = require('kuromoji');
 const KUROMOJI_DIC = join(ROOT, 'node_modules', 'kuromoji', 'dict');
 let _tok = null;
@@ -111,7 +105,7 @@ async function toFuriganaHTML(sentence, targetWord) {
     const reading = tok.reading;
     const hasKanji = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(surface);
     if (targetRe.test(surface)) {
-      // Target word 窶・highlight, no furigana needed (user just learned it)
+      // Target word — highlight, no furigana needed (user just learned it)
       parts.push(surface.replace(new RegExp(esc, 'g'), `<span class="hl">${escHtml(targetWord)}</span>`));
     } else if (hasKanji && reading) {
       const hira = kata2hira(reading);
@@ -127,7 +121,7 @@ async function toFuriganaHTML(sentence, targetWord) {
   return parts.join('');
 }
 
-// 笏笏 Python / edge-tts / ffmpeg 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Python / edge-tts / ffmpeg ────────────────────────────────────────────────
 function findPython() {
   const store = 'C:\\Users\\Charles\\AppData\\Local\\Microsoft\\WindowsApps\\python3.13.exe';
   if (existsSync(store)) return store;
@@ -139,7 +133,7 @@ const PYTHON  = findPython();
 const FFMPEG  = (() => { const p = join(ROOT, 'node_modules', 'ffmpeg-static', 'ffmpeg.exe'); return existsSync(p) ? p : 'ffmpeg'; })();
 const FFPROBE = (() => { try { return require('ffprobe-static').path; } catch {} return FFMPEG.replace('ffmpeg.exe', 'ffprobe.exe'); })();
 
-// 笏笏 TTS 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── TTS ───────────────────────────────────────────────────────────────────────
 async function tts(text, outMp3) {
   const wav = outMp3.replace(/\.mp3$/, '.wav');
   const r = spawnSync(PYTHON, ['-m', 'edge_tts', '--voice', VOICE, '--text', text, '--write-media', wav],
@@ -149,7 +143,7 @@ async function tts(text, outMp3) {
   try { unlinkSync(wav); } catch {}
 }
 
-// 笏笏 Audio helpers 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Audio helpers ─────────────────────────────────────────────────────────────
 function silence(out, dur) {
   spawnSync(FFMPEG, ['-y', '-f', 'lavfi', '-t', String(dur), '-i', 'anullsrc=r=44100:cl=stereo',
     '-codec:a', 'libmp3lame', '-q:a', '2', out], { stdio: 'ignore' });
@@ -168,7 +162,7 @@ function prependSilence(inp, out, sec) {
   try { unlinkSync(lst); } catch {}
 }
 
-// 笏笏 Video helpers 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Video helpers ─────────────────────────────────────────────────────────────
 function imageToVideo(img, audio, out, dur) {
   spawnSync(FFMPEG, ['-y',
     '-loop', '1', '-i', img, '-i', audio,
@@ -180,7 +174,7 @@ function imageToVideo(img, audio, out, dur) {
   ], { stdio: 'ignore' });
 }
 
-// CTA 窶・mﾃｪme fond rouge que les autres slides
+// CTA — même fond rouge que les autres slides
 function slideCTA() {
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
 *{margin:0;padding:0;box-sizing:border-box;}html,body{width:1080px;height:1920px;overflow:hidden;}
@@ -228,7 +222,7 @@ function concatXFade(segments, durations, out, xf = 0.5) {
   if (r.status !== 0) throw new Error(`concatXFade failed (status=${r.status})`);
 }
 
-// Fade to black sur les N derniﾃｨres secondes
+// Fade to black sur les N dernières secondes
 function applyFadeOut(inp, out, videoDur, fadeDur = 1.5) {
   const st = +(videoDur - fadeDur).toFixed(3);
   const r = spawnSync(FFMPEG, ['-y', '-i', inp,
@@ -242,128 +236,128 @@ function applyFadeOut(inp, out, videoDur, fadeDur = 1.5) {
   if (r.status !== 0) throw new Error('applyFadeOut failed');
 }
 
-// 笏笏 Dictionary forms for verb/adj stems from FREQ_MAP 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Dictionary forms for verb/adj stems from FREQ_MAP ───────────────────────
 const WORD_DICT_FORM = {
-  '蛻・°':   '蛻・°繧・',
-  '蜃ｺ譚･':   '蜃ｺ譚･繧・',
-  '謨吶∴':   '謨吶∴繧・',
-  '蜈･繧・':   '蜈･繧後ｋ',
-  '陦後￠':   '陦後￥',
-  '逕溘″':   '逕溘″繧・',
-  '豁｢繧・':   '豁｢繧√ｋ',
-  '騾｣繧・':   '騾｣繧後ｋ',
-  '襍ｷ縺・':   '襍ｷ縺阪ｋ',
-  '襍ｷ縺・':   '襍ｷ縺薙ｋ',
-  '鬟溘∋':   '鬟溘∋繧・',
-  '邯壹￠':   '邯壹￠繧・',
-  '蟋九ａ':   '蟋九ａ繧・',
-  '隱ｿ縺ｹ':   '隱ｿ縺ｹ繧・',
-  '荳九＆':   '縺上□縺輔＞',
-  '讌ｽ縺・':   '讌ｽ縺励＞',
-  '諢溘§':   '諢溘§繧・',
-  '螟峨ｏ':   '螟峨ｏ繧・',
-  '閨槭％縺・: '閨槭％縺医ｋ',
-  '荳弱∴':   '荳弱∴繧・',
-  '髢九￠':   '髢九￠繧・',
-  '髮｢繧・':   '髮｢繧後ｋ',
+  '分か':   '分かる',
+  '出来':   '出来る',
+  '教え':   '教える',
+  '入れ':   '入れる',
+  '行け':   '行く',
+  '生き':   '生きる',
+  '止め':   '止める',
+  '連れ':   '連れる',
+  '起き':   '起きる',
+  '起こ':   '起こる',
+  '食べ':   '食べる',
+  '続け':   '続ける',
+  '始め':   '始める',
+  '調べ':   '調べる',
+  '下さ':   'ください',
+  '楽し':   '楽しい',
+  '感じ':   '感じる',
+  '変わ':   '変わる',
+  '聞こえ': '聞こえる',
+  '与え':   '与える',
+  '開け':   '開ける',
+  '離れ':   '離れる',
 };
 
-// 笏笏 Definition overrides (fix bad/inappropriate JMDICT entries) 笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Definition overrides (fix bad/inappropriate JMDICT entries) ──────────────
 const WORD_DEF_OVERRIDE = {
-  '諱ｯ蟄・: 'son',
-  '莉ｲ髢・: 'companion, colleague', fellow',
+  '息子': 'son',
+  '仲間': 'companion, colleague, fellow',
 };
 
-// 笏笏 Curated desu/masu sentences (priority over Tatoeba) 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Curated desu/masu sentences (priority over Tatoeba) ─────────────────────
 const VOCAB_SENTENCE_OVERRIDE = {
-  '蠖ｼ螂ｳ':   { jp: '蠖ｼ螂ｳ縺ｯ遘√・蜿矩＃縺ｧ縺吶・',           en: 'She is my friend.' },
-  '縺雁燕':   { jp: '縺雁燕縺ｮ縺薙→縺悟ｿ・・縺ｧ縺吶・',           en: "I'm worried about you." },
-  '蛻・°':   { jp: '蟆代＠蛻・°繧翫∪縺吶・',                en: 'I understand a little.' },
-  '蠢・ｦ・:   { jp: '繝代せ繝昴・繝医′蠢・ｦ√〒縺吶・',           en: 'A passport is necessary.' },
-  '螟ｧ荳亥､ｫ': { jp: '螟ｧ荳亥､ｫ縺ｧ縺吶°縲・',                  en: 'Are you alright?' },
-  '閾ｪ蛻・:   { jp: '閾ｪ蛻・〒繧・ｊ縺ｾ縺吶・',                en: "I'll do it myself." },
-  '譛ｬ蠖・:   { jp: '譛ｬ蠖薙〒縺吶°縲・',                    en: 'Really?' },
-  '譎る俣':   { jp: '譎る俣縺後≠繧翫∪縺吶°縲・',              en: 'Do you have time?' },
-  '謌代・:   { jp: '謌代・・荳邱偵↓陦後″縺ｾ縺吶・',           en: "We'll go together." },
-  '莉穂ｺ・:   { jp: '莉穂ｺ九〒譌･譛ｬ縺ｫ譚･縺ｾ縺励◆縲・',           en: 'I came to Japan for work.' },
-  '荳邱・:   { jp: '荳邱偵↓陦後″縺ｾ縺励ｇ縺・・',            en: "Let's go together." },
-  '蜃ｺ譚･':   { jp: '莠育ｴ・′蜃ｺ譚･縺ｾ縺吶・',                en: 'A reservation is possible.' },
-  '髮ｻ隧ｱ':   { jp: '髮ｻ隧ｱ縺励※繧ゅ＞縺・〒縺吶°縲・',           en: 'May I call you?' },
-  '蜷後§':   { jp: '蜷後§繧ゅ・繧偵￥縺縺輔＞縲・',            en: 'Please give me the same thing.' },
-  '蝣ｴ謇':   { jp: '縺薙・蝣ｴ謇縺ｯ髱吶°縺ｧ縺吶・',            en: 'This place is quiet.' },
-  '蝠城｡・:   { jp: '蝠城｡後≠繧翫∪縺帙ｓ縲・',                en: 'No problem.' },
-  '蟄蝉ｾ・:   { jp: '蟄蝉ｾ帙′莠御ｺｺ縺・∪縺吶・',              en: 'I have two children.' },
-  '蜷榊燕':   { jp: '縺雁錐蜑阪・菴輔〒縺吶°縲・',              en: 'What is your name?' },
-  '蟆代＠':   { jp: '蟆代＠蠕・▲縺ｦ縺上□縺輔＞縲・',            en: 'Please wait a little.' },
-  '蜈ｨ縺ｦ':   { jp: '蜈ｨ縺ｦ繧上°繧翫∪縺励◆縲・',              en: 'I understand everything.' },
-  '荳也阜':   { jp: '荳也阜荳ｭ繧呈羅縺励◆縺・〒縺吶・',           en: 'I want to travel the whole world.' },
-  '謨吶∴':   { jp: '驕薙ｒ謨吶∴縺ｦ縺上□縺輔＞縲・',            en: 'Please tell me the way.' },
-  '騾壹ｊ':   { jp: '縺薙・騾壹ｊ繧堤悄縺｣逶ｴ縺占｡後″縺ｾ縺吶・',    en: 'Go straight down this street.' },
-  '譚･繧・:   { jp: '蜿矩＃縺梧擂縺ｾ縺吶・',                  en: 'My friend is coming.' },
-  '蜈･繧・:   { jp: '闕ｷ迚ｩ繧偵％縺薙↓蜈･繧後※縺上□縺輔＞縲・',    en: 'Please put your luggage here.' },
-  '莠ｺ髢・:   { jp: '莠ｺ髢薙・險闡峨ｒ菴ｿ縺・∪縺吶・',          en: 'Humans use language.' },
-  '陦後￠':   { jp: '莉翫☆縺占｡後￠縺ｾ縺吶°縲・',              en: 'Can you go right now?' },
-  '莉頑律':   { jp: '莉頑律縺ｯ縺・＞螟ｩ豌励〒縺吶・',            en: 'The weather is nice today.' },
-  '逕溘″':   { jp: '豈取律讌ｽ縺励￥逕溘″縺ｦ縺・∪縺吶・',        en: "I'm living happily every day." },
-  '豁｢繧・:   { jp: '縺薙％縺ｧ豁｢繧√※縺上□縺輔＞縲・',          en: 'Please stop here.' },
-  '蠢・・':   { jp: '蠢・・縺励↑縺・〒縺上□縺輔＞縲・',          en: "Please don't worry." },
-  '騾｣繧・:   { jp: '蜿矩＃繧帝｣繧後※縺阪∪縺吶・',            en: "I'll bring a friend along." },
-  '髢｢菫・:   { jp: '遘√◆縺｡縺ｯ縺・＞髢｢菫ゅ〒縺吶・',          en: 'We have a good relationship.' },
-  '螳ｶ譌・:   { jp: '螳ｶ譌上→譌・｡後＠縺ｾ縺吶・',              en: "I'm traveling with my family." },
-  '襍ｷ縺・:   { jp: '豈取悃蜈ｭ譎ゅ↓襍ｷ縺阪∪縺吶・',            en: 'I wake up at six every morning.' },
-  '諢丞袖':   { jp: '縺薙・險闡峨・諢丞袖縺ｯ菴輔〒縺吶°縲・',      en: 'What does this word mean?' },
-  '隴ｦ蟇・:   { jp: '隴ｦ蟇溘↓騾｣邨｡縺励∪縺吶・',              en: "I'll contact the police." },
-  '譛蠕・:   { jp: '譛蠕後・髮ｻ霆翫↓荵励ｊ縺ｾ縺吶・',          en: "I'll take the last train." },
-  '諱ｯ蟄・:   { jp: '諱ｯ蟄舌・蟄ｦ譬｡縺ｫ陦後▲縺ｦ縺・∪縺吶・',      en: 'My son is at school.' },
-  '蜈ｨ驛ｨ':   { jp: '蜈ｨ驛ｨ縺ｧ縺・￥繧峨〒縺吶°縲・',            en: 'How much is it in total?' },
-  '謐懈渊':   { jp: '隴ｦ蟇溘′謐懈渊縺励※縺・∪縺吶・',          en: 'The police are investigating.' },
-  '襍ｷ縺・:   { jp: '譛昴∫ｧ√ｒ襍ｷ縺薙＠縺ｦ縺上□縺輔＞縲・',      en: 'Please wake me up in the morning.' },
-  '諢溘§':   { jp: '縺・＞諢溘§縺ｧ縺吶・',                  en: 'It feels good.' },
-  '諠・ｱ':   { jp: '諠・ｱ繧偵≠繧翫′縺ｨ縺・＃縺悶＞縺ｾ縺吶・',    en: 'Thank you for the information.' },
-  '逅・罰':   { jp: '逅・罰繧呈蕗縺医※縺上□縺輔＞縲・',          en: 'Please tell me the reason.' },
-  '荳莠ｺ':   { jp: '荳莠ｺ縺ｧ譚･縺ｾ縺励◆縲・',                en: 'I came alone.' },
-  '驛ｨ螻・:   { jp: '驛ｨ螻九・縺阪ｌ縺・〒縺吶・',              en: 'The room is clean.' },
-  '莉･荳・:   { jp: '隱ｬ譏弱・莉･荳翫〒縺吶・',                en: "That's all for the explanation." },
-  '莠ｺ逕・:   { jp: '莠ｺ逕溘・遏ｭ縺・〒縺吶・',                en: 'Life is short.' },
-  '鬟溘∋':   { jp: '豈取律縺秘｣ｯ繧帝｣溘∋縺ｾ縺吶・',            en: 'I eat rice every day.' },
-  '螂ｳ諤ｧ':   { jp: '縺ゅ・螂ｳ諤ｧ縺ｯ蜈育函縺ｧ縺吶・',            en: 'That woman is a teacher.' },
-  '邯壹￠':   { jp: '豈取律邱ｴ鄙偵ｒ邯壹￠縺ｾ縺吶・',            en: "I'll keep practicing every day." },
-  '莠倶ｻｶ':   { jp: '莠倶ｻｶ縺瑚ｵｷ縺阪∪縺励◆縲・',              en: 'An incident occurred.' },
-  '蟋九ａ':   { jp: '譌･譛ｬ隱槭・蜍牙ｼｷ繧貞ｧ九ａ縺ｾ縺励◆縲・',      en: 'I started studying Japanese.' },
-  '譛蛻・:   { jp: '譛蛻昴・繧縺壹°縺励＞縺ｧ縺吶・',          en: "It's difficult at first." },
-  '騾｣邨｡':   { jp: '蠕後〒騾｣邨｡縺励∪縺吶・',                en: "I'll contact you later." },
-  '隱ｿ縺ｹ':   { jp: '繧､繝ｳ繧ｿ繝ｼ繝阪ャ繝医〒隱ｿ縺ｹ縺ｾ縺吶・',      en: "I'll look it up on the internet." },
-  '螳牙・':   { jp: '縺薙％縺ｯ螳牙・縺ｧ縺吶・',                en: "It's safe here." },
-  '荳九＆':   { jp: '繧ゅ≧蟆代＠蠕・▲縺ｦ荳九＆縺・・',          en: 'Please wait a little longer.' },
-  '讌ｽ縺・:   { jp: '譌・｡後・縺ｨ縺ｦ繧よ･ｽ縺励°縺｣縺溘〒縺吶・',    en: 'The trip was very enjoyable.' },
-  '谿ｺ莠ｺ':   { jp: '谿ｺ莠ｺ莠倶ｻｶ縺ｮ繝九Η繝ｼ繧ｹ繧定ｦ九∪縺励◆縲・',  en: 'I saw news of a murder case.' },
-  '蜿矩＃':   { jp: '蜿矩＃縺ｨ隧ｱ縺励※縺・∪縺吶・',            en: "I'm talking with a friend." },
-  '邏・據':   { jp: '邏・據繧貞ｮ医ｊ縺ｾ縺吶・',                en: "I'll keep my promise." },
-  '邨仙ｩ・:   { jp: '譚･蟷ｴ邨仙ｩ壹＠縺ｾ縺吶・',                en: "I'll get married next year." },
-  '辟｡逅・:   { jp: '辟｡逅・・縺励↑縺・〒縺上□縺輔＞縲・',        en: "Please don't overdo it." },
-  '諢溘§':   { jp: '縺・＞諢溘§縺ｧ縺吶・',                  en: 'It feels good.' },
-  '譛鬮・:   { jp: '縺薙・譎ｯ濶ｲ縺ｯ譛鬮倥〒縺吶・',            en: 'This view is the best.' },
-  '險育判':   { jp: '譌・｡後・險育判繧堤ｫ九※縺ｾ縺励◆縲・',        en: 'I made travel plans.' },
-  '莉ｲ髢・:   { jp: '莉ｲ髢薙→荳邱偵↓蜒阪″縺ｾ縺吶・',          en: 'I work together with my colleagues.' },
-  '蜿ｯ閭ｽ':   { jp: '莠育ｴ・・蜿ｯ閭ｽ縺ｧ縺吶°縲・',              en: 'Is a reservation possible?' },
-  '譏取律':   { jp: '譏取律縲√∪縺滓擂縺ｾ縺吶・',              en: "I'll come again tomorrow." },
-  '螟峨ｏ':   { jp: '險育判縺悟､峨ｏ繧翫∪縺励◆縲・',            en: 'The plan has changed.' },
-  '閨槭％縺・: { jp: '繧医￥閨槭％縺医∪縺帙ｓ縲・',              en: "I can't hear well." },
-  '遒ｺ隱・:   { jp: '莠育ｴ・ｒ遒ｺ隱阪＠縺ｦ縺上□縺輔＞縲・',        en: 'Please confirm the reservation.' },
-  '荳弱∴':   { jp: '蟄蝉ｾ帙↓譛ｬ繧剃ｸ弱∴縺ｾ縺吶・',            en: 'I give a book to the child.' },
-  '蜈ｨ蜩｡':   { jp: '蜈ｨ蜩｡縺碁寔縺ｾ繧翫∪縺励◆縲・',            en: 'Everyone gathered.' },
-  '逅・ｧ｣':   { jp: '繧医￥逅・ｧ｣縺ｧ縺阪∪縺励◆縲・',            en: 'I understood well.' },
-  '莠御ｺｺ':   { jp: '莠御ｺｺ縺ｧ譌・｡後＠縺ｾ縺吶・',              en: "We're traveling together." },
-  '髢九￠':   { jp: '繝峨い繧帝幕縺代※縺上□縺輔＞縲・',          en: 'Please open the door.' },
-  '蜿倶ｺｺ':   { jp: '蜿倶ｺｺ縺ｫ莨壹＞縺ｾ縺励◆縲・',              en: 'I met a friend.' },
-  '髮｢繧・:   { jp: '蟆代＠髮｢繧後※縺上□縺輔＞縲・',            en: 'Please step back a little.' },
+  '彼女':   { jp: '彼女は私の友達です。',           en: 'She is my friend.' },
+  'お前':   { jp: 'お前のことが心配です。',           en: "I'm worried about you." },
+  '分か':   { jp: '少し分かります。',                en: 'I understand a little.' },
+  '必要':   { jp: 'パスポートが必要です。',           en: 'A passport is necessary.' },
+  '大丈夫': { jp: '大丈夫ですか。',                  en: 'Are you alright?' },
+  '自分':   { jp: '自分でやります。',                en: "I'll do it myself." },
+  '本当':   { jp: '本当ですか。',                    en: 'Really?' },
+  '時間':   { jp: '時間がありますか。',              en: 'Do you have time?' },
+  '我々':   { jp: '我々は一緒に行きます。',           en: "We'll go together." },
+  '仕事':   { jp: '仕事で日本に来ました。',           en: 'I came to Japan for work.' },
+  '一緒':   { jp: '一緒に行きましょう。',            en: "Let's go together." },
+  '出来':   { jp: '予約が出来ます。',                en: 'A reservation is possible.' },
+  '電話':   { jp: '電話してもいいですか。',           en: 'May I call you?' },
+  '同じ':   { jp: '同じものをください。',            en: 'Please give me the same thing.' },
+  '場所':   { jp: 'この場所は静かです。',            en: 'This place is quiet.' },
+  '問題':   { jp: '問題ありません。',                en: 'No problem.' },
+  '子供':   { jp: '子供が二人います。',              en: 'I have two children.' },
+  '名前':   { jp: 'お名前は何ですか。',              en: 'What is your name?' },
+  '少し':   { jp: '少し待ってください。',            en: 'Please wait a little.' },
+  '全て':   { jp: '全てわかりました。',              en: 'I understand everything.' },
+  '世界':   { jp: '世界中を旅したいです。',           en: 'I want to travel the whole world.' },
+  '教え':   { jp: '道を教えてください。',            en: 'Please tell me the way.' },
+  '通り':   { jp: 'この通りを真っ直ぐ行きます。',    en: 'Go straight down this street.' },
+  '来る':   { jp: '友達が来ます。',                  en: 'My friend is coming.' },
+  '入れ':   { jp: '荷物をここに入れてください。',    en: 'Please put your luggage here.' },
+  '人間':   { jp: '人間は言葉を使います。',          en: 'Humans use language.' },
+  '行け':   { jp: '今すぐ行けますか。',              en: 'Can you go right now?' },
+  '今日':   { jp: '今日はいい天気です。',            en: 'The weather is nice today.' },
+  '生き':   { jp: '毎日楽しく生きています。',        en: "I'm living happily every day." },
+  '止め':   { jp: 'ここで止めてください。',          en: 'Please stop here.' },
+  '心配':   { jp: '心配しないでください。',          en: "Please don't worry." },
+  '連れ':   { jp: '友達を連れてきます。',            en: "I'll bring a friend along." },
+  '関係':   { jp: '私たちはいい関係です。',          en: 'We have a good relationship.' },
+  '家族':   { jp: '家族と旅行します。',              en: "I'm traveling with my family." },
+  '起き':   { jp: '毎朝六時に起きます。',            en: 'I wake up at six every morning.' },
+  '意味':   { jp: 'この言葉の意味は何ですか。',      en: 'What does this word mean?' },
+  '警察':   { jp: '警察に連絡します。',              en: "I'll contact the police." },
+  '最後':   { jp: '最後の電車に乗ります。',          en: "I'll take the last train." },
+  '息子':   { jp: '息子は学校に行っています。',      en: 'My son is at school.' },
+  '全部':   { jp: '全部でいくらですか。',            en: 'How much is it in total?' },
+  '捜査':   { jp: '警察が捜査しています。',          en: 'The police are investigating.' },
+  '起こ':   { jp: '朝、私を起こしてください。',      en: 'Please wake me up in the morning.' },
+  '感じ':   { jp: 'いい感じです。',                  en: 'It feels good.' },
+  '情報':   { jp: '情報をありがとうございます。',    en: 'Thank you for the information.' },
+  '理由':   { jp: '理由を教えてください。',          en: 'Please tell me the reason.' },
+  '一人':   { jp: '一人で来ました。',                en: 'I came alone.' },
+  '部屋':   { jp: '部屋はきれいです。',              en: 'The room is clean.' },
+  '以上':   { jp: '説明は以上です。',                en: "That's all for the explanation." },
+  '人生':   { jp: '人生は短いです。',                en: 'Life is short.' },
+  '食べ':   { jp: '毎日ご飯を食べます。',            en: 'I eat rice every day.' },
+  '女性':   { jp: 'あの女性は先生です。',            en: 'That woman is a teacher.' },
+  '続け':   { jp: '毎日練習を続けます。',            en: "I'll keep practicing every day." },
+  '事件':   { jp: '事件が起きました。',              en: 'An incident occurred.' },
+  '始め':   { jp: '日本語の勉強を始めました。',      en: 'I started studying Japanese.' },
+  '最初':   { jp: '最初はむずかしいです。',          en: "It's difficult at first." },
+  '連絡':   { jp: '後で連絡します。',                en: "I'll contact you later." },
+  '調べ':   { jp: 'インターネットで調べます。',      en: "I'll look it up on the internet." },
+  '安全':   { jp: 'ここは安全です。',                en: "It's safe here." },
+  '下さ':   { jp: 'もう少し待って下さい。',          en: 'Please wait a little longer.' },
+  '楽し':   { jp: '旅行はとても楽しかったです。',    en: 'The trip was very enjoyable.' },
+  '殺人':   { jp: '殺人事件のニュースを見ました。',  en: 'I saw news of a murder case.' },
+  '友達':   { jp: '友達と話しています。',            en: "I'm talking with a friend." },
+  '約束':   { jp: '約束を守ります。',                en: "I'll keep my promise." },
+  '結婚':   { jp: '来年結婚します。',                en: "I'll get married next year." },
+  '無理':   { jp: '無理はしないでください。',        en: "Please don't overdo it." },
+  '感じ':   { jp: 'いい感じです。',                  en: 'It feels good.' },
+  '最高':   { jp: 'この景色は最高です。',            en: 'This view is the best.' },
+  '計画':   { jp: '旅行の計画を立てました。',        en: 'I made travel plans.' },
+  '仲間':   { jp: '仲間と一緒に働きます。',          en: 'I work together with my colleagues.' },
+  '可能':   { jp: '予約は可能ですか。',              en: 'Is a reservation possible?' },
+  '明日':   { jp: '明日、また来ます。',              en: "I'll come again tomorrow." },
+  '変わ':   { jp: '計画が変わりました。',            en: 'The plan has changed.' },
+  '聞こえ': { jp: 'よく聞こえません。',              en: "I can't hear well." },
+  '確認':   { jp: '予約を確認してください。',        en: 'Please confirm the reservation.' },
+  '与え':   { jp: '子供に本を与えます。',            en: 'I give a book to the child.' },
+  '全員':   { jp: '全員が集まりました。',            en: 'Everyone gathered.' },
+  '理解':   { jp: 'よく理解できました。',            en: 'I understood well.' },
+  '二人':   { jp: '二人で旅行します。',              en: "We're traveling together." },
+  '開け':   { jp: 'ドアを開けてください。',          en: 'Please open the door.' },
+  '友人':   { jp: '友人に会いました。',              en: 'I met a friend.' },
+  '離れ':   { jp: '少し離れてください。',            en: 'Please step back a little.' },
 };
 
-// 笏笏 Tatoeba 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
-// Patterns suggestifs/crus ﾃ exclure
-const BLOCKLIST = /蟇昴◆|蟇昴ｋ|谿ｺ|豁ｻ繧倒谿ｴ|證ｴ蜉斈繧ｻ繝・け繧ｹ|陬ｸ|荳狗捩|驟斐▲|繧ｯ繧ｽ|繝舌き|鬥ｬ鮖ｿ|縺ｵ縺悶￠/;
+// ── Tatoeba ───────────────────────────────────────────────────────────────────
+// Patterns suggestifs/crus à exclure
+const BLOCKLIST = /寝た|寝る|殺|死ん|殴|暴力|セックス|裸|下着|酔っ|クソ|バカ|馬鹿|ふざけ/;
 // Terminaisons desu/masu (forme polie)
-const POLITE_END = /(縺ｾ縺處縺ｾ縺励◆|縺ｾ縺帙ｓ|縺ｾ縺帙ｓ縺ｧ縺励◆|縺ｧ縺處縺ｧ縺励◆|縺ｧ縺励ｇ縺・縺ｾ縺吶°|縺ｧ縺吶°|縺ｾ縺励ｇ縺・縲・$/u;
+const POLITE_END = /(ます|ました|ません|ませんでした|です|でした|でしょう|ますか|ですか|ましょう)。?$/u;
 
 async function fetchExample(word) {
   try {
@@ -374,16 +368,16 @@ async function fetchExample(word) {
     for (const s of (data.results || [])) {
       const jp = s.text?.trim(), en = s.translations?.[0]?.[0]?.text?.trim();
       if (!jp || !en || !jp.includes(word)) continue;
-      if (jp.length > 45 || jp.replace(/[縲ゑｼ・ｼ歃s縲‐/g, '').length < 5) continue;
+      if (jp.length > 45 || jp.replace(/[。！？\s、]/g, '').length < 5) continue;
       if (BLOCKLIST.test(jp)) continue;
-      if (!POLITE_END.test(jp)) continue; // 竊・polite only, no fallback
+      if (!POLITE_END.test(jp)) continue; // ← polite only, no fallback
       return { jp, en };
     }
   } catch {}
   return null;
 }
 
-// 笏笏 HTML slides 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── HTML slides ───────────────────────────────────────────────────────────────
 // Hook
 function slideHook() {
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
@@ -401,11 +395,11 @@ body{background:linear-gradient(160deg,#c03a20 0%,#8b2510 100%);font-family:'Not
 </body></html>`;
 }
 
-// 笏笏 PROG SLIDES 窶・layout fixe, visibility:hidden pour ﾃｩlﾃｩments non encore rﾃｩvﾃｩlﾃｩs 笏笏
-// showReading / showMeaning / showExample contrﾃｴlent la visibilitﾃｩ SANS changer la gﾃｩomﾃｩtrie.
+// ── PROG SLIDES — layout fixe, visibility:hidden pour éléments non encore révélés ──
+// showReading / showMeaning / showExample contrôlent la visibilité SANS changer la géométrie.
 function buildProgSlide({ word, reading, def, jpH, exJp, exEn, showReading, showMeaning, showExample }) {
   const wfs  = Math.min(160, Math.max(96, Math.floor(480 / Math.max(word.length, 1))));
-  const jraw = (exJp || '').replace(/[縲ゅ・ｼ・ｼ歃s]/g, '');
+  const jraw = (exJp || '').replace(/[。、！？\s]/g, '');
   const jfs  = Math.min(52, Math.max(30, Math.floor(900 / Math.max(jraw.length, 1))));
   const enS  = (exEn || '').length > 65 ? (exEn || '').slice(0, 63) + '...' : (exEn || '');
   const _jpH = jpH || escHtml(exJp || '');
@@ -449,7 +443,7 @@ ruby{ruby-align:center;}rt{font-size:0.42em;font-weight:400;color:rgba(255,255,2
 </body></html>`;
 }
 
-// 笏笏 Playwright 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Playwright ────────────────────────────────────────────────────────────────
 const { chromium } = await import('playwright');
 const browser = await chromium.launch({ headless: true });
 const ctx     = await browser.newContext({ deviceScaleFactor: 2 });
@@ -465,7 +459,7 @@ async function renderSlide(html, outPng) {
   unlinkSync(tmp);
 }
 
-// 笏笏 JLPT kanji list 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── JLPT kanji list ──────────────────────────────────────────────────────────
 async function fetchJLPTKanji(level) {
   const num = parseInt(level.replace('n', ''), 10);
   const res = await fetch(`https://kanjiapi.dev/v1/kanji/jlpt-${num}`);
@@ -473,7 +467,7 @@ async function fetchJLPTKanji(level) {
   return await res.json(); // array of kanji strings
 }
 
-// 笏笏 Build target word list 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Build target word list ────────────────────────────────────────────────────
 let targetWords = [];
 if (CUSTOM_WORDS) {
   targetWords = CUSTOM_WORDS.split(',').map(w => w.trim()).filter(Boolean);
@@ -484,7 +478,7 @@ if (CUSTOM_WORDS) {
 } else {
   // Frequency-based: mots les plus courants du japonais quotidien (corpus FREQ)
   const freqRaw  = readFileSync(join(ROOT, 'src', 'freq.js'), 'utf8');
-  // freq.js exporte "export const FREQ = {...}" 窶・on extrait l'objet littﾃｩral directement
+  // freq.js exporte "export const FREQ = {...}" — on extrait l'objet littéral directement
   const freqMatch = freqRaw.match(/FREQ\s*=\s*(\{[\s\S]*?\});/);
   const FREQ_MAP  = freqMatch ? new Function('return (' + freqMatch[1] + ')')() : {};
   const sorted   = Object.entries(FREQ_MAP)
@@ -503,50 +497,48 @@ if (targetWords.length === 0) {
   console.error('Aucun mot. Utilise --words, --from-kanji ou --level.');
   await browser.close(); process.exit(1);
 }
-console.log(`\nVocab Reels 窶・${targetWords.length} mot(s): ${targetWords.join(' ')}\n`);
+console.log(`\nVocab Reels — ${targetWords.length} mot(s): ${targetWords.join(' ')}\n`);
 
 if (DRY_RUN) {
   for (const w of targetWords) {
     const t = JMDICT[w];
-    console.log(`  ${w}  ${WORD_READING[w] || '?'}  窶・${t?.en?.split(',').slice(0,2).join(', ') || '?'}`);
+    console.log(`  ${w}  ${WORD_READING[w] || '?'}  — ${t?.en?.split(',').slice(0,2).join(', ') || '?'}`);
   }
   await browser.close(); process.exit(0);
 }
 
-// 笏笏 CTA check 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── CTA check ─────────────────────────────────────────────────────────────────
 const CTA_FILE = join(ROOT, 'kanji-cards', 'CTA_Footage.mp4');
 if (!existsSync(CTA_FILE)) {
   console.error('kanji-cards/CTA_Footage.mp4 manquant');
   await browser.close(); process.exit(1);
 }
 
-// 笏笏 Timing 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
-//  D[i] = durﾃｩe visible de chaque segment
+// ── Timing ────────────────────────────────────────────────────────────────────
+//  D[i] = durée visible de chaque segment
 const D  = [3, 3, 3, 4, 6, 7]; // hook, A, B, C, D, CTA
 const XF = 0.5;                  // xfade entre tous les segments (smooth)
 const FADE_OUT_DUR = 1.5;        // fondu noir final sur CTA
-// durﾃｩe rﾃｩelle de chaque segment encodﾃｩ (inclut overlap sortant sauf dernier)
+// durée réelle de chaque segment encodé (inclut overlap sortant sauf dernier)
 const BRUTS = D.map((d, i) => i < D.length - 1 ? d + XF : d);
-// durﾃｩe totale du concat aprﾃｨs xfades
+// durée totale du concat après xfades
 const CONCAT_DUR = D.reduce((a, b) => a + b, 0) - (D.length - 1) * XF;
 
-// 笏笏 Main loop 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+// ── Main loop ─────────────────────────────────────────────────────────────────
 let ok = 0;
 
 for (const word of targetWords) {
   const outFile = join(OUT_DIR, `${word}.mp4`);
-  if (existsSync(outFile)) { console.log(`   ${word} 窶・skip`); ok++; continue; }
+  if (existsSync(outFile)) { console.log(`   ${word} — skip`); ok++; continue; }
 
   console.log(`Processing ${word}...`);
   try {
     const disp    = WORD_DICT_FORM[word] || word;
     const reading = await getReading(disp);
     const def     = WORD_DEF_OVERRIDE[word] || WORD_DEF_OVERRIDE[disp] || (JMDICT[disp]?.en || JMDICT[word]?.en || disp).split(',').slice(0, 3).join(', ');
-    console.log(`   ${reading}  窶・ ${def}`);
-    const example = VOCAB_SENTENCE_OVERRIDE[word]
-      || (SENTENCES_JSON[word] ? { jp: SENTENCES_JSON[word].jp, en: SENTENCES_JSON[word].en } : null)
-      || await fetchExample(word);
-    const exJp = example?.jp || `${disp}縺ｯ繧医￥菴ｿ繧上ｌ縺ｾ縺吶Ａ;
+    console.log(`   ${reading}  —  ${def}`);
+    const example = VOCAB_SENTENCE_OVERRIDE[word] || await fetchExample(word);
+    const exJp = example?.jp || `${disp}はよく使われます。`;
     const exEn = example?.en || `"${disp}" is commonly used.`;
     console.log(`   ex: ${exJp}`);
     const jpH = await toFuriganaHTML(exJp, word);
@@ -561,10 +553,10 @@ for (const word of targetWords) {
     // Audio per segment
     const a0 = join(TMP, `${word}_a0.mp3`); silence(a0, BRUTS[0]);
 
-    // ProgA (kanji only) 窶・silent
+    // ProgA (kanji only) — silent
     const a1 = join(TMP, `${word}_a1.mp3`); silence(a1, BRUTS[1]);
 
-    // ProgB (reading revealed) 窶・voice plays here
+    // ProgB (reading revealed) — voice plays here
     const a2pre = join(TMP, `${word}_a2pre.mp3`);
     const a2    = join(TMP, `${word}_a2.mp3`);
     prependSilence(mp3w1, a2pre, 0.3); padAudio(a2pre, a2, BRUTS[2]);
@@ -575,7 +567,7 @@ for (const word of targetWords) {
     const a4    = join(TMP, `${word}_a4.mp3`);
     prependSilence(mp3ex, a4pre, 0.6); padAudio(a4pre, a4, BRUTS[4]);
 
-    // Prog slide params (mﾃｪme layout, visibilitﾃｩ variable)
+    // Prog slide params (même layout, visibilité variable)
     const progBase = { word: disp, reading, def, jpH, exJp, exEn };
 
     // Render slides
@@ -643,4 +635,4 @@ for (const word of targetWords) {
 
 await browser.close();
 try { require('fs').rmdirSync(TMP); } catch {}
-console.log(`\n${ok}/${targetWords.length} reels generes 窶・vocab-cards/reels/\n`);
+console.log(`\n${ok}/${targetWords.length} reels generes — vocab-cards/reels/\n`);
