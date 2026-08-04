@@ -1,6 +1,6 @@
 # STATUS — Kanji Morning
 
-> Dernière mise à jour: **29 Juillet 2026** · N4 reels 100% générés + sur VPS · Buffer N4 TikTok en cours
+> Dernière mise à jour: **03 Août 2026** · N4 100% programmé Buffer (TikTok + Instagram, jusqu'à janvier 2027)
 
 > ⚠️ **Workflow** : toujours passer par `dev` avant `main`
 > ```
@@ -390,43 +390,43 @@ kanji.guimo-prod.com {
 
 ---
 
-## Contenu N4 — État 29 Juillet 2026
+## Contenu N4 — État 03 Août 2026 — CAMPAGNE COMPLÈTE ✅
 
 | Contenu | État | Détail |
 |---------|------|--------|
 | N4 tiktok cards PNG | ✅ | 166/166 kanji · 3 PNG · `kanji-cards/n4/tiktok/` · 1080×1920px |
-| N4 kanji reels | ✅ | 166/166 · générés + **uploadés VPS** (`/var/www/kanji/reels/n4/`, 359 Mo) |
-| N4 vocab reels | ✅ | 236/236 (dérivés des 166 kanji, ~1.4 mot/kanji via `--from-kanji`) · générés + **uploadés VPS** (`/var/www/kanji/reels/vocab/`, 437 Mo) |
-| Buffer N4 TikTok | 🟡 | Kanji 1-93 programmés (jusqu'au 07/11/2026) · reste kanji 94-166 |
-| Buffer N4 Instagram | ❌ | Pas encore démarré (prévu 13/08/2026, après fin queue N5) |
+| N4 kanji reels | ✅ | 166/166 · générés + uploadés VPS (`/var/www/kanji/reels/n4/`, 359 Mo) |
+| N4 vocab reels générés | ✅ | 236/236 · générés + uploadés VPS (`/var/www/kanji/reels/vocab/`, 437 Mo) |
+| Buffer N4 TikTok | ✅ | **166/166 kanji + 166/166 vocab programmés** (1 paire/jour) · jusqu'au **18/01/2027** |
+| Buffer N4 Instagram | ✅ | **166/166 kanji + 166/166 vocab programmés** (1 paire/jour) · jusqu'au **25/01/2027** |
+| Vocab N4 en surplus | ⚠️ | **70/236 vocab reels non programmés** — générés et sur le VPS, mais jamais assignés à un créneau (voir explication ci-dessous) |
+
+**Important — le vocab EST programmé, mais partiellement (166/236)**
+- `schedule-buffer.mjs` poste 1 kanji + 1 vocab par jour, en pair (jamais l'un sans l'autre dans le run normal) — donc chaque lot lancé pendant la campagne a bien programmé du vocab, pas seulement des kanji
+- Mais le pairing est calé sur le nombre de **kanji** (166), qui est le facteur limitant : avec 236 vocab générés pour seulement 166 créneaux, **70 vocab reels restent inutilisés** — ils existent (générés + sur le VPS) mais ne sont associés à aucune date
+- 1 cas particulier : le vocab `新しい` (09/01/2027, Instagram) a été explicitement sauté suite à un rate limit qui a coupé le kanji et le vocab du même jour à des moments différents — rejoint le pool des 70 non-utilisés
+- **Décision à prendre plus tard** : soit un lot dédié "vocab-only" (le script n'a pas ce mode aujourd'hui, à ajouter), soit les garder en réserve pour le prochain niveau (N3)
 
 **Bug bloquant trouvé + fixé — 29 Juillet 2026**
 - 🐛 `scripts/generate-vocab-reels.mjs` était syntaxiquement cassé (encodage japonais corrompu dans `WORD_DICT_FORM`/`WORD_DEF_OVERRIDE`/`VOCAB_SENTENCE_OVERRIDE`) depuis le commit `a1330af` (18 mai, "restore...use sentences.json") — `node --check` échouait, impossible de générer le moindre reel vocab depuis cette date
 - ✅ Fix : restauré depuis le dernier commit sain `b563979` (celui qui avait produit les 80/80 N5) via `git checkout b563979 -- scripts/generate-vocab-reels.mjs` — syntaxe validée, feature "sentences.json primary source" de `a1330af` perdue au passage (non critique, N5 ne l'utilisait pas non plus)
-- ⚠️ Changement en local, pas encore commité
+- ✅ Commité (`2b0b53b`, 29/07)
 
 **Découverte pipeline — `--level` non câblé pour la sélection de mots**
 - Dans `generate-vocab-reels.mjs`, le flag `--level` n'est **pas utilisé** pour choisir les mots quand ni `--words` ni `--from-kanji` ne sont passés (branche par défaut = fréquence globale, ignore le niveau JLPT)
 - Pour cibler un niveau précis : `--from-kanji <liste kanji du niveau>` (via `EXAMPLE_OVERRIDE[kanji]`, jusqu'à 2 mots/kanji) — c'est ce qui a servi pour générer les 236 mots N4
-- Le pairing jour-par-jour de `schedule-buffer.mjs` est strict 1 kanji ↔ 1 vocab (index cyclique) — avec 166 kanji vs 236 vocab, un premier passage complet (166 jours) n'utilisera que 166 des 236 vocab reels ; 70 resteront de côté, à programmer séparément plus tard
 
-**Programmation Buffer N4 TikTok — 29 Juillet 2026**
-- Découpage en lots de 45 jours (~90 posts) à cause du rate limit Buffer (voir ci-dessous)
-- Lot 1 (offset 0, kanji 1-45) : ✅ 90/90 · 06/08 → 19/09/2026
-- Lot 2 (offset 45, kanji 46-90) : ✅ 90/90 · 20/09 → 03/11/2026
-- Lot 3 (offset 90, kanji 91-135) : 🟡 partiel — rate limit atteint après 8 posts (4 jours, kanji 91-93 + début 94) · dernier jour programmé : **07/11/2026**
-  - Cumul appels API avant blocage : 90+90+8 = **188 posts/jour semble être le plafond réel** (plus haut que l'ancienne estimation ~100/session)
-  - Resume : `node scripts/schedule-buffer.mjs --level n4 --platform tiktok --start 2026-11-08 --offset 94 --count 45`
-- Lot 4 (offset 139, 27 derniers kanji) : ❌ pas encore lancé
-- ⚠️ Toujours faire **une plateforme à la fois** (`--platform tiktok` ou `--platform instagram`, jamais `both`) — confirmé de nouveau, `both` double les appels API et sature plus vite
+**Programmation Buffer N4 — récap complet (29 Juil → 03 Août 2026)**
+- Découpage en lots de ~45 jours (~90 posts) à cause du rate limit Buffer, une plateforme à la fois (jamais `--platform both`)
+- Rate limit observé **variable** d'une session à l'autre : parfois ~188 appels avant blocage, parfois ~98, parfois quasi immédiat — pas de règle fixe, toujours prévoir un resume le lendemain
+- **TikTok** : 4 lots (0-44, 45-89, 90-138 avec reprise après 1er rate limit, 139-165) → 166/166 kanji, terminé le 03/08
+- **Instagram** : 5 lots (0-25, 26-70, 71-115, 116-149 avec 1 vocab sauté, 150-165) → 166/166 kanji, terminé le 03/08
+- Chaque lot a été relancé avec `--offset` = dernier kanji réussi + 1, et `--start` = jour suivant le dernier jour programmé
 
-**⚠️ Prochaines étapes Buffer N4**
-1. Lot 3 TikTok (suite) : `--start 2026-11-08 --offset 94 --count 45`
-2. Lot 4 TikTok (fin) : `--offset 139 --count 27`
-3. Instagram N4 (4 lots, même découpage) : démarrer `--start 2026-08-13 --offset 0 --count 45`
-4. Une fois les 2 plateformes bouclées sur les 166 kanji : décider quoi faire des 70 vocab reels N4 non utilisés (extension du cycle ou lot dédié vocab-only)
-5. Auditer les 9 posts en erreur dans Buffer (8 TikTok + 1 Instagram, non bloquants)
-6. Commit du fix `scripts/generate-vocab-reels.mjs`
+**⚠️ Prochaines étapes**
+1. Décider du sort des 70 vocab reels N4 non utilisés (lot vocab-only à construire, ou réserve pour N3)
+2. Auditer les 9 posts en erreur dans Buffer datant de la campagne N5 (8 TikTok + 1 Instagram, non bloquants)
+3. Réfléchir à N3 : même pipeline (kanji cards → reels → upload VPS → Buffer), prochain niveau après épuisement N4 (TikTok fin 18/01/2027, Instagram fin 25/01/2027 — large marge)
 
 ---
 
@@ -436,10 +436,10 @@ kanji.guimo-prod.com {
 - [x] ~~**Stripe LIVE**~~ — ✅ 7 Mai 2026
 - [x] ~~Notifications push~~ — ✅ modal + toggle + Firestore sync
 - [x] ~~N4 kanji reels~~ — ✅ 166/166 générés + uploadés VPS (29/07)
-- [x] ~~N4 vocab reels~~ — ✅ 236/236 générés + uploadés VPS (29/07) · fix `generate-vocab-reels.mjs` (restauré `b563979`)
-- [ ] **Schedule Buffer N4 TikTok (suite)** → lot 3 `--start 2026-11-08 --offset 94 --count 45` puis lot 4 `--offset 139 --count 27`
-- [ ] **Schedule Buffer N4 Instagram** → 4 lots de 45, démarrer `--start 2026-08-13 --offset 0 --count 45`
-- [ ] **Commit** le fix de `scripts/generate-vocab-reels.mjs` (actuellement en modif locale non commitée)
+- [x] ~~N4 vocab reels~~ — ✅ 236/236 générés + uploadés VPS (29/07) · fix `generate-vocab-reels.mjs` commité (`2b0b53b`)
+- [x] ~~Schedule Buffer N4 TikTok~~ — ✅ 166/166 kanji + 166/166 vocab · jusqu'au 18/01/2027
+- [x] ~~Schedule Buffer N4 Instagram~~ — ✅ 166/166 kanji + 166/166 vocab · jusqu'au 25/01/2027
+- [ ] **70 vocab reels N4 en surplus** — décider quoi en faire (lot vocab-only ou réserve N3)
 
 **Priorité moyenne**
 - [x] ~~Analytics~~ — Umami self-hosted ✅
