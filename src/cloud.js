@@ -79,8 +79,12 @@ async function _cloudPull() {
       const local  = loadQuizHistory();
       const merged = [...local];
       data.quizHistory.forEach(cloudEntry => {
+        // Reject malformed entries (missing/invalid score or total) so they can't clobber good local data
+        if (!Number.isFinite(cloudEntry.score) || !Number.isFinite(cloudEntry.total) || cloudEntry.total <= 0) return;
         const idx = merged.findIndex(
-          h => h.date === cloudEntry.date && (h.type || 'daily') === (cloudEntry.type || 'daily')
+          h => h.date === cloudEntry.date
+            && (h.type || 'daily') === (cloudEntry.type || 'daily')
+            && (h.examLevel || null) === (cloudEntry.examLevel || null)
         );
         if (idx === -1) merged.push(cloudEntry);
         else if (cloudEntry.pct > merged[idx].pct) merged[idx] = cloudEntry;

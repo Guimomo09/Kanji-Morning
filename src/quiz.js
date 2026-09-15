@@ -762,7 +762,7 @@ export function renderExamTab() {
   const allowed    = strictOnly ? new Set([targetLevel]) : new Set(LEVELS.slice(0, goalIdx + 1));
   const available  = state.isPremium ? getAllSavedWords().filter(w => allowed.has(w.level)).length : 0;
   const examHistory = (() => {
-    const stored = allHistory.filter(h => h.type === 'exam');
+    const stored = allHistory.filter(h => h.type === 'exam' && Number.isFinite(h.score) && Number.isFinite(h.total) && h.total > 0);
     // Merge session backup — add any result not already in stored history
     const sessionNew = _sessionExamResults.filter(
       r => !stored.find(h => h.date === r.date && h.examLevel === r.examLevel)
