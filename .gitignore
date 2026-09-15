@@ -24,6 +24,7 @@ _enpivot_log.txt
 kanji-cards/
 vocab-cards/
 .reels-tmp/
+.vocab-tmp/
 
 # Script output files
 _dupes-result.txt
