@@ -1336,7 +1336,7 @@ const EXAMPLE_OVERRIDE = {
   '留': [
     { w: '留学',     r: 'りゅうがく',   m: 'studying abroad' },
     { w: '留守',     r: 'るす',         m: 'absence from home' },
-    { w: '留まる',   r: 'とどまる',     m: 'to stay, to remain' },
+    { w: '留まる',   r: 'とどまる',     m: 'to stop, to stay put, to remain in place' },
   ],
   '越': [
     { w: '越える',   r: 'こえる',       m: 'to cross over, to exceed' },
@@ -2292,7 +2292,7 @@ const EXAMPLE_OVERRIDE = {
   '且': [
     { w: 'なお且つ', r: 'なおかつ',     m: 'and yet, in addition, further' },
     { w: '且つ',     r: 'かつ',         m: 'besides, moreover, at the same time' },
-    { w: '且て',     r: 'かつて',       m: 'once, ever, formerly' },
+    { w: '且つ又',   r: 'かつまた',     m: 'besides, furthermore, moreover' },
   ],
   '丘': [
     { w: '丘',       r: 'おか',         m: 'hill, knoll' },

@@ -27,6 +27,7 @@ vocab-cards/
 .vocab-tmp/
 
 # Script output files
+scripts/jisho-verify-report.json
 _dupes-result.txt
 _patch-result.txt
 _test-fix.txt
